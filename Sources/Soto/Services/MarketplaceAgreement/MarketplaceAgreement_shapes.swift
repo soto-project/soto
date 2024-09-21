@@ -136,6 +136,7 @@ extension MarketplaceAgreement {
         /// The AWS account ID of the acceptor.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -165,6 +166,7 @@ extension MarketplaceAgreement {
         /// The current status of the agreement.
         public let status: AgreementStatus?
 
+        @inlinable
         public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
             self.acceptanceTime = acceptanceTime
             self.acceptor = acceptor
@@ -194,6 +196,7 @@ extension MarketplaceAgreement {
         /// Type of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -213,6 +216,7 @@ extension MarketplaceAgreement {
         /// Category of selector.
         public let type: String?
 
+        @inlinable
         public init(configuration: ConfigurableUpfrontPricingTermConfiguration? = nil, currencyCode: String? = nil, rateCards: [ConfigurableUpfrontRateCardItem]? = nil, type: String? = nil) {
             self.configuration = configuration
             self.currencyCode = currencyCode
@@ -234,6 +238,7 @@ extension MarketplaceAgreement {
         /// Defines the length of time for which the particular pricing/dimension is being purchased by the acceptor.
         public let selectorValue: String
 
+        @inlinable
         public init(dimensions: [Dimension], selectorValue: String) {
             self.dimensions = dimensions
             self.selectorValue = selectorValue
@@ -253,6 +258,7 @@ extension MarketplaceAgreement {
         /// Differentiates between the mutually exclusive rate cards in the same pricing term to be selected by the buyer.
         public let selector: Selector?
 
+        @inlinable
         public init(constraints: Constraints? = nil, rateCard: [RateCardItem]? = nil, selector: Selector? = nil) {
             self.constraints = constraints
             self.rateCard = rateCard
@@ -272,6 +278,7 @@ extension MarketplaceAgreement {
         /// Determines if acceptors are allowed to configure quantity for each dimension in rate card. The possible values are Allowed and Disallowed. The default value is Allowed.
         public let quantityConfiguration: String?
 
+        @inlinable
         public init(multipleDimensionSelection: String? = nil, quantityConfiguration: String? = nil) {
             self.multipleDimensionSelection = multipleDimensionSelection
             self.quantityConfiguration = quantityConfiguration
@@ -287,6 +294,7 @@ extension MarketplaceAgreement {
         /// The unique identifier of the agreement.
         public let agreementId: String
 
+        @inlinable
         public init(agreementId: String) {
             self.agreementId = agreementId
         }
@@ -324,6 +332,7 @@ extension MarketplaceAgreement {
         /// The current status of the agreement. Statuses include:    ACTIVE – The terms of the agreement are active.    ARCHIVED – The agreement ended without a specified reason.    CANCELLED – The acceptor ended the agreement before the defined end date.    EXPIRED – The agreement ended on the defined end date.    RENEWED – The agreement was renewed into a new agreement (for example, an auto-renewal).    REPLACED – The agreement was replaced using an agreement replacement offer.    ROLLED_BACK (Only applicable to inactive agreement revisions) – The agreement revision has been rolled back because of an error. An earlier revision is now active.    SUPERCEDED (Only applicable to inactive agreement revisions) – The agreement revision is no longer active and another agreement revision is now active.    TERMINATED – The agreement ended before the defined end date because of an AWS termination (for example, a payment failure).
         public let status: AgreementStatus?
 
+        @inlinable
         public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, estimatedCharges: EstimatedCharges? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
             self.acceptanceTime = acceptanceTime
             self.acceptor = acceptor
@@ -357,6 +366,7 @@ extension MarketplaceAgreement {
         /// The number of units of the dimension the acceptor has purchased.  For Agreements with ConfigurableUpfrontPricingTerm, the RateCard section will define the prices and dimensions defined by the seller (proposer), whereas the Configuration section will define the actual dimensions, prices, and units the buyer has chosen to accept.
         public let dimensionValue: Int
 
+        @inlinable
         public init(dimensionKey: String, dimensionValue: Int) {
             self.dimensionKey = dimensionKey
             self.dimensionValue = dimensionValue
@@ -376,6 +386,7 @@ extension MarketplaceAgreement {
         /// Version of standard contracts provided by AWS Marketplace. Required when Type is StandardEula or StandardDsa.
         public let version: String?
 
+        @inlinable
         public init(type: String? = nil, url: String? = nil, version: String? = nil) {
             self.type = type
             self.url = url
@@ -395,6 +406,7 @@ extension MarketplaceAgreement {
         /// Defines the currency code for the charge.
         public let currencyCode: String?
 
+        @inlinable
         public init(agreementValue: String? = nil, currencyCode: String? = nil) {
             self.agreementValue = agreementValue
             self.currencyCode = currencyCode
@@ -412,6 +424,7 @@ extension MarketplaceAgreement {
         /// The filter value.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -448,6 +461,7 @@ extension MarketplaceAgreement {
         /// Category of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: String? = nil, grants: [GrantItem]? = nil, price: String? = nil, type: String? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -473,6 +487,7 @@ extension MarketplaceAgreement {
         /// Category of the term.
         public let type: String?
 
+        @inlinable
         public init(duration: String? = nil, grants: [GrantItem]? = nil, type: String? = nil) {
             self.duration = duration
             self.grants = grants
@@ -494,6 +509,7 @@ extension MarketplaceAgreement {
         /// A token to specify where to start pagination
         public let nextToken: String?
 
+        @inlinable
         public init(agreementId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agreementId = agreementId
             self.maxResults = maxResults
@@ -523,6 +539,7 @@ extension MarketplaceAgreement {
         /// A token to specify where to start pagination
         public let nextToken: String?
 
+        @inlinable
         public init(acceptedTerms: [AcceptedTerm]? = nil, nextToken: String? = nil) {
             self.acceptedTerms = acceptedTerms
             self.nextToken = nextToken
@@ -540,6 +557,7 @@ extension MarketplaceAgreement {
         /// Maximum amount of capacity that the buyer can be entitled to the given dimension of the product. If MaxQuantity is not provided, the buyer will be able to use an unlimited amount of the given dimension.
         public let maxQuantity: Int?
 
+        @inlinable
         public init(dimensionKey: String? = nil, maxQuantity: Int? = nil) {
             self.dimensionKey = dimensionKey
             self.maxQuantity = maxQuantity
@@ -557,6 +575,7 @@ extension MarketplaceAgreement {
         /// Category of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(documents: [DocumentItem]? = nil, type: String? = nil) {
             self.documents = documents
             self.type = type
@@ -576,6 +595,7 @@ extension MarketplaceAgreement {
         /// Type of the term.
         public let type: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, schedule: [ScheduleItem]? = nil, type: String? = nil) {
             self.currencyCode = currencyCode
             self.schedule = schedule
@@ -595,6 +615,7 @@ extension MarketplaceAgreement {
         /// The list of resources involved in the agreement.
         public let resources: [Resource]?
 
+        @inlinable
         public init(offerId: String? = nil, resources: [Resource]? = nil) {
             self.offerId = offerId
             self.resources = resources
@@ -610,6 +631,7 @@ extension MarketplaceAgreement {
         /// The AWS account ID of the proposer.
         public let accountId: String?
 
+        @inlinable
         public init(accountId: String? = nil) {
             self.accountId = accountId
         }
@@ -625,6 +647,7 @@ extension MarketplaceAgreement {
         /// Per unit price for the product dimension that’s used for calculating the amount to be charged.
         public let price: String?
 
+        @inlinable
         public init(dimensionKey: String? = nil, price: String? = nil) {
             self.dimensionKey = dimensionKey
             self.price = price
@@ -646,6 +669,7 @@ extension MarketplaceAgreement {
         /// Type of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, currencyCode: String? = nil, price: String? = nil, type: String? = nil) {
             self.billingPeriod = billingPeriod
             self.currencyCode = currencyCode
@@ -667,6 +691,7 @@ extension MarketplaceAgreement {
         /// Category of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(configuration: RenewalTermConfiguration? = nil, type: String? = nil) {
             self.configuration = configuration
             self.type = type
@@ -682,6 +707,7 @@ extension MarketplaceAgreement {
         /// Defines whether the acceptor has chosen to auto-renew the agreement at the end of its lifecycle. Can be set to True or False.
         public let enableAutoRenew: Bool
 
+        @inlinable
         public init(enableAutoRenew: Bool) {
             self.enableAutoRenew = enableAutoRenew
         }
@@ -697,6 +723,7 @@ extension MarketplaceAgreement {
         /// Type of the resource, which is the product. Values include SaaSProduct or AmiProduct.
         public let type: String?
 
+        @inlinable
         public init(id: String? = nil, type: String? = nil) {
             self.id = id
             self.type = type
@@ -714,6 +741,7 @@ extension MarketplaceAgreement {
         /// The date that the customer would pay the price defined in this payment schedule term. Invoices are generated on the date provided.
         public let chargeDate: Date?
 
+        @inlinable
         public init(chargeAmount: String? = nil, chargeDate: Date? = nil) {
             self.chargeAmount = chargeAmount
             self.chargeDate = chargeDate
@@ -737,6 +765,7 @@ extension MarketplaceAgreement {
         /// An object that contains the SortBy and SortOrder attributes.
         public let sort: Sort?
 
+        @inlinable
         public init(catalog: String? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: Sort? = nil) {
             self.catalog = catalog
             self.filters = filters
@@ -776,6 +805,7 @@ extension MarketplaceAgreement {
         /// The token used for pagination. The field is null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(agreementViewSummaries: [AgreementViewSummary]? = nil, nextToken: String? = nil) {
             self.agreementViewSummaries = agreementViewSummaries
             self.nextToken = nextToken
@@ -793,6 +823,7 @@ extension MarketplaceAgreement {
         /// Contract duration. This field supports the ISO 8601 format.
         public let value: String?
 
+        @inlinable
         public init(type: String? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -810,6 +841,7 @@ extension MarketplaceAgreement {
         /// The sorting order, which can be ASCENDING or DESCENDING. The default value is DESCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -833,6 +865,7 @@ extension MarketplaceAgreement {
         /// Category of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(refundPolicy: String? = nil, type: String? = nil) {
             self.refundPolicy = refundPolicy
             self.type = type
@@ -852,6 +885,7 @@ extension MarketplaceAgreement {
         /// Category of the term.
         public let type: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, rateCards: [UsageBasedRateCardItem]? = nil, type: String? = nil) {
             self.currencyCode = currencyCode
             self.rateCards = rateCards
@@ -869,6 +903,7 @@ extension MarketplaceAgreement {
         /// Defines the per unit rates for product dimensions.
         public let rateCard: [RateCardItem]?
 
+        @inlinable
         public init(rateCard: [RateCardItem]? = nil) {
             self.rateCard = rateCard
         }
@@ -888,6 +923,7 @@ extension MarketplaceAgreement {
         /// Category of the term being updated.
         public let type: String?
 
+        @inlinable
         public init(agreementDuration: String? = nil, agreementEndDate: Date? = nil, agreementStartDate: Date? = nil, type: String? = nil) {
             self.agreementDuration = agreementDuration
             self.agreementEndDate = agreementEndDate

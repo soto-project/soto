@@ -120,6 +120,7 @@ extension CodeCatalyst {
         /// The friendly name of the personal access token.
         public let name: String
 
+        @inlinable
         public init(expiresTime: Date? = nil, id: String, name: String) {
             self.expiresTime = expiresTime
             self.id = id
@@ -140,6 +141,7 @@ extension CodeCatalyst {
         /// The friendly name of the personal access token.
         public let name: String
 
+        @inlinable
         public init(expiresTime: Date? = nil, name: String) {
             self.expiresTime = expiresTime
             self.name = name
@@ -167,6 +169,7 @@ extension CodeCatalyst {
         /// The secret value of the personal access token.
         public let secret: String
 
+        @inlinable
         public init(accessTokenId: String, expiresTime: Date, name: String, secret: String) {
             self.accessTokenId = accessTokenId
             self.expiresTime = expiresTime
@@ -204,6 +207,7 @@ extension CodeCatalyst {
         /// The name of the connection that will be used to connect to Amazon VPC, if any.
         public let vpcConnectionName: String?
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = nil, ides: [IdeConfiguration]? = nil, inactivityTimeoutMinutes: Int? = nil, instanceType: InstanceType, persistentStorage: PersistentStorageConfiguration, projectName: String, repositories: [RepositoryInput]? = nil, spaceName: String, vpcConnectionName: String? = nil) {
             self.alias = alias
             self.clientToken = clientToken
@@ -274,6 +278,7 @@ extension CodeCatalyst {
         /// The name of the connection used to connect to Amazon VPC used when the Dev Environment was created, if any.
         public let vpcConnectionName: String?
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String, vpcConnectionName: String? = nil) {
             self.id = id
             self.projectName = projectName
@@ -297,6 +302,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String, spaceName: String) {
             self.description = description
             self.displayName = displayName
@@ -338,6 +344,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String, spaceName: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -365,6 +372,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(headCommitId: String? = nil, name: String, projectName: String, sourceRepositoryName: String, spaceName: String) {
             self.headCommitId = headCommitId
             self.name = name
@@ -413,6 +421,7 @@ extension CodeCatalyst {
         /// The Git reference name of the branch.
         public let ref: String?
 
+        @inlinable
         public init(headCommitId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ref: String? = nil) {
             self.headCommitId = headCommitId
             self.lastUpdatedTime = lastUpdatedTime
@@ -438,6 +447,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(description: String? = nil, name: String, projectName: String, spaceName: String) {
             self.description = description
             self.name = name
@@ -483,6 +493,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(description: String? = nil, name: String, projectName: String, spaceName: String) {
             self.description = description
             self.name = name
@@ -502,6 +513,7 @@ extension CodeCatalyst {
         /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -532,6 +544,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -567,6 +580,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -586,6 +600,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(name: String, spaceName: String) {
             self.name = name
             self.spaceName = spaceName
@@ -618,6 +633,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(displayName: String? = nil, name: String, spaceName: String) {
             self.displayName = displayName
             self.name = name
@@ -639,6 +655,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(name: String, projectName: String, spaceName: String) {
             self.name = name
             self.projectName = projectName
@@ -676,6 +693,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(name: String, projectName: String, spaceName: String) {
             self.name = name
             self.projectName = projectName
@@ -693,6 +711,7 @@ extension CodeCatalyst {
         /// The name of the space.  To retrieve a list of space names, use ListSpaces.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -718,6 +737,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let name: String
 
+        @inlinable
         public init(displayName: String? = nil, name: String) {
             self.displayName = displayName
             self.name = name
@@ -735,6 +755,7 @@ extension CodeCatalyst {
         /// An encrypted token value that contains session and caller information used to authenticate the connection.
         public let tokenValue: String
 
+        @inlinable
         public init(streamUrl: String, tokenValue: String) {
             self.streamUrl = streamUrl
             self.tokenValue = tokenValue
@@ -752,6 +773,7 @@ extension CodeCatalyst {
         /// The name of the source repository.
         public let repositoryName: String
 
+        @inlinable
         public init(branchName: String? = nil, repositoryName: String) {
             self.branchName = branchName
             self.repositoryName = repositoryName
@@ -769,6 +791,7 @@ extension CodeCatalyst {
         /// The type of the session.
         public let sessionType: DevEnvironmentSessionType
 
+        @inlinable
         public init(executeCommandSessionConfiguration: ExecuteCommandSessionConfiguration? = nil, sessionType: DevEnvironmentSessionType) {
             self.executeCommandSessionConfiguration = executeCommandSessionConfiguration
             self.sessionType = sessionType
@@ -793,6 +816,7 @@ extension CodeCatalyst {
         @CustomCoding<ISO8601DateCoder>
         public var startedTime: Date
 
+        @inlinable
         public init(devEnvironmentId: String, id: String, projectName: String, spaceName: String, startedTime: Date) {
             self.devEnvironmentId = devEnvironmentId
             self.id = id
@@ -841,6 +865,7 @@ extension CodeCatalyst {
         /// The name of the connection used to connect to Amazon VPC used when the Dev Environment was created, if any.
         public let vpcConnectionName: String?
 
+        @inlinable
         public init(alias: String? = nil, creatorId: String, id: String, ides: [Ide]? = nil, inactivityTimeoutMinutes: Int, instanceType: InstanceType, lastUpdatedTime: Date, persistentStorage: PersistentStorage, projectName: String? = nil, repositories: [DevEnvironmentRepositorySummary], spaceName: String? = nil, status: DevEnvironmentStatus, statusReason: String? = nil, vpcConnectionName: String? = nil) {
             self.alias = alias
             self.creatorId = creatorId
@@ -882,6 +907,7 @@ extension CodeCatalyst {
         /// Whether the email address has been verified.
         public let verified: Bool?
 
+        @inlinable
         public init(email: String? = nil, verified: Bool? = nil) {
             self.email = email
             self.verified = verified
@@ -926,6 +952,7 @@ extension CodeCatalyst {
         /// The system-generated unique ID of the user whose actions are recorded in the event.
         public let userIdentity: UserIdentity
 
+        @inlinable
         public init(errorCode: String? = nil, eventCategory: String, eventName: String, eventSource: String, eventTime: Date, eventType: String, id: String, operationType: OperationType, projectInformation: ProjectInformation? = nil, requestId: String? = nil, requestPayload: EventPayload? = nil, responsePayload: EventPayload? = nil, sourceIpAddress: String? = nil, userAgent: String? = nil, userIdentity: UserIdentity) {
             self.errorCode = errorCode
             self.eventCategory = eventCategory
@@ -969,6 +996,7 @@ extension CodeCatalyst {
         /// The data included in the event payload.
         public let data: String?
 
+        @inlinable
         public init(contentType: String? = nil, data: String? = nil) {
             self.contentType = contentType
             self.data = data
@@ -986,6 +1014,7 @@ extension CodeCatalyst {
         /// The command used at the beginning of the SSH session to a Dev Environment.
         public let command: String
 
+        @inlinable
         public init(arguments: [String]? = nil, command: String) {
             self.arguments = arguments
             self.command = command
@@ -1005,6 +1034,7 @@ extension CodeCatalyst {
         /// The values of the key.
         public let values: [String]
 
+        @inlinable
         public init(comparisonOperator: String? = nil, key: String, values: [String]) {
             self.comparisonOperator = comparisonOperator
             self.key = key
@@ -1026,6 +1056,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -1084,6 +1115,7 @@ extension CodeCatalyst {
         /// The name of the connection used to connect to Amazon VPC used when the Dev Environment was created, if any.
         public let vpcConnectionName: String?
 
+        @inlinable
         public init(alias: String? = nil, creatorId: String, id: String, ides: [Ide]? = nil, inactivityTimeoutMinutes: Int, instanceType: InstanceType, lastUpdatedTime: Date, persistentStorage: PersistentStorage, projectName: String, repositories: [DevEnvironmentRepositorySummary], spaceName: String, status: DevEnvironmentStatus, statusReason: String? = nil, vpcConnectionName: String? = nil) {
             self.alias = alias
             self.creatorId = creatorId
@@ -1125,6 +1157,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(name: String, spaceName: String) {
             self.name = name
             self.spaceName = spaceName
@@ -1159,6 +1192,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String, spaceName: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -1182,6 +1216,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(projectName: String, sourceRepositoryName: String, spaceName: String) {
             self.projectName = projectName
             self.sourceRepositoryName = sourceRepositoryName
@@ -1215,6 +1250,7 @@ extension CodeCatalyst {
         /// The HTTPS URL to use when cloning the source repository.
         public let https: String
 
+        @inlinable
         public init(https: String) {
             self.https = https
         }
@@ -1232,6 +1268,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(name: String, projectName: String, spaceName: String) {
             self.name = name
             self.projectName = projectName
@@ -1277,6 +1314,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(createdTime: Date, description: String? = nil, lastUpdatedTime: Date, name: String, projectName: String, spaceName: String) {
             self.createdTime = createdTime
             self.description = description
@@ -1300,6 +1338,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1329,6 +1368,7 @@ extension CodeCatalyst {
         /// The Amazon Web Services Region where the space exists.
         public let regionName: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String, regionName: String) {
             self.description = description
             self.displayName = displayName
@@ -1348,6 +1388,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(spaceName: String) {
             self.spaceName = spaceName
         }
@@ -1378,6 +1419,7 @@ extension CodeCatalyst {
         /// The type of the billing plan for the space.
         public let subscriptionType: String?
 
+        @inlinable
         public init(awsAccountName: String? = nil, pendingSubscriptionStartTime: Date? = nil, pendingSubscriptionType: String? = nil, subscriptionType: String? = nil) {
             self.awsAccountName = awsAccountName
             self.pendingSubscriptionStartTime = pendingSubscriptionStartTime
@@ -1399,6 +1441,7 @@ extension CodeCatalyst {
         /// The name of the user as displayed in Amazon CodeCatalyst.
         public let userName: String?
 
+        @inlinable
         public init(id: String? = nil, userName: String? = nil) {
             self.id = id
             self.userName = userName
@@ -1425,6 +1468,7 @@ extension CodeCatalyst {
         public let userName: String?
         public let version: String?
 
+        @inlinable
         public init(displayName: String? = nil, primaryEmail: EmailAddress? = nil, userId: String? = nil, userName: String? = nil, version: String? = nil) {
             self.displayName = displayName
             self.primaryEmail = primaryEmail
@@ -1450,6 +1494,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -1503,6 +1548,7 @@ extension CodeCatalyst {
         /// The status of the workflow.
         public let status: WorkflowStatus
 
+        @inlinable
         public init(createdTime: Date, definition: WorkflowDefinition, id: String, lastUpdatedTime: Date, name: String, projectName: String, runMode: WorkflowRunMode, sourceBranchName: String? = nil, sourceRepositoryName: String? = nil, spaceName: String, status: WorkflowStatus) {
             self.createdTime = createdTime
             self.definition = definition
@@ -1540,6 +1586,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -1590,6 +1637,7 @@ extension CodeCatalyst {
         /// The ID of the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(endTime: Date? = nil, id: String, lastUpdatedTime: Date, projectName: String, spaceName: String, startTime: Date, status: WorkflowRunStatus, statusReasons: [WorkflowRunStatusReason]? = nil, workflowId: String) {
             self.endTime = endTime
             self.id = id
@@ -1621,6 +1669,7 @@ extension CodeCatalyst {
         /// A link to the IDE runtime image.
         public let runtime: String?
 
+        @inlinable
         public init(name: String? = nil, runtime: String? = nil) {
             self.name = name
             self.runtime = runtime
@@ -1638,6 +1687,7 @@ extension CodeCatalyst {
         /// A link to the IDE runtime image.   This parameter is not required for VSCode.
         public let runtime: String?
 
+        @inlinable
         public init(name: String? = nil, runtime: String? = nil) {
             self.name = name
             self.runtime = runtime
@@ -1655,6 +1705,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1672,6 +1723,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [AccessTokenSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1695,6 +1747,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(devEnvironmentId: String, maxResults: Int? = nil, nextToken: String? = nil, projectName: String, spaceName: String) {
             self.devEnvironmentId = devEnvironmentId
             self.maxResults = maxResults
@@ -1735,6 +1788,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DevEnvironmentSessionSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1758,6 +1812,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectName: String? = nil, spaceName: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1799,6 +1854,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DevEnvironmentSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1826,6 +1882,7 @@ extension CodeCatalyst {
         @CustomCoding<ISO8601DateCoder>
         public var startTime: Date
 
+        @inlinable
         public init(endTime: Date, eventName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, spaceName: String, startTime: Date) {
             self.endTime = endTime
             self.eventName = eventName
@@ -1867,6 +1924,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EventLogEntry], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1888,6 +1946,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(filters: [ProjectListFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, spaceName: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1923,6 +1982,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ProjectSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1948,6 +2008,7 @@ extension CodeCatalyst {
         /// The name of the source repository.
         public let name: String
 
+        @inlinable
         public init(createdTime: Date, description: String? = nil, id: String, lastUpdatedTime: Date, name: String) {
             self.createdTime = createdTime
             self.description = description
@@ -1975,6 +2036,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String, spaceName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2012,6 +2074,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListSourceRepositoriesItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2034,6 +2097,7 @@ extension CodeCatalyst {
         /// The Git reference name of the branch.
         public let ref: String?
 
+        @inlinable
         public init(headCommitId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ref: String? = nil) {
             self.headCommitId = headCommitId
             self.lastUpdatedTime = lastUpdatedTime
@@ -2061,6 +2125,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String, sourceRepositoryName: String, spaceName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2103,6 +2168,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListSourceRepositoryBranchesItem], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2118,6 +2184,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2133,6 +2200,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SpaceSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2158,6 +2226,7 @@ extension CodeCatalyst {
         /// The ID of the workflow. To retrieve a list of workflow IDs, use ListWorkflows.
         public let workflowId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String, sortBy: [WorkflowRunSortCriteria]? = nil, spaceName: String, workflowId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2200,6 +2269,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [WorkflowRunSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2223,6 +2293,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String, sortBy: [WorkflowSortCriteria]? = nil, spaceName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2262,6 +2333,7 @@ extension CodeCatalyst {
         /// A token returned from a call to this API to indicate the next batch of results to return, if any.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [WorkflowSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2277,6 +2349,7 @@ extension CodeCatalyst {
         /// The size of the persistent storage in gigabytes (specifically GiB).  Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
         public let sizeInGiB: Int
 
+        @inlinable
         public init(sizeInGiB: Int) {
             self.sizeInGiB = sizeInGiB
         }
@@ -2290,6 +2363,7 @@ extension CodeCatalyst {
         /// The size of the persistent storage in gigabytes (specifically GiB).  Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
         public let sizeInGiB: Int
 
+        @inlinable
         public init(sizeInGiB: Int) {
             self.sizeInGiB = sizeInGiB
         }
@@ -2305,6 +2379,7 @@ extension CodeCatalyst {
         /// The system-generated unique ID of the project.
         public let projectId: String?
 
+        @inlinable
         public init(name: String? = nil, projectId: String? = nil) {
             self.name = name
             self.projectId = projectId
@@ -2324,6 +2399,7 @@ extension CodeCatalyst {
         /// The values of the key.
         public let values: [String]
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator? = nil, key: FilterKey, values: [String]) {
             self.comparisonOperator = comparisonOperator
             self.key = key
@@ -2345,6 +2421,7 @@ extension CodeCatalyst {
         /// The name of the project in the space.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String) {
             self.description = description
             self.displayName = displayName
@@ -2364,6 +2441,7 @@ extension CodeCatalyst {
         /// The name of the source repository.
         public let repositoryName: String
 
+        @inlinable
         public init(branchName: String? = nil, repositoryName: String) {
             self.branchName = branchName
             self.repositoryName = repositoryName
@@ -2393,6 +2471,7 @@ extension CodeCatalyst {
         /// The Amazon Web Services Region where the space exists.
         public let regionName: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String, regionName: String) {
             self.description = description
             self.displayName = displayName
@@ -2422,6 +2501,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, ides: [IdeConfiguration]? = nil, inactivityTimeoutMinutes: Int? = nil, instanceType: InstanceType? = nil, projectName: String, spaceName: String) {
             self.id = id
             self.ides = ides
@@ -2472,6 +2552,7 @@ extension CodeCatalyst {
         /// The status of the Dev Environment.
         public let status: DevEnvironmentStatus
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String, status: DevEnvironmentStatus) {
             self.id = id
             self.projectName = projectName
@@ -2496,6 +2577,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, sessionConfiguration: DevEnvironmentSessionConfiguration, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -2538,6 +2620,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(accessDetails: DevEnvironmentAccessDetails, id: String, projectName: String, sessionId: String? = nil, spaceName: String) {
             self.accessDetails = accessDetails
             self.id = id
@@ -2565,6 +2648,7 @@ extension CodeCatalyst {
         /// The system-generated unique ID of the workflow. To retrieve a list of workflow IDs, use ListWorkflows.
         public let workflowId: String
 
+        @inlinable
         public init(clientToken: String? = StartWorkflowRunRequest.idempotencyToken(), projectName: String, spaceName: String, workflowId: String) {
             self.clientToken = clientToken
             self.projectName = projectName
@@ -2606,6 +2690,7 @@ extension CodeCatalyst {
         /// The system-generated unique ID of the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String, workflowId: String) {
             self.id = id
             self.projectName = projectName
@@ -2629,6 +2714,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -2666,6 +2752,7 @@ extension CodeCatalyst {
         /// The status of the Dev Environment.
         public let status: DevEnvironmentStatus
 
+        @inlinable
         public init(id: String, projectName: String, spaceName: String, status: DevEnvironmentStatus) {
             self.id = id
             self.projectName = projectName
@@ -2691,6 +2778,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, sessionId: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -2730,6 +2818,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(id: String, projectName: String, sessionId: String, spaceName: String) {
             self.id = id
             self.projectName = projectName
@@ -2763,6 +2852,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = nil, id: String, ides: [IdeConfiguration]? = nil, inactivityTimeoutMinutes: Int? = nil, instanceType: InstanceType? = nil, projectName: String, spaceName: String) {
             self.alias = alias
             self.clientToken = clientToken
@@ -2829,6 +2919,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(alias: String? = nil, clientToken: String? = nil, id: String, ides: [IdeConfiguration]? = nil, inactivityTimeoutMinutes: Int? = nil, instanceType: InstanceType? = nil, projectName: String, spaceName: String) {
             self.alias = alias
             self.clientToken = clientToken
@@ -2860,6 +2951,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String
 
+        @inlinable
         public init(description: String? = nil, name: String, spaceName: String) {
             self.description = description
             self.name = name
@@ -2900,6 +2992,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let spaceName: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String? = nil, spaceName: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -2921,6 +3014,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
@@ -2954,6 +3048,7 @@ extension CodeCatalyst {
         /// The name of the space.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, name: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -2977,6 +3072,7 @@ extension CodeCatalyst {
         /// The role assigned to the user in a Amazon CodeCatalyst space or project when the event occurred.
         public let userType: UserType
 
+        @inlinable
         public init(awsAccountId: String? = nil, principalId: String, userName: String? = nil, userType: UserType) {
             self.awsAccountId = awsAccountId
             self.principalId = principalId
@@ -2996,6 +3092,7 @@ extension CodeCatalyst {
         /// The system-generated unique ID of the user in Amazon CodeCatalyst.
         public let identity: String?
 
+        @inlinable
         public init(identity: String? = nil) {
             self.identity = identity
         }
@@ -3009,6 +3106,7 @@ extension CodeCatalyst {
         /// The path to the workflow definition file stored in the source repository for the project, including the file name.
         public let path: String
 
+        @inlinable
         public init(path: String) {
             self.path = path
         }
@@ -3022,6 +3120,7 @@ extension CodeCatalyst {
         /// The path to the workflow definition file stored in the source repository for the project, including the file name.
         public let path: String
 
+        @inlinable
         public init(path: String) {
             self.path = path
         }
@@ -3060,6 +3159,7 @@ extension CodeCatalyst {
         /// The name of the workflow.
         public let workflowName: String
 
+        @inlinable
         public init(endTime: Date? = nil, id: String, lastUpdatedTime: Date, startTime: Date, status: WorkflowRunStatus, statusReasons: [WorkflowRunStatusReason]? = nil, workflowId: String, workflowName: String) {
             self.endTime = endTime
             self.id = id
@@ -3109,6 +3209,7 @@ extension CodeCatalyst {
         /// The status of the workflow.
         public let status: WorkflowStatus
 
+        @inlinable
         public init(createdTime: Date, definition: WorkflowDefinitionSummary, id: String, lastUpdatedTime: Date, name: String, runMode: WorkflowRunMode, sourceBranchName: String, sourceRepositoryName: String, status: WorkflowStatus) {
             self.createdTime = createdTime
             self.definition = definition

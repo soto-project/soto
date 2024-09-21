@@ -104,6 +104,7 @@ extension CloudHSMV2 {
         /// The list of tags for the backup.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(backupArn: String? = nil, backupId: String, backupState: BackupState? = nil, clusterId: String? = nil, copyTimestamp: Date? = nil, createTimestamp: Date? = nil, deleteTimestamp: Date? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, neverExpires: Bool? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil, tagList: [Tag]? = nil) {
             self.backupArn = backupArn
             self.backupId = backupId
@@ -145,6 +146,7 @@ extension CloudHSMV2 {
         /// Use a value between 7 - 379.
         public let value: String?
 
+        @inlinable
         public init(type: BackupRetentionType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -174,6 +176,7 @@ extension CloudHSMV2 {
         /// The HSM hardware certificate issued (signed) by the hardware manufacturer.
         public let manufacturerHardwareCertificate: String?
 
+        @inlinable
         public init(awsHardwareCertificate: String? = nil, clusterCertificate: String? = nil, clusterCsr: String? = nil, hsmCertificate: String? = nil, manufacturerHardwareCertificate: String? = nil) {
             self.awsHardwareCertificate = awsHardwareCertificate
             self.clusterCertificate = clusterCertificate
@@ -225,6 +228,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the virtual private cloud (VPC) that contains the cluster.
         public let vpcId: String?
 
+        @inlinable
         public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
             self.backupRetentionPolicy = backupRetentionPolicy
@@ -272,6 +276,7 @@ extension CloudHSMV2 {
         /// Tags to apply to the destination backup during creation. If you specify tags, only these tags will be applied to the destination backup. If you do not specify tags, the service copies tags from the source backup to the destination backup.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(backupId: String, destinationRegion: String, tagList: [Tag]? = nil) {
             self.backupId = backupId
             self.destinationRegion = destinationRegion
@@ -299,6 +304,7 @@ extension CloudHSMV2 {
         /// Information on the backup that will be copied to the destination region, including CreateTimestamp, SourceBackup, SourceCluster, and Source Region. CreateTimestamp of the destination backup will be the same as that of the source backup. You will need to use the sourceBackupID returned in this operation to use the DescribeBackups operation on the backup that will be copied to the destination region.
         public let destinationBackup: DestinationBackup?
 
+        @inlinable
         public init(destinationBackup: DestinationBackup? = nil) {
             self.destinationBackup = destinationBackup
         }
@@ -322,6 +328,7 @@ extension CloudHSMV2 {
         /// Tags to apply to the CloudHSM cluster during creation.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, hsmType: String, mode: ClusterMode? = nil, sourceBackupId: String? = nil, subnetIds: [String], tagList: [Tag]? = nil) {
             self.backupRetentionPolicy = backupRetentionPolicy
             self.hsmType = hsmType
@@ -362,6 +369,7 @@ extension CloudHSMV2 {
         /// Information about the cluster that was created.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -379,6 +387,7 @@ extension CloudHSMV2 {
         /// The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet.
         public let ipAddress: String?
 
+        @inlinable
         public init(availabilityZone: String, clusterId: String, ipAddress: String? = nil) {
             self.availabilityZone = availabilityZone
             self.clusterId = clusterId
@@ -402,6 +411,7 @@ extension CloudHSMV2 {
         /// Information about the HSM that was created.
         public let hsm: Hsm?
 
+        @inlinable
         public init(hsm: Hsm? = nil) {
             self.hsm = hsm
         }
@@ -415,6 +425,7 @@ extension CloudHSMV2 {
         /// The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
 
+        @inlinable
         public init(backupId: String) {
             self.backupId = backupId
         }
@@ -432,6 +443,7 @@ extension CloudHSMV2 {
         /// Information on the Backup object deleted.
         public let backup: Backup?
 
+        @inlinable
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -445,6 +457,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
 
+        @inlinable
         public init(clusterId: String) {
             self.clusterId = clusterId
         }
@@ -462,6 +475,7 @@ extension CloudHSMV2 {
         /// Information about the cluster that was deleted.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -481,6 +495,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the HSM that you are deleting.
         public let hsmId: String?
 
+        @inlinable
         public init(clusterId: String, eniId: String? = nil, eniIp: String? = nil, hsmId: String? = nil) {
             self.clusterId = clusterId
             self.eniId = eniId
@@ -507,6 +522,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the HSM that was deleted.
         public let hsmId: String?
 
+        @inlinable
         public init(hsmId: String? = nil) {
             self.hsmId = hsmId
         }
@@ -520,6 +536,7 @@ extension CloudHSMV2 {
         /// Amazon Resource Name (ARN) of the resource from which the policy will be removed.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -539,6 +556,7 @@ extension CloudHSMV2 {
         /// Amazon Resource Name (ARN) of the resource from which the policy was deleted.
         public let resourceArn: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -563,6 +581,7 @@ extension CloudHSMV2 {
         /// Designates whether or not to sort the return backups by ascending chronological order of generation.
         public let sortAscending: Bool?
 
+        @inlinable
         public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, shared: Bool? = nil, sortAscending: Bool? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -597,6 +616,7 @@ extension CloudHSMV2 {
         /// An opaque string that indicates that the response contains only a subset of backups. Use this value in a subsequent DescribeBackups request to get more backups.
         public let nextToken: String?
 
+        @inlinable
         public init(backups: [Backup]? = nil, nextToken: String? = nil) {
             self.backups = backups
             self.nextToken = nextToken
@@ -616,6 +636,7 @@ extension CloudHSMV2 {
         /// The NextToken value that you received in the previous response. Use this value to get more clusters.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [String: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -646,6 +667,7 @@ extension CloudHSMV2 {
         /// An opaque string that indicates that the response contains only a subset of clusters. Use this value in a subsequent DescribeClusters request to get more clusters.
         public let nextToken: String?
 
+        @inlinable
         public init(clusters: [Cluster]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -667,6 +689,7 @@ extension CloudHSMV2 {
         /// The AWS region that contains the source backup from which the new backup was copied.
         public let sourceRegion: String?
 
+        @inlinable
         public init(createTimestamp: Date? = nil, sourceBackup: String? = nil, sourceCluster: String? = nil, sourceRegion: String? = nil) {
             self.createTimestamp = createTimestamp
             self.sourceBackup = sourceBackup
@@ -686,6 +709,7 @@ extension CloudHSMV2 {
         /// Amazon Resource Name (ARN) of the resource to which a policy is attached.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -703,6 +727,7 @@ extension CloudHSMV2 {
         /// The policy attached to a resource.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -730,6 +755,7 @@ extension CloudHSMV2 {
         /// The subnet that contains the HSM's elastic network interface (ENI).
         public let subnetId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, clusterId: String? = nil, eniId: String? = nil, eniIp: String? = nil, hsmId: String, state: HsmState? = nil, stateMessage: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.clusterId = clusterId
@@ -761,6 +787,7 @@ extension CloudHSMV2 {
         /// The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters.
         public let trustAnchor: String
 
+        @inlinable
         public init(clusterId: String, signedCert: String, trustAnchor: String) {
             self.clusterId = clusterId
             self.signedCert = signedCert
@@ -788,6 +815,7 @@ extension CloudHSMV2 {
         /// A description of the cluster's state.
         public let stateMessage: String?
 
+        @inlinable
         public init(state: ClusterState? = nil, stateMessage: String? = nil) {
             self.state = state
             self.stateMessage = stateMessage
@@ -807,6 +835,7 @@ extension CloudHSMV2 {
         /// The cluster identifier (ID) for the cluster whose tags you are getting. To find the cluster ID, use DescribeClusters.
         public let resourceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -834,6 +863,7 @@ extension CloudHSMV2 {
         /// A list of tags.
         public let tagList: [Tag]
 
+        @inlinable
         public init(nextToken: String? = nil, tagList: [Tag]) {
             self.nextToken = nextToken
             self.tagList = tagList
@@ -851,6 +881,7 @@ extension CloudHSMV2 {
         /// Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts  a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
         public let neverExpires: Bool
 
+        @inlinable
         public init(backupId: String, neverExpires: Bool) {
             self.backupId = backupId
             self.neverExpires = neverExpires
@@ -869,6 +900,7 @@ extension CloudHSMV2 {
     public struct ModifyBackupAttributesResponse: AWSDecodableShape {
         public let backup: Backup?
 
+        @inlinable
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -884,6 +916,7 @@ extension CloudHSMV2 {
         /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
 
+        @inlinable
         public init(backupRetentionPolicy: BackupRetentionPolicy, clusterId: String) {
             self.backupRetentionPolicy = backupRetentionPolicy
             self.clusterId = clusterId
@@ -903,6 +936,7 @@ extension CloudHSMV2 {
     public struct ModifyClusterResponse: AWSDecodableShape {
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -918,6 +952,7 @@ extension CloudHSMV2 {
         /// Amazon Resource Name (ARN) of the resource to which you want to attach a policy.
         public let resourceArn: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -941,6 +976,7 @@ extension CloudHSMV2 {
         /// Amazon Resource Name (ARN) of the resource to which a policy is attached.
         public let resourceArn: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -956,6 +992,7 @@ extension CloudHSMV2 {
         /// The ID of the backup to be restored. To find the ID of a backup, use the DescribeBackups operation.
         public let backupId: String
 
+        @inlinable
         public init(backupId: String) {
             self.backupId = backupId
         }
@@ -973,6 +1010,7 @@ extension CloudHSMV2 {
         /// Information on the Backup object created.
         public let backup: Backup?
 
+        @inlinable
         public init(backup: Backup? = nil) {
             self.backup = backup
         }
@@ -988,6 +1026,7 @@ extension CloudHSMV2 {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1013,6 +1052,7 @@ extension CloudHSMV2 {
         /// A list of one or more tags.
         public let tagList: [Tag]
 
+        @inlinable
         public init(resourceId: String, tagList: [Tag]) {
             self.resourceId = resourceId
             self.tagList = tagList
@@ -1043,6 +1083,7 @@ extension CloudHSMV2 {
         /// A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values.
         public let tagKeyList: [String]
 
+        @inlinable
         public init(resourceId: String, tagKeyList: [String]) {
             self.resourceId = resourceId
             self.tagKeyList = tagKeyList

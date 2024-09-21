@@ -299,6 +299,7 @@ extension CloudFront {
         /// The number of key groups in the list.
         public let quantity: Int
 
+        @inlinable
         public init(enabled: Bool, items: [KGKeyPairIds]? = nil, quantity: Int) {
             self.enabled = enabled
             self.items = items
@@ -325,6 +326,7 @@ extension CloudFront {
         /// The number of Amazon Web Services accounts in the list.
         public let quantity: Int
 
+        @inlinable
         public init(enabled: Bool, items: [Signer]? = nil, quantity: Int) {
             self.enabled = enabled
             self.items = items
@@ -354,6 +356,7 @@ extension CloudFront {
         /// 					status.
         public let icpRecordalStatus: ICPRecordalStatus?
 
+        @inlinable
         public init(cname: String? = nil, icpRecordalStatus: ICPRecordalStatus? = nil) {
             self.cname = cname
             self.icpRecordalStatus = icpRecordalStatus
@@ -376,6 +379,7 @@ extension CloudFront {
         /// 			distribution.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -401,6 +405,7 @@ extension CloudFront {
         /// 				OPTIONS, PUT, PATCH, POST, and DELETE requests).
         public let quantity: Int
 
+        @inlinable
         public init(cachedMethods: CachedMethods? = nil, items: [Method], quantity: Int) {
             self.cachedMethods = cachedMethods
             self.items = items
@@ -420,6 +425,7 @@ extension CloudFront {
         /// The ID of the distribution that you're associating the alias with.
         public let targetDistributionId: String
 
+        @inlinable
         public init(alias: String, targetDistributionId: String) {
             self.alias = alias
             self.targetDistributionId = targetDistributionId
@@ -559,6 +565,7 @@ extension CloudFront {
         /// 					Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
+        @inlinable
         public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
@@ -582,6 +589,7 @@ extension CloudFront {
         }
 
         @available(*, deprecated, message: "Members defaultTTL, forwardedValues, maxTTL, minTTL have been deprecated")
+        @inlinable
         public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
@@ -641,6 +649,7 @@ extension CloudFront {
         /// The number of cache behaviors for this distribution.
         public let quantity: Int
 
+        @inlinable
         public init(items: [CacheBehavior]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -666,6 +675,7 @@ extension CloudFront {
         /// The date and time when the cache policy was last modified.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(cachePolicyConfig: CachePolicyConfig, id: String, lastModifiedTime: Date) {
             self.cachePolicyConfig = cachePolicyConfig
             self.id = id
@@ -713,6 +723,7 @@ extension CloudFront {
         /// 			origin.
         public let parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin?
 
+        @inlinable
         public init(comment: String? = nil, defaultTTL: Int64? = nil, maxTTL: Int64? = nil, minTTL: Int64, name: String, parametersInCacheKeyAndForwardedToOrigin: ParametersInCacheKeyAndForwardedToOrigin? = nil) {
             self.comment = comment
             self.defaultTTL = defaultTTL
@@ -747,6 +758,7 @@ extension CloudFront {
         public let cookieBehavior: CachePolicyCookieBehavior
         public let cookies: CookieNames?
 
+        @inlinable
         public init(cookieBehavior: CachePolicyCookieBehavior, cookies: CookieNames? = nil) {
             self.cookieBehavior = cookieBehavior
             self.cookies = cookies
@@ -768,6 +780,7 @@ extension CloudFront {
         public let headerBehavior: CachePolicyHeaderBehavior
         public let headers: Headers?
 
+        @inlinable
         public init(headerBehavior: CachePolicyHeaderBehavior, headers: Headers? = nil) {
             self.headerBehavior = headerBehavior
             self.headers = headers
@@ -794,6 +807,7 @@ extension CloudFront {
         /// The total number of cache policies returned in the response.
         public let quantity: Int
 
+        @inlinable
         public init(items: [CachePolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -831,6 +845,7 @@ extension CloudFront {
         /// 			are).
         public let queryStrings: QueryStringNames?
 
+        @inlinable
         public init(queryStringBehavior: CachePolicyQueryStringBehavior, queryStrings: QueryStringNames? = nil) {
             self.queryStringBehavior = queryStringBehavior
             self.queryStrings = queryStrings
@@ -849,6 +864,7 @@ extension CloudFront {
         /// 				custom (created in this Amazon Web Services account).
         public let type: CachePolicyType
 
+        @inlinable
         public init(cachePolicy: CachePolicy, type: CachePolicyType) {
             self.cachePolicy = cachePolicy
             self.type = type
@@ -873,6 +889,7 @@ extension CloudFront {
         /// 				HEAD, and OPTIONS requests).
         public let quantity: Int
 
+        @inlinable
         public init(items: [Method], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -894,6 +911,7 @@ extension CloudFront {
         /// 			access identity read permission to an object in Amazon S3.
         public let s3CanonicalUserId: String
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig? = nil, id: String, s3CanonicalUserId: String) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.id = id
@@ -924,6 +942,7 @@ extension CloudFront {
         /// 			128 characters.
         public let comment: String
 
+        @inlinable
         public init(callerReference: String, comment: String) {
             self.callerReference = callerReference
             self.comment = comment
@@ -963,6 +982,7 @@ extension CloudFront {
         /// 			Amazon Web Services account.
         public let quantity: Int
 
+        @inlinable
         public init(isTruncated: Bool, items: [CloudFrontOriginAccessIdentitySummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
@@ -993,6 +1013,7 @@ extension CloudFront {
         /// 			the origin access identity read permission to an object in Amazon S3.
         public let s3CanonicalUserId: String
 
+        @inlinable
         public init(comment: String, id: String, s3CanonicalUserId: String) {
             self.comment = comment
             self.id = id
@@ -1015,6 +1036,7 @@ extension CloudFront {
         /// The (partially hidden) ID of the CloudFront distribution associated with the alias.
         public let distributionId: String?
 
+        @inlinable
         public init(accountId: String? = nil, alias: String? = nil, distributionId: String? = nil) {
             self.accountId = accountId
             self.alias = alias
@@ -1043,6 +1065,7 @@ extension CloudFront {
         /// The number of conflicting aliases returned in the response.
         public let quantity: Int?
 
+        @inlinable
         public init(items: [ConflictingAlias]? = nil, maxItems: Int? = nil, nextMarker: String? = nil, quantity: Int? = nil) {
             self.items = items
             self.maxItems = maxItems
@@ -1066,6 +1089,7 @@ extension CloudFront {
         /// The profile ID for a field-level encryption content type-profile mapping.
         public let profileId: String?
 
+        @inlinable
         public init(contentType: String, format: Format, profileId: String? = nil) {
             self.contentType = contentType
             self.format = format
@@ -1088,6 +1112,7 @@ extension CloudFront {
         /// 			default), an error is returned when the content type is unknown.
         public let forwardWhenContentTypeIsUnknown: Bool
 
+        @inlinable
         public init(contentTypeProfiles: ContentTypeProfiles? = nil, forwardWhenContentTypeIsUnknown: Bool) {
             self.contentTypeProfiles = contentTypeProfiles
             self.forwardWhenContentTypeIsUnknown = forwardWhenContentTypeIsUnknown
@@ -1108,6 +1133,7 @@ extension CloudFront {
         /// The number of field-level encryption content type-profile mappings.
         public let quantity: Int
 
+        @inlinable
         public init(items: [ContentTypeProfile]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -1126,6 +1152,7 @@ extension CloudFront {
         /// The date and time the continuous deployment policy was last modified.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig, id: String, lastModifiedTime: Date) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
             self.id = id
@@ -1152,6 +1179,7 @@ extension CloudFront {
         /// 			distributions.
         public let trafficConfig: TrafficConfig?
 
+        @inlinable
         public init(enabled: Bool, stagingDistributionDnsNames: StagingDistributionDnsNames, trafficConfig: TrafficConfig? = nil) {
             self.enabled = enabled
             self.stagingDistributionDnsNames = stagingDistributionDnsNames
@@ -1181,6 +1209,7 @@ extension CloudFront {
         /// 			of the MaxItems value.
         public let quantity: Int
 
+        @inlinable
         public init(items: [ContinuousDeploymentPolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -1200,6 +1229,7 @@ extension CloudFront {
         /// The continuous deployment policy.
         public let continuousDeploymentPolicy: ContinuousDeploymentPolicy
 
+        @inlinable
         public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
         }
@@ -1216,6 +1246,7 @@ extension CloudFront {
         /// The request header value.
         public let value: String
 
+        @inlinable
         public init(header: String, value: String) {
             self.header = header
             self.value = value
@@ -1233,6 +1264,7 @@ extension CloudFront {
         /// 			number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution.
         public let weight: Float
 
+        @inlinable
         public init(sessionStickinessConfig: SessionStickinessConfig? = nil, weight: Float) {
             self.sessionStickinessConfig = sessionStickinessConfig
             self.weight = weight
@@ -1253,6 +1285,7 @@ extension CloudFront {
         /// The number of cookie names in the Items list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -1290,6 +1323,7 @@ extension CloudFront {
         /// 				Limits in the Amazon Web Services General Reference.
         public let whitelistedNames: CookieNames?
 
+        @inlinable
         public init(forward: ItemSelection, whitelistedNames: CookieNames? = nil) {
             self.forward = forward
             self.whitelistedNames = whitelistedNames
@@ -1323,6 +1357,7 @@ extension CloudFront {
         /// 			distribution.
         public let staging: Bool?
 
+        @inlinable
         public init(callerReference: String, enabled: Bool? = nil, ifMatch: String? = nil, primaryDistributionId: String, staging: Bool? = nil) {
             self.callerReference = callerReference
             self.enabled = enabled
@@ -1354,6 +1389,7 @@ extension CloudFront {
         /// The URL of the staging distribution.
         public let location: String?
 
+        @inlinable
         public init(distribution: Distribution, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -1376,6 +1412,7 @@ extension CloudFront {
         /// A cache policy configuration.
         public let cachePolicyConfig: CachePolicyConfig
 
+        @inlinable
         public init(cachePolicyConfig: CachePolicyConfig) {
             self.cachePolicyConfig = cachePolicyConfig
         }
@@ -1396,6 +1433,7 @@ extension CloudFront {
         /// The fully qualified URI of the cache policy just created.
         public let location: String?
 
+        @inlinable
         public init(cachePolicy: CachePolicy, eTag: String? = nil, location: String? = nil) {
             self.cachePolicy = cachePolicy
             self.eTag = eTag
@@ -1418,6 +1456,7 @@ extension CloudFront {
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         }
@@ -1438,6 +1477,7 @@ extension CloudFront {
         /// The fully qualified URI of the new origin access identity just created.
         public let location: String?
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity, eTag: String? = nil, location: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
@@ -1460,6 +1500,7 @@ extension CloudFront {
         /// Contains the configuration for a continuous deployment policy.
         public let continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig
 
+        @inlinable
         public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
         }
@@ -1481,6 +1522,7 @@ extension CloudFront {
         /// The location of the continuous deployment policy.
         public let location: String?
 
+        @inlinable
         public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy, eTag: String? = nil, location: String? = nil) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
             self.eTag = eTag
@@ -1503,6 +1545,7 @@ extension CloudFront {
         /// The distribution's configuration information.
         public let distributionConfig: DistributionConfig
 
+        @inlinable
         public init(distributionConfig: DistributionConfig) {
             self.distributionConfig = distributionConfig
         }
@@ -1527,6 +1570,7 @@ extension CloudFront {
         /// The fully qualified URI of the new distribution resource just created.
         public let location: String?
 
+        @inlinable
         public init(distribution: Distribution, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -1549,6 +1593,7 @@ extension CloudFront {
         /// The distribution's configuration information.
         public let distributionConfigWithTags: DistributionConfigWithTags
 
+        @inlinable
         public init(distributionConfigWithTags: DistributionConfigWithTags) {
             self.distributionConfigWithTags = distributionConfigWithTags
         }
@@ -1573,6 +1618,7 @@ extension CloudFront {
         /// The fully qualified URI of the new distribution resource just created.
         public let location: String?
 
+        @inlinable
         public init(distribution: Distribution, eTag: String? = nil, location: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -1595,6 +1641,7 @@ extension CloudFront {
         /// The request to create a new field-level encryption configuration.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
 
+        @inlinable
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
         }
@@ -1616,6 +1663,7 @@ extension CloudFront {
         /// The fully qualified URI of the new configuration resource just created.
         public let location: String?
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption, location: String? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
@@ -1638,6 +1686,7 @@ extension CloudFront {
         /// The request to create a field-level encryption profile.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
 
+        @inlinable
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
         }
@@ -1659,6 +1708,7 @@ extension CloudFront {
         /// The fully qualified URI of the new profile resource just created.
         public let location: String?
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile, location: String? = nil) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
@@ -1687,6 +1737,7 @@ extension CloudFront {
         /// A name to identify the function.
         public let name: String
 
+        @inlinable
         public init(functionCode: AWSBase64Data, functionConfig: FunctionConfig, name: String) {
             self.functionCode = functionCode
             self.functionConfig = functionConfig
@@ -1718,6 +1769,7 @@ extension CloudFront {
         /// 			API.
         public let location: String?
 
+        @inlinable
         public init(eTag: String? = nil, functionSummary: FunctionSummary, location: String? = nil) {
             self.eTag = eTag
             self.functionSummary = functionSummary
@@ -1742,6 +1794,7 @@ extension CloudFront {
         /// The batch information for the invalidation.
         public let invalidationBatch: InvalidationBatch
 
+        @inlinable
         public init(distributionId: String, invalidationBatch: InvalidationBatch) {
             self.distributionId = distributionId
             self.invalidationBatch = invalidationBatch
@@ -1764,6 +1817,7 @@ extension CloudFront {
         /// 			the Invalidation ID.
         public let location: String?
 
+        @inlinable
         public init(invalidation: Invalidation, location: String? = nil) {
             self.invalidation = invalidation
             self.location = location
@@ -1784,6 +1838,7 @@ extension CloudFront {
         /// A key group configuration.
         public let keyGroupConfig: KeyGroupConfig
 
+        @inlinable
         public init(keyGroupConfig: KeyGroupConfig) {
             self.keyGroupConfig = keyGroupConfig
         }
@@ -1804,6 +1859,7 @@ extension CloudFront {
         /// The URL of the key group.
         public let location: String?
 
+        @inlinable
         public init(eTag: String? = nil, keyGroup: KeyGroup, location: String? = nil) {
             self.eTag = eTag
             self.keyGroup = keyGroup
@@ -1830,6 +1886,7 @@ extension CloudFront {
         /// 			64 characters.
         public let name: String
 
+        @inlinable
         public init(comment: String? = nil, importSource: ImportSource? = nil, name: String) {
             self.comment = comment
             self.importSource = importSource
@@ -1858,6 +1915,7 @@ extension CloudFront {
         /// The location of the resulting key value store.
         public let location: String?
 
+        @inlinable
         public init(eTag: String? = nil, keyValueStore: KeyValueStore, location: String? = nil) {
             self.eTag = eTag
             self.keyValueStore = keyValueStore
@@ -1883,6 +1941,7 @@ extension CloudFront {
         /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
+        @inlinable
         public init(distributionId: String, monitoringSubscription: MonitoringSubscription) {
             self.distributionId = distributionId
             self.monitoringSubscription = monitoringSubscription
@@ -1903,6 +1962,7 @@ extension CloudFront {
         /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
+        @inlinable
         public init(monitoringSubscription: MonitoringSubscription) {
             self.monitoringSubscription = monitoringSubscription
         }
@@ -1920,6 +1980,7 @@ extension CloudFront {
         /// Contains the origin access control.
         public let originAccessControlConfig: OriginAccessControlConfig
 
+        @inlinable
         public init(originAccessControlConfig: OriginAccessControlConfig) {
             self.originAccessControlConfig = originAccessControlConfig
         }
@@ -1940,6 +2001,7 @@ extension CloudFront {
         /// Contains an origin access control.
         public let originAccessControl: OriginAccessControl
 
+        @inlinable
         public init(eTag: String? = nil, location: String? = nil, originAccessControl: OriginAccessControl) {
             self.eTag = eTag
             self.location = location
@@ -1962,6 +2024,7 @@ extension CloudFront {
         /// An origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
+        @inlinable
         public init(originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.originRequestPolicyConfig = originRequestPolicyConfig
         }
@@ -1982,6 +2045,7 @@ extension CloudFront {
         /// An origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
 
+        @inlinable
         public init(eTag: String? = nil, location: String? = nil, originRequestPolicy: OriginRequestPolicy) {
             self.eTag = eTag
             self.location = location
@@ -2004,6 +2068,7 @@ extension CloudFront {
         /// A CloudFront public key configuration.
         public let publicKeyConfig: PublicKeyConfig
 
+        @inlinable
         public init(publicKeyConfig: PublicKeyConfig) {
             self.publicKeyConfig = publicKeyConfig
         }
@@ -2024,6 +2089,7 @@ extension CloudFront {
         /// The public key.
         public let publicKey: PublicKey
 
+        @inlinable
         public init(eTag: String? = nil, location: String? = nil, publicKey: PublicKey) {
             self.eTag = eTag
             self.location = location
@@ -2057,6 +2123,7 @@ extension CloudFront {
         /// The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.
         public let samplingRate: Int64
 
+        @inlinable
         public init(endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
             self.endPoints = endPoints
             self.fields = fields
@@ -2076,6 +2143,7 @@ extension CloudFront {
         /// A real-time log configuration.
         public let realtimeLogConfig: RealtimeLogConfig?
 
+        @inlinable
         public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
             self.realtimeLogConfig = realtimeLogConfig
         }
@@ -2091,6 +2159,7 @@ extension CloudFront {
         /// 			specify the HTTP headers.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
+        @inlinable
         public init(responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
         }
@@ -2115,6 +2184,7 @@ extension CloudFront {
         /// Contains a response headers policy.
         public let responseHeadersPolicy: ResponseHeadersPolicy
 
+        @inlinable
         public init(eTag: String? = nil, location: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy) {
             self.eTag = eTag
             self.location = location
@@ -2137,6 +2207,7 @@ extension CloudFront {
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
+        @inlinable
         public init(streamingDistributionConfig: StreamingDistributionConfig) {
             self.streamingDistributionConfig = streamingDistributionConfig
         }
@@ -2158,6 +2229,7 @@ extension CloudFront {
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
 
+        @inlinable
         public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.location = location
@@ -2180,6 +2252,7 @@ extension CloudFront {
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags
 
+        @inlinable
         public init(streamingDistributionConfigWithTags: StreamingDistributionConfigWithTags) {
             self.streamingDistributionConfigWithTags = streamingDistributionConfigWithTags
         }
@@ -2205,6 +2278,7 @@ extension CloudFront {
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
 
+        @inlinable
         public init(eTag: String? = nil, location: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.location = location
@@ -2262,6 +2336,7 @@ extension CloudFront {
         /// 			unavailable.
         public let responsePagePath: String?
 
+        @inlinable
         public init(errorCachingMinTTL: Int64? = nil, errorCode: Int, responseCode: String? = nil, responsePagePath: String? = nil) {
             self.errorCachingMinTTL = errorCachingMinTTL
             self.errorCode = errorCode
@@ -2290,6 +2365,7 @@ extension CloudFront {
         /// 				Items.
         public let quantity: Int
 
+        @inlinable
         public init(items: [CustomErrorResponse]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -2312,6 +2388,7 @@ extension CloudFront {
         /// The number of custom headers, if any, for this distribution.
         public let quantity: Int
 
+        @inlinable
         public init(items: [OriginCustomHeader]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -2353,6 +2430,7 @@ extension CloudFront {
         /// 				Amazon CloudFront Developer Guide.
         public let originSslProtocols: OriginSslProtocols?
 
+        @inlinable
         public init(httpPort: Int, httpsPort: Int, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: OriginProtocolPolicy, originReadTimeout: Int? = nil, originSslProtocols: OriginSslProtocols? = nil) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
@@ -2489,6 +2567,7 @@ extension CloudFront {
         /// 					Expiration in the Amazon CloudFront Developer Guide.
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
+        @inlinable
         public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
@@ -2511,6 +2590,7 @@ extension CloudFront {
         }
 
         @available(*, deprecated, message: "Members defaultTTL, forwardedValues, maxTTL, minTTL have been deprecated")
+        @inlinable
         public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, defaultTTL: Int64? = nil, fieldLevelEncryptionId: String? = nil, forwardedValues: ForwardedValues? = nil, functionAssociations: FunctionAssociations? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, maxTTL: Int64? = nil, minTTL: Int64? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, responseHeadersPolicyId: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
@@ -2568,6 +2648,7 @@ extension CloudFront {
         /// 				GetCachePolicyConfig.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2591,6 +2672,7 @@ extension CloudFront {
         /// 				E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2613,6 +2695,7 @@ extension CloudFront {
         /// 			you are deleting.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2635,6 +2718,7 @@ extension CloudFront {
         /// 			distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2657,6 +2741,7 @@ extension CloudFront {
         /// 			configuration identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2679,6 +2764,7 @@ extension CloudFront {
         /// 			profile to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2701,6 +2787,7 @@ extension CloudFront {
         /// The name of the function that you are deleting.
         public let name: String
 
+        @inlinable
         public init(ifMatch: String, name: String) {
             self.ifMatch = ifMatch
             self.name = name
@@ -2725,6 +2812,7 @@ extension CloudFront {
         /// 			or GetKeyGroupConfig.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2746,6 +2834,7 @@ extension CloudFront {
         /// The name of the key value store.
         public let name: String
 
+        @inlinable
         public init(ifMatch: String, name: String) {
             self.ifMatch = ifMatch
             self.name = name
@@ -2771,6 +2860,7 @@ extension CloudFront {
         /// The ID of the distribution that you are disabling metrics for.
         public let distributionId: String
 
+        @inlinable
         public init(distributionId: String) {
             self.distributionId = distributionId
         }
@@ -2795,6 +2885,7 @@ extension CloudFront {
         /// 			are deleting.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2820,6 +2911,7 @@ extension CloudFront {
         /// 				GetOriginRequestPolicyConfig.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2842,6 +2934,7 @@ extension CloudFront {
         /// 			key identity to delete. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2863,6 +2956,7 @@ extension CloudFront {
         /// The name of the real-time log configuration to delete.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -2883,6 +2977,7 @@ extension CloudFront {
         /// 				GetResponseHeadersPolicyConfig.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2905,6 +3000,7 @@ extension CloudFront {
         /// 			streaming distribution. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -2926,6 +3022,7 @@ extension CloudFront {
         /// The function's stage, either DEVELOPMENT or LIVE.
         public let stage: FunctionStage?
 
+        @inlinable
         public init(name: String, stage: FunctionStage? = nil) {
             self.name = name
             self.stage = stage
@@ -2947,6 +3044,7 @@ extension CloudFront {
         /// Contains configuration information and metadata about a CloudFront function.
         public let functionSummary: FunctionSummary
 
+        @inlinable
         public init(eTag: String? = nil, functionSummary: FunctionSummary) {
             self.eTag = eTag
             self.functionSummary = functionSummary
@@ -2966,6 +3064,7 @@ extension CloudFront {
         /// The name of the key value store.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2991,6 +3090,7 @@ extension CloudFront {
         /// The resulting key value store.
         public let keyValueStore: KeyValueStore
 
+        @inlinable
         public init(eTag: String? = nil, keyValueStore: KeyValueStore) {
             self.eTag = eTag
             self.keyValueStore = keyValueStore
@@ -3041,6 +3141,7 @@ extension CloudFront {
         /// 			distribution's information is fully propagated to all CloudFront edge locations.
         public let status: String
 
+        @inlinable
         public init(activeTrustedKeyGroups: ActiveTrustedKeyGroups? = nil, activeTrustedSigners: ActiveTrustedSigners? = nil, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: Date, status: String) {
             self.activeTrustedKeyGroups = activeTrustedKeyGroups
             self.activeTrustedSigners = activeTrustedSigners
@@ -3181,6 +3282,7 @@ extension CloudFront {
         /// 				WAF Developer Guide.
         public let webACLId: String?
 
+        @inlinable
         public init(aliases: Aliases? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
             self.aliases = aliases
             self.cacheBehaviors = cacheBehaviors
@@ -3239,6 +3341,7 @@ extension CloudFront {
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
 
+        @inlinable
         public init(distributionConfig: DistributionConfig, tags: Tags) {
             self.distributionConfig = distributionConfig
             self.tags = tags
@@ -3275,6 +3378,7 @@ extension CloudFront {
         /// The total number of distribution IDs returned in the response.
         public let quantity: Int
 
+        @inlinable
         public init(isTruncated: Bool, items: [String]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
@@ -3317,6 +3421,7 @@ extension CloudFront {
         /// The number of distributions that were created by the current Amazon Web Services account.
         public let quantity: Int
 
+        @inlinable
         public init(isTruncated: Bool, items: [DistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
@@ -3405,6 +3510,7 @@ extension CloudFront {
         /// The Web ACL Id (if any) associated with the distribution.
         public let webACLId: String
 
+        @inlinable
         public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
@@ -3465,6 +3571,7 @@ extension CloudFront {
         /// 			mapping.
         public let quantity: Int
 
+        @inlinable
         public init(items: [EncryptionEntity]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -3490,6 +3597,7 @@ extension CloudFront {
         /// 			when encrypting the fields that match the patterns.
         public let publicKeyId: String
 
+        @inlinable
         public init(fieldPatterns: FieldPatterns, providerId: String, publicKeyId: String) {
             self.fieldPatterns = fieldPatterns
             self.providerId = providerId
@@ -3511,6 +3619,7 @@ extension CloudFront {
         /// 			is Kinesis.
         public let streamType: String
 
+        @inlinable
         public init(kinesisStreamConfig: KinesisStreamConfig? = nil, streamType: String) {
             self.kinesisStreamConfig = kinesisStreamConfig
             self.streamType = streamType
@@ -3533,6 +3642,7 @@ extension CloudFront {
         /// The last time the field-level encryption configuration was changed.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, id: String, lastModifiedTime: Date) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
@@ -3560,6 +3670,7 @@ extension CloudFront {
         /// 			and the profile that can be provided as a query argument in a request.
         public let queryArgProfileConfig: QueryArgProfileConfig?
 
+        @inlinable
         public init(callerReference: String, comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
             self.callerReference = callerReference
             self.comment = comment
@@ -3590,6 +3701,7 @@ extension CloudFront {
         /// The number of field-level encryption items.
         public let quantity: Int
 
+        @inlinable
         public init(items: [FieldLevelEncryptionSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -3616,6 +3728,7 @@ extension CloudFront {
         /// The last time the field-level encryption profile was updated.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String, lastModifiedTime: Date) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
@@ -3642,6 +3755,7 @@ extension CloudFront {
         /// Profile name for the field-level encryption profile.
         public let name: String
 
+        @inlinable
         public init(callerReference: String, comment: String? = nil, encryptionEntities: EncryptionEntities, name: String) {
             self.callerReference = callerReference
             self.comment = comment
@@ -3673,6 +3787,7 @@ extension CloudFront {
         /// The number of field-level encryption profiles.
         public let quantity: Int
 
+        @inlinable
         public init(items: [FieldLevelEncryptionProfileSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -3703,6 +3818,7 @@ extension CloudFront {
         /// Name for the field-level encryption profile summary.
         public let name: String
 
+        @inlinable
         public init(comment: String? = nil, encryptionEntities: EncryptionEntities, id: String, lastModifiedTime: Date, name: String) {
             self.comment = comment
             self.encryptionEntities = encryptionEntities
@@ -3733,6 +3849,7 @@ extension CloudFront {
         /// A summary of a query argument-profile mapping.
         public let queryArgProfileConfig: QueryArgProfileConfig?
 
+        @inlinable
         public init(comment: String? = nil, contentTypeProfileConfig: ContentTypeProfileConfig? = nil, id: String, lastModifiedTime: Date, queryArgProfileConfig: QueryArgProfileConfig? = nil) {
             self.comment = comment
             self.contentTypeProfileConfig = contentTypeProfileConfig
@@ -3759,6 +3876,7 @@ extension CloudFront {
         /// The number of field-level encryption field patterns.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -3817,6 +3935,7 @@ extension CloudFront {
         /// 			want CloudFront to use for caching for this cache behavior.
         public let queryStringCacheKeys: QueryStringCacheKeys?
 
+        @inlinable
         public init(cookies: CookiePreference, headers: Headers? = nil, queryString: Bool, queryStringCacheKeys: QueryStringCacheKeys? = nil) {
             self.cookies = cookies
             self.headers = headers
@@ -3841,6 +3960,7 @@ extension CloudFront {
         /// The Amazon Resource Name (ARN) of the function.
         public let functionARN: String
 
+        @inlinable
         public init(eventType: EventType, functionARN: String) {
             self.eventType = eventType
             self.functionARN = functionARN
@@ -3868,6 +3988,7 @@ extension CloudFront {
         /// The number of CloudFront functions in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [FunctionAssociation]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -3893,6 +4014,7 @@ extension CloudFront {
         /// The function's runtime environment version.
         public let runtime: FunctionRuntime
 
+        @inlinable
         public init(comment: String, keyValueStoreAssociations: KeyValueStoreAssociations? = nil, runtime: FunctionRuntime) {
             self.comment = comment
             self.keyValueStoreAssociations = keyValueStoreAssociations
@@ -3925,6 +4047,7 @@ extension CloudFront {
         /// The number of functions returned in the response.
         public let quantity: Int
 
+        @inlinable
         public init(items: [FunctionSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -3954,6 +4077,7 @@ extension CloudFront {
         /// 			distribution's cache behavior, using the function's ARN.
         public let stage: FunctionStage?
 
+        @inlinable
         public init(createdTime: Date? = nil, functionARN: String, lastModifiedTime: Date, stage: FunctionStage? = nil) {
             self.createdTime = createdTime
             self.functionARN = functionARN
@@ -3979,6 +4103,7 @@ extension CloudFront {
         /// The status of the CloudFront function.
         public let status: String?
 
+        @inlinable
         public init(functionConfig: FunctionConfig, functionMetadata: FunctionMetadata, name: String, status: String? = nil) {
             self.functionConfig = functionConfig
             self.functionMetadata = functionMetadata
@@ -4020,6 +4145,7 @@ extension CloudFront {
         /// 					countries in which you want CloudFront to distribute your content.
         public let restrictionType: GeoRestrictionType
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int, restrictionType: GeoRestrictionType) {
             self.items = items
             self.quantity = quantity
@@ -4041,6 +4167,7 @@ extension CloudFront {
         /// 				ListCachePolicies.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4060,6 +4187,7 @@ extension CloudFront {
         /// The current version of the cache policy.
         public let eTag: String?
 
+        @inlinable
         public init(cachePolicyConfig: CachePolicyConfig, eTag: String? = nil) {
             self.cachePolicyConfig = cachePolicyConfig
             self.eTag = eTag
@@ -4083,6 +4211,7 @@ extension CloudFront {
         /// 				ListCachePolicies.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4102,6 +4231,7 @@ extension CloudFront {
         /// The current version of the cache policy.
         public let eTag: String?
 
+        @inlinable
         public init(cachePolicy: CachePolicy, eTag: String? = nil) {
             self.cachePolicy = cachePolicy
             self.eTag = eTag
@@ -4121,6 +4251,7 @@ extension CloudFront {
         /// The identity's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4141,6 +4272,7 @@ extension CloudFront {
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.eTag = eTag
@@ -4160,6 +4292,7 @@ extension CloudFront {
         /// The identity's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4180,6 +4313,7 @@ extension CloudFront {
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
@@ -4200,6 +4334,7 @@ extension CloudFront {
         /// 			getting.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4219,6 +4354,7 @@ extension CloudFront {
         /// 			policy.
         public let eTag: String?
 
+        @inlinable
         public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig, eTag: String? = nil) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
             self.eTag = eTag
@@ -4238,6 +4374,7 @@ extension CloudFront {
         /// The identifier of the continuous deployment policy that you are getting.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4258,6 +4395,7 @@ extension CloudFront {
         /// 			policy.
         public let eTag: String?
 
+        @inlinable
         public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy, eTag: String? = nil) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
             self.eTag = eTag
@@ -4278,6 +4416,7 @@ extension CloudFront {
         /// 			returned.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4298,6 +4437,7 @@ extension CloudFront {
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
+        @inlinable
         public init(distributionConfig: DistributionConfig, eTag: String? = nil) {
             self.distributionConfig = distributionConfig
             self.eTag = eTag
@@ -4318,6 +4458,7 @@ extension CloudFront {
         /// 			returned.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4338,6 +4479,7 @@ extension CloudFront {
         /// 				E2QWRUHAPOMQZL.
         public let eTag: String?
 
+        @inlinable
         public init(distribution: Distribution, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -4357,6 +4499,7 @@ extension CloudFront {
         /// Request the ID for the field-level encryption configuration information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4377,6 +4520,7 @@ extension CloudFront {
         /// Return the field-level encryption configuration information.
         public let fieldLevelEncryptionConfig: FieldLevelEncryptionConfig
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryptionConfig: FieldLevelEncryptionConfig) {
             self.eTag = eTag
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
@@ -4396,6 +4540,7 @@ extension CloudFront {
         /// Get the ID for the field-level encryption profile configuration information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4416,6 +4561,7 @@ extension CloudFront {
         /// Return the field-level encryption profile configuration information.
         public let fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
@@ -4435,6 +4581,7 @@ extension CloudFront {
         /// Get the ID for the field-level encryption profile information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4455,6 +4602,7 @@ extension CloudFront {
         /// Return the field-level encryption profile information.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
@@ -4474,6 +4622,7 @@ extension CloudFront {
         /// Request the ID for the field-level encryption configuration information.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4494,6 +4643,7 @@ extension CloudFront {
         /// Return the field-level encryption configuration information.
         public let fieldLevelEncryption: FieldLevelEncryption
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
@@ -4515,6 +4665,7 @@ extension CloudFront {
         /// The function's stage, either DEVELOPMENT or LIVE.
         public let stage: FunctionStage?
 
+        @inlinable
         public init(name: String, stage: FunctionStage? = nil) {
             self.name = name
             self.stage = stage
@@ -4539,6 +4690,7 @@ extension CloudFront {
         /// The function code of a CloudFront function.
         public let functionCode: AWSHTTPBody
 
+        @inlinable
         public init(contentType: String? = nil, eTag: String? = nil, functionCode: AWSHTTPBody) {
             self.contentType = contentType
             self.eTag = eTag
@@ -4563,6 +4715,7 @@ extension CloudFront {
         /// 			IDFDVBD632BHDS5.
         public let id: String
 
+        @inlinable
         public init(distributionId: String, id: String) {
             self.distributionId = distributionId
             self.id = id
@@ -4583,6 +4736,7 @@ extension CloudFront {
         /// 				Complex Type.
         public let invalidation: Invalidation
 
+        @inlinable
         public init(invalidation: Invalidation) {
             self.invalidation = invalidation
         }
@@ -4600,6 +4754,7 @@ extension CloudFront {
         /// 			identifier, use ListKeyGroups.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4619,6 +4774,7 @@ extension CloudFront {
         /// The key group configuration.
         public let keyGroupConfig: KeyGroupConfig
 
+        @inlinable
         public init(eTag: String? = nil, keyGroupConfig: KeyGroupConfig) {
             self.eTag = eTag
             self.keyGroupConfig = keyGroupConfig
@@ -4639,6 +4795,7 @@ extension CloudFront {
         /// 				ListKeyGroups.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4658,6 +4815,7 @@ extension CloudFront {
         /// The key group.
         public let keyGroup: KeyGroup
 
+        @inlinable
         public init(eTag: String? = nil, keyGroup: KeyGroup) {
             self.eTag = eTag
             self.keyGroup = keyGroup
@@ -4677,6 +4835,7 @@ extension CloudFront {
         /// The ID of the distribution that you are getting metrics information for.
         public let distributionId: String
 
+        @inlinable
         public init(distributionId: String) {
             self.distributionId = distributionId
         }
@@ -4695,6 +4854,7 @@ extension CloudFront {
         /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
+        @inlinable
         public init(monitoringSubscription: MonitoringSubscription) {
             self.monitoringSubscription = monitoringSubscription
         }
@@ -4711,6 +4871,7 @@ extension CloudFront {
         /// The unique identifier of the origin access control.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4730,6 +4891,7 @@ extension CloudFront {
         /// Contains an origin access control configuration.
         public let originAccessControlConfig: OriginAccessControlConfig
 
+        @inlinable
         public init(eTag: String? = nil, originAccessControlConfig: OriginAccessControlConfig) {
             self.eTag = eTag
             self.originAccessControlConfig = originAccessControlConfig
@@ -4749,6 +4911,7 @@ extension CloudFront {
         /// The unique identifier of the origin access control.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4768,6 +4931,7 @@ extension CloudFront {
         /// Contains an origin access control, including its unique identifier.
         public let originAccessControl: OriginAccessControl
 
+        @inlinable
         public init(eTag: String? = nil, originAccessControl: OriginAccessControl) {
             self.eTag = eTag
             self.originAccessControl = originAccessControl
@@ -4791,6 +4955,7 @@ extension CloudFront {
         /// 				ListOriginRequestPolicies.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4810,6 +4975,7 @@ extension CloudFront {
         /// The origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
+        @inlinable
         public init(eTag: String? = nil, originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.eTag = eTag
             self.originRequestPolicyConfig = originRequestPolicyConfig
@@ -4833,6 +4999,7 @@ extension CloudFront {
         /// 				ListOriginRequestPolicies.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4852,6 +5019,7 @@ extension CloudFront {
         /// The origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
 
+        @inlinable
         public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy) {
             self.eTag = eTag
             self.originRequestPolicy = originRequestPolicy
@@ -4871,6 +5039,7 @@ extension CloudFront {
         /// The identifier of the public key whose configuration you are getting.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4890,6 +5059,7 @@ extension CloudFront {
         /// A public key configuration.
         public let publicKeyConfig: PublicKeyConfig
 
+        @inlinable
         public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig) {
             self.eTag = eTag
             self.publicKeyConfig = publicKeyConfig
@@ -4909,6 +5079,7 @@ extension CloudFront {
         /// The identifier of the public key you are getting.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -4928,6 +5099,7 @@ extension CloudFront {
         /// The public key.
         public let publicKey: PublicKey
 
+        @inlinable
         public init(eTag: String? = nil, publicKey: PublicKey) {
             self.eTag = eTag
             self.publicKey = publicKey
@@ -4949,6 +5121,7 @@ extension CloudFront {
         /// The name of the real-time log configuration to get.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -4964,6 +5137,7 @@ extension CloudFront {
         /// A real-time log configuration.
         public let realtimeLogConfig: RealtimeLogConfig?
 
+        @inlinable
         public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
             self.realtimeLogConfig = realtimeLogConfig
         }
@@ -4981,6 +5155,7 @@ extension CloudFront {
         /// 				ListResponseHeadersPolicies.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -5000,6 +5175,7 @@ extension CloudFront {
         /// Contains a response headers policy.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
+        @inlinable
         public init(eTag: String? = nil, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
             self.eTag = eTag
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
@@ -5023,6 +5199,7 @@ extension CloudFront {
         /// 				ListResponseHeadersPolicies.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -5042,6 +5219,7 @@ extension CloudFront {
         /// Contains a response headers policy.
         public let responseHeadersPolicy: ResponseHeadersPolicy
 
+        @inlinable
         public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy) {
             self.eTag = eTag
             self.responseHeadersPolicy = responseHeadersPolicy
@@ -5061,6 +5239,7 @@ extension CloudFront {
         /// The streaming distribution's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -5081,6 +5260,7 @@ extension CloudFront {
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
+        @inlinable
         public init(eTag: String? = nil, streamingDistributionConfig: StreamingDistributionConfig) {
             self.eTag = eTag
             self.streamingDistributionConfig = streamingDistributionConfig
@@ -5100,6 +5280,7 @@ extension CloudFront {
         /// The streaming distribution's ID.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -5120,6 +5301,7 @@ extension CloudFront {
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
 
+        @inlinable
         public init(eTag: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.streamingDistribution = streamingDistribution
@@ -5144,6 +5326,7 @@ extension CloudFront {
         /// The number of header names in the Items list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -5161,6 +5344,7 @@ extension CloudFront {
         /// The source type of the import source for the key value store.
         public let sourceType: ImportSourceType
 
+        @inlinable
         public init(sourceARN: String, sourceType: ImportSourceType) {
             self.sourceARN = sourceARN
             self.sourceType = sourceType
@@ -5184,6 +5368,7 @@ extension CloudFront {
         /// 			status is Completed.
         public let status: String
 
+        @inlinable
         public init(createTime: Date, id: String, invalidationBatch: InvalidationBatch, status: String) {
             self.createTime = createTime
             self.id = id
@@ -5218,6 +5403,7 @@ extension CloudFront {
         /// 				Amazon CloudFront Developer Guide.
         public let paths: Paths
 
+        @inlinable
         public init(callerReference: String, paths: Paths) {
             self.callerReference = callerReference
             self.paths = paths
@@ -5253,6 +5439,7 @@ extension CloudFront {
         ///
         public let quantity: Int
 
+        @inlinable
         public init(isTruncated: Bool, items: [InvalidationSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
@@ -5280,6 +5467,7 @@ extension CloudFront {
         /// The status of an invalidation request.
         public let status: String
 
+        @inlinable
         public init(createTime: Date, id: String, status: String) {
             self.createTime = createTime
             self.id = id
@@ -5298,6 +5486,7 @@ extension CloudFront {
         public let keyGroupId: String?
         public let keyPairIds: KeyPairIds?
 
+        @inlinable
         public init(keyGroupId: String? = nil, keyPairIds: KeyPairIds? = nil) {
             self.keyGroupId = keyGroupId
             self.keyPairIds = keyPairIds
@@ -5317,6 +5506,7 @@ extension CloudFront {
         /// The date and time when the key group was last modified.
         public let lastModifiedTime: Date
 
+        @inlinable
         public init(id: String, keyGroupConfig: KeyGroupConfig, lastModifiedTime: Date) {
             self.id = id
             self.keyGroupConfig = keyGroupConfig
@@ -5342,6 +5532,7 @@ extension CloudFront {
         /// A name to identify the key group.
         public let name: String
 
+        @inlinable
         public init(comment: String? = nil, items: [String], name: String) {
             self.comment = comment
             self.items = items
@@ -5370,6 +5561,7 @@ extension CloudFront {
         /// The number of key groups returned in the response.
         public let quantity: Int
 
+        @inlinable
         public init(items: [KeyGroupSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -5389,6 +5581,7 @@ extension CloudFront {
         /// A key group.
         public let keyGroup: KeyGroup
 
+        @inlinable
         public init(keyGroup: KeyGroup) {
             self.keyGroup = keyGroup
         }
@@ -5407,6 +5600,7 @@ extension CloudFront {
         /// The number of key pair identifiers in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -5432,6 +5626,7 @@ extension CloudFront {
         /// The status of the key value store.
         public let status: String?
 
+        @inlinable
         public init(arn: String, comment: String, id: String, lastModifiedTime: Date, name: String, status: String? = nil) {
             self.arn = arn
             self.comment = comment
@@ -5455,6 +5650,7 @@ extension CloudFront {
         /// The Amazon Resource Name (ARN) of the key value store association.
         public let keyValueStoreARN: String
 
+        @inlinable
         public init(keyValueStoreARN: String) {
             self.keyValueStoreARN = keyValueStoreARN
         }
@@ -5478,6 +5674,7 @@ extension CloudFront {
         /// The quantity of key value store associations.
         public let quantity: Int
 
+        @inlinable
         public init(items: [KeyValueStoreAssociation]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -5508,6 +5705,7 @@ extension CloudFront {
         /// The quantity of the key value store list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [KeyValueStore]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -5532,6 +5730,7 @@ extension CloudFront {
         /// 			real-time log data.
         public let streamARN: String
 
+        @inlinable
         public init(roleARN: String, streamARN: String) {
             self.roleARN = roleARN
             self.streamARN = streamARN
@@ -5564,6 +5763,7 @@ extension CloudFront {
         /// 			you can't specify an alias or $LATEST.
         public let lambdaFunctionARN: String
 
+        @inlinable
         public init(eventType: EventType, includeBody: Bool? = nil, lambdaFunctionARN: String) {
             self.eventType = eventType
             self.includeBody = includeBody
@@ -5588,6 +5788,7 @@ extension CloudFront {
         /// The number of Lambda@Edge function associations for this cache behavior.
         public let quantity: Int
 
+        @inlinable
         public init(items: [LambdaFunctionAssociation]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -5613,6 +5814,7 @@ extension CloudFront {
         /// 					Amazon Web Services account.
         public let type: CachePolicyType?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, type: CachePolicyType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -5634,6 +5836,7 @@ extension CloudFront {
         /// A list of cache policies.
         public let cachePolicyList: CachePolicyList
 
+        @inlinable
         public init(cachePolicyList: CachePolicyList) {
             self.cachePolicyList = cachePolicyList
         }
@@ -5656,6 +5859,7 @@ extension CloudFront {
         /// The maximum number of origin access identities you want in the response body.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -5675,6 +5879,7 @@ extension CloudFront {
         /// The CloudFrontOriginAccessIdentityList type.
         public let cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentityList: CloudFrontOriginAccessIdentityList) {
             self.cloudFrontOriginAccessIdentityList = cloudFrontOriginAccessIdentityList
         }
@@ -5701,6 +5906,7 @@ extension CloudFront {
         /// The maximum number of conflicting aliases that you want in the response.
         public let maxItems: Int?
 
+        @inlinable
         public init(alias: String, distributionId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.alias = alias
             self.distributionId = distributionId
@@ -5730,6 +5936,7 @@ extension CloudFront {
         /// A list of conflicting aliases.
         public let conflictingAliasesList: ConflictingAliasesList
 
+        @inlinable
         public init(conflictingAliasesList: ConflictingAliasesList) {
             self.conflictingAliasesList = conflictingAliasesList
         }
@@ -5752,6 +5959,7 @@ extension CloudFront {
         /// 			response.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -5771,6 +5979,7 @@ extension CloudFront {
         /// A list of continuous deployment policies.
         public let continuousDeploymentPolicyList: ContinuousDeploymentPolicyList
 
+        @inlinable
         public init(continuousDeploymentPolicyList: ContinuousDeploymentPolicyList) {
             self.continuousDeploymentPolicyList = continuousDeploymentPolicyList
         }
@@ -5794,6 +6003,7 @@ extension CloudFront {
         /// The maximum number of distribution IDs that you want in the response.
         public let maxItems: Int?
 
+        @inlinable
         public init(cachePolicyId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.cachePolicyId = cachePolicyId
             self.marker = marker
@@ -5815,6 +6025,7 @@ extension CloudFront {
         /// A list of distribution IDs.
         public let distributionIdList: DistributionIdList
 
+        @inlinable
         public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
@@ -5838,6 +6049,7 @@ extension CloudFront {
         /// The maximum number of distribution IDs that you want in the response.
         public let maxItems: Int?
 
+        @inlinable
         public init(keyGroupId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.keyGroupId = keyGroupId
             self.marker = marker
@@ -5858,6 +6070,7 @@ extension CloudFront {
     public struct ListDistributionsByKeyGroupResult: AWSDecodableShape {
         public let distributionIdList: DistributionIdList
 
+        @inlinable
         public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
@@ -5882,6 +6095,7 @@ extension CloudFront {
         /// 			list.
         public let originRequestPolicyId: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, originRequestPolicyId: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -5903,6 +6117,7 @@ extension CloudFront {
         /// A list of distribution IDs.
         public let distributionIdList: DistributionIdList
 
+        @inlinable
         public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
@@ -5930,6 +6145,7 @@ extension CloudFront {
         /// 			list.
         public let realtimeLogConfigName: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, realtimeLogConfigArn: String? = nil, realtimeLogConfigName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -5948,6 +6164,7 @@ extension CloudFront {
     public struct ListDistributionsByRealtimeLogConfigResult: AWSDecodableShape {
         public let distributionList: DistributionList
 
+        @inlinable
         public init(distributionList: DistributionList) {
             self.distributionList = distributionList
         }
@@ -5972,6 +6189,7 @@ extension CloudFront {
         /// 			list.
         public let responseHeadersPolicyId: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, responseHeadersPolicyId: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -5992,6 +6210,7 @@ extension CloudFront {
     public struct ListDistributionsByResponseHeadersPolicyIdResult: AWSDecodableShape {
         public let distributionIdList: DistributionIdList
 
+        @inlinable
         public init(distributionIdList: DistributionIdList) {
             self.distributionIdList = distributionIdList
         }
@@ -6021,6 +6240,7 @@ extension CloudFront {
         /// 				arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. For WAF Classic, this is the ID of the web ACL, such as a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let webACLId: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, webACLId: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6042,6 +6262,7 @@ extension CloudFront {
         /// The DistributionList type.
         public let distributionList: DistributionList
 
+        @inlinable
         public init(distributionList: DistributionList) {
             self.distributionList = distributionList
         }
@@ -6064,6 +6285,7 @@ extension CloudFront {
         /// The maximum number of distributions you want in the response body.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6083,6 +6305,7 @@ extension CloudFront {
         /// The DistributionList type.
         public let distributionList: DistributionList
 
+        @inlinable
         public init(distributionList: DistributionList) {
             self.distributionList = distributionList
         }
@@ -6106,6 +6329,7 @@ extension CloudFront {
         /// 			body.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6126,6 +6350,7 @@ extension CloudFront {
         /// 			CloudFront for this account.
         public let fieldLevelEncryptionList: FieldLevelEncryptionList
 
+        @inlinable
         public init(fieldLevelEncryptionList: FieldLevelEncryptionList) {
             self.fieldLevelEncryptionList = fieldLevelEncryptionList
         }
@@ -6149,6 +6374,7 @@ extension CloudFront {
         ///
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6169,6 +6395,7 @@ extension CloudFront {
         /// 			for this account.
         public let fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList
 
+        @inlinable
         public init(fieldLevelEncryptionProfileList: FieldLevelEncryptionProfileList) {
             self.fieldLevelEncryptionProfileList = fieldLevelEncryptionProfileList
         }
@@ -6193,6 +6420,7 @@ extension CloudFront {
         /// 			either DEVELOPMENT or LIVE.
         public let stage: FunctionStage?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, stage: FunctionStage? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6214,6 +6442,7 @@ extension CloudFront {
         /// A list of CloudFront functions.
         public let functionList: FunctionList
 
+        @inlinable
         public init(functionList: FunctionList) {
             self.functionList = functionList
         }
@@ -6240,6 +6469,7 @@ extension CloudFront {
         /// The maximum number of invalidation batches that you want in the response body.
         public let maxItems: Int?
 
+        @inlinable
         public init(distributionId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.distributionId = distributionId
             self.marker = marker
@@ -6261,6 +6491,7 @@ extension CloudFront {
         /// Information about invalidation batches.
         public let invalidationList: InvalidationList
 
+        @inlinable
         public init(invalidationList: InvalidationList) {
             self.invalidationList = invalidationList
         }
@@ -6282,6 +6513,7 @@ extension CloudFront {
         /// The maximum number of key groups that you want in the response.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6301,6 +6533,7 @@ extension CloudFront {
         /// A list of key groups.
         public let keyGroupList: KeyGroupList
 
+        @inlinable
         public init(keyGroupList: KeyGroupList) {
             self.keyGroupList = keyGroupList
         }
@@ -6321,6 +6554,7 @@ extension CloudFront {
         /// The status of the request for the key value stores list.
         public let status: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, status: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6342,6 +6576,7 @@ extension CloudFront {
         /// The resulting key value stores list.
         public let keyValueStoreList: KeyValueStoreList
 
+        @inlinable
         public init(keyValueStoreList: KeyValueStoreList) {
             self.keyValueStoreList = keyValueStoreList
         }
@@ -6363,6 +6598,7 @@ extension CloudFront {
         /// The maximum number of origin access controls that you want in the response.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6382,6 +6618,7 @@ extension CloudFront {
         /// A list of origin access controls.
         public let originAccessControlList: OriginAccessControlList
 
+        @inlinable
         public init(originAccessControlList: OriginAccessControlList) {
             self.originAccessControlList = originAccessControlList
         }
@@ -6408,6 +6645,7 @@ extension CloudFront {
         /// 					Amazon Web Services account.
         public let type: OriginRequestPolicyType?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, type: OriginRequestPolicyType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6429,6 +6667,7 @@ extension CloudFront {
         /// A list of origin request policies.
         public let originRequestPolicyList: OriginRequestPolicyList
 
+        @inlinable
         public init(originRequestPolicyList: OriginRequestPolicyList) {
             self.originRequestPolicyList = originRequestPolicyList
         }
@@ -6451,6 +6690,7 @@ extension CloudFront {
         /// The maximum number of public keys you want in the response body.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6471,6 +6711,7 @@ extension CloudFront {
         /// 			account.
         public let publicKeyList: PublicKeyList
 
+        @inlinable
         public init(publicKeyList: PublicKeyList) {
             self.publicKeyList = publicKeyList
         }
@@ -6493,6 +6734,7 @@ extension CloudFront {
         /// 			response.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6512,6 +6754,7 @@ extension CloudFront {
         /// A list of real-time log configurations.
         public let realtimeLogConfigs: RealtimeLogConfigs
 
+        @inlinable
         public init(realtimeLogConfigs: RealtimeLogConfigs) {
             self.realtimeLogConfigs = realtimeLogConfigs
         }
@@ -6538,6 +6781,7 @@ extension CloudFront {
         /// 					Amazon Web Services account.
         public let type: ResponseHeadersPolicyType?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, type: ResponseHeadersPolicyType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6559,6 +6803,7 @@ extension CloudFront {
         /// A list of response headers policies.
         public let responseHeadersPolicyList: ResponseHeadersPolicyList
 
+        @inlinable
         public init(responseHeadersPolicyList: ResponseHeadersPolicyList) {
             self.responseHeadersPolicyList = responseHeadersPolicyList
         }
@@ -6577,6 +6822,7 @@ extension CloudFront {
         /// The value that you provided for the MaxItems request parameter.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -6596,6 +6842,7 @@ extension CloudFront {
         /// The StreamingDistributionList type.
         public let streamingDistributionList: StreamingDistributionList
 
+        @inlinable
         public init(streamingDistributionList: StreamingDistributionList) {
             self.streamingDistributionList = streamingDistributionList
         }
@@ -6612,6 +6859,7 @@ extension CloudFront {
         /// An ARN of a CloudFront resource.
         public let resource: String
 
+        @inlinable
         public init(resource: String) {
             self.resource = resource
         }
@@ -6633,6 +6881,7 @@ extension CloudFront {
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
 
+        @inlinable
         public init(tags: Tags) {
             self.tags = tags
         }
@@ -6670,6 +6919,7 @@ extension CloudFront {
         /// 			include an empty Prefix element in the Logging element.
         public let prefix: String
 
+        @inlinable
         public init(bucket: String, enabled: Bool, includeCookies: Bool, prefix: String) {
             self.bucket = bucket
             self.enabled = enabled
@@ -6689,6 +6939,7 @@ extension CloudFront {
         /// A subscription configuration for additional CloudWatch metrics.
         public let realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig?
 
+        @inlinable
         public init(realtimeMetricsSubscriptionConfig: RealtimeMetricsSubscriptionConfig? = nil) {
             self.realtimeMetricsSubscriptionConfig = realtimeMetricsSubscriptionConfig
         }
@@ -6741,6 +6992,7 @@ extension CloudFront {
         /// 			type instead.
         public let s3OriginConfig: S3OriginConfig?
 
+        @inlinable
         public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originAccessControlId: String? = nil, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil) {
             self.connectionAttempts = connectionAttempts
             self.connectionTimeout = connectionTimeout
@@ -6778,6 +7030,7 @@ extension CloudFront {
         /// The origin access control.
         public let originAccessControlConfig: OriginAccessControlConfig?
 
+        @inlinable
         public init(id: String, originAccessControlConfig: OriginAccessControlConfig? = nil) {
             self.id = id
             self.originAccessControlConfig = originAccessControlConfig
@@ -6815,6 +7068,7 @@ extension CloudFront {
         /// 			(authenticates) requests. The only valid value is sigv4.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
+        @inlinable
         public init(description: String? = nil, name: String, originAccessControlOriginType: OriginAccessControlOriginTypes, signingBehavior: OriginAccessControlSigningBehaviors, signingProtocol: OriginAccessControlSigningProtocols) {
             self.description = description
             self.name = name
@@ -6852,6 +7106,7 @@ extension CloudFront {
         /// The number of origin access controls returned in the response.
         public let quantity: Int
 
+        @inlinable
         public init(isTruncated: Bool, items: [OriginAccessControlSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
@@ -6893,6 +7148,7 @@ extension CloudFront {
         /// 			CloudFront signs (authenticates) requests. The only valid value is sigv4.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
+        @inlinable
         public init(description: String, id: String, name: String, originAccessControlOriginType: OriginAccessControlOriginTypes, signingBehavior: OriginAccessControlSigningBehaviors, signingProtocol: OriginAccessControlSigningProtocols) {
             self.description = description
             self.id = id
@@ -6922,6 +7178,7 @@ extension CloudFront {
         /// 			field.
         public let headerValue: String
 
+        @inlinable
         public init(headerName: String, headerValue: String) {
             self.headerName = headerName
             self.headerValue = headerValue
@@ -6942,6 +7199,7 @@ extension CloudFront {
         /// A complex type that contains information about the origins in an origin group.
         public let members: OriginGroupMembers
 
+        @inlinable
         public init(failoverCriteria: OriginGroupFailoverCriteria, id: String, members: OriginGroupMembers) {
             self.failoverCriteria = failoverCriteria
             self.id = id
@@ -6964,6 +7222,7 @@ extension CloudFront {
         /// The status codes that, when returned from the primary origin, will trigger CloudFront to failover to the second origin.
         public let statusCodes: StatusCodes
 
+        @inlinable
         public init(statusCodes: StatusCodes) {
             self.statusCodes = statusCodes
         }
@@ -6981,6 +7240,7 @@ extension CloudFront {
         /// The ID for an origin in an origin group.
         public let originId: String
 
+        @inlinable
         public init(originId: String) {
             self.originId = originId
         }
@@ -6999,6 +7259,7 @@ extension CloudFront {
         /// The number of origins in an origin group.
         public let quantity: Int
 
+        @inlinable
         public init(items: [OriginGroupMember], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7024,6 +7285,7 @@ extension CloudFront {
         /// The number of origin groups.
         public let quantity: Int
 
+        @inlinable
         public init(items: [OriginGroup]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7049,6 +7311,7 @@ extension CloudFront {
         /// The origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
+        @inlinable
         public init(id: String, lastModifiedTime: Date, originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -7076,6 +7339,7 @@ extension CloudFront {
         /// The URL query strings from viewer requests to include in origin requests.
         public let queryStringsConfig: OriginRequestPolicyQueryStringsConfig
 
+        @inlinable
         public init(comment: String? = nil, cookiesConfig: OriginRequestPolicyCookiesConfig, headersConfig: OriginRequestPolicyHeadersConfig, name: String, queryStringsConfig: OriginRequestPolicyQueryStringsConfig) {
             self.comment = comment
             self.cookiesConfig = cookiesConfig
@@ -7107,6 +7371,7 @@ extension CloudFront {
         public let cookieBehavior: OriginRequestPolicyCookieBehavior
         public let cookies: CookieNames?
 
+        @inlinable
         public init(cookieBehavior: OriginRequestPolicyCookieBehavior, cookies: CookieNames? = nil) {
             self.cookieBehavior = cookieBehavior
             self.cookies = cookies
@@ -7134,6 +7399,7 @@ extension CloudFront {
         public let headerBehavior: OriginRequestPolicyHeaderBehavior
         public let headers: Headers?
 
+        @inlinable
         public init(headerBehavior: OriginRequestPolicyHeaderBehavior, headers: Headers? = nil) {
             self.headerBehavior = headerBehavior
             self.headers = headers
@@ -7161,6 +7427,7 @@ extension CloudFront {
         /// The total number of origin request policies returned in the response.
         public let quantity: Int
 
+        @inlinable
         public init(items: [OriginRequestPolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -7197,6 +7464,7 @@ extension CloudFront {
         /// 			are).
         public let queryStrings: QueryStringNames?
 
+        @inlinable
         public init(queryStringBehavior: OriginRequestPolicyQueryStringBehavior, queryStrings: QueryStringNames? = nil) {
             self.queryStringBehavior = queryStringBehavior
             self.queryStrings = queryStrings
@@ -7215,6 +7483,7 @@ extension CloudFront {
         /// 				custom (created in this Amazon Web Services account).
         public let type: OriginRequestPolicyType
 
+        @inlinable
         public init(originRequestPolicy: OriginRequestPolicy, type: OriginRequestPolicyType) {
             self.originRequestPolicy = originRequestPolicy
             self.type = type
@@ -7239,6 +7508,7 @@ extension CloudFront {
         /// 				Amazon CloudFront Developer Guide.
         public let originShieldRegion: String?
 
+        @inlinable
         public init(enabled: Bool, originShieldRegion: String? = nil) {
             self.enabled = enabled
             self.originShieldRegion = originShieldRegion
@@ -7266,6 +7536,7 @@ extension CloudFront {
         /// 			an HTTPS connection with this origin.
         public let quantity: Int
 
+        @inlinable
         public init(items: [SslProtocol], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7286,6 +7557,7 @@ extension CloudFront {
         /// The number of origins for this distribution.
         public let quantity: Int
 
+        @inlinable
         public init(items: [Origin], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7348,6 +7620,7 @@ extension CloudFront {
         /// 			origin.
         public let queryStringsConfig: CachePolicyQueryStringsConfig
 
+        @inlinable
         public init(cookiesConfig: CachePolicyCookiesConfig, enableAcceptEncodingBrotli: Bool? = nil, enableAcceptEncodingGzip: Bool, headersConfig: CachePolicyHeadersConfig, queryStringsConfig: CachePolicyQueryStringsConfig) {
             self.cookiesConfig = cookiesConfig
             self.enableAcceptEncodingBrotli = enableAcceptEncodingBrotli
@@ -7375,6 +7648,7 @@ extension CloudFront {
         /// 			invalidate.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7394,6 +7668,7 @@ extension CloudFront {
         /// Configuration information about a public key that you can use with signed URLs and signed cookies, or with field-level encryption.
         public let publicKeyConfig: PublicKeyConfig
 
+        @inlinable
         public init(createdTime: Date, id: String, publicKeyConfig: PublicKeyConfig) {
             self.createdTime = createdTime
             self.id = id
@@ -7419,6 +7694,7 @@ extension CloudFront {
         /// A name to help identify the public key.
         public let name: String
 
+        @inlinable
         public init(callerReference: String, comment: String? = nil, encodedKey: String, name: String) {
             self.callerReference = callerReference
             self.comment = comment
@@ -7449,6 +7725,7 @@ extension CloudFront {
         /// The number of public keys in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [PublicKeySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -7477,6 +7754,7 @@ extension CloudFront {
         /// A name to help identify the public key.
         public let name: String
 
+        @inlinable
         public init(comment: String? = nil, createdTime: Date, encodedKey: String, id: String, name: String) {
             self.comment = comment
             self.createdTime = createdTime
@@ -7501,6 +7779,7 @@ extension CloudFront {
         /// The name of the function that you are publishing.
         public let name: String
 
+        @inlinable
         public init(ifMatch: String, name: String) {
             self.ifMatch = ifMatch
             self.name = name
@@ -7520,6 +7799,7 @@ extension CloudFront {
         /// Contains configuration information and metadata about a CloudFront function.
         public let functionSummary: FunctionSummary
 
+        @inlinable
         public init(functionSummary: FunctionSummary) {
             self.functionSummary = functionSummary
         }
@@ -7538,6 +7818,7 @@ extension CloudFront {
         /// Query argument for field-level encryption query argument-profile mapping.
         public let queryArg: String
 
+        @inlinable
         public init(profileId: String, queryArg: String) {
             self.profileId = profileId
             self.queryArg = queryArg
@@ -7557,6 +7838,7 @@ extension CloudFront {
         /// 			encryption.
         public let queryArgProfiles: QueryArgProfiles?
 
+        @inlinable
         public init(forwardWhenQueryArgProfileIsUnknown: Bool, queryArgProfiles: QueryArgProfiles? = nil) {
             self.forwardWhenQueryArgProfileIsUnknown = forwardWhenQueryArgProfileIsUnknown
             self.queryArgProfiles = queryArgProfiles
@@ -7578,6 +7860,7 @@ extension CloudFront {
         /// 			encryption.
         public let quantity: Int
 
+        @inlinable
         public init(items: [QueryArgProfile]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7601,6 +7884,7 @@ extension CloudFront {
         /// 			behavior.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7621,6 +7905,7 @@ extension CloudFront {
         /// The number of query string names in the Items list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7654,6 +7939,7 @@ extension CloudFront {
         /// 			sampling rate is an integer between 1 and 100, inclusive.
         public let samplingRate: Int64
 
+        @inlinable
         public init(arn: String, endPoints: [EndPoint], fields: [String], name: String, samplingRate: Int64) {
             self.arn = arn
             self.endPoints = endPoints
@@ -7689,6 +7975,7 @@ extension CloudFront {
         ///
         public let nextMarker: String?
 
+        @inlinable
         public init(isTruncated: Bool, items: [RealtimeLogConfig]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil) {
             self.isTruncated = isTruncated
             self.items = items
@@ -7711,6 +7998,7 @@ extension CloudFront {
         /// 			CloudFront distribution.
         public let realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus
 
+        @inlinable
         public init(realtimeMetricsSubscriptionStatus: RealtimeMetricsSubscriptionStatus) {
             self.realtimeMetricsSubscriptionStatus = realtimeMetricsSubscriptionStatus
         }
@@ -7728,6 +8016,7 @@ extension CloudFront {
         /// A response headers policy configuration.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
+        @inlinable
         public init(id: String, lastModifiedTime: Date, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -7751,6 +8040,7 @@ extension CloudFront {
         /// The number of HTTP header names in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7772,6 +8062,7 @@ extension CloudFront {
         /// The number of HTTP methods in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [ResponseHeadersPolicyAccessControlAllowMethodsValues], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7793,6 +8084,7 @@ extension CloudFront {
         /// The number of origins in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7813,6 +8105,7 @@ extension CloudFront {
         /// The number of HTTP headers in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -7842,6 +8135,7 @@ extension CloudFront {
         /// 			sent from CloudFront.
         public let serverTimingHeadersConfig: ResponseHeadersPolicyServerTimingHeadersConfig?
 
+        @inlinable
         public init(comment: String? = nil, corsConfig: ResponseHeadersPolicyCorsConfig? = nil, customHeadersConfig: ResponseHeadersPolicyCustomHeadersConfig? = nil, name: String, removeHeadersConfig: ResponseHeadersPolicyRemoveHeadersConfig? = nil, securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig? = nil, serverTimingHeadersConfig: ResponseHeadersPolicyServerTimingHeadersConfig? = nil) {
             self.comment = comment
             self.corsConfig = corsConfig
@@ -7876,6 +8170,7 @@ extension CloudFront {
         /// 			with the one specified in this response headers policy.
         public let override: Bool
 
+        @inlinable
         public init(contentSecurityPolicy: String, override: Bool) {
             self.contentSecurityPolicy = contentSecurityPolicy
             self.override = override
@@ -7893,6 +8188,7 @@ extension CloudFront {
         /// 			with the one specified in this response headers policy.
         public let override: Bool
 
+        @inlinable
         public init(override: Bool) {
             self.override = override
         }
@@ -7931,6 +8227,7 @@ extension CloudFront {
         /// 			the origin with the ones specified in this response headers policy.
         public let originOverride: Bool
 
+        @inlinable
         public init(accessControlAllowCredentials: Bool, accessControlAllowHeaders: ResponseHeadersPolicyAccessControlAllowHeaders, accessControlAllowMethods: ResponseHeadersPolicyAccessControlAllowMethods, accessControlAllowOrigins: ResponseHeadersPolicyAccessControlAllowOrigins, accessControlExposeHeaders: ResponseHeadersPolicyAccessControlExposeHeaders? = nil, accessControlMaxAgeSec: Int? = nil, originOverride: Bool) {
             self.accessControlAllowCredentials = accessControlAllowCredentials
             self.accessControlAllowHeaders = accessControlAllowHeaders
@@ -7961,6 +8258,7 @@ extension CloudFront {
         /// The value for the HTTP response header.
         public let value: String
 
+        @inlinable
         public init(header: String, override: Bool, value: String) {
             self.header = header
             self.override = override
@@ -7983,6 +8281,7 @@ extension CloudFront {
         /// The number of HTTP response headers in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [ResponseHeadersPolicyCustomHeader]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -8003,6 +8302,7 @@ extension CloudFront {
         /// 			policy.
         public let override: Bool
 
+        @inlinable
         public init(frameOption: FrameOptionsList, override: Bool) {
             self.frameOption = frameOption
             self.override = override
@@ -8030,6 +8330,7 @@ extension CloudFront {
         /// The number of response headers policies returned.
         public let quantity: Int
 
+        @inlinable
         public init(items: [ResponseHeadersPolicySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.items = items
             self.maxItems = maxItems
@@ -8054,6 +8355,7 @@ extension CloudFront {
         /// 			are:    no-referrer     no-referrer-when-downgrade     origin     origin-when-cross-origin     same-origin     strict-origin     strict-origin-when-cross-origin     unsafe-url    For more information about these values, see Referrer-Policy in the MDN Web Docs.
         public let referrerPolicy: ReferrerPolicyList
 
+        @inlinable
         public init(override: Bool, referrerPolicy: ReferrerPolicyList) {
             self.override = override
             self.referrerPolicy = referrerPolicy
@@ -8069,6 +8371,7 @@ extension CloudFront {
         /// The HTTP header name.
         public let header: String
 
+        @inlinable
         public init(header: String) {
             self.header = header
         }
@@ -8087,6 +8390,7 @@ extension CloudFront {
         /// The number of HTTP header names in the list.
         public let quantity: Int
 
+        @inlinable
         public init(items: [ResponseHeadersPolicyRemoveHeader]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -8124,6 +8428,7 @@ extension CloudFront {
         /// 				X-XSS-Protection in the MDN Web Docs.
         public let xssProtection: ResponseHeadersPolicyXSSProtection?
 
+        @inlinable
         public init(contentSecurityPolicy: ResponseHeadersPolicyContentSecurityPolicy? = nil, contentTypeOptions: ResponseHeadersPolicyContentTypeOptions? = nil, frameOptions: ResponseHeadersPolicyFrameOptions? = nil, referrerPolicy: ResponseHeadersPolicyReferrerPolicy? = nil, strictTransportSecurity: ResponseHeadersPolicyStrictTransportSecurity? = nil, xssProtection: ResponseHeadersPolicyXSSProtection? = nil) {
             self.contentSecurityPolicy = contentSecurityPolicy
             self.contentTypeOptions = contentTypeOptions
@@ -8157,6 +8462,7 @@ extension CloudFront {
         /// 			to four decimal places.
         public let samplingRate: Double?
 
+        @inlinable
         public init(enabled: Bool, samplingRate: Double? = nil) {
             self.enabled = enabled
             self.samplingRate = samplingRate
@@ -8188,6 +8494,7 @@ extension CloudFront {
         /// 			the Strict-Transport-Security HTTP response header.
         public let preload: Bool?
 
+        @inlinable
         public init(accessControlMaxAgeSec: Int, includeSubdomains: Bool? = nil, override: Bool, preload: Bool? = nil) {
             self.accessControlMaxAgeSec = accessControlMaxAgeSec
             self.includeSubdomains = includeSubdomains
@@ -8210,6 +8517,7 @@ extension CloudFront {
         /// 				custom (created in this Amazon Web Services account).
         public let type: ResponseHeadersPolicyType
 
+        @inlinable
         public init(responseHeadersPolicy: ResponseHeadersPolicy, type: ResponseHeadersPolicyType) {
             self.responseHeadersPolicy = responseHeadersPolicy
             self.type = type
@@ -8240,6 +8548,7 @@ extension CloudFront {
         /// 				true. For more information about using a reporting URL, see X-XSS-Protection in the MDN Web Docs.
         public let reportUri: String?
 
+        @inlinable
         public init(modeBlock: Bool? = nil, override: Bool, protection: Bool, reportUri: String? = nil) {
             self.modeBlock = modeBlock
             self.override = override
@@ -8260,6 +8569,7 @@ extension CloudFront {
         /// 			determines the location of your users using MaxMind GeoIP databases.
         public let geoRestriction: GeoRestriction
 
+        @inlinable
         public init(geoRestriction: GeoRestriction) {
             self.geoRestriction = geoRestriction
         }
@@ -8282,6 +8592,7 @@ extension CloudFront {
         /// 			the  Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
+        @inlinable
         public init(domainName: String, originAccessIdentity: String) {
             self.domainName = domainName
             self.originAccessIdentity = originAccessIdentity
@@ -8309,6 +8620,7 @@ extension CloudFront {
         /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let originAccessIdentity: String
 
+        @inlinable
         public init(originAccessIdentity: String) {
             self.originAccessIdentity = originAccessIdentity
         }
@@ -8326,6 +8638,7 @@ extension CloudFront {
         /// 			same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be greater than or equal to IdleTTL.
         public let maximumTTL: Int
 
+        @inlinable
         public init(idleTTL: Int, maximumTTL: Int) {
             self.idleTTL = idleTTL
             self.maximumTTL = maximumTTL
@@ -8346,6 +8659,7 @@ extension CloudFront {
         /// A list of CloudFront key pair identifiers.
         public let keyPairIds: KeyPairIds?
 
+        @inlinable
         public init(awsAccountNumber: String? = nil, keyPairIds: KeyPairIds? = nil) {
             self.awsAccountNumber = awsAccountNumber
             self.keyPairIds = keyPairIds
@@ -8366,6 +8680,7 @@ extension CloudFront {
         /// The number of CloudFront domain names in your staging distribution.
         public let quantity: Int
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -8386,6 +8701,7 @@ extension CloudFront {
         /// The number of status codes.
         public let quantity: Int
 
+        @inlinable
         public init(items: [Int], quantity: Int) {
             self.items = items
             self.quantity = quantity
@@ -8430,6 +8746,7 @@ extension CloudFront {
         /// The current configuration information for the RTMP distribution.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
+        @inlinable
         public init(activeTrustedSigners: ActiveTrustedSigners, arn: String, domainName: String, id: String, lastModifiedTime: Date? = nil, status: String, streamingDistributionConfig: StreamingDistributionConfig) {
             self.activeTrustedSigners = activeTrustedSigners
             self.arn = arn
@@ -8483,6 +8800,7 @@ extension CloudFront {
         /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
+        @inlinable
         public init(aliases: Aliases? = nil, callerReference: String, comment: String, enabled: Bool, logging: StreamingLoggingConfig? = nil, priceClass: PriceClass? = nil, s3Origin: S3Origin, trustedSigners: TrustedSigners) {
             self.aliases = aliases
             self.callerReference = callerReference
@@ -8512,6 +8830,7 @@ extension CloudFront {
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
 
+        @inlinable
         public init(streamingDistributionConfig: StreamingDistributionConfig, tags: Tags) {
             self.streamingDistributionConfig = streamingDistributionConfig
             self.tags = tags
@@ -8551,6 +8870,7 @@ extension CloudFront {
         ///
         public let quantity: Int
 
+        @inlinable
         public init(isTruncated: Bool, items: [StreamingDistributionSummary]? = nil, marker: String, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
             self.isTruncated = isTruncated
             self.items = items
@@ -8613,6 +8933,7 @@ extension CloudFront {
         /// 				Content through CloudFront in the Amazon CloudFront Developer Guide.
         public let trustedSigners: TrustedSigners
 
+        @inlinable
         public init(aliases: Aliases, arn: String, comment: String, domainName: String, enabled: Bool, id: String, lastModifiedTime: Date, priceClass: PriceClass, s3Origin: S3Origin, status: String, trustedSigners: TrustedSigners) {
             self.aliases = aliases
             self.arn = arn
@@ -8660,6 +8981,7 @@ extension CloudFront {
         /// 				Prefix element in the Logging element.
         public let prefix: String
 
+        @inlinable
         public init(bucket: String, enabled: Bool, prefix: String) {
             self.bucket = bucket
             self.enabled = enabled
@@ -8683,6 +9005,7 @@ extension CloudFront {
         /// 			characters _ - . : / = + @.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -8709,6 +9032,7 @@ extension CloudFront {
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, String>>
         public var items: [String]?
 
+        @inlinable
         public init(items: [String]? = nil) {
             self.items = items
         }
@@ -8733,6 +9057,7 @@ extension CloudFront {
         /// A complex type that contains zero or more Tag elements.
         public let tags: Tags
 
+        @inlinable
         public init(resource: String, tags: Tags) {
             self.resource = resource
             self.tags = tags
@@ -8760,6 +9085,7 @@ extension CloudFront {
         @OptionalCustomCoding<ArrayCoder<_ItemsEncoding, Tag>>
         public var items: [Tag]?
 
+        @inlinable
         public init(items: [Tag]? = nil) {
             self.items = items
         }
@@ -8788,6 +9114,7 @@ extension CloudFront {
         /// 				LIVE.
         public let stage: FunctionStage?
 
+        @inlinable
         public init(eventObject: AWSBase64Data, ifMatch: String, name: String, stage: FunctionStage? = nil) {
             self.eventObject = eventObject
             self.ifMatch = ifMatch
@@ -8819,6 +9146,7 @@ extension CloudFront {
         /// 			object.
         public let testResult: TestResult
 
+        @inlinable
         public init(testResult: TestResult) {
             self.testResult = testResult
         }
@@ -8850,6 +9178,7 @@ extension CloudFront {
         /// 			tested.
         public let functionSummary: FunctionSummary?
 
+        @inlinable
         public init(computeUtilization: String? = nil, functionErrorMessage: String? = nil, functionExecutionLogs: [String]? = nil, functionOutput: String? = nil, functionSummary: FunctionSummary? = nil) {
             self.computeUtilization = computeUtilization
             self.functionErrorMessage = functionErrorMessage
@@ -8875,6 +9204,7 @@ extension CloudFront {
         /// The type of traffic configuration.
         public let type: ContinuousDeploymentPolicyType
 
+        @inlinable
         public init(singleHeaderConfig: ContinuousDeploymentSingleHeaderConfig? = nil, singleWeightConfig: ContinuousDeploymentSingleWeightConfig? = nil, type: ContinuousDeploymentPolicyType) {
             self.singleHeaderConfig = singleHeaderConfig
             self.singleWeightConfig = singleWeightConfig
@@ -8901,6 +9231,7 @@ extension CloudFront {
         /// The number of key groups in the list.
         public let quantity: Int
 
+        @inlinable
         public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
             self.enabled = enabled
             self.items = items
@@ -8926,6 +9257,7 @@ extension CloudFront {
         /// The number of Amazon Web Services accounts in the list.
         public let quantity: Int
 
+        @inlinable
         public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
             self.enabled = enabled
             self.items = items
@@ -8946,6 +9278,7 @@ extension CloudFront {
         /// A complex type that contains zero or more Tag key elements.
         public let tagKeys: TagKeys
 
+        @inlinable
         public init(resource: String, tagKeys: TagKeys) {
             self.resource = resource
             self.tagKeys = tagKeys
@@ -8979,6 +9312,7 @@ extension CloudFront {
         /// 				GetCachePolicyConfig.
         public let ifMatch: String?
 
+        @inlinable
         public init(cachePolicyConfig: CachePolicyConfig, id: String, ifMatch: String? = nil) {
             self.cachePolicyConfig = cachePolicyConfig
             self.id = id
@@ -9002,6 +9336,7 @@ extension CloudFront {
         /// The current version of the cache policy.
         public let eTag: String?
 
+        @inlinable
         public init(cachePolicy: CachePolicy, eTag: String? = nil) {
             self.cachePolicy = cachePolicy
             self.eTag = eTag
@@ -9027,6 +9362,7 @@ extension CloudFront {
         /// 			identity's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig, id: String, ifMatch: String? = nil) {
             self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
             self.id = id
@@ -9051,6 +9387,7 @@ extension CloudFront {
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
+        @inlinable
         public init(cloudFrontOriginAccessIdentity: CloudFrontOriginAccessIdentity, eTag: String? = nil) {
             self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
             self.eTag = eTag
@@ -9076,6 +9413,7 @@ extension CloudFront {
         /// 			you are updating.
         public let ifMatch: String?
 
+        @inlinable
         public init(continuousDeploymentPolicyConfig: ContinuousDeploymentPolicyConfig, id: String, ifMatch: String? = nil) {
             self.continuousDeploymentPolicyConfig = continuousDeploymentPolicyConfig
             self.id = id
@@ -9100,6 +9438,7 @@ extension CloudFront {
         /// 			policy.
         public let eTag: String?
 
+        @inlinable
         public init(continuousDeploymentPolicy: ContinuousDeploymentPolicy, eTag: String? = nil) {
             self.continuousDeploymentPolicy = continuousDeploymentPolicy
             self.eTag = eTag
@@ -9125,6 +9464,7 @@ extension CloudFront {
         /// 			distribution's configuration. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(distributionConfig: DistributionConfig, id: String, ifMatch: String? = nil) {
             self.distributionConfig = distributionConfig
             self.id = id
@@ -9153,6 +9493,7 @@ extension CloudFront {
         /// 			E2QWRUHAPOMQZL.
         public let eTag: String?
 
+        @inlinable
         public init(distribution: Distribution, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -9178,6 +9519,7 @@ extension CloudFront {
         /// The identifier of the staging distribution whose configuration you are copying to the primary distribution.
         public let stagingDistributionId: String?
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, stagingDistributionId: String? = nil) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9200,6 +9542,7 @@ extension CloudFront {
         /// The current version of the primary distribution (after it's updated).
         public let eTag: String?
 
+        @inlinable
         public init(distribution: Distribution, eTag: String? = nil) {
             self.distribution = distribution
             self.eTag = eTag
@@ -9225,6 +9568,7 @@ extension CloudFront {
         /// 			configuration identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(fieldLevelEncryptionConfig: FieldLevelEncryptionConfig, id: String, ifMatch: String? = nil) {
             self.fieldLevelEncryptionConfig = fieldLevelEncryptionConfig
             self.id = id
@@ -9249,6 +9593,7 @@ extension CloudFront {
         /// Return the results of updating the configuration.
         public let fieldLevelEncryption: FieldLevelEncryption
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryption: FieldLevelEncryption) {
             self.eTag = eTag
             self.fieldLevelEncryption = fieldLevelEncryption
@@ -9274,6 +9619,7 @@ extension CloudFront {
         /// 			profile identity to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
 
+        @inlinable
         public init(fieldLevelEncryptionProfileConfig: FieldLevelEncryptionProfileConfig, id: String, ifMatch: String? = nil) {
             self.fieldLevelEncryptionProfileConfig = fieldLevelEncryptionProfileConfig
             self.id = id
@@ -9297,6 +9643,7 @@ extension CloudFront {
         /// Return the results of updating the profile.
         public let fieldLevelEncryptionProfile: FieldLevelEncryptionProfile
 
+        @inlinable
         public init(eTag: String? = nil, fieldLevelEncryptionProfile: FieldLevelEncryptionProfile) {
             self.eTag = eTag
             self.fieldLevelEncryptionProfile = fieldLevelEncryptionProfile
@@ -9325,6 +9672,7 @@ extension CloudFront {
         /// The name of the function that you are updating.
         public let name: String
 
+        @inlinable
         public init(functionCode: AWSBase64Data, functionConfig: FunctionConfig, ifMatch: String, name: String) {
             self.functionCode = functionCode
             self.functionConfig = functionConfig
@@ -9359,6 +9707,7 @@ extension CloudFront {
         /// Contains configuration information and metadata about a CloudFront function.
         public let functionSummary: FunctionSummary
 
+        @inlinable
         public init(eTag: String? = nil, functionSummary: FunctionSummary) {
             self.eTag = eTag
             self.functionSummary = functionSummary
@@ -9384,6 +9733,7 @@ extension CloudFront {
         /// The key group configuration.
         public let keyGroupConfig: KeyGroupConfig
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, keyGroupConfig: KeyGroupConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9407,6 +9757,7 @@ extension CloudFront {
         /// The key group that was just updated.
         public let keyGroup: KeyGroup
 
+        @inlinable
         public init(eTag: String? = nil, keyGroup: KeyGroup) {
             self.eTag = eTag
             self.keyGroup = keyGroup
@@ -9430,6 +9781,7 @@ extension CloudFront {
         /// The name of the key value store to update.
         public let name: String
 
+        @inlinable
         public init(comment: String, ifMatch: String, name: String) {
             self.comment = comment
             self.ifMatch = ifMatch
@@ -9462,6 +9814,7 @@ extension CloudFront {
         /// The resulting key value store to update.
         public let keyValueStore: KeyValueStore
 
+        @inlinable
         public init(eTag: String? = nil, keyValueStore: KeyValueStore) {
             self.eTag = eTag
             self.keyValueStore = keyValueStore
@@ -9487,6 +9840,7 @@ extension CloudFront {
         /// An origin access control.
         public let originAccessControlConfig: OriginAccessControlConfig
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, originAccessControlConfig: OriginAccessControlConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9510,6 +9864,7 @@ extension CloudFront {
         /// The origin access control after it has been updated.
         public let originAccessControl: OriginAccessControl
 
+        @inlinable
         public init(eTag: String? = nil, originAccessControl: OriginAccessControl) {
             self.eTag = eTag
             self.originAccessControl = originAccessControl
@@ -9538,6 +9893,7 @@ extension CloudFront {
         /// An origin request policy configuration.
         public let originRequestPolicyConfig: OriginRequestPolicyConfig
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, originRequestPolicyConfig: OriginRequestPolicyConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9561,6 +9917,7 @@ extension CloudFront {
         /// An origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
 
+        @inlinable
         public init(eTag: String? = nil, originRequestPolicy: OriginRequestPolicy) {
             self.eTag = eTag
             self.originRequestPolicy = originRequestPolicy
@@ -9586,6 +9943,7 @@ extension CloudFront {
         /// A public key configuration.
         public let publicKeyConfig: PublicKeyConfig
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, publicKeyConfig: PublicKeyConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9609,6 +9967,7 @@ extension CloudFront {
         /// The public key.
         public let publicKey: PublicKey
 
+        @inlinable
         public init(eTag: String? = nil, publicKey: PublicKey) {
             self.eTag = eTag
             self.publicKey = publicKey
@@ -9644,6 +10003,7 @@ extension CloudFront {
         /// 			must provide an integer between 1 and 100, inclusive.
         public let samplingRate: Int64?
 
+        @inlinable
         public init(arn: String? = nil, endPoints: [EndPoint]? = nil, fields: [String]? = nil, name: String? = nil, samplingRate: Int64? = nil) {
             self.arn = arn
             self.endPoints = endPoints
@@ -9665,6 +10025,7 @@ extension CloudFront {
         /// A real-time log configuration.
         public let realtimeLogConfig: RealtimeLogConfig?
 
+        @inlinable
         public init(realtimeLogConfig: RealtimeLogConfig? = nil) {
             self.realtimeLogConfig = realtimeLogConfig
         }
@@ -9684,6 +10045,7 @@ extension CloudFront {
         /// A response headers policy configuration.
         public let responseHeadersPolicyConfig: ResponseHeadersPolicyConfig
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, responseHeadersPolicyConfig: ResponseHeadersPolicyConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9711,6 +10073,7 @@ extension CloudFront {
         /// A response headers policy.
         public let responseHeadersPolicy: ResponseHeadersPolicy
 
+        @inlinable
         public init(eTag: String? = nil, responseHeadersPolicy: ResponseHeadersPolicy) {
             self.eTag = eTag
             self.responseHeadersPolicy = responseHeadersPolicy
@@ -9736,6 +10099,7 @@ extension CloudFront {
         /// The streaming distribution's configuration information.
         public let streamingDistributionConfig: StreamingDistributionConfig
 
+        @inlinable
         public init(id: String, ifMatch: String? = nil, streamingDistributionConfig: StreamingDistributionConfig) {
             self.id = id
             self.ifMatch = ifMatch
@@ -9760,6 +10124,7 @@ extension CloudFront {
         /// The streaming distribution's information.
         public let streamingDistribution: StreamingDistribution
 
+        @inlinable
         public init(eTag: String? = nil, streamingDistribution: StreamingDistribution) {
             self.eTag = eTag
             self.streamingDistribution = streamingDistribution
@@ -9822,6 +10187,7 @@ extension CloudFront {
         /// 				d111111abcdef8.cloudfront.net, don't set a value for this field.
         public let sslSupportMethod: SSLSupportMethod?
 
+        @inlinable
         public init(acmCertificateArn: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iamCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sslSupportMethod: SSLSupportMethod? = nil) {
             self.acmCertificateArn = acmCertificateArn
             self.certificate = nil
@@ -9833,6 +10199,7 @@ extension CloudFront {
         }
 
         @available(*, deprecated, message: "Members certificate, certificateSource have been deprecated")
+        @inlinable
         public init(acmCertificateArn: String? = nil, certificate: String? = nil, certificateSource: CertificateSource? = nil, cloudFrontDefaultCertificate: Bool? = nil, iamCertificateId: String? = nil, minimumProtocolVersion: MinimumProtocolVersion? = nil, sslSupportMethod: SSLSupportMethod? = nil) {
             self.acmCertificateArn = acmCertificateArn
             self.certificate = certificate

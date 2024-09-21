@@ -196,6 +196,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -215,6 +216,7 @@ extension SFN {
         /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
+        @inlinable
         public init(activityArn: String, creationDate: Date, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
@@ -234,6 +236,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -257,6 +260,7 @@ extension SFN {
         /// The maximum allowed duration of the activity task.
         public let timeoutInSeconds: Int64?
 
+        @inlinable
         public init(heartbeatInSeconds: Int64? = nil, input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, timeoutInSeconds: Int64? = nil) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.input = input
@@ -278,6 +282,7 @@ extension SFN {
         /// The name of the worker that the task is assigned to. These names are provided by the workers when calling GetActivityTask.
         public let workerName: String?
 
+        @inlinable
         public init(workerName: String? = nil) {
             self.workerName = workerName
         }
@@ -293,6 +298,7 @@ extension SFN {
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
 
+        @inlinable
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.output = output
             self.outputDetails = outputDetails
@@ -310,6 +316,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -327,6 +334,7 @@ extension SFN {
         /// Billed memory consumption of your workflow, in MB.
         public let billedMemoryUsedInMB: Int64?
 
+        @inlinable
         public init(billedDurationInMilliseconds: Int64? = nil, billedMemoryUsedInMB: Int64? = nil) {
             self.billedDurationInMilliseconds = billedDurationInMilliseconds
             self.billedMemoryUsedInMB = billedMemoryUsedInMB
@@ -342,6 +350,7 @@ extension SFN {
         /// Indicates whether input or output was included in the response. Always true for API calls.
         public let included: Bool?
 
+        @inlinable
         public init(included: Bool? = nil) {
             self.included = included
         }
@@ -355,6 +364,7 @@ extension SFN {
         /// The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :*
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -377,6 +387,7 @@ extension SFN {
         /// The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, name: String, tags: [Tag]? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
@@ -405,6 +416,7 @@ extension SFN {
         /// The date the activity is created.
         public let creationDate: Date
 
+        @inlinable
         public init(activityArn: String, creationDate: Date) {
             self.activityArn = activityArn
             self.creationDate = creationDate
@@ -424,6 +436,7 @@ extension SFN {
         /// The routing configuration of a state machine alias. The routing configuration shifts execution traffic between two state machine versions. routingConfiguration contains an array of RoutingConfig objects that specify up to two state machine versions. Step Functions then randomly choses which version to run an execution with based on the weight assigned to each RoutingConfig.
         public let routingConfiguration: [RoutingConfigurationListItem]
 
+        @inlinable
         public init(description: String? = nil, name: String, routingConfiguration: [RoutingConfigurationListItem]) {
             self.description = description
             self.name = name
@@ -455,6 +468,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies the created state machine alias.
         public let stateMachineAliasArn: String
 
+        @inlinable
         public init(creationDate: Date, stateMachineAliasArn: String) {
             self.creationDate = creationDate
             self.stateMachineAliasArn = stateMachineAliasArn
@@ -488,6 +502,7 @@ extension SFN {
         /// Sets description about the state machine version. You can only set the description if the publish parameter is set to true. Otherwise, if you set versionDescription, but publish to false, this API action throws ValidationException.
         public let versionDescription: String?
 
+        @inlinable
         public init(definition: String, encryptionConfiguration: EncryptionConfiguration? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, publish: Bool? = nil, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil, versionDescription: String? = nil) {
             self.definition = definition
             self.encryptionConfiguration = encryptionConfiguration
@@ -538,6 +553,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies the created state machine version. If you do not set the publish parameter to true, this field returns null value.
         public let stateMachineVersionArn: String?
 
+        @inlinable
         public init(creationDate: Date, stateMachineArn: String, stateMachineVersionArn: String? = nil) {
             self.creationDate = creationDate
             self.stateMachineArn = stateMachineArn
@@ -555,6 +571,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the activity to delete.
         public let activityArn: String
 
+        @inlinable
         public init(activityArn: String) {
             self.activityArn = activityArn
         }
@@ -577,6 +594,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine alias to delete.
         public let stateMachineAliasArn: String
 
+        @inlinable
         public init(stateMachineAliasArn: String) {
             self.stateMachineAliasArn = stateMachineAliasArn
         }
@@ -599,6 +617,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine to delete.
         public let stateMachineArn: String
 
+        @inlinable
         public init(stateMachineArn: String) {
             self.stateMachineArn = stateMachineArn
         }
@@ -621,6 +640,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine version to delete.
         public let stateMachineVersionArn: String
 
+        @inlinable
         public init(stateMachineVersionArn: String) {
             self.stateMachineVersionArn = stateMachineVersionArn
         }
@@ -643,6 +663,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the activity to describe.
         public let activityArn: String
 
+        @inlinable
         public init(activityArn: String) {
             self.activityArn = activityArn
         }
@@ -667,6 +688,7 @@ extension SFN {
         /// The name of the activity. A name must not contain:   white space   brackets  { } [ ]    wildcard characters ? *    special characters " # % \ ^ | ~ ` $ & , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain  0-9, A-Z, a-z, - and _.
         public let name: String
 
+        @inlinable
         public init(activityArn: String, creationDate: Date, encryptionConfiguration: EncryptionConfiguration? = nil, name: String) {
             self.activityArn = activityArn
             self.creationDate = creationDate
@@ -688,6 +710,7 @@ extension SFN {
         /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call DescribeStateMachine API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
         public let includedData: IncludedData?
 
+        @inlinable
         public init(executionArn: String, includedData: IncludedData? = nil) {
             self.executionArn = executionArn
             self.includedData = includedData
@@ -744,6 +767,7 @@ extension SFN {
         /// The X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, mapRunArn: String? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, redriveCount: Int? = nil, redriveDate: Date? = nil, redriveStatus: ExecutionRedriveStatus? = nil, redriveStatusReason: String? = nil, startDate: Date, stateMachineAliasArn: String? = nil, stateMachineArn: String, stateMachineVersionArn: String? = nil, status: ExecutionStatus, stopDate: Date? = nil, traceHeader: String? = nil) {
             self.cause = cause
             self.error = error
@@ -795,6 +819,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies a Map Run.
         public let mapRunArn: String
 
+        @inlinable
         public init(mapRunArn: String) {
             self.mapRunArn = mapRunArn
         }
@@ -835,6 +860,7 @@ extension SFN {
         /// The maximum percentage of failed child workflow executions before the Map Run fails.
         public let toleratedFailurePercentage: Float
 
+        @inlinable
         public init(executionArn: String, executionCounts: MapRunExecutionCounts, itemCounts: MapRunItemCounts, mapRunArn: String, maxConcurrency: Int, redriveCount: Int? = nil, redriveDate: Date? = nil, startDate: Date, status: MapRunStatus, stopDate: Date? = nil, toleratedFailureCount: Int64, toleratedFailurePercentage: Float) {
             self.executionArn = executionArn
             self.executionCounts = executionCounts
@@ -870,6 +896,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine alias.
         public let stateMachineAliasArn: String
 
+        @inlinable
         public init(stateMachineAliasArn: String) {
             self.stateMachineAliasArn = stateMachineAliasArn
         }
@@ -898,6 +925,7 @@ extension SFN {
         /// The date the state machine alias was last updated. For a newly created state machine, this is the same as the creation date.
         public let updateDate: Date?
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, name: String? = nil, routingConfiguration: [RoutingConfigurationListItem]? = nil, stateMachineAliasArn: String? = nil, updateDate: Date? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -923,6 +951,7 @@ extension SFN {
         /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
         public let includedData: IncludedData?
 
+        @inlinable
         public init(executionArn: String, includedData: IncludedData? = nil) {
             self.executionArn = executionArn
             self.includedData = includedData
@@ -962,6 +991,7 @@ extension SFN {
         /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
         public let updateDate: Date
 
+        @inlinable
         public init(definition: String, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, mapRunArn: String? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, updateDate: Date) {
             self.definition = definition
             self.encryptionConfiguration = encryptionConfiguration
@@ -997,6 +1027,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine for which you want the information. If you specify a state machine version ARN, this API returns details about that version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
         public let stateMachineArn: String
 
+        @inlinable
         public init(includedData: IncludedData? = nil, stateMachineArn: String) {
             self.includedData = includedData
             self.stateMachineArn = stateMachineArn
@@ -1040,6 +1071,7 @@ extension SFN {
         /// The type of the state machine (STANDARD or EXPRESS).
         public let type: StateMachineType
 
+        @inlinable
         public init(creationDate: Date, definition: String, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, label: String? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, revisionId: String? = nil, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
             self.creationDate = creationDate
             self.definition = definition
@@ -1081,6 +1113,7 @@ extension SFN {
         /// Encryption type
         public let type: EncryptionType
 
+        @inlinable
         public init(kmsDataKeyReusePeriodSeconds: Int? = nil, kmsKeyId: String? = nil, type: EncryptionType) {
             self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
             self.kmsKeyId = kmsKeyId
@@ -1107,6 +1140,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1124,6 +1158,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1161,6 +1196,7 @@ extension SFN {
         /// If the execution already ended, the date the execution stopped.
         public let stopDate: Date?
 
+        @inlinable
         public init(executionArn: String, itemCount: Int? = nil, mapRunArn: String? = nil, name: String, redriveCount: Int? = nil, redriveDate: Date? = nil, startDate: Date, stateMachineAliasArn: String? = nil, stateMachineArn: String, stateMachineVersionArn: String? = nil, status: ExecutionStatus, stopDate: Date? = nil) {
             self.executionArn = executionArn
             self.itemCount = itemCount
@@ -1196,6 +1232,7 @@ extension SFN {
         /// The number of times you've redriven an execution. If you have not yet redriven an execution, the redriveCount is 0. This count is not updated for redrives that failed to start or are pending to be redriven.
         public let redriveCount: Int?
 
+        @inlinable
         public init(redriveCount: Int? = nil) {
             self.redriveCount = redriveCount
         }
@@ -1217,6 +1254,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies a state machine version used for starting the state machine execution.
         public let stateMachineVersionArn: String?
 
+        @inlinable
         public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, roleArn: String? = nil, stateMachineAliasArn: String? = nil, stateMachineVersionArn: String? = nil) {
             self.input = input
             self.inputDetails = inputDetails
@@ -1240,6 +1278,7 @@ extension SFN {
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
 
+        @inlinable
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.output = output
             self.outputDetails = outputDetails
@@ -1257,6 +1296,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1274,6 +1314,7 @@ extension SFN {
         /// You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history.
         public let workerName: String?
 
+        @inlinable
         public init(activityArn: String, workerName: String? = nil) {
             self.activityArn = activityArn
             self.workerName = workerName
@@ -1298,6 +1339,7 @@ extension SFN {
         /// A token that identifies the scheduled task. This token must be copied and included in subsequent calls to SendTaskHeartbeat, SendTaskSuccess or SendTaskFailure in order to report the progress or completion of the task.
         public let taskToken: String?
 
+        @inlinable
         public init(input: String? = nil, taskToken: String? = nil) {
             self.input = input
             self.taskToken = taskToken
@@ -1321,6 +1363,7 @@ extension SFN {
         /// Lists events in descending order of their timeStamp.
         public let reverseOrder: Bool?
 
+        @inlinable
         public init(executionArn: String, includeExecutionData: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
             self.executionArn = executionArn
             self.includeExecutionData = includeExecutionData
@@ -1353,6 +1396,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [HistoryEvent], nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -1430,6 +1474,7 @@ extension SFN {
         /// The type of the event.
         public let type: HistoryEventType
 
+        @inlinable
         public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionRedrivenEventDetails: ExecutionRedrivenEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapRunFailedEventDetails: MapRunFailedEventDetails? = nil, mapRunRedrivenEventDetails: MapRunRedrivenEventDetails? = nil, mapRunStartedEventDetails: MapRunStartedEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
             self.activityScheduledEventDetails = activityScheduledEventDetails
@@ -1521,6 +1566,7 @@ extension SFN {
         /// Indicates whether input or output was truncated in the response. Always false for API calls.
         public let truncated: Bool?
 
+        @inlinable
         public init(truncated: Bool? = nil) {
             self.truncated = truncated
         }
@@ -1548,6 +1594,7 @@ extension SFN {
         /// The state's raw result.
         public let result: String?
 
+        @inlinable
         public init(afterInputPath: String? = nil, afterParameters: String? = nil, afterResultPath: String? = nil, afterResultSelector: String? = nil, input: String? = nil, request: InspectionDataRequest? = nil, response: InspectionDataResponse? = nil, result: String? = nil) {
             self.afterInputPath = afterInputPath
             self.afterParameters = afterParameters
@@ -1583,6 +1630,7 @@ extension SFN {
         /// The API endpoint used for the HTTP request.
         public let url: String?
 
+        @inlinable
         public init(body: String? = nil, headers: String? = nil, method: String? = nil, protocol: String? = nil, url: String? = nil) {
             self.body = body
             self.headers = headers
@@ -1612,6 +1660,7 @@ extension SFN {
         /// The message associated with the HTTP status code.
         public let statusMessage: String?
 
+        @inlinable
         public init(body: String? = nil, headers: String? = nil, protocol: String? = nil, statusCode: String? = nil, statusMessage: String? = nil) {
             self.body = body
             self.headers = headers
@@ -1635,6 +1684,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1652,6 +1702,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1675,6 +1726,7 @@ extension SFN {
         /// The maximum allowed duration of the Lambda function.
         public let timeoutInSeconds: Int64?
 
+        @inlinable
         public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, taskCredentials: TaskCredentials? = nil, timeoutInSeconds: Int64? = nil) {
             self.input = input
             self.inputDetails = inputDetails
@@ -1698,6 +1750,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1715,6 +1768,7 @@ extension SFN {
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
 
+        @inlinable
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.output = output
             self.outputDetails = outputDetails
@@ -1732,6 +1786,7 @@ extension SFN {
         /// The error code of the failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -1749,6 +1804,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1773,6 +1829,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(activities: [ActivityListItem], nextToken: String? = nil) {
             self.activities = activities
             self.nextToken = nextToken
@@ -1798,6 +1855,7 @@ extension SFN {
         /// If specified, only list the executions whose current execution status matches the given filter.
         public let statusFilter: ExecutionStatus?
 
+        @inlinable
         public init(mapRunArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, redriveFilter: ExecutionRedriveFilter? = nil, stateMachineArn: String? = nil, statusFilter: ExecutionStatus? = nil) {
             self.mapRunArn = mapRunArn
             self.maxResults = maxResults
@@ -1834,6 +1892,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(executions: [ExecutionListItem], nextToken: String? = nil) {
             self.executions = executions
             self.nextToken = nextToken
@@ -1853,6 +1912,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(executionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.executionArn = executionArn
             self.maxResults = maxResults
@@ -1881,6 +1941,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(mapRuns: [MapRunListItem], nextToken: String? = nil) {
             self.mapRuns = mapRuns
             self.nextToken = nextToken
@@ -1900,6 +1961,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine for which you want to list aliases. If you specify a state machine version ARN, this API returns a list of aliases for that version.
         public let stateMachineArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stateMachineArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1928,6 +1990,7 @@ extension SFN {
         /// Aliases for the state machine.
         public let stateMachineAliases: [StateMachineAliasListItem]
 
+        @inlinable
         public init(nextToken: String? = nil, stateMachineAliases: [StateMachineAliasListItem]) {
             self.nextToken = nextToken
             self.stateMachineAliases = stateMachineAliases
@@ -1947,6 +2010,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stateMachineArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1975,6 +2039,7 @@ extension SFN {
         /// Versions for the state machine.
         public let stateMachineVersions: [StateMachineVersionListItem]
 
+        @inlinable
         public init(nextToken: String? = nil, stateMachineVersions: [StateMachineVersionListItem]) {
             self.nextToken = nextToken
             self.stateMachineVersions = stateMachineVersions
@@ -1992,6 +2057,7 @@ extension SFN {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2015,6 +2081,7 @@ extension SFN {
         public let nextToken: String?
         public let stateMachines: [StateMachineListItem]
 
+        @inlinable
         public init(nextToken: String? = nil, stateMachines: [StateMachineListItem]) {
             self.nextToken = nextToken
             self.stateMachines = stateMachines
@@ -2030,6 +2097,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2048,6 +2116,7 @@ extension SFN {
         /// An array of tags associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2061,6 +2130,7 @@ extension SFN {
         /// An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the CloudFormation User Guide.
         public let cloudWatchLogsLogGroup: CloudWatchLogsLogGroup?
 
+        @inlinable
         public init(cloudWatchLogsLogGroup: CloudWatchLogsLogGroup? = nil) {
             self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
         }
@@ -2082,6 +2152,7 @@ extension SFN {
         /// Defines which category of execution history events are logged.
         public let level: LogLevel?
 
+        @inlinable
         public init(destinations: [LogDestination]? = nil, includeExecutionData: Bool? = nil, level: LogLevel? = nil) {
             self.destinations = destinations
             self.includeExecutionData = includeExecutionData
@@ -2107,6 +2178,7 @@ extension SFN {
         /// The name of the iteration’s parent Map state.
         public let name: String?
 
+        @inlinable
         public init(index: Int? = nil, name: String? = nil) {
             self.index = index
             self.name = name
@@ -2140,6 +2212,7 @@ extension SFN {
         /// The total number of child workflow executions that were started by a Map Run.
         public let total: Int64
 
+        @inlinable
         public init(aborted: Int64, failed: Int64, failuresNotRedrivable: Int64? = nil, pending: Int64, pendingRedrive: Int64? = nil, resultsWritten: Int64, running: Int64, succeeded: Int64, timedOut: Int64, total: Int64) {
             self.aborted = aborted
             self.failed = failed
@@ -2173,6 +2246,7 @@ extension SFN {
         /// The error code of the Map Run failure.
         public let error: String?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil) {
             self.cause = cause
             self.error = error
@@ -2206,6 +2280,7 @@ extension SFN {
         /// The total number of items processed in all the child workflow executions started by a Map Run.
         public let total: Int64
 
+        @inlinable
         public init(aborted: Int64, failed: Int64, failuresNotRedrivable: Int64? = nil, pending: Int64, pendingRedrive: Int64? = nil, resultsWritten: Int64, running: Int64, succeeded: Int64, timedOut: Int64, total: Int64) {
             self.aborted = aborted
             self.failed = failed
@@ -2245,6 +2320,7 @@ extension SFN {
         /// The date on which the Map Run stopped.
         public let stopDate: Date?
 
+        @inlinable
         public init(executionArn: String, mapRunArn: String, startDate: Date, stateMachineArn: String, stopDate: Date? = nil) {
             self.executionArn = executionArn
             self.mapRunArn = mapRunArn
@@ -2268,6 +2344,7 @@ extension SFN {
         /// The number of times the Map Run has been redriven at this point in the execution's history including this event. The redrive count for a redriven Map Run is always greater than 0.
         public let redriveCount: Int?
 
+        @inlinable
         public init(mapRunArn: String? = nil, redriveCount: Int? = nil) {
             self.mapRunArn = mapRunArn
             self.redriveCount = redriveCount
@@ -2283,6 +2360,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of a Map Run that was started.
         public let mapRunArn: String?
 
+        @inlinable
         public init(mapRunArn: String? = nil) {
             self.mapRunArn = mapRunArn
         }
@@ -2296,6 +2374,7 @@ extension SFN {
         /// The size of the array for Map state iterations.
         public let length: Int?
 
+        @inlinable
         public init(length: Int? = nil) {
             self.length = length
         }
@@ -2313,6 +2392,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine.
         public let stateMachineArn: String
 
+        @inlinable
         public init(description: String? = nil, revisionId: String? = nil, stateMachineArn: String) {
             self.description = description
             self.revisionId = revisionId
@@ -2338,6 +2418,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) (ARN) that identifies the state machine version.
         public let stateMachineVersionArn: String
 
+        @inlinable
         public init(creationDate: Date, stateMachineVersionArn: String) {
             self.creationDate = creationDate
             self.stateMachineVersionArn = stateMachineVersionArn
@@ -2355,6 +2436,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the execution to be redriven.
         public let executionArn: String
 
+        @inlinable
         public init(clientToken: String? = RedriveExecutionInput.idempotencyToken(), executionArn: String) {
             self.clientToken = clientToken
             self.executionArn = executionArn
@@ -2378,6 +2460,7 @@ extension SFN {
         /// The date the execution was last redriven.
         public let redriveDate: Date
 
+        @inlinable
         public init(redriveDate: Date) {
             self.redriveDate = redriveDate
         }
@@ -2393,6 +2476,7 @@ extension SFN {
         /// The percentage of traffic you want to route to a state machine version. The sum of the weights in the routing configuration must be equal to 100.
         public let weight: Int
 
+        @inlinable
         public init(stateMachineVersionArn: String, weight: Int) {
             self.stateMachineVersionArn = stateMachineVersionArn
             self.weight = weight
@@ -2419,6 +2503,7 @@ extension SFN {
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, taskToken: String) {
             self.cause = cause
             self.error = error
@@ -2447,6 +2532,7 @@ extension SFN {
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
+        @inlinable
         public init(taskToken: String) {
             self.taskToken = taskToken
         }
@@ -2471,6 +2557,7 @@ extension SFN {
         /// The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput$taskToken.
         public let taskToken: String
 
+        @inlinable
         public init(output: String, taskToken: String) {
             self.output = output
             self.taskToken = taskToken
@@ -2502,6 +2589,7 @@ extension SFN {
         /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
         public let traceHeader: String?
 
+        @inlinable
         public init(input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
             self.input = input
             self.name = name
@@ -2533,6 +2621,7 @@ extension SFN {
         /// The date the execution is started.
         public let startDate: Date
 
+        @inlinable
         public init(executionArn: String, startDate: Date) {
             self.executionArn = executionArn
             self.startDate = startDate
@@ -2556,6 +2645,7 @@ extension SFN {
         /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
         public let traceHeader: String?
 
+        @inlinable
         public init(includedData: IncludedData? = nil, input: String? = nil, name: String? = nil, stateMachineArn: String, traceHeader: String? = nil) {
             self.includedData = includedData
             self.input = input
@@ -2611,6 +2701,7 @@ extension SFN {
         /// The X-Ray trace header that was passed to the execution.
         public let traceHeader: String?
 
+        @inlinable
         public init(billingDetails: BillingDetails? = nil, cause: String? = nil, error: String? = nil, executionArn: String, input: String? = nil, inputDetails: CloudWatchEventsExecutionDataDetails? = nil, name: String? = nil, output: String? = nil, outputDetails: CloudWatchEventsExecutionDataDetails? = nil, startDate: Date, stateMachineArn: String? = nil, status: SyncExecutionStatus, stopDate: Date, traceHeader: String? = nil) {
             self.billingDetails = billingDetails
             self.cause = cause
@@ -2654,6 +2745,7 @@ extension SFN {
         /// The name of the state.
         public let name: String
 
+        @inlinable
         public init(input: String? = nil, inputDetails: HistoryEventExecutionDataDetails? = nil, name: String) {
             self.input = input
             self.inputDetails = inputDetails
@@ -2675,6 +2767,7 @@ extension SFN {
         /// Contains details about the output of an execution history event.
         public let outputDetails: HistoryEventExecutionDataDetails?
 
+        @inlinable
         public init(name: String, output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil) {
             self.name = name
             self.output = output
@@ -2694,6 +2787,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies a state machine alias. The alias ARN is a combination of state machine ARN and the alias name separated by a colon (:). For example, stateMachineARN:PROD.
         public let stateMachineAliasArn: String
 
+        @inlinable
         public init(creationDate: Date, stateMachineAliasArn: String) {
             self.creationDate = creationDate
             self.stateMachineAliasArn = stateMachineAliasArn
@@ -2714,6 +2808,7 @@ extension SFN {
         public let stateMachineArn: String
         public let type: StateMachineType
 
+        @inlinable
         public init(creationDate: Date, name: String, stateMachineArn: String, type: StateMachineType) {
             self.creationDate = creationDate
             self.name = name
@@ -2735,6 +2830,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) that identifies a state machine version. The version ARN is a combination of state machine ARN and the version number separated by a colon (:). For example, stateMachineARN:1.
         public let stateMachineVersionArn: String
 
+        @inlinable
         public init(creationDate: Date, stateMachineVersionArn: String) {
             self.creationDate = creationDate
             self.stateMachineVersionArn = stateMachineVersionArn
@@ -2754,6 +2850,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the execution to stop.
         public let executionArn: String
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, executionArn: String) {
             self.cause = cause
             self.error = error
@@ -2778,6 +2875,7 @@ extension SFN {
         /// The date the execution is stopped.
         public let stopDate: Date
 
+        @inlinable
         public init(stopDate: Date) {
             self.stopDate = stopDate
         }
@@ -2793,6 +2891,7 @@ extension SFN {
         /// The value of a tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2816,6 +2915,7 @@ extension SFN {
         /// The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2843,6 +2943,7 @@ extension SFN {
         /// The ARN of an IAM role that Step Functions assumes for the task. The role can allow cross-account access to resources.
         public let roleArn: String?
 
+        @inlinable
         public init(roleArn: String? = nil) {
             self.roleArn = roleArn
         }
@@ -2862,6 +2963,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2893,6 +2995,7 @@ extension SFN {
         /// The maximum allowed duration of the task.
         public let timeoutInSeconds: Int64?
 
+        @inlinable
         public init(heartbeatInSeconds: Int64? = nil, parameters: String, region: String, resource: String, resourceType: String, taskCredentials: TaskCredentials? = nil, timeoutInSeconds: Int64? = nil) {
             self.heartbeatInSeconds = heartbeatInSeconds
             self.parameters = parameters
@@ -2924,6 +3027,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2945,6 +3049,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(resource: String, resourceType: String) {
             self.resource = resource
             self.resourceType = resourceType
@@ -2966,6 +3071,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -2991,6 +3097,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, resourceType: String) {
             self.output = output
             self.outputDetails = outputDetails
@@ -3016,6 +3123,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(output: String? = nil, outputDetails: HistoryEventExecutionDataDetails? = nil, resource: String, resourceType: String) {
             self.output = output
             self.outputDetails = outputDetails
@@ -3041,6 +3149,7 @@ extension SFN {
         /// The service name of the resource in a task state.
         public let resourceType: String
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, resource: String, resourceType: String) {
             self.cause = cause
             self.error = error
@@ -3068,6 +3177,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
         public let roleArn: String
 
+        @inlinable
         public init(definition: String, input: String? = nil, inspectionLevel: InspectionLevel? = nil, revealSecrets: Bool? = nil, roleArn: String) {
             self.definition = definition
             self.input = input
@@ -3107,6 +3217,7 @@ extension SFN {
         /// The execution status of the state.
         public let status: TestExecutionStatus?
 
+        @inlinable
         public init(cause: String? = nil, error: String? = nil, inspectionData: InspectionData? = nil, nextState: String? = nil, output: String? = nil, status: TestExecutionStatus? = nil) {
             self.cause = cause
             self.error = error
@@ -3130,6 +3241,7 @@ extension SFN {
         /// When set to true, X-Ray tracing is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -3145,6 +3257,7 @@ extension SFN {
         /// The list of tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3179,6 +3292,7 @@ extension SFN {
         /// The maximum percentage of failed items before the Map Run fails.
         public let toleratedFailurePercentage: Float?
 
+        @inlinable
         public init(mapRunArn: String, maxConcurrency: Int? = nil, toleratedFailureCount: Int64? = nil, toleratedFailurePercentage: Float? = nil) {
             self.mapRunArn = mapRunArn
             self.maxConcurrency = maxConcurrency
@@ -3215,6 +3329,7 @@ extension SFN {
         /// The Amazon Resource Name (ARN) of the state machine alias.
         public let stateMachineAliasArn: String
 
+        @inlinable
         public init(description: String? = nil, routingConfiguration: [RoutingConfigurationListItem]? = nil, stateMachineAliasArn: String) {
             self.description = description
             self.routingConfiguration = routingConfiguration
@@ -3243,6 +3358,7 @@ extension SFN {
         /// The date and time the state machine alias was updated.
         public let updateDate: Date
 
+        @inlinable
         public init(updateDate: Date) {
             self.updateDate = updateDate
         }
@@ -3270,6 +3386,7 @@ extension SFN {
         /// An optional description of the state machine version to publish. You can only specify the versionDescription parameter if you've set publish to true.
         public let versionDescription: String?
 
+        @inlinable
         public init(definition: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, loggingConfiguration: LoggingConfiguration? = nil, publish: Bool? = nil, roleArn: String? = nil, stateMachineArn: String, tracingConfiguration: TracingConfiguration? = nil, versionDescription: String? = nil) {
             self.definition = definition
             self.encryptionConfiguration = encryptionConfiguration
@@ -3313,6 +3430,7 @@ extension SFN {
         /// The date and time the state machine was updated.
         public let updateDate: Date
 
+        @inlinable
         public init(revisionId: String? = nil, stateMachineVersionArn: String? = nil, updateDate: Date) {
             self.revisionId = revisionId
             self.stateMachineVersionArn = stateMachineVersionArn
@@ -3336,6 +3454,7 @@ extension SFN {
         /// A value of ERROR means that you cannot create or update a state machine with this definition.
         public let severity: ValidateStateMachineDefinitionSeverity
 
+        @inlinable
         public init(code: String, location: String? = nil, message: String, severity: ValidateStateMachineDefinitionSeverity) {
             self.code = code
             self.location = location
@@ -3361,6 +3480,7 @@ extension SFN {
         /// The target type of state machine for this definition. The default is STANDARD.
         public let type: StateMachineType?
 
+        @inlinable
         public init(definition: String, maxResults: Int? = nil, severity: ValidateStateMachineDefinitionSeverity? = nil, type: StateMachineType? = nil) {
             self.definition = definition
             self.maxResults = maxResults
@@ -3391,6 +3511,7 @@ extension SFN {
         /// The result value will be true if the number of diagnostics found in the workflow definition exceeds maxResults. When all diagnostics results are returned, the value will be false.
         public let truncated: Bool?
 
+        @inlinable
         public init(diagnostics: [ValidateStateMachineDefinitionDiagnostic], result: ValidateStateMachineDefinitionResultCode, truncated: Bool? = nil) {
             self.diagnostics = diagnostics
             self.result = result

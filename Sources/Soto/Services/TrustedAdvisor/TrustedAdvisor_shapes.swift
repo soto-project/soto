@@ -141,6 +141,7 @@ extension TrustedAdvisor {
         /// Reason code for the lifecycle state change
         public let updateReasonCode: UpdateRecommendationLifecycleStageReasonCode?
 
+        @inlinable
         public init(accountId: String? = nil, accountRecommendationArn: String? = nil, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, updatedOnBehalfOf: String? = nil, updatedOnBehalfOfJobTitle: String? = nil, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
             self.accountId = accountId
             self.accountRecommendationArn = accountRecommendationArn
@@ -168,6 +169,7 @@ extension TrustedAdvisor {
         /// A list of recommendation resource ARNs and exclusion status to update
         public let recommendationResourceExclusions: [RecommendationResourceExclusion]
 
+        @inlinable
         public init(recommendationResourceExclusions: [RecommendationResourceExclusion]) {
             self.recommendationResourceExclusions = recommendationResourceExclusions
         }
@@ -189,6 +191,7 @@ extension TrustedAdvisor {
         /// A list of recommendation resource ARNs whose exclusion status failed to update, if any
         public let batchUpdateRecommendationResourceExclusionErrors: [UpdateRecommendationResourceExclusionError]
 
+        @inlinable
         public init(batchUpdateRecommendationResourceExclusionErrors: [UpdateRecommendationResourceExclusionError]) {
             self.batchUpdateRecommendationResourceExclusionErrors = batchUpdateRecommendationResourceExclusionErrors
         }
@@ -216,6 +219,7 @@ extension TrustedAdvisor {
         /// The source of the Recommendation
         public let source: RecommendationSource
 
+        @inlinable
         public init(arn: String, awsServices: [String], description: String, id: String, metadata: [String: String], name: String, pillars: [RecommendationPillar], source: RecommendationSource) {
             self.arn = arn
             self.awsServices = awsServices
@@ -243,6 +247,7 @@ extension TrustedAdvisor {
         /// The Recommendation identifier
         public let organizationRecommendationIdentifier: String
 
+        @inlinable
         public init(organizationRecommendationIdentifier: String) {
             self.organizationRecommendationIdentifier = organizationRecommendationIdentifier
         }
@@ -266,6 +271,7 @@ extension TrustedAdvisor {
         /// The Recommendation
         public let organizationRecommendation: OrganizationRecommendation?
 
+        @inlinable
         public init(organizationRecommendation: OrganizationRecommendation? = nil) {
             self.organizationRecommendation = organizationRecommendation
         }
@@ -279,6 +285,7 @@ extension TrustedAdvisor {
         /// The Recommendation identifier
         public let recommendationIdentifier: String
 
+        @inlinable
         public init(recommendationIdentifier: String) {
             self.recommendationIdentifier = recommendationIdentifier
         }
@@ -302,6 +309,7 @@ extension TrustedAdvisor {
         /// The Recommendation
         public let recommendation: Recommendation?
 
+        @inlinable
         public init(recommendation: Recommendation? = nil) {
             self.recommendation = recommendation
         }
@@ -325,6 +333,7 @@ extension TrustedAdvisor {
         /// The source of the check
         public let source: RecommendationSource?
 
+        @inlinable
         public init(awsService: String? = nil, language: RecommendationLanguage? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillar: RecommendationPillar? = nil, source: RecommendationSource? = nil) {
             self.awsService = awsService
             self.language = language
@@ -359,6 +368,7 @@ extension TrustedAdvisor {
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(checkSummaries: [CheckSummary], nextToken: String? = nil) {
             self.checkSummaries = checkSummaries
             self.nextToken = nextToken
@@ -380,6 +390,7 @@ extension TrustedAdvisor {
         /// The Recommendation identifier
         public let organizationRecommendationIdentifier: String
 
+        @inlinable
         public init(affectedAccountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationRecommendationIdentifier: String) {
             self.affectedAccountId = affectedAccountId
             self.maxResults = maxResults
@@ -414,6 +425,7 @@ extension TrustedAdvisor {
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountRecommendationLifecycleSummaries: [AccountRecommendationLifecycleSummary], nextToken: String? = nil) {
             self.accountRecommendationLifecycleSummaries = accountRecommendationLifecycleSummaries
             self.nextToken = nextToken
@@ -441,6 +453,7 @@ extension TrustedAdvisor {
         /// The status of the resource
         public let status: ResourceStatus?
 
+        @inlinable
         public init(affectedAccountId: String? = nil, exclusionStatus: ExclusionStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationRecommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
             self.affectedAccountId = affectedAccountId
             self.exclusionStatus = exclusionStatus
@@ -481,6 +494,7 @@ extension TrustedAdvisor {
         /// A list of Recommendation Resources
         public let organizationRecommendationResourceSummaries: [OrganizationRecommendationResourceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, organizationRecommendationResourceSummaries: [OrganizationRecommendationResourceSummary]) {
             self.nextToken = nextToken
             self.organizationRecommendationResourceSummaries = organizationRecommendationResourceSummaries
@@ -514,6 +528,7 @@ extension TrustedAdvisor {
         /// The type of the Recommendation
         public let type: RecommendationType?
 
+        @inlinable
         public init(afterLastUpdatedAt: Date? = nil, awsService: String? = nil, beforeLastUpdatedAt: Date? = nil, checkIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillar: RecommendationPillar? = nil, source: RecommendationSource? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
             self.afterLastUpdatedAt = afterLastUpdatedAt
             self.awsService = awsService
@@ -559,6 +574,7 @@ extension TrustedAdvisor {
         /// The list of Recommendations
         public let organizationRecommendationSummaries: [OrganizationRecommendationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, organizationRecommendationSummaries: [OrganizationRecommendationSummary]) {
             self.nextToken = nextToken
             self.organizationRecommendationSummaries = organizationRecommendationSummaries
@@ -584,6 +600,7 @@ extension TrustedAdvisor {
         /// The status of the resource
         public let status: ResourceStatus?
 
+        @inlinable
         public init(exclusionStatus: ExclusionStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
             self.exclusionStatus = exclusionStatus
             self.maxResults = maxResults
@@ -619,6 +636,7 @@ extension TrustedAdvisor {
         /// A list of Recommendation Resources
         public let recommendationResourceSummaries: [RecommendationResourceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationResourceSummaries: [RecommendationResourceSummary]) {
             self.nextToken = nextToken
             self.recommendationResourceSummaries = recommendationResourceSummaries
@@ -652,6 +670,7 @@ extension TrustedAdvisor {
         /// The type of the Recommendation
         public let type: RecommendationType?
 
+        @inlinable
         public init(afterLastUpdatedAt: Date? = nil, awsService: String? = nil, beforeLastUpdatedAt: Date? = nil, checkIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillar: RecommendationPillar? = nil, source: RecommendationSource? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
             self.afterLastUpdatedAt = afterLastUpdatedAt
             self.awsService = awsService
@@ -697,6 +716,7 @@ extension TrustedAdvisor {
         /// The list of Recommendations
         public let recommendationSummaries: [RecommendationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationSummaries: [RecommendationSummary]) {
             self.nextToken = nextToken
             self.recommendationSummaries = recommendationSummaries
@@ -752,6 +772,7 @@ extension TrustedAdvisor {
         /// Reason code for the lifecycle state change
         public let updateReasonCode: UpdateRecommendationLifecycleStageReasonCode?
 
+        @inlinable
         public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resolvedAt: Date? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, type: RecommendationType, updatedOnBehalfOf: String? = nil, updatedOnBehalfOfJobTitle: String? = nil, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
             self.arn = arn
             self.awsServices = awsServices
@@ -823,6 +844,7 @@ extension TrustedAdvisor {
         /// The current status of the Recommendation Resource
         public let status: ResourceStatus
 
+        @inlinable
         public init(accountId: String? = nil, arn: String, awsResourceId: String, exclusionStatus: ExclusionStatus? = nil, id: String, lastUpdatedAt: Date, metadata: [String: String], recommendationArn: String, regionCode: String, status: ResourceStatus) {
             self.accountId = accountId
             self.arn = arn
@@ -880,6 +902,7 @@ extension TrustedAdvisor {
         /// Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority
         public let type: RecommendationType
 
+        @inlinable
         public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, type: RecommendationType) {
             self.arn = arn
             self.awsServices = awsServices
@@ -959,6 +982,7 @@ extension TrustedAdvisor {
         /// Reason code for the lifecycle state change
         public let updateReasonCode: UpdateRecommendationLifecycleStageReasonCode?
 
+        @inlinable
         public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resolvedAt: Date? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, type: RecommendationType, updatedOnBehalfOf: String? = nil, updatedOnBehalfOfJobTitle: String? = nil, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
             self.arn = arn
             self.awsServices = awsServices
@@ -1014,6 +1038,7 @@ extension TrustedAdvisor {
         /// The estimated percently monthly savings
         public let estimatedPercentMonthlySavings: Double
 
+        @inlinable
         public init(estimatedMonthlySavings: Double, estimatedPercentMonthlySavings: Double) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
@@ -1029,6 +1054,7 @@ extension TrustedAdvisor {
         /// Cost optimizing aggregates
         public let costOptimizing: RecommendationCostOptimizingAggregates?
 
+        @inlinable
         public init(costOptimizing: RecommendationCostOptimizingAggregates? = nil) {
             self.costOptimizing = costOptimizing
         }
@@ -1044,6 +1070,7 @@ extension TrustedAdvisor {
         /// The exclusion status
         public let isExcluded: Bool
 
+        @inlinable
         public init(arn: String, isExcluded: Bool) {
             self.arn = arn
             self.isExcluded = isExcluded
@@ -1081,6 +1108,7 @@ extension TrustedAdvisor {
         /// The current status of the Recommendation Resource
         public let status: ResourceStatus
 
+        @inlinable
         public init(arn: String, awsResourceId: String, exclusionStatus: ExclusionStatus? = nil, id: String, lastUpdatedAt: Date, metadata: [String: String], recommendationArn: String, regionCode: String, status: ResourceStatus) {
             self.arn = arn
             self.awsResourceId = awsResourceId
@@ -1114,6 +1142,7 @@ extension TrustedAdvisor {
         /// The number of AWS resources that were flagged to have warning according to the Trusted Advisor check
         public let warningCount: Int64
 
+        @inlinable
         public init(errorCount: Int64, okCount: Int64, warningCount: Int64) {
             self.errorCount = errorCount
             self.okCount = okCount
@@ -1157,6 +1186,7 @@ extension TrustedAdvisor {
         /// Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority
         public let type: RecommendationType
 
+        @inlinable
         public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, type: RecommendationType) {
             self.arn = arn
             self.awsServices = awsServices
@@ -1202,6 +1232,7 @@ extension TrustedAdvisor {
         /// Reason code for the lifecycle state change
         public let updateReasonCode: UpdateRecommendationLifecycleStageReasonCode?
 
+        @inlinable
         public init(lifecycleStage: UpdateRecommendationLifecycleStage, organizationRecommendationIdentifier: String, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
             self.lifecycleStage = lifecycleStage
             self.organizationRecommendationIdentifier = organizationRecommendationIdentifier
@@ -1244,6 +1275,7 @@ extension TrustedAdvisor {
         /// Reason code for the lifecycle state change
         public let updateReasonCode: UpdateRecommendationLifecycleStageReasonCode?
 
+        @inlinable
         public init(lifecycleStage: UpdateRecommendationLifecycleStage, recommendationIdentifier: String, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
             self.lifecycleStage = lifecycleStage
             self.recommendationIdentifier = recommendationIdentifier
@@ -1284,6 +1316,7 @@ extension TrustedAdvisor {
         /// The error message
         public let errorMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
             self.arn = arn
             self.errorCode = errorCode

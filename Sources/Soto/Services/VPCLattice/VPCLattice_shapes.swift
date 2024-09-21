@@ -367,6 +367,7 @@ extension VPCLattice {
         /// The ID of the service or service network.
         public let resourceId: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, destinationArn: String, id: String, lastUpdatedAt: Date, resourceArn: String, resourceId: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -396,6 +397,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(listenerIdentifier: String, rules: [RuleUpdate], serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.rules = rules
@@ -435,6 +437,7 @@ extension VPCLattice {
         /// The rules that the operation couldn't update.
         public let unsuccessful: [RuleUpdateFailure]?
 
+        @inlinable
         public init(successful: [RuleUpdateSuccess]? = nil, unsuccessful: [RuleUpdateFailure]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -456,6 +459,7 @@ extension VPCLattice {
         /// The tags for the access log subscription.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateAccessLogSubscriptionRequest.idempotencyToken(), destinationArn: String, resourceIdentifier: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.destinationArn = destinationArn
@@ -501,6 +505,7 @@ extension VPCLattice {
         /// The ID of the service network or service.
         public let resourceId: String
 
+        @inlinable
         public init(arn: String, destinationArn: String, id: String, resourceArn: String, resourceId: String) {
             self.arn = arn
             self.destinationArn = destinationArn
@@ -534,6 +539,7 @@ extension VPCLattice {
         /// The tags for the listener.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateListenerRequest.idempotencyToken(), defaultAction: RuleAction, name: String, port: Int? = nil, protocol: ListenerProtocol, serviceIdentifier: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.defaultAction = defaultAction
@@ -605,6 +611,7 @@ extension VPCLattice {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(arn: String? = nil, defaultAction: RuleAction? = nil, id: String? = nil, name: String? = nil, port: Int? = nil, protocol: ListenerProtocol? = nil, serviceArn: String? = nil, serviceId: String? = nil) {
             self.arn = arn
             self.defaultAction = defaultAction
@@ -646,6 +653,7 @@ extension VPCLattice {
         /// The tags for the rule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: RuleAction, clientToken: String? = CreateRuleRequest.idempotencyToken(), listenerIdentifier: String, match: RuleMatch, name: String, priority: Int, serviceIdentifier: String, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
@@ -719,6 +727,7 @@ extension VPCLattice {
         /// The priority assigned to the rule. The lower the priority number the higher the priority.
         public let priority: Int?
 
+        @inlinable
         public init(action: RuleAction? = nil, arn: String? = nil, id: String? = nil, match: RuleMatch? = nil, name: String? = nil, priority: Int? = nil) {
             self.action = action
             self.arn = arn
@@ -748,6 +757,7 @@ extension VPCLattice {
         /// The tags for the service network.
         public let tags: [String: String]?
 
+        @inlinable
         public init(authType: AuthType? = nil, clientToken: String? = CreateServiceNetworkRequest.idempotencyToken(), name: String, tags: [String: String]? = nil) {
             self.authType = authType
             self.clientToken = clientToken
@@ -788,6 +798,7 @@ extension VPCLattice {
         /// The name of the service network.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.authType = authType
@@ -813,6 +824,7 @@ extension VPCLattice {
         /// The tags for the association.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateServiceNetworkServiceAssociationRequest.idempotencyToken(), serviceIdentifier: String, serviceNetworkIdentifier: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.serviceIdentifier = serviceIdentifier
@@ -860,6 +872,7 @@ extension VPCLattice {
         /// The association status.
         public let status: ServiceNetworkServiceAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, status: ServiceNetworkServiceAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -891,6 +904,7 @@ extension VPCLattice {
         /// The ID of the VPC.
         public let vpcIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = CreateServiceNetworkVpcAssociationRequest.idempotencyToken(), securityGroupIds: [String]? = nil, serviceNetworkIdentifier: String, tags: [String: String]? = nil, vpcIdentifier: String) {
             self.clientToken = clientToken
             self.securityGroupIds = securityGroupIds
@@ -943,6 +957,7 @@ extension VPCLattice {
         /// The association status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -974,6 +989,7 @@ extension VPCLattice {
         /// The tags for the service.
         public let tags: [String: String]?
 
+        @inlinable
         public init(authType: AuthType? = nil, certificateArn: String? = nil, clientToken: String? = CreateServiceRequest.idempotencyToken(), customDomainName: String? = nil, name: String, tags: [String: String]? = nil) {
             self.authType = authType
             self.certificateArn = certificateArn
@@ -1030,6 +1046,7 @@ extension VPCLattice {
         /// The status. If the status is CREATE_FAILED, you must delete and recreate the service.
         public let status: ServiceStatus?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, name: String? = nil, status: ServiceStatus? = nil) {
             self.arn = arn
             self.authType = authType
@@ -1065,6 +1082,7 @@ extension VPCLattice {
         /// The type of target group.
         public let type: TargetGroupType
 
+        @inlinable
         public init(clientToken: String? = CreateTargetGroupRequest.idempotencyToken(), config: TargetGroupConfig? = nil, name: String, tags: [String: String]? = nil, type: TargetGroupType) {
             self.clientToken = clientToken
             self.config = config
@@ -1112,6 +1130,7 @@ extension VPCLattice {
         /// The type of target group.
         public let type: TargetGroupType?
 
+        @inlinable
         public init(arn: String? = nil, config: TargetGroupConfig? = nil, id: String? = nil, name: String? = nil, status: TargetGroupStatus? = nil, type: TargetGroupType? = nil) {
             self.arn = arn
             self.config = config
@@ -1135,6 +1154,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
 
+        @inlinable
         public init(accessLogSubscriptionIdentifier: String) {
             self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
         }
@@ -1162,6 +1182,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the resource.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
         }
@@ -1191,6 +1212,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(listenerIdentifier: String, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.serviceIdentifier = serviceIdentifier
@@ -1223,6 +1245,7 @@ extension VPCLattice {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1254,6 +1277,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(listenerIdentifier: String, ruleIdentifier: String, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.ruleIdentifier = ruleIdentifier
@@ -1291,6 +1315,7 @@ extension VPCLattice {
         /// The Amazon Resource Name (ARN) or ID of the service network.
         public let serviceNetworkIdentifier: String
 
+        @inlinable
         public init(serviceNetworkIdentifier: String) {
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
         }
@@ -1318,6 +1343,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkServiceAssociationIdentifier: String
 
+        @inlinable
         public init(serviceNetworkServiceAssociationIdentifier: String) {
             self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
         }
@@ -1345,6 +1371,7 @@ extension VPCLattice {
         /// The status. You can retry the operation if the status is DELETE_FAILED.  However, if you retry it when the status is DELETE_IN_PROGRESS, there is no  change in the status.
         public let status: ServiceNetworkServiceAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, status: ServiceNetworkServiceAssociationStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -1362,6 +1389,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
+        @inlinable
         public init(serviceNetworkVpcAssociationIdentifier: String) {
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
         }
@@ -1389,6 +1417,7 @@ extension VPCLattice {
         /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -1406,6 +1435,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(serviceIdentifier: String) {
             self.serviceIdentifier = serviceIdentifier
         }
@@ -1435,6 +1465,7 @@ extension VPCLattice {
         /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, the status doesn't change.
         public let status: ServiceStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, status: ServiceStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -1454,6 +1485,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
 
+        @inlinable
         public init(targetGroupIdentifier: String) {
             self.targetGroupIdentifier = targetGroupIdentifier
         }
@@ -1481,6 +1513,7 @@ extension VPCLattice {
         /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, the status doesn't change.
         public let status: TargetGroupStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, status: TargetGroupStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -1500,6 +1533,7 @@ extension VPCLattice {
         /// The targets to deregister.
         public let targets: [Target]
 
+        @inlinable
         public init(targetGroupIdentifier: String, targets: [Target]) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.targets = targets
@@ -1532,6 +1566,7 @@ extension VPCLattice {
         /// The targets that the operation couldn't deregister.
         public let unsuccessful: [TargetFailure]?
 
+        @inlinable
         public init(successful: [Target]? = nil, unsuccessful: [TargetFailure]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -1549,6 +1584,7 @@ extension VPCLattice {
         /// The ID of the hosted zone.
         public let hostedZoneId: String?
 
+        @inlinable
         public init(domainName: String? = nil, hostedZoneId: String? = nil) {
             self.domainName = domainName
             self.hostedZoneId = hostedZoneId
@@ -1564,6 +1600,7 @@ extension VPCLattice {
         /// The HTTP response code.
         public let statusCode: Int
 
+        @inlinable
         public init(statusCode: Int) {
             self.statusCode = statusCode
         }
@@ -1582,6 +1619,7 @@ extension VPCLattice {
         /// The target groups. Traffic matching the rule is forwarded to the specified target groups. With forward actions, you can assign a weight that controls the prioritization and selection of each target group. This means that requests are distributed to individual target groups based on their weights. For example, if two target groups have the same weight, each target group receives half of the traffic. The default value is 1. This means that if only one target group is provided, there is no need to set the weight; 100% of the traffic goes to that target group.
         public let targetGroups: [WeightedTargetGroup]
 
+        @inlinable
         public init(targetGroups: [WeightedTargetGroup]) {
             self.targetGroups = targetGroups
         }
@@ -1603,6 +1641,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the access log subscription.
         public let accessLogSubscriptionIdentifier: String
 
+        @inlinable
         public init(accessLogSubscriptionIdentifier: String) {
             self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
         }
@@ -1640,6 +1679,7 @@ extension VPCLattice {
         /// The ID of the service network or service.
         public let resourceId: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, destinationArn: String, id: String, lastUpdatedAt: Date, resourceArn: String, resourceId: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1665,6 +1705,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network or service.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
         }
@@ -1696,6 +1737,7 @@ extension VPCLattice {
         /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy that you provide remains inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
         public let state: AuthPolicyState?
 
+        @inlinable
         public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, policy: String? = nil, state: AuthPolicyState? = nil) {
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt
@@ -1717,6 +1759,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(listenerIdentifier: String, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.serviceIdentifier = serviceIdentifier
@@ -1765,6 +1808,7 @@ extension VPCLattice {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, defaultAction: RuleAction? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, port: Int? = nil, protocol: ListenerProtocol? = nil, serviceArn: String? = nil, serviceId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1796,6 +1840,7 @@ extension VPCLattice {
         /// The Amazon Resource Name (ARN) of the service network or service.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1819,6 +1864,7 @@ extension VPCLattice {
         /// An IAM policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1836,6 +1882,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(listenerIdentifier: String, ruleIdentifier: String, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.ruleIdentifier = ruleIdentifier
@@ -1887,6 +1934,7 @@ extension VPCLattice {
         /// The priority level for the specified rule.
         public let priority: Int?
 
+        @inlinable
         public init(action: RuleAction? = nil, arn: String? = nil, createdAt: Date? = nil, id: String? = nil, isDefault: Bool? = nil, lastUpdatedAt: Date? = nil, match: RuleMatch? = nil, name: String? = nil, priority: Int? = nil) {
             self.action = action
             self.arn = arn
@@ -1916,6 +1964,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network.
         public let serviceNetworkIdentifier: String
 
+        @inlinable
         public init(serviceNetworkIdentifier: String) {
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
         }
@@ -1955,6 +2004,7 @@ extension VPCLattice {
         /// The number of VPCs associated with the service network.
         public let numberOfAssociatedVPCs: Int64?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, numberOfAssociatedServices: Int64? = nil, numberOfAssociatedVPCs: Int64? = nil) {
             self.arn = arn
             self.authType = authType
@@ -1982,6 +2032,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkServiceAssociationIdentifier: String
 
+        @inlinable
         public init(serviceNetworkServiceAssociationIdentifier: String) {
             self.serviceNetworkServiceAssociationIdentifier = serviceNetworkServiceAssociationIdentifier
         }
@@ -2034,6 +2085,7 @@ extension VPCLattice {
         /// The status of the association.
         public let status: ServiceNetworkServiceAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, serviceArn: String? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkServiceAssociationStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2075,6 +2127,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
+        @inlinable
         public init(serviceNetworkVpcAssociationIdentifier: String) {
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
         }
@@ -2124,6 +2177,7 @@ extension VPCLattice {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, securityGroupIds: [String]? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2161,6 +2215,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(serviceIdentifier: String) {
             self.serviceIdentifier = serviceIdentifier
         }
@@ -2208,6 +2263,7 @@ extension VPCLattice {
         /// The status of the service.
         public let status: ServiceStatus?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ServiceStatus? = nil) {
             self.arn = arn
             self.authType = authType
@@ -2243,6 +2299,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
 
+        @inlinable
         public init(targetGroupIdentifier: String) {
             self.targetGroupIdentifier = targetGroupIdentifier
         }
@@ -2288,6 +2345,7 @@ extension VPCLattice {
         /// The target group type.
         public let type: TargetGroupType?
 
+        @inlinable
         public init(arn: String? = nil, config: TargetGroupConfig? = nil, createdAt: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, serviceArns: [String]? = nil, status: TargetGroupStatus? = nil, type: TargetGroupType? = nil) {
             self.arn = arn
             self.config = config
@@ -2325,6 +2383,7 @@ extension VPCLattice {
         /// The name of the header.
         public let name: String
 
+        @inlinable
         public init(caseSensitive: Bool? = nil, match: HeaderMatchType, name: String) {
             self.caseSensitive = caseSensitive
             self.match = match
@@ -2366,6 +2425,7 @@ extension VPCLattice {
         /// The number of consecutive failed health checks required before considering a target unhealthy. The range is 2–10. The default is 2.
         public let unhealthyThresholdCount: Int?
 
+        @inlinable
         public init(enabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, path: String? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, protocolVersion: HealthCheckProtocolVersion? = nil, unhealthyThresholdCount: Int? = nil) {
             self.enabled = enabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -2417,6 +2477,7 @@ extension VPCLattice {
         /// The path match.
         public let pathMatch: PathMatch?
 
+        @inlinable
         public init(headerMatches: [HeaderMatch]? = nil, method: String? = nil, pathMatch: PathMatch? = nil) {
             self.headerMatches = headerMatches
             self.method = method
@@ -2448,6 +2509,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network or service.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2481,6 +2543,7 @@ extension VPCLattice {
         /// A pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [AccessLogSubscriptionSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2500,6 +2563,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceIdentifier: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2533,6 +2597,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListenerSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2554,6 +2619,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(listenerIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, serviceIdentifier: String) {
             self.listenerIdentifier = listenerIdentifier
             self.maxResults = maxResults
@@ -2592,6 +2658,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [RuleSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2613,6 +2680,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network.
         public let serviceNetworkIdentifier: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceIdentifier: String? = nil, serviceNetworkIdentifier: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2651,6 +2719,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ServiceNetworkServiceAssociationSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2672,6 +2741,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the VPC.
         public let vpcIdentifier: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceNetworkIdentifier: String? = nil, vpcIdentifier: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2710,6 +2780,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ServiceNetworkVpcAssociationSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2727,6 +2798,7 @@ extension VPCLattice {
         /// A pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2755,6 +2827,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ServiceNetworkSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2772,6 +2845,7 @@ extension VPCLattice {
         /// A pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2800,6 +2874,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ServiceSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2815,6 +2890,7 @@ extension VPCLattice {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2837,6 +2913,7 @@ extension VPCLattice {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2856,6 +2933,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the VPC.
         public let vpcIdentifier: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetGroupType: TargetGroupType? = nil, vpcIdentifier: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2891,6 +2969,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [TargetGroupSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2912,6 +2991,7 @@ extension VPCLattice {
         /// The targets.
         public let targets: [Target]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetGroupIdentifier: String, targets: [Target]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2952,6 +3032,7 @@ extension VPCLattice {
         /// If there are additional results, a pagination token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [TargetSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -2981,6 +3062,7 @@ extension VPCLattice {
         /// The listener protocol.
         public let `protocol`: ListenerProtocol?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, port: Int? = nil, protocol: ListenerProtocol? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3008,6 +3090,7 @@ extension VPCLattice {
         /// The type of path match.
         public let match: PathMatchType
 
+        @inlinable
         public init(caseSensitive: Bool? = nil, match: PathMatchType) {
             self.caseSensitive = caseSensitive
             self.match = match
@@ -3029,6 +3112,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(policy: String, resourceIdentifier: String) {
             self.policy = policy
             self.resourceIdentifier = resourceIdentifier
@@ -3059,6 +3143,7 @@ extension VPCLattice {
         /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy that you provide remains inactive. For more information, see Create a service network in the Amazon VPC Lattice User Guide.
         public let state: AuthPolicyState?
 
+        @inlinable
         public init(policy: String? = nil, state: AuthPolicyState? = nil) {
             self.policy = policy
             self.state = state
@@ -3076,6 +3161,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -3112,6 +3198,7 @@ extension VPCLattice {
         /// The targets.
         public let targets: [Target]
 
+        @inlinable
         public init(targetGroupIdentifier: String, targets: [Target]) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.targets = targets
@@ -3144,6 +3231,7 @@ extension VPCLattice {
         /// The targets that were not registered.
         public let unsuccessful: [TargetFailure]?
 
+        @inlinable
         public init(successful: [Target]? = nil, unsuccessful: [TargetFailure]? = nil) {
             self.successful = successful
             self.unsuccessful = unsuccessful
@@ -3173,6 +3261,7 @@ extension VPCLattice {
         /// The priority of the rule.
         public let priority: Int?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, isDefault: Bool? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, priority: Int? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3204,6 +3293,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the rule.
         public let ruleIdentifier: String
 
+        @inlinable
         public init(action: RuleAction? = nil, match: RuleMatch? = nil, priority: Int? = nil, ruleIdentifier: String) {
             self.action = action
             self.match = match
@@ -3237,6 +3327,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the rule.
         public let ruleIdentifier: String?
 
+        @inlinable
         public init(failureCode: String? = nil, failureMessage: String? = nil, ruleIdentifier: String? = nil) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
@@ -3266,6 +3357,7 @@ extension VPCLattice {
         /// The rule priority.
         public let priority: Int?
 
+        @inlinable
         public init(action: RuleAction? = nil, arn: String? = nil, id: String? = nil, isDefault: Bool? = nil, match: RuleMatch? = nil, name: String? = nil, priority: Int? = nil) {
             self.action = action
             self.arn = arn
@@ -3316,6 +3408,7 @@ extension VPCLattice {
         /// The status. If the deletion fails, try to delete again.
         public let status: ServiceNetworkServiceAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, serviceArn: String? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkServiceAssociationStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3367,6 +3460,7 @@ extension VPCLattice {
         /// The number of VPCs associated with the service network.
         public let numberOfAssociatedVPCs: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, numberOfAssociatedServices: Int64? = nil, numberOfAssociatedVPCs: Int64? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3412,6 +3506,7 @@ extension VPCLattice {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3459,6 +3554,7 @@ extension VPCLattice {
         /// The status.
         public let status: ServiceStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, dnsEntry: DnsEntry? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ServiceStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3488,6 +3584,7 @@ extension VPCLattice {
         /// The tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3526,6 +3623,7 @@ extension VPCLattice {
         /// The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443.
         public let port: Int?
 
+        @inlinable
         public init(id: String, port: Int? = nil) {
             self.id = id
             self.port = port
@@ -3552,6 +3650,7 @@ extension VPCLattice {
         /// The port on which the target is listening. This parameter doesn't apply if the target is a Lambda function.
         public let port: Int?
 
+        @inlinable
         public init(failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, port: Int? = nil) {
             self.failureCode = failureCode
             self.failureMessage = failureMessage
@@ -3583,6 +3682,7 @@ extension VPCLattice {
         /// The ID of the VPC. Not supported if the target group type is LAMBDA.
         public let vpcIdentifier: String?
 
+        @inlinable
         public init(healthCheck: HealthCheckConfig? = nil, ipAddressType: IpAddressType? = nil, lambdaEventStructureVersion: LambdaEventStructureVersion? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, protocolVersion: TargetGroupProtocolVersion? = nil, vpcIdentifier: String? = nil) {
             self.healthCheck = healthCheck
             self.ipAddressType = ipAddressType
@@ -3643,6 +3743,7 @@ extension VPCLattice {
         /// The ID of the VPC of the target group.
         public let vpcIdentifier: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, ipAddressType: IpAddressType? = nil, lambdaEventStructureVersion: LambdaEventStructureVersion? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, port: Int? = nil, protocol: TargetGroupProtocol? = nil, serviceArns: [String]? = nil, status: TargetGroupStatus? = nil, type: TargetGroupType? = nil, vpcIdentifier: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -3686,6 +3787,7 @@ extension VPCLattice {
         /// The status of the target.    DRAINING: The target is being deregistered. No new connections are sent to this target while current connections are being drained. The default draining time is 5 minutes.    UNAVAILABLE: Health checks are unavailable for the target group.    HEALTHY: The target is healthy.    UNHEALTHY: The target is unhealthy.    INITIAL: Initial health checks on the target are being performed.    UNUSED: Target group is not used in a service.
         public let status: TargetStatus?
 
+        @inlinable
         public init(id: String? = nil, port: Int? = nil, reasonCode: String? = nil, status: TargetStatus? = nil) {
             self.id = id
             self.port = port
@@ -3707,6 +3809,7 @@ extension VPCLattice {
         /// The tag keys of the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3742,6 +3845,7 @@ extension VPCLattice {
         /// The Amazon Resource Name (ARN) of the access log destination.
         public let destinationArn: String
 
+        @inlinable
         public init(accessLogSubscriptionIdentifier: String, destinationArn: String) {
             self.accessLogSubscriptionIdentifier = accessLogSubscriptionIdentifier
             self.destinationArn = destinationArn
@@ -3780,6 +3884,7 @@ extension VPCLattice {
         /// The ID of the resource.
         public let resourceId: String
 
+        @inlinable
         public init(arn: String, destinationArn: String, id: String, resourceArn: String, resourceId: String) {
             self.arn = arn
             self.destinationArn = destinationArn
@@ -3805,6 +3910,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(defaultAction: RuleAction, listenerIdentifier: String, serviceIdentifier: String) {
             self.defaultAction = defaultAction
             self.listenerIdentifier = listenerIdentifier
@@ -3852,6 +3958,7 @@ extension VPCLattice {
         /// The ID of the service.
         public let serviceId: String?
 
+        @inlinable
         public init(arn: String? = nil, defaultAction: RuleAction? = nil, id: String? = nil, name: String? = nil, port: Int? = nil, protocol: ListenerProtocol? = nil, serviceArn: String? = nil, serviceId: String? = nil) {
             self.arn = arn
             self.defaultAction = defaultAction
@@ -3889,6 +3996,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(action: RuleAction? = nil, listenerIdentifier: String, match: RuleMatch? = nil, priority: Int? = nil, ruleIdentifier: String, serviceIdentifier: String) {
             self.action = action
             self.listenerIdentifier = listenerIdentifier
@@ -3948,6 +4056,7 @@ extension VPCLattice {
         /// The rule priority.
         public let priority: Int?
 
+        @inlinable
         public init(action: RuleAction? = nil, arn: String? = nil, id: String? = nil, isDefault: Bool? = nil, match: RuleMatch? = nil, name: String? = nil, priority: Int? = nil) {
             self.action = action
             self.arn = arn
@@ -3975,6 +4084,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service network.
         public let serviceNetworkIdentifier: String
 
+        @inlinable
         public init(authType: AuthType, serviceNetworkIdentifier: String) {
             self.authType = authType
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
@@ -4008,6 +4118,7 @@ extension VPCLattice {
         /// The name of the service network.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.authType = authType
@@ -4029,6 +4140,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
+        @inlinable
         public init(securityGroupIds: [String], serviceNetworkVpcAssociationIdentifier: String) {
             self.securityGroupIds = securityGroupIds
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
@@ -4069,6 +4181,7 @@ extension VPCLattice {
         /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -4094,6 +4207,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(authType: AuthType? = nil, certificateArn: String? = nil, serviceIdentifier: String) {
             self.authType = authType
             self.certificateArn = certificateArn
@@ -4136,6 +4250,7 @@ extension VPCLattice {
         /// The name of the service.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, authType: AuthType? = nil, certificateArn: String? = nil, customDomainName: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.authType = authType
@@ -4161,6 +4276,7 @@ extension VPCLattice {
         /// The ID or Amazon Resource Name (ARN) of the target group.
         public let targetGroupIdentifier: String
 
+        @inlinable
         public init(healthCheck: HealthCheckConfig, targetGroupIdentifier: String) {
             self.healthCheck = healthCheck
             self.targetGroupIdentifier = targetGroupIdentifier
@@ -4199,6 +4315,7 @@ extension VPCLattice {
         /// The target group type.
         public let type: TargetGroupType?
 
+        @inlinable
         public init(arn: String? = nil, config: TargetGroupConfig? = nil, id: String? = nil, name: String? = nil, status: TargetGroupStatus? = nil, type: TargetGroupType? = nil) {
             self.arn = arn
             self.config = config
@@ -4224,6 +4341,7 @@ extension VPCLattice {
         /// Only required if you specify multiple target groups for a forward action. The weight determines how requests are distributed to the target group. For example, if you specify two target groups, each with a weight of 10, each target group receives half the requests. If you specify two target groups, one with a weight of 10 and the other with a weight of 20, the target group with a weight of 20 receives twice as many requests as the other target group. If there's only one target group specified, then the default value is 100.
         public let weight: Int?
 
+        @inlinable
         public init(targetGroupIdentifier: String, weight: Int? = nil) {
             self.targetGroupIdentifier = targetGroupIdentifier
             self.weight = weight
@@ -4247,6 +4365,7 @@ extension VPCLattice {
         /// The HTTP code to use when checking for a successful response from a target.
         public let httpCode: String?
 
+        @inlinable
         public init(httpCode: String? = nil) {
             self.httpCode = httpCode
         }
@@ -4265,6 +4384,7 @@ extension VPCLattice {
         /// The HTTP criteria that a rule must match.
         public let httpMatch: HttpMatch?
 
+        @inlinable
         public init(httpMatch: HttpMatch? = nil) {
             self.httpMatch = httpMatch
         }

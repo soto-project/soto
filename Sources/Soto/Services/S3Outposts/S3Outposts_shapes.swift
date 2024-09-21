@@ -55,6 +55,7 @@ extension S3Outposts {
         /// The ID of the subnet in the selected VPC. The endpoint subnet must belong to the Outpost that has Amazon S3 on Outposts provisioned.
         public let subnetId: String
 
+        @inlinable
         public init(accessType: EndpointAccessType? = nil, customerOwnedIpv4Pool: String? = nil, outpostId: String, securityGroupId: String, subnetId: String) {
             self.accessType = accessType
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
@@ -83,6 +84,7 @@ extension S3Outposts {
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String?
 
+        @inlinable
         public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
         }
@@ -98,6 +100,7 @@ extension S3Outposts {
         /// The ID of the Outposts.
         public let outpostId: String
 
+        @inlinable
         public init(endpointId: String, outpostId: String) {
             self.endpointId = endpointId
             self.outpostId = outpostId
@@ -144,6 +147,7 @@ extension S3Outposts {
         /// The ID of the VPC used for the endpoint.
         public let vpcId: String?
 
+        @inlinable
         public init(accessType: EndpointAccessType? = nil, cidrBlock: String? = nil, creationTime: Date? = nil, customerOwnedIpv4Pool: String? = nil, endpointArn: String? = nil, failedReason: FailedReason? = nil, networkInterfaces: [NetworkInterface]? = nil, outpostsId: String? = nil, securityGroupId: String? = nil, status: EndpointStatus? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.accessType = accessType
             self.cidrBlock = cidrBlock
@@ -181,6 +185,7 @@ extension S3Outposts {
         /// Additional error details describing the endpoint failure and recommended action.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -198,6 +203,7 @@ extension S3Outposts {
         /// If a previous response from this operation included a NextToken value,  provide that value here to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -227,6 +233,7 @@ extension S3Outposts {
         /// If the number of endpoints associated with the specified Outpost exceeds MaxResults,  you can include this value in subsequent calls to this operation to retrieve more results.
         public let nextToken: String?
 
+        @inlinable
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -244,6 +251,7 @@ extension S3Outposts {
         /// When you can get additional results from the ListOutpostsWithS3 call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional Outposts.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -273,6 +281,7 @@ extension S3Outposts {
         /// Returns the list of Outposts that have the following characteristics:   outposts that have S3 provisioned   outposts that are Active (not pending any provisioning nor decommissioned)   outposts to which the the calling Amazon Web Services account has access
         public let outposts: [Outpost]?
 
+        @inlinable
         public init(nextToken: String? = nil, outposts: [Outpost]? = nil) {
             self.nextToken = nextToken
             self.outposts = outposts
@@ -292,6 +301,7 @@ extension S3Outposts {
         /// The ID of the Amazon Web Services Outpost.
         public let outpostId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -324,6 +334,7 @@ extension S3Outposts {
         /// If the number of endpoints associated with the specified Outpost exceeds MaxResults,  you can include this value in subsequent calls to this operation to retrieve more results.
         public let nextToken: String?
 
+        @inlinable
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -339,6 +350,7 @@ extension S3Outposts {
         /// The ID for the network interface.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(networkInterfaceId: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
         }
@@ -360,6 +372,7 @@ extension S3Outposts {
         /// Specifies the unique S3 on Outposts ARN for use with Resource Access Manager (RAM).
         public let s3OutpostArn: String?
 
+        @inlinable
         public init(capacityInBytes: Int64? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, s3OutpostArn: String? = nil) {
             self.capacityInBytes = capacityInBytes
             self.outpostArn = outpostArn

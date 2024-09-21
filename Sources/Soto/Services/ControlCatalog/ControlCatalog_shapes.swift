@@ -47,6 +47,7 @@ extension ControlCatalog {
         /// The name of the related domain.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -64,6 +65,7 @@ extension ControlCatalog {
         /// The name of the related objective.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -79,6 +81,7 @@ extension ControlCatalog {
         /// The objective that's used as filter criteria. You can use this parameter to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
         public let objectives: [ObjectiveResourceFilter]?
 
+        @inlinable
         public init(objectives: [ObjectiveResourceFilter]? = nil) {
             self.objectives = objectives
         }
@@ -110,6 +113,7 @@ extension ControlCatalog {
         /// The objective that the common control belongs to.
         public let objective: AssociatedObjectiveSummary
 
+        @inlinable
         public init(arn: String, createTime: Date, description: String, domain: AssociatedDomainSummary, lastUpdateTime: Date, name: String, objective: AssociatedObjectiveSummary) {
             self.arn = arn
             self.createTime = createTime
@@ -139,6 +143,7 @@ extension ControlCatalog {
         /// The display name of the control.
         public let name: String
 
+        @inlinable
         public init(arn: String, description: String, name: String) {
             self.arn = arn
             self.description = description
@@ -156,6 +161,7 @@ extension ControlCatalog {
         /// The Amazon Resource Name (ARN) of the domain.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -183,6 +189,7 @@ extension ControlCatalog {
         /// The name of the domain.
         public let name: String
 
+        @inlinable
         public init(arn: String, createTime: Date, description: String, lastUpdateTime: Date, name: String) {
             self.arn = arn
             self.createTime = createTime
@@ -204,6 +211,7 @@ extension ControlCatalog {
         /// The Amazon Resource Name (ARN) of the control. It has one of the following formats:  Global format   arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}   Or Regional format   arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}  Here is a more general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs:  ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$
         public let controlArn: String
 
+        @inlinable
         public init(controlArn: String) {
             self.controlArn = controlArn
         }
@@ -230,6 +238,7 @@ extension ControlCatalog {
         public let name: String
         public let regionConfiguration: RegionConfiguration
 
+        @inlinable
         public init(arn: String, behavior: ControlBehavior, description: String, name: String, regionConfiguration: RegionConfiguration) {
             self.arn = arn
             self.behavior = behavior
@@ -255,6 +264,7 @@ extension ControlCatalog {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(commonControlFilter: CommonControlFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.commonControlFilter = commonControlFilter
             self.maxResults = maxResults
@@ -287,6 +297,7 @@ extension ControlCatalog {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(commonControls: [CommonControlSummary], nextToken: String? = nil) {
             self.commonControls = commonControls
             self.nextToken = nextToken
@@ -304,6 +315,7 @@ extension ControlCatalog {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -331,6 +343,7 @@ extension ControlCatalog {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controls: [ControlSummary], nextToken: String? = nil) {
             self.controls = controls
             self.nextToken = nextToken
@@ -348,6 +361,7 @@ extension ControlCatalog {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -375,6 +389,7 @@ extension ControlCatalog {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domains: [DomainSummary], nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -394,6 +409,7 @@ extension ControlCatalog {
         /// An optional filter that narrows the results to a specific domain. This filter allows you to specify one domain ARN at a time.  Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
         public let objectiveFilter: ObjectiveFilter?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, objectiveFilter: ObjectiveFilter? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -426,6 +442,7 @@ extension ControlCatalog {
         /// The list of objectives that the ListObjectives API returns.
         public let objectives: [ObjectiveSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, objectives: [ObjectiveSummary]) {
             self.nextToken = nextToken
             self.objectives = objectives
@@ -441,6 +458,7 @@ extension ControlCatalog {
         /// The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
         public let domains: [DomainResourceFilter]?
 
+        @inlinable
         public init(domains: [DomainResourceFilter]? = nil) {
             self.domains = domains
         }
@@ -460,6 +478,7 @@ extension ControlCatalog {
         /// The Amazon Resource Name (ARN) of the objective.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -489,6 +508,7 @@ extension ControlCatalog {
         /// The name of the objective.
         public let name: String
 
+        @inlinable
         public init(arn: String, createTime: Date, description: String, domain: AssociatedDomainSummary, lastUpdateTime: Date, name: String) {
             self.arn = arn
             self.createTime = createTime
@@ -514,6 +534,7 @@ extension ControlCatalog {
         /// The coverage of the control, if deployed. Scope is an enumerated type, with value Regional, or Global. A control with Global scope is effective in all Amazon Web Services Regions, regardless of the Region from which it is enabled, or to which it is deployed. A control implemented by an SCP is usually Global in scope. A control with Regional scope has operations that are restricted specifically to the Region from which it is enabled and to which it is deployed. Controls implemented by Config rules and CloudFormation hooks usually are Regional in scope.  Security Hub controls usually are Regional in scope.
         public let scope: ControlScope
 
+        @inlinable
         public init(deployableRegions: [String]? = nil, scope: ControlScope) {
             self.deployableRegions = deployableRegions
             self.scope = scope

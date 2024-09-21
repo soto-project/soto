@@ -185,6 +185,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to associate a custom domain name with.
         public let serviceArn: String
 
+        @inlinable
         public init(domainName: String, enableWWWSubdomain: Bool? = nil, serviceArn: String) {
             self.domainName = domainName
             self.enableWWWSubdomain = enableWWWSubdomain
@@ -217,6 +218,7 @@ extension AppRunner {
         /// DNS Target records for the custom domains of this Amazon VPC.
         public let vpcDNSTargets: [VpcDNSTarget]
 
+        @inlinable
         public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String, vpcDNSTargets: [VpcDNSTarget]) {
             self.customDomain = customDomain
             self.dnsTarget = dnsTarget
@@ -238,6 +240,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner connection that enables the App Runner service to connect to a source repository. It's required for GitHub code repositories.
         public let connectionArn: String?
 
+        @inlinable
         public init(accessRoleArn: String? = nil, connectionArn: String? = nil) {
             self.accessRoleArn = accessRoleArn
             self.connectionArn = connectionArn
@@ -284,6 +287,7 @@ extension AppRunner {
         /// The current state of the auto scaling configuration. If the status of a configuration revision is INACTIVE, it was deleted and can't be used. Inactive configuration revisions are permanently removed some time after they are deleted.
         public let status: AutoScalingConfigurationStatus?
 
+        @inlinable
         public init(autoScalingConfigurationArn: String? = nil, autoScalingConfigurationName: String? = nil, autoScalingConfigurationRevision: Int? = nil, createdAt: Date? = nil, deletedAt: Date? = nil, hasAssociatedService: Bool? = nil, isDefault: Bool? = nil, latest: Bool? = nil, maxConcurrency: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, status: AutoScalingConfigurationStatus? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
@@ -331,6 +335,7 @@ extension AppRunner {
         /// The current state of the auto scaling configuration. If the status of a configuration revision is INACTIVE, it was deleted and can't be used. Inactive configuration revisions are permanently removed some time after they are deleted.
         public let status: AutoScalingConfigurationStatus?
 
+        @inlinable
         public init(autoScalingConfigurationArn: String? = nil, autoScalingConfigurationName: String? = nil, autoScalingConfigurationRevision: Int? = nil, createdAt: Date? = nil, hasAssociatedService: Bool? = nil, isDefault: Bool? = nil, status: AutoScalingConfigurationStatus? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
@@ -362,6 +367,7 @@ extension AppRunner {
         /// The certificate CNAME record value.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, status: CertificateValidationRecordStatus? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.status = status
@@ -383,6 +389,7 @@ extension AppRunner {
         /// The source of the App Runner configuration. Values are interpreted as follows:    REPOSITORY – App Runner reads configuration values from the apprunner.yaml file in the source code repository and ignores CodeConfigurationValues.    API – App Runner uses configuration values provided in CodeConfigurationValues and ignores the apprunner.yaml file in the source code repository.
         public let configurationSource: ConfigurationSource
 
+        @inlinable
         public init(codeConfigurationValues: CodeConfigurationValues? = nil, configurationSource: ConfigurationSource) {
             self.codeConfigurationValues = codeConfigurationValues
             self.configurationSource = configurationSource
@@ -412,6 +419,7 @@ extension AppRunner {
         /// The command App Runner runs to start your application.
         public let startCommand: String?
 
+        @inlinable
         public init(buildCommand: String? = nil, port: String? = nil, runtime: Runtime, runtimeEnvironmentSecrets: [String: String]? = nil, runtimeEnvironmentVariables: [String: String]? = nil, startCommand: String? = nil) {
             self.buildCommand = buildCommand
             self.port = port
@@ -461,6 +469,7 @@ extension AppRunner {
         /// The path of the directory that stores source code and configuration files. The build and start commands also execute from here. The path is absolute from root and, if not specified, defaults to the repository root.
         public let sourceDirectory: String?
 
+        @inlinable
         public init(codeConfiguration: CodeConfiguration? = nil, repositoryUrl: String, sourceCodeVersion: SourceCodeVersion, sourceDirectory: String? = nil) {
             self.codeConfiguration = codeConfiguration
             self.repositoryUrl = repositoryUrl
@@ -498,6 +507,7 @@ extension AppRunner {
         /// The current state of the App Runner connection. When the state is AVAILABLE, you can use the connection to create an App Runner service.
         public let status: ConnectionStatus?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionName: String? = nil, createdAt: Date? = nil, providerType: ProviderType? = nil, status: ConnectionStatus? = nil) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
@@ -527,6 +537,7 @@ extension AppRunner {
         /// The current state of the App Runner connection. When the state is AVAILABLE, you can use the connection to create an App Runner service.
         public let status: ConnectionStatus?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionName: String? = nil, createdAt: Date? = nil, providerType: ProviderType? = nil, status: ConnectionStatus? = nil) {
             self.connectionArn = connectionArn
             self.connectionName = connectionName
@@ -556,6 +567,7 @@ extension AppRunner {
         /// A list of metadata items that you can associate with your auto scaling configuration resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(autoScalingConfigurationName: String, maxConcurrency: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, tags: [Tag]? = nil) {
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.maxConcurrency = maxConcurrency
@@ -591,6 +603,7 @@ extension AppRunner {
         /// A description of the App Runner auto scaling configuration that's created by this request.
         public let autoScalingConfiguration: AutoScalingConfiguration
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration) {
             self.autoScalingConfiguration = autoScalingConfiguration
         }
@@ -608,6 +621,7 @@ extension AppRunner {
         /// A list of metadata items that you can associate with your connection resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectionName: String, providerType: ProviderType, tags: [Tag]? = nil) {
             self.connectionName = connectionName
             self.providerType = providerType
@@ -634,6 +648,7 @@ extension AppRunner {
         /// A description of the App Runner connection that's created by this request.
         public let connection: Connection
 
+        @inlinable
         public init(connection: Connection) {
             self.connection = connection
         }
@@ -651,6 +666,7 @@ extension AppRunner {
         /// The configuration of the tracing feature within this observability configuration. If you don't specify it, App Runner doesn't enable tracing.
         public let traceConfiguration: TraceConfiguration?
 
+        @inlinable
         public init(observabilityConfigurationName: String, tags: [Tag]? = nil, traceConfiguration: TraceConfiguration? = nil) {
             self.observabilityConfigurationName = observabilityConfigurationName
             self.tags = tags
@@ -677,6 +693,7 @@ extension AppRunner {
         /// A description of the App Runner observability configuration that's created by this request.
         public let observabilityConfiguration: ObservabilityConfiguration
 
+        @inlinable
         public init(observabilityConfiguration: ObservabilityConfiguration) {
             self.observabilityConfiguration = observabilityConfiguration
         }
@@ -706,6 +723,7 @@ extension AppRunner {
         /// An optional list of metadata items that you can associate with the App Runner service resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
+        @inlinable
         public init(autoScalingConfigurationArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, observabilityConfiguration: ServiceObservabilityConfiguration? = nil, serviceName: String, sourceConfiguration: SourceConfiguration, tags: [Tag]? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.encryptionConfiguration = encryptionConfiguration
@@ -755,6 +773,7 @@ extension AppRunner {
         /// A description of the App Runner service that's created by this request.
         public let service: Service
 
+        @inlinable
         public init(operationId: String, service: Service) {
             self.operationId = operationId
             self.service = service
@@ -776,6 +795,7 @@ extension AppRunner {
         /// A name for the VPC connector.
         public let vpcConnectorName: String
 
+        @inlinable
         public init(securityGroups: [String]? = nil, subnets: [String], tags: [Tag]? = nil, vpcConnectorName: String) {
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -812,6 +832,7 @@ extension AppRunner {
         /// A description of the App Runner VPC connector that's created by this request.
         public let vpcConnector: VpcConnector
 
+        @inlinable
         public init(vpcConnector: VpcConnector) {
             self.vpcConnector = vpcConnector
         }
@@ -831,6 +852,7 @@ extension AppRunner {
         /// A name for the VPC Ingress Connection resource. It must be unique across all the active VPC Ingress Connections in your Amazon Web Services account in the Amazon Web Services Region.
         public let vpcIngressConnectionName: String
 
+        @inlinable
         public init(ingressVpcConfiguration: IngressVpcConfiguration, serviceArn: String, tags: [Tag]? = nil, vpcIngressConnectionName: String) {
             self.ingressVpcConfiguration = ingressVpcConfiguration
             self.serviceArn = serviceArn
@@ -863,6 +885,7 @@ extension AppRunner {
         /// A description of the App Runner VPC Ingress Connection resource that's created by this request.
         public let vpcIngressConnection: VpcIngressConnection
 
+        @inlinable
         public init(vpcIngressConnection: VpcIngressConnection) {
             self.vpcIngressConnection = vpcIngressConnection
         }
@@ -882,6 +905,7 @@ extension AppRunner {
         /// The current state of the domain name association.
         public let status: CustomDomainAssociationStatus
 
+        @inlinable
         public init(certificateValidationRecords: [CertificateValidationRecord]? = nil, domainName: String, enableWWWSubdomain: Bool, status: CustomDomainAssociationStatus) {
             self.certificateValidationRecords = certificateValidationRecords
             self.domainName = domainName
@@ -903,6 +927,7 @@ extension AppRunner {
         /// Set to true to delete all of the revisions associated with the AutoScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true, the only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name.
         public let deleteAllRevisions: Bool?
 
+        @inlinable
         public init(autoScalingConfigurationArn: String, deleteAllRevisions: Bool? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.deleteAllRevisions = deleteAllRevisions
@@ -924,6 +949,7 @@ extension AppRunner {
         /// A description of the App Runner auto scaling configuration that this request just deleted.
         public let autoScalingConfiguration: AutoScalingConfiguration
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration) {
             self.autoScalingConfiguration = autoScalingConfiguration
         }
@@ -937,6 +963,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner connection that you want to delete.
         public let connectionArn: String
 
+        @inlinable
         public init(connectionArn: String) {
             self.connectionArn = connectionArn
         }
@@ -956,6 +983,7 @@ extension AppRunner {
         /// A description of the App Runner connection that this request just deleted.
         public let connection: Connection?
 
+        @inlinable
         public init(connection: Connection? = nil) {
             self.connection = connection
         }
@@ -969,6 +997,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner observability configuration that you want to delete. The ARN can be a full observability configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is deleted.
         public let observabilityConfigurationArn: String
 
+        @inlinable
         public init(observabilityConfigurationArn: String) {
             self.observabilityConfigurationArn = observabilityConfigurationArn
         }
@@ -988,6 +1017,7 @@ extension AppRunner {
         /// A description of the App Runner observability configuration that this request just deleted.
         public let observabilityConfiguration: ObservabilityConfiguration
 
+        @inlinable
         public init(observabilityConfiguration: ObservabilityConfiguration) {
             self.observabilityConfiguration = observabilityConfiguration
         }
@@ -1001,6 +1031,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to delete.
         public let serviceArn: String
 
+        @inlinable
         public init(serviceArn: String) {
             self.serviceArn = serviceArn
         }
@@ -1022,6 +1053,7 @@ extension AppRunner {
         /// A description of the App Runner service that this request just deleted.
         public let service: Service
 
+        @inlinable
         public init(operationId: String, service: Service) {
             self.operationId = operationId
             self.service = service
@@ -1037,6 +1069,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to delete. The ARN must be a full VPC connector ARN.
         public let vpcConnectorArn: String
 
+        @inlinable
         public init(vpcConnectorArn: String) {
             self.vpcConnectorArn = vpcConnectorArn
         }
@@ -1056,6 +1089,7 @@ extension AppRunner {
         /// A description of the App Runner VPC connector that this request just deleted.
         public let vpcConnector: VpcConnector
 
+        @inlinable
         public init(vpcConnector: VpcConnector) {
             self.vpcConnector = vpcConnector
         }
@@ -1069,6 +1103,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want to delete.
         public let vpcIngressConnectionArn: String
 
+        @inlinable
         public init(vpcIngressConnectionArn: String) {
             self.vpcIngressConnectionArn = vpcIngressConnectionArn
         }
@@ -1088,6 +1123,7 @@ extension AppRunner {
         /// A description of the App Runner VPC Ingress Connection that this request just deleted.
         public let vpcIngressConnection: VpcIngressConnection
 
+        @inlinable
         public init(vpcIngressConnection: VpcIngressConnection) {
             self.vpcIngressConnection = vpcIngressConnection
         }
@@ -1101,6 +1137,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is described.
         public let autoScalingConfigurationArn: String
 
+        @inlinable
         public init(autoScalingConfigurationArn: String) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
         }
@@ -1120,6 +1157,7 @@ extension AppRunner {
         /// A full description of the App Runner auto scaling configuration that you specified in this request.
         public let autoScalingConfiguration: AutoScalingConfiguration
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration) {
             self.autoScalingConfiguration = autoScalingConfiguration
         }
@@ -1137,6 +1175,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want associated custom domain names to be described for.
         public let serviceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1172,6 +1211,7 @@ extension AppRunner {
         /// DNS Target records for the custom domains of this Amazon VPC.
         public let vpcDNSTargets: [VpcDNSTarget]
 
+        @inlinable
         public init(customDomains: [CustomDomain], dnsTarget: String, nextToken: String? = nil, serviceArn: String, vpcDNSTargets: [VpcDNSTarget]) {
             self.customDomains = customDomains
             self.dnsTarget = dnsTarget
@@ -1193,6 +1233,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner observability configuration that you want a description for. The ARN can be a full observability configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is described.
         public let observabilityConfigurationArn: String
 
+        @inlinable
         public init(observabilityConfigurationArn: String) {
             self.observabilityConfigurationArn = observabilityConfigurationArn
         }
@@ -1212,6 +1253,7 @@ extension AppRunner {
         /// A full description of the App Runner observability configuration that you specified in this request.
         public let observabilityConfiguration: ObservabilityConfiguration
 
+        @inlinable
         public init(observabilityConfiguration: ObservabilityConfiguration) {
             self.observabilityConfiguration = observabilityConfiguration
         }
@@ -1225,6 +1267,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want a description for.
         public let serviceArn: String
 
+        @inlinable
         public init(serviceArn: String) {
             self.serviceArn = serviceArn
         }
@@ -1244,6 +1287,7 @@ extension AppRunner {
         /// A full description of the App Runner service that you specified in this request.
         public let service: Service
 
+        @inlinable
         public init(service: Service) {
             self.service = service
         }
@@ -1257,6 +1301,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want a description for. The ARN must be a full VPC connector ARN.
         public let vpcConnectorArn: String
 
+        @inlinable
         public init(vpcConnectorArn: String) {
             self.vpcConnectorArn = vpcConnectorArn
         }
@@ -1276,6 +1321,7 @@ extension AppRunner {
         /// A description of the App Runner VPC connector that you specified in this request.
         public let vpcConnector: VpcConnector
 
+        @inlinable
         public init(vpcConnector: VpcConnector) {
             self.vpcConnector = vpcConnector
         }
@@ -1289,6 +1335,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection that you want a description for.
         public let vpcIngressConnectionArn: String
 
+        @inlinable
         public init(vpcIngressConnectionArn: String) {
             self.vpcIngressConnectionArn = vpcIngressConnectionArn
         }
@@ -1308,6 +1355,7 @@ extension AppRunner {
         /// A description of the App Runner VPC Ingress Connection that you specified in this request.
         public let vpcIngressConnection: VpcIngressConnection
 
+        @inlinable
         public init(vpcIngressConnection: VpcIngressConnection) {
             self.vpcIngressConnection = vpcIngressConnection
         }
@@ -1323,6 +1371,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to disassociate a custom domain name from.
         public let serviceArn: String
 
+        @inlinable
         public init(domainName: String, serviceArn: String) {
             self.domainName = domainName
             self.serviceArn = serviceArn
@@ -1353,6 +1402,7 @@ extension AppRunner {
         /// DNS Target records for the custom domains of this Amazon VPC.
         public let vpcDNSTargets: [VpcDNSTarget]
 
+        @inlinable
         public init(customDomain: CustomDomain, dnsTarget: String, serviceArn: String, vpcDNSTargets: [VpcDNSTarget]) {
             self.customDomain = customDomain
             self.dnsTarget = dnsTarget
@@ -1374,6 +1424,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when EgressType = VPC.
         public let vpcConnectorArn: String?
 
+        @inlinable
         public init(egressType: EgressType? = nil, vpcConnectorArn: String? = nil) {
             self.egressType = egressType
             self.vpcConnectorArn = vpcConnectorArn
@@ -1395,6 +1446,7 @@ extension AppRunner {
         /// The ARN of the KMS key that's used for encryption.
         public let kmsKey: String
 
+        @inlinable
         public init(kmsKey: String) {
             self.kmsKey = kmsKey
         }
@@ -1423,6 +1475,7 @@ extension AppRunner {
         /// The number of consecutive checks that must fail before App Runner decides that the service is unhealthy. Default: 5
         public let unhealthyThreshold: Int?
 
+        @inlinable
         public init(healthyThreshold: Int? = nil, interval: Int? = nil, path: String? = nil, protocol: HealthCheckProtocol? = nil, timeout: Int? = nil, unhealthyThreshold: Int? = nil) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
@@ -1464,6 +1517,7 @@ extension AppRunner {
         /// An optional command that App Runner runs to start the application in the source image. If specified, this command overrides the Docker image’s default start command.
         public let startCommand: String?
 
+        @inlinable
         public init(port: String? = nil, runtimeEnvironmentSecrets: [String: String]? = nil, runtimeEnvironmentVariables: [String: String]? = nil, startCommand: String? = nil) {
             self.port = port
             self.runtimeEnvironmentSecrets = runtimeEnvironmentSecrets
@@ -1506,6 +1560,7 @@ extension AppRunner {
         /// The type of the image repository. This reflects the repository provider and whether the repository is private or public.
         public let imageRepositoryType: ImageRepositoryType
 
+        @inlinable
         public init(imageConfiguration: ImageConfiguration? = nil, imageIdentifier: String, imageRepositoryType: ImageRepositoryType) {
             self.imageConfiguration = imageConfiguration
             self.imageIdentifier = imageIdentifier
@@ -1530,6 +1585,7 @@ extension AppRunner {
         /// Specifies whether your App Runner service is publicly accessible. To make the service publicly accessible set it to True. To make the service privately accessible, from only within an Amazon VPC set it to False.
         public let isPubliclyAccessible: Bool?
 
+        @inlinable
         public init(isPubliclyAccessible: Bool? = nil) {
             self.isPubliclyAccessible = isPubliclyAccessible
         }
@@ -1545,6 +1601,7 @@ extension AppRunner {
         /// The ID of the VPC that is used for the VPC endpoint.
         public let vpcId: String?
 
+        @inlinable
         public init(vpcEndpointId: String? = nil, vpcId: String? = nil) {
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
@@ -1571,6 +1628,7 @@ extension AppRunner {
         /// The amount of memory, in MB or GB, reserved for each instance of your App Runner service. Default: 2 GB
         public let memory: String?
 
+        @inlinable
         public init(cpu: String? = nil, instanceRoleArn: String? = nil, memory: String? = nil) {
             self.cpu = cpu
             self.instanceRoleArn = instanceRoleArn
@@ -1606,6 +1664,7 @@ extension AppRunner {
         /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
+        @inlinable
         public init(autoScalingConfigurationName: String? = nil, latestOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.latestOnly = latestOnly
@@ -1638,6 +1697,7 @@ extension AppRunner {
         /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
         public let nextToken: String?
 
+        @inlinable
         public init(autoScalingConfigurationSummaryList: [AutoScalingConfigurationSummary], nextToken: String? = nil) {
             self.autoScalingConfigurationSummaryList = autoScalingConfigurationSummaryList
             self.nextToken = nextToken
@@ -1657,6 +1717,7 @@ extension AppRunner {
         /// A token from a previous result page. Used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectionName = connectionName
             self.maxResults = maxResults
@@ -1687,6 +1748,7 @@ extension AppRunner {
         /// The token that you can pass in a subsequent request to get the next result page. Returned in a paginated request.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionSummaryList: [ConnectionSummary], nextToken: String? = nil) {
             self.connectionSummaryList = connectionSummaryList
             self.nextToken = nextToken
@@ -1708,6 +1770,7 @@ extension AppRunner {
         /// The name of the App Runner observability configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations.
         public let observabilityConfigurationName: String?
 
+        @inlinable
         public init(latestOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, observabilityConfigurationName: String? = nil) {
             self.latestOnly = latestOnly
             self.maxResults = maxResults
@@ -1740,6 +1803,7 @@ extension AppRunner {
         /// A list of summary information records for observability configurations. In a paginated request, the request returns up to MaxResults records for each call.
         public let observabilityConfigurationSummaryList: [ObservabilityConfigurationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, observabilityConfigurationSummaryList: [ObservabilityConfigurationSummary]) {
             self.nextToken = nextToken
             self.observabilityConfigurationSummaryList = observabilityConfigurationSummaryList
@@ -1759,6 +1823,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want a list of operations for.
         public let serviceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1788,6 +1853,7 @@ extension AppRunner {
         /// A list of operation summary information records. In a paginated request, the request returns up to MaxResults records for each call.
         public let operationSummaryList: [OperationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, operationSummaryList: [OperationSummary]? = nil) {
             self.nextToken = nextToken
             self.operationSummaryList = operationSummaryList
@@ -1807,6 +1873,7 @@ extension AppRunner {
         /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
+        @inlinable
         public init(autoScalingConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.maxResults = maxResults
@@ -1837,6 +1904,7 @@ extension AppRunner {
         /// A list of service ARN records. In a paginated request, the request returns up to MaxResults records for each call.
         public let serviceArnList: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, serviceArnList: [String]) {
             self.nextToken = nextToken
             self.serviceArnList = serviceArnList
@@ -1854,6 +1922,7 @@ extension AppRunner {
         /// A token from a previous result page. Used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1878,6 +1947,7 @@ extension AppRunner {
         /// A list of service summary information records. In a paginated request, the request returns up to MaxResults records for each call.
         public let serviceSummaryList: [ServiceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, serviceSummaryList: [ServiceSummary]) {
             self.nextToken = nextToken
             self.serviceSummaryList = serviceSummaryList
@@ -1893,6 +1963,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the resource that a tag list is requested for. It must be the ARN of an App Runner resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1912,6 +1983,7 @@ extension AppRunner {
         /// A list of the tag key-value pairs that are associated with the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1927,6 +1999,7 @@ extension AppRunner {
         /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1952,6 +2025,7 @@ extension AppRunner {
         /// A list of information records for VPC connectors. In a paginated request, the request returns up to MaxResults records for each call.
         public let vpcConnectors: [VpcConnector]
 
+        @inlinable
         public init(nextToken: String? = nil, vpcConnectors: [VpcConnector]) {
             self.nextToken = nextToken
             self.vpcConnectors = vpcConnectors
@@ -1969,6 +2043,7 @@ extension AppRunner {
         /// The ID of a VPC Endpoint to filter by.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(serviceArn: String? = nil, vpcEndpointId: String? = nil) {
             self.serviceArn = serviceArn
             self.vpcEndpointId = vpcEndpointId
@@ -1996,6 +2071,7 @@ extension AppRunner {
         /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListVpcIngressConnectionsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2024,6 +2100,7 @@ extension AppRunner {
         /// A list of summary information records for VPC Ingress Connections. In a paginated request, the request returns up to MaxResults records for each call.
         public let vpcIngressConnectionSummaryList: [VpcIngressConnectionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, vpcIngressConnectionSummaryList: [VpcIngressConnectionSummary]) {
             self.nextToken = nextToken
             self.vpcIngressConnectionSummaryList = vpcIngressConnectionSummaryList
@@ -2043,6 +2120,7 @@ extension AppRunner {
         /// App Runner provides you with the option to choose between Internet Protocol version 4 (IPv4) and dual stack (IPv4 and IPv6)  for your incoming public network configuration. This is an optional parameter.  If you do not specify an IpAddressType, it defaults to select IPv4.   Currently, App Runner supports dual stack for only Public endpoint. Only IPv4 is supported for Private endpoint.  If you update a service that's using dual-stack Public endpoint to a Private endpoint, your App Runner service will default to support only IPv4 for Private endpoint and fail to receive traffic originating from IPv6 endpoint.
         public let ipAddressType: IpAddressType?
 
+        @inlinable
         public init(egressConfiguration: EgressConfiguration? = nil, ingressConfiguration: IngressConfiguration? = nil, ipAddressType: IpAddressType? = nil) {
             self.egressConfiguration = egressConfiguration
             self.ingressConfiguration = ingressConfiguration
@@ -2078,6 +2156,7 @@ extension AppRunner {
         /// The configuration of the tracing feature within this observability configuration. If not specified, tracing isn't enabled.
         public let traceConfiguration: TraceConfiguration?
 
+        @inlinable
         public init(createdAt: Date? = nil, deletedAt: Date? = nil, latest: Bool? = nil, observabilityConfigurationArn: String? = nil, observabilityConfigurationName: String? = nil, observabilityConfigurationRevision: Int? = nil, status: ObservabilityConfigurationStatus? = nil, traceConfiguration: TraceConfiguration? = nil) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -2109,6 +2188,7 @@ extension AppRunner {
         /// The revision of this observability configuration. It's unique among all the active configurations ("Status": "ACTIVE") that share the same ObservabilityConfigurationName.
         public let observabilityConfigurationRevision: Int?
 
+        @inlinable
         public init(observabilityConfigurationArn: String? = nil, observabilityConfigurationName: String? = nil, observabilityConfigurationRevision: Int? = nil) {
             self.observabilityConfigurationArn = observabilityConfigurationArn
             self.observabilityConfigurationName = observabilityConfigurationName
@@ -2138,6 +2218,7 @@ extension AppRunner {
         /// The time when the operation was last updated. It's in the Unix time stamp format.
         public let updatedAt: Date?
 
+        @inlinable
         public init(endedAt: Date? = nil, id: String? = nil, startedAt: Date? = nil, status: OperationStatus? = nil, targetArn: String? = nil, type: OperationType? = nil, updatedAt: Date? = nil) {
             self.endedAt = endedAt
             self.id = id
@@ -2163,6 +2244,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to pause.
         public let serviceArn: String
 
+        @inlinable
         public init(serviceArn: String) {
             self.serviceArn = serviceArn
         }
@@ -2184,6 +2266,7 @@ extension AppRunner {
         /// A description of the App Runner service that this request just paused.
         public let service: Service
 
+        @inlinable
         public init(operationId: String? = nil, service: Service) {
             self.operationId = operationId
             self.service = service
@@ -2199,6 +2282,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to resume.
         public let serviceArn: String
 
+        @inlinable
         public init(serviceArn: String) {
             self.serviceArn = serviceArn
         }
@@ -2220,6 +2304,7 @@ extension AppRunner {
         /// A description of the App Runner service that this request just resumed.
         public let service: Service
 
+        @inlinable
         public init(operationId: String? = nil, service: Service) {
             self.operationId = operationId
             self.service = service
@@ -2263,6 +2348,7 @@ extension AppRunner {
         /// The time when the App Runner service was last updated at. It's in the Unix time stamp format.
         public let updatedAt: Date
 
+        @inlinable
         public init(autoScalingConfigurationSummary: AutoScalingConfigurationSummary, createdAt: Date, deletedAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration, networkConfiguration: NetworkConfiguration, observabilityConfiguration: ServiceObservabilityConfiguration? = nil, serviceArn: String, serviceId: String, serviceName: String, serviceUrl: String? = nil, sourceConfiguration: SourceConfiguration, status: ServiceStatus, updatedAt: Date) {
             self.autoScalingConfigurationSummary = autoScalingConfigurationSummary
             self.createdAt = createdAt
@@ -2306,6 +2392,7 @@ extension AppRunner {
         /// When true, an observability configuration resource is associated with the service, and an ObservabilityConfigurationArn is specified.
         public let observabilityEnabled: Bool
 
+        @inlinable
         public init(observabilityConfigurationArn: String? = nil, observabilityEnabled: Bool) {
             self.observabilityConfigurationArn = observabilityConfigurationArn
             self.observabilityEnabled = observabilityEnabled
@@ -2339,6 +2426,7 @@ extension AppRunner {
         /// The time when the App Runner service was last updated. It's in theUnix time stamp format.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, serviceArn: String? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceUrl: String? = nil, status: ServiceStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.serviceArn = serviceArn
@@ -2366,6 +2454,7 @@ extension AppRunner {
         /// A source code version. For a git-based repository, a branch name maps to a specific version. App Runner uses the most recent commit to the branch.
         public let value: String
 
+        @inlinable
         public init(type: SourceCodeVersionType, value: String) {
             self.type = type
             self.value = value
@@ -2392,6 +2481,7 @@ extension AppRunner {
         /// The description of a source image repository. You must provide either this member or CodeRepository (but not both).
         public let imageRepository: ImageRepository?
 
+        @inlinable
         public init(authenticationConfiguration: AuthenticationConfiguration? = nil, autoDeploymentsEnabled: Bool? = nil, codeRepository: CodeRepository? = nil, imageRepository: ImageRepository? = nil) {
             self.authenticationConfiguration = authenticationConfiguration
             self.autoDeploymentsEnabled = autoDeploymentsEnabled
@@ -2417,6 +2507,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to manually deploy to.
         public let serviceArn: String
 
+        @inlinable
         public init(serviceArn: String) {
             self.serviceArn = serviceArn
         }
@@ -2436,6 +2527,7 @@ extension AppRunner {
         /// The unique ID of the asynchronous operation that this request started. You can use it combined with the ListOperations call to track the operation's progress.
         public let operationId: String
 
+        @inlinable
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -2451,6 +2543,7 @@ extension AppRunner {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2476,6 +2569,7 @@ extension AppRunner {
         /// A list of tag key-value pairs to add or update. If a key is new to the resource, the tag is added with the provided value. If a key is already associated with the resource, the value of the tag is updated.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2504,6 +2598,7 @@ extension AppRunner {
         /// The implementation provider chosen for tracing App Runner services.
         public let vendor: TracingVendor
 
+        @inlinable
         public init(vendor: TracingVendor) {
             self.vendor = vendor
         }
@@ -2519,6 +2614,7 @@ extension AppRunner {
         /// A list of tag keys that you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2549,6 +2645,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to set as the default. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is set as the default.
         public let autoScalingConfigurationArn: String
 
+        @inlinable
         public init(autoScalingConfigurationArn: String) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
         }
@@ -2568,6 +2665,7 @@ extension AppRunner {
         /// A description of the App Runner auto scaling configuration that was set as default.
         public let autoScalingConfiguration: AutoScalingConfiguration
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration) {
             self.autoScalingConfiguration = autoScalingConfiguration
         }
@@ -2593,6 +2691,7 @@ extension AppRunner {
         /// The source configuration to apply to the App Runner service. You can change the configuration of the code or image repository that the service uses. However, you can't switch from code to image or the other way around. This means that you must provide the same structure member of SourceConfiguration that you originally included when you created the service. Specifically, you can include either CodeRepository or ImageRepository. To update the source configuration, set the values to members of the structure that you include.
         public let sourceConfiguration: SourceConfiguration?
 
+        @inlinable
         public init(autoScalingConfigurationArn: String? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, observabilityConfiguration: ServiceObservabilityConfiguration? = nil, serviceArn: String, sourceConfiguration: SourceConfiguration? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.healthCheckConfiguration = healthCheckConfiguration
@@ -2634,6 +2733,7 @@ extension AppRunner {
         /// A description of the App Runner service updated by this request. All configuration values in the returned Service structure reflect configuration changes that are being applied by this request.
         public let service: Service
 
+        @inlinable
         public init(operationId: String, service: Service) {
             self.operationId = operationId
             self.service = service
@@ -2651,6 +2751,7 @@ extension AppRunner {
         /// The Amazon Resource Name (Arn) for the App Runner VPC Ingress Connection resource that you want to update.
         public let vpcIngressConnectionArn: String
 
+        @inlinable
         public init(ingressVpcConfiguration: IngressVpcConfiguration, vpcIngressConnectionArn: String) {
             self.ingressVpcConfiguration = ingressVpcConfiguration
             self.vpcIngressConnectionArn = vpcIngressConnectionArn
@@ -2673,6 +2774,7 @@ extension AppRunner {
         /// A description of the App Runner VPC Ingress Connection resource that's updated by this request.
         public let vpcIngressConnection: VpcIngressConnection
 
+        @inlinable
         public init(vpcIngressConnection: VpcIngressConnection) {
             self.vpcIngressConnection = vpcIngressConnection
         }
@@ -2700,6 +2802,7 @@ extension AppRunner {
         /// The revision of this VPC connector. It's unique among all the active connectors ("Status": "ACTIVE") that share the same Name.  At this time, App Runner supports only one revision per name.
         public let vpcConnectorRevision: Int?
 
+        @inlinable
         public init(createdAt: Date? = nil, deletedAt: Date? = nil, securityGroups: [String]? = nil, status: VpcConnectorStatus? = nil, subnets: [String]? = nil, vpcConnectorArn: String? = nil, vpcConnectorName: String? = nil, vpcConnectorRevision: Int? = nil) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -2731,6 +2834,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the VPC Ingress Connection that is associated with your service.
         public let vpcIngressConnectionArn: String?
 
+        @inlinable
         public init(domainName: String? = nil, vpcId: String? = nil, vpcIngressConnectionArn: String? = nil) {
             self.domainName = domainName
             self.vpcId = vpcId
@@ -2764,6 +2868,7 @@ extension AppRunner {
         /// The customer-provided VPC Ingress Connection name.
         public let vpcIngressConnectionName: String?
 
+        @inlinable
         public init(accountId: String? = nil, createdAt: Date? = nil, deletedAt: Date? = nil, domainName: String? = nil, ingressVpcConfiguration: IngressVpcConfiguration? = nil, serviceArn: String? = nil, status: VpcIngressConnectionStatus? = nil, vpcIngressConnectionArn: String? = nil, vpcIngressConnectionName: String? = nil) {
             self.accountId = accountId
             self.createdAt = createdAt
@@ -2795,6 +2900,7 @@ extension AppRunner {
         /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
         public let vpcIngressConnectionArn: String?
 
+        @inlinable
         public init(serviceArn: String? = nil, vpcIngressConnectionArn: String? = nil) {
             self.serviceArn = serviceArn
             self.vpcIngressConnectionArn = vpcIngressConnectionArn

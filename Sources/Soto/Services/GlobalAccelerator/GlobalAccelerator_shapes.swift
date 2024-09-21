@@ -137,6 +137,7 @@ extension GlobalAccelerator {
         /// Describes the deployment status of the accelerator.
         public let status: AcceleratorStatus?
 
+        @inlinable
         public init(acceleratorArn: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, dualStackDnsName: String? = nil, enabled: Bool? = nil, events: [AcceleratorEvent]? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: AcceleratorStatus? = nil) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
@@ -179,6 +180,7 @@ extension GlobalAccelerator {
         /// 				FlowLogsEnabled is true. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: s3-bucket_name//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
+        @inlinable
         public init(flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
             self.flowLogsEnabled = flowLogsEnabled
             self.flowLogsS3Bucket = flowLogsS3Bucket
@@ -199,6 +201,7 @@ extension GlobalAccelerator {
         /// A timestamp for when you update an accelerator in Global Accelerator from IPv4 to dual-stack, or dual-stack to IPv4.
         public let timestamp: Date?
 
+        @inlinable
         public init(message: String? = nil, timestamp: Date? = nil) {
             self.message = message
             self.timestamp = timestamp
@@ -216,6 +219,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
         public let endpointGroupArn: String
 
+        @inlinable
         public init(endpointConfigurations: [CustomRoutingEndpointConfiguration], endpointGroupArn: String) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupArn = endpointGroupArn
@@ -242,6 +246,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
         public let endpointGroupArn: String?
 
+        @inlinable
         public init(endpointDescriptions: [CustomRoutingEndpointDescription]? = nil, endpointGroupArn: String? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
@@ -259,6 +264,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String
 
+        @inlinable
         public init(endpointConfigurations: [EndpointConfiguration], endpointGroupArn: String) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupArn = endpointGroupArn
@@ -284,6 +290,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String?
 
+        @inlinable
         public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
@@ -302,6 +309,7 @@ extension GlobalAccelerator {
         /// 			the Global Accelerator Developer Guide.
         public let cidr: String
 
+        @inlinable
         public init(cidr: String) {
             self.cidr = cidr
         }
@@ -319,6 +327,7 @@ extension GlobalAccelerator {
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -346,6 +355,7 @@ extension GlobalAccelerator {
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public let endpointId: String
 
+        @inlinable
         public init(allowAllTrafficToEndpoint: Bool? = nil, destinationAddresses: [String]? = nil, destinationPorts: [Int]? = nil, endpointGroupArn: String, endpointId: String) {
             self.allowAllTrafficToEndpoint = allowAllTrafficToEndpoint
             self.destinationAddresses = destinationAddresses
@@ -391,6 +401,7 @@ extension GlobalAccelerator {
         /// The resources included in the cross-account attachment.
         public let resources: [Resource]?
 
+        @inlinable
         public init(attachmentArn: String? = nil, createdTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, principals: [String]? = nil, resources: [Resource]? = nil) {
             self.attachmentArn = attachmentArn
             self.createdTime = createdTime
@@ -421,6 +432,7 @@ extension GlobalAccelerator {
         /// The state of the address pool.
         public let state: ByoipCidrState?
 
+        @inlinable
         public init(cidr: String? = nil, events: [ByoipCidrEvent]? = nil, state: ByoipCidrState? = nil) {
             self.cidr = cidr
             self.events = events
@@ -442,6 +454,7 @@ extension GlobalAccelerator {
         /// 			bring your own IP address (BYOIP).
         public let timestamp: Date?
 
+        @inlinable
         public init(message: String? = nil, timestamp: Date? = nil) {
             self.message = message
             self.timestamp = timestamp
@@ -459,6 +472,7 @@ extension GlobalAccelerator {
         /// The signed authorization message for the prefix and account.
         public let signature: String
 
+        @inlinable
         public init(message: String, signature: String) {
             self.message = message
             self.signature = signature
@@ -499,6 +513,7 @@ extension GlobalAccelerator {
         /// 		    in Global Accelerator in the Global Accelerator Developer Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, idempotencyToken: String = CreateAcceleratorRequest.idempotencyToken(), ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.idempotencyToken = idempotencyToken
@@ -534,6 +549,7 @@ extension GlobalAccelerator {
         /// The accelerator that is created by specifying a listener and the supported IP address types.
         public let accelerator: Accelerator?
 
+        @inlinable
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -560,6 +576,7 @@ extension GlobalAccelerator {
         /// 			in Global Accelerator in the Global Accelerator Developer Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(idempotencyToken: String = CreateCrossAccountAttachmentRequest.idempotencyToken(), name: String, principals: [String]? = nil, resources: [Resource]? = nil, tags: [Tag]? = nil) {
             self.idempotencyToken = idempotencyToken
             self.name = name
@@ -597,6 +614,7 @@ extension GlobalAccelerator {
         /// Information about the cross-account attachment.
         public let crossAccountAttachment: Attachment?
 
+        @inlinable
         public init(crossAccountAttachment: Attachment? = nil) {
             self.crossAccountAttachment = crossAccountAttachment
         }
@@ -630,6 +648,7 @@ extension GlobalAccelerator {
         /// 	    in Global Accelerator in the Global Accelerator Developer Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, idempotencyToken: String = CreateCustomRoutingAcceleratorRequest.idempotencyToken(), ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.idempotencyToken = idempotencyToken
@@ -665,6 +684,7 @@ extension GlobalAccelerator {
         /// The accelerator that is created.
         public let accelerator: CustomRoutingAccelerator?
 
+        @inlinable
         public init(accelerator: CustomRoutingAccelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -687,6 +707,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener for a custom routing endpoint.
         public let listenerArn: String
 
+        @inlinable
         public init(destinationConfigurations: [CustomRoutingDestinationConfiguration], endpointGroupRegion: String, idempotencyToken: String = CreateCustomRoutingEndpointGroupRequest.idempotencyToken(), listenerArn: String) {
             self.destinationConfigurations = destinationConfigurations
             self.endpointGroupRegion = endpointGroupRegion
@@ -717,6 +738,7 @@ extension GlobalAccelerator {
         /// The information about the endpoint group created for a custom routing accelerator.
         public let endpointGroup: CustomRoutingEndpointGroup?
 
+        @inlinable
         public init(endpointGroup: CustomRoutingEndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -736,6 +758,7 @@ extension GlobalAccelerator {
         /// 		endpoints for custom routing accelerators.
         public let portRanges: [PortRange]
 
+        @inlinable
         public init(acceleratorArn: String, idempotencyToken: String = CreateCustomRoutingListenerRequest.idempotencyToken(), portRanges: [PortRange]) {
             self.acceleratorArn = acceleratorArn
             self.idempotencyToken = idempotencyToken
@@ -763,6 +786,7 @@ extension GlobalAccelerator {
         /// The listener that you've created for a custom routing accelerator.
         public let listener: CustomRoutingListener?
 
+        @inlinable
         public init(listener: CustomRoutingListener? = nil) {
             self.listener = listener
         }
@@ -809,6 +833,7 @@ extension GlobalAccelerator {
         /// 			applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
+        @inlinable
         public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String = CreateEndpointGroupRequest.idempotencyToken(), listenerArn: String, portOverrides: [PortOverride]? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupRegion = endpointGroupRegion
@@ -866,6 +891,7 @@ extension GlobalAccelerator {
         /// The information about the endpoint group that was created.
         public let endpointGroup: EndpointGroup?
 
+        @inlinable
         public init(endpointGroup: EndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -896,6 +922,7 @@ extension GlobalAccelerator {
         /// The protocol for connections from clients to your accelerator.
         public let `protocol`: `Protocol`
 
+        @inlinable
         public init(acceleratorArn: String, clientAffinity: ClientAffinity? = nil, idempotencyToken: String = CreateListenerRequest.idempotencyToken(), portRanges: [PortRange], protocol: `Protocol`) {
             self.acceleratorArn = acceleratorArn
             self.clientAffinity = clientAffinity
@@ -927,6 +954,7 @@ extension GlobalAccelerator {
         /// The listener that you've created.
         public let listener: Listener?
 
+        @inlinable
         public init(listener: Listener? = nil) {
             self.listener = listener
         }
@@ -950,6 +978,7 @@ extension GlobalAccelerator {
         /// 			can be added to an accelerator by specified principals.
         public let endpointId: String?
 
+        @inlinable
         public init(attachmentArn: String? = nil, cidr: String? = nil, endpointId: String? = nil) {
             self.attachmentArn = attachmentArn
             self.cidr = cidr
@@ -988,6 +1017,7 @@ extension GlobalAccelerator {
         /// Describes the deployment status of the accelerator.
         public let status: CustomRoutingAcceleratorStatus?
 
+        @inlinable
         public init(acceleratorArn: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, enabled: Bool? = nil, ipAddressType: IpAddressType? = nil, ipSets: [IpSet]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: CustomRoutingAcceleratorStatus? = nil) {
             self.acceleratorArn = acceleratorArn
             self.createdTime = createdTime
@@ -1027,6 +1057,7 @@ extension GlobalAccelerator {
         /// 			root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
+        @inlinable
         public init(flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
             self.flowLogsEnabled = flowLogsEnabled
             self.flowLogsS3Bucket = flowLogsS3Bucket
@@ -1048,6 +1079,7 @@ extension GlobalAccelerator {
         /// The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
         public let toPort: Int
 
+        @inlinable
         public init(fromPort: Int, protocols: [CustomRoutingProtocol], toPort: Int) {
             self.fromPort = fromPort
             self.protocols = protocols
@@ -1078,6 +1110,7 @@ extension GlobalAccelerator {
         /// The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, protocols: [`Protocol`]? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.protocols = protocols
@@ -1099,6 +1132,7 @@ extension GlobalAccelerator {
         /// 			subnet ID.
         public let endpointId: String?
 
+        @inlinable
         public init(attachmentArn: String? = nil, endpointId: String? = nil) {
             self.attachmentArn = attachmentArn
             self.endpointId = endpointId
@@ -1120,6 +1154,7 @@ extension GlobalAccelerator {
         /// 			subnet ID.
         public let endpointId: String?
 
+        @inlinable
         public init(endpointId: String? = nil) {
             self.endpointId = endpointId
         }
@@ -1141,6 +1176,7 @@ extension GlobalAccelerator {
         /// The Amazon Web Services Region where the endpoint group is located.
         public let endpointGroupRegion: String?
 
+        @inlinable
         public init(destinationDescriptions: [CustomRoutingDestinationDescription]? = nil, endpointDescriptions: [CustomRoutingEndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil) {
             self.destinationDescriptions = destinationDescriptions
             self.endpointDescriptions = endpointDescriptions
@@ -1163,6 +1199,7 @@ extension GlobalAccelerator {
         /// 				endpoints for custom routing accelerators.
         public let portRanges: [PortRange]?
 
+        @inlinable
         public init(listenerArn: String? = nil, portRanges: [PortRange]? = nil) {
             self.listenerArn = listenerArn
             self.portRanges = portRanges
@@ -1178,6 +1215,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of an accelerator.
         public let acceleratorArn: String
 
+        @inlinable
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -1195,6 +1233,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) for the cross-account attachment to delete.
         public let attachmentArn: String
 
+        @inlinable
         public init(attachmentArn: String) {
             self.attachmentArn = attachmentArn
         }
@@ -1212,6 +1251,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the custom routing accelerator to delete.
         public let acceleratorArn: String
 
+        @inlinable
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -1229,6 +1269,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
 
+        @inlinable
         public init(endpointGroupArn: String) {
             self.endpointGroupArn = endpointGroupArn
         }
@@ -1246,6 +1287,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener to delete.
         public let listenerArn: String
 
+        @inlinable
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -1263,6 +1305,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
 
+        @inlinable
         public init(endpointGroupArn: String) {
             self.endpointGroupArn = endpointGroupArn
         }
@@ -1280,6 +1323,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
+        @inlinable
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -1312,6 +1356,7 @@ extension GlobalAccelerator {
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public let endpointId: String
 
+        @inlinable
         public init(denyAllTrafficToEndpoint: Bool? = nil, destinationAddresses: [String]? = nil, destinationPorts: [Int]? = nil, endpointGroupArn: String, endpointId: String) {
             self.denyAllTrafficToEndpoint = denyAllTrafficToEndpoint
             self.destinationAddresses = destinationAddresses
@@ -1350,6 +1395,7 @@ extension GlobalAccelerator {
         /// 			the Global Accelerator Developer Guide.
         public let cidr: String
 
+        @inlinable
         public init(cidr: String) {
             self.cidr = cidr
         }
@@ -1367,6 +1413,7 @@ extension GlobalAccelerator {
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -1380,6 +1427,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
         public let acceleratorArn: String
 
+        @inlinable
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -1397,6 +1445,7 @@ extension GlobalAccelerator {
         /// The attributes of the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
 
+        @inlinable
         public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
             self.acceleratorAttributes = acceleratorAttributes
         }
@@ -1410,6 +1459,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
 
+        @inlinable
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -1427,6 +1477,7 @@ extension GlobalAccelerator {
         /// The description of the accelerator.
         public let accelerator: Accelerator?
 
+        @inlinable
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -1440,6 +1491,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) for the cross-account attachment to describe.
         public let attachmentArn: String
 
+        @inlinable
         public init(attachmentArn: String) {
             self.attachmentArn = attachmentArn
         }
@@ -1457,6 +1509,7 @@ extension GlobalAccelerator {
         /// Information about the cross-account attachment.
         public let crossAccountAttachment: Attachment?
 
+        @inlinable
         public init(crossAccountAttachment: Attachment? = nil) {
             self.crossAccountAttachment = crossAccountAttachment
         }
@@ -1470,6 +1523,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for.
         public let acceleratorArn: String
 
+        @inlinable
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -1487,6 +1541,7 @@ extension GlobalAccelerator {
         /// The attributes of the custom routing accelerator.
         public let acceleratorAttributes: CustomRoutingAcceleratorAttributes?
 
+        @inlinable
         public init(acceleratorAttributes: CustomRoutingAcceleratorAttributes? = nil) {
             self.acceleratorAttributes = acceleratorAttributes
         }
@@ -1500,6 +1555,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
 
+        @inlinable
         public init(acceleratorArn: String) {
             self.acceleratorArn = acceleratorArn
         }
@@ -1517,6 +1573,7 @@ extension GlobalAccelerator {
         /// The description of the custom routing accelerator.
         public let accelerator: CustomRoutingAccelerator?
 
+        @inlinable
         public init(accelerator: CustomRoutingAccelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -1530,6 +1587,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
 
+        @inlinable
         public init(endpointGroupArn: String) {
             self.endpointGroupArn = endpointGroupArn
         }
@@ -1547,6 +1605,7 @@ extension GlobalAccelerator {
         /// The description of an endpoint group for a custom routing accelerator.
         public let endpointGroup: CustomRoutingEndpointGroup?
 
+        @inlinable
         public init(endpointGroup: CustomRoutingEndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -1560,6 +1619,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
 
+        @inlinable
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -1577,6 +1637,7 @@ extension GlobalAccelerator {
         /// The description of a listener for a custom routing accelerator.
         public let listener: CustomRoutingListener?
 
+        @inlinable
         public init(listener: CustomRoutingListener? = nil) {
             self.listener = listener
         }
@@ -1590,6 +1651,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
 
+        @inlinable
         public init(endpointGroupArn: String) {
             self.endpointGroupArn = endpointGroupArn
         }
@@ -1607,6 +1669,7 @@ extension GlobalAccelerator {
         /// The description of an endpoint group.
         public let endpointGroup: EndpointGroup?
 
+        @inlinable
         public init(endpointGroup: EndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -1620,6 +1683,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
 
+        @inlinable
         public init(listenerArn: String) {
             self.listenerArn = listenerArn
         }
@@ -1637,6 +1701,7 @@ extension GlobalAccelerator {
         /// The description of a listener.
         public let listener: Listener?
 
+        @inlinable
         public init(listener: Listener? = nil) {
             self.listener = listener
         }
@@ -1667,6 +1732,7 @@ extension GlobalAccelerator {
         /// The IP address type that an accelerator supports. For a custom routing accelerator, the value must be IPV4.
         public let ipAddressType: IpAddressType?
 
+        @inlinable
         public init(acceleratorArn: String? = nil, acceleratorSocketAddresses: [SocketAddress]? = nil, destinationSocketAddress: SocketAddress? = nil, destinationTrafficState: CustomRoutingDestinationTrafficState? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, endpointId: String? = nil, ipAddressType: IpAddressType? = nil) {
             self.acceleratorArn = acceleratorArn
             self.acceleratorSocketAddresses = acceleratorSocketAddresses
@@ -1713,6 +1779,7 @@ extension GlobalAccelerator {
         /// 	        Global Accelerator Developer Guide.
         public let weight: Int?
 
+        @inlinable
         public init(attachmentArn: String? = nil, clientIPPreservationEnabled: Bool? = nil, endpointId: String? = nil, weight: Int? = nil) {
             self.attachmentArn = attachmentArn
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
@@ -1758,6 +1825,7 @@ extension GlobalAccelerator {
         /// 	        Global Accelerator Developer Guide.
         public let weight: Int?
 
+        @inlinable
         public init(clientIPPreservationEnabled: Bool? = nil, endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int? = nil) {
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
@@ -1806,6 +1874,7 @@ extension GlobalAccelerator {
         /// 			applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
+        @inlinable
         public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, portOverrides: [PortOverride]? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
@@ -1842,6 +1911,7 @@ extension GlobalAccelerator {
         /// 			allocation ID. For Amazon EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
         public let endpointId: String
 
+        @inlinable
         public init(clientIPPreservationEnabled: Bool? = nil, endpointId: String) {
             self.clientIPPreservationEnabled = clientIPPreservationEnabled
             self.endpointId = endpointId
@@ -1865,6 +1935,7 @@ extension GlobalAccelerator {
         /// IpFamily is deprecated and has been replaced by IpAddressFamily.
         public let ipFamily: String?
 
+        @inlinable
         public init(ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil) {
             self.ipAddresses = ipAddresses
             self.ipAddressFamily = ipAddressFamily
@@ -1872,6 +1943,7 @@ extension GlobalAccelerator {
         }
 
         @available(*, deprecated, message: "Members ipFamily have been deprecated")
+        @inlinable
         public init(ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil, ipFamily: String? = nil) {
             self.ipAddresses = ipAddresses
             self.ipAddressFamily = ipAddressFamily
@@ -1891,6 +1963,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1914,6 +1987,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(accelerators: [Accelerator]? = nil, nextToken: String? = nil) {
             self.accelerators = accelerators
             self.nextToken = nextToken
@@ -1932,6 +2006,7 @@ extension GlobalAccelerator {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1955,6 +2030,7 @@ extension GlobalAccelerator {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(byoipCidrs: [ByoipCidr]? = nil, nextToken: String? = nil) {
             self.byoipCidrs = byoipCidrs
             self.nextToken = nextToken
@@ -1972,6 +2048,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1995,6 +2072,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(crossAccountAttachments: [Attachment]? = nil, nextToken: String? = nil) {
             self.crossAccountAttachments = crossAccountAttachments
             self.nextToken = nextToken
@@ -2015,6 +2093,7 @@ extension GlobalAccelerator {
         /// 			with resources listed in the same attachment.
         public let resourceOwnerAwsAccountIds: [String]?
 
+        @inlinable
         public init(resourceOwnerAwsAccountIds: [String]? = nil) {
             self.resourceOwnerAwsAccountIds = resourceOwnerAwsAccountIds
         }
@@ -2034,6 +2113,7 @@ extension GlobalAccelerator {
         /// The account ID of a resource owner in a cross-account attachment.
         public let resourceOwnerAwsAccountId: String
 
+        @inlinable
         public init(acceleratorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceOwnerAwsAccountId: String) {
             self.acceleratorArn = acceleratorArn
             self.maxResults = maxResults
@@ -2065,6 +2145,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(crossAccountResources: [CrossAccountResource]? = nil, nextToken: String? = nil) {
             self.crossAccountResources = crossAccountResources
             self.nextToken = nextToken
@@ -2082,6 +2163,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2105,6 +2187,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(accelerators: [CustomRoutingAccelerator]? = nil, nextToken: String? = nil) {
             self.accelerators = accelerators
             self.nextToken = nextToken
@@ -2124,6 +2207,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(listenerArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.listenerArn = listenerArn
             self.maxResults = maxResults
@@ -2150,6 +2234,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(endpointGroups: [CustomRoutingEndpointGroup]? = nil, nextToken: String? = nil) {
             self.endpointGroups = endpointGroups
             self.nextToken = nextToken
@@ -2169,6 +2254,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(acceleratorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.maxResults = maxResults
@@ -2195,6 +2281,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(listeners: [CustomRoutingListener]? = nil, nextToken: String? = nil) {
             self.listeners = listeners
             self.nextToken = nextToken
@@ -2217,6 +2304,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(destinationAddress: String, endpointId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.destinationAddress = destinationAddress
             self.endpointId = endpointId
@@ -2246,6 +2334,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(destinationPortMappings: [DestinationPortMapping]? = nil, nextToken: String? = nil) {
             self.destinationPortMappings = destinationPortMappings
             self.nextToken = nextToken
@@ -2267,6 +2356,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(acceleratorArn: String, endpointGroupArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.endpointGroupArn = endpointGroupArn
@@ -2296,6 +2386,7 @@ extension GlobalAccelerator {
         /// The port mappings for a custom routing accelerator.
         public let portMappings: [PortMapping]?
 
+        @inlinable
         public init(nextToken: String? = nil, portMappings: [PortMapping]? = nil) {
             self.nextToken = nextToken
             self.portMappings = portMappings
@@ -2315,6 +2406,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(listenerArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.listenerArn = listenerArn
             self.maxResults = maxResults
@@ -2341,6 +2433,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(endpointGroups: [EndpointGroup]? = nil, nextToken: String? = nil) {
             self.endpointGroups = endpointGroups
             self.nextToken = nextToken
@@ -2360,6 +2453,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(acceleratorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.maxResults = maxResults
@@ -2386,6 +2480,7 @@ extension GlobalAccelerator {
         /// The token for the next set of results. You receive this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(listeners: [Listener]? = nil, nextToken: String? = nil) {
             self.listeners = listeners
             self.nextToken = nextToken
@@ -2401,6 +2496,7 @@ extension GlobalAccelerator {
         /// The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN uniquely identifies an accelerator.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2419,6 +2515,7 @@ extension GlobalAccelerator {
         /// Root level tag for the Tags parameters.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2446,6 +2543,7 @@ extension GlobalAccelerator {
         /// The protocol for the connections from clients to the accelerator.
         public let `protocol`: `Protocol`?
 
+        @inlinable
         public init(clientAffinity: ClientAffinity? = nil, listenerArn: String? = nil, portRanges: [PortRange]? = nil, protocol: `Protocol`? = nil) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
@@ -2476,6 +2574,7 @@ extension GlobalAccelerator {
         /// The protocols supported by the endpoint group.
         public let protocols: [CustomRoutingProtocol]?
 
+        @inlinable
         public init(acceleratorPort: Int? = nil, destinationSocketAddress: SocketAddress? = nil, destinationTrafficState: CustomRoutingDestinationTrafficState? = nil, endpointGroupArn: String? = nil, endpointId: String? = nil, protocols: [CustomRoutingProtocol]? = nil) {
             self.acceleratorPort = acceleratorPort
             self.destinationSocketAddress = destinationSocketAddress
@@ -2503,6 +2602,7 @@ extension GlobalAccelerator {
         /// 		    arrives to the Global Accelerator on.
         public let listenerPort: Int?
 
+        @inlinable
         public init(endpointPort: Int? = nil, listenerPort: Int? = nil) {
             self.endpointPort = endpointPort
             self.listenerPort = listenerPort
@@ -2527,6 +2627,7 @@ extension GlobalAccelerator {
         /// The last port in the range of ports, inclusive.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -2557,6 +2658,7 @@ extension GlobalAccelerator {
         ///
         public let cidrAuthorizationContext: CidrAuthorizationContext
 
+        @inlinable
         public init(cidr: String, cidrAuthorizationContext: CidrAuthorizationContext) {
             self.cidr = cidr
             self.cidrAuthorizationContext = cidrAuthorizationContext
@@ -2577,6 +2679,7 @@ extension GlobalAccelerator {
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }
@@ -2593,6 +2696,7 @@ extension GlobalAccelerator {
         /// 		subnet IDs.
         public let endpointIds: [String]
 
+        @inlinable
         public init(endpointGroupArn: String, endpointIds: [String]) {
             self.endpointGroupArn = endpointGroupArn
             self.endpointIds = endpointIds
@@ -2617,6 +2721,7 @@ extension GlobalAccelerator {
         /// The identifiers of the endpoints that you want to remove.
         public let endpointIdentifiers: [EndpointIdentifier]
 
+        @inlinable
         public init(endpointGroupArn: String, endpointIdentifiers: [EndpointIdentifier]) {
             self.endpointGroupArn = endpointGroupArn
             self.endpointIdentifiers = endpointIdentifiers
@@ -2650,6 +2755,7 @@ extension GlobalAccelerator {
         /// The Amazon Web Services Region where a shared endpoint resource is located.
         public let region: String?
 
+        @inlinable
         public init(cidr: String? = nil, endpointId: String? = nil, region: String? = nil) {
             self.cidr = cidr
             self.endpointId = endpointId
@@ -2675,6 +2781,7 @@ extension GlobalAccelerator {
         /// The port for the socket address.
         public let port: Int?
 
+        @inlinable
         public init(ipAddress: String? = nil, port: Int? = nil) {
             self.ipAddress = ipAddress
             self.port = port
@@ -2692,6 +2799,7 @@ extension GlobalAccelerator {
         /// A string that contains a Tag value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2715,6 +2823,7 @@ extension GlobalAccelerator {
         /// The tags to add to a resource. A tag consists of a key and a value that you define.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2744,6 +2853,7 @@ extension GlobalAccelerator {
         /// The tag key pairs that you want to remove from the specified resources.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2785,6 +2895,7 @@ extension GlobalAccelerator {
         /// 			like the following: s3-bucket_name//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
+        @inlinable
         public init(acceleratorArn: String, flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.flowLogsEnabled = flowLogsEnabled
@@ -2810,6 +2921,7 @@ extension GlobalAccelerator {
         /// Updated attributes for the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
 
+        @inlinable
         public init(acceleratorAttributes: AcceleratorAttributes? = nil) {
             self.acceleratorAttributes = acceleratorAttributes
         }
@@ -2832,6 +2944,7 @@ extension GlobalAccelerator {
         /// 			periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String?
 
+        @inlinable
         public init(acceleratorArn: String, enabled: Bool? = nil, ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.enabled = enabled
@@ -2862,6 +2975,7 @@ extension GlobalAccelerator {
         /// Information about the updated accelerator.
         public let accelerator: Accelerator?
 
+        @inlinable
         public init(accelerator: Accelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -2891,6 +3005,7 @@ extension GlobalAccelerator {
         /// 			with an accelerator by the principals that are listed in the attachment. To remove more than one resource, separate the resource ARNs with commas.
         public let removeResources: [Resource]?
 
+        @inlinable
         public init(addPrincipals: [String]? = nil, addResources: [Resource]? = nil, attachmentArn: String, name: String? = nil, removePrincipals: [String]? = nil, removeResources: [Resource]? = nil) {
             self.addPrincipals = addPrincipals
             self.addResources = addResources
@@ -2934,6 +3049,7 @@ extension GlobalAccelerator {
         /// Information about the updated cross-account attachment.
         public let crossAccountAttachment: Attachment?
 
+        @inlinable
         public init(crossAccountAttachment: Attachment? = nil) {
             self.crossAccountAttachment = crossAccountAttachment
         }
@@ -2959,6 +3075,7 @@ extension GlobalAccelerator {
         /// 		root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
+        @inlinable
         public init(acceleratorArn: String, flowLogsEnabled: Bool? = nil, flowLogsS3Bucket: String? = nil, flowLogsS3Prefix: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.flowLogsEnabled = flowLogsEnabled
@@ -2984,6 +3101,7 @@ extension GlobalAccelerator {
         /// Updated custom routing accelerator.
         public let acceleratorAttributes: CustomRoutingAcceleratorAttributes?
 
+        @inlinable
         public init(acceleratorAttributes: CustomRoutingAcceleratorAttributes? = nil) {
             self.acceleratorAttributes = acceleratorAttributes
         }
@@ -3006,6 +3124,7 @@ extension GlobalAccelerator {
         /// 		periods (.), or hyphens (-), and must not begin or end with a hyphen or period.
         public let name: String?
 
+        @inlinable
         public init(acceleratorArn: String, enabled: Bool? = nil, ipAddresses: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil) {
             self.acceleratorArn = acceleratorArn
             self.enabled = enabled
@@ -3036,6 +3155,7 @@ extension GlobalAccelerator {
         /// Information about the updated custom routing accelerator.
         public let accelerator: CustomRoutingAccelerator?
 
+        @inlinable
         public init(accelerator: CustomRoutingAccelerator? = nil) {
             self.accelerator = accelerator
         }
@@ -3053,6 +3173,7 @@ extension GlobalAccelerator {
         /// 		endpoints for custom routing accelerators.
         public let portRanges: [PortRange]
 
+        @inlinable
         public init(listenerArn: String, portRanges: [PortRange]) {
             self.listenerArn = listenerArn
             self.portRanges = portRanges
@@ -3077,6 +3198,7 @@ extension GlobalAccelerator {
         /// Information for the updated listener for a custom routing accelerator.
         public let listener: CustomRoutingListener?
 
+        @inlinable
         public init(listener: CustomRoutingListener? = nil) {
             self.listener = listener
         }
@@ -3117,6 +3239,7 @@ extension GlobalAccelerator {
         /// 			applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
+        @inlinable
         public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, portOverrides: [PortOverride]? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupArn = endpointGroupArn
@@ -3168,6 +3291,7 @@ extension GlobalAccelerator {
         /// The information about the endpoint group that was updated.
         public let endpointGroup: EndpointGroup?
 
+        @inlinable
         public init(endpointGroup: EndpointGroup? = nil) {
             self.endpointGroup = endpointGroup
         }
@@ -3195,6 +3319,7 @@ extension GlobalAccelerator {
         /// The updated protocol for the connections from clients to the accelerator.
         public let `protocol`: `Protocol`?
 
+        @inlinable
         public init(clientAffinity: ClientAffinity? = nil, listenerArn: String, portRanges: [PortRange]? = nil, protocol: `Protocol`? = nil) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
@@ -3223,6 +3348,7 @@ extension GlobalAccelerator {
         /// Information for the updated listener.
         public let listener: Listener?
 
+        @inlinable
         public init(listener: Listener? = nil) {
             self.listener = listener
         }
@@ -3238,6 +3364,7 @@ extension GlobalAccelerator {
         /// 			the Global Accelerator Developer Guide.
         public let cidr: String
 
+        @inlinable
         public init(cidr: String) {
             self.cidr = cidr
         }
@@ -3255,6 +3382,7 @@ extension GlobalAccelerator {
         /// Information about the BYOIP address pool.
         public let byoipCidr: ByoipCidr?
 
+        @inlinable
         public init(byoipCidr: ByoipCidr? = nil) {
             self.byoipCidr = byoipCidr
         }

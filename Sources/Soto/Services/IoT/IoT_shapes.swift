@@ -660,6 +660,7 @@ extension IoT {
         /// The list of criteria that determine when and how to abort the job.
         public let criteriaList: [AbortCriteria]
 
+        @inlinable
         public init(criteriaList: [AbortCriteria]) {
             self.criteriaList = criteriaList
         }
@@ -686,6 +687,7 @@ extension IoT {
         /// The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
+        @inlinable
         public init(action: AbortAction, failureType: JobExecutionFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
             self.action = action
             self.failureType = failureType
@@ -712,6 +714,7 @@ extension IoT {
         /// Specifies whether the certificate is active.
         public let setAsActive: Bool?
 
+        @inlinable
         public init(certificateId: String, setAsActive: Bool? = nil) {
             self.certificateId = certificateId
             self.setAsActive = setAsActive
@@ -781,6 +784,7 @@ extension IoT {
         /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the Timestream topic rule action documentation.
         public let timestream: TimestreamAction?
 
+        @inlinable
         public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, location: LocationAction? = nil, openSearch: OpenSearchAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
@@ -869,6 +873,7 @@ extension IoT {
         /// The time the violation started.
         public let violationStartTime: Date?
 
+        @inlinable
         public init(behavior: Behavior? = nil, lastViolationTime: Date? = nil, lastViolationValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, verificationState: VerificationState? = nil, verificationStateDescription: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationId: String? = nil, violationStartTime: Date? = nil) {
             self.behavior = behavior
             self.lastViolationTime = lastViolationTime
@@ -906,6 +911,7 @@ extension IoT {
         /// The name of the thing to be added to the billing group.
         public let thingName: String?
 
+        @inlinable
         public init(billingGroupArn: String? = nil, billingGroupName: String? = nil, thingArn: String? = nil, thingName: String? = nil) {
             self.billingGroupArn = billingGroupArn
             self.billingGroupName = billingGroupName
@@ -949,6 +955,7 @@ extension IoT {
         /// The name of the thing to add to a group.
         public let thingName: String?
 
+        @inlinable
         public init(overrideDynamicGroups: Bool? = nil, thingArn: String? = nil, thingGroupArn: String? = nil, thingGroupName: String? = nil, thingName: String? = nil) {
             self.overrideDynamicGroups = overrideDynamicGroups
             self.thingArn = thingArn
@@ -985,6 +992,7 @@ extension IoT {
         /// The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you can't add a thing to more than one group in the same hierarchy.
         public let thingGroupNames: [String]
 
+        @inlinable
         public init(overrideDynamicGroups: Bool? = nil, thingGroupNames: [String]) {
             self.overrideDynamicGroups = overrideDynamicGroups
             self.thingGroupNames = thingGroupNames
@@ -1012,6 +1020,7 @@ extension IoT {
         /// A list of the values of aggregation types.
         public let values: [String]?
 
+        @inlinable
         public init(name: AggregationTypeName, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1037,6 +1046,7 @@ extension IoT {
         /// The ARN of the role that grants permission to send alerts to the  notification target.
         public let roleArn: String
 
+        @inlinable
         public init(alertTargetArn: String, roleArn: String) {
             self.alertTargetArn = alertTargetArn
             self.roleArn = roleArn
@@ -1057,6 +1067,7 @@ extension IoT {
         /// A list of policies that allowed the authentication.
         public let policies: [Policy]?
 
+        @inlinable
         public init(policies: [Policy]? = nil) {
             self.policies = policies
         }
@@ -1072,6 +1083,7 @@ extension IoT {
         /// A string that contains the time in seconds since epoch. Accepts substitution templates.
         public let timeInSeconds: String
 
+        @inlinable
         public init(offsetInNanos: String? = nil, timeInSeconds: String) {
             self.offsetInNanos = offsetInNanos
             self.timeInSeconds = timeInSeconds
@@ -1091,6 +1103,7 @@ extension IoT {
         /// The value of the asset property.
         public let value: AssetPropertyVariant
 
+        @inlinable
         public init(quality: String? = nil, timestamp: AssetPropertyTimestamp, value: AssetPropertyVariant) {
             self.quality = quality
             self.timestamp = timestamp
@@ -1118,6 +1131,7 @@ extension IoT {
         /// A list of thing group ARNs that define the targets of the job.
         public let targets: [String]
 
+        @inlinable
         public init(comment: String? = nil, jobId: String, namespaceId: String? = nil, targets: [String]) {
             self.comment = comment
             self.jobId = jobId
@@ -1161,6 +1175,7 @@ extension IoT {
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
 
+        @inlinable
         public init(description: String? = nil, jobArn: String? = nil, jobId: String? = nil) {
             self.description = description
             self.jobArn = jobArn
@@ -1180,6 +1195,7 @@ extension IoT {
         /// The identity to which the policy is attached. For example, a thing group or a certificate.
         public let target: String
 
+        @inlinable
         public init(policyName: String, target: String) {
             self.policyName = policyName
             self.target = target
@@ -1209,6 +1225,7 @@ extension IoT {
         /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
         public let principal: String
 
+        @inlinable
         public init(policyName: String, principal: String) {
             self.policyName = policyName
             self.principal = principal
@@ -1236,6 +1253,7 @@ extension IoT {
         /// The ARN of the target (thing group) to which the security profile is attached.
         public let securityProfileTargetArn: String
 
+        @inlinable
         public init(securityProfileName: String, securityProfileTargetArn: String) {
             self.securityProfileName = securityProfileName
             self.securityProfileTargetArn = securityProfileTargetArn
@@ -1268,6 +1286,7 @@ extension IoT {
         /// The name of the thing.
         public let thingName: String
 
+        @inlinable
         public init(principal: String, thingName: String) {
             self.principal = principal
             self.thingName = thingName
@@ -1300,6 +1319,7 @@ extension IoT {
         /// 			the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value.  The merge attribute is only valid when calling UpdateThing or UpdateThingGroup.
         public let merge: Bool?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, merge: Bool? = nil) {
             self.attributes = attributes
             self.merge = merge
@@ -1324,6 +1344,7 @@ extension IoT {
         /// True if this audit check is enabled for this account.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -1349,6 +1370,7 @@ extension IoT {
         /// The number of resources on which the check was performed.
         public let totalResourcesCount: Int64?
 
+        @inlinable
         public init(checkCompliant: Bool? = nil, checkRunStatus: AuditCheckRunStatus? = nil, errorCode: String? = nil, message: String? = nil, nonCompliantResourcesCount: Int64? = nil, suppressedNonCompliantResourcesCount: Int64? = nil, totalResourcesCount: Int64? = nil) {
             self.checkCompliant = checkCompliant
             self.checkRunStatus = checkRunStatus
@@ -1394,6 +1416,7 @@ extension IoT {
         /// The time the audit started.
         public let taskStartTime: Date?
 
+        @inlinable
         public init(checkName: String? = nil, findingId: String? = nil, findingTime: Date? = nil, isSuppressed: Bool? = nil, nonCompliantResource: NonCompliantResource? = nil, reasonForNonCompliance: String? = nil, reasonForNonComplianceCode: String? = nil, relatedResources: [RelatedResource]? = nil, severity: AuditFindingSeverity? = nil, taskId: String? = nil, taskStartTime: Date? = nil) {
             self.checkName = checkName
             self.findingId = findingId
@@ -1443,6 +1466,7 @@ extension IoT {
         /// The unique identifier for the task that applies the mitigation action.
         public let taskId: String?
 
+        @inlinable
         public init(actionId: String? = nil, actionName: String? = nil, endTime: Date? = nil, errorCode: String? = nil, findingId: String? = nil, message: String? = nil, startTime: Date? = nil, status: AuditMitigationActionsExecutionStatus? = nil, taskId: String? = nil) {
             self.actionId = actionId
             self.actionName = actionName
@@ -1476,6 +1500,7 @@ extension IoT {
         /// The current state of the audit mitigation actions task.
         public let taskStatus: AuditMitigationActionsTaskStatus?
 
+        @inlinable
         public init(startTime: Date? = nil, taskId: String? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
             self.startTime = startTime
             self.taskId = taskId
@@ -1497,6 +1522,7 @@ extension IoT {
         /// If the task will apply a mitigation action to one or more listed findings, this value uniquely identifies those findings.
         public let findingIds: [String]?
 
+        @inlinable
         public init(auditCheckToReasonCodeFilter: [String: [String]]? = nil, auditTaskId: String? = nil, findingIds: [String]? = nil) {
             self.auditCheckToReasonCodeFilter = auditCheckToReasonCodeFilter
             self.auditTaskId = auditTaskId
@@ -1535,6 +1561,7 @@ extension IoT {
         /// The ARN of the target (SNS topic) to which audit notifications are sent.
         public let targetArn: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, roleArn: String? = nil, targetArn: String? = nil) {
             self.enabled = enabled
             self.roleArn = roleArn
@@ -1564,6 +1591,7 @@ extension IoT {
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
+        @inlinable
         public init(checkName: String, description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.description = description
@@ -1589,6 +1617,7 @@ extension IoT {
         /// The type of this audit. One of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
         public let taskType: AuditTaskType?
 
+        @inlinable
         public init(taskId: String? = nil, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
             self.taskId = taskId
             self.taskStatus = taskStatus
@@ -1608,6 +1637,7 @@ extension IoT {
         /// The resources for which the principal is being authorized to perform the specified action.
         public let resources: [String]
 
+        @inlinable
         public init(actionType: ActionType? = nil, resources: [String]) {
             self.actionType = actionType
             self.resources = resources
@@ -1638,6 +1668,7 @@ extension IoT {
         /// Contains any missing context values found while evaluating policy.
         public let missingContextValues: [String]?
 
+        @inlinable
         public init(allowed: Allowed? = nil, authDecision: AuthDecision? = nil, authInfo: AuthInfo? = nil, denied: Denied? = nil, missingContextValues: [String]? = nil) {
             self.allowed = allowed
             self.authDecision = authDecision
@@ -1661,6 +1692,7 @@ extension IoT {
         /// The name of the authorization service for a domain configuration.
         public let defaultAuthorizerName: String?
 
+        @inlinable
         public init(allowAuthorizerOverride: Bool? = nil, defaultAuthorizerName: String? = nil) {
             self.allowAuthorizerOverride = allowAuthorizerOverride
             self.defaultAuthorizerName = defaultAuthorizerName
@@ -1702,6 +1734,7 @@ extension IoT {
         /// The public keys used to validate the token signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
+        @inlinable
         public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: Date? = nil, enableCachingForHttp: Bool? = nil, lastModifiedDate: Date? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerFunctionArn = authorizerFunctionArn
@@ -1735,6 +1768,7 @@ extension IoT {
         /// The authorizer name.
         public let authorizerName: String?
 
+        @inlinable
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
@@ -1750,6 +1784,7 @@ extension IoT {
         /// The list of criteria that determine when and how to abort the job.
         public let abortCriteriaList: [AwsJobAbortCriteria]
 
+        @inlinable
         public init(abortCriteriaList: [AwsJobAbortCriteria]) {
             self.abortCriteriaList = abortCriteriaList
         }
@@ -1776,6 +1811,7 @@ extension IoT {
         /// The minimum percentage of job execution failures that must occur to initiate the job abort. Amazon Web Services IoT Core supports up to two digits after the decimal (for example, 10.9 and 10.99, but not 10.999).
         public let thresholdPercentage: Double
 
+        @inlinable
         public init(action: AwsJobAbortCriteriaAbortAction, failureType: AwsJobAbortCriteriaFailureType, minNumberOfExecutedThings: Int, thresholdPercentage: Double) {
             self.action = action
             self.failureType = failureType
@@ -1802,6 +1838,7 @@ extension IoT {
         /// The maximum number of OTA update job executions started per minute.
         public let maximumPerMinute: Int?
 
+        @inlinable
         public init(exponentialRate: AwsJobExponentialRolloutRate? = nil, maximumPerMinute: Int? = nil) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
@@ -1827,6 +1864,7 @@ extension IoT {
         /// The criteria to initiate the increase in rate of rollout for a job. Amazon Web Services IoT Core supports up to one digit after the decimal (for example, 1.5, but not 1.55).
         public let rateIncreaseCriteria: AwsJobRateIncreaseCriteria
 
+        @inlinable
         public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: AwsJobRateIncreaseCriteria) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
@@ -1850,6 +1888,7 @@ extension IoT {
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 1800 seconds. Pre-signed URLs are generated when a request for the job document is received.
         public let expiresInSec: Int64?
 
+        @inlinable
         public init(expiresInSec: Int64? = nil) {
             self.expiresInSec = expiresInSec
         }
@@ -1865,6 +1904,7 @@ extension IoT {
         /// When this number of things have succeeded in their job execution, it will initiate an  increase in the rollout rate.
         public let numberOfSucceededThings: Int?
 
+        @inlinable
         public init(numberOfNotifiedThings: Int? = nil, numberOfSucceededThings: Int? = nil) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
@@ -1885,6 +1925,7 @@ extension IoT {
         /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The  timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress  timer can't be updated and will apply to all job executions for the job. Whenever a job execution  remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and  switch to the terminal TIMED_OUT status.
         public let inProgressTimeoutInMinutes: Int64?
 
+        @inlinable
         public init(inProgressTimeoutInMinutes: Int64? = nil) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }
@@ -1908,6 +1949,7 @@ extension IoT {
         ///  Suppresses alerts.
         public let suppressAlerts: Bool?
 
+        @inlinable
         public init(criteria: BehaviorCriteria? = nil, exportMetric: Bool? = nil, metric: String? = nil, metricDimension: MetricDimension? = nil, name: String, suppressAlerts: Bool? = nil) {
             self.criteria = criteria
             self.exportMetric = exportMetric
@@ -1951,6 +1993,7 @@ extension IoT {
         /// The value to be compared with the metric.
         public let value: MetricValue?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator? = nil, consecutiveDatapointsToAlarm: Int? = nil, consecutiveDatapointsToClear: Int? = nil, durationSeconds: Int? = nil, mlDetectionConfig: MachineLearningDetectionConfig? = nil, statisticalThreshold: StatisticalThreshold? = nil, value: MetricValue? = nil) {
             self.comparisonOperator = comparisonOperator
             self.consecutiveDatapointsToAlarm = consecutiveDatapointsToAlarm
@@ -1995,6 +2038,7 @@ extension IoT {
         ///  The date a training model started collecting data.
         public let trainingDataCollectionStartDate: Date?
 
+        @inlinable
         public init(behaviorName: String? = nil, datapointsCollectionPercentage: Double? = nil, lastModelRefreshDate: Date? = nil, modelStatus: ModelStatus? = nil, securityProfileName: String? = nil, trainingDataCollectionStartDate: Date? = nil) {
             self.behaviorName = behaviorName
             self.datapointsCollectionPercentage = datapointsCollectionPercentage
@@ -2018,6 +2062,7 @@ extension IoT {
         /// The date the billing group was created.
         public let creationDate: Date?
 
+        @inlinable
         public init(creationDate: Date? = nil) {
             self.creationDate = creationDate
         }
@@ -2031,6 +2076,7 @@ extension IoT {
         /// The description of the billing group.
         public let billingGroupDescription: String?
 
+        @inlinable
         public init(billingGroupDescription: String? = nil) {
             self.billingGroupDescription = billingGroupDescription
         }
@@ -2051,6 +2097,7 @@ extension IoT {
         /// The value counted for the particular bucket.
         public let keyValue: String?
 
+        @inlinable
         public init(count: Int? = nil, keyValue: String? = nil) {
             self.count = count
             self.keyValue = keyValue
@@ -2066,6 +2113,7 @@ extension IoT {
         /// Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value.
         public let termsAggregation: TermsAggregation?
 
+        @inlinable
         public init(termsAggregation: TermsAggregation? = nil) {
             self.termsAggregation = termsAggregation
         }
@@ -2089,6 +2137,7 @@ extension IoT {
         /// The status of the CA certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CACertificateStatus?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: Date? = nil, status: CACertificateStatus? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -2130,6 +2179,7 @@ extension IoT {
         /// When the CA certificate is valid.
         public let validity: CertificateValidity?
 
+        @inlinable
         public init(autoRegistrationStatus: AutoRegistrationStatus? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, certificatePem: String? = nil, creationDate: Date? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: Date? = nil, ownedBy: String? = nil, status: CACertificateStatus? = nil, validity: CertificateValidity? = nil) {
             self.autoRegistrationStatus = autoRegistrationStatus
             self.certificateArn = certificateArn
@@ -2165,6 +2215,7 @@ extension IoT {
         /// The unique identifier for the task that you want to cancel.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -2192,6 +2243,7 @@ extension IoT {
         /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -2219,6 +2271,7 @@ extension IoT {
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -2242,6 +2295,7 @@ extension IoT {
         ///  The unique identifier of the task.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -2277,6 +2331,7 @@ extension IoT {
         /// The name of the thing whose execution of the job will be canceled.
         public let thingName: String
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, force: Bool? = nil, jobId: String, statusDetails: [String: String]? = nil, thingName: String) {
             self.expectedVersion = expectedVersion
             self.force = force
@@ -2327,6 +2382,7 @@ extension IoT {
         /// (Optional)A reason code string that explains why the job was canceled.
         public let reasonCode: String?
 
+        @inlinable
         public init(comment: String? = nil, force: Bool? = nil, jobId: String, reasonCode: String? = nil) {
             self.comment = comment
             self.force = force
@@ -2367,6 +2423,7 @@ extension IoT {
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
 
+        @inlinable
         public init(description: String? = nil, jobArn: String? = nil, jobId: String? = nil) {
             self.description = description
             self.jobArn = jobArn
@@ -2392,6 +2449,7 @@ extension IoT {
         /// The status of the certificate. The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let status: CertificateStatus?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, creationDate: Date? = nil, status: CertificateStatus? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -2439,6 +2497,7 @@ extension IoT {
         /// When the certificate is valid.
         public let validity: CertificateValidity?
 
+        @inlinable
         public init(caCertificateId: String? = nil, certificateArn: String? = nil, certificateId: String? = nil, certificateMode: CertificateMode? = nil, certificatePem: String? = nil, creationDate: Date? = nil, customerVersion: Int? = nil, generationId: String? = nil, lastModifiedDate: Date? = nil, ownedBy: String? = nil, previousOwnedBy: String? = nil, status: CertificateStatus? = nil, transferData: TransferData? = nil, validity: CertificateValidity? = nil) {
             self.caCertificateId = caCertificateId
             self.certificateArn = certificateArn
@@ -2480,6 +2539,7 @@ extension IoT {
         /// The name of the certificate provider.
         public let certificateProviderName: String?
 
+        @inlinable
         public init(certificateProviderArn: String? = nil, certificateProviderName: String? = nil) {
             self.certificateProviderArn = certificateProviderArn
             self.certificateProviderName = certificateProviderName
@@ -2497,6 +2557,7 @@ extension IoT {
         /// The certificate is not valid before this date.
         public let notBefore: Date?
 
+        @inlinable
         public init(notAfter: Date? = nil, notBefore: Date? = nil) {
             self.notAfter = notAfter
             self.notBefore = notBefore
@@ -2526,6 +2587,7 @@ extension IoT {
         /// The value of the alarm state. Acceptable values are: OK, ALARM, INSUFFICIENT_DATA.
         public let stateValue: String
 
+        @inlinable
         public init(alarmName: String, roleArn: String, stateReason: String, stateValue: String) {
             self.alarmName = alarmName
             self.roleArn = roleArn
@@ -2549,6 +2611,7 @@ extension IoT {
         /// The IAM role that allows access to the CloudWatch log.
         public let roleArn: String
 
+        @inlinable
         public init(batchMode: Bool? = nil, logGroupName: String, roleArn: String) {
             self.batchMode = batchMode
             self.logGroupName = logGroupName
@@ -2576,6 +2639,7 @@ extension IoT {
         /// The IAM role that allows access to the CloudWatch metric.
         public let roleArn: String
 
+        @inlinable
         public init(metricName: String, metricNamespace: String, metricTimestamp: String? = nil, metricUnit: String, metricValue: String, roleArn: String) {
             self.metricName = metricName
             self.metricNamespace = metricNamespace
@@ -2603,6 +2667,7 @@ extension IoT {
         /// Describes the code-signing job.
         public let startSigningJobParameter: StartSigningJobParameter?
 
+        @inlinable
         public init(awsSignerJobId: String? = nil, customCodeSigning: CustomCodeSigning? = nil, startSigningJobParameter: StartSigningJobParameter? = nil) {
             self.awsSignerJobId = awsSignerJobId
             self.customCodeSigning = customCodeSigning
@@ -2626,6 +2691,7 @@ extension IoT {
         /// A base64 encoded binary representation of the code signing certificate chain.
         public let inlineDocument: String?
 
+        @inlinable
         public init(certificateName: String? = nil, inlineDocument: String? = nil) {
             self.certificateName = certificateName
             self.inlineDocument = inlineDocument
@@ -2641,6 +2707,7 @@ extension IoT {
         /// A base64 encoded binary representation of the code signing signature.
         public let inlineDocument: AWSBase64Data?
 
+        @inlinable
         public init(inlineDocument: AWSBase64Data? = nil) {
             self.inlineDocument = inlineDocument
         }
@@ -2654,6 +2721,7 @@ extension IoT {
         /// True to enable the configuration.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -2667,6 +2735,7 @@ extension IoT {
         /// The token used to confirm ownership or access to the topic rule confirmation URL.
         public let confirmationToken: String
 
+        @inlinable
         public init(confirmationToken: String) {
             self.confirmationToken = confirmationToken
         }
@@ -2701,6 +2770,7 @@ extension IoT {
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
+        @inlinable
         public init(checkName: String, clientRequestToken: String = CreateAuditSuppressionRequest.idempotencyToken(), description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.clientRequestToken = clientRequestToken
@@ -2753,6 +2823,7 @@ extension IoT {
         /// The public keys used to verify the digital signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
+        @inlinable
         public init(authorizerFunctionArn: String, authorizerName: String, enableCachingForHttp: Bool? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tags: [Tag]? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
@@ -2815,6 +2886,7 @@ extension IoT {
         /// The authorizer's name.
         public let authorizerName: String?
 
+        @inlinable
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
@@ -2834,6 +2906,7 @@ extension IoT {
         /// Metadata which can be used to manage the billing group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(billingGroupName: String, billingGroupProperties: BillingGroupProperties? = nil, tags: [Tag]? = nil) {
             self.billingGroupName = billingGroupName
             self.billingGroupProperties = billingGroupProperties
@@ -2872,6 +2945,7 @@ extension IoT {
         /// The name you gave to the billing group.
         public let billingGroupName: String?
 
+        @inlinable
         public init(billingGroupArn: String? = nil, billingGroupId: String? = nil, billingGroupName: String? = nil) {
             self.billingGroupArn = billingGroupArn
             self.billingGroupId = billingGroupId
@@ -2891,6 +2965,7 @@ extension IoT {
         /// Specifies whether the certificate is active.
         public let setAsActive: Bool?
 
+        @inlinable
         public init(certificateSigningRequest: String, setAsActive: Bool? = nil) {
             self.certificateSigningRequest = certificateSigningRequest
             self.setAsActive = setAsActive
@@ -2922,6 +2997,7 @@ extension IoT {
         /// The certificate data, in PEM format.
         public let certificatePem: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -2947,6 +3023,7 @@ extension IoT {
         /// Metadata which can be used to manage the certificate provider.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountDefaultForOperations: [CertificateProviderOperation], certificateProviderName: String, clientToken: String? = CreateCertificateProviderRequest.idempotencyToken(), lambdaFunctionArn: String, tags: [Tag]? = nil) {
             self.accountDefaultForOperations = accountDefaultForOperations
             self.certificateProviderName = certificateProviderName
@@ -2995,6 +3072,7 @@ extension IoT {
         /// The name of the certificate provider.
         public let certificateProviderName: String?
 
+        @inlinable
         public init(certificateProviderArn: String? = nil, certificateProviderName: String? = nil) {
             self.certificateProviderArn = certificateProviderArn
             self.certificateProviderName = certificateProviderName
@@ -3018,6 +3096,7 @@ extension IoT {
         ///  Metadata that can be used to manage the custom metric.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String = CreateCustomMetricRequest.idempotencyToken(), displayName: String? = nil, metricName: String, metricType: CustomMetricType, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.displayName = displayName
@@ -3064,6 +3143,7 @@ extension IoT {
         ///  The name of the custom metric to be used in the metric report.
         public let metricName: String?
 
+        @inlinable
         public init(metricArn: String? = nil, metricName: String? = nil) {
             self.metricArn = metricArn
             self.metricName = metricName
@@ -3087,6 +3167,7 @@ extension IoT {
         /// Specifies the type of dimension. Supported types: TOPIC_FILTER.
         public let type: DimensionType
 
+        @inlinable
         public init(clientRequestToken: String = CreateDimensionRequest.idempotencyToken(), name: String, stringValues: [String], tags: [Tag]? = nil, type: DimensionType) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -3137,6 +3218,7 @@ extension IoT {
         /// A unique identifier for the dimension.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -3168,6 +3250,7 @@ extension IoT {
         /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority.  This value is not required for Amazon Web Services-managed domains.
         public let validationCertificateArn: String?
 
+        @inlinable
         public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, serviceType: ServiceType? = nil, tags: [Tag]? = nil, tlsConfig: TlsConfig? = nil, validationCertificateArn: String? = nil) {
             self.authorizerConfig = authorizerConfig
             self.domainConfigurationName = domainConfigurationName
@@ -3235,6 +3318,7 @@ extension IoT {
         /// The name of the domain configuration.
         public let domainConfigurationName: String?
 
+        @inlinable
         public init(domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil) {
             self.domainConfigurationArn = domainConfigurationArn
             self.domainConfigurationName = domainConfigurationName
@@ -3261,6 +3345,7 @@ extension IoT {
         /// The dynamic thing group properties.
         public let thingGroupProperties: ThingGroupProperties?
 
+        @inlinable
         public init(indexName: String? = nil, queryString: String, queryVersion: String? = nil, tags: [Tag]? = nil, thingGroupName: String, thingGroupProperties: ThingGroupProperties? = nil) {
             self.indexName = indexName
             self.queryString = queryString
@@ -3318,6 +3403,7 @@ extension IoT {
         /// The dynamic thing group name.
         public let thingGroupName: String?
 
+        @inlinable
         public init(indexName: String? = nil, queryString: String? = nil, queryVersion: String? = nil, thingGroupArn: String? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
             self.indexName = indexName
             self.queryString = queryString
@@ -3359,6 +3445,7 @@ extension IoT {
         /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric. Default to null.
         public let unit: FleetMetricUnit?
 
+        @inlinable
         public init(aggregationField: String, aggregationType: AggregationType, description: String? = nil, indexName: String? = nil, metricName: String, period: Int, queryString: String, queryVersion: String? = nil, tags: [Tag]? = nil, unit: FleetMetricUnit? = nil) {
             self.aggregationField = aggregationField
             self.aggregationType = aggregationType
@@ -3425,6 +3512,7 @@ extension IoT {
         /// The name of the fleet metric to create.
         public let metricName: String?
 
+        @inlinable
         public init(metricArn: String? = nil, metricName: String? = nil) {
             self.metricArn = metricArn
             self.metricName = metricName
@@ -3472,6 +3560,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
+        @inlinable
         public init(abortConfig: AbortConfig? = nil, description: String? = nil, destinationPackageVersions: [String]? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, schedulingConfig: SchedulingConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
@@ -3582,6 +3671,7 @@ extension IoT {
         /// The unique identifier you assigned to this job.
         public let jobId: String?
 
+        @inlinable
         public init(description: String? = nil, jobArn: String? = nil, jobId: String? = nil) {
             self.description = description
             self.jobArn = jobArn
@@ -3619,6 +3709,7 @@ extension IoT {
         public let tags: [Tag]?
         public let timeoutConfig: TimeoutConfig?
 
+        @inlinable
         public init(abortConfig: AbortConfig? = nil, description: String, destinationPackageVersions: [String]? = nil, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
@@ -3701,6 +3792,7 @@ extension IoT {
         /// The unique identifier of the job template.
         public let jobTemplateId: String?
 
+        @inlinable
         public init(jobTemplateArn: String? = nil, jobTemplateId: String? = nil) {
             self.jobTemplateArn = jobTemplateArn
             self.jobTemplateId = jobTemplateId
@@ -3716,6 +3808,7 @@ extension IoT {
         /// Specifies whether the certificate is active.
         public let setAsActive: Bool?
 
+        @inlinable
         public init(setAsActive: Bool? = nil) {
             self.setAsActive = setAsActive
         }
@@ -3739,6 +3832,7 @@ extension IoT {
         /// The generated key pair.
         public let keyPair: KeyPair?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil, certificatePem: String? = nil, keyPair: KeyPair? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -3764,6 +3858,7 @@ extension IoT {
         /// Metadata that can be used to manage the mitigation action.
         public let tags: [Tag]?
 
+        @inlinable
         public init(actionName: String, actionParams: MitigationActionParams, roleArn: String, tags: [Tag]? = nil) {
             self.actionName = actionName
             self.actionParams = actionParams
@@ -3804,6 +3899,7 @@ extension IoT {
         /// A unique identifier for the new mitigation action.
         public let actionId: String?
 
+        @inlinable
         public init(actionArn: String? = nil, actionId: String? = nil) {
             self.actionArn = actionArn
             self.actionId = actionId
@@ -3843,6 +3939,7 @@ extension IoT {
         /// Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
         public let targetSelection: TargetSelection?
 
+        @inlinable
         public init(additionalParameters: [String: String]? = nil, awsJobAbortConfig: AwsJobAbortConfig? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, awsJobTimeoutConfig: AwsJobTimeoutConfig? = nil, description: String? = nil, files: [OTAUpdateFile], otaUpdateId: String, protocols: [`Protocol`]? = nil, roleArn: String, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsJobAbortConfig = awsJobAbortConfig
@@ -3931,6 +4028,7 @@ extension IoT {
         /// The OTA update status.
         public let otaUpdateStatus: OTAUpdateStatus?
 
+        @inlinable
         public init(awsIotJobArn: String? = nil, awsIotJobId: String? = nil, otaUpdateArn: String? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil) {
             self.awsIotJobArn = awsIotJobArn
             self.awsIotJobId = awsIotJobId
@@ -3958,6 +4056,7 @@ extension IoT {
         /// Metadata that can be used to manage the package.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreatePackageRequest.idempotencyToken(), description: String? = nil, packageName: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -4007,6 +4106,7 @@ extension IoT {
         /// The name of the software package.
         public let packageName: String?
 
+        @inlinable
         public init(description: String? = nil, packageArn: String? = nil, packageName: String? = nil) {
             self.description = description
             self.packageArn = packageArn
@@ -4034,6 +4134,7 @@ extension IoT {
         /// The name of the new package version.
         public let versionName: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, clientToken: String? = CreatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, tags: [String: String]? = nil, versionName: String) {
             self.attributes = attributes
             self.clientToken = clientToken
@@ -4105,6 +4206,7 @@ extension IoT {
         /// The name of the new package version.
         public let versionName: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, description: String? = nil, errorReason: String? = nil, packageName: String? = nil, packageVersionArn: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
             self.attributes = attributes
             self.description = description
@@ -4134,6 +4236,7 @@ extension IoT {
         /// Metadata which can be used to manage the policy.  For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
         public let tags: [Tag]?
 
+        @inlinable
         public init(policyDocument: String, policyName: String, tags: [Tag]? = nil) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -4175,6 +4278,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String?
 
+        @inlinable
         public init(policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil, policyVersionId: String? = nil) {
             self.policyArn = policyArn
             self.policyDocument = policyDocument
@@ -4198,6 +4302,7 @@ extension IoT {
         /// Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
         public let setAsDefault: Bool?
 
+        @inlinable
         public init(policyDocument: String, policyName: String, setAsDefault: Bool? = nil) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -4235,6 +4340,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String?
 
+        @inlinable
         public init(isDefaultVersion: Bool? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyVersionId: String? = nil) {
             self.isDefaultVersion = isDefaultVersion
             self.policyArn = policyArn
@@ -4254,6 +4360,7 @@ extension IoT {
         /// The name of the provisioning template to use.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -4283,6 +4390,7 @@ extension IoT {
         /// The provisioning claim key pair.
         public let keyPair: KeyPair?
 
+        @inlinable
         public init(certificateId: String? = nil, certificatePem: String? = nil, expiration: Date? = nil, keyPair: KeyPair? = nil) {
             self.certificateId = certificateId
             self.certificatePem = certificatePem
@@ -4316,6 +4424,7 @@ extension IoT {
         /// The type you define in a provisioning template. You can create a template with only one type. You can't change the template type after its creation. The default value is FLEET_PROVISIONING. For more information about provisioning template, see: Provisioning template.
         public let type: TemplateType?
 
+        @inlinable
         public init(description: String? = nil, enabled: Bool? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String, tags: [Tag]? = nil, templateBody: String, templateName: String, type: TemplateType? = nil) {
             self.description = description
             self.enabled = enabled
@@ -4363,6 +4472,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String?
 
+        @inlinable
         public init(defaultVersionId: Int? = nil, templateArn: String? = nil, templateName: String? = nil) {
             self.defaultVersionId = defaultVersionId
             self.templateArn = templateArn
@@ -4384,6 +4494,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String
 
+        @inlinable
         public init(setAsDefault: Bool? = nil, templateBody: String, templateName: String) {
             self.setAsDefault = setAsDefault
             self.templateBody = templateBody
@@ -4421,6 +4532,7 @@ extension IoT {
         /// The version of the provisioning template.
         public let versionId: Int?
 
+        @inlinable
         public init(isDefaultVersion: Bool? = nil, templateArn: String? = nil, templateName: String? = nil, versionId: Int? = nil) {
             self.isDefaultVersion = isDefaultVersion
             self.templateArn = templateArn
@@ -4446,6 +4558,7 @@ extension IoT {
         /// Metadata which can be used to manage the role alias.  For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
         public let tags: [Tag]?
 
+        @inlinable
         public init(credentialDurationSeconds: Int? = nil, roleAlias: String, roleArn: String, tags: [Tag]? = nil) {
             self.credentialDurationSeconds = credentialDurationSeconds
             self.roleAlias = roleAlias
@@ -4488,6 +4601,7 @@ extension IoT {
         /// The role alias ARN.
         public let roleAliasArn: String?
 
+        @inlinable
         public init(roleAlias: String? = nil, roleAliasArn: String? = nil) {
             self.roleAlias = roleAlias
             self.roleAliasArn = roleAliasArn
@@ -4513,6 +4627,7 @@ extension IoT {
         /// Which checks are performed during the scheduled audit. Checks must be enabled  for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration  to select which checks are enabled.)
         public let targetCheckNames: [String]
 
+        @inlinable
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency, scheduledAuditName: String, tags: [Tag]? = nil, targetCheckNames: [String]) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -4556,6 +4671,7 @@ extension IoT {
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
 
+        @inlinable
         public init(scheduledAuditArn: String? = nil) {
             self.scheduledAuditArn = scheduledAuditArn
         }
@@ -4583,6 +4699,7 @@ extension IoT {
         /// Metadata that can be used to manage the security profile.
         public let tags: [Tag]?
 
+        @inlinable
         public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
             self.additionalMetricsToRetain = nil
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -4595,6 +4712,7 @@ extension IoT {
         }
 
         @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
+        @inlinable
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileDescription: String? = nil, securityProfileName: String, tags: [Tag]? = nil) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -4658,6 +4776,7 @@ extension IoT {
         /// The name you gave to the security profile.
         public let securityProfileName: String?
 
+        @inlinable
         public init(securityProfileArn: String? = nil, securityProfileName: String? = nil) {
             self.securityProfileArn = securityProfileArn
             self.securityProfileName = securityProfileName
@@ -4681,6 +4800,7 @@ extension IoT {
         /// Metadata which can be used to manage streams.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, files: [StreamFile], roleArn: String, streamId: String, tags: [Tag]? = nil) {
             self.description = description
             self.files = files
@@ -4735,6 +4855,7 @@ extension IoT {
         /// The version of the stream.
         public let streamVersion: Int?
 
+        @inlinable
         public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.description = description
             self.streamArn = streamArn
@@ -4760,6 +4881,7 @@ extension IoT {
         /// The thing group properties.
         public let thingGroupProperties: ThingGroupProperties?
 
+        @inlinable
         public init(parentGroupName: String? = nil, tags: [Tag]? = nil, thingGroupName: String, thingGroupProperties: ThingGroupProperties? = nil) {
             self.parentGroupName = parentGroupName
             self.tags = tags
@@ -4804,6 +4926,7 @@ extension IoT {
         /// The thing group name.
         public let thingGroupName: String?
 
+        @inlinable
         public init(thingGroupArn: String? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
             self.thingGroupArn = thingGroupArn
             self.thingGroupId = thingGroupId
@@ -4829,6 +4952,7 @@ extension IoT {
         /// The name of the thing type associated with the new thing.
         public let thingTypeName: String?
 
+        @inlinable
         public init(attributePayload: AttributePayload? = nil, billingGroupName: String? = nil, thingName: String, thingTypeName: String? = nil) {
             self.attributePayload = attributePayload
             self.billingGroupName = billingGroupName
@@ -4873,6 +4997,7 @@ extension IoT {
         /// The name of the new thing.
         public let thingName: String?
 
+        @inlinable
         public init(thingArn: String? = nil, thingId: String? = nil, thingName: String? = nil) {
             self.thingArn = thingArn
             self.thingId = thingId
@@ -4896,6 +5021,7 @@ extension IoT {
         /// 			names.
         public let thingTypeProperties: ThingTypeProperties?
 
+        @inlinable
         public init(tags: [Tag]? = nil, thingTypeName: String, thingTypeProperties: ThingTypeProperties? = nil) {
             self.tags = tags
             self.thingTypeName = thingTypeName
@@ -4934,6 +5060,7 @@ extension IoT {
         /// The name of the thing type.
         public let thingTypeName: String?
 
+        @inlinable
         public init(thingTypeArn: String? = nil, thingTypeId: String? = nil, thingTypeName: String? = nil) {
             self.thingTypeArn = thingTypeArn
             self.thingTypeId = thingTypeId
@@ -4951,6 +5078,7 @@ extension IoT {
         /// The topic rule destination configuration.
         public let destinationConfiguration: TopicRuleDestinationConfiguration
 
+        @inlinable
         public init(destinationConfiguration: TopicRuleDestinationConfiguration) {
             self.destinationConfiguration = destinationConfiguration
         }
@@ -4968,6 +5096,7 @@ extension IoT {
         /// The topic rule destination.
         public let topicRuleDestination: TopicRuleDestination?
 
+        @inlinable
         public init(topicRuleDestination: TopicRuleDestination? = nil) {
             self.topicRuleDestination = topicRuleDestination
         }
@@ -4985,6 +5114,7 @@ extension IoT {
         /// The rule payload.
         public let topicRulePayload: TopicRulePayload
 
+        @inlinable
         public init(ruleName: String, tags: String? = nil, topicRulePayload: TopicRulePayload) {
             self.ruleName = ruleName
             self.tags = tags
@@ -5019,6 +5149,7 @@ extension IoT {
         /// The signature algorithm used to code sign the file. You can use a string as the algorithm name if the target over-the-air (OTA) update devices are able to verify the signature that was generated using the same signature algorithm. For example, FreeRTOS uses ECDSA or RSA, so you can pass either of them based on which was used for generating the signature.
         public let signatureAlgorithm: String?
 
+        @inlinable
         public init(certificateChain: CodeSigningCertificateChain? = nil, hashAlgorithm: String? = nil, signature: CodeSigningSignature? = nil, signatureAlgorithm: String? = nil) {
             self.certificateChain = certificateChain
             self.hashAlgorithm = hashAlgorithm
@@ -5038,6 +5169,7 @@ extension IoT {
         /// If true, all scheduled audits are deleted.
         public let deleteScheduledAudits: Bool?
 
+        @inlinable
         public init(deleteScheduledAudits: Bool? = nil) {
             self.deleteScheduledAudits = deleteScheduledAudits
         }
@@ -5059,6 +5191,7 @@ extension IoT {
         public let checkName: String
         public let resourceIdentifier: ResourceIdentifier
 
+        @inlinable
         public init(checkName: String, resourceIdentifier: ResourceIdentifier) {
             self.checkName = checkName
             self.resourceIdentifier = resourceIdentifier
@@ -5082,6 +5215,7 @@ extension IoT {
         /// The name of the authorizer to delete.
         public let authorizerName: String
 
+        @inlinable
         public init(authorizerName: String) {
             self.authorizerName = authorizerName
         }
@@ -5114,6 +5248,7 @@ extension IoT {
         /// 				VersionConflictException.
         public let expectedVersion: Int64?
 
+        @inlinable
         public init(billingGroupName: String, expectedVersion: Int64? = nil) {
             self.billingGroupName = billingGroupName
             self.expectedVersion = expectedVersion
@@ -5143,6 +5278,7 @@ extension IoT {
         /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -5170,6 +5306,7 @@ extension IoT {
         /// The name of the certificate provider.
         public let certificateProviderName: String
 
+        @inlinable
         public init(certificateProviderName: String) {
             self.certificateProviderName = certificateProviderName
         }
@@ -5199,6 +5336,7 @@ extension IoT {
         /// Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
         public let forceDelete: Bool?
 
+        @inlinable
         public init(certificateId: String, forceDelete: Bool? = nil) {
             self.certificateId = certificateId
             self.forceDelete = forceDelete
@@ -5224,6 +5362,7 @@ extension IoT {
         ///  The name of the custom metric.
         public let metricName: String
 
+        @inlinable
         public init(metricName: String) {
             self.metricName = metricName
         }
@@ -5251,6 +5390,7 @@ extension IoT {
         /// The unique identifier for the dimension that you want to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -5278,6 +5418,7 @@ extension IoT {
         /// The name of the domain configuration to be deleted.
         public let domainConfigurationName: String
 
+        @inlinable
         public init(domainConfigurationName: String) {
             self.domainConfigurationName = domainConfigurationName
         }
@@ -5307,6 +5448,7 @@ extension IoT {
         /// The name of the dynamic thing group to delete.
         public let thingGroupName: String
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, thingGroupName: String) {
             self.expectedVersion = expectedVersion
             self.thingGroupName = thingGroupName
@@ -5338,6 +5480,7 @@ extension IoT {
         /// The name of the fleet metric to delete.
         public let metricName: String
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, metricName: String) {
             self.expectedVersion = expectedVersion
             self.metricName = metricName
@@ -5371,6 +5514,7 @@ extension IoT {
         /// The name of the thing whose job execution will be deleted.
         public let thingName: String
 
+        @inlinable
         public init(executionNumber: Int64, force: Bool? = nil, jobId: String, namespaceId: String? = nil, thingName: String) {
             self.executionNumber = executionNumber
             self.force = force
@@ -5410,6 +5554,7 @@ extension IoT {
         /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see Setting up IoT Greengrass core devices.
         public let namespaceId: String?
 
+        @inlinable
         public init(force: Bool? = nil, jobId: String, namespaceId: String? = nil) {
             self.force = force
             self.jobId = jobId
@@ -5438,6 +5583,7 @@ extension IoT {
         /// The unique identifier of the job template to delete.
         public let jobTemplateId: String
 
+        @inlinable
         public init(jobTemplateId: String) {
             self.jobTemplateId = jobTemplateId
         }
@@ -5461,6 +5607,7 @@ extension IoT {
         /// The name of the mitigation action that you want to delete.
         public let actionName: String
 
+        @inlinable
         public init(actionName: String) {
             self.actionName = actionName
         }
@@ -5491,6 +5638,7 @@ extension IoT {
         /// The ID of the OTA update to delete.
         public let otaUpdateId: String
 
+        @inlinable
         public init(deleteStream: Bool? = nil, forceDeleteAWSJob: Bool? = nil, otaUpdateId: String) {
             self.deleteStream = deleteStream
             self.forceDeleteAWSJob = forceDeleteAWSJob
@@ -5524,6 +5672,7 @@ extension IoT {
         /// The name of the target software package.
         public let packageName: String
 
+        @inlinable
         public init(clientToken: String? = DeletePackageRequest.idempotencyToken(), packageName: String) {
             self.clientToken = clientToken
             self.packageName = packageName
@@ -5560,6 +5709,7 @@ extension IoT {
         /// The name of the target package version.
         public let versionName: String
 
+        @inlinable
         public init(clientToken: String? = DeletePackageVersionRequest.idempotencyToken(), packageName: String, versionName: String) {
             self.clientToken = clientToken
             self.packageName = packageName
@@ -5597,6 +5747,7 @@ extension IoT {
         /// The name of the policy to delete.
         public let policyName: String
 
+        @inlinable
         public init(policyName: String) {
             self.policyName = policyName
         }
@@ -5622,6 +5773,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String
 
+        @inlinable
         public init(policyName: String, policyVersionId: String) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
@@ -5648,6 +5800,7 @@ extension IoT {
         /// The name of the fleet provision template to delete.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -5677,6 +5830,7 @@ extension IoT {
         /// The provisioning template version ID to delete.
         public let versionId: Int
 
+        @inlinable
         public init(templateName: String, versionId: Int) {
             self.templateName = templateName
             self.versionId = versionId
@@ -5714,6 +5868,7 @@ extension IoT {
         /// The role alias to delete.
         public let roleAlias: String
 
+        @inlinable
         public init(roleAlias: String) {
             self.roleAlias = roleAlias
         }
@@ -5741,6 +5896,7 @@ extension IoT {
         /// The name of the scheduled audit you want to delete.
         public let scheduledAuditName: String
 
+        @inlinable
         public init(scheduledAuditName: String) {
             self.scheduledAuditName = scheduledAuditName
         }
@@ -5770,6 +5926,7 @@ extension IoT {
         /// The name of the security profile to be deleted.
         public let securityProfileName: String
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, securityProfileName: String) {
             self.expectedVersion = expectedVersion
             self.securityProfileName = securityProfileName
@@ -5799,6 +5956,7 @@ extension IoT {
         /// The stream ID.
         public let streamId: String
 
+        @inlinable
         public init(streamId: String) {
             self.streamId = streamId
         }
@@ -5828,6 +5986,7 @@ extension IoT {
         /// The name of the thing group to delete.
         public let thingGroupName: String
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, thingGroupName: String) {
             self.expectedVersion = expectedVersion
             self.thingGroupName = thingGroupName
@@ -5862,6 +6021,7 @@ extension IoT {
         /// The name of the thing to delete.
         public let thingName: String
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, thingName: String) {
             self.expectedVersion = expectedVersion
             self.thingName = thingName
@@ -5891,6 +6051,7 @@ extension IoT {
         /// The name of the thing type.
         public let thingTypeName: String
 
+        @inlinable
         public init(thingTypeName: String) {
             self.thingTypeName = thingTypeName
         }
@@ -5918,6 +6079,7 @@ extension IoT {
         /// The ARN of the topic rule destination to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -5939,6 +6101,7 @@ extension IoT {
         /// The name of the rule.
         public let ruleName: String
 
+        @inlinable
         public init(ruleName: String) {
             self.ruleName = ruleName
         }
@@ -5964,6 +6127,7 @@ extension IoT {
         /// The type of resource for which you are configuring logging. Must be THING_Group.
         public let targetType: LogTargetType
 
+        @inlinable
         public init(targetName: String, targetType: LogTargetType) {
             self.targetName = targetName
             self.targetType = targetType
@@ -5985,6 +6149,7 @@ extension IoT {
         /// Information that implicitly denies the authorization. When a policy doesn't explicitly deny or allow an action on a resource it is considered an implicit deny.
         public let implicitDeny: ImplicitDeny?
 
+        @inlinable
         public init(explicitDeny: ExplicitDeny? = nil, implicitDeny: ImplicitDeny? = nil) {
             self.explicitDeny = explicitDeny
             self.implicitDeny = implicitDeny
@@ -6003,6 +6168,7 @@ extension IoT {
         /// 			associate it with things.
         public let undoDeprecate: Bool?
 
+        @inlinable
         public init(thingTypeName: String, undoDeprecate: Bool? = nil) {
             self.thingTypeName = thingTypeName
             self.undoDeprecate = undoDeprecate
@@ -6042,6 +6208,7 @@ extension IoT {
         /// The ARN of the role that grants permission to IoT to access information about your devices, policies, certificates, and other items as required when  performing an audit. On the first call to UpdateAccountAuditConfiguration, this parameter is required.
         public let roleArn: String?
 
+        @inlinable
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
             self.auditCheckConfigurations = auditCheckConfigurations
             self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
@@ -6059,6 +6226,7 @@ extension IoT {
         /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
         public let findingId: String
 
+        @inlinable
         public init(findingId: String) {
             self.findingId = findingId
         }
@@ -6081,6 +6249,7 @@ extension IoT {
     public struct DescribeAuditFindingResponse: AWSDecodableShape {
         public let finding: AuditFinding?
 
+        @inlinable
         public init(finding: AuditFinding? = nil) {
             self.finding = finding
         }
@@ -6094,6 +6263,7 @@ extension IoT {
         /// The unique identifier for the audit mitigation task.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -6129,6 +6299,7 @@ extension IoT {
         /// The current status of the task.
         public let taskStatus: AuditMitigationActionsTaskStatus?
 
+        @inlinable
         public init(actionsDefinition: [MitigationAction]? = nil, auditCheckToActionsMapping: [String: [String]]? = nil, endTime: Date? = nil, startTime: Date? = nil, target: AuditMitigationActionsTaskTarget? = nil, taskStatistics: [String: TaskStatisticsForAuditCheck]? = nil, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
             self.actionsDefinition = actionsDefinition
             self.auditCheckToActionsMapping = auditCheckToActionsMapping
@@ -6154,6 +6325,7 @@ extension IoT {
         public let checkName: String
         public let resourceIdentifier: ResourceIdentifier
 
+        @inlinable
         public init(checkName: String, resourceIdentifier: ResourceIdentifier) {
             self.checkName = checkName
             self.resourceIdentifier = resourceIdentifier
@@ -6179,6 +6351,7 @@ extension IoT {
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
+        @inlinable
         public init(checkName: String? = nil, description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier? = nil, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.description = description
@@ -6200,6 +6373,7 @@ extension IoT {
         /// The ID of the audit whose information you want to get.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -6233,6 +6407,7 @@ extension IoT {
         /// The type of audit: "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
         public let taskType: AuditTaskType?
 
+        @inlinable
         public init(auditDetails: [String: AuditCheckDetails]? = nil, scheduledAuditName: String? = nil, taskStartTime: Date? = nil, taskStatistics: TaskStatistics? = nil, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
             self.auditDetails = auditDetails
             self.scheduledAuditName = scheduledAuditName
@@ -6256,6 +6431,7 @@ extension IoT {
         /// The name of the authorizer to describe.
         public let authorizerName: String
 
+        @inlinable
         public init(authorizerName: String) {
             self.authorizerName = authorizerName
         }
@@ -6279,6 +6455,7 @@ extension IoT {
         /// The authorizer description.
         public let authorizerDescription: AuthorizerDescription?
 
+        @inlinable
         public init(authorizerDescription: AuthorizerDescription? = nil) {
             self.authorizerDescription = authorizerDescription
         }
@@ -6292,6 +6469,7 @@ extension IoT {
         /// The name of the billing group.
         public let billingGroupName: String
 
+        @inlinable
         public init(billingGroupName: String) {
             self.billingGroupName = billingGroupName
         }
@@ -6325,6 +6503,7 @@ extension IoT {
         /// The version of the billing group.
         public let version: Int64?
 
+        @inlinable
         public init(billingGroupArn: String? = nil, billingGroupId: String? = nil, billingGroupMetadata: BillingGroupMetadata? = nil, billingGroupName: String? = nil, billingGroupProperties: BillingGroupProperties? = nil, version: Int64? = nil) {
             self.billingGroupArn = billingGroupArn
             self.billingGroupId = billingGroupId
@@ -6348,6 +6527,7 @@ extension IoT {
         /// The CA certificate identifier.
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -6373,6 +6553,7 @@ extension IoT {
         /// Information about the registration configuration.
         public let registrationConfig: RegistrationConfig?
 
+        @inlinable
         public init(certificateDescription: CACertificateDescription? = nil, registrationConfig: RegistrationConfig? = nil) {
             self.certificateDescription = certificateDescription
             self.registrationConfig = registrationConfig
@@ -6388,6 +6569,7 @@ extension IoT {
         /// The name of the certificate provider.
         public let certificateProviderName: String
 
+        @inlinable
         public init(certificateProviderName: String) {
             self.certificateProviderName = certificateProviderName
         }
@@ -6421,6 +6603,7 @@ extension IoT {
         /// The date-time string that indicates when the certificate provider was last updated.
         public let lastModifiedDate: Date?
 
+        @inlinable
         public init(accountDefaultForOperations: [CertificateProviderOperation]? = nil, certificateProviderArn: String? = nil, certificateProviderName: String? = nil, creationDate: Date? = nil, lambdaFunctionArn: String? = nil, lastModifiedDate: Date? = nil) {
             self.accountDefaultForOperations = accountDefaultForOperations
             self.certificateProviderArn = certificateProviderArn
@@ -6444,6 +6627,7 @@ extension IoT {
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -6467,6 +6651,7 @@ extension IoT {
         /// The description of the certificate.
         public let certificateDescription: CertificateDescription?
 
+        @inlinable
         public init(certificateDescription: CertificateDescription? = nil) {
             self.certificateDescription = certificateDescription
         }
@@ -6480,6 +6665,7 @@ extension IoT {
         ///  The name of the custom metric.
         public let metricName: String
 
+        @inlinable
         public init(metricName: String) {
             self.metricName = metricName
         }
@@ -6513,6 +6699,7 @@ extension IoT {
         ///  The type of the custom metric.   The type number only takes a single metric value as an input, but while submitting the metrics value in the DeviceMetrics report, it must be passed as an array with a single value.
         public let metricType: CustomMetricType?
 
+        @inlinable
         public init(creationDate: Date? = nil, displayName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, metricType: CustomMetricType? = nil) {
             self.creationDate = creationDate
             self.displayName = displayName
@@ -6540,6 +6727,7 @@ extension IoT {
         /// The default authorizer's description.
         public let authorizerDescription: AuthorizerDescription?
 
+        @inlinable
         public init(authorizerDescription: AuthorizerDescription? = nil) {
             self.authorizerDescription = authorizerDescription
         }
@@ -6553,6 +6741,7 @@ extension IoT {
         ///  The unique identifier of the task.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -6576,6 +6765,7 @@ extension IoT {
         ///  The description of a task.
         public let taskSummary: DetectMitigationActionsTaskSummary?
 
+        @inlinable
         public init(taskSummary: DetectMitigationActionsTaskSummary? = nil) {
             self.taskSummary = taskSummary
         }
@@ -6589,6 +6779,7 @@ extension IoT {
         /// The unique identifier for the dimension.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -6622,6 +6813,7 @@ extension IoT {
         /// The type of the dimension.
         public let type: DimensionType?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -6645,6 +6837,7 @@ extension IoT {
         /// The name of the domain configuration.
         public let domainConfigurationName: String
 
+        @inlinable
         public init(domainConfigurationName: String) {
             self.domainConfigurationName = domainConfigurationName
         }
@@ -6688,6 +6881,7 @@ extension IoT {
         /// An object that specifies the TLS configuration for a domain.
         public let tlsConfig: TlsConfig?
 
+        @inlinable
         public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, domainConfigurationStatus: DomainConfigurationStatus? = nil, domainName: String? = nil, domainType: DomainType? = nil, lastStatusChangeDate: Date? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, serverCertificates: [ServerCertificateSummary]? = nil, serviceType: ServiceType? = nil, tlsConfig: TlsConfig? = nil) {
             self.authorizerConfig = authorizerConfig
             self.domainConfigurationArn = domainConfigurationArn
@@ -6721,6 +6915,7 @@ extension IoT {
         /// The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs - Returns an IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid  issues related to the widespread distrust of Symantec certificate authorities. ATS Signed Certificates are more secure and are trusted by most popular browsers.
         public let endpointType: String?
 
+        @inlinable
         public init(endpointType: String? = nil) {
             self.endpointType = endpointType
         }
@@ -6743,6 +6938,7 @@ extension IoT {
         /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
         public let endpointAddress: String?
 
+        @inlinable
         public init(endpointAddress: String? = nil) {
             self.endpointAddress = endpointAddress
         }
@@ -6764,6 +6960,7 @@ extension IoT {
         /// The date the event configurations were last modified.
         public let lastModifiedDate: Date?
 
+        @inlinable
         public init(creationDate: Date? = nil, eventConfigurations: [EventType: Configuration]? = nil, lastModifiedDate: Date? = nil) {
             self.creationDate = creationDate
             self.eventConfigurations = eventConfigurations
@@ -6781,6 +6978,7 @@ extension IoT {
         /// The name of the fleet metric to describe.
         public let metricName: String
 
+        @inlinable
         public init(metricName: String) {
             self.metricName = metricName
         }
@@ -6828,6 +7026,7 @@ extension IoT {
         /// The version of the fleet metric.
         public let version: Int64?
 
+        @inlinable
         public init(aggregationField: String? = nil, aggregationType: AggregationType? = nil, creationDate: Date? = nil, description: String? = nil, indexName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, period: Int? = nil, queryString: String? = nil, queryVersion: String? = nil, unit: FleetMetricUnit? = nil, version: Int64? = nil) {
             self.aggregationField = aggregationField
             self.aggregationType = aggregationType
@@ -6865,6 +7064,7 @@ extension IoT {
         /// The index name.
         public let indexName: String
 
+        @inlinable
         public init(indexName: String) {
             self.indexName = indexName
         }
@@ -6892,6 +7092,7 @@ extension IoT {
         /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index contains only registry data.   REGISTRY_AND_SHADOW - Your thing index contains registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index contains registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains registry data, shadow data, and thing connectivity status data.   MULTI_INDEXING_MODE - Your thing index contains multiple data sources. For more information, see  GetIndexingConfiguration.
         public let schema: String?
 
+        @inlinable
         public init(indexName: String? = nil, indexStatus: IndexStatus? = nil, schema: String? = nil) {
             self.indexName = indexName
             self.indexStatus = indexStatus
@@ -6913,6 +7114,7 @@ extension IoT {
         /// The name of the thing on which the job execution is running.
         public let thingName: String
 
+        @inlinable
         public init(executionNumber: Int64? = nil, jobId: String, thingName: String) {
             self.executionNumber = executionNumber
             self.jobId = jobId
@@ -6943,6 +7145,7 @@ extension IoT {
         /// Information about the job execution.
         public let execution: JobExecution?
 
+        @inlinable
         public init(execution: JobExecution? = nil) {
             self.execution = execution
         }
@@ -6956,6 +7159,7 @@ extension IoT {
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -6981,6 +7185,7 @@ extension IoT {
         /// Information about the job.
         public let job: Job?
 
+        @inlinable
         public init(documentSource: String? = nil, job: Job? = nil) {
             self.documentSource = documentSource
             self.job = job
@@ -6996,6 +7201,7 @@ extension IoT {
         /// The unique identifier of the job template.
         public let jobTemplateId: String
 
+        @inlinable
         public init(jobTemplateId: String) {
             self.jobTemplateId = jobTemplateId
         }
@@ -7039,6 +7245,7 @@ extension IoT {
         public let presignedUrlConfig: PresignedUrlConfig?
         public let timeoutConfig: TimeoutConfig?
 
+        @inlinable
         public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, destinationPackageVersions: [String]? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.createdAt = createdAt
@@ -7078,6 +7285,7 @@ extension IoT {
         /// An optional parameter to specify version of a managed template. If not specified, the  pre-defined default version is returned.
         public let templateVersion: String?
 
+        @inlinable
         public init(templateName: String, templateVersion: String? = nil) {
             self.templateName = templateName
             self.templateVersion = templateVersion
@@ -7115,6 +7323,7 @@ extension IoT {
         /// The version for a managed template.
         public let templateVersion: String?
 
+        @inlinable
         public init(description: String? = nil, document: String? = nil, documentParameters: [DocumentParameter]? = nil, environments: [String]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
             self.description = description
             self.document = document
@@ -7140,6 +7349,7 @@ extension IoT {
         /// The friendly name that uniquely identifies the mitigation action.
         public let actionName: String
 
+        @inlinable
         public init(actionName: String) {
             self.actionName = actionName
         }
@@ -7176,6 +7386,7 @@ extension IoT {
         /// The ARN of the IAM role used to apply this action.
         public let roleArn: String?
 
+        @inlinable
         public init(actionArn: String? = nil, actionId: String? = nil, actionName: String? = nil, actionParams: MitigationActionParams? = nil, actionType: MitigationActionType? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, roleArn: String? = nil) {
             self.actionArn = actionArn
             self.actionId = actionId
@@ -7203,6 +7414,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String
 
+        @inlinable
         public init(templateName: String) {
             self.templateName = templateName
         }
@@ -7246,6 +7458,7 @@ extension IoT {
         /// The type you define in a provisioning template. You can create a template with only one type. You can't change the template type after its creation. The default value is FLEET_PROVISIONING. For more information about provisioning template, see: Provisioning template.
         public let type: TemplateType?
 
+        @inlinable
         public init(creationDate: Date? = nil, defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: Date? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String? = nil, templateArn: String? = nil, templateBody: String? = nil, templateName: String? = nil, type: TemplateType? = nil) {
             self.creationDate = creationDate
             self.defaultVersionId = defaultVersionId
@@ -7281,6 +7494,7 @@ extension IoT {
         /// The provisioning template version ID.
         public let versionId: Int
 
+        @inlinable
         public init(templateName: String, versionId: Int) {
             self.templateName = templateName
             self.versionId = versionId
@@ -7312,6 +7526,7 @@ extension IoT {
         /// The provisioning template version ID.
         public let versionId: Int?
 
+        @inlinable
         public init(creationDate: Date? = nil, isDefaultVersion: Bool? = nil, templateBody: String? = nil, versionId: Int? = nil) {
             self.creationDate = creationDate
             self.isDefaultVersion = isDefaultVersion
@@ -7331,6 +7546,7 @@ extension IoT {
         /// The role alias to describe.
         public let roleAlias: String
 
+        @inlinable
         public init(roleAlias: String) {
             self.roleAlias = roleAlias
         }
@@ -7354,6 +7570,7 @@ extension IoT {
         /// The role alias description.
         public let roleAliasDescription: RoleAliasDescription?
 
+        @inlinable
         public init(roleAliasDescription: RoleAliasDescription? = nil) {
             self.roleAliasDescription = roleAliasDescription
         }
@@ -7367,6 +7584,7 @@ extension IoT {
         /// The name of the scheduled audit whose information you want to get.
         public let scheduledAuditName: String
 
+        @inlinable
         public init(scheduledAuditName: String) {
             self.scheduledAuditName = scheduledAuditName
         }
@@ -7400,6 +7618,7 @@ extension IoT {
         /// Which checks are performed during the scheduled audit. Checks must be  enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration  to select which checks are enabled.)
         public let targetCheckNames: [String]?
 
+        @inlinable
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency? = nil, scheduledAuditArn: String? = nil, scheduledAuditName: String? = nil, targetCheckNames: [String]? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -7423,6 +7642,7 @@ extension IoT {
         /// The name of the security profile whose information you want to get.
         public let securityProfileName: String
 
+        @inlinable
         public init(securityProfileName: String) {
             self.securityProfileName = securityProfileName
         }
@@ -7466,6 +7686,7 @@ extension IoT {
         /// The version of the security profile. A new version is generated whenever the security profile is updated.
         public let version: Int64?
 
+        @inlinable
         public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetain = nil
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -7481,6 +7702,7 @@ extension IoT {
         }
 
         @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
+        @inlinable
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -7514,6 +7736,7 @@ extension IoT {
         /// The stream ID.
         public let streamId: String
 
+        @inlinable
         public init(streamId: String) {
             self.streamId = streamId
         }
@@ -7537,6 +7760,7 @@ extension IoT {
         /// Information about the stream.
         public let streamInfo: StreamInfo?
 
+        @inlinable
         public init(streamInfo: StreamInfo? = nil) {
             self.streamInfo = streamInfo
         }
@@ -7550,6 +7774,7 @@ extension IoT {
         /// The name of the thing group.
         public let thingGroupName: String
 
+        @inlinable
         public init(thingGroupName: String) {
             self.thingGroupName = thingGroupName
         }
@@ -7591,6 +7816,7 @@ extension IoT {
         /// The version of the thing group.
         public let version: Int64?
 
+        @inlinable
         public init(indexName: String? = nil, queryString: String? = nil, queryVersion: String? = nil, status: DynamicGroupStatus? = nil, thingGroupArn: String? = nil, thingGroupId: String? = nil, thingGroupMetadata: ThingGroupMetadata? = nil, thingGroupName: String? = nil, thingGroupProperties: ThingGroupProperties? = nil, version: Int64? = nil) {
             self.indexName = indexName
             self.queryString = queryString
@@ -7622,6 +7848,7 @@ extension IoT {
         /// The task ID.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -7665,6 +7892,7 @@ extension IoT {
         /// The task's template.
         public let templateBody: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, failureCount: Int? = nil, inputFileBucket: String? = nil, inputFileKey: String? = nil, lastModifiedDate: Date? = nil, message: String? = nil, percentageProgress: Int? = nil, roleArn: String? = nil, status: Status? = nil, successCount: Int? = nil, taskId: String? = nil, templateBody: String? = nil) {
             self.creationDate = creationDate
             self.failureCount = failureCount
@@ -7700,6 +7928,7 @@ extension IoT {
         /// The name of the thing.
         public let thingName: String
 
+        @inlinable
         public init(thingName: String) {
             self.thingName = thingName
         }
@@ -7741,6 +7970,7 @@ extension IoT {
         /// 					UpdateThing and DeleteThing calls.
         public let version: Int64?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, billingGroupName: String? = nil, defaultClientId: String? = nil, thingArn: String? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil, version: Int64? = nil) {
             self.attributes = attributes
             self.billingGroupName = billingGroupName
@@ -7768,6 +7998,7 @@ extension IoT {
         /// The name of the thing type.
         public let thingTypeName: String
 
+        @inlinable
         public init(thingTypeName: String) {
             self.thingTypeName = thingTypeName
         }
@@ -7802,6 +8033,7 @@ extension IoT {
         /// 			description, and a list of searchable thing attribute names.
         public let thingTypeProperties: ThingTypeProperties?
 
+        @inlinable
         public init(thingTypeArn: String? = nil, thingTypeId: String? = nil, thingTypeMetadata: ThingTypeMetadata? = nil, thingTypeName: String? = nil, thingTypeProperties: ThingTypeProperties? = nil) {
             self.thingTypeArn = thingTypeArn
             self.thingTypeId = thingTypeId
@@ -7823,6 +8055,7 @@ extension IoT {
         /// Describes the location in S3 of the updated firmware.
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(s3Destination: S3Destination? = nil) {
             self.s3Destination = s3Destination
         }
@@ -7842,6 +8075,7 @@ extension IoT {
         /// The target from which the policy will be detached.
         public let target: String
 
+        @inlinable
         public init(policyName: String, target: String) {
             self.policyName = policyName
             self.target = target
@@ -7871,6 +8105,7 @@ extension IoT {
         /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String
 
+        @inlinable
         public init(policyName: String, principal: String) {
             self.policyName = policyName
             self.principal = principal
@@ -7898,6 +8133,7 @@ extension IoT {
         /// The ARN of the thing group from which the security profile is detached.
         public let securityProfileTargetArn: String
 
+        @inlinable
         public init(securityProfileName: String, securityProfileTargetArn: String) {
             self.securityProfileName = securityProfileName
             self.securityProfileTargetArn = securityProfileTargetArn
@@ -7931,6 +8167,7 @@ extension IoT {
         /// The name of the thing.
         public let thingName: String
 
+        @inlinable
         public init(principal: String, thingName: String) {
             self.principal = principal
             self.thingName = thingName
@@ -7976,6 +8213,7 @@ extension IoT {
         ///  The unique identifier of the violation.
         public let violationId: String?
 
+        @inlinable
         public init(actionName: String? = nil, errorCode: String? = nil, executionEndDate: Date? = nil, executionStartDate: Date? = nil, message: String? = nil, status: DetectMitigationActionExecutionStatus? = nil, taskId: String? = nil, thingName: String? = nil, violationId: String? = nil) {
             self.actionName = actionName
             self.errorCode = errorCode
@@ -8009,6 +8247,7 @@ extension IoT {
         ///  The actions that were skipped.
         public let actionsSkipped: Int64?
 
+        @inlinable
         public init(actionsExecuted: Int64? = nil, actionsFailed: Int64? = nil, actionsSkipped: Int64? = nil) {
             self.actionsExecuted = actionsExecuted
             self.actionsFailed = actionsFailed
@@ -8044,6 +8283,7 @@ extension IoT {
         ///  Specifies the time period of which violation events occurred between.
         public let violationEventOccurrenceRange: ViolationEventOccurrenceRange?
 
+        @inlinable
         public init(actionsDefinition: [MitigationAction]? = nil, onlyActiveViolationsIncluded: Bool? = nil, suppressedAlertsIncluded: Bool? = nil, target: DetectMitigationActionsTaskTarget? = nil, taskEndTime: Date? = nil, taskId: String? = nil, taskStartTime: Date? = nil, taskStatistics: DetectMitigationActionsTaskStatistics? = nil, taskStatus: DetectMitigationActionsTaskStatus? = nil, violationEventOccurrenceRange: ViolationEventOccurrenceRange? = nil) {
             self.actionsDefinition = actionsDefinition
             self.onlyActiveViolationsIncluded = onlyActiveViolationsIncluded
@@ -8079,6 +8319,7 @@ extension IoT {
         ///  The unique identifiers of the violations.
         public let violationIds: [String]?
 
+        @inlinable
         public init(behaviorName: String? = nil, securityProfileName: String? = nil, violationIds: [String]? = nil) {
             self.behaviorName = behaviorName
             self.securityProfileName = securityProfileName
@@ -8112,6 +8353,7 @@ extension IoT {
         /// The name of the rule to disable.
         public let ruleName: String
 
+        @inlinable
         public init(ruleName: String) {
             self.ruleName = ruleName
         }
@@ -8143,6 +8385,7 @@ extension IoT {
         /// A regular expression of the patterns that need to be replaced in a managed template  job document schema.
         public let regex: String?
 
+        @inlinable
         public init(description: String? = nil, example: String? = nil, key: String? = nil, optional: Bool? = nil, regex: String? = nil) {
             self.description = description
             self.example = example
@@ -8168,6 +8411,7 @@ extension IoT {
         /// The type of service delivered by the endpoint.
         public let serviceType: ServiceType?
 
+        @inlinable
         public init(domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, serviceType: ServiceType? = nil) {
             self.domainConfigurationArn = domainConfigurationArn
             self.domainConfigurationName = domainConfigurationName
@@ -8203,6 +8447,7 @@ extension IoT {
         /// The name of the DynamoDB table.
         public let tableName: String
 
+        @inlinable
         public init(hashKeyField: String, hashKeyType: DynamoKeyType? = nil, hashKeyValue: String, operation: String? = nil, payloadField: String? = nil, rangeKeyField: String? = nil, rangeKeyType: DynamoKeyType? = nil, rangeKeyValue: String? = nil, roleArn: String, tableName: String) {
             self.hashKeyField = hashKeyField
             self.hashKeyType = hashKeyType
@@ -8236,6 +8481,7 @@ extension IoT {
         /// The ARN of the IAM role that grants access to the DynamoDB table.
         public let roleArn: String
 
+        @inlinable
         public init(putItem: PutItemInput, roleArn: String) {
             self.putItem = putItem
             self.roleArn = roleArn
@@ -8255,6 +8501,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String?
 
+        @inlinable
         public init(policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil) {
             self.policyArn = policyArn
             self.policyDocument = policyDocument
@@ -8280,6 +8527,7 @@ extension IoT {
         /// The type of document you are storing.
         public let type: String
 
+        @inlinable
         public init(endpoint: String, id: String, index: String, roleArn: String, type: String) {
             self.endpoint = endpoint
             self.id = id
@@ -8307,6 +8555,7 @@ extension IoT {
         /// The Amazon Resource Name (ARN) of the IAM role used for logging.
         public let roleArnForLogging: String
 
+        @inlinable
         public init(logLevel: LogLevel, roleArnForLogging: String) {
             self.logLevel = logLevel
             self.roleArnForLogging = roleArnForLogging
@@ -8327,6 +8576,7 @@ extension IoT {
         /// The name of the topic rule to enable.
         public let ruleName: String
 
+        @inlinable
         public init(ruleName: String) {
             self.ruleName = ruleName
         }
@@ -8352,6 +8602,7 @@ extension IoT {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -8367,6 +8618,7 @@ extension IoT {
         /// The policies that denied the authorization.
         public let policies: [Policy]?
 
+        @inlinable
         public init(policies: [Policy]? = nil) {
             self.policies = policies
         }
@@ -8384,6 +8636,7 @@ extension IoT {
         /// The criteria to initiate the increase in rate of rollout for a job.
         public let rateIncreaseCriteria: RateIncreaseCriteria
 
+        @inlinable
         public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: RateIncreaseCriteria) {
             self.baseRatePerMinute = baseRatePerMinute
             self.incrementFactor = incrementFactor
@@ -8411,6 +8664,7 @@ extension IoT {
         /// The data type of the field.
         public let type: FieldType?
 
+        @inlinable
         public init(name: String? = nil, type: FieldType? = nil) {
             self.name = name
             self.type = type
@@ -8428,6 +8682,7 @@ extension IoT {
         /// The stream that contains the OTA update.
         public let stream: Stream?
 
+        @inlinable
         public init(s3Location: S3Location? = nil, stream: Stream? = nil) {
             self.s3Location = s3Location
             self.stream = stream
@@ -8454,6 +8709,7 @@ extension IoT {
         /// A character separator that will be used to separate records written to the Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n' (Windows newline), ',' (comma).
         public let separator: String?
 
+        @inlinable
         public init(batchMode: Bool? = nil, deliveryStreamName: String, roleArn: String, separator: String? = nil) {
             self.batchMode = batchMode
             self.deliveryStreamName = deliveryStreamName
@@ -8479,6 +8735,7 @@ extension IoT {
         /// The fleet metric name.
         public let metricName: String?
 
+        @inlinable
         public init(metricArn: String? = nil, metricName: String? = nil) {
             self.metricArn = metricArn
             self.metricName = metricName
@@ -8496,6 +8753,7 @@ extension IoT {
         /// The order of the geolocation target field. This field is optional. The default value is LatLon.
         public let order: TargetFieldOrder?
 
+        @inlinable
         public init(name: String? = nil, order: TargetFieldOrder? = nil) {
             self.name = name
             self.order = order
@@ -8515,6 +8773,7 @@ extension IoT {
         ///  The name of the security profile.
         public let securityProfileName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -8546,6 +8805,7 @@ extension IoT {
         ///  A list of all ML Detect behaviors and their model status for a given Security Profile.
         public let summaries: [BehaviorModelTrainingSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [BehaviorModelTrainingSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -8569,6 +8829,7 @@ extension IoT {
         /// The version of the query.
         public let queryVersion: String?
 
+        @inlinable
         public init(aggregationField: String, bucketsAggregationType: BucketsAggregationType, indexName: String? = nil, queryString: String, queryVersion: String? = nil) {
             self.aggregationField = aggregationField
             self.bucketsAggregationType = bucketsAggregationType
@@ -8601,6 +8862,7 @@ extension IoT {
         /// The total number of things that fit the query string criteria.
         public let totalCount: Int?
 
+        @inlinable
         public init(buckets: [Bucket]? = nil, totalCount: Int? = nil) {
             self.buckets = buckets
             self.totalCount = totalCount
@@ -8622,6 +8884,7 @@ extension IoT {
         /// The query version.
         public let queryVersion: String?
 
+        @inlinable
         public init(aggregationField: String? = nil, indexName: String? = nil, queryString: String, queryVersion: String? = nil) {
             self.aggregationField = aggregationField
             self.indexName = indexName
@@ -8649,6 +8912,7 @@ extension IoT {
         /// The approximate count of unique values that match the query.
         public let cardinality: Int?
 
+        @inlinable
         public init(cardinality: Int? = nil) {
             self.cardinality = cardinality
         }
@@ -8666,6 +8930,7 @@ extension IoT {
         /// The thing name.
         public let thingName: String?
 
+        @inlinable
         public init(cognitoIdentityPoolId: String? = nil, principal: String? = nil, thingName: String? = nil) {
             self.cognitoIdentityPoolId = cognitoIdentityPoolId
             self.principal = principal
@@ -8696,6 +8961,7 @@ extension IoT {
         /// The effective policies.
         public let effectivePolicies: [EffectivePolicy]?
 
+        @inlinable
         public init(effectivePolicies: [EffectivePolicy]? = nil) {
             self.effectivePolicies = effectivePolicies
         }
@@ -8715,6 +8981,7 @@ extension IoT {
         /// Thing indexing configuration.
         public let thingIndexingConfiguration: ThingIndexingConfiguration?
 
+        @inlinable
         public init(thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration? = nil, thingIndexingConfiguration: ThingIndexingConfiguration? = nil) {
             self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
             self.thingIndexingConfiguration = thingIndexingConfiguration
@@ -8730,6 +8997,7 @@ extension IoT {
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -8753,6 +9021,7 @@ extension IoT {
         /// The job document content.
         public let document: String?
 
+        @inlinable
         public init(document: String? = nil) {
             self.document = document
         }
@@ -8772,6 +9041,7 @@ extension IoT {
         /// The ARN of the IAM role that grants access.
         public let roleArn: String?
 
+        @inlinable
         public init(logLevel: LogLevel? = nil, roleArn: String? = nil) {
             self.logLevel = logLevel
             self.roleArn = roleArn
@@ -8787,6 +9057,7 @@ extension IoT {
         /// The OTA update ID.
         public let otaUpdateId: String
 
+        @inlinable
         public init(otaUpdateId: String) {
             self.otaUpdateId = otaUpdateId
         }
@@ -8810,6 +9081,7 @@ extension IoT {
         /// The OTA update info.
         public let otaUpdateInfo: OTAUpdateInfo?
 
+        @inlinable
         public init(otaUpdateInfo: OTAUpdateInfo? = nil) {
             self.otaUpdateInfo = otaUpdateInfo
         }
@@ -8827,6 +9099,7 @@ extension IoT {
         /// The version that is associated to a specific job.
         public let versionUpdateByJobsConfig: VersionUpdateByJobsConfig?
 
+        @inlinable
         public init(versionUpdateByJobsConfig: VersionUpdateByJobsConfig? = nil) {
             self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
         }
@@ -8840,6 +9113,7 @@ extension IoT {
         /// The name of the target software package.
         public let packageName: String
 
+        @inlinable
         public init(packageName: String) {
             self.packageName = packageName
         }
@@ -8873,6 +9147,7 @@ extension IoT {
         /// The name of the software package.
         public let packageName: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, defaultVersionName: String? = nil, description: String? = nil, lastModifiedDate: Date? = nil, packageArn: String? = nil, packageName: String? = nil) {
             self.creationDate = creationDate
             self.defaultVersionName = defaultVersionName
@@ -8898,6 +9173,7 @@ extension IoT {
         /// The name of the target package version.
         public let versionName: String
 
+        @inlinable
         public init(packageName: String, versionName: String) {
             self.packageName = packageName
             self.versionName = versionName
@@ -8942,6 +9218,7 @@ extension IoT {
         /// The name of the package version.
         public let versionName: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, creationDate: Date? = nil, description: String? = nil, errorReason: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil, packageVersionArn: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
             self.attributes = attributes
             self.creationDate = creationDate
@@ -8979,6 +9256,7 @@ extension IoT {
         /// The query version.
         public let queryVersion: String?
 
+        @inlinable
         public init(aggregationField: String? = nil, indexName: String? = nil, percents: [Double]? = nil, queryString: String, queryVersion: String? = nil) {
             self.aggregationField = aggregationField
             self.indexName = indexName
@@ -9012,6 +9290,7 @@ extension IoT {
         /// The percentile values of the aggregated fields.
         public let percentiles: [PercentPair]?
 
+        @inlinable
         public init(percentiles: [PercentPair]? = nil) {
             self.percentiles = percentiles
         }
@@ -9025,6 +9304,7 @@ extension IoT {
         /// The name of the policy.
         public let policyName: String
 
+        @inlinable
         public init(policyName: String) {
             self.policyName = policyName
         }
@@ -9060,6 +9340,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, defaultVersionId: String? = nil, generationId: String? = nil, lastModifiedDate: Date? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil) {
             self.creationDate = creationDate
             self.defaultVersionId = defaultVersionId
@@ -9087,6 +9368,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String
 
+        @inlinable
         public init(policyName: String, policyVersionId: String) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
@@ -9127,6 +9409,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, generationId: String? = nil, isDefaultVersion: Bool? = nil, lastModifiedDate: Date? = nil, policyArn: String? = nil, policyDocument: String? = nil, policyName: String? = nil, policyVersionId: String? = nil) {
             self.creationDate = creationDate
             self.generationId = generationId
@@ -9158,6 +9441,7 @@ extension IoT {
         /// The CA certificate registration code.
         public let registrationCode: String?
 
+        @inlinable
         public init(registrationCode: String? = nil) {
             self.registrationCode = registrationCode
         }
@@ -9177,6 +9461,7 @@ extension IoT {
         /// The version of the query used to search.
         public let queryVersion: String?
 
+        @inlinable
         public init(aggregationField: String? = nil, indexName: String? = nil, queryString: String, queryVersion: String? = nil) {
             self.aggregationField = aggregationField
             self.indexName = indexName
@@ -9204,6 +9489,7 @@ extension IoT {
         /// The statistics returned by the Fleet Indexing service based on the query and aggregation field.
         public let statistics: Statistics?
 
+        @inlinable
         public init(statistics: Statistics? = nil) {
             self.statistics = statistics
         }
@@ -9217,6 +9503,7 @@ extension IoT {
         /// The ARN of the topic rule destination.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -9234,6 +9521,7 @@ extension IoT {
         /// The topic rule destination.
         public let topicRuleDestination: TopicRuleDestination?
 
+        @inlinable
         public init(topicRuleDestination: TopicRuleDestination? = nil) {
             self.topicRuleDestination = topicRuleDestination
         }
@@ -9247,6 +9535,7 @@ extension IoT {
         /// The name of the rule.
         public let ruleName: String
 
+        @inlinable
         public init(ruleName: String) {
             self.ruleName = ruleName
         }
@@ -9272,6 +9561,7 @@ extension IoT {
         /// The rule ARN.
         public let ruleArn: String?
 
+        @inlinable
         public init(rule: TopicRule? = nil, ruleArn: String? = nil) {
             self.rule = rule
             self.ruleArn = ruleArn
@@ -9295,6 +9585,7 @@ extension IoT {
         /// The IAM role ARN IoT uses to write to your CloudWatch logs.
         public let roleArn: String?
 
+        @inlinable
         public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
             self.defaultLogLevel = defaultLogLevel
             self.disableAllLogs = disableAllLogs
@@ -9314,6 +9605,7 @@ extension IoT {
         /// The group name.
         public let groupName: String?
 
+        @inlinable
         public init(groupArn: String? = nil, groupName: String? = nil) {
             self.groupArn = groupArn
             self.groupName = groupName
@@ -9335,6 +9627,7 @@ extension IoT {
         /// The endpoint URL. If substitution templates are used in the URL, you must also specify a confirmationUrl. If this is a new destination, a new TopicRuleDestination is created if possible.
         public let url: String
 
+        @inlinable
         public init(auth: HttpAuthorization? = nil, confirmationUrl: String? = nil, headers: [HttpActionHeader]? = nil, url: String) {
             self.auth = auth
             self.confirmationUrl = confirmationUrl
@@ -9365,6 +9658,7 @@ extension IoT {
         /// The HTTP header value. Substitution templates are supported.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -9385,6 +9679,7 @@ extension IoT {
         /// Use Sig V4 authorization. For more information, see Signature Version 4 Signing Process.
         public let sigv4: SigV4Authorization?
 
+        @inlinable
         public init(sigv4: SigV4Authorization? = nil) {
             self.sigv4 = sigv4
         }
@@ -9400,6 +9695,7 @@ extension IoT {
         /// The query string keys and values in an HTTP authorization request.
         public let queryString: String?
 
+        @inlinable
         public init(headers: [String: String]? = nil, queryString: String? = nil) {
             self.headers = headers
             self.queryString = queryString
@@ -9429,6 +9725,7 @@ extension IoT {
         /// The URL IoT uses to confirm ownership of or access to the topic rule destination URL.
         public let confirmationUrl: String
 
+        @inlinable
         public init(confirmationUrl: String) {
             self.confirmationUrl = confirmationUrl
         }
@@ -9446,6 +9743,7 @@ extension IoT {
         /// The URL used to confirm the HTTP topic rule destination URL.
         public let confirmationUrl: String?
 
+        @inlinable
         public init(confirmationUrl: String? = nil) {
             self.confirmationUrl = confirmationUrl
         }
@@ -9459,6 +9757,7 @@ extension IoT {
         /// The URL used to confirm ownership of or access to the HTTP topic rule destination URL.
         public let confirmationUrl: String?
 
+        @inlinable
         public init(confirmationUrl: String? = nil) {
             self.confirmationUrl = confirmationUrl
         }
@@ -9472,6 +9771,7 @@ extension IoT {
         /// Policies that don't contain a matching allow or deny statement for the specified action on the specified resource.
         public let policies: [Policy]?
 
+        @inlinable
         public init(policies: [Policy]? = nil) {
             self.policies = policies
         }
@@ -9487,6 +9787,7 @@ extension IoT {
         /// The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase  the limit, see Amazon Web Services IoT Device Management  Quotas in the Amazon Web Services General Reference.
         public let namedShadowNames: [String]?
 
+        @inlinable
         public init(geoLocations: [GeoLocationTarget]? = nil, namedShadowNames: [String]? = nil) {
             self.geoLocations = geoLocations
             self.namedShadowNames = namedShadowNames
@@ -9516,6 +9817,7 @@ extension IoT {
         /// The ARN of the role which has a policy that grants IoT Analytics permission to send message data via IoT Analytics (iotanalytics:BatchPutMessage).
         public let roleArn: String?
 
+        @inlinable
         public init(batchMode: Bool? = nil, channelArn: String? = nil, channelName: String? = nil, roleArn: String? = nil) {
             self.batchMode = batchMode
             self.channelArn = channelArn
@@ -9541,6 +9843,7 @@ extension IoT {
         /// The ARN of the role that grants IoT permission to send an input to an IoT Events detector. ("Action":"iotevents:BatchPutMessage").
         public let roleArn: String
 
+        @inlinable
         public init(batchMode: Bool? = nil, inputName: String, messageId: String? = nil, roleArn: String) {
             self.batchMode = batchMode
             self.inputName = inputName
@@ -9568,6 +9871,7 @@ extension IoT {
         /// The ARN of the role that grants IoT permission to send an asset property value to IoT SiteWise. ("Action": "iotsitewise:BatchPutAssetPropertyValue"). The trust policy can restrict access to specific asset hierarchy paths.
         public let roleArn: String
 
+        @inlinable
         public init(putAssetPropertyValueEntries: [PutAssetPropertyValueEntry], roleArn: String) {
             self.putAssetPropertyValueEntries = putAssetPropertyValueEntries
             self.roleArn = roleArn
@@ -9594,6 +9898,7 @@ extension IoT {
         /// The issuer ID.
         public let issuerId: String?
 
+        @inlinable
         public init(issuerCertificateSerialNumber: String? = nil, issuerCertificateSubject: String? = nil, issuerId: String? = nil) {
             self.issuerCertificateSerialNumber = issuerCertificateSerialNumber
             self.issuerCertificateSubject = issuerCertificateSubject
@@ -9668,6 +9973,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
+        @inlinable
         public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, destinationPackageVersions: [String]? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, scheduledJobRollouts: [ScheduledJobRollout]? = nil, schedulingConfig: SchedulingConfig? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
@@ -9749,6 +10055,7 @@ extension IoT {
         /// The version of the job execution. Job execution versions are incremented each time they are updated by a device.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(approximateSecondsBeforeTimedOut: Int64? = nil, executionNumber: Int64? = nil, forceCanceled: Bool? = nil, jobId: String? = nil, lastUpdatedAt: Date? = nil, queuedAt: Date? = nil, startedAt: Date? = nil, status: JobExecutionStatus? = nil, statusDetails: JobExecutionStatusDetails? = nil, thingArn: String? = nil, versionNumber: Int64? = nil) {
             self.approximateSecondsBeforeTimedOut = approximateSecondsBeforeTimedOut
             self.executionNumber = executionNumber
@@ -9782,6 +10089,7 @@ extension IoT {
         /// The job execution status.
         public let detailsMap: [String: String]?
 
+        @inlinable
         public init(detailsMap: [String: String]? = nil) {
             self.detailsMap = detailsMap
         }
@@ -9805,6 +10113,7 @@ extension IoT {
         /// The status of the job execution.
         public let status: JobExecutionStatus?
 
+        @inlinable
         public init(executionNumber: Int64? = nil, lastUpdatedAt: Date? = nil, queuedAt: Date? = nil, retryAttempt: Int? = nil, startedAt: Date? = nil, status: JobExecutionStatus? = nil) {
             self.executionNumber = executionNumber
             self.lastUpdatedAt = lastUpdatedAt
@@ -9830,6 +10139,7 @@ extension IoT {
         /// The ARN of the thing on which the job execution is running.
         public let thingArn: String?
 
+        @inlinable
         public init(jobExecutionSummary: JobExecutionSummary? = nil, thingArn: String? = nil) {
             self.jobExecutionSummary = jobExecutionSummary
             self.thingArn = thingArn
@@ -9847,6 +10157,7 @@ extension IoT {
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String?
 
+        @inlinable
         public init(jobExecutionSummary: JobExecutionSummary? = nil, jobId: String? = nil) {
             self.jobExecutionSummary = jobExecutionSummary
             self.jobId = jobId
@@ -9862,6 +10173,7 @@ extension IoT {
         /// The list of criteria that determines how many retries are allowed for each failure type for a job.
         public let criteriaList: [RetryCriteria]
 
+        @inlinable
         public init(criteriaList: [RetryCriteria]) {
             self.criteriaList = criteriaList
         }
@@ -9885,6 +10197,7 @@ extension IoT {
         /// The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout.
         public let maximumPerMinute: Int?
 
+        @inlinable
         public init(exponentialRate: ExponentialRolloutRate? = nil, maximumPerMinute: Int? = nil) {
             self.exponentialRate = exponentialRate
             self.maximumPerMinute = maximumPerMinute
@@ -9921,6 +10234,7 @@ extension IoT {
         /// The target devices to which the job execution is being rolled out. This value will be null after the job execution has finished rolling out to all the target devices.
         public let processingTargets: [String]?
 
+        @inlinable
         public init(numberOfCanceledThings: Int? = nil, numberOfFailedThings: Int? = nil, numberOfInProgressThings: Int? = nil, numberOfQueuedThings: Int? = nil, numberOfRejectedThings: Int? = nil, numberOfRemovedThings: Int? = nil, numberOfSucceededThings: Int? = nil, numberOfTimedOutThings: Int? = nil, processingTargets: [String]? = nil) {
             self.numberOfCanceledThings = numberOfCanceledThings
             self.numberOfFailedThings = numberOfFailedThings
@@ -9966,6 +10280,7 @@ extension IoT {
         /// The ID of the thing group.
         public let thingGroupId: String?
 
+        @inlinable
         public init(completedAt: Date? = nil, createdAt: Date? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, lastUpdatedAt: Date? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
@@ -10001,6 +10316,7 @@ extension IoT {
         /// The unique identifier of the job template.
         public let jobTemplateId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -10030,6 +10346,7 @@ extension IoT {
         /// The Kafka topic for messages to be sent to the Kafka broker.
         public let topic: String
 
+        @inlinable
         public init(clientProperties: [String: String], destinationArn: String, headers: [KafkaActionHeader]? = nil, key: String? = nil, partition: String? = nil, topic: String) {
             self.clientProperties = clientProperties
             self.destinationArn = destinationArn
@@ -10063,6 +10380,7 @@ extension IoT {
         /// The value of the Kafka header.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -10085,6 +10403,7 @@ extension IoT {
         /// The public key.
         public let publicKey: String?
 
+        @inlinable
         public init(privateKey: String? = nil, publicKey: String? = nil) {
             self.privateKey = privateKey
             self.publicKey = publicKey
@@ -10104,6 +10423,7 @@ extension IoT {
         /// The name of the Amazon Kinesis stream.
         public let streamName: String
 
+        @inlinable
         public init(partitionKey: String? = nil, roleArn: String, streamName: String) {
             self.partitionKey = partitionKey
             self.roleArn = roleArn
@@ -10121,6 +10441,7 @@ extension IoT {
         /// The ARN of the Lambda function.
         public let functionArn: String
 
+        @inlinable
         public init(functionArn: String) {
             self.functionArn = functionArn
         }
@@ -10146,6 +10467,7 @@ extension IoT {
         /// The verification state of the violation (detect alarm).
         public let verificationState: VerificationState?
 
+        @inlinable
         public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, thingName: String? = nil, verificationState: VerificationState? = nil) {
             self.behaviorCriteriaType = behaviorCriteriaType
             self.listSuppressedAlerts = listSuppressedAlerts
@@ -10187,6 +10509,7 @@ extension IoT {
         /// A token that can be used to retrieve the next set of results,  or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(activeViolations: [ActiveViolation]? = nil, nextToken: String? = nil) {
             self.activeViolations = activeViolations
             self.nextToken = nextToken
@@ -10208,6 +10531,7 @@ extension IoT {
         /// The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let target: String
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil, recursive: Bool? = nil, target: String) {
             self.marker = marker
             self.pageSize = pageSize
@@ -10240,6 +10564,7 @@ extension IoT {
         /// The policies.
         public let policies: [Policy]?
 
+        @inlinable
         public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
             self.nextMarker = nextMarker
             self.policies = policies
@@ -10269,6 +10594,7 @@ extension IoT {
         /// A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
         public let taskId: String?
 
+        @inlinable
         public init(checkName: String? = nil, endTime: Date? = nil, listSuppressedFindings: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil, startTime: Date? = nil, taskId: String? = nil) {
             self.checkName = checkName
             self.endTime = endTime
@@ -10307,6 +10633,7 @@ extension IoT {
         /// A token that can be used to retrieve the next set of results, or null  if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [AuditFinding]? = nil, nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -10330,6 +10657,7 @@ extension IoT {
         /// Specify this filter to limit results to actions for a specific audit mitigation actions task.
         public let taskId: String
 
+        @inlinable
         public init(actionStatus: AuditMitigationActionsExecutionStatus? = nil, findingId: String, maxResults: Int? = nil, nextToken: String? = nil, taskId: String) {
             self.actionStatus = actionStatus
             self.findingId = findingId
@@ -10368,6 +10696,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(actionsExecutions: [AuditMitigationActionExecutionMetadata]? = nil, nextToken: String? = nil) {
             self.actionsExecutions = actionsExecutions
             self.nextToken = nextToken
@@ -10395,6 +10724,7 @@ extension IoT {
         /// Specify this filter to limit results to tasks that are in a specific state.
         public let taskStatus: AuditMitigationActionsTaskStatus?
 
+        @inlinable
         public init(auditTaskId: String? = nil, endTime: Date, findingId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date, taskStatus: AuditMitigationActionsTaskStatus? = nil) {
             self.auditTaskId = auditTaskId
             self.endTime = endTime
@@ -10437,6 +10767,7 @@ extension IoT {
         /// The collection of audit mitigation tasks that matched the filter criteria.
         public let tasks: [AuditMitigationActionsTaskMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [AuditMitigationActionsTaskMetadata]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -10458,6 +10789,7 @@ extension IoT {
         public let nextToken: String?
         public let resourceIdentifier: ResourceIdentifier?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, checkName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
             self.ascendingOrder = ascendingOrder
             self.checkName = checkName
@@ -10487,6 +10819,7 @@ extension IoT {
         ///  List of audit suppressions.
         public let suppressions: [AuditSuppression]?
 
+        @inlinable
         public init(nextToken: String? = nil, suppressions: [AuditSuppression]? = nil) {
             self.nextToken = nextToken
             self.suppressions = suppressions
@@ -10512,6 +10845,7 @@ extension IoT {
         /// A filter to limit the output to the specified type of audit: can be one of "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
         public let taskType: AuditTaskType?
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date, taskStatus: AuditTaskStatus? = nil, taskType: AuditTaskType? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -10546,6 +10880,7 @@ extension IoT {
         /// The audits that were performed during the specified time period.
         public let tasks: [AuditTaskMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [AuditTaskMetadata]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -10567,6 +10902,7 @@ extension IoT {
         /// The status of the list authorizers request.
         public let status: AuthorizerStatus?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, status: AuthorizerStatus? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -10599,6 +10935,7 @@ extension IoT {
         /// A marker used to get the next set of results.
         public let nextMarker: String?
 
+        @inlinable
         public init(authorizers: [AuthorizerSummary]? = nil, nextMarker: String? = nil) {
             self.authorizers = authorizers
             self.nextMarker = nextMarker
@@ -10620,6 +10957,7 @@ extension IoT {
         /// 			the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namePrefixFilter = namePrefixFilter
@@ -10651,6 +10989,7 @@ extension IoT {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(billingGroups: [GroupNameAndArn]? = nil, nextToken: String? = nil) {
             self.billingGroups = billingGroups
             self.nextToken = nextToken
@@ -10672,6 +11011,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, templateName: String? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -10707,6 +11047,7 @@ extension IoT {
         /// The current position within the list of CA certificates.
         public let nextMarker: String?
 
+        @inlinable
         public init(certificates: [CACertificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
             self.nextMarker = nextMarker
@@ -10724,6 +11065,7 @@ extension IoT {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, nextToken: String? = nil) {
             self.ascendingOrder = ascendingOrder
             self.nextToken = nextToken
@@ -10750,6 +11092,7 @@ extension IoT {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(certificateProviders: [CertificateProviderSummary]? = nil, nextToken: String? = nil) {
             self.certificateProviders = certificateProviders
             self.nextToken = nextToken
@@ -10771,6 +11114,7 @@ extension IoT {
         /// The result page size.
         public let pageSize: Int?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, caCertificateId: String, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.caCertificateId = caCertificateId
@@ -10806,6 +11150,7 @@ extension IoT {
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
             self.nextMarker = nextMarker
@@ -10825,6 +11170,7 @@ extension IoT {
         /// The result page size.
         public let pageSize: Int?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -10855,6 +11201,7 @@ extension IoT {
         /// The marker for the next set of results, or null if there are no additional results.
         public let nextMarker: String?
 
+        @inlinable
         public init(certificates: [Certificate]? = nil, nextMarker: String? = nil) {
             self.certificates = certificates
             self.nextMarker = nextMarker
@@ -10872,6 +11219,7 @@ extension IoT {
         ///  The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10898,6 +11246,7 @@ extension IoT {
         ///  A token that can be used to retrieve the next set of results,  or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(metricNames: [String]? = nil, nextToken: String? = nil) {
             self.metricNames = metricNames
             self.nextToken = nextToken
@@ -10925,6 +11274,7 @@ extension IoT {
         ///  The unique identifier of the violation.
         public let violationId: String?
 
+        @inlinable
         public init(endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, taskId: String? = nil, thingName: String? = nil, violationId: String? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -10969,6 +11319,7 @@ extension IoT {
         ///  A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(actionsExecutions: [DetectMitigationActionExecution]? = nil, nextToken: String? = nil) {
             self.actionsExecutions = actionsExecutions
             self.nextToken = nextToken
@@ -10990,6 +11341,7 @@ extension IoT {
         ///  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -11020,6 +11372,7 @@ extension IoT {
         ///  The collection of ML Detect mitigation tasks that matched the filter criteria.
         public let tasks: [DetectMitigationActionsTaskSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [DetectMitigationActionsTaskSummary]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -11037,6 +11390,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11063,6 +11417,7 @@ extension IoT {
         /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(dimensionNames: [String]? = nil, nextToken: String? = nil) {
             self.dimensionNames = dimensionNames
             self.nextToken = nextToken
@@ -11082,6 +11437,7 @@ extension IoT {
         /// The type of service delivered by the endpoint.
         public let serviceType: ServiceType?
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil, serviceType: ServiceType? = nil) {
             self.marker = marker
             self.pageSize = pageSize
@@ -11112,6 +11468,7 @@ extension IoT {
         /// The marker for the next set of results.
         public let nextMarker: String?
 
+        @inlinable
         public init(domainConfigurations: [DomainConfigurationSummary]? = nil, nextMarker: String? = nil) {
             self.domainConfigurations = domainConfigurations
             self.nextMarker = nextMarker
@@ -11129,6 +11486,7 @@ extension IoT {
         /// To retrieve the next set of results, the nextToken value from a previous response;  otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11155,6 +11513,7 @@ extension IoT {
         /// The token for the next set of results. Will not be returned if the operation has returned all results.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetMetrics: [FleetMetricNameAndArn]? = nil, nextToken: String? = nil) {
             self.fleetMetrics = fleetMetrics
             self.nextToken = nextToken
@@ -11172,6 +11531,7 @@ extension IoT {
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11198,6 +11558,7 @@ extension IoT {
         /// The token used to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(indexNames: [String]? = nil, nextToken: String? = nil) {
             self.indexNames = indexNames
             self.nextToken = nextToken
@@ -11219,6 +11580,7 @@ extension IoT {
         /// The status of the job.
         public let status: JobExecutionStatus?
 
+        @inlinable
         public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -11252,6 +11614,7 @@ extension IoT {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(executionSummaries: [JobExecutionSummaryForJob]? = nil, nextToken: String? = nil) {
             self.executionSummaries = executionSummaries
             self.nextToken = nextToken
@@ -11277,6 +11640,7 @@ extension IoT {
         /// The thing name.
         public let thingName: String
 
+        @inlinable
         public init(jobId: String? = nil, maxResults: Int? = nil, namespaceId: String? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
             self.jobId = jobId
             self.maxResults = maxResults
@@ -11318,6 +11682,7 @@ extension IoT {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(executionSummaries: [JobExecutionSummaryForThing]? = nil, nextToken: String? = nil) {
             self.executionSummaries = executionSummaries
             self.nextToken = nextToken
@@ -11335,6 +11700,7 @@ extension IoT {
         /// The token to use to return the next set of results in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11361,6 +11727,7 @@ extension IoT {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobTemplates: [JobTemplateSummary]? = nil, nextToken: String? = nil) {
             self.jobTemplates = jobTemplates
             self.nextToken = nextToken
@@ -11388,6 +11755,7 @@ extension IoT {
         /// A filter that limits the returned jobs to those for the specified group.
         public let thingGroupName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namespaceId: String? = nil, nextToken: String? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
             self.maxResults = maxResults
             self.namespaceId = namespaceId
@@ -11431,6 +11799,7 @@ extension IoT {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobSummary]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -11450,6 +11819,7 @@ extension IoT {
         /// An optional parameter for template name. If specified, only the versions of the managed job templates that have the specified template name will be returned.
         public let templateName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, templateName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11480,6 +11850,7 @@ extension IoT {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(managedJobTemplates: [ManagedJobTemplateSummary]? = nil, nextToken: String? = nil) {
             self.managedJobTemplates = managedJobTemplates
             self.nextToken = nextToken
@@ -11509,6 +11880,7 @@ extension IoT {
         /// The name of the thing for which security profile metric values are returned.
         public let thingName: String
 
+        @inlinable
         public init(dimensionName: String? = nil, dimensionValueOperator: DimensionValueOperator? = nil, endTime: Date, maxResults: Int? = nil, metricName: String, nextToken: String? = nil, startTime: Date, thingName: String) {
             self.dimensionName = dimensionName
             self.dimensionValueOperator = dimensionValueOperator
@@ -11552,6 +11924,7 @@ extension IoT {
         /// A token that can be used to retrieve the next set of results, or null  if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(metricDatumList: [MetricDatum]? = nil, nextToken: String? = nil) {
             self.metricDatumList = metricDatumList
             self.nextToken = nextToken
@@ -11571,6 +11944,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(actionType: MitigationActionType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.actionType = actionType
             self.maxResults = maxResults
@@ -11599,6 +11973,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(actionIdentifiers: [MitigationActionIdentifier]? = nil, nextToken: String? = nil) {
             self.actionIdentifiers = actionIdentifiers
             self.nextToken = nextToken
@@ -11618,6 +11993,7 @@ extension IoT {
         /// The OTA update job status.
         public let otaUpdateStatus: OTAUpdateStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11646,6 +12022,7 @@ extension IoT {
         /// A list of OTA update jobs.
         public let otaUpdates: [OTAUpdateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, otaUpdates: [OTAUpdateSummary]? = nil) {
             self.nextToken = nextToken
             self.otaUpdates = otaUpdates
@@ -11665,6 +12042,7 @@ extension IoT {
         /// The result page size.
         public let pageSize: Int?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -11695,6 +12073,7 @@ extension IoT {
         /// The certificates that are being transferred but not yet accepted.
         public let outgoingCertificates: [OutgoingCertificate]?
 
+        @inlinable
         public init(nextMarker: String? = nil, outgoingCertificates: [OutgoingCertificate]? = nil) {
             self.nextMarker = nextMarker
             self.outgoingCertificates = outgoingCertificates
@@ -11716,6 +12095,7 @@ extension IoT {
         /// The status of the package version. For more information, see Package version lifecycle.
         public let status: PackageVersionStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageName: String, status: PackageVersionStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11749,6 +12129,7 @@ extension IoT {
         /// Lists the package versions associated to the package.
         public let packageVersionSummaries: [PackageVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageVersionSummaries: [PackageVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.packageVersionSummaries = packageVersionSummaries
@@ -11766,6 +12147,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11792,6 +12174,7 @@ extension IoT {
         /// The software package summary.
         public let packageSummaries: [PackageSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageSummaries: [PackageSummary]? = nil) {
             self.nextToken = nextToken
             self.packageSummaries = packageSummaries
@@ -11811,6 +12194,7 @@ extension IoT {
         /// The result page size.
         public let pageSize: Int?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -11841,6 +12225,7 @@ extension IoT {
         /// The descriptions of the policies.
         public let policies: [Policy]?
 
+        @inlinable
         public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
             self.nextMarker = nextMarker
             self.policies = policies
@@ -11862,6 +12247,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, policyName: String) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -11897,6 +12283,7 @@ extension IoT {
         /// The descriptions of the principals.
         public let principals: [String]?
 
+        @inlinable
         public init(nextMarker: String? = nil, principals: [String]? = nil) {
             self.nextMarker = nextMarker
             self.principals = principals
@@ -11912,6 +12299,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String
 
+        @inlinable
         public init(policyName: String) {
             self.policyName = policyName
         }
@@ -11935,6 +12323,7 @@ extension IoT {
         /// The policy versions.
         public let policyVersions: [PolicyVersion]?
 
+        @inlinable
         public init(policyVersions: [PolicyVersion]? = nil) {
             self.policyVersions = policyVersions
         }
@@ -11954,6 +12343,7 @@ extension IoT {
         /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil, principal: String) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -11986,6 +12376,7 @@ extension IoT {
         /// The policies.
         public let policies: [Policy]?
 
+        @inlinable
         public init(nextMarker: String? = nil, policies: [Policy]? = nil) {
             self.nextMarker = nextMarker
             self.policies = policies
@@ -12007,6 +12398,7 @@ extension IoT {
         /// The principal.
         public let principal: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12035,6 +12427,7 @@ extension IoT {
         /// The things.
         public let things: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
             self.things = things
@@ -12054,6 +12447,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, templateName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12085,6 +12479,7 @@ extension IoT {
         /// The list of provisioning template versions.
         public let versions: [ProvisioningTemplateVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, versions: [ProvisioningTemplateVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -12102,6 +12497,7 @@ extension IoT {
         /// A token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12128,6 +12524,7 @@ extension IoT {
         /// A list of provisioning templates
         public let templates: [ProvisioningTemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, templates: [ProvisioningTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.templates = templates
@@ -12147,6 +12544,7 @@ extension IoT {
         /// A token that can be used to retrieve the next set of results,  or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(findingId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.findingId = findingId
             self.maxResults = maxResults
@@ -12178,6 +12576,7 @@ extension IoT {
         /// The related resources.
         public let relatedResources: [RelatedResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, relatedResources: [RelatedResource]? = nil) {
             self.nextToken = nextToken
             self.relatedResources = relatedResources
@@ -12197,6 +12596,7 @@ extension IoT {
         /// The maximum number of results to return at one time.
         public let pageSize: Int?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, marker: String? = nil, pageSize: Int? = nil) {
             self.ascendingOrder = ascendingOrder
             self.marker = marker
@@ -12227,6 +12627,7 @@ extension IoT {
         /// The role aliases.
         public let roleAliases: [String]?
 
+        @inlinable
         public init(nextMarker: String? = nil, roleAliases: [String]? = nil) {
             self.nextMarker = nextMarker
             self.roleAliases = roleAliases
@@ -12244,6 +12645,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12270,6 +12672,7 @@ extension IoT {
         /// The list of scheduled audits.
         public let scheduledAudits: [ScheduledAuditMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledAudits: [ScheduledAuditMetadata]? = nil) {
             self.nextToken = nextToken
             self.scheduledAudits = scheduledAudits
@@ -12291,6 +12694,7 @@ extension IoT {
         /// The ARN of the target (thing group) whose attached security profiles you want to get.
         public let securityProfileTargetArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, recursive: Bool? = nil, securityProfileTargetArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12321,6 +12725,7 @@ extension IoT {
         /// A list of security profiles and their associated targets.
         public let securityProfileTargetMappings: [SecurityProfileTargetMapping]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityProfileTargetMappings: [SecurityProfileTargetMapping]? = nil) {
             self.nextToken = nextToken
             self.securityProfileTargetMappings = securityProfileTargetMappings
@@ -12342,6 +12747,7 @@ extension IoT {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dimensionName: String? = nil, maxResults: Int? = nil, metricName: String? = nil, nextToken: String? = nil) {
             self.dimensionName = dimensionName
             self.maxResults = maxResults
@@ -12378,6 +12784,7 @@ extension IoT {
         /// A list of security profile identifiers (names and ARNs).
         public let securityProfileIdentifiers: [SecurityProfileIdentifier]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityProfileIdentifiers: [SecurityProfileIdentifier]? = nil) {
             self.nextToken = nextToken
             self.securityProfileIdentifiers = securityProfileIdentifiers
@@ -12397,6 +12804,7 @@ extension IoT {
         /// A token used to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(ascendingOrder: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.ascendingOrder = ascendingOrder
             self.maxResults = maxResults
@@ -12425,6 +12833,7 @@ extension IoT {
         /// A list of streams.
         public let streams: [StreamSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, streams: [StreamSummary]? = nil) {
             self.nextToken = nextToken
             self.streams = streams
@@ -12444,6 +12853,7 @@ extension IoT {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(nextToken: String? = nil, resourceArn: String) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -12465,6 +12875,7 @@ extension IoT {
         /// The list of tags assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -12484,6 +12895,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String
 
+        @inlinable
         public init(marker: String? = nil, pageSize: Int? = nil, policyName: String) {
             self.marker = marker
             self.pageSize = pageSize
@@ -12517,6 +12929,7 @@ extension IoT {
         /// The policy targets.
         public let targets: [String]?
 
+        @inlinable
         public init(nextMarker: String? = nil, targets: [String]? = nil) {
             self.nextMarker = nextMarker
             self.targets = targets
@@ -12536,6 +12949,7 @@ extension IoT {
         /// The security profile.
         public let securityProfileName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12567,6 +12981,7 @@ extension IoT {
         /// The thing groups to which the security profile is attached.
         public let securityProfileTargets: [SecurityProfileTarget]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityProfileTargets: [SecurityProfileTarget]? = nil) {
             self.nextToken = nextToken
             self.securityProfileTargets = securityProfileTargets
@@ -12588,6 +13003,7 @@ extension IoT {
         /// The thing name.
         public let thingName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, thingName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12619,6 +13035,7 @@ extension IoT {
         /// The thing groups.
         public let thingGroups: [GroupNameAndArn]?
 
+        @inlinable
         public init(nextToken: String? = nil, thingGroups: [GroupNameAndArn]? = nil) {
             self.nextToken = nextToken
             self.thingGroups = thingGroups
@@ -12644,6 +13061,7 @@ extension IoT {
         /// If true, return child groups as well.
         public let recursive: Bool?
 
+        @inlinable
         public init(maxResults: Int? = nil, namePrefixFilter: String? = nil, nextToken: String? = nil, parentGroup: String? = nil, recursive: Bool? = nil) {
             self.maxResults = maxResults
             self.namePrefixFilter = namePrefixFilter
@@ -12682,6 +13100,7 @@ extension IoT {
         /// The thing groups.
         public let thingGroups: [GroupNameAndArn]?
 
+        @inlinable
         public init(nextToken: String? = nil, thingGroups: [GroupNameAndArn]? = nil) {
             self.nextToken = nextToken
             self.thingGroups = thingGroups
@@ -12703,6 +13122,7 @@ extension IoT {
         /// The name of the thing.
         public let thingName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, thingName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12734,6 +13154,7 @@ extension IoT {
         /// The principals associated with the thing.
         public let principals: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, principals: [String]? = nil) {
             self.nextToken = nextToken
             self.principals = principals
@@ -12757,6 +13178,7 @@ extension IoT {
         /// The id of the task.
         public let taskId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, reportType: ReportType, taskId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12790,6 +13212,7 @@ extension IoT {
         /// Links to the task resources.
         public let resourceLinks: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportType: ReportType? = nil, resourceLinks: [String]? = nil) {
             self.nextToken = nextToken
             self.reportType = reportType
@@ -12813,6 +13236,7 @@ extension IoT {
         /// The status of the bulk thing provisioning task.
         public let status: Status?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: Status? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12841,6 +13265,7 @@ extension IoT {
         /// A list of bulk thing provisioning task IDs.
         public let taskIds: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, taskIds: [String]? = nil) {
             self.nextToken = nextToken
             self.taskIds = taskIds
@@ -12862,6 +13287,7 @@ extension IoT {
         /// The name of the thing type.
         public let thingTypeName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12893,6 +13319,7 @@ extension IoT {
         /// The thing types.
         public let thingTypes: [ThingTypeDefinition]?
 
+        @inlinable
         public init(nextToken: String? = nil, thingTypes: [ThingTypeDefinition]? = nil) {
             self.nextToken = nextToken
             self.thingTypes = thingTypes
@@ -12914,6 +13341,7 @@ extension IoT {
         /// 			the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(billingGroupName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingGroupName = billingGroupName
             self.maxResults = maxResults
@@ -12945,6 +13373,7 @@ extension IoT {
         /// A list of things in the billing group.
         public let things: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
             self.things = things
@@ -12969,6 +13398,7 @@ extension IoT {
         /// The thing group name.
         public let thingGroupName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, recursive: Bool? = nil, thingGroupName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -13002,6 +13432,7 @@ extension IoT {
         /// The things in the specified thing group.
         public let things: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, things: [String]? = nil) {
             self.nextToken = nextToken
             self.things = things
@@ -13031,6 +13462,7 @@ extension IoT {
         /// 			provided.
         public let usePrefixAttributeValue: Bool?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, thingTypeName: String? = nil, usePrefixAttributeValue: Bool? = nil) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -13072,6 +13504,7 @@ extension IoT {
         /// The things.
         public let things: [ThingAttribute]?
 
+        @inlinable
         public init(nextToken: String? = nil, things: [ThingAttribute]? = nil) {
             self.nextToken = nextToken
             self.things = things
@@ -13089,6 +13522,7 @@ extension IoT {
         /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -13115,6 +13549,7 @@ extension IoT {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(destinationSummaries: [TopicRuleDestinationSummary]? = nil, nextToken: String? = nil) {
             self.destinationSummaries = destinationSummaries
             self.nextToken = nextToken
@@ -13136,6 +13571,7 @@ extension IoT {
         /// The topic.
         public let topic: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, ruleDisabled: Bool? = nil, topic: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -13166,6 +13602,7 @@ extension IoT {
         /// The rules.
         public let rules: [TopicRuleListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, rules: [TopicRuleListItem]? = nil) {
             self.nextToken = nextToken
             self.rules = rules
@@ -13185,6 +13622,7 @@ extension IoT {
         /// The type of resource for which you are configuring logging. Must be THING_Group.
         public let targetType: LogTargetType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetType: LogTargetType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -13213,6 +13651,7 @@ extension IoT {
         /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(logTargetConfigurations: [LogTargetConfiguration]? = nil, nextToken: String? = nil) {
             self.logTargetConfigurations = logTargetConfigurations
             self.nextToken = nextToken
@@ -13244,6 +13683,7 @@ extension IoT {
         /// The verification state of the violation (detect alarm).
         public let verificationState: VerificationState?
 
+        @inlinable
         public init(behaviorCriteriaType: BehaviorCriteriaType? = nil, endTime: Date, listSuppressedAlerts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, securityProfileName: String? = nil, startTime: Date, thingName: String? = nil, verificationState: VerificationState? = nil) {
             self.behaviorCriteriaType = behaviorCriteriaType
             self.endTime = endTime
@@ -13289,6 +13729,7 @@ extension IoT {
         /// The security profile violation alerts issued for this account during the given time period,  potentially filtered by security profile, behavior violated, or thing (device) violating.
         public let violationEvents: [ViolationEvent]?
 
+        @inlinable
         public init(nextToken: String? = nil, violationEvents: [ViolationEvent]? = nil) {
             self.nextToken = nextToken
             self.violationEvents = violationEvents
@@ -13314,6 +13755,7 @@ extension IoT {
         /// The name of the tracker resource in Amazon Location in which the location is updated.
         public let trackerName: String
 
+        @inlinable
         public init(deviceId: String, latitude: String, longitude: String, roleArn: String, timestamp: LocationTimestamp? = nil, trackerName: String) {
             self.deviceId = deviceId
             self.latitude = latitude
@@ -13339,6 +13781,7 @@ extension IoT {
         /// An expression that returns a long epoch time value.
         public let value: String
 
+        @inlinable
         public init(unit: String? = nil, value: String) {
             self.unit = unit
             self.value = value
@@ -13356,6 +13799,7 @@ extension IoT {
         /// The target type.
         public let targetType: LogTargetType
 
+        @inlinable
         public init(targetName: String? = nil, targetType: LogTargetType) {
             self.targetName = targetName
             self.targetType = targetType
@@ -13373,6 +13817,7 @@ extension IoT {
         /// A log target
         public let logTarget: LogTarget?
 
+        @inlinable
         public init(logLevel: LogLevel? = nil, logTarget: LogTarget? = nil) {
             self.logLevel = logLevel
             self.logTarget = logTarget
@@ -13390,6 +13835,7 @@ extension IoT {
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
 
+        @inlinable
         public init(logLevel: LogLevel? = nil, roleArn: String) {
             self.logLevel = logLevel
             self.roleArn = roleArn
@@ -13405,6 +13851,7 @@ extension IoT {
         ///  The sensitivity of anomalous behavior evaluation. Can be Low, Medium, or High.
         public let confidenceLevel: ConfidenceLevel
 
+        @inlinable
         public init(confidenceLevel: ConfidenceLevel) {
             self.confidenceLevel = confidenceLevel
         }
@@ -13420,6 +13867,7 @@ extension IoT {
         /// Displays the start time of the next maintenance window.
         public let startTime: String
 
+        @inlinable
         public init(durationInMinutes: Int, startTime: String) {
             self.durationInMinutes = durationInMinutes
             self.startTime = startTime
@@ -13450,6 +13898,7 @@ extension IoT {
         /// The version for a managed template.
         public let templateVersion: String?
 
+        @inlinable
         public init(description: String? = nil, environments: [String]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
             self.description = description
             self.environments = environments
@@ -13473,6 +13922,7 @@ extension IoT {
         /// The value reported for the metric.
         public let value: MetricValue?
 
+        @inlinable
         public init(timestamp: Date? = nil, value: MetricValue? = nil) {
             self.timestamp = timestamp
             self.value = value
@@ -13490,6 +13940,7 @@ extension IoT {
         /// Defines how the dimensionValues of a dimension are interpreted. For example, for dimension type TOPIC_FILTER, the IN operator, a message will be counted only if its topic matches one of the topic filters. With NOT_IN operator, a message will be counted only if it doesn't match any of the topic filters. The operator is optional: if it's not provided (is null), it will be interpreted as IN.
         public let `operator`: DimensionValueOperator?
 
+        @inlinable
         public init(dimensionName: String, operator: DimensionValueOperator? = nil) {
             self.dimensionName = dimensionName
             self.`operator` = `operator`
@@ -13515,6 +13966,7 @@ extension IoT {
         /// The dimension of a metric. This can't be used with custom metrics.
         public let metricDimension: MetricDimension?
 
+        @inlinable
         public init(exportMetric: Bool? = nil, metric: String, metricDimension: MetricDimension? = nil) {
             self.exportMetric = exportMetric
             self.metric = metric
@@ -13546,6 +13998,7 @@ extension IoT {
         ///  The string values of a metric.
         public let strings: [String]?
 
+        @inlinable
         public init(cidrs: [String]? = nil, count: Int64? = nil, number: Double? = nil, numbers: [Double]? = nil, ports: [Int]? = nil, strings: [String]? = nil) {
             self.cidrs = cidrs
             self.count = count
@@ -13584,6 +14037,7 @@ extension IoT {
         /// This role ARN has permission to publish MQTT messages, after which Device Defender Detect can assume the role and publish messages on your behalf.
         public let roleArn: String
 
+        @inlinable
         public init(mqttTopic: String, roleArn: String) {
             self.mqttTopic = mqttTopic
             self.roleArn = roleArn
@@ -13612,6 +14066,7 @@ extension IoT {
         /// The IAM role ARN used to apply this mitigation action.
         public let roleArn: String?
 
+        @inlinable
         public init(actionParams: MitigationActionParams? = nil, id: String? = nil, name: String? = nil, roleArn: String? = nil) {
             self.actionParams = actionParams
             self.id = id
@@ -13635,6 +14090,7 @@ extension IoT {
         /// The date when this mitigation action was created.
         public let creationDate: Date?
 
+        @inlinable
         public init(actionArn: String? = nil, actionName: String? = nil, creationDate: Date? = nil) {
             self.actionArn = actionArn
             self.actionName = actionName
@@ -13662,6 +14118,7 @@ extension IoT {
         /// Parameters to define a mitigation action that changes the state of the device certificate to inactive.
         public let updateDeviceCertificateParams: UpdateDeviceCertificateParams?
 
+        @inlinable
         public init(addThingsToThingGroupParams: AddThingsToThingGroupParams? = nil, enableIoTLoggingParams: EnableIoTLoggingParams? = nil, publishFindingToSnsParams: PublishFindingToSnsParams? = nil, replaceDefaultPolicyVersionParams: ReplaceDefaultPolicyVersionParams? = nil, updateCACertificateParams: UpdateCACertificateParams? = nil, updateDeviceCertificateParams: UpdateDeviceCertificateParams? = nil) {
             self.addThingsToThingGroupParams = addThingsToThingGroupParams
             self.enableIoTLoggingParams = enableIoTLoggingParams
@@ -13695,6 +14152,7 @@ extension IoT {
         /// The value of the username key in an MQTT authorization request.
         public let username: String?
 
+        @inlinable
         public init(clientId: String? = nil, password: AWSBase64Data? = nil, username: String? = nil) {
             self.clientId = clientId
             self.password = password
@@ -13733,6 +14191,7 @@ extension IoT {
         /// An array of key-value pairs that you define in the MQTT5 header.
         public let userProperties: [UserProperty]?
 
+        @inlinable
         public init(contentType: String? = nil, correlationData: String? = nil, messageExpiry: String? = nil, payloadFormatIndicator: String? = nil, responseTopic: String? = nil, userProperties: [UserProperty]? = nil) {
             self.contentType = contentType
             self.correlationData = correlationData
@@ -13773,6 +14232,7 @@ extension IoT {
         /// The type of the noncompliant resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(additionalInfo: [String: String]? = nil, resourceIdentifier: ResourceIdentifier? = nil, resourceType: ResourceType? = nil) {
             self.additionalInfo = additionalInfo
             self.resourceIdentifier = resourceIdentifier
@@ -13800,6 +14260,7 @@ extension IoT {
         /// The file version.
         public let fileVersion: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, codeSigning: CodeSigning? = nil, fileLocation: FileLocation? = nil, fileName: String? = nil, fileType: Int? = nil, fileVersion: String? = nil) {
             self.attributes = attributes
             self.codeSigning = codeSigning
@@ -13864,6 +14325,7 @@ extension IoT {
         /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the OTA update (SNAPSHOT). If continuous, the OTA update may also be run on a thing when a change is detected in a target. For example, an OTA update will run on a thing when the thing is added to a target group, even after the OTA update was completed by all things originally in the group.
         public let targetSelection: TargetSelection?
 
+        @inlinable
         public init(additionalParameters: [String: String]? = nil, awsIotJobArn: String? = nil, awsIotJobId: String? = nil, awsJobExecutionsRolloutConfig: AwsJobExecutionsRolloutConfig? = nil, awsJobPresignedUrlConfig: AwsJobPresignedUrlConfig? = nil, creationDate: Date? = nil, description: String? = nil, errorInfo: ErrorInfo? = nil, lastModifiedDate: Date? = nil, otaUpdateArn: String? = nil, otaUpdateFiles: [OTAUpdateFile]? = nil, otaUpdateId: String? = nil, otaUpdateStatus: OTAUpdateStatus? = nil, protocols: [`Protocol`]? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil) {
             self.additionalParameters = additionalParameters
             self.awsIotJobArn = awsIotJobArn
@@ -13911,6 +14373,7 @@ extension IoT {
         /// The OTA update ID.
         public let otaUpdateId: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, otaUpdateArn: String? = nil, otaUpdateId: String? = nil) {
             self.creationDate = creationDate
             self.otaUpdateArn = otaUpdateArn
@@ -13936,6 +14399,7 @@ extension IoT {
         /// The type of document you are storing.
         public let type: String
 
+        @inlinable
         public init(endpoint: String, id: String, index: String, roleArn: String, type: String) {
             self.endpoint = endpoint
             self.id = id
@@ -13971,6 +14435,7 @@ extension IoT {
         /// The Amazon Web Services account to which the transfer was made.
         public let transferredTo: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil, creationDate: Date? = nil, transferDate: Date? = nil, transferMessage: String? = nil, transferredTo: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -14000,6 +14465,7 @@ extension IoT {
         /// The name for the target software package.
         public let packageName: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, defaultVersionName: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil) {
             self.creationDate = creationDate
             self.defaultVersionName = defaultVersionName
@@ -14027,6 +14493,7 @@ extension IoT {
         /// The name of the target package version.
         public let versionName: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -14050,6 +14517,7 @@ extension IoT {
         /// The value of the percentile.
         public let value: Double?
 
+        @inlinable
         public init(percent: Double? = nil, value: Double? = nil) {
             self.percent = percent
             self.value = value
@@ -14067,6 +14535,7 @@ extension IoT {
         /// The policy name.
         public let policyName: String?
 
+        @inlinable
         public init(policyArn: String? = nil, policyName: String? = nil) {
             self.policyArn = policyArn
             self.policyName = policyName
@@ -14086,6 +14555,7 @@ extension IoT {
         /// The policy version ID.
         public let versionId: String?
 
+        @inlinable
         public init(createDate: Date? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
             self.createDate = createDate
             self.isDefaultVersion = isDefaultVersion
@@ -14105,6 +14575,7 @@ extension IoT {
         /// The ID of the version of the policy associated with the resource.
         public let policyVersionId: String?
 
+        @inlinable
         public init(policyName: String? = nil, policyVersionId: String? = nil) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
@@ -14129,6 +14600,7 @@ extension IoT {
         /// The ARN of an IAM role that grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files.  For information about addressing the confused deputy problem, see cross-service confused deputy prevention in the Amazon Web Services IoT Core developer guide.
         public let roleArn: String?
 
+        @inlinable
         public init(expiresInSec: Int64? = nil, roleArn: String? = nil) {
             self.expiresInSec = expiresInSec
             self.roleArn = roleArn
@@ -14153,6 +14625,7 @@ extension IoT {
         /// The ARN of the target function.  Note: Only Lambda functions are currently supported.
         public let targetArn: String
 
+        @inlinable
         public init(payloadVersion: String? = nil, targetArn: String) {
             self.payloadVersion = payloadVersion
             self.targetArn = targetArn
@@ -14187,6 +14660,7 @@ extension IoT {
         /// The type you define in a provisioning template. You can create a template with only one type. You can't change the template type after its creation. The default value is FLEET_PROVISIONING. For more information about provisioning template, see: Provisioning template.
         public let type: TemplateType?
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, lastModifiedDate: Date? = nil, templateArn: String? = nil, templateName: String? = nil, type: TemplateType? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -14216,6 +14690,7 @@ extension IoT {
         /// The ID of the fleet provisioning template version.
         public let versionId: Int?
 
+        @inlinable
         public init(creationDate: Date? = nil, isDefaultVersion: Bool? = nil, versionId: Int? = nil) {
             self.creationDate = creationDate
             self.isDefaultVersion = isDefaultVersion
@@ -14233,6 +14708,7 @@ extension IoT {
         /// The ARN of the topic to which you want to publish the findings.
         public let topicArn: String
 
+        @inlinable
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -14258,6 +14734,7 @@ extension IoT {
         /// A list of property values to insert that each contain timestamp, quality, and value (TQV) information.
         public let propertyValues: [AssetPropertyValue]
 
+        @inlinable
         public init(assetId: String? = nil, entryId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, propertyValues: [AssetPropertyValue]) {
             self.assetId = assetId
             self.entryId = entryId
@@ -14287,6 +14764,7 @@ extension IoT {
         /// The table where the message data will be written.
         public let tableName: String
 
+        @inlinable
         public init(tableName: String) {
             self.tableName = tableName
         }
@@ -14304,6 +14782,7 @@ extension IoT {
         /// The violation ID.
         public let violationId: String
 
+        @inlinable
         public init(verificationState: VerificationState, verificationStateDescription: String? = nil, violationId: String) {
             self.verificationState = verificationState
             self.verificationStateDescription = verificationStateDescription
@@ -14342,6 +14821,7 @@ extension IoT {
         /// The threshold for number of succeeded things that will initiate the increase in rate of rollout.
         public let numberOfSucceededThings: Int?
 
+        @inlinable
         public init(numberOfNotifiedThings: Int? = nil, numberOfSucceededThings: Int? = nil) {
             self.numberOfNotifiedThings = numberOfNotifiedThings
             self.numberOfSucceededThings = numberOfSucceededThings
@@ -14374,6 +14854,7 @@ extension IoT {
         /// The private key verification certificate. If certificateMode is SNI_ONLY, the verificationCertificate field must be empty. If certificateMode is DEFAULT or not provided, the verificationCertificate field must not be empty.
         public let verificationCertificate: String?
 
+        @inlinable
         public init(allowAutoRegistration: Bool? = nil, caCertificate: String, certificateMode: CertificateMode? = nil, registrationConfig: RegistrationConfig? = nil, setAsActive: Bool? = nil, tags: [Tag]? = nil, verificationCertificate: String? = nil) {
             self.allowAutoRegistration = allowAutoRegistration
             self.caCertificate = caCertificate
@@ -14424,6 +14905,7 @@ extension IoT {
         /// The CA certificate identifier.
         public let certificateId: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -14445,6 +14927,7 @@ extension IoT {
         /// The status of the register certificate request. Valid values that you can use include  ACTIVE, INACTIVE, and REVOKED.
         public let status: CertificateStatus?
 
+        @inlinable
         public init(caCertificatePem: String? = nil, certificatePem: String, status: CertificateStatus? = nil) {
             self.caCertificatePem = caCertificatePem
             self.certificatePem = certificatePem
@@ -14453,6 +14936,7 @@ extension IoT {
         }
 
         @available(*, deprecated, message: "Members setAsActive have been deprecated")
+        @inlinable
         public init(caCertificatePem: String? = nil, certificatePem: String, setAsActive: Bool? = nil, status: CertificateStatus? = nil) {
             self.caCertificatePem = caCertificatePem
             self.certificatePem = certificatePem
@@ -14491,6 +14975,7 @@ extension IoT {
         /// The certificate identifier.
         public let certificateId: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -14508,6 +14993,7 @@ extension IoT {
         /// The status of the register certificate request.
         public let status: CertificateStatus?
 
+        @inlinable
         public init(certificatePem: String, status: CertificateStatus? = nil) {
             self.certificatePem = certificatePem
             self.status = status
@@ -14531,6 +15017,7 @@ extension IoT {
         /// The ID of the registered certificate. (The last part of the certificate ARN contains the certificate ID.
         public let certificateId: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateId: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateId = certificateId
@@ -14548,6 +15035,7 @@ extension IoT {
         /// The provisioning template. See Provisioning Devices That Have Device Certificates for more information.
         public let templateBody: String
 
+        @inlinable
         public init(parameters: [String: String]? = nil, templateBody: String) {
             self.parameters = parameters
             self.templateBody = templateBody
@@ -14576,6 +15064,7 @@ extension IoT {
         /// ARNs for the generated resources.
         public let resourceArns: [String: String]?
 
+        @inlinable
         public init(certificatePem: String? = nil, resourceArns: [String: String]? = nil) {
             self.certificatePem = certificatePem
             self.resourceArns = resourceArns
@@ -14595,6 +15084,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String?
 
+        @inlinable
         public init(roleArn: String? = nil, templateBody: String? = nil, templateName: String? = nil) {
             self.roleArn = roleArn
             self.templateBody = templateBody
@@ -14624,6 +15114,7 @@ extension IoT {
         /// The reason the certificate transfer was rejected.
         public let rejectReason: String?
 
+        @inlinable
         public init(certificateId: String, rejectReason: String? = nil) {
             self.certificateId = certificateId
             self.rejectReason = rejectReason
@@ -14657,6 +15148,7 @@ extension IoT {
         /// The type of resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(additionalInfo: [String: String]? = nil, resourceIdentifier: ResourceIdentifier? = nil, resourceType: ResourceType? = nil) {
             self.additionalInfo = additionalInfo
             self.resourceIdentifier = resourceIdentifier
@@ -14680,6 +15172,7 @@ extension IoT {
         /// The name of the thing to be removed from the billing group.
         public let thingName: String?
 
+        @inlinable
         public init(billingGroupArn: String? = nil, billingGroupName: String? = nil, thingArn: String? = nil, thingName: String? = nil) {
             self.billingGroupArn = billingGroupArn
             self.billingGroupName = billingGroupName
@@ -14718,6 +15211,7 @@ extension IoT {
         /// The name of the thing to remove from the group.
         public let thingName: String?
 
+        @inlinable
         public init(thingArn: String? = nil, thingGroupArn: String? = nil, thingGroupName: String? = nil, thingName: String? = nil) {
             self.thingArn = thingArn
             self.thingGroupArn = thingGroupArn
@@ -14750,6 +15244,7 @@ extension IoT {
         /// The name of the template to be applied. The only supported value is BLANK_POLICY.
         public let templateName: PolicyTemplateName
 
+        @inlinable
         public init(templateName: PolicyTemplateName) {
             self.templateName = templateName
         }
@@ -14765,6 +15260,7 @@ extension IoT {
         /// The rule payload.
         public let topicRulePayload: TopicRulePayload
 
+        @inlinable
         public init(ruleName: String, topicRulePayload: TopicRulePayload) {
             self.ruleName = ruleName
             self.topicRulePayload = topicRulePayload
@@ -14797,6 +15293,7 @@ extension IoT {
         /// The name of the MQTT topic.
         public let topic: String
 
+        @inlinable
         public init(headers: MqttHeaders? = nil, qos: Int? = nil, roleArn: String, topic: String) {
             self.headers = headers
             self.qos = qos
@@ -14840,6 +15337,7 @@ extension IoT {
         /// The ARN of the role alias that has overly permissive actions.
         public let roleAliasArn: String?
 
+        @inlinable
         public init(account: String? = nil, caCertificateId: String? = nil, clientId: String? = nil, cognitoIdentityPoolId: String? = nil, deviceCertificateArn: String? = nil, deviceCertificateId: String? = nil, iamRoleArn: String? = nil, issuerCertificateIdentifier: IssuerCertificateIdentifier? = nil, policyVersionIdentifier: PolicyVersionIdentifier? = nil, roleAliasArn: String? = nil) {
             self.account = account
             self.caCertificateId = caCertificateId
@@ -14891,6 +15389,7 @@ extension IoT {
         /// The number of retries allowed for a failure type for the job.
         public let numberOfRetries: Int
 
+        @inlinable
         public init(failureType: RetryableFailureType, numberOfRetries: Int) {
             self.failureType = failureType
             self.numberOfRetries = numberOfRetries
@@ -14923,6 +15422,7 @@ extension IoT {
         /// The role ARN.
         public let roleArn: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, credentialDurationSeconds: Int? = nil, lastModifiedDate: Date? = nil, owner: String? = nil, roleAlias: String? = nil, roleAliasArn: String? = nil, roleArn: String? = nil) {
             self.creationDate = creationDate
             self.credentialDurationSeconds = credentialDurationSeconds
@@ -14954,6 +15454,7 @@ extension IoT {
         /// The ARN of the IAM role that grants access.
         public let roleArn: String
 
+        @inlinable
         public init(bucketName: String, cannedAcl: CannedAccessControlList? = nil, key: String, roleArn: String) {
             self.bucketName = bucketName
             self.cannedAcl = cannedAcl
@@ -14975,6 +15476,7 @@ extension IoT {
         /// The S3 prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -14998,6 +15500,7 @@ extension IoT {
         /// The S3 bucket version.
         public let version: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil, version: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -15022,6 +15525,7 @@ extension IoT {
         /// The URL exposed by the Salesforce IoT Cloud Input Stream. The URL is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
         public let url: String
 
+        @inlinable
         public init(token: String, url: String) {
             self.token = token
             self.url = url
@@ -15051,6 +15555,7 @@ extension IoT {
         /// The name of the scheduled audit.
         public let scheduledAuditName: String?
 
+        @inlinable
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency? = nil, scheduledAuditArn: String? = nil, scheduledAuditName: String? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -15072,6 +15577,7 @@ extension IoT {
         /// Displays the start times of the next seven maintenance window occurrences.
         public let startTime: String?
 
+        @inlinable
         public init(startTime: String? = nil) {
             self.startTime = startTime
         }
@@ -15091,6 +15597,7 @@ extension IoT {
         /// The time a job will begin rollout of the job document to all devices in the target group for a job. The startTime can be scheduled up to a year in advance and must be scheduled a minimum of thirty minutes from the current time. The date and time format for the startTime is YYYY-MM-DD for the date and HH:MM for the time. For more information on the syntax for startTime when using an API command or the Command Line Interface, see Timestamp.
         public let startTime: String?
 
+        @inlinable
         public init(endBehavior: JobEndBehavior? = nil, endTime: String? = nil, maintenanceWindows: [MaintenanceWindow]? = nil, startTime: String? = nil) {
             self.endBehavior = endBehavior
             self.endTime = endTime
@@ -15128,6 +15635,7 @@ extension IoT {
         /// The query version.
         public let queryVersion: String?
 
+        @inlinable
         public init(indexName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryString: String, queryVersion: String? = nil) {
             self.indexName = indexName
             self.maxResults = maxResults
@@ -15161,6 +15669,7 @@ extension IoT {
         /// The things that match the search query.
         public let things: [ThingDocument]?
 
+        @inlinable
         public init(nextToken: String? = nil, thingGroups: [ThingGroupDocument]? = nil, things: [ThingDocument]? = nil) {
             self.nextToken = nextToken
             self.thingGroups = thingGroups
@@ -15180,6 +15689,7 @@ extension IoT {
         /// The name you've given to the security profile.
         public let name: String
 
+        @inlinable
         public init(arn: String, name: String) {
             self.arn = arn
             self.name = name
@@ -15195,6 +15705,7 @@ extension IoT {
         /// The ARN of the security profile.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -15210,6 +15721,7 @@ extension IoT {
         /// Information about the target (thing group) associated with the security profile.
         public let target: SecurityProfileTarget?
 
+        @inlinable
         public init(securityProfileIdentifier: SecurityProfileIdentifier? = nil, target: SecurityProfileTarget? = nil) {
             self.securityProfileIdentifier = securityProfileIdentifier
             self.target = target
@@ -15225,6 +15737,7 @@ extension IoT {
         /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see Configuring OCSP server-certificate stapling in domain configuration from Amazon Web Services IoT Core Developer Guide.
         public let enableOCSPCheck: Bool?
 
+        @inlinable
         public init(enableOCSPCheck: Bool? = nil) {
             self.enableOCSPCheck = enableOCSPCheck
         }
@@ -15242,6 +15755,7 @@ extension IoT {
         /// Details that explain the status of the server certificate.
         public let serverCertificateStatusDetail: String?
 
+        @inlinable
         public init(serverCertificateArn: String? = nil, serverCertificateStatus: ServerCertificateStatus? = nil, serverCertificateStatusDetail: String? = nil) {
             self.serverCertificateArn = serverCertificateArn
             self.serverCertificateStatus = serverCertificateStatus
@@ -15259,6 +15773,7 @@ extension IoT {
         /// The authorizer name.
         public let authorizerName: String
 
+        @inlinable
         public init(authorizerName: String) {
             self.authorizerName = authorizerName
         }
@@ -15280,6 +15795,7 @@ extension IoT {
         /// The authorizer name.
         public let authorizerName: String?
 
+        @inlinable
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
@@ -15297,6 +15813,7 @@ extension IoT {
         /// The policy version ID.
         public let policyVersionId: String
 
+        @inlinable
         public init(policyName: String, policyVersionId: String) {
             self.policyName = policyName
             self.policyVersionId = policyVersionId
@@ -15323,6 +15840,7 @@ extension IoT {
         /// The logging options payload.
         public let loggingOptionsPayload: LoggingOptionsPayload
 
+        @inlinable
         public init(loggingOptionsPayload: LoggingOptionsPayload) {
             self.loggingOptionsPayload = loggingOptionsPayload
         }
@@ -15341,6 +15859,7 @@ extension IoT {
         /// The log target.
         public let logTarget: LogTarget
 
+        @inlinable
         public init(logLevel: LogLevel, logTarget: LogTarget) {
             self.logLevel = logLevel
             self.logTarget = logTarget
@@ -15360,6 +15879,7 @@ extension IoT {
         /// The ARN of the role that allows IoT to write to Cloudwatch logs.
         public let roleArn: String?
 
+        @inlinable
         public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
             self.defaultLogLevel = defaultLogLevel
             self.disableAllLogs = disableAllLogs
@@ -15381,6 +15901,7 @@ extension IoT {
         /// The signing region.
         public let signingRegion: String
 
+        @inlinable
         public init(roleArn: String, serviceName: String, signingRegion: String) {
             self.roleArn = roleArn
             self.serviceName = serviceName
@@ -15402,6 +15923,7 @@ extension IoT {
         /// The hardware platform of your device.
         public let platform: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificatePathOnDevice: String? = nil, platform: String? = nil) {
             self.certificateArn = certificateArn
             self.certificatePathOnDevice = certificatePathOnDevice
@@ -15423,6 +15945,7 @@ extension IoT {
         /// The ARN of the SNS topic.
         public let targetArn: String
 
+        @inlinable
         public init(messageFormat: MessageFormat? = nil, roleArn: String, targetArn: String) {
             self.messageFormat = messageFormat
             self.roleArn = roleArn
@@ -15444,6 +15967,7 @@ extension IoT {
         /// Specifies whether to use Base64 encoding.
         public let useBase64: Bool?
 
+        @inlinable
         public init(queueUrl: String, roleArn: String, useBase64: Bool? = nil) {
             self.queueUrl = queueUrl
             self.roleArn = roleArn
@@ -15467,6 +15991,7 @@ extension IoT {
         /// A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it.
         public let taskId: String
 
+        @inlinable
         public init(auditCheckToActionsMapping: [String: [String]], clientRequestToken: String = StartAuditMitigationActionsTaskRequest.idempotencyToken(), target: AuditMitigationActionsTaskTarget, taskId: String) {
             self.auditCheckToActionsMapping = auditCheckToActionsMapping
             self.clientRequestToken = clientRequestToken
@@ -15508,6 +16033,7 @@ extension IoT {
         /// The unique identifier for the audit mitigation task. This matches the taskId that you specified in the request.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -15533,6 +16059,7 @@ extension IoT {
         ///  Specifies the time period of which violation events occurred between.
         public let violationEventOccurrenceRange: ViolationEventOccurrenceRange?
 
+        @inlinable
         public init(actions: [String], clientRequestToken: String = StartDetectMitigationActionsTaskRequest.idempotencyToken(), includeOnlyActiveViolations: Bool? = nil, includeSuppressedAlerts: Bool? = nil, target: DetectMitigationActionsTaskTarget, taskId: String, violationEventOccurrenceRange: ViolationEventOccurrenceRange? = nil) {
             self.actions = actions
             self.clientRequestToken = clientRequestToken
@@ -15585,6 +16112,7 @@ extension IoT {
         ///  The unique identifier of the task.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -15598,6 +16126,7 @@ extension IoT {
         /// Which checks are performed during the audit. The checks you specify must be enabled  for your account or an exception occurs. Use DescribeAccountAuditConfiguration  to see the list of all checks, including those that are enabled or  UpdateAccountAuditConfiguration to select which checks are enabled.
         public let targetCheckNames: [String]
 
+        @inlinable
         public init(targetCheckNames: [String]) {
             self.targetCheckNames = targetCheckNames
         }
@@ -15611,6 +16140,7 @@ extension IoT {
         /// The ID of the on-demand audit you started.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -15628,6 +16158,7 @@ extension IoT {
         /// Describes the code-signing profile.
         public let signingProfileParameter: SigningProfileParameter?
 
+        @inlinable
         public init(destination: Destination? = nil, signingProfileName: String? = nil, signingProfileParameter: SigningProfileParameter? = nil) {
             self.destination = destination
             self.signingProfileName = signingProfileName
@@ -15657,6 +16188,7 @@ extension IoT {
         /// The provisioning template.
         public let templateBody: String
 
+        @inlinable
         public init(inputFileBucket: String, inputFileKey: String, roleArn: String, templateBody: String) {
             self.inputFileBucket = inputFileBucket
             self.inputFileKey = inputFileKey
@@ -15689,6 +16221,7 @@ extension IoT {
         /// The bulk thing provisioning task ID.
         public let taskId: String?
 
+        @inlinable
         public init(taskId: String? = nil) {
             self.taskId = taskId
         }
@@ -15702,6 +16235,7 @@ extension IoT {
         /// The percentile that resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
         public let statistic: String?
 
+        @inlinable
         public init(statistic: String? = nil) {
             self.statistic = statistic
         }
@@ -15733,6 +16267,7 @@ extension IoT {
         /// The variance of the aggregated field values.
         public let variance: Double?
 
+        @inlinable
         public init(average: Double? = nil, count: Int? = nil, maximum: Double? = nil, minimum: Double? = nil, stdDeviation: Double? = nil, sum: Double? = nil, sumOfSquares: Double? = nil, variance: Double? = nil) {
             self.average = average
             self.count = count
@@ -15764,6 +16299,7 @@ extension IoT {
         /// The name of the Step Functions state machine whose execution will be started.
         public let stateMachineName: String
 
+        @inlinable
         public init(executionNamePrefix: String? = nil, roleArn: String, stateMachineName: String) {
             self.executionNamePrefix = executionNamePrefix
             self.roleArn = roleArn
@@ -15781,6 +16317,7 @@ extension IoT {
         /// The bulk thing provisioning task ID.
         public let taskId: String
 
+        @inlinable
         public init(taskId: String) {
             self.taskId = taskId
         }
@@ -15808,6 +16345,7 @@ extension IoT {
         /// The stream ID.
         public let streamId: String?
 
+        @inlinable
         public init(fileId: Int? = nil, streamId: String? = nil) {
             self.fileId = fileId
             self.streamId = streamId
@@ -15833,6 +16371,7 @@ extension IoT {
         /// The location of the file in S3.
         public let s3Location: S3Location?
 
+        @inlinable
         public init(fileId: Int? = nil, s3Location: S3Location? = nil) {
             self.fileId = fileId
             self.s3Location = s3Location
@@ -15868,6 +16407,7 @@ extension IoT {
         /// The stream version.
         public let streamVersion: Int?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, files: [StreamFile]? = nil, lastUpdatedAt: Date? = nil, roleArn: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -15901,6 +16441,7 @@ extension IoT {
         /// The stream version.
         public let streamVersion: Int?
 
+        @inlinable
         public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.description = description
             self.streamArn = streamArn
@@ -15922,6 +16463,7 @@ extension IoT {
         /// The tag's value.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -15946,6 +16488,7 @@ extension IoT {
         /// The new or modified tags for the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -15983,6 +16526,7 @@ extension IoT {
         /// The number of checks waiting for data collection.
         public let waitingForDataCollectionChecks: Int?
 
+        @inlinable
         public init(canceledChecks: Int? = nil, compliantChecks: Int? = nil, failedChecks: Int? = nil, inProgressChecks: Int? = nil, nonCompliantChecks: Int? = nil, totalChecks: Int? = nil, waitingForDataCollectionChecks: Int? = nil) {
             self.canceledChecks = canceledChecks
             self.compliantChecks = compliantChecks
@@ -16016,6 +16560,7 @@ extension IoT {
         /// The total number of findings to which a task is being applied.
         public let totalFindingsCount: Int64?
 
+        @inlinable
         public init(canceledFindingsCount: Int64? = nil, failedFindingsCount: Int64? = nil, skippedFindingsCount: Int64? = nil, succeededFindingsCount: Int64? = nil, totalFindingsCount: Int64? = nil) {
             self.canceledFindingsCount = canceledFindingsCount
             self.failedFindingsCount = failedFindingsCount
@@ -16037,6 +16582,7 @@ extension IoT {
         /// The number of buckets to return in the response. Default to 10.
         public let maxBuckets: Int?
 
+        @inlinable
         public init(maxBuckets: Int? = nil) {
             self.maxBuckets = maxBuckets
         }
@@ -16065,6 +16611,7 @@ extension IoT {
         /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
         public let principal: String?
 
+        @inlinable
         public init(authInfos: [AuthInfo], clientId: String? = nil, cognitoIdentityPoolId: String? = nil, policyNamesToAdd: [String]? = nil, policyNamesToSkip: [String]? = nil, principal: String? = nil) {
             self.authInfos = authInfos
             self.clientId = clientId
@@ -16116,6 +16663,7 @@ extension IoT {
         /// The authentication results.
         public let authResults: [AuthResult]?
 
+        @inlinable
         public init(authResults: [AuthResult]? = nil) {
             self.authResults = authResults
         }
@@ -16139,6 +16687,7 @@ extension IoT {
         /// The signature made with the token and your custom authentication service's private key. This value must be Base-64-encoded.
         public let tokenSignature: String?
 
+        @inlinable
         public init(authorizerName: String, httpContext: HttpContext? = nil, mqttContext: MqttContext? = nil, tlsContext: TlsContext? = nil, token: String? = nil, tokenSignature: String? = nil) {
             self.authorizerName = authorizerName
             self.httpContext = httpContext
@@ -16195,6 +16744,7 @@ extension IoT {
         /// The number of seconds after which the temporary credentials are refreshed.
         public let refreshAfterInSeconds: Int?
 
+        @inlinable
         public init(disconnectAfterInSeconds: Int? = nil, isAuthenticated: Bool? = nil, policyDocuments: [String]? = nil, principalId: String? = nil, refreshAfterInSeconds: Int? = nil) {
             self.disconnectAfterInSeconds = disconnectAfterInSeconds
             self.isAuthenticated = isAuthenticated
@@ -16224,6 +16774,7 @@ extension IoT {
         /// The version of the thing record in the registry.
         public let version: Int64?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, thingArn: String? = nil, thingName: String? = nil, thingTypeName: String? = nil, version: Int64? = nil) {
             self.attributes = attributes
             self.thingArn = thingArn
@@ -16249,6 +16800,7 @@ extension IoT {
         /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing.
         public let timestamp: Int64?
 
+        @inlinable
         public init(connected: Bool? = nil, disconnectReason: String? = nil, timestamp: Int64? = nil) {
             self.connected = connected
             self.disconnectReason = disconnectReason
@@ -16280,6 +16832,7 @@ extension IoT {
         /// The thing type name.
         public let thingTypeName: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, connectivity: ThingConnectivity? = nil, deviceDefender: String? = nil, shadow: String? = nil, thingGroupNames: [String]? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil) {
             self.attributes = attributes
             self.connectivity = connectivity
@@ -16315,6 +16868,7 @@ extension IoT {
         /// The thing group name.
         public let thingGroupName: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, parentGroupNames: [String]? = nil, thingGroupDescription: String? = nil, thingGroupId: String? = nil, thingGroupName: String? = nil) {
             self.attributes = attributes
             self.parentGroupNames = parentGroupNames
@@ -16340,6 +16894,7 @@ extension IoT {
         /// Thing group indexing mode.
         public let thingGroupIndexingMode: ThingGroupIndexingMode
 
+        @inlinable
         public init(customFields: [Field]? = nil, managedFields: [Field]? = nil, thingGroupIndexingMode: ThingGroupIndexingMode) {
             self.customFields = customFields
             self.managedFields = managedFields
@@ -16361,6 +16916,7 @@ extension IoT {
         /// The root parent thing group.
         public let rootToParentThingGroups: [GroupNameAndArn]?
 
+        @inlinable
         public init(creationDate: Date? = nil, parentGroupName: String? = nil, rootToParentThingGroups: [GroupNameAndArn]? = nil) {
             self.creationDate = creationDate
             self.parentGroupName = parentGroupName
@@ -16380,6 +16936,7 @@ extension IoT {
         /// The thing group description.
         public let thingGroupDescription: String?
 
+        @inlinable
         public init(attributePayload: AttributePayload? = nil, thingGroupDescription: String? = nil) {
             self.attributePayload = attributePayload
             self.thingGroupDescription = thingGroupDescription
@@ -16413,6 +16970,7 @@ extension IoT {
         /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index contains registry data only.   REGISTRY_AND_SHADOW - Your thing index contains registry and shadow data.   OFF - Thing indexing is disabled.
         public let thingIndexingMode: ThingIndexingMode
 
+        @inlinable
         public init(customFields: [Field]? = nil, deviceDefenderIndexingMode: DeviceDefenderIndexingMode? = nil, filter: IndexingFilter? = nil, managedFields: [Field]? = nil, namedShadowIndexingMode: NamedShadowIndexingMode? = nil, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
             self.customFields = customFields
             self.deviceDefenderIndexingMode = deviceDefenderIndexingMode
@@ -16450,6 +17008,7 @@ extension IoT {
         /// The ThingTypeProperties for the thing type.
         public let thingTypeProperties: ThingTypeProperties?
 
+        @inlinable
         public init(thingTypeArn: String? = nil, thingTypeMetadata: ThingTypeMetadata? = nil, thingTypeName: String? = nil, thingTypeProperties: ThingTypeProperties? = nil) {
             self.thingTypeArn = thingTypeArn
             self.thingTypeMetadata = thingTypeMetadata
@@ -16474,6 +17033,7 @@ extension IoT {
         /// The date and time when the thing type was deprecated.
         public let deprecationDate: Date?
 
+        @inlinable
         public init(creationDate: Date? = nil, deprecated: Bool? = nil, deprecationDate: Date? = nil) {
             self.creationDate = creationDate
             self.deprecated = deprecated
@@ -16493,6 +17053,7 @@ extension IoT {
         /// The description of the thing type.
         public let thingTypeDescription: String?
 
+        @inlinable
         public init(searchableAttributes: [String]? = nil, thingTypeDescription: String? = nil) {
             self.searchableAttributes = searchableAttributes
             self.thingTypeDescription = thingTypeDescription
@@ -16517,6 +17078,7 @@ extension IoT {
         /// Specifies the amount of time, in minutes, this device has to finish execution of this job.   The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The  in progress timer can't be updated and will apply to all job executions for the job. Whenever a job  execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail  and switch to the terminal TIMED_OUT status.
         public let inProgressTimeoutInMinutes: Int64?
 
+        @inlinable
         public init(inProgressTimeoutInMinutes: Int64? = nil) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }
@@ -16538,6 +17100,7 @@ extension IoT {
         /// Specifies an application-defined value to replace the default value assigned to the Timestream record's timestamp in the time column. You can use this property to specify the value and the precision of the Timestream record's timestamp. You can specify a value from the message payload or a value computed by a substitution template. If omitted, the topic rule action assigns the timestamp, in milliseconds, at the time it processed the rule.
         public let timestamp: TimestreamTimestamp?
 
+        @inlinable
         public init(databaseName: String, dimensions: [TimestreamDimension], roleArn: String, tableName: String, timestamp: TimestreamTimestamp? = nil) {
             self.databaseName = databaseName
             self.dimensions = dimensions
@@ -16566,6 +17129,7 @@ extension IoT {
         /// The value to write in this column of the database record.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -16583,6 +17147,7 @@ extension IoT {
         /// An expression that returns a long epoch time value.
         public let value: String
 
+        @inlinable
         public init(unit: String, value: String) {
             self.unit = unit
             self.value = value
@@ -16598,6 +17163,7 @@ extension IoT {
         /// The security policy for a domain configuration. For more information, see Security policies  in the Amazon Web Services IoT Core developer guide.
         public let securityPolicy: String?
 
+        @inlinable
         public init(securityPolicy: String? = nil) {
             self.securityPolicy = securityPolicy
         }
@@ -16616,6 +17182,7 @@ extension IoT {
         /// The value of the serverName key in a TLS authorization request.
         public let serverName: String?
 
+        @inlinable
         public init(serverName: String? = nil) {
             self.serverName = serverName
         }
@@ -16649,6 +17216,7 @@ extension IoT {
         /// The SQL statement used to query the topic. When using a SQL query with multiple lines, be sure to escape the newline characters.
         public let sql: String?
 
+        @inlinable
         public init(actions: [Action]? = nil, awsIotSqlVersion: String? = nil, createdAt: Date? = nil, description: String? = nil, errorAction: Action? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, sql: String? = nil) {
             self.actions = actions
             self.awsIotSqlVersion = awsIotSqlVersion
@@ -16688,6 +17256,7 @@ extension IoT {
         /// Properties of the virtual private cloud (VPC) connection.
         public let vpcProperties: VpcDestinationProperties?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, httpUrlProperties: HttpUrlDestinationProperties? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcProperties: VpcDestinationProperties? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -16715,6 +17284,7 @@ extension IoT {
         /// Configuration of the virtual private cloud (VPC) connection.
         public let vpcConfiguration: VpcDestinationConfiguration?
 
+        @inlinable
         public init(httpUrlConfiguration: HttpUrlDestinationConfiguration? = nil, vpcConfiguration: VpcDestinationConfiguration? = nil) {
             self.httpUrlConfiguration = httpUrlConfiguration
             self.vpcConfiguration = vpcConfiguration
@@ -16746,6 +17316,7 @@ extension IoT {
         /// Information about the virtual private cloud (VPC) connection.
         public let vpcDestinationSummary: VpcDestinationSummary?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, httpUrlSummary: HttpUrlDestinationSummary? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcDestinationSummary: VpcDestinationSummary? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -16779,6 +17350,7 @@ extension IoT {
         /// The pattern for the topic names that apply.
         public let topicPattern: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, ruleArn: String? = nil, ruleDisabled: Bool? = nil, ruleName: String? = nil, topicPattern: String? = nil) {
             self.createdAt = createdAt
             self.ruleArn = ruleArn
@@ -16810,6 +17382,7 @@ extension IoT {
         /// The SQL statement used to query the topic. For more information, see IoT SQL Reference in the IoT Developer Guide.
         public let sql: String
 
+        @inlinable
         public init(actions: [Action], awsIotSqlVersion: String? = nil, description: String? = nil, errorAction: Action? = nil, ruleDisabled: Bool? = nil, sql: String) {
             self.actions = actions
             self.awsIotSqlVersion = awsIotSqlVersion
@@ -16845,6 +17418,7 @@ extension IoT {
         /// The transfer message.
         public let transferMessage: String?
 
+        @inlinable
         public init(certificateId: String, targetAwsAccount: String, transferMessage: String? = nil) {
             self.certificateId = certificateId
             self.targetAwsAccount = targetAwsAccount
@@ -16879,6 +17453,7 @@ extension IoT {
         /// The ARN of the certificate.
         public let transferredCertificateArn: String?
 
+        @inlinable
         public init(transferredCertificateArn: String? = nil) {
             self.transferredCertificateArn = transferredCertificateArn
         }
@@ -16900,6 +17475,7 @@ extension IoT {
         /// The transfer message.
         public let transferMessage: String?
 
+        @inlinable
         public init(acceptDate: Date? = nil, rejectDate: Date? = nil, rejectReason: String? = nil, transferDate: Date? = nil, transferMessage: String? = nil) {
             self.acceptDate = acceptDate
             self.rejectDate = rejectDate
@@ -16923,6 +17499,7 @@ extension IoT {
         /// A list of the keys of the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -16954,6 +17531,7 @@ extension IoT {
         /// The Amazon Resource Name (ARN) of the role that grants permission to IoT to access information about your devices, policies, certificates, and other items as required when performing an audit.
         public let roleArn: String?
 
+        @inlinable
         public init(auditCheckConfigurations: [String: AuditCheckConfiguration]? = nil, auditNotificationTargetConfigurations: [AuditNotificationType: AuditNotificationTarget]? = nil, roleArn: String? = nil) {
             self.auditCheckConfigurations = auditCheckConfigurations
             self.auditNotificationTargetConfigurations = auditNotificationTargetConfigurations
@@ -16989,6 +17567,7 @@ extension IoT {
         ///  Indicates whether a suppression should exist indefinitely or not.
         public let suppressIndefinitely: Bool?
 
+        @inlinable
         public init(checkName: String, description: String? = nil, expirationDate: Date? = nil, resourceIdentifier: ResourceIdentifier, suppressIndefinitely: Bool? = nil) {
             self.checkName = checkName
             self.description = description
@@ -17032,6 +17611,7 @@ extension IoT {
         /// The public keys used to verify the token signature.
         public let tokenSigningPublicKeys: [String: String]?
 
+        @inlinable
         public init(authorizerFunctionArn: String? = nil, authorizerName: String, enableCachingForHttp: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
@@ -17085,6 +17665,7 @@ extension IoT {
         /// The authorizer name.
         public let authorizerName: String?
 
+        @inlinable
         public init(authorizerArn: String? = nil, authorizerName: String? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerName = authorizerName
@@ -17107,6 +17688,7 @@ extension IoT {
         /// 				VersionConflictException.
         public let expectedVersion: Int64?
 
+        @inlinable
         public init(billingGroupName: String, billingGroupProperties: BillingGroupProperties, expectedVersion: Int64? = nil) {
             self.billingGroupName = billingGroupName
             self.billingGroupProperties = billingGroupProperties
@@ -17138,6 +17720,7 @@ extension IoT {
         /// The latest version of the billing group.
         public let version: Int64?
 
+        @inlinable
         public init(version: Int64? = nil) {
             self.version = version
         }
@@ -17151,6 +17734,7 @@ extension IoT {
         /// The action that you want to apply to the CA certificate. The only supported value is DEACTIVATE.
         public let action: CACertificateUpdateAction
 
+        @inlinable
         public init(action: CACertificateUpdateAction) {
             self.action = action
         }
@@ -17172,6 +17756,7 @@ extension IoT {
         /// If true, removes auto registration.
         public let removeAutoRegistration: Bool?
 
+        @inlinable
         public init(certificateId: String, newAutoRegistrationStatus: AutoRegistrationStatus? = nil, newStatus: CACertificateStatus? = nil, registrationConfig: RegistrationConfig? = nil, removeAutoRegistration: Bool? = nil) {
             self.certificateId = certificateId
             self.newAutoRegistrationStatus = newAutoRegistrationStatus
@@ -17211,6 +17796,7 @@ extension IoT {
         /// The Lambda function ARN that's associated with the certificate provider.
         public let lambdaFunctionArn: String?
 
+        @inlinable
         public init(accountDefaultForOperations: [CertificateProviderOperation]? = nil, certificateProviderName: String, lambdaFunctionArn: String? = nil) {
             self.accountDefaultForOperations = accountDefaultForOperations
             self.certificateProviderName = certificateProviderName
@@ -17247,6 +17833,7 @@ extension IoT {
         /// The name of the certificate provider.
         public let certificateProviderName: String?
 
+        @inlinable
         public init(certificateProviderArn: String? = nil, certificateProviderName: String? = nil) {
             self.certificateProviderArn = certificateProviderArn
             self.certificateProviderName = certificateProviderName
@@ -17264,6 +17851,7 @@ extension IoT {
         /// The new status.  Note: Setting the status to PENDING_TRANSFER  or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by IoT. They  are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
         public let newStatus: CertificateStatus
 
+        @inlinable
         public init(certificateId: String, newStatus: CertificateStatus) {
             self.certificateId = certificateId
             self.newStatus = newStatus
@@ -17291,6 +17879,7 @@ extension IoT {
         ///  The name of the custom metric. Cannot be updated.
         public let metricName: String
 
+        @inlinable
         public init(displayName: String, metricName: String) {
             self.displayName = displayName
             self.metricName = metricName
@@ -17330,6 +17919,7 @@ extension IoT {
         ///  The type of the custom metric.   The type number only takes a single metric value as an input, but while submitting the metrics value in the DeviceMetrics report, it must be passed as an array with a single value.
         public let metricType: CustomMetricType?
 
+        @inlinable
         public init(creationDate: Date? = nil, displayName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, metricType: CustomMetricType? = nil) {
             self.creationDate = creationDate
             self.displayName = displayName
@@ -17353,6 +17943,7 @@ extension IoT {
         /// The action that you want to apply to the device certificate. The only supported value is DEACTIVATE.
         public let action: DeviceCertificateUpdateAction
 
+        @inlinable
         public init(action: DeviceCertificateUpdateAction) {
             self.action = action
         }
@@ -17368,6 +17959,7 @@ extension IoT {
         /// Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, "admin/#").
         public let stringValues: [String]
 
+        @inlinable
         public init(name: String, stringValues: [String]) {
             self.name = name
             self.stringValues = stringValues
@@ -17411,6 +18003,7 @@ extension IoT {
         /// The type of the dimension.
         public let type: DimensionType?
 
+        @inlinable
         public init(arn: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
             self.arn = arn
             self.creationDate = creationDate
@@ -17444,6 +18037,7 @@ extension IoT {
         /// An object that specifies the TLS configuration for a domain.
         public let tlsConfig: TlsConfig?
 
+        @inlinable
         public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainConfigurationStatus: DomainConfigurationStatus? = nil, removeAuthorizerConfig: Bool? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, tlsConfig: TlsConfig? = nil) {
             self.authorizerConfig = authorizerConfig
             self.domainConfigurationName = domainConfigurationName
@@ -17487,6 +18081,7 @@ extension IoT {
         /// The name of the domain configuration that was updated.
         public let domainConfigurationName: String?
 
+        @inlinable
         public init(domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil) {
             self.domainConfigurationArn = domainConfigurationArn
             self.domainConfigurationName = domainConfigurationName
@@ -17513,6 +18108,7 @@ extension IoT {
         /// The dynamic thing group properties to update.
         public let thingGroupProperties: ThingGroupProperties
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, indexName: String? = nil, queryString: String? = nil, queryVersion: String? = nil, thingGroupName: String, thingGroupProperties: ThingGroupProperties) {
             self.expectedVersion = expectedVersion
             self.indexName = indexName
@@ -17557,6 +18153,7 @@ extension IoT {
         /// The dynamic thing group version.
         public let version: Int64?
 
+        @inlinable
         public init(version: Int64? = nil) {
             self.version = version
         }
@@ -17570,6 +18167,7 @@ extension IoT {
         /// The new event configuration values.
         public let eventConfigurations: [EventType: Configuration]?
 
+        @inlinable
         public init(eventConfigurations: [EventType: Configuration]? = nil) {
             self.eventConfigurations = eventConfigurations
         }
@@ -17605,6 +18203,7 @@ extension IoT {
         /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric.
         public let unit: FleetMetricUnit?
 
+        @inlinable
         public init(aggregationField: String? = nil, aggregationType: AggregationType? = nil, description: String? = nil, expectedVersion: Int64? = nil, indexName: String, metricName: String, period: Int? = nil, queryString: String? = nil, queryVersion: String? = nil, unit: FleetMetricUnit? = nil) {
             self.aggregationField = aggregationField
             self.aggregationType = aggregationType
@@ -17668,6 +18267,7 @@ extension IoT {
         /// Thing indexing configuration.
         public let thingIndexingConfiguration: ThingIndexingConfiguration?
 
+        @inlinable
         public init(thingGroupIndexingConfiguration: ThingGroupIndexingConfiguration? = nil, thingIndexingConfiguration: ThingIndexingConfiguration? = nil) {
             self.thingGroupIndexingConfiguration = thingGroupIndexingConfiguration
             self.thingIndexingConfiguration = thingIndexingConfiguration
@@ -17705,6 +18305,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS.  If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
+        @inlinable
         public init(abortConfig: AbortConfig? = nil, description: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
@@ -17760,6 +18361,7 @@ extension IoT {
         /// The ARN of the IAM role that is used to apply the mitigation action.
         public let roleArn: String?
 
+        @inlinable
         public init(actionName: String, actionParams: MitigationActionParams? = nil, roleArn: String? = nil) {
             self.actionName = actionName
             self.actionParams = actionParams
@@ -17794,6 +18396,7 @@ extension IoT {
         /// A unique identifier for the mitigation action.
         public let actionId: String?
 
+        @inlinable
         public init(actionArn: String? = nil, actionId: String? = nil) {
             self.actionArn = actionArn
             self.actionId = actionId
@@ -17811,6 +18414,7 @@ extension IoT {
         /// Configuration to manage job's package version reporting. This updates the thing's reserved named shadow that the job targets.
         public let versionUpdateByJobsConfig: VersionUpdateByJobsConfig?
 
+        @inlinable
         public init(clientToken: String? = UpdatePackageConfigurationRequest.idempotencyToken(), versionUpdateByJobsConfig: VersionUpdateByJobsConfig? = nil) {
             self.clientToken = clientToken
             self.versionUpdateByJobsConfig = versionUpdateByJobsConfig
@@ -17851,6 +18455,7 @@ extension IoT {
         /// Indicates whether you want to remove the named default package version from the software package.  Set as true to remove the default package version.   Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
         public let unsetDefaultVersion: Bool?
 
+        @inlinable
         public init(clientToken: String? = UpdatePackageRequest.idempotencyToken(), defaultVersionName: String? = nil, description: String? = nil, packageName: String, unsetDefaultVersion: Bool? = nil) {
             self.clientToken = clientToken
             self.defaultVersionName = defaultVersionName
@@ -17908,6 +18513,7 @@ extension IoT {
         /// The name of the target package version.
         public let versionName: String
 
+        @inlinable
         public init(action: PackageVersionAction? = nil, attributes: [String: String]? = nil, clientToken: String? = UpdatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, versionName: String) {
             self.action = action
             self.attributes = attributes
@@ -17975,6 +18581,7 @@ extension IoT {
         /// The name of the provisioning template.
         public let templateName: String
 
+        @inlinable
         public init(defaultVersionId: Int? = nil, description: String? = nil, enabled: Bool? = nil, preProvisioningHook: ProvisioningHook? = nil, provisioningRoleArn: String? = nil, removePreProvisioningHook: Bool? = nil, templateName: String) {
             self.defaultVersionId = defaultVersionId
             self.description = description
@@ -18030,6 +18637,7 @@ extension IoT {
         /// The role ARN.
         public let roleArn: String?
 
+        @inlinable
         public init(credentialDurationSeconds: Int? = nil, roleAlias: String, roleArn: String? = nil) {
             self.credentialDurationSeconds = credentialDurationSeconds
             self.roleAlias = roleAlias
@@ -18066,6 +18674,7 @@ extension IoT {
         /// The role alias ARN.
         public let roleAliasArn: String?
 
+        @inlinable
         public init(roleAlias: String? = nil, roleAliasArn: String? = nil) {
             self.roleAlias = roleAlias
             self.roleAliasArn = roleAliasArn
@@ -18089,6 +18698,7 @@ extension IoT {
         /// Which checks are performed during the scheduled audit. Checks must be enabled  for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration  to select which checks are enabled.)
         public let targetCheckNames: [String]?
 
+        @inlinable
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil, frequency: AuditFrequency? = nil, scheduledAuditName: String, targetCheckNames: [String]? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -18126,6 +18736,7 @@ extension IoT {
         /// The ARN of the scheduled audit.
         public let scheduledAuditArn: String?
 
+        @inlinable
         public init(scheduledAuditArn: String? = nil) {
             self.scheduledAuditArn = scheduledAuditArn
         }
@@ -18161,6 +18772,7 @@ extension IoT {
         /// The name of the security profile you want to update.
         public let securityProfileName: String
 
+        @inlinable
         public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, deleteMetricsExportConfig: Bool? = nil, expectedVersion: Int64? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
             self.additionalMetricsToRetain = nil
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -18177,6 +18789,7 @@ extension IoT {
         }
 
         @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
+        @inlinable
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, deleteAdditionalMetricsToRetain: Bool? = nil, deleteAlertTargets: Bool? = nil, deleteBehaviors: Bool? = nil, deleteMetricsExportConfig: Bool? = nil, expectedVersion: Int64? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileDescription: String? = nil, securityProfileName: String) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -18266,6 +18879,7 @@ extension IoT {
         /// The updated version of the security profile.
         public let version: Int64?
 
+        @inlinable
         public init(additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetain = nil
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -18281,6 +18895,7 @@ extension IoT {
         }
 
         @available(*, deprecated, message: "Members additionalMetricsToRetain have been deprecated")
+        @inlinable
         public init(additionalMetricsToRetain: [String]? = nil, additionalMetricsToRetainV2: [MetricToRetain]? = nil, alertTargets: [AlertTargetType: AlertTarget]? = nil, behaviors: [Behavior]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, metricsExportConfig: MetricsExportConfig? = nil, securityProfileArn: String? = nil, securityProfileDescription: String? = nil, securityProfileName: String? = nil, version: Int64? = nil) {
             self.additionalMetricsToRetain = additionalMetricsToRetain
             self.additionalMetricsToRetainV2 = additionalMetricsToRetainV2
@@ -18320,6 +18935,7 @@ extension IoT {
         /// The stream ID.
         public let streamId: String
 
+        @inlinable
         public init(description: String? = nil, files: [StreamFile]? = nil, roleArn: String? = nil, streamId: String) {
             self.description = description
             self.files = files
@@ -18368,6 +18984,7 @@ extension IoT {
         /// The stream version.
         public let streamVersion: Int?
 
+        @inlinable
         public init(description: String? = nil, streamArn: String? = nil, streamId: String? = nil, streamVersion: Int? = nil) {
             self.description = description
             self.streamArn = streamArn
@@ -18392,6 +19009,7 @@ extension IoT {
         /// The thing group properties.
         public let thingGroupProperties: ThingGroupProperties
 
+        @inlinable
         public init(expectedVersion: Int64? = nil, thingGroupName: String, thingGroupProperties: ThingGroupProperties) {
             self.expectedVersion = expectedVersion
             self.thingGroupName = thingGroupName
@@ -18423,6 +19041,7 @@ extension IoT {
         /// The version of the updated thing group.
         public let version: Int64?
 
+        @inlinable
         public init(version: Int64? = nil) {
             self.version = version
         }
@@ -18445,6 +19064,7 @@ extension IoT {
         /// The thing whose group memberships will be updated.
         public let thingName: String?
 
+        @inlinable
         public init(overrideDynamicGroups: Bool? = nil, thingGroupsToAdd: [String]? = nil, thingGroupsToRemove: [String]? = nil, thingName: String? = nil) {
             self.overrideDynamicGroups = overrideDynamicGroups
             self.thingGroupsToAdd = thingGroupsToAdd
@@ -18498,6 +19118,7 @@ extension IoT {
         /// The name of the thing type.
         public let thingTypeName: String?
 
+        @inlinable
         public init(attributePayload: AttributePayload? = nil, expectedVersion: Int64? = nil, removeThingType: Bool? = nil, thingName: String, thingTypeName: String? = nil) {
             self.attributePayload = attributePayload
             self.expectedVersion = expectedVersion
@@ -18544,6 +19165,7 @@ extension IoT {
         /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
         public let status: TopicRuleDestinationStatus
 
+        @inlinable
         public init(arn: String, status: TopicRuleDestinationStatus) {
             self.arn = arn
             self.status = status
@@ -18565,6 +19187,7 @@ extension IoT {
         /// A value to be specified in UserProperty.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -18585,6 +19208,7 @@ extension IoT {
         /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
         public let behaviors: [Behavior]
 
+        @inlinable
         public init(behaviors: [Behavior]) {
             self.behaviors = behaviors
         }
@@ -18607,6 +19231,7 @@ extension IoT {
         /// The list of any errors found in the behaviors.
         public let validationErrors: [ValidationError]?
 
+        @inlinable
         public init(valid: Bool? = nil, validationErrors: [ValidationError]? = nil) {
             self.valid = valid
             self.validationErrors = validationErrors
@@ -18622,6 +19247,7 @@ extension IoT {
         /// The description of an error found in the behaviors.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorMessage: String? = nil) {
             self.errorMessage = errorMessage
         }
@@ -18637,6 +19263,7 @@ extension IoT {
         /// The Amazon Resource Name (ARN) of the role that grants permission to the IoT jobs service to update the reserved named shadow when the job successfully completes.
         public let roleArn: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, roleArn: String? = nil) {
             self.enabled = enabled
             self.roleArn = roleArn
@@ -18675,6 +19302,7 @@ extension IoT {
         /// The ID of the violation event.
         public let violationId: String?
 
+        @inlinable
         public init(behavior: Behavior? = nil, metricValue: MetricValue? = nil, securityProfileName: String? = nil, thingName: String? = nil, verificationState: VerificationState? = nil, verificationStateDescription: String? = nil, violationEventAdditionalInfo: ViolationEventAdditionalInfo? = nil, violationEventTime: Date? = nil, violationEventType: ViolationEventType? = nil, violationId: String? = nil) {
             self.behavior = behavior
             self.metricValue = metricValue
@@ -18706,6 +19334,7 @@ extension IoT {
         ///  The sensitivity of anomalous behavior evaluation. Can be Low, Medium, or High.
         public let confidenceLevel: ConfidenceLevel?
 
+        @inlinable
         public init(confidenceLevel: ConfidenceLevel? = nil) {
             self.confidenceLevel = confidenceLevel
         }
@@ -18721,6 +19350,7 @@ extension IoT {
         ///  The start date and time of a time period in which violation events occurred.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -18742,6 +19372,7 @@ extension IoT {
         /// The ID of the VPC.
         public let vpcId: String
 
+        @inlinable
         public init(roleArn: String, securityGroups: [String]? = nil, subnetIds: [String], vpcId: String) {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
@@ -18767,6 +19398,7 @@ extension IoT {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(roleArn: String? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.roleArn = roleArn
             self.securityGroups = securityGroups
@@ -18792,6 +19424,7 @@ extension IoT {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(roleArn: String? = nil, securityGroups: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.roleArn = roleArn
             self.securityGroups = securityGroups

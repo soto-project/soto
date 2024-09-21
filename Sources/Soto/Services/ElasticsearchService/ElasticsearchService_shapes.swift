@@ -336,6 +336,7 @@ extension ElasticsearchService {
         /// The id of the inbound connection that you want to accept.
         public let crossClusterSearchConnectionId: String
 
+        @inlinable
         public init(crossClusterSearchConnectionId: String) {
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
         }
@@ -353,6 +354,7 @@ extension ElasticsearchService {
         /// Specifies the InboundCrossClusterSearchConnection of accepted inbound connection.
         public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
 
+        @inlinable
         public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
             self.crossClusterSearchConnection = crossClusterSearchConnection
         }
@@ -368,6 +370,7 @@ extension ElasticsearchService {
         /// The status of the access policy for the Elasticsearch domain. See OptionStatus for the status information that's included.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: String, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -385,6 +388,7 @@ extension ElasticsearchService {
         ///  List of Tag that need to be added for the Elasticsearch domain.
         public let tagList: [Tag]
 
+        @inlinable
         public init(arn: String, tagList: [Tag]) {
             self.arn = arn
             self.tagList = tagList
@@ -408,6 +412,7 @@ extension ElasticsearchService {
         ///  Value for given  AdditionalLimit$LimitName  .
         public let limitValues: [String]?
 
+        @inlinable
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
             self.limitName = limitName
             self.limitValues = limitValues
@@ -425,6 +430,7 @@ extension ElasticsearchService {
         ///  Specifies the status of OptionStatus for advanced options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: [String: String], status: OptionStatus) {
             self.options = options
             self.status = status
@@ -448,6 +454,7 @@ extension ElasticsearchService {
         /// Describes the SAML application configured for a domain.
         public let samlOptions: SAMLOptionsOutput?
 
+        @inlinable
         public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
@@ -477,6 +484,7 @@ extension ElasticsearchService {
         /// Specifies the SAML application configuration for the domain.
         public let samlOptions: SAMLOptionsInput?
 
+        @inlinable
         public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
@@ -505,6 +513,7 @@ extension ElasticsearchService {
         ///  Status of the advanced security options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: AdvancedSecurityOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -522,6 +531,7 @@ extension ElasticsearchService {
         /// Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value.
         public let packageID: String
 
+        @inlinable
         public init(domainName: String, packageID: String) {
             self.domainName = domainName
             self.packageID = packageID
@@ -547,6 +557,7 @@ extension ElasticsearchService {
         /// DomainPackageDetails
         public let domainPackageDetails: DomainPackageDetails?
 
+        @inlinable
         public init(domainPackageDetails: DomainPackageDetails? = nil) {
             self.domainPackageDetails = domainPackageDetails
         }
@@ -562,6 +573,7 @@ extension ElasticsearchService {
         /// The name of the OpenSearch Service domain to provide access to.
         public let domainName: String
 
+        @inlinable
         public init(account: String, domainName: String) {
             self.account = account
             self.domainName = domainName
@@ -590,6 +602,7 @@ extension ElasticsearchService {
         /// Information about the account or service that was provided access to the domain.
         public let authorizedPrincipal: AuthorizedPrincipal
 
+        @inlinable
         public init(authorizedPrincipal: AuthorizedPrincipal) {
             self.authorizedPrincipal = authorizedPrincipal
         }
@@ -605,6 +618,7 @@ extension ElasticsearchService {
         /// The type of principal.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(principal: String? = nil, principalType: PrincipalType? = nil) {
             self.principal = principal
             self.principalType = principalType
@@ -622,6 +636,7 @@ extension ElasticsearchService {
         /// Specifies Auto-Tune type. Valid value is SCHEDULED_ACTION.
         public let autoTuneType: AutoTuneType?
 
+        @inlinable
         public init(autoTuneDetails: AutoTuneDetails? = nil, autoTuneType: AutoTuneType? = nil) {
             self.autoTuneDetails = autoTuneDetails
             self.autoTuneType = autoTuneType
@@ -636,6 +651,7 @@ extension ElasticsearchService {
     public struct AutoTuneDetails: AWSDecodableShape {
         public let scheduledAutoTuneDetails: ScheduledAutoTuneDetails?
 
+        @inlinable
         public init(scheduledAutoTuneDetails: ScheduledAutoTuneDetails? = nil) {
             self.scheduledAutoTuneDetails = scheduledAutoTuneDetails
         }
@@ -653,6 +669,7 @@ extension ElasticsearchService {
         /// Specifies timestamp at which Auto-Tune maintenance schedule start.
         public let startAt: Date?
 
+        @inlinable
         public init(cronExpressionForRecurrence: String? = nil, duration: Duration? = nil, startAt: Date? = nil) {
             self.cronExpressionForRecurrence = cronExpressionForRecurrence
             self.duration = duration
@@ -678,6 +695,7 @@ extension ElasticsearchService {
         /// Specifies the rollback state while disabling Auto-Tune for the domain. Valid values are NO_ROLLBACK, DEFAULT_ROLLBACK.
         public let rollbackOnDisable: RollbackOnDisable?
 
+        @inlinable
         public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, rollbackOnDisable: RollbackOnDisable? = nil) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
@@ -704,6 +722,7 @@ extension ElasticsearchService {
         /// Specifies list of maitenance schedules. See the Developer Guide for more information.
         public let maintenanceSchedules: [AutoTuneMaintenanceSchedule]?
 
+        @inlinable
         public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
@@ -728,6 +747,7 @@ extension ElasticsearchService {
         /// Specifies the AutoTuneState for the Elasticsearch domain.
         public let state: AutoTuneState?
 
+        @inlinable
         public init(errorMessage: String? = nil, state: AutoTuneState? = nil) {
             self.errorMessage = errorMessage
             self.state = state
@@ -745,6 +765,7 @@ extension ElasticsearchService {
         ///  Specifies Status of the Auto-Tune options for the specified Elasticsearch domain.
         public let status: AutoTuneStatus?
 
+        @inlinable
         public init(options: AutoTuneOptions? = nil, status: AutoTuneStatus? = nil) {
             self.options = options
             self.status = status
@@ -770,6 +791,7 @@ extension ElasticsearchService {
         /// Specifies the Auto-Tune options latest version.
         public let updateVersion: Int?
 
+        @inlinable
         public init(creationDate: Date, errorMessage: String? = nil, pendingDeletion: Bool? = nil, state: AutoTuneState, updateDate: Date, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.errorMessage = errorMessage
@@ -795,6 +817,7 @@ extension ElasticsearchService {
         /// When set to True, returns the list of change IDs and properties that will be cancelled without actually cancelling the change.
         public let dryRun: Bool?
 
+        @inlinable
         public init(domainName: String, dryRun: Bool? = nil) {
             self.domainName = domainName
             self.dryRun = dryRun
@@ -826,6 +849,7 @@ extension ElasticsearchService {
         /// Whether or not the request was a dry run. If True, the changes were not actually cancelled.
         public let dryRun: Bool?
 
+        @inlinable
         public init(cancelledChangeIds: [String]? = nil, cancelledChangeProperties: [CancelledChangeProperty]? = nil, dryRun: Bool? = nil) {
             self.cancelledChangeIds = cancelledChangeIds
             self.cancelledChangeProperties = cancelledChangeProperties
@@ -843,6 +867,7 @@ extension ElasticsearchService {
         /// The name of the domain that you want to stop the latest service software update on.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -862,6 +887,7 @@ extension ElasticsearchService {
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
+        @inlinable
         public init(serviceSoftwareOptions: ServiceSoftwareOptions? = nil) {
             self.serviceSoftwareOptions = serviceSoftwareOptions
         }
@@ -879,6 +905,7 @@ extension ElasticsearchService {
         /// The name of the property whose change was cancelled.
         public let propertyName: String?
 
+        @inlinable
         public init(activeValue: String? = nil, cancelledValue: String? = nil, propertyName: String? = nil) {
             self.activeValue = activeValue
             self.cancelledValue = cancelledValue
@@ -906,6 +933,7 @@ extension ElasticsearchService {
         /// The time that the configuration change was initiated, in Universal Coordinated Time (UTC).
         public let startTime: Date?
 
+        @inlinable
         public init(changeId: String? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, message: String? = nil, startTime: Date? = nil) {
             self.changeId = changeId
             self.configChangeStatus = configChangeStatus
@@ -935,6 +963,7 @@ extension ElasticsearchService {
         /// The overall status of a specific progress stage.
         public let status: String?
 
+        @inlinable
         public init(description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, status: String? = nil) {
             self.description = description
             self.lastUpdated = lastUpdated
@@ -972,6 +1001,7 @@ extension ElasticsearchService {
         /// The total number of stages required for the configuration change.
         public let totalNumberOfStages: Int?
 
+        @inlinable
         public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
@@ -1009,6 +1039,7 @@ extension ElasticsearchService {
         /// Specifies the Cognito user pool ID for Kibana authentication.
         public let userPoolId: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, identityPoolId: String? = nil, roleArn: String? = nil, userPoolId: String? = nil) {
             self.enabled = enabled
             self.identityPoolId = identityPoolId
@@ -1041,6 +1072,7 @@ extension ElasticsearchService {
         /// Specifies the status of the Cognito options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: CognitoOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1056,6 +1088,7 @@ extension ElasticsearchService {
         /// Enable cold storage option. Accepted values true or false
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -1070,6 +1103,7 @@ extension ElasticsearchService {
         public let sourceVersion: String?
         public let targetVersions: [String]?
 
+        @inlinable
         public init(sourceVersion: String? = nil, targetVersions: [String]? = nil) {
             self.sourceVersion = sourceVersion
             self.targetVersions = targetVersions
@@ -1115,6 +1149,7 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vpcOptions: VPCOptions?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -1173,6 +1208,7 @@ extension ElasticsearchService {
         /// The status of the newly created Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus?
 
+        @inlinable
         public init(domainStatus: ElasticsearchDomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -1190,6 +1226,7 @@ extension ElasticsearchService {
         /// Specifies the DomainInformation for the source Elasticsearch domain.
         public let sourceDomainInfo: DomainInformation
 
+        @inlinable
         public init(connectionAlias: String, destinationDomainInfo: DomainInformation, sourceDomainInfo: DomainInformation) {
             self.connectionAlias = connectionAlias
             self.destinationDomainInfo = destinationDomainInfo
@@ -1221,6 +1258,7 @@ extension ElasticsearchService {
         /// Specifies the DomainInformation for the source Elasticsearch domain.
         public let sourceDomainInfo: DomainInformation?
 
+        @inlinable
         public init(connectionAlias: String? = nil, connectionStatus: OutboundCrossClusterSearchConnectionStatus? = nil, crossClusterSearchConnectionId: String? = nil, destinationDomainInfo: DomainInformation? = nil, sourceDomainInfo: DomainInformation? = nil) {
             self.connectionAlias = connectionAlias
             self.connectionStatus = connectionStatus
@@ -1248,6 +1286,7 @@ extension ElasticsearchService {
         /// Type of package. Currently supports only TXT-DICTIONARY.
         public let packageType: PackageType
 
+        @inlinable
         public init(packageDescription: String? = nil, packageName: String, packageSource: PackageSource, packageType: PackageType) {
             self.packageDescription = packageDescription
             self.packageName = packageName
@@ -1275,6 +1314,7 @@ extension ElasticsearchService {
         /// Information about the package PackageDetails.
         public let packageDetails: PackageDetails?
 
+        @inlinable
         public init(packageDetails: PackageDetails? = nil) {
             self.packageDetails = packageDetails
         }
@@ -1292,6 +1332,7 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for the endpoint.
         public let vpcOptions: VPCOptions
 
+        @inlinable
         public init(clientToken: String? = nil, domainArn: String, vpcOptions: VPCOptions) {
             self.clientToken = clientToken
             self.domainArn = domainArn
@@ -1317,6 +1358,7 @@ extension ElasticsearchService {
         /// Information about the newly created VPC endpoint.
         public let vpcEndpoint: VpcEndpoint
 
+        @inlinable
         public init(vpcEndpoint: VpcEndpoint) {
             self.vpcEndpoint = vpcEndpoint
         }
@@ -1330,6 +1372,7 @@ extension ElasticsearchService {
         /// The name of the Elasticsearch domain that you want to permanently delete.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1353,6 +1396,7 @@ extension ElasticsearchService {
         /// The status of the Elasticsearch domain being deleted.
         public let domainStatus: ElasticsearchDomainStatus?
 
+        @inlinable
         public init(domainStatus: ElasticsearchDomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -1366,6 +1410,7 @@ extension ElasticsearchService {
         /// The id of the inbound connection that you want to permanently delete.
         public let crossClusterSearchConnectionId: String
 
+        @inlinable
         public init(crossClusterSearchConnectionId: String) {
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
         }
@@ -1383,6 +1428,7 @@ extension ElasticsearchService {
         /// Specifies the InboundCrossClusterSearchConnection of deleted inbound connection.
         public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
 
+        @inlinable
         public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
             self.crossClusterSearchConnection = crossClusterSearchConnection
         }
@@ -1396,6 +1442,7 @@ extension ElasticsearchService {
         /// The id of the outbound connection that you want to permanently delete.
         public let crossClusterSearchConnectionId: String
 
+        @inlinable
         public init(crossClusterSearchConnectionId: String) {
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
         }
@@ -1413,6 +1460,7 @@ extension ElasticsearchService {
         /// Specifies the OutboundCrossClusterSearchConnection of deleted outbound connection.
         public let crossClusterSearchConnection: OutboundCrossClusterSearchConnection?
 
+        @inlinable
         public init(crossClusterSearchConnection: OutboundCrossClusterSearchConnection? = nil) {
             self.crossClusterSearchConnection = crossClusterSearchConnection
         }
@@ -1426,6 +1474,7 @@ extension ElasticsearchService {
         /// Internal ID of the package that you want to delete. Use DescribePackages to find this value.
         public let packageID: String
 
+        @inlinable
         public init(packageID: String) {
             self.packageID = packageID
         }
@@ -1443,6 +1492,7 @@ extension ElasticsearchService {
         /// PackageDetails
         public let packageDetails: PackageDetails?
 
+        @inlinable
         public init(packageDetails: PackageDetails? = nil) {
             self.packageDetails = packageDetails
         }
@@ -1456,6 +1506,7 @@ extension ElasticsearchService {
         /// The unique identifier of the endpoint to be deleted.
         public let vpcEndpointId: String
 
+        @inlinable
         public init(vpcEndpointId: String) {
             self.vpcEndpointId = vpcEndpointId
         }
@@ -1479,6 +1530,7 @@ extension ElasticsearchService {
         /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
         public let vpcEndpointSummary: VpcEndpointSummary
 
+        @inlinable
         public init(vpcEndpointSummary: VpcEndpointSummary) {
             self.vpcEndpointSummary = vpcEndpointSummary
         }
@@ -1496,6 +1548,7 @@ extension ElasticsearchService {
         /// NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -1529,6 +1582,7 @@ extension ElasticsearchService {
         /// Specifies an identifier to allow retrieval of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(autoTunes: [AutoTune]? = nil, nextToken: String? = nil) {
             self.autoTunes = autoTunes
             self.nextToken = nextToken
@@ -1546,6 +1600,7 @@ extension ElasticsearchService {
         /// The domain you want to get the progress information about.
         public let domainName: String
 
+        @inlinable
         public init(changeId: String? = nil, domainName: String) {
             self.changeId = changeId
             self.domainName = domainName
@@ -1572,6 +1627,7 @@ extension ElasticsearchService {
         /// Progress information for the configuration change that is requested in the DescribeDomainChangeProgress request.
         public let changeProgressStatus: ChangeProgressStatusDetails?
 
+        @inlinable
         public init(changeProgressStatus: ChangeProgressStatusDetails? = nil) {
             self.changeProgressStatus = changeProgressStatus
         }
@@ -1585,6 +1641,7 @@ extension ElasticsearchService {
         /// The Elasticsearch domain that you want to get information about.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1608,6 +1665,7 @@ extension ElasticsearchService {
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
         public let domainConfig: ElasticsearchDomainConfig
 
+        @inlinable
         public init(domainConfig: ElasticsearchDomainConfig) {
             self.domainConfig = domainConfig
         }
@@ -1621,6 +1679,7 @@ extension ElasticsearchService {
         /// The name of the Elasticsearch domain for which you want information.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1644,6 +1703,7 @@ extension ElasticsearchService {
         /// The current status of the Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus
 
+        @inlinable
         public init(domainStatus: ElasticsearchDomainStatus) {
             self.domainStatus = domainStatus
         }
@@ -1657,6 +1717,7 @@ extension ElasticsearchService {
         /// The Elasticsearch domains for which you want information.
         public let domainNames: [String]
 
+        @inlinable
         public init(domainNames: [String]) {
             self.domainNames = domainNames
         }
@@ -1678,6 +1739,7 @@ extension ElasticsearchService {
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
         public let domainStatusList: [ElasticsearchDomainStatus]
 
+        @inlinable
         public init(domainStatusList: [ElasticsearchDomainStatus]) {
             self.domainStatusList = domainStatusList
         }
@@ -1695,6 +1757,7 @@ extension ElasticsearchService {
         ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed.
         public let instanceType: ESPartitionInstanceType
 
+        @inlinable
         public init(domainName: String? = nil, elasticsearchVersion: String, instanceType: ESPartitionInstanceType) {
             self.domainName = domainName
             self.elasticsearchVersion = elasticsearchVersion
@@ -1722,6 +1785,7 @@ extension ElasticsearchService {
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSDecodableShape {
         public let limitsByRole: [String: Limits]?
 
+        @inlinable
         public init(limitsByRole: [String: Limits]? = nil) {
             self.limitsByRole = limitsByRole
         }
@@ -1739,6 +1803,7 @@ extension ElasticsearchService {
         ///  NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1765,6 +1830,7 @@ extension ElasticsearchService {
         /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
         public let nextToken: String?
 
+        @inlinable
         public init(crossClusterSearchConnections: [InboundCrossClusterSearchConnection]? = nil, nextToken: String? = nil) {
             self.crossClusterSearchConnections = crossClusterSearchConnections
             self.nextToken = nextToken
@@ -1784,6 +1850,7 @@ extension ElasticsearchService {
         ///  NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1810,6 +1877,7 @@ extension ElasticsearchService {
         /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
         public let nextToken: String?
 
+        @inlinable
         public init(crossClusterSearchConnections: [OutboundCrossClusterSearchConnection]? = nil, nextToken: String? = nil) {
             self.crossClusterSearchConnections = crossClusterSearchConnections
             self.nextToken = nextToken
@@ -1827,6 +1895,7 @@ extension ElasticsearchService {
         /// A non-empty list of values for the specified field.
         public let value: [String]?
 
+        @inlinable
         public init(name: DescribePackagesFilterName? = nil, value: [String]? = nil) {
             self.name = name
             self.value = value
@@ -1853,6 +1922,7 @@ extension ElasticsearchService {
         /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [DescribePackagesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1878,6 +1948,7 @@ extension ElasticsearchService {
         /// List of PackageDetails objects.
         public let packageDetailsList: [PackageDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageDetailsList: [PackageDetails]? = nil) {
             self.nextToken = nextToken
             self.packageDetailsList = packageDetailsList
@@ -1898,6 +1969,7 @@ extension ElasticsearchService {
         /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
         public let reservedElasticsearchInstanceOfferingId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1926,6 +1998,7 @@ extension ElasticsearchService {
         /// List of reserved Elasticsearch instance offerings
         public let reservedElasticsearchInstanceOfferings: [ReservedElasticsearchInstanceOffering]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedElasticsearchInstanceOfferings: [ReservedElasticsearchInstanceOffering]? = nil) {
             self.nextToken = nextToken
             self.reservedElasticsearchInstanceOfferings = reservedElasticsearchInstanceOfferings
@@ -1946,6 +2019,7 @@ extension ElasticsearchService {
         /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved Elasticsearch instance ID.
         public let reservedElasticsearchInstanceId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, reservedElasticsearchInstanceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1974,6 +2048,7 @@ extension ElasticsearchService {
         /// List of reserved Elasticsearch instances.
         public let reservedElasticsearchInstances: [ReservedElasticsearchInstance]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedElasticsearchInstances: [ReservedElasticsearchInstance]? = nil) {
             self.nextToken = nextToken
             self.reservedElasticsearchInstances = reservedElasticsearchInstances
@@ -1989,6 +2064,7 @@ extension ElasticsearchService {
         /// The unique identifiers of the endpoints to get information about.
         public let vpcEndpointIds: [String]
 
+        @inlinable
         public init(vpcEndpointIds: [String]) {
             self.vpcEndpointIds = vpcEndpointIds
         }
@@ -2012,6 +2088,7 @@ extension ElasticsearchService {
         /// Information about each requested VPC endpoint.
         public let vpcEndpoints: [VpcEndpoint]
 
+        @inlinable
         public init(vpcEndpointErrors: [VpcEndpointError], vpcEndpoints: [VpcEndpoint]) {
             self.vpcEndpointErrors = vpcEndpointErrors
             self.vpcEndpoints = vpcEndpoints
@@ -2029,6 +2106,7 @@ extension ElasticsearchService {
         /// Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value.
         public let packageID: String
 
+        @inlinable
         public init(domainName: String, packageID: String) {
             self.domainName = domainName
             self.packageID = packageID
@@ -2054,6 +2132,7 @@ extension ElasticsearchService {
         /// DomainPackageDetails
         public let domainPackageDetails: DomainPackageDetails?
 
+        @inlinable
         public init(domainPackageDetails: DomainPackageDetails? = nil) {
             self.domainPackageDetails = domainPackageDetails
         }
@@ -2075,6 +2154,7 @@ extension ElasticsearchService {
         /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain. It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy that supports TLS version 1.0 to TLS version 1.2 Policy-Min-TLS-1-2-2019-07:  TLS security policy that supports only TLS version 1.2 Policy-Min-TLS-1-2-PFS-2023-10:  TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
+        @inlinable
         public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
@@ -2104,6 +2184,7 @@ extension ElasticsearchService {
         /// The status of the endpoint options for the Elasticsearch domain. See OptionStatus for the status information that's included.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: DomainEndpointOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -2121,6 +2202,7 @@ extension ElasticsearchService {
         ///  Specifies the EngineType of the domain.
         public let engineType: EngineType?
 
+        @inlinable
         public init(domainName: String? = nil, engineType: EngineType? = nil) {
             self.domainName = domainName
             self.engineType = engineType
@@ -2137,6 +2219,7 @@ extension ElasticsearchService {
         public let ownerId: String?
         public let region: String?
 
+        @inlinable
         public init(domainName: String, ownerId: String? = nil, region: String? = nil) {
             self.domainName = domainName
             self.ownerId = ownerId
@@ -2177,6 +2260,7 @@ extension ElasticsearchService {
         /// The relative path on Amazon ES nodes, which can be used as synonym_path when the package is synonym file.
         public let referencePath: String?
 
+        @inlinable
         public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, packageVersion: String? = nil, referencePath: String? = nil) {
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
@@ -2208,6 +2292,7 @@ extension ElasticsearchService {
         /// Contains an optional message associated with the DryRunResults.
         public let message: String?
 
+        @inlinable
         public init(deploymentType: String? = nil, message: String? = nil) {
             self.deploymentType = deploymentType
             self.message = message
@@ -2225,6 +2310,7 @@ extension ElasticsearchService {
         ///  Integer to specify the value of a maintenance schedule duration. See the Developer Guide for more information.
         public let value: Int64?
 
+        @inlinable
         public init(unit: TimeUnit? = nil, value: Int64? = nil) {
             self.unit = unit
             self.value = value
@@ -2253,6 +2339,7 @@ extension ElasticsearchService {
         ///  Specifies the volume type for EBS-based storage.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(ebsEnabled: Bool? = nil, iops: Int? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.ebsEnabled = ebsEnabled
             self.iops = iops
@@ -2276,6 +2363,7 @@ extension ElasticsearchService {
         ///  Specifies the status of the EBS options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: EBSOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -2311,6 +2399,7 @@ extension ElasticsearchService {
         /// A boolean value to indicate whether zone awareness is enabled.  See About Zone Awareness for more information.
         public let zoneAwarenessEnabled: Bool?
 
+        @inlinable
         public init(coldStorageOptions: ColdStorageOptions? = nil, dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: ESPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: ESPartitionInstanceType? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: ESWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.coldStorageOptions = coldStorageOptions
             self.dedicatedMasterCount = dedicatedMasterCount
@@ -2346,6 +2435,7 @@ extension ElasticsearchService {
         ///  Specifies the status of the configuration for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: ElasticsearchClusterConfig, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -2391,6 +2481,7 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vpcOptions: VPCDerivedInfoStatus?
 
+        @inlinable
         public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfigStatus? = nil, elasticsearchVersion: ElasticsearchVersionStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -2485,6 +2576,7 @@ extension ElasticsearchService {
         /// The VPCOptions for the specified domain. For more information, see VPC Endpoints for Amazon Elasticsearch Service Domains.
         public let vpcOptions: VPCDerivedInfo?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig, elasticsearchVersion: String? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -2552,6 +2644,7 @@ extension ElasticsearchService {
         ///  Specifies the status of the Elasticsearch version options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: String, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -2569,6 +2662,7 @@ extension ElasticsearchService {
         ///  Specifies the KMS Key ID for Encryption At Rest options.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
@@ -2591,6 +2685,7 @@ extension ElasticsearchService {
         ///  Specifies the status of the Encryption At Rest options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: EncryptionAtRestOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -2606,6 +2701,7 @@ extension ElasticsearchService {
         public let errorMessage: String?
         public let errorType: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: String? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -2623,6 +2719,7 @@ extension ElasticsearchService {
         ///  Contains one or more values for the filter.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -2645,6 +2742,7 @@ extension ElasticsearchService {
     public struct GetCompatibleElasticsearchVersionsRequest: AWSEncodableShape {
         public let domainName: String?
 
+        @inlinable
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -2668,6 +2766,7 @@ extension ElasticsearchService {
         ///  A map of compatible Elasticsearch versions returned as part of the  GetCompatibleElasticsearchVersions  operation.
         public let compatibleElasticsearchVersions: [CompatibleVersionsMap]?
 
+        @inlinable
         public init(compatibleElasticsearchVersions: [CompatibleVersionsMap]? = nil) {
             self.compatibleElasticsearchVersions = compatibleElasticsearchVersions
         }
@@ -2685,6 +2784,7 @@ extension ElasticsearchService {
         /// Returns an audit history of versions of the package.
         public let packageID: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2712,6 +2812,7 @@ extension ElasticsearchService {
         /// List of PackageVersionHistory objects.
         public let packageVersionHistoryList: [PackageVersionHistory]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageID: String? = nil, packageVersionHistoryList: [PackageVersionHistory]? = nil) {
             self.nextToken = nextToken
             self.packageID = packageID
@@ -2730,6 +2831,7 @@ extension ElasticsearchService {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -2760,6 +2862,7 @@ extension ElasticsearchService {
         ///  A list of  UpgradeHistory  objects corresponding to each Upgrade or Upgrade Eligibility Check performed on a domain returned as part of  GetUpgradeHistoryResponse  object.
         public let upgradeHistories: [UpgradeHistory]?
 
+        @inlinable
         public init(nextToken: String? = nil, upgradeHistories: [UpgradeHistory]? = nil) {
             self.nextToken = nextToken
             self.upgradeHistories = upgradeHistories
@@ -2774,6 +2877,7 @@ extension ElasticsearchService {
     public struct GetUpgradeStatusRequest: AWSEncodableShape {
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2801,6 +2905,7 @@ extension ElasticsearchService {
         ///  Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does through:  PreUpgradeCheck Snapshot Upgrade
         public let upgradeStep: UpgradeStep?
 
+        @inlinable
         public init(stepStatus: UpgradeStatus? = nil, upgradeName: String? = nil, upgradeStep: UpgradeStep? = nil) {
             self.stepStatus = stepStatus
             self.upgradeName = upgradeName
@@ -2824,6 +2929,7 @@ extension ElasticsearchService {
         /// Specifies the DomainInformation for the source Elasticsearch domain.
         public let sourceDomainInfo: DomainInformation?
 
+        @inlinable
         public init(connectionStatus: InboundCrossClusterSearchConnectionStatus? = nil, crossClusterSearchConnectionId: String? = nil, destinationDomainInfo: DomainInformation? = nil, sourceDomainInfo: DomainInformation? = nil) {
             self.connectionStatus = connectionStatus
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
@@ -2845,6 +2951,7 @@ extension ElasticsearchService {
         /// The state code for inbound connection. This can be one of the following:  PENDING_ACCEPTANCE: Inbound connection is not yet accepted by destination domain owner. APPROVED: Inbound connection is pending acceptance by destination domain owner. REJECTING: Inbound connection rejection is in process. REJECTED: Inbound connection is rejected. DELETING: Inbound connection deletion is in progress. DELETED: Inbound connection is deleted and cannot be used further.
         public let statusCode: InboundCrossClusterSearchConnectionStatusCode?
 
+        @inlinable
         public init(message: String? = nil, statusCode: InboundCrossClusterSearchConnectionStatusCode? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -2860,6 +2967,7 @@ extension ElasticsearchService {
         public let maximumInstanceCount: Int?
         public let minimumInstanceCount: Int?
 
+        @inlinable
         public init(maximumInstanceCount: Int? = nil, minimumInstanceCount: Int? = nil) {
             self.maximumInstanceCount = maximumInstanceCount
             self.minimumInstanceCount = minimumInstanceCount
@@ -2874,6 +2982,7 @@ extension ElasticsearchService {
     public struct InstanceLimits: AWSDecodableShape {
         public let instanceCountLimits: InstanceCountLimits?
 
+        @inlinable
         public init(instanceCountLimits: InstanceCountLimits? = nil) {
             self.instanceCountLimits = instanceCountLimits
         }
@@ -2890,6 +2999,7 @@ extension ElasticsearchService {
         /// StorageType represents the list of storage related types and attributes that are available for given InstanceType.
         public let storageTypes: [StorageType]?
 
+        @inlinable
         public init(additionalLimits: [AdditionalLimit]? = nil, instanceLimits: InstanceLimits? = nil, storageTypes: [StorageType]? = nil) {
             self.additionalLimits = additionalLimits
             self.instanceLimits = instanceLimits
@@ -2907,6 +3017,7 @@ extension ElasticsearchService {
         ///  Optional parameter to filter the output by domain engine type. Acceptable values are 'Elasticsearch' and 'OpenSearch'.
         public let engineType: EngineType?
 
+        @inlinable
         public init(engineType: EngineType? = nil) {
             self.engineType = engineType
         }
@@ -2924,6 +3035,7 @@ extension ElasticsearchService {
         /// List of domain names and respective engine types.
         public let domainNames: [DomainInfo]?
 
+        @inlinable
         public init(domainNames: [DomainInfo]? = nil) {
             self.domainNames = domainNames
         }
@@ -2941,6 +3053,7 @@ extension ElasticsearchService {
         /// The package for which to list domains.
         public let packageID: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2967,6 +3080,7 @@ extension ElasticsearchService {
         public let domainPackageDetailsList: [DomainPackageDetails]?
         public let nextToken: String?
 
+        @inlinable
         public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
             self.domainPackageDetailsList = domainPackageDetailsList
             self.nextToken = nextToken
@@ -2988,6 +3102,7 @@ extension ElasticsearchService {
         /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String? = nil, elasticsearchVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.elasticsearchVersion = elasticsearchVersion
@@ -3021,6 +3136,7 @@ extension ElasticsearchService {
         /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results.
         public let nextToken: String?
 
+        @inlinable
         public init(elasticsearchInstanceTypes: [ESPartitionInstanceType]? = nil, nextToken: String? = nil) {
             self.elasticsearchInstanceTypes = elasticsearchInstanceTypes
             self.nextToken = nextToken
@@ -3037,6 +3153,7 @@ extension ElasticsearchService {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3060,6 +3177,7 @@ extension ElasticsearchService {
         public let elasticsearchVersions: [String]?
         public let nextToken: String?
 
+        @inlinable
         public init(elasticsearchVersions: [String]? = nil, nextToken: String? = nil) {
             self.elasticsearchVersions = elasticsearchVersions
             self.nextToken = nextToken
@@ -3079,6 +3197,7 @@ extension ElasticsearchService {
         /// Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3109,6 +3228,7 @@ extension ElasticsearchService {
         /// Pagination token that needs to be supplied to the next call to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
             self.domainPackageDetailsList = domainPackageDetailsList
             self.nextToken = nextToken
@@ -3124,6 +3244,7 @@ extension ElasticsearchService {
         ///  Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -3141,6 +3262,7 @@ extension ElasticsearchService {
         ///  List of Tag for the requested Elasticsearch domain.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -3156,6 +3278,7 @@ extension ElasticsearchService {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, nextToken: String? = nil) {
             self.domainName = domainName
             self.nextToken = nextToken
@@ -3183,6 +3306,7 @@ extension ElasticsearchService {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String
 
+        @inlinable
         public init(authorizedPrincipalList: [AuthorizedPrincipal], nextToken: String) {
             self.authorizedPrincipalList = authorizedPrincipalList
             self.nextToken = nextToken
@@ -3200,6 +3324,7 @@ extension ElasticsearchService {
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, nextToken: String? = nil) {
             self.domainName = domainName
             self.nextToken = nextToken
@@ -3227,6 +3352,7 @@ extension ElasticsearchService {
         /// Provides list of VpcEndpointSummary summarizing details of the VPC endpoints.
         public let vpcEndpointSummaryList: [VpcEndpointSummary]
 
+        @inlinable
         public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
             self.nextToken = nextToken
             self.vpcEndpointSummaryList = vpcEndpointSummaryList
@@ -3242,6 +3368,7 @@ extension ElasticsearchService {
         /// Identifier to allow retrieval of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -3261,6 +3388,7 @@ extension ElasticsearchService {
         /// Information about each endpoint.
         public let vpcEndpointSummaryList: [VpcEndpointSummary]
 
+        @inlinable
         public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
             self.nextToken = nextToken
             self.vpcEndpointSummaryList = vpcEndpointSummaryList
@@ -3277,6 +3405,7 @@ extension ElasticsearchService {
         ///  Specifies whether given log publishing option is enabled or not.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, enabled: Bool? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
@@ -3294,6 +3423,7 @@ extension ElasticsearchService {
         /// The status of the log publishing options for the Elasticsearch domain. See OptionStatus for the status information that's included.
         public let status: OptionStatus?
 
+        @inlinable
         public init(options: [LogType: LogPublishingOption]? = nil, status: OptionStatus? = nil) {
             self.options = options
             self.status = status
@@ -3313,6 +3443,7 @@ extension ElasticsearchService {
         /// The master user's password, which is stored in the Amazon Elasticsearch Service domain's internal database.
         public let masterUserPassword: String?
 
+        @inlinable
         public init(masterUserARN: String? = nil, masterUserName: String? = nil, masterUserPassword: String? = nil) {
             self.masterUserARN = masterUserARN
             self.masterUserName = masterUserName
@@ -3341,6 +3472,7 @@ extension ElasticsearchService {
         /// The type of value that is currently being modified. Properties can have two types:  PLAIN_TEXT: Contain direct values such as "1", "True", or "c5.large.search". STRINGIFIED_JSON: Contain content in JSON format, such as {"Enabled":"True"}".
         public let valueType: PropertyValueType?
 
+        @inlinable
         public init(activeValue: String? = nil, name: String? = nil, pendingValue: String? = nil, valueType: PropertyValueType? = nil) {
             self.activeValue = activeValue
             self.name = name
@@ -3360,6 +3492,7 @@ extension ElasticsearchService {
         /// Specify true to enable node-to-node encryption.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -3375,6 +3508,7 @@ extension ElasticsearchService {
         /// Specifies the status of the node-to-node encryption options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: NodeToNodeEncryptionOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -3398,6 +3532,7 @@ extension ElasticsearchService {
         /// Specifies the latest version for the entity.
         public let updateVersion: Int?
 
+        @inlinable
         public init(creationDate: Date, pendingDeletion: Bool? = nil, state: OptionState, updateDate: Date, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
@@ -3427,6 +3562,7 @@ extension ElasticsearchService {
         /// Specifies the DomainInformation for the source Elasticsearch domain.
         public let sourceDomainInfo: DomainInformation?
 
+        @inlinable
         public init(connectionAlias: String? = nil, connectionStatus: OutboundCrossClusterSearchConnectionStatus? = nil, crossClusterSearchConnectionId: String? = nil, destinationDomainInfo: DomainInformation? = nil, sourceDomainInfo: DomainInformation? = nil) {
             self.connectionAlias = connectionAlias
             self.connectionStatus = connectionStatus
@@ -3450,6 +3586,7 @@ extension ElasticsearchService {
         /// The state code for outbound connection. This can be one of the following:  VALIDATING: The outbound connection request is being validated. VALIDATION_FAILED: Validation failed for the connection request. PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by destination domain owner. PROVISIONING: Outbound connection request is in process. ACTIVE: Outbound connection is active and ready to use. REJECTED: Outbound connection request is rejected by destination domain owner. DELETING: Outbound connection deletion is in progress. DELETED: Outbound connection is deleted and cannot be used further.
         public let statusCode: OutboundCrossClusterSearchConnectionStatusCode?
 
+        @inlinable
         public init(message: String? = nil, statusCode: OutboundCrossClusterSearchConnectionStatusCode? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -3479,6 +3616,7 @@ extension ElasticsearchService {
         /// Currently supports only TXT-DICTIONARY.
         public let packageType: PackageType?
 
+        @inlinable
         public init(availablePackageVersion: String? = nil, createdAt: Date? = nil, errorDetails: ErrorDetails? = nil, lastUpdatedAt: Date? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
             self.availablePackageVersion = availablePackageVersion
             self.createdAt = createdAt
@@ -3510,6 +3648,7 @@ extension ElasticsearchService {
         /// Key (file name) of the package.
         public let s3Key: String?
 
+        @inlinable
         public init(s3BucketName: String? = nil, s3Key: String? = nil) {
             self.s3BucketName = s3BucketName
             self.s3Key = s3Key
@@ -3534,6 +3673,7 @@ extension ElasticsearchService {
         /// Version of the package.
         public let packageVersion: String?
 
+        @inlinable
         public init(commitMessage: String? = nil, createdAt: Date? = nil, packageVersion: String? = nil) {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
@@ -3555,6 +3695,7 @@ extension ElasticsearchService {
         /// The ID of the reserved Elasticsearch instance offering to purchase.
         public let reservedElasticsearchInstanceOfferingId: String
 
+        @inlinable
         public init(instanceCount: Int? = nil, reservationName: String, reservedElasticsearchInstanceOfferingId: String) {
             self.instanceCount = instanceCount
             self.reservationName = reservationName
@@ -3581,6 +3722,7 @@ extension ElasticsearchService {
         /// Details of the reserved Elasticsearch instance which was purchased.
         public let reservedElasticsearchInstanceId: String?
 
+        @inlinable
         public init(reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil) {
             self.reservationName = reservationName
             self.reservedElasticsearchInstanceId = reservedElasticsearchInstanceId
@@ -3598,6 +3740,7 @@ extension ElasticsearchService {
         /// The frequency of the recurring charge.
         public let recurringChargeFrequency: String?
 
+        @inlinable
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
@@ -3613,6 +3756,7 @@ extension ElasticsearchService {
         /// The id of the inbound connection that you want to reject.
         public let crossClusterSearchConnectionId: String
 
+        @inlinable
         public init(crossClusterSearchConnectionId: String) {
             self.crossClusterSearchConnectionId = crossClusterSearchConnectionId
         }
@@ -3630,6 +3774,7 @@ extension ElasticsearchService {
         /// Specifies the InboundCrossClusterSearchConnection of rejected inbound connection.
         public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
 
+        @inlinable
         public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
             self.crossClusterSearchConnection = crossClusterSearchConnection
         }
@@ -3645,6 +3790,7 @@ extension ElasticsearchService {
         /// Specifies the TagKey list which you want to remove from the Elasticsearch domain.
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -3684,6 +3830,7 @@ extension ElasticsearchService {
         /// The rate you are charged for each hour for the domain that is using this reserved instance.
         public let usagePrice: Double?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, elasticsearchInstanceCount: Int? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedElasticsearchInstanceId: String? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -3735,6 +3882,7 @@ extension ElasticsearchService {
         /// The rate you are charged for each hour the domain that is using the offering is running.
         public let usagePrice: Double?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, elasticsearchInstanceType: ESPartitionInstanceType? = nil, fixedPrice: Double? = nil, paymentOption: ReservedElasticsearchInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservedElasticsearchInstanceOfferingId: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -3764,6 +3912,7 @@ extension ElasticsearchService {
         /// The name of the OpenSearch Service domain.
         public let domainName: String
 
+        @inlinable
         public init(account: String, domainName: String) {
             self.account = account
             self.domainName = domainName
@@ -3798,6 +3947,7 @@ extension ElasticsearchService {
         /// The Metadata of the SAML application in xml format.
         public let metadataContent: String
 
+        @inlinable
         public init(entityId: String, metadataContent: String) {
             self.entityId = entityId
             self.metadataContent = metadataContent
@@ -3832,6 +3982,7 @@ extension ElasticsearchService {
         /// The key to use for matching the SAML Subject attribute.
         public let subjectKey: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, masterBackendRole: String? = nil, masterUserName: String? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
             self.idp = idp
@@ -3872,6 +4023,7 @@ extension ElasticsearchService {
         /// The key used for matching the SAML Subject attribute.
         public let subjectKey: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
             self.idp = idp
@@ -3899,6 +4051,7 @@ extension ElasticsearchService {
         /// Specifies Auto-Tune action severity. Valid values are LOW, MEDIUM and HIGH.
         public let severity: ScheduledAutoTuneSeverityType?
 
+        @inlinable
         public init(action: String? = nil, actionType: ScheduledAutoTuneActionType? = nil, date: Date? = nil, severity: ScheduledAutoTuneSeverityType? = nil) {
             self.action = action
             self.actionType = actionType
@@ -3932,6 +4085,7 @@ extension ElasticsearchService {
         /// The status of your service software update. This field can take the following values: ELIGIBLE, PENDING_UPDATE, IN_PROGRESS, COMPLETED, and NOT_ELIGIBLE.
         public let updateStatus: DeploymentStatus?
 
+        @inlinable
         public init(automatedUpdateDate: Date? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
@@ -3959,6 +4113,7 @@ extension ElasticsearchService {
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
         public let automatedSnapshotStartHour: Int?
 
+        @inlinable
         public init(automatedSnapshotStartHour: Int? = nil) {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
@@ -3974,6 +4129,7 @@ extension ElasticsearchService {
         /// Specifies the status of a daily automated snapshot.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: SnapshotOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -3989,6 +4145,7 @@ extension ElasticsearchService {
         /// The name of the domain that you want to update to the latest service software.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -4008,6 +4165,7 @@ extension ElasticsearchService {
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
+        @inlinable
         public init(serviceSoftwareOptions: ServiceSoftwareOptions? = nil) {
             self.serviceSoftwareOptions = serviceSoftwareOptions
         }
@@ -4023,6 +4181,7 @@ extension ElasticsearchService {
         public let storageTypeLimits: [StorageTypeLimit]?
         public let storageTypeName: String?
 
+        @inlinable
         public init(storageSubTypeName: String? = nil, storageTypeLimits: [StorageTypeLimit]? = nil, storageTypeName: String? = nil) {
             self.storageSubTypeName = storageSubTypeName
             self.storageTypeLimits = storageTypeLimits
@@ -4042,6 +4201,7 @@ extension ElasticsearchService {
         ///  Values for the  StorageTypeLimit$LimitName  .
         public let limitValues: [String]?
 
+        @inlinable
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
             self.limitName = limitName
             self.limitValues = limitValues
@@ -4059,6 +4219,7 @@ extension ElasticsearchService {
         /// Specifies the TagValue, the value assigned to the corresponding tag key.  Tag values can be null and do not have to be unique in a tag set.  For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4108,6 +4269,7 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vpcOptions: VPCOptions?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -4181,6 +4343,7 @@ extension ElasticsearchService {
         /// Contains result of DryRun.
         public let dryRunResults: DryRunResults?
 
+        @inlinable
         public init(domainConfig: ElasticsearchDomainConfig, dryRunResults: DryRunResults? = nil) {
             self.domainConfig = domainConfig
             self.dryRunResults = dryRunResults
@@ -4201,6 +4364,7 @@ extension ElasticsearchService {
         public let packageID: String
         public let packageSource: PackageSource
 
+        @inlinable
         public init(commitMessage: String? = nil, packageDescription: String? = nil, packageID: String, packageSource: PackageSource) {
             self.commitMessage = commitMessage
             self.packageDescription = packageDescription
@@ -4226,6 +4390,7 @@ extension ElasticsearchService {
         /// Information about the package PackageDetails.
         public let packageDetails: PackageDetails?
 
+        @inlinable
         public init(packageDetails: PackageDetails? = nil) {
             self.packageDetails = packageDetails
         }
@@ -4241,6 +4406,7 @@ extension ElasticsearchService {
         /// The security groups and/or subnets to add, remove, or modify.
         public let vpcOptions: VPCOptions
 
+        @inlinable
         public init(vpcEndpointId: String, vpcOptions: VPCOptions) {
             self.vpcEndpointId = vpcEndpointId
             self.vpcOptions = vpcOptions
@@ -4262,6 +4428,7 @@ extension ElasticsearchService {
         /// The endpoint to be updated.
         public let vpcEndpoint: VpcEndpoint
 
+        @inlinable
         public init(vpcEndpoint: VpcEndpoint) {
             self.vpcEndpoint = vpcEndpoint
         }
@@ -4278,6 +4445,7 @@ extension ElasticsearchService {
         /// The version of Elasticsearch that you intend to upgrade the domain to.
         public let targetVersion: String
 
+        @inlinable
         public init(domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
@@ -4306,6 +4474,7 @@ extension ElasticsearchService {
         /// The version of Elasticsearch that you intend to upgrade the domain to.
         public let targetVersion: String?
 
+        @inlinable
         public init(changeProgressDetails: ChangeProgressDetails? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil) {
             self.changeProgressDetails = changeProgressDetails
             self.domainName = domainName
@@ -4331,6 +4500,7 @@ extension ElasticsearchService {
         ///  The overall status of the update. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
         public let upgradeStatus: UpgradeStatus?
 
+        @inlinable
         public init(startTimestamp: Date? = nil, stepsList: [UpgradeStepItem]? = nil, upgradeName: String? = nil, upgradeStatus: UpgradeStatus? = nil) {
             self.startTimestamp = startTimestamp
             self.stepsList = stepsList
@@ -4356,6 +4526,7 @@ extension ElasticsearchService {
         ///  The status of a particular step during an upgrade. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
         public let upgradeStepStatus: UpgradeStatus?
 
+        @inlinable
         public init(issues: [String]? = nil, progressPercent: Double? = nil, upgradeStep: UpgradeStep? = nil, upgradeStepStatus: UpgradeStatus? = nil) {
             self.issues = issues
             self.progressPercent = progressPercent
@@ -4381,6 +4552,7 @@ extension ElasticsearchService {
         /// The VPC Id for the Elasticsearch domain. Exists only if the domain was created with VPCOptions.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
@@ -4402,6 +4574,7 @@ extension ElasticsearchService {
         ///  Specifies the status of the VPC options for the specified Elasticsearch domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: VPCDerivedInfo, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -4419,6 +4592,7 @@ extension ElasticsearchService {
         /// Specifies the subnets for VPC endpoint.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4444,6 +4618,7 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint.
         public let vpcOptions: VPCDerivedInfo?
 
+        @inlinable
         public init(domainArn: String? = nil, endpoint: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.domainArn = domainArn
             self.endpoint = endpoint
@@ -4471,6 +4646,7 @@ extension ElasticsearchService {
         /// The unique identifier of the endpoint.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(errorCode: VpcEndpointErrorCode? = nil, errorMessage: String? = nil, vpcEndpointId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4494,6 +4670,7 @@ extension ElasticsearchService {
         /// The creator of the endpoint.
         public let vpcEndpointOwner: String?
 
+        @inlinable
         public init(domainArn: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
             self.domainArn = domainArn
             self.status = status
@@ -4513,6 +4690,7 @@ extension ElasticsearchService {
         /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
         public let availabilityZoneCount: Int?
 
+        @inlinable
         public init(availabilityZoneCount: Int? = nil) {
             self.availabilityZoneCount = availabilityZoneCount
         }

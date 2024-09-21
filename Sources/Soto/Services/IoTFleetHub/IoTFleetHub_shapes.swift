@@ -53,6 +53,7 @@ extension IoTFleetHub {
         /// The URL of the web application.
         public let applicationUrl: String
 
+        @inlinable
         public init(applicationCreationDate: Int64? = nil, applicationDescription: String? = nil, applicationId: String, applicationLastUpdateDate: Int64? = nil, applicationName: String, applicationState: ApplicationState? = nil, applicationUrl: String) {
             self.applicationCreationDate = applicationCreationDate
             self.applicationDescription = applicationDescription
@@ -86,6 +87,7 @@ extension IoTFleetHub {
         /// A set of key/value pairs that you can use to manage the web application resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationDescription: String? = nil, applicationName: String, clientToken: String? = CreateApplicationRequest.idempotencyToken(), roleArn: String, tags: [String: String]? = nil) {
             self.applicationDescription = applicationDescription
             self.applicationName = applicationName
@@ -133,6 +135,7 @@ extension IoTFleetHub {
         /// The unique Id of the web application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationArn: String, applicationId: String) {
             self.applicationArn = applicationArn
             self.applicationId = applicationId
@@ -150,6 +153,7 @@ extension IoTFleetHub {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
+        @inlinable
         public init(applicationId: String, clientToken: String? = DeleteApplicationRequest.idempotencyToken()) {
             self.applicationId = applicationId
             self.clientToken = clientToken
@@ -182,6 +186,7 @@ extension IoTFleetHub {
         /// The unique Id of the web application.
         public let applicationId: String
 
+        @inlinable
         public init(applicationId: String) {
             self.applicationId = applicationId
         }
@@ -227,6 +232,7 @@ extension IoTFleetHub {
         /// A set of key/value pairs that you can use to manage the web application resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationArn: String, applicationCreationDate: Int64, applicationDescription: String? = nil, applicationId: String, applicationLastUpdateDate: Int64, applicationName: String, applicationState: ApplicationState, applicationUrl: String, errorMessage: String? = nil, roleArn: String, ssoClientId: String? = nil, tags: [String: String]? = nil) {
             self.applicationArn = applicationArn
             self.applicationCreationDate = applicationCreationDate
@@ -262,6 +268,7 @@ extension IoTFleetHub {
         /// A token used to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -287,6 +294,7 @@ extension IoTFleetHub {
         /// A token used to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationSummaries: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applicationSummaries = applicationSummaries
             self.nextToken = nextToken
@@ -302,6 +310,7 @@ extension IoTFleetHub {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -319,6 +328,7 @@ extension IoTFleetHub {
         /// The list of tags assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -334,6 +344,7 @@ extension IoTFleetHub {
         /// The new or modified tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -373,6 +384,7 @@ extension IoTFleetHub {
         /// A list of the keys of the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -410,6 +422,7 @@ extension IoTFleetHub {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
+        @inlinable
         public init(applicationDescription: String? = nil, applicationId: String, applicationName: String? = nil, clientToken: String? = UpdateApplicationRequest.idempotencyToken()) {
             self.applicationDescription = applicationDescription
             self.applicationId = applicationId

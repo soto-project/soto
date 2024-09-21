@@ -217,6 +217,7 @@ extension Grafana {
         /// The name of the attribute within the SAML assertion to use as the user roles.
         public let role: String?
 
+        @inlinable
         public init(email: String? = nil, groups: String? = nil, login: String? = nil, name: String? = nil, org: String? = nil, role: String? = nil) {
             self.email = email
             self.groups = groups
@@ -259,6 +260,7 @@ extension Grafana {
         /// The ID of the workspace to associate the license with.
         public let workspaceId: String
 
+        @inlinable
         public init(grafanaToken: String? = nil, licenseType: LicenseType, workspaceId: String) {
             self.grafanaToken = grafanaToken
             self.licenseType = licenseType
@@ -286,6 +288,7 @@ extension Grafana {
         /// A structure containing data about the workspace.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -303,6 +306,7 @@ extension Grafana {
         /// A structure containing information about how this workspace works with SAML, including what attributes within the assertion are to be mapped to user information in the workspace.
         public let saml: SamlAuthentication?
 
+        @inlinable
         public init(awsSso: AwsSsoAuthentication? = nil, providers: [AuthenticationProviderTypes], saml: SamlAuthentication? = nil) {
             self.awsSso = awsSso
             self.providers = providers
@@ -322,6 +326,7 @@ extension Grafana {
         /// Specifies whether the workplace's user authentication method is fully configured.
         public let samlConfigurationStatus: SamlConfigurationStatus?
 
+        @inlinable
         public init(providers: [AuthenticationProviderTypes], samlConfigurationStatus: SamlConfigurationStatus? = nil) {
             self.providers = providers
             self.samlConfigurationStatus = samlConfigurationStatus
@@ -337,6 +342,7 @@ extension Grafana {
         /// The ID of the IAM Identity Center-managed application that is created by Amazon Managed Grafana.
         public let ssoClientId: String?
 
+        @inlinable
         public init(ssoClientId: String? = nil) {
             self.ssoClientId = ssoClientId
         }
@@ -356,6 +362,7 @@ extension Grafana {
         /// The ID of the workspace to create an API key.
         public let workspaceId: String
 
+        @inlinable
         public init(keyName: String, keyRole: String, secondsToLive: Int, workspaceId: String) {
             self.keyName = keyName
             self.keyRole = keyRole
@@ -393,6 +400,7 @@ extension Grafana {
         /// The ID of the workspace that the key is valid for.
         public let workspaceId: String
 
+        @inlinable
         public init(key: String, keyName: String, workspaceId: String) {
             self.key = key
             self.keyName = keyName
@@ -442,6 +450,7 @@ extension Grafana {
         /// Specified the IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from, including both data  sources and notification channels. You are responsible for managing the permissions  for this role as new data sources or notification channels are added.
         public let workspaceRoleArn: String?
 
+        @inlinable
         public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), configuration: String? = nil, grafanaVersion: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authenticationProviders = authenticationProviders
@@ -509,6 +518,7 @@ extension Grafana {
         /// A structure containing data about the workspace that was created.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -526,6 +536,7 @@ extension Grafana {
         /// The ID of the workspace within which to create the service account.
         public let workspaceId: String
 
+        @inlinable
         public init(grafanaRole: Role, name: String, workspaceId: String) {
             self.grafanaRole = grafanaRole
             self.name = name
@@ -562,6 +573,7 @@ extension Grafana {
         /// The workspace with which the service account is associated.
         public let workspaceId: String
 
+        @inlinable
         public init(grafanaRole: Role, id: String, name: String, workspaceId: String) {
             self.grafanaRole = grafanaRole
             self.id = id
@@ -587,6 +599,7 @@ extension Grafana {
         /// The ID of the workspace the service account resides within.
         public let workspaceId: String
 
+        @inlinable
         public init(name: String, secondsToLive: Int, serviceAccountId: String, workspaceId: String) {
             self.name = name
             self.secondsToLive = secondsToLive
@@ -623,6 +636,7 @@ extension Grafana {
         /// The ID of the workspace where the token was created.
         public let workspaceId: String
 
+        @inlinable
         public init(serviceAccountId: String, serviceAccountToken: ServiceAccountTokenSummaryWithKey, workspaceId: String) {
             self.serviceAccountId = serviceAccountId
             self.serviceAccountToken = serviceAccountToken
@@ -642,6 +656,7 @@ extension Grafana {
         /// The ID of the workspace to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(keyName: String, workspaceId: String) {
             self.keyName = keyName
             self.workspaceId = workspaceId
@@ -669,6 +684,7 @@ extension Grafana {
         /// The ID of the workspace where the key was deleted.
         public let workspaceId: String
 
+        @inlinable
         public init(keyName: String, workspaceId: String) {
             self.keyName = keyName
             self.workspaceId = workspaceId
@@ -684,6 +700,7 @@ extension Grafana {
         /// The ID of the workspace to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -705,6 +722,7 @@ extension Grafana {
         /// A structure containing information about the workspace that was deleted.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -720,6 +738,7 @@ extension Grafana {
         /// The ID of the workspace where the service account resides.
         public let workspaceId: String
 
+        @inlinable
         public init(serviceAccountId: String, workspaceId: String) {
             self.serviceAccountId = serviceAccountId
             self.workspaceId = workspaceId
@@ -745,6 +764,7 @@ extension Grafana {
         /// The ID of the workspace where the service account was deleted.
         public let workspaceId: String
 
+        @inlinable
         public init(serviceAccountId: String, workspaceId: String) {
             self.serviceAccountId = serviceAccountId
             self.workspaceId = workspaceId
@@ -764,6 +784,7 @@ extension Grafana {
         /// The ID of the workspace from which to delete the token.
         public let workspaceId: String
 
+        @inlinable
         public init(serviceAccountId: String, tokenId: String, workspaceId: String) {
             self.serviceAccountId = serviceAccountId
             self.tokenId = tokenId
@@ -793,6 +814,7 @@ extension Grafana {
         /// The ID of the workspace where the token was deleted.
         public let workspaceId: String
 
+        @inlinable
         public init(serviceAccountId: String, tokenId: String, workspaceId: String) {
             self.serviceAccountId = serviceAccountId
             self.tokenId = tokenId
@@ -810,6 +832,7 @@ extension Grafana {
         /// The ID of the workspace to return authentication information about.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -831,6 +854,7 @@ extension Grafana {
         /// A structure containing information about the authentication methods used in the workspace.
         public let authentication: AuthenticationDescription
 
+        @inlinable
         public init(authentication: AuthenticationDescription) {
             self.authentication = authentication
         }
@@ -844,6 +868,7 @@ extension Grafana {
         /// The ID of the workspace to get configuration information for.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -867,6 +892,7 @@ extension Grafana {
         /// The supported Grafana version for the workspace.
         public let grafanaVersion: String?
 
+        @inlinable
         public init(configuration: String, grafanaVersion: String? = nil) {
             self.configuration = configuration
             self.grafanaVersion = grafanaVersion
@@ -882,6 +908,7 @@ extension Grafana {
         /// The ID of the workspace to display information about.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -903,6 +930,7 @@ extension Grafana {
         /// A structure containing information about the workspace.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -918,6 +946,7 @@ extension Grafana {
         /// The ID of the workspace to remove the Grafana Enterprise license from.
         public let workspaceId: String
 
+        @inlinable
         public init(licenseType: LicenseType, workspaceId: String) {
             self.licenseType = licenseType
             self.workspaceId = workspaceId
@@ -941,6 +970,7 @@ extension Grafana {
         /// A structure containing information about the workspace.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -964,6 +994,7 @@ extension Grafana {
         /// The ID of the workspace to list permissions for. This parameter is required.
         public let workspaceId: String
 
+        @inlinable
         public init(groupId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, userId: String? = nil, userType: UserType? = nil, workspaceId: String) {
             self.groupId = groupId
             self.maxResults = maxResults
@@ -1001,6 +1032,7 @@ extension Grafana {
         /// The permissions returned by the operation.
         public let permissions: [PermissionEntry]
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [PermissionEntry]) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -1016,6 +1048,7 @@ extension Grafana {
         /// The ARN of the resource the list of tags are associated with.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1033,6 +1066,7 @@ extension Grafana {
         /// The list of tags that are associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1050,6 +1084,7 @@ extension Grafana {
         /// The ID of the workspace to list the available upgrade versions. If not included,  lists all versions of Grafana that are supported for  CreateWorkspace.
         public let workspaceId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1077,6 +1112,7 @@ extension Grafana {
         /// The token to use in a subsequent ListVersions operation to return the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(grafanaVersions: [String]? = nil, nextToken: String? = nil) {
             self.grafanaVersions = grafanaVersions
             self.nextToken = nextToken
@@ -1098,6 +1134,7 @@ extension Grafana {
         /// The ID of the workspace for which to return tokens.
         public let workspaceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceAccountId: String, workspaceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1131,6 +1168,7 @@ extension Grafana {
         /// The ID of the workspace where the tokens reside.
         public let workspaceId: String
 
+        @inlinable
         public init(nextToken: String? = nil, serviceAccountId: String, serviceAccountTokens: [ServiceAccountTokenSummary], workspaceId: String) {
             self.nextToken = nextToken
             self.serviceAccountId = serviceAccountId
@@ -1154,6 +1192,7 @@ extension Grafana {
         /// The workspace for which to list service accounts.
         public let workspaceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1183,6 +1222,7 @@ extension Grafana {
         /// The workspace to which the service accounts are associated.
         public let workspaceId: String
 
+        @inlinable
         public init(nextToken: String? = nil, serviceAccounts: [ServiceAccountSummary], workspaceId: String) {
             self.nextToken = nextToken
             self.serviceAccounts = serviceAccounts
@@ -1202,6 +1242,7 @@ extension Grafana {
         /// The token for the next set of workspaces to return. (You receive this token from a previous ListWorkspaces operation.)
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1223,6 +1264,7 @@ extension Grafana {
         /// An array of structures that contain some information about the workspaces in the account.
         public let workspaces: [WorkspaceSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, workspaces: [WorkspaceSummary]) {
             self.nextToken = nextToken
             self.workspaces = workspaces
@@ -1240,6 +1282,7 @@ extension Grafana {
         /// An array of Amazon VPC endpoint IDs for the workspace. You can create VPC endpoints to your Amazon Managed Grafana workspace for access from within a VPC. If a NetworkAccessConfiguration is specified then only VPC endpoints specified here are allowed to access the workspace. If you pass in an empty array of strings, then no VPCs are allowed to access the workspace. VPC endpoint IDs have the format vpce-1a2b3c4d . For more information about creating an interface VPC endpoint, see Interface VPC endpoints in the Amazon Managed Grafana User Guide.  The only VPC endpoints that can be specified here are interface VPC endpoints for Grafana workspaces (using the com.amazonaws.[region].grafana-workspace service endpoint). Other VPC endpoints are ignored.
         public let vpceIds: [String]
 
+        @inlinable
         public init(prefixListIds: [String], vpceIds: [String]) {
             self.prefixListIds = prefixListIds
             self.vpceIds = vpceIds
@@ -1268,6 +1311,7 @@ extension Grafana {
         /// A structure with the ID of the user or group with this role.
         public let user: User
 
+        @inlinable
         public init(role: Role, user: User) {
             self.role = role
             self.user = user
@@ -1285,6 +1329,7 @@ extension Grafana {
         /// A list of groups from the SAML assertion attribute to grant the Grafana Editor role to.
         public let editor: [String]?
 
+        @inlinable
         public init(admin: [String]? = nil, editor: [String]? = nil) {
             self.admin = admin
             self.editor = editor
@@ -1313,6 +1358,7 @@ extension Grafana {
         /// Specifies whether the workspace's SAML configuration is complete.
         public let status: SamlConfigurationStatus
 
+        @inlinable
         public init(configuration: SamlConfiguration? = nil, status: SamlConfigurationStatus) {
             self.configuration = configuration
             self.status = status
@@ -1336,6 +1382,7 @@ extension Grafana {
         /// A structure containing arrays that map group names in the SAML assertion to the Grafana Admin and Editor roles in the workspace.
         public let roleValues: RoleValues?
 
+        @inlinable
         public init(allowedOrganizations: [String]? = nil, assertionAttributes: AssertionAttributes? = nil, idpMetadata: IdpMetadata, loginValidityDuration: Int? = nil, roleValues: RoleValues? = nil) {
             self.allowedOrganizations = allowedOrganizations
             self.assertionAttributes = assertionAttributes
@@ -1373,6 +1420,7 @@ extension Grafana {
         /// The name of the service account.
         public let name: String
 
+        @inlinable
         public init(grafanaRole: Role, id: String, isDisabled: String, name: String) {
             self.grafanaRole = grafanaRole
             self.id = id
@@ -1400,6 +1448,7 @@ extension Grafana {
         /// The name of the service account token.
         public let name: String
 
+        @inlinable
         public init(createdAt: Date, expiresAt: Date, id: String, lastUsedAt: Date? = nil, name: String) {
             self.createdAt = createdAt
             self.expiresAt = expiresAt
@@ -1425,6 +1474,7 @@ extension Grafana {
         /// The name of the service account token.
         public let name: String
 
+        @inlinable
         public init(id: String, key: String, name: String) {
             self.id = id
             self.key = key
@@ -1444,6 +1494,7 @@ extension Grafana {
         /// The list of tag keys and values to associate with the resource. You can associate tag keys only, tags (key and values) only or a combination of tag keys and tags.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1480,6 +1531,7 @@ extension Grafana {
         /// The key values of the tag to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1514,6 +1566,7 @@ extension Grafana {
         /// The message for this error.
         public let message: String
 
+        @inlinable
         public init(causedBy: UpdateInstruction, code: Int, message: String) {
             self.causedBy = causedBy
             self.code = code
@@ -1535,6 +1588,7 @@ extension Grafana {
         /// A structure that specifies the user or group to add or revoke the role for.
         public let users: [User]
 
+        @inlinable
         public init(action: UpdateAction, role: Role, users: [User]) {
             self.action = action
             self.role = role
@@ -1560,6 +1614,7 @@ extension Grafana {
         /// The ID of the workspace to update.
         public let workspaceId: String
 
+        @inlinable
         public init(updateInstructionBatch: [UpdateInstruction], workspaceId: String) {
             self.updateInstructionBatch = updateInstructionBatch
             self.workspaceId = workspaceId
@@ -1589,6 +1644,7 @@ extension Grafana {
         /// An array of structures that contain the errors from the operation, if any.
         public let errors: [UpdateError]
 
+        @inlinable
         public init(errors: [UpdateError]) {
             self.errors = errors
         }
@@ -1606,6 +1662,7 @@ extension Grafana {
         /// The ID of the workspace to update the authentication for.
         public let workspaceId: String
 
+        @inlinable
         public init(authenticationProviders: [AuthenticationProviderTypes], samlConfiguration: SamlConfiguration? = nil, workspaceId: String) {
             self.authenticationProviders = authenticationProviders
             self.samlConfiguration = samlConfiguration
@@ -1635,6 +1692,7 @@ extension Grafana {
         /// A structure that describes the user authentication for this workspace after the update is made.
         public let authentication: AuthenticationDescription
 
+        @inlinable
         public init(authentication: AuthenticationDescription) {
             self.authentication = authentication
         }
@@ -1652,6 +1710,7 @@ extension Grafana {
         /// The ID of the workspace to update.
         public let workspaceId: String
 
+        @inlinable
         public init(configuration: String, grafanaVersion: String? = nil, workspaceId: String) {
             self.configuration = configuration
             self.grafanaVersion = grafanaVersion
@@ -1716,6 +1775,7 @@ extension Grafana {
         /// Specifies an IAM role that grants permissions to Amazon Web Services resources that the workspace accesses, such as data sources and notification channels. If this workspace has permissionType CUSTOMER_MANAGED, then this role is required.
         public let workspaceRoleArn: String?
 
+        @inlinable
         public init(accountAccessType: AccountAccessType? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, removeNetworkAccessConfiguration: Bool? = nil, removeVpcConfiguration: Bool? = nil, stackSetName: String? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceId: String, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.networkAccessControl = networkAccessControl
@@ -1788,6 +1848,7 @@ extension Grafana {
         /// A structure containing data about the workspace that was created.
         public let workspace: WorkspaceDescription
 
+        @inlinable
         public init(workspace: WorkspaceDescription) {
             self.workspace = workspace
         }
@@ -1803,6 +1864,7 @@ extension Grafana {
         /// Specifies whether this is a single user or a group.
         public let type: UserType
 
+        @inlinable
         public init(id: String, type: UserType) {
             self.id = id
             self.type = type
@@ -1825,6 +1887,7 @@ extension Grafana {
         /// The list of Amazon EC2 subnet IDs created in the Amazon VPC for your Grafana workspace to connect. Duplicates not allowed.
         public let subnetIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1901,6 +1964,7 @@ extension Grafana {
         /// The IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from. This role must already exist.
         public let workspaceRoleArn: String?
 
+        @inlinable
         public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaToken: String? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, networkAccessControl: NetworkAccessConfiguration? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, vpcConfiguration: VpcConfiguration? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authentication = authentication
@@ -1986,6 +2050,7 @@ extension Grafana {
         /// The list of tags associated with the workspace.
         public let tags: [String: String]?
 
+        @inlinable
         public init(authentication: AuthenticationSummary, created: Date, description: String? = nil, endpoint: String, grafanaToken: String? = nil, grafanaVersion: String, id: String, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, status: WorkspaceStatus, tags: [String: String]? = nil) {
             self.authentication = authentication
             self.created = created

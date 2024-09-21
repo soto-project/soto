@@ -139,6 +139,7 @@ extension CloudTrail {
         /// Contains a list of tags, up to a limit of 50
         public let tagsList: [Tag]
 
+        @inlinable
         public init(resourceId: String, tagsList: [Tag]) {
             self.resourceId = resourceId
             self.tagsList = tagsList
@@ -167,6 +168,7 @@ extension CloudTrail {
         /// An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets".
         public let name: String?
 
+        @inlinable
         public init(fieldSelectors: [AdvancedFieldSelector], name: String? = nil) {
             self.fieldSelectors = fieldSelectors
             self.name = name
@@ -203,6 +205,7 @@ extension CloudTrail {
         /// An operator that includes events that match the first few characters of the event record field specified as the value of Field.
         public let startsWith: [String]?
 
+        @inlinable
         public init(endsWith: [String]? = nil, equals: [String]? = nil, field: String, notEndsWith: [String]? = nil, notEquals: [String]? = nil, notStartsWith: [String]? = nil, startsWith: [String]? = nil) {
             self.endsWith = endsWith
             self.equals = equals
@@ -272,12 +275,14 @@ extension CloudTrail {
         /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.eventDataStore = nil
             self.queryId = queryId
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
+        @inlinable
         public init(eventDataStore: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
             self.queryId = queryId
@@ -304,6 +309,7 @@ extension CloudTrail {
         /// Shows the status of a query after a CancelQuery request. Typically, the values shown are either RUNNING or CANCELLED.
         public let queryStatus: QueryStatus
 
+        @inlinable
         public init(queryId: String, queryStatus: QueryStatus) {
             self.queryId = queryId
             self.queryStatus = queryStatus
@@ -321,6 +327,7 @@ extension CloudTrail {
         ///  The name of the CloudTrail channel. For service-linked channels, the name is aws-service-channel/service-name/custom-suffix where service-name represents the name of the Amazon Web Services service that created the channel and custom-suffix represents the suffix created by the Amazon Web Services service.
         public let name: String?
 
+        @inlinable
         public init(channelArn: String? = nil, name: String? = nil) {
             self.channelArn = channelArn
             self.name = name
@@ -341,6 +348,7 @@ extension CloudTrail {
         public let source: String
         public let tags: [Tag]?
 
+        @inlinable
         public init(destinations: [Destination], name: String, source: String, tags: [Tag]? = nil) {
             self.destinations = destinations
             self.name = name
@@ -385,6 +393,7 @@ extension CloudTrail {
         public let source: String?
         public let tags: [Tag]?
 
+        @inlinable
         public init(channelArn: String? = nil, destinations: [Destination]? = nil, name: String? = nil, source: String? = nil, tags: [Tag]? = nil) {
             self.channelArn = channelArn
             self.destinations = destinations
@@ -423,6 +432,7 @@ extension CloudTrail {
         /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you cannot delete the event data store until termination protection is disabled.
         public let terminationProtectionEnabled: Bool?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, startIngestion: Bool? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.billingMode = billingMode
@@ -495,6 +505,7 @@ extension CloudTrail {
         /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.billingMode = billingMode
@@ -553,6 +564,7 @@ extension CloudTrail {
         public let snsTopicName: String?
         public let tagsList: [Tag]?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String, s3KeyPrefix: String? = nil, snsTopicName: String? = nil, tagsList: [Tag]? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -619,6 +631,7 @@ extension CloudTrail {
         /// Specifies the ARN of the trail that was created. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -636,6 +649,7 @@ extension CloudTrail {
         }
 
         @available(*, deprecated, message: "Members snsTopicName have been deprecated")
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -675,6 +689,7 @@ extension CloudTrail {
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified resource type.   To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3.  This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a bucket that belongs to another Amazon Web Services account.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda.  This also enables logging of Invoke activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a function that belongs to another Amazon Web Services account.     To log data events for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.    To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public let values: [String]?
 
+        @inlinable
         public init(type: String? = nil, values: [String]? = nil) {
             self.type = type
             self.values = values
@@ -690,6 +705,7 @@ extension CloudTrail {
         /// The ARN or the UUID value of the channel that you want to delete.
         public let channel: String
 
+        @inlinable
         public init(channel: String) {
             self.channel = channel
         }
@@ -713,6 +729,7 @@ extension CloudTrail {
         /// The ARN (or the ID suffix of the ARN) of the event data store to delete.
         public let eventDataStore: String
 
+        @inlinable
         public init(eventDataStore: String) {
             self.eventDataStore = eventDataStore
         }
@@ -736,6 +753,7 @@ extension CloudTrail {
         ///  The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -759,6 +777,7 @@ extension CloudTrail {
         /// Specifies the name or the CloudTrail ARN of the trail to be deleted. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -776,6 +795,7 @@ extension CloudTrail {
         /// A delegated administrator account ID. This is a member account in an organization that is currently designated as a delegated administrator.
         public let delegatedAdminAccountId: String
 
+        @inlinable
         public init(delegatedAdminAccountId: String) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
         }
@@ -803,6 +823,7 @@ extension CloudTrail {
         /// The query ID.
         public let queryId: String?
 
+        @inlinable
         public init(queryAlias: String? = nil, queryId: String? = nil) {
             self.eventDataStore = nil
             self.queryAlias = queryAlias
@@ -810,6 +831,7 @@ extension CloudTrail {
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
+        @inlinable
         public init(eventDataStore: String? = nil, queryAlias: String? = nil, queryId: String? = nil) {
             self.eventDataStore = eventDataStore
             self.queryAlias = queryAlias
@@ -851,6 +873,7 @@ extension CloudTrail {
         /// The SQL code of a query.
         public let queryString: String?
 
+        @inlinable
         public init(deliveryS3Uri: String? = nil, deliveryStatus: DeliveryStatus? = nil, errorMessage: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
             self.deliveryStatus = deliveryStatus
@@ -878,6 +901,7 @@ extension CloudTrail {
         /// Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current Region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current Region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current Region and any associated shadow trails in other Regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current Region and current account. To return information about a trail in another Region, you must specify its trail ARN.
         public let trailNameList: [String]?
 
+        @inlinable
         public init(includeShadowTrails: Bool? = nil, trailNameList: [String]? = nil) {
             self.includeShadowTrails = includeShadowTrails
             self.trailNameList = trailNameList
@@ -893,6 +917,7 @@ extension CloudTrail {
         /// The list of trail objects. Trail objects with string values are only returned if values for the objects exist in a trail's configuration. For example, SNSTopicName and SNSTopicARN are only returned in results if a trail is configured to send SNS notifications. Similarly, KMSKeyId only appears in results if a trail's log files are encrypted with KMS customer managed keys.
         public let trailList: [Trail]?
 
+        @inlinable
         public init(trailList: [Trail]? = nil) {
             self.trailList = trailList
         }
@@ -908,6 +933,7 @@ extension CloudTrail {
         /// The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE. For service-linked channels,  the value is AWS_SERVICE.
         public let type: DestinationType
 
+        @inlinable
         public init(location: String, type: DestinationType) {
             self.location = location
             self.type = type
@@ -929,6 +955,7 @@ extension CloudTrail {
         ///  The ARN (or ID suffix of the ARN) of the event data store for which you want to disable Lake query federation.
         public let eventDataStore: String
 
+        @inlinable
         public init(eventDataStore: String) {
             self.eventDataStore = eventDataStore
         }
@@ -950,6 +977,7 @@ extension CloudTrail {
         ///  The federation status.
         public let federationStatus: FederationStatus?
 
+        @inlinable
         public init(eventDataStoreArn: String? = nil, federationStatus: FederationStatus? = nil) {
             self.eventDataStoreArn = eventDataStoreArn
             self.federationStatus = federationStatus
@@ -967,6 +995,7 @@ extension CloudTrail {
         ///  The ARN of the federation role to use for the event data store. Amazon Web Services services like Lake Formation use this federation role to access data for the federated event  data store. The federation role must exist in your account and provide the required minimum permissions.
         public let federationRoleArn: String
 
+        @inlinable
         public init(eventDataStore: String, federationRoleArn: String) {
             self.eventDataStore = eventDataStore
             self.federationRoleArn = federationRoleArn
@@ -995,6 +1024,7 @@ extension CloudTrail {
         ///  The federation status.
         public let federationStatus: FederationStatus?
 
+        @inlinable
         public init(eventDataStoreArn: String? = nil, federationRoleArn: String? = nil, federationStatus: FederationStatus? = nil) {
             self.eventDataStoreArn = eventDataStoreArn
             self.federationRoleArn = federationRoleArn
@@ -1028,6 +1058,7 @@ extension CloudTrail {
         /// A user name or role name of the requester that called the API in the event returned.
         public let username: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, cloudTrailEvent: String? = nil, eventId: String? = nil, eventName: String? = nil, eventSource: String? = nil, eventTime: Date? = nil, readOnly: String? = nil, resources: [Resource]? = nil, username: String? = nil) {
             self.accessKeyId = accessKeyId
             self.cloudTrailEvent = cloudTrailEvent
@@ -1075,6 +1106,7 @@ extension CloudTrail {
         /// The timestamp showing when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(eventDataStoreArn: String? = nil, name: String? = nil) {
             self.advancedEventSelectors = nil
             self.createdTimestamp = nil
@@ -1089,6 +1121,7 @@ extension CloudTrail {
         }
 
         @available(*, deprecated, message: "Members advancedEventSelectors, createdTimestamp, multiRegionEnabled, organizationEnabled, retentionPeriod, status, terminationProtectionEnabled, updatedTimestamp have been deprecated")
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
@@ -1126,6 +1159,7 @@ extension CloudTrail {
         /// Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation. By default, the value is All.
         public let readWriteType: ReadWriteType?
 
+        @inlinable
         public init(dataResources: [DataResource]? = nil, excludeManagementEventSources: [String]? = nil, includeManagementEvents: Bool? = nil, readWriteType: ReadWriteType? = nil) {
             self.dataResources = dataResources
             self.excludeManagementEventSources = excludeManagementEventSources
@@ -1145,6 +1179,7 @@ extension CloudTrail {
         /// The ARN or UUID of a channel.
         public let channel: String
 
+        @inlinable
         public init(channel: String) {
             self.channel = channel
         }
@@ -1174,6 +1209,7 @@ extension CloudTrail {
         ///  Provides information about the advanced event selectors configured for the channel, and whether the channel applies to all Regions or a single Region.
         public let sourceConfig: SourceConfig?
 
+        @inlinable
         public init(channelArn: String? = nil, destinations: [Destination]? = nil, ingestionStatus: IngestionStatus? = nil, name: String? = nil, source: String? = nil, sourceConfig: SourceConfig? = nil) {
             self.channelArn = channelArn
             self.destinations = destinations
@@ -1197,6 +1233,7 @@ extension CloudTrail {
         /// The ARN (or ID suffix of the ARN) of the event data store about which you want information.
         public let eventDataStore: String
 
+        @inlinable
         public init(eventDataStore: String) {
             self.eventDataStore = eventDataStore
         }
@@ -1244,6 +1281,7 @@ extension CloudTrail {
         /// Shows the time that an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, federationRoleArn: String? = nil, federationStatus: FederationStatus? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, partitionKeys: [PartitionKey]? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.billingMode = billingMode
@@ -1285,6 +1323,7 @@ extension CloudTrail {
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailName: String
 
+        @inlinable
         public init(trailName: String) {
             self.trailName = trailName
         }
@@ -1302,6 +1341,7 @@ extension CloudTrail {
         /// The specified trail ARN that has the event selectors.
         public let trailARN: String?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.eventSelectors = eventSelectors
@@ -1319,6 +1359,7 @@ extension CloudTrail {
         ///  The ID for the import.
         public let importId: String
 
+        @inlinable
         public init(importId: String) {
             self.importId = importId
         }
@@ -1354,6 +1395,7 @@ extension CloudTrail {
         ///  The timestamp of when the import was updated.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, destinations: [String]? = nil, endEventTime: Date? = nil, importId: String? = nil, importSource: ImportSource? = nil, importStatistics: ImportStatistics? = nil, importStatus: ImportStatus? = nil, startEventTime: Date? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.destinations = destinations
@@ -1385,6 +1427,7 @@ extension CloudTrail {
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  You cannot use this parameter with the EventDataStore parameter.
         public let trailName: String?
 
+        @inlinable
         public init(eventDataStore: String? = nil, trailName: String? = nil) {
             self.eventDataStore = eventDataStore
             self.trailName = trailName
@@ -1412,6 +1455,7 @@ extension CloudTrail {
         /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
         public let trailARN: String?
 
+        @inlinable
         public init(eventDataStoreArn: String? = nil, insightsDestination: String? = nil, insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
             self.eventDataStoreArn = eventDataStoreArn
             self.insightsDestination = insightsDestination
@@ -1437,6 +1481,7 @@ extension CloudTrail {
         /// The ID of the query for which you want to get results.
         public let queryId: String
 
+        @inlinable
         public init(maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
             self.eventDataStore = nil
             self.maxQueryResults = maxQueryResults
@@ -1445,6 +1490,7 @@ extension CloudTrail {
         }
 
         @available(*, deprecated, message: "Members eventDataStore have been deprecated")
+        @inlinable
         public init(eventDataStore: String? = nil, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
             self.eventDataStore = eventDataStore
             self.maxQueryResults = maxQueryResults
@@ -1486,6 +1532,7 @@ extension CloudTrail {
         /// The status of the query. Values include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
         public let queryStatus: QueryStatus?
 
+        @inlinable
         public init(errorMessage: String? = nil, nextToken: String? = nil, queryResultRows: [[[String: String]]]? = nil, queryStatistics: QueryStatistics? = nil, queryStatus: QueryStatus? = nil) {
             self.errorMessage = errorMessage
             self.nextToken = nextToken
@@ -1507,6 +1554,7 @@ extension CloudTrail {
         ///  The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.  The following is the format of a resource ARN:  arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1528,6 +1576,7 @@ extension CloudTrail {
         ///  A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, resourcePolicy: String? = nil) {
             self.resourceArn = resourceArn
             self.resourcePolicy = resourcePolicy
@@ -1543,6 +1592,7 @@ extension CloudTrail {
         /// The name or the Amazon Resource Name (ARN) of the trail for which you want to retrieve settings information.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1555,6 +1605,7 @@ extension CloudTrail {
     public struct GetTrailResponse: AWSDecodableShape {
         public let trail: Trail?
 
+        @inlinable
         public init(trail: Trail? = nil) {
             self.trail = trail
         }
@@ -1568,6 +1619,7 @@ extension CloudTrail {
         /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1613,6 +1665,7 @@ extension CloudTrail {
         /// This field is no longer in use.
         public let timeLoggingStopped: String?
 
+        @inlinable
         public init(isLogging: Bool? = nil, latestCloudWatchLogsDeliveryError: String? = nil, latestCloudWatchLogsDeliveryTime: Date? = nil, latestDeliveryAttemptSucceeded: String? = nil, latestDeliveryAttemptTime: String? = nil, latestDeliveryError: String? = nil, latestDeliveryTime: Date? = nil, latestDigestDeliveryError: String? = nil, latestDigestDeliveryTime: Date? = nil, latestNotificationAttemptSucceeded: String? = nil, latestNotificationAttemptTime: String? = nil, latestNotificationError: String? = nil, latestNotificationTime: Date? = nil, startLoggingTime: Date? = nil, stopLoggingTime: Date? = nil, timeLoggingStarted: String? = nil, timeLoggingStopped: String? = nil) {
             self.isLogging = isLogging
             self.latestCloudWatchLogsDeliveryError = latestCloudWatchLogsDeliveryError
@@ -1666,6 +1719,7 @@ extension CloudTrail {
         ///  The status of the import.
         public let status: ImportFailureStatus?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: String? = nil, lastUpdatedTime: Date? = nil, location: String? = nil, status: ImportFailureStatus? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -1687,6 +1741,7 @@ extension CloudTrail {
         ///  The source S3 bucket.
         public let s3: S3ImportSource
 
+        @inlinable
         public init(s3: S3ImportSource) {
             self.s3 = s3
         }
@@ -1708,6 +1763,7 @@ extension CloudTrail {
         ///  The number of S3 prefixes found for the import.
         public let prefixesFound: Int64?
 
+        @inlinable
         public init(eventsCompleted: Int64? = nil, failedEntries: Int64? = nil, filesCompleted: Int64? = nil, prefixesCompleted: Int64? = nil, prefixesFound: Int64? = nil) {
             self.eventsCompleted = eventsCompleted
             self.failedEntries = failedEntries
@@ -1737,6 +1793,7 @@ extension CloudTrail {
         ///  The timestamp of the import's last update.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, destinations: [String]? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.destinations = destinations
@@ -1766,6 +1823,7 @@ extension CloudTrail {
         /// The time stamp of the most recent successful ingestion of events for the channel.
         public let latestIngestionSuccessTime: Date?
 
+        @inlinable
         public init(latestIngestionAttemptEventID: String? = nil, latestIngestionAttemptTime: Date? = nil, latestIngestionErrorCode: String? = nil, latestIngestionSuccessEventID: String? = nil, latestIngestionSuccessTime: Date? = nil) {
             self.latestIngestionAttemptEventID = latestIngestionAttemptEventID
             self.latestIngestionAttemptTime = latestIngestionAttemptTime
@@ -1787,6 +1845,7 @@ extension CloudTrail {
         /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public let insightType: InsightType?
 
+        @inlinable
         public init(insightType: InsightType? = nil) {
             self.insightType = insightType
         }
@@ -1802,6 +1861,7 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1827,6 +1887,7 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -1844,6 +1905,7 @@ extension CloudTrail {
         /// A token you can use to get the next page of event data store results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1869,6 +1931,7 @@ extension CloudTrail {
         /// A token you can use to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventDataStores: [EventDataStore]? = nil, nextToken: String? = nil) {
             self.eventDataStores = eventDataStores
             self.nextToken = nextToken
@@ -1888,6 +1951,7 @@ extension CloudTrail {
         ///  A token you can use to get the next page of import failures.
         public let nextToken: String?
 
+        @inlinable
         public init(importId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.importId = importId
             self.maxResults = maxResults
@@ -1918,6 +1982,7 @@ extension CloudTrail {
         ///  A token you can use to get the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(failures: [ImportFailureListItem]? = nil, nextToken: String? = nil) {
             self.failures = failures
             self.nextToken = nextToken
@@ -1939,6 +2004,7 @@ extension CloudTrail {
         ///  A token you can use to get the next page of import results.
         public let nextToken: String?
 
+        @inlinable
         public init(destination: String? = nil, importStatus: ImportStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.destination = destination
             self.importStatus = importStatus
@@ -1971,6 +2037,7 @@ extension CloudTrail {
         ///  A token you can use to get the next page of import results.
         public let nextToken: String?
 
+        @inlinable
         public init(imports: [ImportsListItem]? = nil, nextToken: String? = nil) {
             self.imports = imports
             self.nextToken = nextToken
@@ -2004,6 +2071,7 @@ extension CloudTrail {
         /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
         public let startTime: Date?
 
+        @inlinable
         public init(dataType: InsightsMetricDataType? = nil, endTime: Date? = nil, errorCode: String? = nil, eventName: String, eventSource: String, insightType: InsightType, maxResults: Int? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date? = nil) {
             self.dataType = dataType
             self.endTime = endTime
@@ -2062,6 +2130,7 @@ extension CloudTrail {
         /// List of values representing the API call rate or error rate at each timestamp. The number of values is equal to the number of timestamps.
         public let values: [Double]?
 
+        @inlinable
         public init(errorCode: String? = nil, eventName: String? = nil, eventSource: String? = nil, insightType: InsightType? = nil, nextToken: String? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
             self.errorCode = errorCode
             self.eventName = eventName
@@ -2091,6 +2160,7 @@ extension CloudTrail {
         /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.nextToken = nextToken
@@ -2110,6 +2180,7 @@ extension CloudTrail {
         /// Contains an array of PublicKey objects.  The returned public keys may have validity time ranges that overlap.
         public let publicKeyList: [PublicKey]?
 
+        @inlinable
         public init(nextToken: String? = nil, publicKeyList: [PublicKey]? = nil) {
             self.nextToken = nextToken
             self.publicKeyList = publicKeyList
@@ -2135,6 +2206,7 @@ extension CloudTrail {
         /// Use with EndTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, eventDataStore: String, maxResults: Int? = nil, nextToken: String? = nil, queryStatus: QueryStatus? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventDataStore = eventDataStore
@@ -2171,6 +2243,7 @@ extension CloudTrail {
         /// Lists matching query results, and shows query ID, status, and creation time of each query.
         public let queries: [Query]?
 
+        @inlinable
         public init(nextToken: String? = nil, queries: [Query]? = nil) {
             self.nextToken = nextToken
             self.queries = queries
@@ -2188,6 +2261,7 @@ extension CloudTrail {
         /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE  Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
         public let resourceIdList: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, resourceIdList: [String]) {
             self.nextToken = nextToken
             self.resourceIdList = resourceIdList
@@ -2205,6 +2279,7 @@ extension CloudTrail {
         /// A list of resource tags.
         public let resourceTagList: [ResourceTag]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceTagList: [ResourceTag]? = nil) {
             self.nextToken = nextToken
             self.resourceTagList = resourceTagList
@@ -2220,6 +2295,7 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2235,6 +2311,7 @@ extension CloudTrail {
         /// Returns the name, ARN, and home Region of trails in the current account.
         public let trails: [TrailInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, trails: [TrailInfo]? = nil) {
             self.nextToken = nextToken
             self.trails = trails
@@ -2252,6 +2329,7 @@ extension CloudTrail {
         /// Specifies a value for the specified AttributeKey. The maximum length for the AttributeValue is 2000 characters. The following characters ('_', ' ', ',', '\\n') count as two characters towards the 2000 character limit.
         public let attributeValue: String
 
+        @inlinable
         public init(attributeKey: LookupAttributeKey, attributeValue: String) {
             self.attributeKey = attributeKey
             self.attributeValue = attributeValue
@@ -2282,6 +2360,7 @@ extension CloudTrail {
         /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, eventCategory: EventCategory? = nil, lookupAttributes: [LookupAttribute]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.eventCategory = eventCategory
@@ -2315,6 +2394,7 @@ extension CloudTrail {
         /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -2332,6 +2412,7 @@ extension CloudTrail {
         /// The data type of the partition key. For example, bigint or string.
         public let type: String
 
+        @inlinable
         public init(name: String, type: String) {
             self.name = name
             self.type = type
@@ -2353,6 +2434,7 @@ extension CloudTrail {
         /// The DER encoded public key value in PKCS#1 format.
         public let value: AWSBase64Data?
 
+        @inlinable
         public init(fingerprint: String? = nil, validityEndTime: Date? = nil, validityStartTime: Date? = nil, value: AWSBase64Data? = nil) {
             self.fingerprint = fingerprint
             self.validityEndTime = validityEndTime
@@ -2376,6 +2458,7 @@ extension CloudTrail {
         /// Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailName: String
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventSelectors: [EventSelector]? = nil, trailName: String) {
             self.advancedEventSelectors = advancedEventSelectors
             self.eventSelectors = eventSelectors
@@ -2403,6 +2486,7 @@ extension CloudTrail {
         /// Specifies the ARN of the trail that was updated with event selectors. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventSelectors: [EventSelector]? = nil, trailARN: String? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.eventSelectors = eventSelectors
@@ -2426,6 +2510,7 @@ extension CloudTrail {
         /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and InsightsDestination parameters.
         public let trailName: String?
 
+        @inlinable
         public init(eventDataStore: String? = nil, insightsDestination: String? = nil, insightSelectors: [InsightSelector], trailName: String? = nil) {
             self.eventDataStore = eventDataStore
             self.insightsDestination = insightsDestination
@@ -2460,6 +2545,7 @@ extension CloudTrail {
         /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
         public let trailARN: String?
 
+        @inlinable
         public init(eventDataStoreArn: String? = nil, insightsDestination: String? = nil, insightSelectors: [InsightSelector]? = nil, trailARN: String? = nil) {
             self.eventDataStoreArn = eventDataStoreArn
             self.insightsDestination = insightsDestination
@@ -2481,6 +2567,7 @@ extension CloudTrail {
         ///  A JSON-formatted string for an Amazon Web Services resource-based policy.  The following are requirements for the resource policy:    Contains only one action: cloudtrail-data:PutAuditEvents     Contains at least one statement. The policy can have a maximum of 20 statements.     Each statement contains at least one principal. A statement can have a maximum of 50 principals.
         public let resourcePolicy: String
 
+        @inlinable
         public init(resourceArn: String, resourcePolicy: String) {
             self.resourceArn = resourceArn
             self.resourcePolicy = resourcePolicy
@@ -2506,6 +2593,7 @@ extension CloudTrail {
         ///  The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(resourceArn: String? = nil, resourcePolicy: String? = nil) {
             self.resourceArn = resourceArn
             self.resourcePolicy = resourcePolicy
@@ -2525,6 +2613,7 @@ extension CloudTrail {
         /// The status of the query. This can be QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
         public let queryStatus: QueryStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, queryId: String? = nil, queryStatus: QueryStatus? = nil) {
             self.creationTime = creationTime
             self.queryId = queryId
@@ -2546,6 +2635,7 @@ extension CloudTrail {
         /// The total number of results returned by a query.
         public let totalResultsCount: Int?
 
+        @inlinable
         public init(bytesScanned: Int64? = nil, resultsCount: Int? = nil, totalResultsCount: Int? = nil) {
             self.bytesScanned = bytesScanned
             self.resultsCount = resultsCount
@@ -2571,6 +2661,7 @@ extension CloudTrail {
         /// The query's run time, in milliseconds.
         public let executionTimeInMillis: Int?
 
+        @inlinable
         public init(bytesScanned: Int64? = nil, creationTime: Date? = nil, eventsMatched: Int64? = nil, eventsScanned: Int64? = nil, executionTimeInMillis: Int? = nil) {
             self.bytesScanned = bytesScanned
             self.creationTime = creationTime
@@ -2592,6 +2683,7 @@ extension CloudTrail {
         /// An organization member account ID that you want to designate as a delegated administrator.
         public let memberAccountId: String
 
+        @inlinable
         public init(memberAccountId: String) {
             self.memberAccountId = memberAccountId
         }
@@ -2617,6 +2709,7 @@ extension CloudTrail {
         /// Specifies a list of tags to be removed.
         public let tagsList: [Tag]
 
+        @inlinable
         public init(resourceId: String, tagsList: [Tag]) {
             self.resourceId = resourceId
             self.tagsList = tagsList
@@ -2645,6 +2738,7 @@ extension CloudTrail {
         /// The type of a resource referenced by the event returned. When the resource type cannot be determined, null is returned. Some examples of resource types are: Instance for EC2, Trail for CloudTrail, DBInstance for Amazon RDS, and AccessKey for IAM. To learn more about how to look up and filter events by the resource types supported for a service, see Filtering CloudTrail Events.
         public let resourceType: String?
 
+        @inlinable
         public init(resourceName: String? = nil, resourceType: String? = nil) {
             self.resourceName = resourceName
             self.resourceType = resourceType
@@ -2662,6 +2756,7 @@ extension CloudTrail {
         /// A list of tags.
         public let tagsList: [Tag]?
 
+        @inlinable
         public init(resourceId: String? = nil, tagsList: [Tag]? = nil) {
             self.resourceId = resourceId
             self.tagsList = tagsList
@@ -2677,6 +2772,7 @@ extension CloudTrail {
         /// The ARN (or the ID suffix of the ARN) of the event data store that you want to restore.
         public let eventDataStore: String
 
+        @inlinable
         public init(eventDataStore: String) {
             self.eventDataStore = eventDataStore
         }
@@ -2718,6 +2814,7 @@ extension CloudTrail {
         /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.billingMode = billingMode
@@ -2757,6 +2854,7 @@ extension CloudTrail {
         ///  The URI for the source S3 bucket.
         public let s3LocationUri: String
 
+        @inlinable
         public init(s3BucketAccessRoleArn: String, s3BucketRegion: String, s3LocationUri: String) {
             self.s3BucketAccessRoleArn = s3BucketAccessRoleArn
             self.s3BucketRegion = s3BucketRegion
@@ -2776,6 +2874,7 @@ extension CloudTrail {
         ///  Specifies whether the channel applies to a single Region or to all Regions.
         public let applyToAllRegions: Bool?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, applyToAllRegions: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.applyToAllRegions = applyToAllRegions
@@ -2791,6 +2890,7 @@ extension CloudTrail {
         /// The ARN (or ID suffix of the ARN) of the event data store for which you want to start ingestion.
         public let eventDataStore: String
 
+        @inlinable
         public init(eventDataStore: String) {
             self.eventDataStore = eventDataStore
         }
@@ -2822,6 +2922,7 @@ extension CloudTrail {
         ///  Use with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
         public let startEventTime: Date?
 
+        @inlinable
         public init(destinations: [String]? = nil, endEventTime: Date? = nil, importId: String? = nil, importSource: ImportSource? = nil, startEventTime: Date? = nil) {
             self.destinations = destinations
             self.endEventTime = endEventTime
@@ -2870,6 +2971,7 @@ extension CloudTrail {
         ///  The timestamp of the import's last update, if applicable.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, destinations: [String]? = nil, endEventTime: Date? = nil, importId: String? = nil, importSource: ImportSource? = nil, importStatus: ImportStatus? = nil, startEventTime: Date? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.destinations = destinations
@@ -2897,6 +2999,7 @@ extension CloudTrail {
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs Amazon Web Services API calls. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2920,6 +3023,7 @@ extension CloudTrail {
         /// The SQL code of your query.
         public let queryStatement: String?
 
+        @inlinable
         public init(deliveryS3Uri: String? = nil, queryAlias: String? = nil, queryParameters: [String]? = nil, queryStatement: String? = nil) {
             self.deliveryS3Uri = deliveryS3Uri
             self.queryAlias = queryAlias
@@ -2957,6 +3061,7 @@ extension CloudTrail {
         /// The ID of the started query.
         public let queryId: String?
 
+        @inlinable
         public init(queryId: String? = nil) {
             self.queryId = queryId
         }
@@ -2970,6 +3075,7 @@ extension CloudTrail {
         /// The ARN (or ID suffix of the ARN) of the event data store for which you want to stop ingestion.
         public let eventDataStore: String
 
+        @inlinable
         public init(eventDataStore: String) {
             self.eventDataStore = eventDataStore
         }
@@ -2993,6 +3099,7 @@ extension CloudTrail {
         ///  The ID of the import.
         public let importId: String
 
+        @inlinable
         public init(importId: String) {
             self.importId = importId
         }
@@ -3028,6 +3135,7 @@ extension CloudTrail {
         ///  The timestamp of the import's last update.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(createdTimestamp: Date? = nil, destinations: [String]? = nil, endEventTime: Date? = nil, importId: String? = nil, importSource: ImportSource? = nil, importStatistics: ImportStatistics? = nil, importStatus: ImportStatus? = nil, startEventTime: Date? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.destinations = destinations
@@ -3057,6 +3165,7 @@ extension CloudTrail {
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging Amazon Web Services API calls. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3076,6 +3185,7 @@ extension CloudTrail {
         /// The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3128,6 +3238,7 @@ extension CloudTrail {
         /// Specifies the ARN of the trail. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, hasInsightSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -3148,6 +3259,7 @@ extension CloudTrail {
         }
 
         @available(*, deprecated, message: "Members snsTopicName have been deprecated")
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, hasInsightSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -3195,6 +3307,7 @@ extension CloudTrail {
         /// The ARN of a trail.
         public let trailARN: String?
 
+        @inlinable
         public init(homeRegion: String? = nil, name: String? = nil, trailARN: String? = nil) {
             self.homeRegion = homeRegion
             self.name = name
@@ -3216,6 +3329,7 @@ extension CloudTrail {
         ///  Changes the name of the channel.
         public let name: String?
 
+        @inlinable
         public init(channel: String, destinations: [Destination]? = nil, name: String? = nil) {
             self.channel = channel
             self.destinations = destinations
@@ -3253,6 +3367,7 @@ extension CloudTrail {
         /// The event source of the channel that was updated.
         public let source: String?
 
+        @inlinable
         public init(channelArn: String? = nil, destinations: [Destination]? = nil, name: String? = nil, source: String? = nil) {
             self.channelArn = channelArn
             self.destinations = destinations
@@ -3288,6 +3403,7 @@ extension CloudTrail {
         /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
         public let terminationProtectionEnabled: Bool?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, eventDataStore: String, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.billingMode = billingMode
@@ -3360,6 +3476,7 @@ extension CloudTrail {
         /// The timestamp that shows when the event data store was last updated. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
+        @inlinable
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, billingMode: BillingMode? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, federationRoleArn: String? = nil, federationStatus: FederationStatus? = nil, kmsKeyId: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.billingMode = billingMode
@@ -3419,6 +3536,7 @@ extension CloudTrail {
         /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
         public let snsTopicName: String?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, enableLogFileValidation: Bool? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, name: String, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicName: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -3476,6 +3594,7 @@ extension CloudTrail {
         /// Specifies the ARN of the trail that was updated. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let trailARN: String?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -3493,6 +3612,7 @@ extension CloudTrail {
         }
 
         @available(*, deprecated, message: "Members snsTopicName have been deprecated")
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicARN: String? = nil, snsTopicName: String? = nil, trailARN: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn

@@ -619,6 +619,7 @@ extension MigrationHubStrategy {
         /// The virtual machine id of the analyzable server.
         public let vmId: String?
 
+        @inlinable
         public init(hostname: String? = nil, ipAddress: String? = nil, source: String? = nil, vmId: String? = nil) {
             self.hostname = hostname
             self.ipAddress = ipAddress
@@ -643,6 +644,7 @@ extension MigrationHubStrategy {
         /// The status message for the anti-pattern.
         public let antipatternReportStatusMessage: String?
 
+        @inlinable
         public init(analyzerName: AnalyzerNameUnion? = nil, antiPatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil) {
             self.analyzerName = analyzerName
             self.antiPatternReportS3Object = antiPatternReportS3Object
@@ -664,6 +666,7 @@ extension MigrationHubStrategy {
         ///  Contains the severity of anti-patterns.
         public let severity: Severity?
 
+        @inlinable
         public init(count: Int? = nil, severity: Severity? = nil) {
             self.count = count
             self.severity = severity
@@ -679,6 +682,7 @@ extension MigrationHubStrategy {
         /// The category of the error.
         public let appUnitErrorCategory: AppUnitErrorCategory?
 
+        @inlinable
         public init(appUnitErrorCategory: AppUnitErrorCategory? = nil) {
             self.appUnitErrorCategory = appUnitErrorCategory
         }
@@ -736,6 +740,7 @@ extension MigrationHubStrategy {
         ///  A detailed description of the analysis status and any failure message.
         public let statusMessage: String?
 
+        @inlinable
         public init(analysisStatus: SrcCodeOrDbAnalysisStatus? = nil, antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, appType: AppType? = nil, appUnitError: AppUnitError? = nil, associatedServerId: String? = nil, databaseConfigDetail: DatabaseConfigDetail? = nil, id: String? = nil, inclusionStatus: InclusionStatus? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, moreServerAssociationExists: Bool? = nil, name: String? = nil, osDriver: String? = nil, osVersion: String? = nil, recommendationSet: RecommendationSet? = nil, resourceSubType: ResourceSubType? = nil, resultList: [Result]? = nil, runtimeStatus: RuntimeAnalysisStatus? = nil, runtimeStatusMessage: String? = nil, sourceCodeRepositories: [SourceCodeRepository]? = nil, statusMessage: String? = nil) {
             self.analysisStatus = analysisStatus
             self.antipatternReportS3Object = antipatternReportS3Object
@@ -795,6 +800,7 @@ extension MigrationHubStrategy {
         /// The status of database analysis.
         public let srcCodeOrDbAnalysisStatus: SrcCodeOrDbAnalysisStatus?
 
+        @inlinable
         public init(count: Int? = nil, srcCodeOrDbAnalysisStatus: SrcCodeOrDbAnalysisStatus? = nil) {
             self.count = count
             self.srcCodeOrDbAnalysisStatus = srcCodeOrDbAnalysisStatus
@@ -814,6 +820,7 @@ extension MigrationHubStrategy {
         ///  The recommendation status of a strategy for an application component.
         public let status: StrategyRecommendation?
 
+        @inlinable
         public init(isPreferred: Bool? = nil, recommendation: RecommendationSet? = nil, status: StrategyRecommendation? = nil) {
             self.isPreferred = isPreferred
             self.recommendation = recommendation
@@ -833,6 +840,7 @@ extension MigrationHubStrategy {
         ///  Contains the count of application type.
         public let count: Int?
 
+        @inlinable
         public init(appType: AppType? = nil, count: Int? = nil) {
             self.appType = appType
             self.count = count
@@ -848,6 +856,7 @@ extension MigrationHubStrategy {
         ///  Application preferences that you specify to prefer managed environment.
         public let managementPreference: ManagementPreference?
 
+        @inlinable
         public init(managementPreference: ManagementPreference? = nil) {
             self.managementPreference = managementPreference
         }
@@ -885,6 +894,7 @@ extension MigrationHubStrategy {
         ///  List of ServerSummary.
         public let listServerSummary: [ServerSummary]?
 
+        @inlinable
         public init(antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, listApplicationComponentStatusSummary: [ApplicationComponentStatusSummary]? = nil, listApplicationComponentStrategySummary: [StrategySummary]? = nil, listApplicationComponentSummary: [ApplicationComponentSummary]? = nil, listServerStatusSummary: [ServerStatusSummary]? = nil, listServerStrategySummary: [StrategySummary]? = nil, listServerSummary: [ServerSummary]? = nil) {
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
@@ -922,6 +932,7 @@ extension MigrationHubStrategy {
         /// Values of an assessment.
         public let values: [String]
 
+        @inlinable
         public init(condition: Condition, name: String, values: [String]) {
             self.condition = condition
             self.name = name
@@ -950,6 +961,7 @@ extension MigrationHubStrategy {
         ///  Name of the application as defined in Application Discovery Service.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -965,6 +977,7 @@ extension MigrationHubStrategy {
         ///  The choice of application destination that you specify.
         public let targetDestination: [AwsManagedTargetDestination]
 
+        @inlinable
         public init(targetDestination: [AwsManagedTargetDestination]) {
             self.targetDestination = targetDestination
         }
@@ -989,6 +1002,7 @@ extension MigrationHubStrategy {
         ///  Business goal to achieve migration at a fast pace.
         public let speedOfMigration: Int?
 
+        @inlinable
         public init(licenseCostReduction: Int? = nil, modernizeInfrastructureWithCloudNativeTechnologies: Int? = nil, reduceOperationalOverheadWithManagedServices: Int? = nil, speedOfMigration: Int? = nil) {
             self.licenseCostReduction = licenseCostReduction
             self.modernizeInfrastructureWithCloudNativeTechnologies = modernizeInfrastructureWithCloudNativeTechnologies
@@ -1033,6 +1047,7 @@ extension MigrationHubStrategy {
         ///  Time when the collector registered with the service.
         public let registeredTimeStamp: String?
 
+        @inlinable
         public init(collectorHealth: CollectorHealth? = nil, collectorId: String? = nil, collectorVersion: String? = nil, configurationSummary: ConfigurationSummary? = nil, hostName: String? = nil, ipAddress: String? = nil, lastActivityTimeStamp: String? = nil, registeredTimeStamp: String? = nil) {
             self.collectorHealth = collectorHealth
             self.collectorId = collectorId
@@ -1068,6 +1083,7 @@ extension MigrationHubStrategy {
         /// The list of the version control configurations.
         public let versionControlInfoList: [VersionControlInfo]?
 
+        @inlinable
         public init(ipAddressBasedRemoteInfoList: [IPAddressBasedRemoteInfo]? = nil, pipelineInfoList: [PipelineInfo]? = nil, remoteSourceCodeAnalysisServerInfo: RemoteSourceCodeAnalysisServerInfo? = nil, vcenterBasedRemoteInfoList: [VcenterBasedRemoteInfo]? = nil, versionControlInfoList: [VersionControlInfo]? = nil) {
             self.ipAddressBasedRemoteInfoList = ipAddressBasedRemoteInfoList
             self.pipelineInfoList = pipelineInfoList
@@ -1103,6 +1119,7 @@ extension MigrationHubStrategy {
         ///  The number of successful servers in the assessment.
         public let success: Int?
 
+        @inlinable
         public init(completionTime: Date? = nil, failed: Int? = nil, inProgress: Int? = nil, servers: Int? = nil, startTime: Date? = nil, status: AssessmentStatus? = nil, statusMessage: String? = nil, success: Int? = nil) {
             self.completionTime = completionTime
             self.failed = failed
@@ -1130,6 +1147,7 @@ extension MigrationHubStrategy {
         ///  AWS Secrets Manager key that holds the credentials that you use to connect to a database.
         public let secretName: String?
 
+        @inlinable
         public init(secretName: String? = nil) {
             self.secretName = secretName
         }
@@ -1145,6 +1163,7 @@ extension MigrationHubStrategy {
         ///  Specifies your preferred migration path.
         public let databaseMigrationPreference: DatabaseMigrationPreference?
 
+        @inlinable
         public init(databaseManagementPreference: DatabaseManagementPreference? = nil, databaseMigrationPreference: DatabaseMigrationPreference? = nil) {
             self.databaseManagementPreference = databaseManagementPreference
             self.databaseMigrationPreference = databaseMigrationPreference
@@ -1164,6 +1183,7 @@ extension MigrationHubStrategy {
         ///  The ID of the application component. The ID is unique within an AWS account.
         public let applicationComponentId: String
 
+        @inlinable
         public init(applicationComponentId: String) {
             self.applicationComponentId = applicationComponentId
         }
@@ -1192,6 +1212,7 @@ extension MigrationHubStrategy {
         ///  Set to true if the application component belongs to more than one application group.
         public let moreApplicationResource: Bool?
 
+        @inlinable
         public init(applicationComponentDetail: ApplicationComponentDetail? = nil, associatedApplications: [AssociatedApplication]? = nil, associatedServerIds: [String]? = nil, moreApplicationResource: Bool? = nil) {
             self.applicationComponentDetail = applicationComponentDetail
             self.associatedApplications = associatedApplications
@@ -1211,6 +1232,7 @@ extension MigrationHubStrategy {
         ///  The ID of the application component. The ID is unique within an AWS account.
         public let applicationComponentId: String
 
+        @inlinable
         public init(applicationComponentId: String) {
             self.applicationComponentId = applicationComponentId
         }
@@ -1233,6 +1255,7 @@ extension MigrationHubStrategy {
         ///  A list of application component strategy recommendations.
         public let applicationComponentStrategies: [ApplicationComponentStrategy]?
 
+        @inlinable
         public init(applicationComponentStrategies: [ApplicationComponentStrategy]? = nil) {
             self.applicationComponentStrategies = applicationComponentStrategies
         }
@@ -1246,6 +1269,7 @@ extension MigrationHubStrategy {
         ///  The assessmentid returned by StartAssessment.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1272,6 +1296,7 @@ extension MigrationHubStrategy {
         ///  The ID for the specific assessment task.
         public let id: String?
 
+        @inlinable
         public init(assessmentTargets: [AssessmentTarget]? = nil, dataCollectionDetails: DataCollectionDetails? = nil, id: String? = nil) {
             self.assessmentTargets = assessmentTargets
             self.dataCollectionDetails = dataCollectionDetails
@@ -1289,6 +1314,7 @@ extension MigrationHubStrategy {
         ///  The ID of the import file task. This ID is returned in the response of StartImportFileTask.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1331,6 +1357,7 @@ extension MigrationHubStrategy {
         ///  The Amazon S3 key name for status report of import task. The report contains details about whether each record imported successfully or why it did not.
         public let statusReportS3Key: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, id: String? = nil, importName: String? = nil, inputS3Bucket: String? = nil, inputS3Key: String? = nil, numberOfRecordsFailed: Int? = nil, numberOfRecordsSuccess: Int? = nil, startTime: Date? = nil, status: ImportFileTaskStatus? = nil, statusReportS3Bucket: String? = nil, statusReportS3Key: String? = nil) {
             self.completionTime = completionTime
             self.id = id
@@ -1368,6 +1395,7 @@ extension MigrationHubStrategy {
         /// The latest ID for the specific assessment task.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -1391,6 +1419,7 @@ extension MigrationHubStrategy {
         ///  The rank of business goals based on priority.
         public let prioritizeBusinessGoals: PrioritizeBusinessGoals?
 
+        @inlinable
         public init(applicationMode: ApplicationMode? = nil, applicationPreferences: ApplicationPreferences? = nil, databasePreferences: DatabasePreferences? = nil, prioritizeBusinessGoals: PrioritizeBusinessGoals? = nil) {
             self.applicationMode = applicationMode
             self.applicationPreferences = applicationPreferences
@@ -1414,6 +1443,7 @@ extension MigrationHubStrategy {
         ///  An assessment summary for the portfolio including the number of servers to rehost and the overall number of anti-patterns.
         public let assessmentSummary: AssessmentSummary?
 
+        @inlinable
         public init(assessmentSummary: AssessmentSummary? = nil) {
             self.assessmentSummary = assessmentSummary
         }
@@ -1427,6 +1457,7 @@ extension MigrationHubStrategy {
         ///  The recommendation report generation task id returned by StartRecommendationReportGeneration.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1451,6 +1482,7 @@ extension MigrationHubStrategy {
         ///  Detailed information about the recommendation report.
         public let recommendationReportDetails: RecommendationReportDetails?
 
+        @inlinable
         public init(id: String? = nil, recommendationReportDetails: RecommendationReportDetails? = nil) {
             self.id = id
             self.recommendationReportDetails = recommendationReportDetails
@@ -1471,6 +1503,7 @@ extension MigrationHubStrategy {
         ///  The ID of the server.
         public let serverId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1504,6 +1537,7 @@ extension MigrationHubStrategy {
         ///  Detailed information about the server.
         public let serverDetail: ServerDetail?
 
+        @inlinable
         public init(associatedApplications: [AssociatedApplication]? = nil, nextToken: String? = nil, serverDetail: ServerDetail? = nil) {
             self.associatedApplications = associatedApplications
             self.nextToken = nextToken
@@ -1521,6 +1555,7 @@ extension MigrationHubStrategy {
         ///  The ID of the server.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -1544,6 +1579,7 @@ extension MigrationHubStrategy {
         ///  A list of strategy recommendations for the server.
         public let serverStrategies: [ServerStrategy]?
 
+        @inlinable
         public init(serverStrategies: [ServerStrategy]? = nil) {
             self.serverStrategies = serverStrategies
         }
@@ -1559,6 +1595,7 @@ extension MigrationHubStrategy {
         ///  The value of the specific import group.
         public let value: String?
 
+        @inlinable
         public init(name: GroupName? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1579,6 +1616,7 @@ extension MigrationHubStrategy {
         ///  The target database engine for heterogeneous database migration preference.
         public let targetDatabaseEngine: [HeterogeneousTargetDatabaseEngine]
 
+        @inlinable
         public init(targetDatabaseEngine: [HeterogeneousTargetDatabaseEngine]) {
             self.targetDatabaseEngine = targetDatabaseEngine
         }
@@ -1597,6 +1635,7 @@ extension MigrationHubStrategy {
         ///  The target database engine for homogeneous database migration preferences.
         public let targetDatabaseEngine: [HomogeneousTargetDatabaseEngine]?
 
+        @inlinable
         public init(targetDatabaseEngine: [HomogeneousTargetDatabaseEngine]? = nil) {
             self.targetDatabaseEngine = targetDatabaseEngine
         }
@@ -1618,6 +1657,7 @@ extension MigrationHubStrategy {
         /// The type of the operating system.
         public let osType: OSType?
 
+        @inlinable
         public init(authType: AuthType? = nil, ipAddressConfigurationTimeStamp: String? = nil, osType: OSType? = nil) {
             self.authType = authType
             self.ipAddressConfigurationTimeStamp = ipAddressConfigurationTimeStamp
@@ -1655,6 +1695,7 @@ extension MigrationHubStrategy {
         ///  The Amazon S3 key name for status report of import task. The report contains details about whether each record imported successfully or why it did not.
         public let statusReportS3Key: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, id: String? = nil, importName: String? = nil, inputS3Bucket: String? = nil, inputS3Key: String? = nil, numberOfRecordsFailed: Int? = nil, numberOfRecordsSuccess: Int? = nil, startTime: Date? = nil, status: ImportFileTaskStatus? = nil, statusReportS3Bucket: String? = nil, statusReportS3Key: String? = nil) {
             self.completionTime = completionTime
             self.id = id
@@ -1692,6 +1733,7 @@ extension MigrationHubStrategy {
         /// Specifies whether to sort by ascending (ASC) or descending (DESC) order.
         public let sort: SortOrder?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sort: SortOrder? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1716,6 +1758,7 @@ extension MigrationHubStrategy {
         /// The token you use to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(analyzableServers: [AnalyzableServerSummary]? = nil, nextToken: String? = nil) {
             self.analyzableServers = analyzableServers
             self.nextToken = nextToken
@@ -1742,6 +1785,7 @@ extension MigrationHubStrategy {
         ///  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
         public let sort: SortOrder?
 
+        @inlinable
         public init(applicationComponentCriteria: ApplicationComponentCriteria? = nil, filterValue: String? = nil, groupIdFilter: [Group]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: SortOrder? = nil) {
             self.applicationComponentCriteria = applicationComponentCriteria
             self.filterValue = filterValue
@@ -1777,6 +1821,7 @@ extension MigrationHubStrategy {
         ///  The token you use to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationComponentInfos: [ApplicationComponentDetail]? = nil, nextToken: String? = nil) {
             self.applicationComponentInfos = applicationComponentInfos
             self.nextToken = nextToken
@@ -1795,6 +1840,7 @@ extension MigrationHubStrategy {
         /// if a previous call to this action returned 100 items, but you set maxResults to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1821,6 +1867,7 @@ extension MigrationHubStrategy {
         ///  The token you use to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(collectors: [Collector]? = nil, nextToken: String? = nil) {
             self.collectors = collectors
             self.nextToken = nextToken
@@ -1839,6 +1886,7 @@ extension MigrationHubStrategy {
         /// if a previous call to this action returned 100 items, but you set maxResults to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1865,6 +1913,7 @@ extension MigrationHubStrategy {
         ///  Lists information about the files you import.
         public let taskInfos: [ImportFileTaskInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, taskInfos: [ImportFileTaskInformation]? = nil) {
             self.nextToken = nextToken
             self.taskInfos = taskInfos
@@ -1891,6 +1940,7 @@ extension MigrationHubStrategy {
         ///  Specifies whether to sort by ascending (ASC) or descending (DESC) order.
         public let sort: SortOrder?
 
+        @inlinable
         public init(filterValue: String? = nil, groupIdFilter: [Group]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serverCriteria: ServerCriteria? = nil, sort: SortOrder? = nil) {
             self.filterValue = filterValue
             self.groupIdFilter = groupIdFilter
@@ -1926,6 +1976,7 @@ extension MigrationHubStrategy {
         ///  The list of servers with detailed information about each server.
         public let serverInfos: [ServerDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, serverInfos: [ServerDetail]? = nil) {
             self.nextToken = nextToken
             self.serverInfos = serverInfos
@@ -1947,6 +1998,7 @@ extension MigrationHubStrategy {
         ///  Information about the subnet mask of the server for which the assessment was run.
         public let netMask: String
 
+        @inlinable
         public init(interfaceName: String, ipAddress: String, macAddress: String, netMask: String) {
             self.interfaceName = interfaceName
             self.ipAddress = ipAddress
@@ -1966,6 +2018,7 @@ extension MigrationHubStrategy {
         ///  The target database engine for database migration preference that you specify.
         public let targetDatabaseEngine: [TargetDatabaseEngine]
 
+        @inlinable
         public init(targetDatabaseEngine: [TargetDatabaseEngine]) {
             self.targetDatabaseEngine = targetDatabaseEngine
         }
@@ -1984,6 +2037,7 @@ extension MigrationHubStrategy {
         ///  The choice of application destination that you specify.
         public let targetDestination: [NoPreferenceTargetDestination]
 
+        @inlinable
         public init(targetDestination: [NoPreferenceTargetDestination]) {
             self.targetDestination = targetDestination
         }
@@ -2004,6 +2058,7 @@ extension MigrationHubStrategy {
         ///  Information about the version of operating system.
         public let version: String?
 
+        @inlinable
         public init(type: OSType? = nil, version: String? = nil) {
             self.type = type
             self.version = version
@@ -2021,6 +2076,7 @@ extension MigrationHubStrategy {
         /// The type of pipeline.
         public let pipelineType: PipelineType?
 
+        @inlinable
         public init(pipelineConfigurationTimeStamp: String? = nil, pipelineType: PipelineType? = nil) {
             self.pipelineConfigurationTimeStamp = pipelineConfigurationTimeStamp
             self.pipelineType = pipelineType
@@ -2036,6 +2092,7 @@ extension MigrationHubStrategy {
         ///  Rank of business goals based on priority.
         public let businessGoals: BusinessGoals?
 
+        @inlinable
         public init(businessGoals: BusinessGoals? = nil) {
             self.businessGoals = businessGoals
         }
@@ -2059,6 +2116,7 @@ extension MigrationHubStrategy {
         ///  The rank of the business goals based on priority.
         public let prioritizeBusinessGoals: PrioritizeBusinessGoals?
 
+        @inlinable
         public init(applicationMode: ApplicationMode? = nil, applicationPreferences: ApplicationPreferences? = nil, databasePreferences: DatabasePreferences? = nil, prioritizeBusinessGoals: PrioritizeBusinessGoals? = nil) {
             self.applicationMode = applicationMode
             self.applicationPreferences = applicationPreferences
@@ -2098,6 +2156,7 @@ extension MigrationHubStrategy {
         ///  The status message for recommendation report generation.
         public let statusMessage: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, s3Bucket: String? = nil, s3Keys: [String]? = nil, startTime: Date? = nil, status: RecommendationReportStatus? = nil, statusMessage: String? = nil) {
             self.completionTime = completionTime
             self.s3Bucket = s3Bucket
@@ -2125,6 +2184,7 @@ extension MigrationHubStrategy {
         ///  The target destination for the recommendation set.
         public let transformationTool: TransformationTool?
 
+        @inlinable
         public init(strategy: Strategy? = nil, targetDestination: TargetDestination? = nil, transformationTool: TransformationTool? = nil) {
             self.strategy = strategy
             self.targetDestination = targetDestination
@@ -2142,6 +2202,7 @@ extension MigrationHubStrategy {
         /// The time when the remote source code server was configured.
         public let remoteSourceCodeAnalysisServerConfigurationTimestamp: String?
 
+        @inlinable
         public init(remoteSourceCodeAnalysisServerConfigurationTimestamp: String? = nil) {
             self.remoteSourceCodeAnalysisServerConfigurationTimestamp = remoteSourceCodeAnalysisServerConfigurationTimestamp
         }
@@ -2161,6 +2222,7 @@ extension MigrationHubStrategy {
         /// The error in server analysis.
         public let statusMessage: String?
 
+        @inlinable
         public init(analysisStatus: AnalysisStatusUnion? = nil, analysisType: AnalysisType? = nil, antipatternReportResultList: [AntipatternReportResult]? = nil, statusMessage: String? = nil) {
             self.analysisStatus = analysisStatus
             self.analysisType = analysisType
@@ -2182,6 +2244,7 @@ extension MigrationHubStrategy {
         ///  The Amazon S3 key name.
         public let s3key: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3key = s3key
@@ -2197,6 +2260,7 @@ extension MigrationHubStrategy {
         ///  Self-managed resources target destination.
         public let targetDestination: [SelfManageTargetDestination]
 
+        @inlinable
         public init(targetDestination: [SelfManageTargetDestination]) {
             self.targetDestination = targetDestination
         }
@@ -2241,6 +2305,7 @@ extension MigrationHubStrategy {
         ///  System information about the server.
         public let systemInfo: SystemInfo?
 
+        @inlinable
         public init(antipatternReportS3Object: S3Object? = nil, antipatternReportStatus: AntipatternReportStatus? = nil, antipatternReportStatusMessage: String? = nil, applicationComponentStrategySummary: [StrategySummary]? = nil, dataCollectionStatus: RunTimeAssessmentStatus? = nil, id: String? = nil, lastAnalyzedTimestamp: Date? = nil, listAntipatternSeveritySummary: [AntipatternSeveritySummary]? = nil, name: String? = nil, recommendationSet: RecommendationSet? = nil, serverError: ServerError? = nil, serverType: String? = nil, statusMessage: String? = nil, systemInfo: SystemInfo? = nil) {
             self.antipatternReportS3Object = antipatternReportS3Object
             self.antipatternReportStatus = antipatternReportStatus
@@ -2280,6 +2345,7 @@ extension MigrationHubStrategy {
         /// The error category of server analysis.
         public let serverErrorCategory: ServerErrorCategory?
 
+        @inlinable
         public init(serverErrorCategory: ServerErrorCategory? = nil) {
             self.serverErrorCategory = serverErrorCategory
         }
@@ -2295,6 +2361,7 @@ extension MigrationHubStrategy {
         /// The status of the run time.
         public let runTimeAssessmentStatus: RunTimeAssessmentStatus?
 
+        @inlinable
         public init(count: Int? = nil, runTimeAssessmentStatus: RunTimeAssessmentStatus? = nil) {
             self.count = count
             self.runTimeAssessmentStatus = runTimeAssessmentStatus
@@ -2316,6 +2383,7 @@ extension MigrationHubStrategy {
         ///  The recommendation status of the strategy for the server.
         public let status: StrategyRecommendation?
 
+        @inlinable
         public init(isPreferred: Bool? = nil, numberOfApplicationComponents: Int? = nil, recommendation: RecommendationSet? = nil, status: StrategyRecommendation? = nil) {
             self.isPreferred = isPreferred
             self.numberOfApplicationComponents = numberOfApplicationComponents
@@ -2337,6 +2405,7 @@ extension MigrationHubStrategy {
         ///  Type of operating system for the servers.
         public let serverOsType: ServerOsType?
 
+        @inlinable
         public init(count: Int? = nil, serverOsType: ServerOsType? = nil) {
             self.count = count
             self.serverOsType = serverOsType
@@ -2358,6 +2427,7 @@ extension MigrationHubStrategy {
         ///  The type of repository to use for the source code.
         public let versionControl: VersionControl?
 
+        @inlinable
         public init(location: String? = nil, projectName: String? = nil, sourceVersion: String? = nil, versionControl: VersionControl? = nil) {
             self.location = location
             self.projectName = projectName
@@ -2395,6 +2465,7 @@ extension MigrationHubStrategy {
         ///  The type of repository to use for the source code.
         public let versionControlType: String?
 
+        @inlinable
         public init(branch: String? = nil, projectName: String? = nil, repository: String? = nil, versionControlType: String? = nil) {
             self.branch = branch
             self.projectName = projectName
@@ -2420,6 +2491,7 @@ extension MigrationHubStrategy {
         ///  The S3 bucket where all the reports generated by the service are stored. The bucket name must begin with migrationhub-strategy-.
         public let s3bucketForReportData: String?
 
+        @inlinable
         public init(assessmentDataSourceType: AssessmentDataSourceType? = nil, assessmentTargets: [AssessmentTarget]? = nil, s3bucketForAnalysisData: String? = nil, s3bucketForReportData: String? = nil) {
             self.assessmentDataSourceType = assessmentDataSourceType
             self.assessmentTargets = assessmentTargets
@@ -2450,6 +2522,7 @@ extension MigrationHubStrategy {
         ///  The ID of the assessment.
         public let assessmentId: String?
 
+        @inlinable
         public init(assessmentId: String? = nil) {
             self.assessmentId = assessmentId
         }
@@ -2473,6 +2546,7 @@ extension MigrationHubStrategy {
         ///  The Amazon S3 key name of the import file.
         public let s3key: String
 
+        @inlinable
         public init(dataSourceType: DataSourceType? = nil, groupId: [Group]? = nil, name: String, s3Bucket: String, s3bucketForReportData: String? = nil, s3key: String) {
             self.dataSourceType = dataSourceType
             self.groupId = groupId
@@ -2510,6 +2584,7 @@ extension MigrationHubStrategy {
         ///  The ID for a specific import task. The ID is unique within an AWS account.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2525,6 +2600,7 @@ extension MigrationHubStrategy {
         ///  The output format for the recommendation report file. The default format is Microsoft Excel.
         public let outputFormat: OutputFormat?
 
+        @inlinable
         public init(groupIdFilter: [Group]? = nil, outputFormat: OutputFormat? = nil) {
             self.groupIdFilter = groupIdFilter
             self.outputFormat = outputFormat
@@ -2546,6 +2622,7 @@ extension MigrationHubStrategy {
         ///  The ID of the recommendation report generation task.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2559,6 +2636,7 @@ extension MigrationHubStrategy {
         ///  The assessmentId returned by StartAssessment.
         public let assessmentId: String
 
+        @inlinable
         public init(assessmentId: String) {
             self.assessmentId = assessmentId
         }
@@ -2587,6 +2665,7 @@ extension MigrationHubStrategy {
         ///  The name of the tool that can be used to transform an application component using this strategy.
         public let toolName: TransformationToolName?
 
+        @inlinable
         public init(isPreferred: Bool? = nil, strategy: Strategy? = nil, targetDestination: TargetDestination? = nil, toolName: TransformationToolName? = nil) {
             self.isPreferred = isPreferred
             self.strategy = strategy
@@ -2608,6 +2687,7 @@ extension MigrationHubStrategy {
         ///  The name of recommended strategy.
         public let strategy: Strategy?
 
+        @inlinable
         public init(count: Int? = nil, strategy: Strategy? = nil) {
             self.count = count
             self.strategy = strategy
@@ -2629,6 +2709,7 @@ extension MigrationHubStrategy {
         ///  Operating system corresponding to a server.
         public let osInfo: OSInfo?
 
+        @inlinable
         public init(cpuArchitecture: String? = nil, fileSystemType: String? = nil, networkInfoList: [NetworkInfo]? = nil, osInfo: OSInfo? = nil) {
             self.cpuArchitecture = cpuArchitecture
             self.fileSystemType = fileSystemType
@@ -2652,6 +2733,7 @@ extension MigrationHubStrategy {
         ///  URL for installing the tool.
         public let tranformationToolInstallationLink: String?
 
+        @inlinable
         public init(description: String? = nil, name: TransformationToolName? = nil, tranformationToolInstallationLink: String? = nil) {
             self.description = description
             self.name = name
@@ -2681,6 +2763,7 @@ extension MigrationHubStrategy {
         ///  The preferred strategy options for the application component. Use values from the GetApplicationComponentStrategies response.
         public let strategyOption: StrategyOption?
 
+        @inlinable
         public init(applicationComponentId: String, appType: AppType? = nil, configureOnly: Bool? = nil, inclusionStatus: InclusionStatus? = nil, secretsManagerKey: String? = nil, sourceCodeList: [SourceCode]? = nil, strategyOption: StrategyOption? = nil) {
             self.applicationComponentId = applicationComponentId
             self.appType = appType
@@ -2723,6 +2806,7 @@ extension MigrationHubStrategy {
         ///  The preferred strategy options for the application component. See the response from GetServerStrategies.
         public let strategyOption: StrategyOption?
 
+        @inlinable
         public init(serverId: String, strategyOption: StrategyOption? = nil) {
             self.serverId = serverId
             self.strategyOption = strategyOption
@@ -2750,6 +2834,7 @@ extension MigrationHubStrategy {
         /// The time when the remote server based on vCenter was last configured.
         public let vcenterConfigurationTimeStamp: String?
 
+        @inlinable
         public init(osType: OSType? = nil, vcenterConfigurationTimeStamp: String? = nil) {
             self.osType = osType
             self.vcenterConfigurationTimeStamp = vcenterConfigurationTimeStamp
@@ -2767,6 +2852,7 @@ extension MigrationHubStrategy {
         /// The type of version control.
         public let versionControlType: VersionControlType?
 
+        @inlinable
         public init(versionControlConfigurationTimeStamp: String? = nil, versionControlType: VersionControlType? = nil) {
             self.versionControlConfigurationTimeStamp = versionControlConfigurationTimeStamp
             self.versionControlType = versionControlType

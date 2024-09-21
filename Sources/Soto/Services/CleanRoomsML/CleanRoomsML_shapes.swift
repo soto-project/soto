@@ -110,6 +110,7 @@ extension CleanRoomsML {
         /// The Amazon S3 bucket and path for the configured audience.
         public let s3Destination: S3ConfigMap
 
+        @inlinable
         public init(s3Destination: S3ConfigMap) {
             self.s3Destination = s3Destination
         }
@@ -141,6 +142,7 @@ extension CleanRoomsML {
         /// The most recent time at which the audience export job was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceGenerationJobArn: String, audienceSize: AudienceSize, createTime: Date, description: String? = nil, name: String, outputLocation: String? = nil, status: AudienceExportJobStatus, statusDetails: StatusDetails? = nil, updateTime: Date) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.audienceSize = audienceSize
@@ -174,6 +176,7 @@ extension CleanRoomsML {
         /// The protected SQL query parameters.
         public let sqlParameters: ProtectedQuerySQLParameters?
 
+        @inlinable
         public init(dataSource: S3ConfigMap? = nil, roleArn: String, sqlParameters: ProtectedQuerySQLParameters? = nil) {
             self.dataSource = dataSource
             self.roleArn = roleArn
@@ -215,6 +218,7 @@ extension CleanRoomsML {
         /// The most recent time at which the audience generation job was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceGenerationJobArn: String, collaborationId: String? = nil, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, name: String, startedBy: String? = nil, status: AudienceGenerationJobStatus, updateTime: Date) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.collaborationId = collaborationId
@@ -256,6 +260,7 @@ extension CleanRoomsML {
         /// The most recent time at which the audience model was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceModelArn: String, createTime: Date, description: String? = nil, name: String, status: AudienceModelStatus, trainingDatasetArn: String, updateTime: Date) {
             self.audienceModelArn = audienceModelArn
             self.createTime = createTime
@@ -283,6 +288,7 @@ extension CleanRoomsML {
         /// The relevance scores of the generated audience.
         public let relevanceMetrics: [RelevanceMetric]
 
+        @inlinable
         public init(recallMetric: Double? = nil, relevanceMetrics: [RelevanceMetric]) {
             self.recallMetric = recallMetric
             self.relevanceMetrics = relevanceMetrics
@@ -300,6 +306,7 @@ extension CleanRoomsML {
         /// Specify an audience size value.
         public let value: Int
 
+        @inlinable
         public init(type: AudienceSizeType, value: Int) {
             self.type = type
             self.value = value
@@ -322,6 +329,7 @@ extension CleanRoomsML {
         /// Whether the audience output sizes are defined as an absolute number or a percentage.
         public let audienceSizeType: AudienceSizeType
 
+        @inlinable
         public init(audienceSizeBins: [Int], audienceSizeType: AudienceSizeType) {
             self.audienceSizeBins = audienceSizeBins
             self.audienceSizeType = audienceSizeType
@@ -348,6 +356,7 @@ extension CleanRoomsML {
         /// The data type of column.
         public let columnTypes: [ColumnType]
 
+        @inlinable
         public init(columnName: String, columnTypes: [ColumnType]) {
             self.columnName = columnName
             self.columnTypes = columnTypes
@@ -372,6 +381,7 @@ extension CleanRoomsML {
         /// The ARN of the IAM role that can write the Amazon S3 bucket.
         public let roleArn: String
 
+        @inlinable
         public init(destination: AudienceDestination, roleArn: String) {
             self.destination = destination
             self.roleArn = roleArn
@@ -408,6 +418,7 @@ extension CleanRoomsML {
         /// The most recent time at which the configured audience model was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceModelArn: String, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, name: String, outputConfig: ConfiguredAudienceModelOutputConfig, status: ConfiguredAudienceModelStatus, updateTime: Date) {
             self.audienceModelArn = audienceModelArn
             self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -447,6 +458,7 @@ extension CleanRoomsML {
         /// The start date and time of the training window.
         public let trainingDataStartTime: Date?
 
+        @inlinable
         public init(description: String? = nil, kmsKeyArn: String? = nil, name: String, tags: [String: String]? = nil, trainingDataEndTime: Date? = nil, trainingDatasetArn: String, trainingDataStartTime: Date? = nil) {
             self.description = description
             self.kmsKeyArn = kmsKeyArn
@@ -492,6 +504,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the audience model.
         public let audienceModelArn: String
 
+        @inlinable
         public init(audienceModelArn: String) {
             self.audienceModelArn = audienceModelArn
         }
@@ -521,6 +534,7 @@ extension CleanRoomsML {
         /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [String: String]?
 
+        @inlinable
         public init(audienceModelArn: String, audienceSizeConfig: AudienceSizeConfig? = nil, childResourceTagOnCreatePolicy: TagOnCreatePolicy? = nil, description: String? = nil, minMatchingSeedSize: Int? = nil, name: String, outputConfig: ConfiguredAudienceModelOutputConfig, sharedAudienceMetrics: [SharedAudienceMetrics], tags: [String: String]? = nil) {
             self.audienceModelArn = audienceModelArn
             self.audienceSizeConfig = audienceSizeConfig
@@ -573,6 +587,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the configured audience model.
         public let configuredAudienceModelArn: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
         }
@@ -594,6 +609,7 @@ extension CleanRoomsML {
         /// An array of information that lists the Dataset objects, which specifies the dataset type and details on its location and schema. You must provide a role that has read access to these tables.
         public let trainingData: [Dataset]
 
+        @inlinable
         public init(description: String? = nil, name: String, roleArn: String, tags: [String: String]? = nil, trainingData: [Dataset]) {
             self.description = description
             self.name = name
@@ -635,6 +651,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the training dataset resource.
         public let trainingDatasetArn: String
 
+        @inlinable
         public init(trainingDatasetArn: String) {
             self.trainingDatasetArn = trainingDatasetArn
         }
@@ -648,6 +665,7 @@ extension CleanRoomsML {
         /// A GlueDataSource object that defines the catalog ID, database name, and table name for the training data.
         public let glueDataSource: GlueDataSource
 
+        @inlinable
         public init(glueDataSource: GlueDataSource) {
             self.glueDataSource = glueDataSource
         }
@@ -667,6 +685,7 @@ extension CleanRoomsML {
         /// What type of information is found in the dataset.
         public let type: DatasetType
 
+        @inlinable
         public init(inputConfig: DatasetInputConfig, type: DatasetType) {
             self.inputConfig = inputConfig
             self.type = type
@@ -688,6 +707,7 @@ extension CleanRoomsML {
         /// The schema information for the training data.
         public let schema: [ColumnSchema]
 
+        @inlinable
         public init(dataSource: DataSource, schema: [ColumnSchema]) {
             self.dataSource = dataSource
             self.schema = schema
@@ -710,6 +730,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the audience generation job that you want to delete.
         public let audienceGenerationJobArn: String
 
+        @inlinable
         public init(audienceGenerationJobArn: String) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
         }
@@ -733,6 +754,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the audience model that you want to delete.
         public let audienceModelArn: String
 
+        @inlinable
         public init(audienceModelArn: String) {
             self.audienceModelArn = audienceModelArn
         }
@@ -756,6 +778,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the configured audience model policy that you want to delete.
         public let configuredAudienceModelArn: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
         }
@@ -779,6 +802,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the configured audience model that you want to delete.
         public let configuredAudienceModelArn: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
         }
@@ -802,6 +826,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the training dataset that you want to delete.
         public let trainingDatasetArn: String
 
+        @inlinable
         public init(trainingDatasetArn: String) {
             self.trainingDatasetArn = trainingDatasetArn
         }
@@ -825,6 +850,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the audience generation job that you are interested in.
         public let audienceGenerationJobArn: String
 
+        @inlinable
         public init(audienceGenerationJobArn: String) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
         }
@@ -876,6 +902,7 @@ extension CleanRoomsML {
         /// The most recent time at which the audience generation job was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceGenerationJobArn: String, collaborationId: String? = nil, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, includeSeedInOutput: Bool? = nil, metrics: AudienceQualityMetrics? = nil, name: String, protectedQueryIdentifier: String? = nil, seedAudience: AudienceGenerationJobDataSource? = nil, startedBy: String? = nil, status: AudienceGenerationJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.collaborationId = collaborationId
@@ -917,6 +944,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the audience model that you are interested in.
         public let audienceModelArn: String
 
+        @inlinable
         public init(audienceModelArn: String) {
             self.audienceModelArn = audienceModelArn
         }
@@ -962,6 +990,7 @@ extension CleanRoomsML {
         /// The most recent time at which the audience model was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceModelArn: String, createTime: Date, description: String? = nil, kmsKeyArn: String? = nil, name: String, status: AudienceModelStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, trainingDataEndTime: Date? = nil, trainingDatasetArn: String, trainingDataStartTime: Date? = nil, updateTime: Date) {
             self.audienceModelArn = audienceModelArn
             self.createTime = createTime
@@ -997,6 +1026,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the configured audience model that you are interested in.
         public let configuredAudienceModelArn: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
         }
@@ -1024,6 +1054,7 @@ extension CleanRoomsML {
         /// A cryptographic hash of the contents of the policy used to prevent unexpected concurrent modification of the policy.
         public let policyHash: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String, configuredAudienceModelPolicy: String, policyHash: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
             self.configuredAudienceModelPolicy = configuredAudienceModelPolicy
@@ -1041,6 +1072,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the configured audience model that you are interested in.
         public let configuredAudienceModelArn: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
         }
@@ -1088,6 +1120,7 @@ extension CleanRoomsML {
         /// The most recent time at which the configured audience model was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(audienceModelArn: String, audienceSizeConfig: AudienceSizeConfig? = nil, childResourceTagOnCreatePolicy: TagOnCreatePolicy? = nil, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, minMatchingSeedSize: Int? = nil, name: String, outputConfig: ConfiguredAudienceModelOutputConfig, sharedAudienceMetrics: [SharedAudienceMetrics], status: ConfiguredAudienceModelStatus, tags: [String: String]? = nil, updateTime: Date) {
             self.audienceModelArn = audienceModelArn
             self.audienceSizeConfig = audienceSizeConfig
@@ -1125,6 +1158,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the training dataset that you are interested in.
         public let trainingDatasetArn: String
 
+        @inlinable
         public init(trainingDatasetArn: String) {
             self.trainingDatasetArn = trainingDatasetArn
         }
@@ -1164,6 +1198,7 @@ extension CleanRoomsML {
         /// The most recent time at which the training dataset was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(createTime: Date, description: String? = nil, name: String, roleArn: String, status: TrainingDatasetStatus, tags: [String: String]? = nil, trainingData: [Dataset], trainingDatasetArn: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -1197,6 +1232,7 @@ extension CleanRoomsML {
         /// The Glue table that contains the training data.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -1230,6 +1266,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(audienceGenerationJobArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.maxResults = maxResults
@@ -1263,6 +1300,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(audienceExportJobs: [AudienceExportJobSummary], nextToken: String? = nil) {
             self.audienceExportJobs = audienceExportJobs
             self.nextToken = nextToken
@@ -1284,6 +1322,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationId: String? = nil, configuredAudienceModelArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collaborationId = collaborationId
             self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -1322,6 +1361,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(audienceGenerationJobs: [AudienceGenerationJobSummary], nextToken: String? = nil) {
             self.audienceGenerationJobs = audienceGenerationJobs
             self.nextToken = nextToken
@@ -1339,6 +1379,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1367,6 +1408,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(audienceModels: [AudienceModelSummary], nextToken: String? = nil) {
             self.audienceModels = audienceModels
             self.nextToken = nextToken
@@ -1384,6 +1426,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1412,6 +1455,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(configuredAudienceModels: [ConfiguredAudienceModelSummary], nextToken: String? = nil) {
             self.configuredAudienceModels = configuredAudienceModels
             self.nextToken = nextToken
@@ -1427,6 +1471,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the resource that you are interested in.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1450,6 +1495,7 @@ extension CleanRoomsML {
         /// The tags that are associated with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1465,6 +1511,7 @@ extension CleanRoomsML {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1493,6 +1540,7 @@ extension CleanRoomsML {
         /// The training datasets that match the request.
         public let trainingDatasets: [TrainingDatasetSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, trainingDatasets: [TrainingDatasetSummary]) {
             self.nextToken = nextToken
             self.trainingDatasets = trainingDatasets
@@ -1512,6 +1560,7 @@ extension CleanRoomsML {
         /// The query string to be submitted.
         public let queryString: String?
 
+        @inlinable
         public init(analysisTemplateArn: String? = nil, parameters: [String: String]? = nil, queryString: String? = nil) {
             self.analysisTemplateArn = analysisTemplateArn
             self.parameters = parameters
@@ -1546,6 +1595,7 @@ extension CleanRoomsML {
         /// A cryptographic hash of the contents of the policy used to prevent unexpected concurrent modification of the policy.
         public let previousPolicyHash: String?
 
+        @inlinable
         public init(configuredAudienceModelArn: String, configuredAudienceModelPolicy: String, policyExistenceCondition: PolicyExistenceCondition? = nil, previousPolicyHash: String? = nil) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
             self.configuredAudienceModelPolicy = configuredAudienceModelPolicy
@@ -1586,6 +1636,7 @@ extension CleanRoomsML {
         /// A cryptographic hash of the contents of the policy used to prevent unexpected concurrent modification of the policy.
         public let policyHash: String
 
+        @inlinable
         public init(configuredAudienceModelPolicy: String, policyHash: String) {
             self.configuredAudienceModelPolicy = configuredAudienceModelPolicy
             self.policyHash = policyHash
@@ -1602,6 +1653,7 @@ extension CleanRoomsML {
         /// The relevance score of the generated audience.
         public let score: Double?
 
+        @inlinable
         public init(audienceSize: AudienceSize, score: Double? = nil) {
             self.audienceSize = audienceSize
             self.score = score
@@ -1617,6 +1669,7 @@ extension CleanRoomsML {
         /// The Amazon S3 location URI.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -1641,6 +1694,7 @@ extension CleanRoomsML {
         /// The name of the audience export job.
         public let name: String
 
+        @inlinable
         public init(audienceGenerationJobArn: String, audienceSize: AudienceSize, description: String? = nil, name: String) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
             self.audienceSize = audienceSize
@@ -1684,6 +1738,7 @@ extension CleanRoomsML {
         /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [String: String]?
 
+        @inlinable
         public init(collaborationId: String? = nil, configuredAudienceModelArn: String, description: String? = nil, includeSeedInOutput: Bool? = nil, name: String, seedAudience: AudienceGenerationJobDataSource, tags: [String: String]? = nil) {
             self.collaborationId = collaborationId
             self.configuredAudienceModelArn = configuredAudienceModelArn
@@ -1730,6 +1785,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the audience generation job.
         public let audienceGenerationJobArn: String
 
+        @inlinable
         public init(audienceGenerationJobArn: String) {
             self.audienceGenerationJobArn = audienceGenerationJobArn
         }
@@ -1745,6 +1801,7 @@ extension CleanRoomsML {
         /// The status code that was returned. The status code is intended for programmatic error handling. Clean Rooms ML will not change the status code for existing error conditions.
         public let statusCode: String?
 
+        @inlinable
         public init(message: String? = nil, statusCode: String? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -1762,6 +1819,7 @@ extension CleanRoomsML {
         /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1809,6 +1867,7 @@ extension CleanRoomsML {
         /// The most recent time at which the training dataset was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(createTime: Date, description: String? = nil, name: String, status: TrainingDatasetStatus, trainingDatasetArn: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -1834,6 +1893,7 @@ extension CleanRoomsML {
         /// The key values of tags that you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1880,6 +1940,7 @@ extension CleanRoomsML {
         /// The new value for whether to share audience metrics.
         public let sharedAudienceMetrics: [SharedAudienceMetrics]?
 
+        @inlinable
         public init(audienceModelArn: String? = nil, audienceSizeConfig: AudienceSizeConfig? = nil, configuredAudienceModelArn: String, description: String? = nil, minMatchingSeedSize: Int? = nil, outputConfig: ConfiguredAudienceModelOutputConfig? = nil, sharedAudienceMetrics: [SharedAudienceMetrics]? = nil) {
             self.audienceModelArn = audienceModelArn
             self.audienceSizeConfig = audienceSizeConfig
@@ -1933,6 +1994,7 @@ extension CleanRoomsML {
         /// The Amazon Resource Name (ARN) of the configured audience model that was updated.
         public let configuredAudienceModelArn: String
 
+        @inlinable
         public init(configuredAudienceModelArn: String) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
         }

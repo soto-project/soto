@@ -125,6 +125,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskIdentifier: String
 
+        @inlinable
         public init(taskIdentifier: String) {
             self.taskIdentifier = taskIdentifier
         }
@@ -156,6 +157,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskId: String
 
+        @inlinable
         public init(format: Format? = nil, graphId: String? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
@@ -181,6 +183,7 @@ extension NeptuneGraph {
         /// The unique identifier of the query to cancel.
         public let queryId: String
 
+        @inlinable
         public init(graphIdentifier: String, queryId: String) {
             self.graphIdentifier = graphIdentifier
             self.queryId = queryId
@@ -219,6 +222,7 @@ extension NeptuneGraph {
         /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension=value. Max = 65,535
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(deletionProtection: Bool? = nil, graphName: String, kmsKeyIdentifier: String? = nil, provisionedMemory: Int, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, tags: [String: String]? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.deletionProtection = deletionProtection
             self.graphName = graphName
@@ -295,6 +299,7 @@ extension NeptuneGraph {
         /// The vector-search configuration for the graph, which specifies the vector dimension to use in the vector index, if any.
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.arn = arn
             self.buildNumber = buildNumber
@@ -340,6 +345,7 @@ extension NeptuneGraph {
         /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
         public let tags: [String: String]?
 
+        @inlinable
         public init(graphIdentifier: String, snapshotName: String, tags: [String: String]? = nil) {
             self.graphIdentifier = graphIdentifier
             self.snapshotName = snapshotName
@@ -383,6 +389,7 @@ extension NeptuneGraph {
         /// The current state of the snapshot.
         public let status: SnapshotStatus?
 
+        @inlinable
         public init(arn: String, id: String, kmsKeyIdentifier: String? = nil, name: String, snapshotCreateTime: Date? = nil, sourceGraphId: String? = nil, status: SnapshotStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -436,6 +443,7 @@ extension NeptuneGraph {
         /// Specifies the number of dimensions for vector embeddings that will be loaded into the graph. The value is specified as dimension=value. Max = 65,535
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(blankNodeHandling: BlankNodeHandling? = nil, deletionProtection: Bool? = nil, failOnError: Bool? = nil, format: Format? = nil, graphName: String, importOptions: ImportOptions? = nil, kmsKeyIdentifier: String? = nil, maxProvisionedMemory: Int? = nil, minProvisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, roleArn: String, source: String, tags: [String: String]? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.blankNodeHandling = blankNodeHandling
             self.deletionProtection = deletionProtection
@@ -513,6 +521,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskId: String
 
+        @inlinable
         public init(format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
@@ -544,6 +553,7 @@ extension NeptuneGraph {
         /// Security groups to be attached to the private graph endpoint..
         public let vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(graphIdentifier: String, subnetIds: [String]? = nil, vpcId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.graphIdentifier = graphIdentifier
             self.subnetIds = subnetIds
@@ -592,6 +602,7 @@ extension NeptuneGraph {
         /// VPC in which the private graph endpoint is created.
         public let vpcId: String
 
+        @inlinable
         public init(status: PrivateGraphEndpointStatus, subnetIds: [String], vpcEndpointId: String? = nil, vpcId: String) {
             self.status = status
             self.subnetIds = subnetIds
@@ -613,6 +624,7 @@ extension NeptuneGraph {
         /// Determines whether a final graph snapshot is created before the graph is deleted. If true is specified, no graph snapshot is created. If false is specified, a graph snapshot is created before the graph is deleted.
         public let skipSnapshot: Bool
 
+        @inlinable
         public init(graphIdentifier: String, skipSnapshot: Bool) {
             self.graphIdentifier = graphIdentifier
             self.skipSnapshot = skipSnapshot
@@ -663,6 +675,7 @@ extension NeptuneGraph {
         public let statusReason: String?
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.arn = arn
             self.buildNumber = buildNumber
@@ -704,6 +717,7 @@ extension NeptuneGraph {
         /// ID of the graph snapshot to be deleted.
         public let snapshotIdentifier: String
 
+        @inlinable
         public init(snapshotIdentifier: String) {
             self.snapshotIdentifier = snapshotIdentifier
         }
@@ -737,6 +751,7 @@ extension NeptuneGraph {
         /// The status of the graph snapshot.
         public let status: SnapshotStatus?
 
+        @inlinable
         public init(arn: String, id: String, kmsKeyIdentifier: String? = nil, name: String, snapshotCreateTime: Date? = nil, sourceGraphId: String? = nil, status: SnapshotStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -764,6 +779,7 @@ extension NeptuneGraph {
         /// The ID of the VPC where the private endpoint is located.
         public let vpcId: String
 
+        @inlinable
         public init(graphIdentifier: String, vpcId: String) {
             self.graphIdentifier = graphIdentifier
             self.vpcId = vpcId
@@ -794,6 +810,7 @@ extension NeptuneGraph {
         /// The ID of the VPC where the private endpoint was deleted.
         public let vpcId: String
 
+        @inlinable
         public init(status: PrivateGraphEndpointStatus, subnetIds: [String], vpcEndpointId: String? = nil, vpcId: String) {
             self.status = status
             self.subnetIds = subnetIds
@@ -815,6 +832,7 @@ extension NeptuneGraph {
         /// A list of the properties associated with the edge.
         public let edgeProperties: [String]?
 
+        @inlinable
         public init(count: Int64? = nil, edgeProperties: [String]? = nil) {
             self.count = count
             self.edgeProperties = edgeProperties
@@ -842,6 +860,7 @@ extension NeptuneGraph {
         /// Specifies the query timeout duration, in milliseconds. (optional)
         public let queryTimeoutMilliseconds: Int?
 
+        @inlinable
         public init(explainMode: ExplainMode? = nil, graphIdentifier: String, language: QueryLanguage, parameters: [String: String]? = nil, planCache: PlanCacheType? = nil, queryString: String, queryTimeoutMilliseconds: Int? = nil) {
             self.explainMode = explainMode
             self.graphIdentifier = graphIdentifier
@@ -884,6 +903,7 @@ extension NeptuneGraph {
         /// The query results.
         public let payload: AWSHTTPBody
 
+        @inlinable
         public init(payload: AWSHTTPBody) {
             self.payload = payload
         }
@@ -900,6 +920,7 @@ extension NeptuneGraph {
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
 
+        @inlinable
         public init(graphIdentifier: String) {
             self.graphIdentifier = graphIdentifier
         }
@@ -948,6 +969,7 @@ extension NeptuneGraph {
         public let statusReason: String?
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.arn = arn
             self.buildNumber = buildNumber
@@ -989,6 +1011,7 @@ extension NeptuneGraph {
         /// The ID of the snapshot to retrieve.
         public let snapshotIdentifier: String
 
+        @inlinable
         public init(snapshotIdentifier: String) {
             self.snapshotIdentifier = snapshotIdentifier
         }
@@ -1022,6 +1045,7 @@ extension NeptuneGraph {
         /// The status of the graph snapshot.
         public let status: SnapshotStatus?
 
+        @inlinable
         public init(arn: String, id: String, kmsKeyIdentifier: String? = nil, name: String, snapshotCreateTime: Date? = nil, sourceGraphId: String? = nil, status: SnapshotStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -1049,6 +1073,7 @@ extension NeptuneGraph {
         /// The summary mode can take one of two values: basic (the default), and detailed.
         public let mode: GraphSummaryMode?
 
+        @inlinable
         public init(graphIdentifier: String, mode: GraphSummaryMode? = nil) {
             self.graphIdentifier = graphIdentifier
             self.mode = mode
@@ -1077,6 +1102,7 @@ extension NeptuneGraph {
         /// Display the version of this tool.
         public let version: String?
 
+        @inlinable
         public init(graphSummary: GraphDataSummary? = nil, lastStatisticsComputationTime: Date? = nil, version: String? = nil) {
             self.graphSummary = graphSummary
             self.lastStatisticsComputationTime = lastStatisticsComputationTime
@@ -1094,6 +1120,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskIdentifier: String
 
+        @inlinable
         public init(taskIdentifier: String) {
             self.taskIdentifier = taskIdentifier
         }
@@ -1133,6 +1160,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskId: String
 
+        @inlinable
         public init(attemptNumber: Int? = nil, format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, importTaskDetails: ImportTaskDetails? = nil, roleArn: String, source: String, status: ImportTaskStatus, statusReason: String? = nil, taskId: String) {
             self.attemptNumber = attemptNumber
             self.format = format
@@ -1166,6 +1194,7 @@ extension NeptuneGraph {
         /// The ID of the VPC where the private endpoint is located.
         public let vpcId: String
 
+        @inlinable
         public init(graphIdentifier: String, vpcId: String) {
             self.graphIdentifier = graphIdentifier
             self.vpcId = vpcId
@@ -1196,6 +1225,7 @@ extension NeptuneGraph {
         /// The ID of the VPC where the private endpoint is located.
         public let vpcId: String
 
+        @inlinable
         public init(status: PrivateGraphEndpointStatus, subnetIds: [String], vpcEndpointId: String? = nil, vpcId: String) {
             self.status = status
             self.subnetIds = subnetIds
@@ -1217,6 +1247,7 @@ extension NeptuneGraph {
         /// The ID of the query in question.
         public let queryId: String
 
+        @inlinable
         public init(graphIdentifier: String, queryId: String) {
             self.graphIdentifier = graphIdentifier
             self.queryId = queryId
@@ -1249,6 +1280,7 @@ extension NeptuneGraph {
         /// Indicates how long the query waited, in milliseconds.
         public let waited: Int?
 
+        @inlinable
         public init(elapsed: Int? = nil, id: String? = nil, queryString: String? = nil, state: QueryState? = nil, waited: Int? = nil) {
             self.elapsed = elapsed
             self.id = id
@@ -1296,6 +1328,7 @@ extension NeptuneGraph {
         /// The total number of usages of all node properties.
         public let totalNodePropertyValues: Int64?
 
+        @inlinable
         public init(edgeLabels: [String]? = nil, edgeProperties: [[String: Int64]]? = nil, edgeStructures: [EdgeStructure]? = nil, nodeLabels: [String]? = nil, nodeProperties: [[String: Int64]]? = nil, nodeStructures: [NodeStructure]? = nil, numEdgeLabels: Int64? = nil, numEdgeProperties: Int64? = nil, numEdges: Int64? = nil, numNodeLabels: Int64? = nil, numNodeProperties: Int64? = nil, numNodes: Int64? = nil, totalEdgePropertyValues: Int64? = nil, totalNodePropertyValues: Int64? = nil) {
             self.edgeLabels = edgeLabels
             self.edgeProperties = edgeProperties
@@ -1347,6 +1380,7 @@ extension NeptuneGraph {
         /// The status of the graph snapshot.
         public let status: SnapshotStatus?
 
+        @inlinable
         public init(arn: String, id: String, kmsKeyIdentifier: String? = nil, name: String, snapshotCreateTime: Date? = nil, sourceGraphId: String? = nil, status: SnapshotStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -1390,6 +1424,7 @@ extension NeptuneGraph {
         /// The status of the graph.
         public let status: GraphStatus?
 
+        @inlinable
         public init(arn: String, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, status: GraphStatus? = nil) {
             self.arn = arn
             self.deletionProtection = deletionProtection
@@ -1435,6 +1470,7 @@ extension NeptuneGraph {
         /// Seconds elapsed since the import task started.
         public let timeElapsedSeconds: Int64
 
+        @inlinable
         public init(dictionaryEntryCount: Int64, errorCount: Int, errorDetails: String? = nil, progressPercentage: Int, startTime: Date, statementCount: Int64, status: String, timeElapsedSeconds: Int64) {
             self.dictionaryEntryCount = dictionaryEntryCount
             self.errorCount = errorCount
@@ -1472,6 +1508,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskId: String
 
+        @inlinable
         public init(format: Format? = nil, graphId: String? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
@@ -1499,6 +1536,7 @@ extension NeptuneGraph {
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(graphIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.graphIdentifier = graphIdentifier
             self.maxResults = maxResults
@@ -1530,6 +1568,7 @@ extension NeptuneGraph {
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(graphSnapshots: [GraphSnapshotSummary], nextToken: String? = nil) {
             self.graphSnapshots = graphSnapshots
             self.nextToken = nextToken
@@ -1547,6 +1586,7 @@ extension NeptuneGraph {
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1575,6 +1615,7 @@ extension NeptuneGraph {
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(graphs: [GraphSummary], nextToken: String? = nil) {
             self.graphs = graphs
             self.nextToken = nextToken
@@ -1592,6 +1633,7 @@ extension NeptuneGraph {
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1620,6 +1662,7 @@ extension NeptuneGraph {
         /// The requested list of import tasks.
         public let tasks: [ImportTaskSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [ImportTaskSummary]) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -1639,6 +1682,7 @@ extension NeptuneGraph {
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(graphIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.graphIdentifier = graphIdentifier
             self.maxResults = maxResults
@@ -1670,6 +1714,7 @@ extension NeptuneGraph {
         /// A list of private endpoints for the specified Neptune Analytics graph.
         public let privateGraphEndpoints: [PrivateGraphEndpointSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, privateGraphEndpoints: [PrivateGraphEndpointSummary]) {
             self.nextToken = nextToken
             self.privateGraphEndpoints = privateGraphEndpoints
@@ -1689,6 +1734,7 @@ extension NeptuneGraph {
         /// Filtered list of queries based on state.
         public let state: QueryStateInput?
 
+        @inlinable
         public init(graphIdentifier: String, maxResults: Int, state: QueryStateInput? = nil) {
             self.graphIdentifier = graphIdentifier
             self.maxResults = maxResults
@@ -1715,6 +1761,7 @@ extension NeptuneGraph {
         /// A list of current openCypher queries.
         public let queries: [QuerySummary]
 
+        @inlinable
         public init(queries: [QuerySummary]) {
             self.queries = queries
         }
@@ -1728,6 +1775,7 @@ extension NeptuneGraph {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1751,6 +1799,7 @@ extension NeptuneGraph {
         /// The list of metadata tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1770,6 +1819,7 @@ extension NeptuneGraph {
         /// The path to an S3 bucket from which to import data.
         public let s3ExportPath: String
 
+        @inlinable
         public init(preserveDefaultVertexLabels: Bool? = nil, preserveEdgeIds: Bool? = nil, s3ExportKmsKeyId: String, s3ExportPath: String) {
             self.preserveDefaultVertexLabels = preserveDefaultVertexLabels
             self.preserveEdgeIds = preserveEdgeIds
@@ -1793,6 +1843,7 @@ extension NeptuneGraph {
         /// Properties associated with this node.
         public let nodeProperties: [String]?
 
+        @inlinable
         public init(count: Int64? = nil, distinctOutgoingEdgeLabels: [String]? = nil, nodeProperties: [String]? = nil) {
             self.count = count
             self.distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabels
@@ -1816,6 +1867,7 @@ extension NeptuneGraph {
         /// The ID of the VPC in which the private graph endpoint is located.
         public let vpcId: String
 
+        @inlinable
         public init(status: PrivateGraphEndpointStatus, subnetIds: [String], vpcEndpointId: String? = nil, vpcId: String) {
             self.status = status
             self.subnetIds = subnetIds
@@ -1843,6 +1895,7 @@ extension NeptuneGraph {
         /// The amount of time, in milliseconds, the query has waited in the queue before being picked up by a worker thread.
         public let waited: Int?
 
+        @inlinable
         public init(elapsed: Int? = nil, id: String? = nil, queryString: String? = nil, state: QueryState? = nil, waited: Int? = nil) {
             self.elapsed = elapsed
             self.id = id
@@ -1866,6 +1919,7 @@ extension NeptuneGraph {
         /// Determines whether a final graph snapshot is created before the graph data is deleted. If set to true, no graph snapshot is created. If set to false, a graph snapshot is created before the data is deleted.
         public let skipSnapshot: Bool
 
+        @inlinable
         public init(graphIdentifier: String, skipSnapshot: Bool) {
             self.graphIdentifier = graphIdentifier
             self.skipSnapshot = skipSnapshot
@@ -1918,6 +1972,7 @@ extension NeptuneGraph {
         public let statusReason: String?
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.arn = arn
             self.buildNumber = buildNumber
@@ -1971,6 +2026,7 @@ extension NeptuneGraph {
         /// Adds metadata tags to the snapshot. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deletionProtection: Bool? = nil, graphName: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, snapshotIdentifier: String, tags: [String: String]? = nil) {
             self.deletionProtection = deletionProtection
             self.graphName = graphName
@@ -2052,6 +2108,7 @@ extension NeptuneGraph {
         public let statusReason: String?
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.arn = arn
             self.buildNumber = buildNumber
@@ -2104,6 +2161,7 @@ extension NeptuneGraph {
         /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a  Neptune database endpoint or snapshot.
         public let source: String
 
+        @inlinable
         public init(blankNodeHandling: BlankNodeHandling? = nil, failOnError: Bool? = nil, format: Format? = nil, graphIdentifier: String, importOptions: ImportOptions? = nil, roleArn: String, source: String) {
             self.blankNodeHandling = blankNodeHandling
             self.failOnError = failOnError
@@ -2156,6 +2214,7 @@ extension NeptuneGraph {
         /// The unique identifier of the import task.
         public let taskId: String
 
+        @inlinable
         public init(format: Format? = nil, graphId: String? = nil, importOptions: ImportOptions? = nil, roleArn: String, source: String, status: ImportTaskStatus, taskId: String) {
             self.format = format
             self.graphId = graphId
@@ -2183,6 +2242,7 @@ extension NeptuneGraph {
         /// The tags to be assigned to the Neptune Analytics resource. The tags are metadata that are specified as a list of key-value pairs:  Key (string)   –   A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$").  Value (string)   –   A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$").
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2223,6 +2283,7 @@ extension NeptuneGraph {
         /// Tag keys for the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2264,6 +2325,7 @@ extension NeptuneGraph {
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
         public let publicConnectivity: Bool?
 
+        @inlinable
         public init(deletionProtection: Bool? = nil, graphIdentifier: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil) {
             self.deletionProtection = deletionProtection
             self.graphIdentifier = graphIdentifier
@@ -2324,6 +2386,7 @@ extension NeptuneGraph {
         public let statusReason: String?
         public let vectorSearchConfiguration: VectorSearchConfiguration?
 
+        @inlinable
         public init(arn: String, buildNumber: String? = nil, createTime: Date? = nil, deletionProtection: Bool? = nil, endpoint: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String, provisionedMemory: Int? = nil, publicConnectivity: Bool? = nil, replicaCount: Int? = nil, sourceSnapshotId: String? = nil, status: GraphStatus? = nil, statusReason: String? = nil, vectorSearchConfiguration: VectorSearchConfiguration? = nil) {
             self.arn = arn
             self.buildNumber = buildNumber
@@ -2365,6 +2428,7 @@ extension NeptuneGraph {
         /// The number of dimensions.
         public let dimension: Int
 
+        @inlinable
         public init(dimension: Int) {
             self.dimension = dimension
         }
@@ -2383,6 +2447,7 @@ extension NeptuneGraph {
         /// Options for importing data from a Neptune database.
         public let neptune: NeptuneImportOptions?
 
+        @inlinable
         public init(neptune: NeptuneImportOptions? = nil) {
             self.neptune = neptune
         }

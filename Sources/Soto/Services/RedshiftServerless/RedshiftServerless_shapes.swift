@@ -137,6 +137,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String?
 
+        @inlinable
         public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
@@ -158,6 +159,7 @@ extension RedshiftServerless {
         /// The value of the parameter to set.
         public let parameterValue: String?
 
+        @inlinable
         public init(parameterKey: String? = nil, parameterValue: String? = nil) {
             self.parameterKey = parameterKey
             self.parameterValue = parameterValue
@@ -179,6 +181,7 @@ extension RedshiftServerless {
         /// An array of Tag objects  to associate with the created snapshot.
         public let tags: [Tag]?
 
+        @inlinable
         public init(recoveryPointId: String, retentionPeriod: Int? = nil, snapshotName: String, tags: [Tag]? = nil) {
             self.recoveryPointId = recoveryPointId
             self.retentionPeriod = retentionPeriod
@@ -205,6 +208,7 @@ extension RedshiftServerless {
         /// The snapshot converted from the recovery point.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -222,6 +226,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String
 
+        @inlinable
         public init(customDomainCertificateArn: String, customDomainName: String, workgroupName: String) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainName = customDomainName
@@ -257,6 +262,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String?
 
+        @inlinable
         public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
@@ -284,6 +290,7 @@ extension RedshiftServerless {
         /// The name of the workgroup to associate with the VPC endpoint.
         public let workgroupName: String
 
+        @inlinable
         public init(endpointName: String, ownerAccount: String? = nil, subnetIds: [String], vpcSecurityGroupIds: [String]? = nil, workgroupName: String) {
             self.endpointName = endpointName
             self.ownerAccount = ownerAccount
@@ -311,6 +318,7 @@ extension RedshiftServerless {
         /// The created VPC endpoint.
         public let endpoint: EndpointAccess?
 
+        @inlinable
         public init(endpoint: EndpointAccess? = nil) {
             self.endpoint = endpoint
         }
@@ -346,6 +354,7 @@ extension RedshiftServerless {
         /// A list of tag instances.
         public let tags: [Tag]?
 
+        @inlinable
         public init(adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, adminUserPassword: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, redshiftIdcApplicationArn: String? = nil, tags: [Tag]? = nil) {
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
@@ -394,6 +403,7 @@ extension RedshiftServerless {
         /// The created namespace object.
         public let namespace: Namespace?
 
+        @inlinable
         public init(namespace: Namespace? = nil) {
             self.namespace = namespace
         }
@@ -422,6 +432,7 @@ extension RedshiftServerless {
         public let startTime: Date?
         public let targetAction: TargetAction
 
+        @inlinable
         public init(enabled: Bool? = nil, endTime: Date? = nil, namespaceName: String, roleArn: String, schedule: Schedule, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: Date? = nil, targetAction: TargetAction) {
             self.enabled = enabled
             self.endTime = endTime
@@ -461,6 +472,7 @@ extension RedshiftServerless {
         /// The returned ScheduledAction object that describes the properties of a scheduled action.
         public let scheduledAction: ScheduledActionResponse?
 
+        @inlinable
         public init(scheduledAction: ScheduledActionResponse? = nil) {
             self.scheduledAction = scheduledAction
         }
@@ -480,6 +492,7 @@ extension RedshiftServerless {
         /// The retention period of the snapshots that you copy to the destination Amazon Web Services Region.
         public let snapshotRetentionPeriod: Int?
 
+        @inlinable
         public init(destinationKmsKeyId: String? = nil, destinationRegion: String, namespaceName: String, snapshotRetentionPeriod: Int? = nil) {
             self.destinationKmsKeyId = destinationKmsKeyId
             self.destinationRegion = destinationRegion
@@ -505,6 +518,7 @@ extension RedshiftServerless {
         /// The snapshot copy configuration object that is returned.
         public let snapshotCopyConfiguration: SnapshotCopyConfiguration
 
+        @inlinable
         public init(snapshotCopyConfiguration: SnapshotCopyConfiguration) {
             self.snapshotCopyConfiguration = snapshotCopyConfiguration
         }
@@ -524,6 +538,7 @@ extension RedshiftServerless {
         /// An array of Tag objects to associate with the snapshot.
         public let tags: [Tag]?
 
+        @inlinable
         public init(namespaceName: String, retentionPeriod: Int? = nil, snapshotName: String, tags: [Tag]? = nil) {
             self.namespaceName = namespaceName
             self.retentionPeriod = retentionPeriod
@@ -550,6 +565,7 @@ extension RedshiftServerless {
         /// The created snapshot object.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -569,6 +585,7 @@ extension RedshiftServerless {
         /// An array of Tag objects to associate with the snapshot.
         public let tags: [Tag]?
 
+        @inlinable
         public init(namespaceName: String, retentionPeriod: Int? = nil, snapshotNamePrefix: String, tags: [Tag]? = nil) {
             self.namespaceName = namespaceName
             self.retentionPeriod = retentionPeriod
@@ -608,6 +625,7 @@ extension RedshiftServerless {
         /// The type of Amazon Redshift Serverless usage to create a usage limit for.
         public let usageType: UsageLimitUsageType
 
+        @inlinable
         public init(amount: Int64, breachAction: UsageLimitBreachAction? = nil, period: UsageLimitPeriod? = nil, resourceArn: String, usageType: UsageLimitUsageType) {
             self.amount = amount
             self.breachAction = breachAction
@@ -629,6 +647,7 @@ extension RedshiftServerless {
         /// The returned usage limit object.
         public let usageLimit: UsageLimit?
 
+        @inlinable
         public init(usageLimit: UsageLimit? = nil) {
             self.usageLimit = usageLimit
         }
@@ -664,6 +683,7 @@ extension RedshiftServerless {
         /// The name of the created workgroup.
         public let workgroupName: String
 
+        @inlinable
         public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
@@ -713,6 +733,7 @@ extension RedshiftServerless {
         /// The created workgroup object.
         public let workgroup: Workgroup?
 
+        @inlinable
         public init(workgroup: Workgroup? = nil) {
             self.workgroup = workgroup
         }
@@ -728,6 +749,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String
 
+        @inlinable
         public init(customDomainName: String, workgroupName: String) {
             self.customDomainName = customDomainName
             self.workgroupName = workgroupName
@@ -756,6 +778,7 @@ extension RedshiftServerless {
         /// The name of the VPC endpoint to delete.
         public let endpointName: String
 
+        @inlinable
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -769,6 +792,7 @@ extension RedshiftServerless {
         /// The deleted VPC endpoint.
         public let endpoint: EndpointAccess?
 
+        @inlinable
         public init(endpoint: EndpointAccess? = nil) {
             self.endpoint = endpoint
         }
@@ -786,6 +810,7 @@ extension RedshiftServerless {
         /// The name of the namespace to delete.
         public let namespaceName: String
 
+        @inlinable
         public init(finalSnapshotName: String? = nil, finalSnapshotRetentionPeriod: Int? = nil, namespaceName: String) {
             self.finalSnapshotName = finalSnapshotName
             self.finalSnapshotRetentionPeriod = finalSnapshotRetentionPeriod
@@ -809,6 +834,7 @@ extension RedshiftServerless {
         /// The deleted namespace object.
         public let namespace: Namespace
 
+        @inlinable
         public init(namespace: Namespace) {
             self.namespace = namespace
         }
@@ -822,6 +848,7 @@ extension RedshiftServerless {
         /// The Amazon Resource Name (ARN) of the policy to delete.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -839,6 +866,7 @@ extension RedshiftServerless {
         /// The name of the scheduled action to delete.
         public let scheduledActionName: String
 
+        @inlinable
         public init(scheduledActionName: String) {
             self.scheduledActionName = scheduledActionName
         }
@@ -858,6 +886,7 @@ extension RedshiftServerless {
         /// The deleted scheduled action object.
         public let scheduledAction: ScheduledActionResponse?
 
+        @inlinable
         public init(scheduledAction: ScheduledActionResponse? = nil) {
             self.scheduledAction = scheduledAction
         }
@@ -871,6 +900,7 @@ extension RedshiftServerless {
         /// The ID of the snapshot copy configuration to delete.
         public let snapshotCopyConfigurationId: String
 
+        @inlinable
         public init(snapshotCopyConfigurationId: String) {
             self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
         }
@@ -884,6 +914,7 @@ extension RedshiftServerless {
         /// The deleted snapshot copy configuration object.
         public let snapshotCopyConfiguration: SnapshotCopyConfiguration
 
+        @inlinable
         public init(snapshotCopyConfiguration: SnapshotCopyConfiguration) {
             self.snapshotCopyConfiguration = snapshotCopyConfiguration
         }
@@ -897,6 +928,7 @@ extension RedshiftServerless {
         /// The name of the snapshot to be deleted.
         public let snapshotName: String
 
+        @inlinable
         public init(snapshotName: String) {
             self.snapshotName = snapshotName
         }
@@ -910,6 +942,7 @@ extension RedshiftServerless {
         /// The deleted snapshot object.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -923,6 +956,7 @@ extension RedshiftServerless {
         /// The unique identifier of the usage limit to delete.
         public let usageLimitId: String
 
+        @inlinable
         public init(usageLimitId: String) {
             self.usageLimitId = usageLimitId
         }
@@ -936,6 +970,7 @@ extension RedshiftServerless {
         /// The deleted usage limit object.
         public let usageLimit: UsageLimit?
 
+        @inlinable
         public init(usageLimit: UsageLimit? = nil) {
             self.usageLimit = usageLimit
         }
@@ -949,6 +984,7 @@ extension RedshiftServerless {
         /// The name of the workgroup to be deleted.
         public let workgroupName: String
 
+        @inlinable
         public init(workgroupName: String) {
             self.workgroupName = workgroupName
         }
@@ -968,6 +1004,7 @@ extension RedshiftServerless {
         /// The deleted workgroup object.
         public let workgroup: Workgroup
 
+        @inlinable
         public init(workgroup: Workgroup) {
             self.workgroup = workgroup
         }
@@ -985,6 +1022,7 @@ extension RedshiftServerless {
         /// An array of VpcEndpoint objects.
         public let vpcEndpoints: [VpcEndpoint]?
 
+        @inlinable
         public init(address: String? = nil, port: Int? = nil, vpcEndpoints: [VpcEndpoint]? = nil) {
             self.address = address
             self.port = port
@@ -1020,6 +1058,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the endpoint.
         public let workgroupName: String?
 
+        @inlinable
         public init(address: String? = nil, endpointArn: String? = nil, endpointCreateTime: Date? = nil, endpointName: String? = nil, endpointStatus: String? = nil, port: Int? = nil, subnetIds: [String]? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil, workgroupName: String? = nil) {
             self.address = address
             self.endpointArn = endpointArn
@@ -1057,6 +1096,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String?
 
+        @inlinable
         public init(customDomainName: String? = nil, dbName: String? = nil, durationSeconds: Int? = nil, workgroupName: String? = nil) {
             self.customDomainName = customDomainName
             self.dbName = dbName
@@ -1091,6 +1131,7 @@ extension RedshiftServerless {
         /// The date and time of when the DbUser and DbPassword  authorization refreshes.
         public let nextRefreshTime: Date?
 
+        @inlinable
         public init(dbPassword: String? = nil, dbUser: String? = nil, expiration: Date? = nil, nextRefreshTime: Date? = nil) {
             self.dbPassword = dbPassword
             self.dbUser = dbUser
@@ -1112,6 +1153,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String
 
+        @inlinable
         public init(customDomainName: String, workgroupName: String) {
             self.customDomainName = customDomainName
             self.workgroupName = workgroupName
@@ -1142,6 +1184,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String?
 
+        @inlinable
         public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
@@ -1161,6 +1204,7 @@ extension RedshiftServerless {
         /// The name of the VPC endpoint to return information for.
         public let endpointName: String
 
+        @inlinable
         public init(endpointName: String) {
             self.endpointName = endpointName
         }
@@ -1174,6 +1218,7 @@ extension RedshiftServerless {
         /// The returned VPC endpoint.
         public let endpoint: EndpointAccess?
 
+        @inlinable
         public init(endpoint: EndpointAccess? = nil) {
             self.endpoint = endpoint
         }
@@ -1187,6 +1232,7 @@ extension RedshiftServerless {
         /// The name of the namespace to retrieve information for.
         public let namespaceName: String
 
+        @inlinable
         public init(namespaceName: String) {
             self.namespaceName = namespaceName
         }
@@ -1206,6 +1252,7 @@ extension RedshiftServerless {
         /// The returned namespace object.
         public let namespace: Namespace
 
+        @inlinable
         public init(namespace: Namespace) {
             self.namespace = namespace
         }
@@ -1219,6 +1266,7 @@ extension RedshiftServerless {
         /// The unique identifier of the recovery point to return information for.
         public let recoveryPointId: String
 
+        @inlinable
         public init(recoveryPointId: String) {
             self.recoveryPointId = recoveryPointId
         }
@@ -1232,6 +1280,7 @@ extension RedshiftServerless {
         /// The returned recovery point object.
         public let recoveryPoint: RecoveryPoint?
 
+        @inlinable
         public init(recoveryPoint: RecoveryPoint? = nil) {
             self.recoveryPoint = recoveryPoint
         }
@@ -1245,6 +1294,7 @@ extension RedshiftServerless {
         /// The Amazon Resource Name (ARN) of the resource to return.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1258,6 +1308,7 @@ extension RedshiftServerless {
         /// The returned resource policy.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -1271,6 +1322,7 @@ extension RedshiftServerless {
         /// The name of the scheduled action.
         public let scheduledActionName: String
 
+        @inlinable
         public init(scheduledActionName: String) {
             self.scheduledActionName = scheduledActionName
         }
@@ -1290,6 +1342,7 @@ extension RedshiftServerless {
         /// The returned scheduled action object.
         public let scheduledAction: ScheduledActionResponse?
 
+        @inlinable
         public init(scheduledAction: ScheduledActionResponse? = nil) {
             self.scheduledAction = scheduledAction
         }
@@ -1307,6 +1360,7 @@ extension RedshiftServerless {
         /// The name of the snapshot to return.
         public let snapshotName: String?
 
+        @inlinable
         public init(ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotName: String? = nil) {
             self.ownerAccount = ownerAccount
             self.snapshotArn = snapshotArn
@@ -1324,6 +1378,7 @@ extension RedshiftServerless {
         /// The returned snapshot object.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -1337,6 +1392,7 @@ extension RedshiftServerless {
         /// The ID of the RestoreTableFromSnapshot request to return status for.
         public let tableRestoreRequestId: String
 
+        @inlinable
         public init(tableRestoreRequestId: String) {
             self.tableRestoreRequestId = tableRestoreRequestId
         }
@@ -1350,6 +1406,7 @@ extension RedshiftServerless {
         /// The returned TableRestoreStatus object that contains information about the status of your RestoreTableFromSnapshot request.
         public let tableRestoreStatus: TableRestoreStatus?
 
+        @inlinable
         public init(tableRestoreStatus: TableRestoreStatus? = nil) {
             self.tableRestoreStatus = tableRestoreStatus
         }
@@ -1363,6 +1420,7 @@ extension RedshiftServerless {
         /// The unique identifier of the usage limit to return information for.
         public let usageLimitId: String
 
+        @inlinable
         public init(usageLimitId: String) {
             self.usageLimitId = usageLimitId
         }
@@ -1376,6 +1434,7 @@ extension RedshiftServerless {
         /// The returned usage limit object.
         public let usageLimit: UsageLimit?
 
+        @inlinable
         public init(usageLimit: UsageLimit? = nil) {
             self.usageLimit = usageLimit
         }
@@ -1389,6 +1448,7 @@ extension RedshiftServerless {
         /// The name of the workgroup to return information for.
         public let workgroupName: String
 
+        @inlinable
         public init(workgroupName: String) {
             self.workgroupName = workgroupName
         }
@@ -1408,6 +1468,7 @@ extension RedshiftServerless {
         /// The returned workgroup object.
         public let workgroup: Workgroup
 
+        @inlinable
         public init(workgroup: Workgroup) {
             self.workgroup = workgroup
         }
@@ -1427,6 +1488,7 @@ extension RedshiftServerless {
         /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(customDomainCertificateArn: String? = nil, customDomainName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainName = customDomainName
@@ -1466,6 +1528,7 @@ extension RedshiftServerless {
         /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(associations: [Association]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -1489,6 +1552,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the VPC endpoint to return.
         public let workgroupName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil, vpcId: String? = nil, workgroupName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1526,6 +1590,7 @@ extension RedshiftServerless {
         /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(endpoints: [EndpointAccess], nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -1543,6 +1608,7 @@ extension RedshiftServerless {
         /// If your initial ListNamespaces operation returns a nextToken, you can include the returned nextToken in following ListNamespaces operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1564,6 +1630,7 @@ extension RedshiftServerless {
         /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(namespaces: [Namespace], nextToken: String? = nil) {
             self.namespaces = namespaces
             self.nextToken = nextToken
@@ -1589,6 +1656,7 @@ extension RedshiftServerless {
         /// The time when the recovery point's creation was initiated.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, maxResults: Int? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1629,6 +1697,7 @@ extension RedshiftServerless {
         /// The returned recovery point objects.
         public let recoveryPoints: [RecoveryPoint]?
 
+        @inlinable
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPoint]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
@@ -1648,6 +1717,7 @@ extension RedshiftServerless {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namespaceName = namespaceName
@@ -1681,6 +1751,7 @@ extension RedshiftServerless {
         /// All of the returned scheduled action association objects.
         public let scheduledActions: [ScheduledActionAssociation]?
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledActions: [ScheduledActionAssociation]? = nil) {
             self.nextToken = nextToken
             self.scheduledActions = scheduledActions
@@ -1700,6 +1771,7 @@ extension RedshiftServerless {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using  the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namespaceName = namespaceName
@@ -1733,6 +1805,7 @@ extension RedshiftServerless {
         /// All of the returned snapshot copy configurations.
         public let snapshotCopyConfigurations: [SnapshotCopyConfiguration]
 
+        @inlinable
         public init(nextToken: String? = nil, snapshotCopyConfigurations: [SnapshotCopyConfiguration]) {
             self.nextToken = nextToken
             self.snapshotCopyConfigurations = snapshotCopyConfigurations
@@ -1760,6 +1833,7 @@ extension RedshiftServerless {
         /// The time when the creation of the snapshot was initiated.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, maxResults: Int? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, nextToken: String? = nil, ownerAccount: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1797,6 +1871,7 @@ extension RedshiftServerless {
         /// All of the returned snapshot objects.
         public let snapshots: [Snapshot]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -1818,6 +1893,7 @@ extension RedshiftServerless {
         /// The workgroup from which to list all of the statuses of RestoreTableFromSnapshot operations.
         public let workgroupName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namespaceName: String? = nil, nextToken: String? = nil, workgroupName: String? = nil) {
             self.maxResults = maxResults
             self.namespaceName = namespaceName
@@ -1851,6 +1927,7 @@ extension RedshiftServerless {
         /// The array of returned TableRestoreStatus objects.
         public let tableRestoreStatuses: [TableRestoreStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, tableRestoreStatuses: [TableRestoreStatus]? = nil) {
             self.nextToken = nextToken
             self.tableRestoreStatuses = tableRestoreStatuses
@@ -1866,6 +1943,7 @@ extension RedshiftServerless {
         /// The Amazon Resource Name (ARN) of the resource to list tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1884,6 +1962,7 @@ extension RedshiftServerless {
         /// A map of the key-value pairs assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1903,6 +1982,7 @@ extension RedshiftServerless {
         /// The Amazon Redshift Serverless feature whose limits you want to see.
         public let usageType: UsageLimitUsageType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil, usageType: UsageLimitUsageType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1936,6 +2016,7 @@ extension RedshiftServerless {
         /// An array of returned usage limit objects.
         public let usageLimits: [UsageLimit]?
 
+        @inlinable
         public init(nextToken: String? = nil, usageLimits: [UsageLimit]? = nil) {
             self.nextToken = nextToken
             self.usageLimits = usageLimits
@@ -1955,6 +2036,7 @@ extension RedshiftServerless {
         /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup.
         public let ownerAccount: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1986,6 +2068,7 @@ extension RedshiftServerless {
         /// The returned array of workgroups.
         public let workgroups: [Workgroup]
 
+        @inlinable
         public init(nextToken: String? = nil, workgroups: [Workgroup]) {
             self.nextToken = nextToken
             self.workgroups = workgroups
@@ -2025,6 +2108,7 @@ extension RedshiftServerless {
         /// The status of the namespace.
         public let status: NamespaceStatus?
 
+        @inlinable
         public init(adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, status: NamespaceStatus? = nil) {
             self.adminPasswordSecretArn = adminPasswordSecretArn
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
@@ -2070,6 +2154,7 @@ extension RedshiftServerless {
         /// The unique identifier of the subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, ipv6Address: String? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.ipv6Address = ipv6Address
@@ -2093,6 +2178,7 @@ extension RedshiftServerless {
         /// The Amazon Resource Name (ARN) of the account to create or update a resource policy for.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -2108,6 +2194,7 @@ extension RedshiftServerless {
         /// The policy that was created or updated.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -2131,6 +2218,7 @@ extension RedshiftServerless {
         /// The name of the workgroup the recovery point is associated with.
         public let workgroupName: String?
 
+        @inlinable
         public init(namespaceArn: String? = nil, namespaceName: String? = nil, recoveryPointCreateTime: Date? = nil, recoveryPointId: String? = nil, totalSizeInMegaBytes: Double? = nil, workgroupName: String? = nil) {
             self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
@@ -2156,6 +2244,7 @@ extension RedshiftServerless {
         /// The Amazon Resource Name (ARN) of the policy.
         public let resourceArn: String?
 
+        @inlinable
         public init(policy: String? = nil, resourceArn: String? = nil) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -2175,6 +2264,7 @@ extension RedshiftServerless {
         /// The name of the workgroup used to restore data.
         public let workgroupName: String
 
+        @inlinable
         public init(namespaceName: String, recoveryPointId: String, workgroupName: String) {
             self.namespaceName = namespaceName
             self.recoveryPointId = recoveryPointId
@@ -2203,6 +2293,7 @@ extension RedshiftServerless {
         /// The unique identifier of the recovery point used for the restore.
         public let recoveryPointId: String?
 
+        @inlinable
         public init(namespace: Namespace? = nil, recoveryPointId: String? = nil) {
             self.namespace = namespace
             self.recoveryPointId = recoveryPointId
@@ -2230,6 +2321,7 @@ extension RedshiftServerless {
         /// The name of the workgroup used to restore the snapshot.
         public let workgroupName: String
 
+        @inlinable
         public init(adminPasswordSecretKmsKeyId: String? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotName: String? = nil, workgroupName: String) {
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.manageAdminPassword = manageAdminPassword
@@ -2267,6 +2359,7 @@ extension RedshiftServerless {
         /// The name of the snapshot used to restore the namespace.
         public let snapshotName: String?
 
+        @inlinable
         public init(namespace: Namespace? = nil, ownerAccount: String? = nil, snapshotName: String? = nil) {
             self.namespace = namespace
             self.ownerAccount = ownerAccount
@@ -2302,6 +2395,7 @@ extension RedshiftServerless {
         /// The workgroup to restore the table to.
         public let workgroupName: String
 
+        @inlinable
         public init(activateCaseSensitiveIdentifier: Bool? = nil, namespaceName: String, newTableName: String, recoveryPointId: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, workgroupName: String) {
             self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
             self.namespaceName = namespaceName
@@ -2332,6 +2426,7 @@ extension RedshiftServerless {
     public struct RestoreTableFromRecoveryPointResponse: AWSDecodableShape {
         public let tableRestoreStatus: TableRestoreStatus?
 
+        @inlinable
         public init(tableRestoreStatus: TableRestoreStatus? = nil) {
             self.tableRestoreStatus = tableRestoreStatus
         }
@@ -2363,6 +2458,7 @@ extension RedshiftServerless {
         /// The workgroup to restore the table to.
         public let workgroupName: String
 
+        @inlinable
         public init(activateCaseSensitiveIdentifier: Bool? = nil, namespaceName: String, newTableName: String, snapshotName: String, sourceDatabaseName: String, sourceSchemaName: String? = nil, sourceTableName: String, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, workgroupName: String) {
             self.activateCaseSensitiveIdentifier = activateCaseSensitiveIdentifier
             self.namespaceName = namespaceName
@@ -2394,6 +2490,7 @@ extension RedshiftServerless {
         /// The TableRestoreStatus object that contains the status of the restore operation.
         public let tableRestoreStatus: TableRestoreStatus?
 
+        @inlinable
         public init(tableRestoreStatus: TableRestoreStatus? = nil) {
             self.tableRestoreStatus = tableRestoreStatus
         }
@@ -2409,6 +2506,7 @@ extension RedshiftServerless {
         /// Name of associated scheduled action.
         public let scheduledActionName: String?
 
+        @inlinable
         public init(namespaceName: String? = nil, scheduledActionName: String? = nil) {
             self.namespaceName = namespaceName
             self.scheduledActionName = scheduledActionName
@@ -2443,6 +2541,7 @@ extension RedshiftServerless {
         public let state: State?
         public let targetAction: TargetAction?
 
+        @inlinable
         public init(endTime: Date? = nil, namespaceName: String? = nil, nextInvocations: [Date]? = nil, roleArn: String? = nil, schedule: Schedule? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String? = nil, scheduledActionUuid: String? = nil, startTime: Date? = nil, state: State? = nil, targetAction: TargetAction? = nil) {
             self.endTime = endTime
             self.namespaceName = namespaceName
@@ -2518,6 +2617,7 @@ extension RedshiftServerless {
         /// The total size, in megabytes, of how big the snapshot is.
         public let totalBackupSizeInMegaBytes: Double?
 
+        @inlinable
         public init(accountsWithProvisionedRestoreAccess: [String]? = nil, accountsWithRestoreAccess: [String]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, backupProgressInMegaBytes: Double? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, ownerAccount: String? = nil, snapshotArn: String? = nil, snapshotCreateTime: Date? = nil, snapshotName: String? = nil, snapshotRemainingDays: Int? = nil, snapshotRetentionPeriod: Int? = nil, snapshotRetentionStartTime: Date? = nil, status: SnapshotStatus? = nil, totalBackupSizeInMegaBytes: Double? = nil) {
             self.accountsWithProvisionedRestoreAccess = accountsWithProvisionedRestoreAccess
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
@@ -2583,6 +2683,7 @@ extension RedshiftServerless {
         /// The retention period of snapshots that are copied to the destination Amazon Web Services Region.
         public let snapshotRetentionPeriod: Int?
 
+        @inlinable
         public init(destinationKmsKeyId: String? = nil, destinationRegion: String? = nil, namespaceName: String? = nil, snapshotCopyConfigurationArn: String? = nil, snapshotCopyConfigurationId: String? = nil, snapshotRetentionPeriod: Int? = nil) {
             self.destinationKmsKeyId = destinationKmsKeyId
             self.destinationRegion = destinationRegion
@@ -2636,6 +2737,7 @@ extension RedshiftServerless {
         /// The name of the workgroup being restored from.
         public let workgroupName: String?
 
+        @inlinable
         public init(message: String? = nil, namespaceName: String? = nil, newTableName: String? = nil, progressInMegaBytes: Int64? = nil, recoveryPointId: String? = nil, requestTime: Date? = nil, snapshotName: String? = nil, sourceDatabaseName: String? = nil, sourceSchemaName: String? = nil, sourceTableName: String? = nil, status: String? = nil, tableRestoreRequestId: String? = nil, targetDatabaseName: String? = nil, targetSchemaName: String? = nil, totalDataInMegaBytes: Int64? = nil, workgroupName: String? = nil) {
             self.message = message
             self.namespaceName = namespaceName
@@ -2681,6 +2783,7 @@ extension RedshiftServerless {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2704,6 +2807,7 @@ extension RedshiftServerless {
         /// The map of the key-value pairs used to tag the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2734,6 +2838,7 @@ extension RedshiftServerless {
         /// The tag or set of tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2767,6 +2872,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String
 
+        @inlinable
         public init(customDomainCertificateArn: String, customDomainName: String, workgroupName: String) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainName = customDomainName
@@ -2802,6 +2908,7 @@ extension RedshiftServerless {
         /// The name of the workgroup associated with the database.
         public let workgroupName: String?
 
+        @inlinable
         public init(customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, workgroupName: String? = nil) {
             self.customDomainCertificateArn = customDomainCertificateArn
             self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
@@ -2823,6 +2930,7 @@ extension RedshiftServerless {
         /// The list of VPC security groups associated with the endpoint after the endpoint is modified.
         public let vpcSecurityGroupIds: [String]?
 
+        @inlinable
         public init(endpointName: String, vpcSecurityGroupIds: [String]? = nil) {
             self.endpointName = endpointName
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -2838,6 +2946,7 @@ extension RedshiftServerless {
         /// The updated VPC endpoint.
         public let endpoint: EndpointAccess?
 
+        @inlinable
         public init(endpoint: EndpointAccess? = nil) {
             self.endpoint = endpoint
         }
@@ -2867,6 +2976,7 @@ extension RedshiftServerless {
         /// The name of the namespace to update. You can't update the name of a namespace once it is created.
         public let namespaceName: String
 
+        @inlinable
         public init(adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, adminUserPassword: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, manageAdminPassword: Bool? = nil, namespaceName: String) {
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
@@ -2903,6 +3013,7 @@ extension RedshiftServerless {
         /// A list of tag instances.
         public let namespace: Namespace
 
+        @inlinable
         public init(namespace: Namespace) {
             self.namespace = namespace
         }
@@ -2929,6 +3040,7 @@ extension RedshiftServerless {
         public let startTime: Date?
         public let targetAction: TargetAction?
 
+        @inlinable
         public init(enabled: Bool? = nil, endTime: Date? = nil, roleArn: String? = nil, schedule: Schedule? = nil, scheduledActionDescription: String? = nil, scheduledActionName: String, startTime: Date? = nil, targetAction: TargetAction? = nil) {
             self.enabled = enabled
             self.endTime = endTime
@@ -2963,6 +3075,7 @@ extension RedshiftServerless {
         /// The ScheduledAction object that was updated.
         public let scheduledAction: ScheduledActionResponse?
 
+        @inlinable
         public init(scheduledAction: ScheduledActionResponse? = nil) {
             self.scheduledAction = scheduledAction
         }
@@ -2978,6 +3091,7 @@ extension RedshiftServerless {
         /// The new retention period of how long to keep a snapshot in the destination Amazon Web Services Region.
         public let snapshotRetentionPeriod: Int?
 
+        @inlinable
         public init(snapshotCopyConfigurationId: String, snapshotRetentionPeriod: Int? = nil) {
             self.snapshotCopyConfigurationId = snapshotCopyConfigurationId
             self.snapshotRetentionPeriod = snapshotRetentionPeriod
@@ -2993,6 +3107,7 @@ extension RedshiftServerless {
         /// The updated snapshot copy configuration object.
         public let snapshotCopyConfiguration: SnapshotCopyConfiguration
 
+        @inlinable
         public init(snapshotCopyConfiguration: SnapshotCopyConfiguration) {
             self.snapshotCopyConfiguration = snapshotCopyConfiguration
         }
@@ -3008,6 +3123,7 @@ extension RedshiftServerless {
         /// The name of the snapshot.
         public let snapshotName: String
 
+        @inlinable
         public init(retentionPeriod: Int? = nil, snapshotName: String) {
             self.retentionPeriod = retentionPeriod
             self.snapshotName = snapshotName
@@ -3023,6 +3139,7 @@ extension RedshiftServerless {
         /// The updated snapshot object.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -3040,6 +3157,7 @@ extension RedshiftServerless {
         /// The identifier of the usage limit to update.
         public let usageLimitId: String
 
+        @inlinable
         public init(amount: Int64? = nil, breachAction: UsageLimitBreachAction? = nil, usageLimitId: String) {
             self.amount = amount
             self.breachAction = breachAction
@@ -3057,6 +3175,7 @@ extension RedshiftServerless {
         /// The updated usage limit object.
         public let usageLimit: UsageLimit?
 
+        @inlinable
         public init(usageLimit: UsageLimit? = nil) {
             self.usageLimit = usageLimit
         }
@@ -3088,6 +3207,7 @@ extension RedshiftServerless {
         /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
         public let workgroupName: String
 
+        @inlinable
         public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
@@ -3126,6 +3246,7 @@ extension RedshiftServerless {
         /// The updated workgroup object.
         public let workgroup: Workgroup
 
+        @inlinable
         public init(workgroup: Workgroup) {
             self.workgroup = workgroup
         }
@@ -3151,6 +3272,7 @@ extension RedshiftServerless {
         /// The Amazon Redshift Serverless feature to limit.
         public let usageType: UsageLimitUsageType?
 
+        @inlinable
         public init(amount: Int64? = nil, breachAction: UsageLimitBreachAction? = nil, period: UsageLimitPeriod? = nil, resourceArn: String? = nil, usageLimitArn: String? = nil, usageLimitId: String? = nil, usageType: UsageLimitUsageType? = nil) {
             self.amount = amount
             self.breachAction = breachAction
@@ -3180,6 +3302,7 @@ extension RedshiftServerless {
         /// The VPC identifier that the endpoint is associated with.
         public let vpcId: String?
 
+        @inlinable
         public init(networkInterfaces: [NetworkInterface]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
             self.networkInterfaces = networkInterfaces
             self.vpcEndpointId = vpcEndpointId
@@ -3199,6 +3322,7 @@ extension RedshiftServerless {
         /// The unique identifier of the VPC security group.
         public let vpcSecurityGroupId: String?
 
+        @inlinable
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -3256,6 +3380,7 @@ extension RedshiftServerless {
         /// The Amazon Redshift Serverless version of your workgroup. For more information about Amazon Redshift Serverless versions, seeCluster versions for Amazon Redshift.
         public let workgroupVersion: String?
 
+        @inlinable
         public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
@@ -3310,6 +3435,7 @@ extension RedshiftServerless {
     public struct TargetAction: AWSEncodableShape & AWSDecodableShape {
         public let createSnapshot: CreateSnapshotScheduleActionParameters?
 
+        @inlinable
         public init(createSnapshot: CreateSnapshotScheduleActionParameters? = nil) {
             self.createSnapshot = createSnapshot
         }

@@ -344,6 +344,7 @@ extension DeviceFarm {
         /// Returns the unmetered remote access devices you have purchased or want to purchase.
         public let unmeteredRemoteAccessDevices: [DevicePlatform: Int]?
 
+        @inlinable
         public init(awsAccountNumber: String? = nil, defaultJobTimeoutMinutes: Int? = nil, maxJobTimeoutMinutes: Int? = nil, maxSlots: [String: Int]? = nil, skipAppResign: Bool? = nil, trialMinutes: TrialMinutes? = nil, unmeteredDevices: [DevicePlatform: Int]? = nil, unmeteredRemoteAccessDevices: [DevicePlatform: Int]? = nil) {
             self.awsAccountNumber = awsAccountNumber
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -379,6 +380,7 @@ extension DeviceFarm {
         /// The presigned Amazon S3 URL that can be used with a GET request to download the artifact's file.
         public let url: String?
 
+        @inlinable
         public init(arn: String? = nil, extension: String? = nil, name: String? = nil, type: ArtifactType? = nil, url: String? = nil) {
             self.arn = arn
             self.`extension` = `extension`
@@ -404,6 +406,7 @@ extension DeviceFarm {
         /// The CPU's frequency.
         public let frequency: String?
 
+        @inlinable
         public init(architecture: String? = nil, clock: Double? = nil, frequency: String? = nil) {
             self.architecture = architecture
             self.clock = clock
@@ -433,6 +436,7 @@ extension DeviceFarm {
         /// The number of warned entities.
         public let warned: Int?
 
+        @inlinable
         public init(errored: Int? = nil, failed: Int? = nil, passed: Int? = nil, skipped: Int? = nil, stopped: Int? = nil, total: Int? = nil, warned: Int? = nil) {
             self.errored = errored
             self.failed = failed
@@ -466,6 +470,7 @@ extension DeviceFarm {
         /// The device pool's rules.
         public let rules: [Rule]
 
+        @inlinable
         public init(description: String? = nil, maxDevices: Int? = nil, name: String, projectArn: String, rules: [Rule]) {
             self.description = description
             self.maxDevices = maxDevices
@@ -495,6 +500,7 @@ extension DeviceFarm {
         /// The newly created device pool.
         public let devicePool: DevicePool?
 
+        @inlinable
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
@@ -516,6 +522,7 @@ extension DeviceFarm {
         /// When set to true, Device Farm reboots the instance after a test run. The default value is true.
         public let rebootAfterUse: Bool?
 
+        @inlinable
         public init(description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.description = description
             self.excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup
@@ -542,6 +549,7 @@ extension DeviceFarm {
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
+        @inlinable
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
         }
@@ -577,6 +585,7 @@ extension DeviceFarm {
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         public let uplinkLossPercent: Int?
 
+        @inlinable
         public init(description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String, projectArn: String, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.description = description
             self.downlinkBandwidthBits = downlinkBandwidthBits
@@ -624,6 +633,7 @@ extension DeviceFarm {
         /// The network profile that is returned by the create network profile request.
         public let networkProfile: NetworkProfile?
 
+        @inlinable
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -641,6 +651,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(defaultJobTimeoutMinutes: Int? = nil, name: String, vpcConfig: VpcConfig? = nil) {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
             self.name = name
@@ -663,6 +674,7 @@ extension DeviceFarm {
         /// The newly created project.
         public let project: Project?
 
+        @inlinable
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -678,6 +690,7 @@ extension DeviceFarm {
         /// An array of ARNs included in the VPC endpoint configuration.
         public let vpceConfigurationArns: [String]?
 
+        @inlinable
         public init(billingMethod: BillingMethod? = nil, vpceConfigurationArns: [String]? = nil) {
             self.billingMethod = billingMethod
             self.vpceConfigurationArns = vpceConfigurationArns
@@ -723,6 +736,7 @@ extension DeviceFarm {
         /// Ignored. The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This key is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
         public let sshPublicKey: String?
 
+        @inlinable
         public init(clientId: String? = nil, configuration: CreateRemoteAccessSessionConfiguration? = nil, deviceArn: String, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, name: String? = nil, projectArn: String, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, skipAppResign: Bool? = nil, sshPublicKey: String? = nil) {
             self.clientId = clientId
             self.configuration = configuration
@@ -777,6 +791,7 @@ extension DeviceFarm {
         /// A container that describes the remote access session when the request to create a remote access session is sent.
         public let remoteAccessSession: RemoteAccessSession?
 
+        @inlinable
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
@@ -794,6 +809,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: TestGridVpcConfig?
 
+        @inlinable
         public init(description: String? = nil, name: String, vpcConfig: TestGridVpcConfig? = nil) {
             self.description = description
             self.name = name
@@ -821,6 +837,7 @@ extension DeviceFarm {
         /// ARN of the Selenium testing project that was created.
         public let testGridProject: TestGridProject?
 
+        @inlinable
         public init(testGridProject: TestGridProject? = nil) {
             self.testGridProject = testGridProject
         }
@@ -836,6 +853,7 @@ extension DeviceFarm {
         /// ARN (from CreateTestGridProject or ListTestGridProjects) to associate with the short-term URL.
         public let projectArn: String
 
+        @inlinable
         public init(expiresInSeconds: Int, projectArn: String) {
             self.expiresInSeconds = expiresInSeconds
             self.projectArn = projectArn
@@ -861,6 +879,7 @@ extension DeviceFarm {
         /// A signed URL, expiring in CreateTestGridUrlRequest$expiresInSeconds seconds, to be passed to a RemoteWebDriver.
         public let url: String?
 
+        @inlinable
         public init(expires: Date? = nil, url: String? = nil) {
             self.expires = expires
             self.url = url
@@ -882,6 +901,7 @@ extension DeviceFarm {
         /// The upload's upload type. Must be one of the following values:   ANDROID_APP   IOS_APP   WEB_APP   EXTERNAL_DATA   APPIUM_JAVA_JUNIT_TEST_PACKAGE   APPIUM_JAVA_TESTNG_TEST_PACKAGE   APPIUM_PYTHON_TEST_PACKAGE   APPIUM_NODE_TEST_PACKAGE   APPIUM_RUBY_TEST_PACKAGE   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE   APPIUM_WEB_PYTHON_TEST_PACKAGE   APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   INSTRUMENTATION_TEST_PACKAGE   XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC   APPIUM_JAVA_TESTNG_TEST_SPEC   APPIUM_PYTHON_TEST_SPEC   APPIUM_NODE_TEST_SPEC   APPIUM_RUBY_TEST_SPEC   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC   APPIUM_WEB_PYTHON_TEST_SPEC   APPIUM_WEB_NODE_TEST_SPEC   APPIUM_WEB_RUBY_TEST_SPEC   INSTRUMENTATION_TEST_SPEC   XCTEST_UI_TEST_SPEC   If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error.
         public let type: UploadType
 
+        @inlinable
         public init(contentType: String? = nil, name: String, projectArn: String, type: UploadType) {
             self.contentType = contentType
             self.name = name
@@ -909,6 +929,7 @@ extension DeviceFarm {
         /// The newly created upload.
         public let upload: Upload?
 
+        @inlinable
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
@@ -928,6 +949,7 @@ extension DeviceFarm {
         /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test.
         public let vpceServiceName: String
 
+        @inlinable
         public init(serviceDnsName: String, vpceConfigurationDescription: String? = nil, vpceConfigurationName: String, vpceServiceName: String) {
             self.serviceDnsName = serviceDnsName
             self.vpceConfigurationDescription = vpceConfigurationDescription
@@ -954,6 +976,7 @@ extension DeviceFarm {
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
+        @inlinable
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
         }
@@ -971,6 +994,7 @@ extension DeviceFarm {
         /// Comma-separated list of paths on the iOS device where the artifacts generated by the customer's tests are pulled from.
         public let iosPaths: [String]?
 
+        @inlinable
         public init(androidPaths: [String]? = nil, deviceHostPaths: [String]? = nil, iosPaths: [String]? = nil) {
             self.androidPaths = androidPaths
             self.deviceHostPaths = deviceHostPaths
@@ -988,6 +1012,7 @@ extension DeviceFarm {
         /// Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1011,6 +1036,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1034,6 +1060,7 @@ extension DeviceFarm {
         /// The ARN of the network profile to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1057,6 +1084,7 @@ extension DeviceFarm {
         /// Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1080,6 +1108,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1103,6 +1132,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) for the run to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1126,6 +1156,7 @@ extension DeviceFarm {
         /// The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
 
+        @inlinable
         public init(projectArn: String) {
             self.projectArn = projectArn
         }
@@ -1149,6 +1180,7 @@ extension DeviceFarm {
         /// Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1172,6 +1204,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1235,6 +1268,7 @@ extension DeviceFarm {
         /// The resolution of the device.
         public let resolution: Resolution?
 
+        @inlinable
         public init(arn: String? = nil, availability: DeviceAvailability? = nil, carrier: String? = nil, cpu: CPU? = nil, fleetName: String? = nil, fleetType: String? = nil, formFactor: DeviceFormFactor? = nil, heapSize: Int64? = nil, image: String? = nil, instances: [DeviceInstance]? = nil, manufacturer: String? = nil, memory: Int64? = nil, model: String? = nil, modelId: String? = nil, name: String? = nil, os: String? = nil, platform: DevicePlatform? = nil, radio: String? = nil, remoteAccessEnabled: Bool? = nil, remoteDebugEnabled: Bool? = nil, resolution: Resolution? = nil) {
             self.arn = arn
             self.availability = availability
@@ -1292,6 +1326,7 @@ extension DeviceFarm {
         /// An array of one or more filter values used in a device filter.  Operator Values    The IN and NOT_IN operators can take a values array that has more than one element.   The other operators require an array with a single element.    Attribute Values    The PLATFORM attribute can be set to ANDROID or IOS.   The AVAILABILITY attribute can be set to AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   The FORM_FACTOR attribute can be set to PHONE or TABLET.   The FLEET_TYPE attribute can be set to PUBLIC or PRIVATE.
         public let values: [String]
 
+        @inlinable
         public init(attribute: DeviceFilterAttribute, operator: RuleOperator, values: [String]) {
             self.attribute = attribute
             self.`operator` = `operator`
@@ -1319,6 +1354,7 @@ extension DeviceFarm {
         /// Unique device identifier for the device instance.
         public let udid: String?
 
+        @inlinable
         public init(arn: String? = nil, deviceArn: String? = nil, instanceProfile: InstanceProfile? = nil, labels: [String]? = nil, status: InstanceStatus? = nil, udid: String? = nil) {
             self.arn = arn
             self.deviceArn = deviceArn
@@ -1346,6 +1382,7 @@ extension DeviceFarm {
         /// When specified, represents only the sum of unmetered minutes used by the resource to run tests.
         public let unmetered: Double?
 
+        @inlinable
         public init(metered: Double? = nil, total: Double? = nil, unmetered: Double? = nil) {
             self.metered = metered
             self.total = total
@@ -1373,6 +1410,7 @@ extension DeviceFarm {
         /// The device pool's type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.
         public let type: DevicePoolType?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, maxDevices: Int? = nil, name: String? = nil, rules: [Rule]? = nil, type: DevicePoolType? = nil) {
             self.arn = arn
             self.description = description
@@ -1400,6 +1438,7 @@ extension DeviceFarm {
         /// Information about the compatibility.
         public let incompatibilityMessages: [IncompatibilityMessage]?
 
+        @inlinable
         public init(compatible: Bool? = nil, device: Device? = nil, incompatibilityMessages: [IncompatibilityMessage]? = nil) {
             self.compatible = compatible
             self.device = device
@@ -1419,6 +1458,7 @@ extension DeviceFarm {
         /// The maximum number of devices to be included in a test run.
         public let maxDevices: Int
 
+        @inlinable
         public init(filters: [DeviceFilter], maxDevices: Int) {
             self.filters = filters
             self.maxDevices = maxDevices
@@ -1438,6 +1478,7 @@ extension DeviceFarm {
         /// The maximum number of devices to be selected by a device filter and included in a test run.
         public let maxDevices: Int?
 
+        @inlinable
         public init(filters: [DeviceFilter]? = nil, matchedDevicesCount: Int? = nil, maxDevices: Int? = nil) {
             self.filters = filters
             self.matchedDevicesCount = matchedDevicesCount
@@ -1463,6 +1504,7 @@ extension DeviceFarm {
         /// Set to true to enable video capture. Otherwise, set to false. The default is true.
         public let videoCapture: Bool?
 
+        @inlinable
         public init(accountsCleanup: Bool? = nil, appPackagesCleanup: Bool? = nil, jobTimeoutMinutes: Int? = nil, skipAppResign: Bool? = nil, videoCapture: Bool? = nil) {
             self.accountsCleanup = accountsCleanup
             self.appPackagesCleanup = appPackagesCleanup
@@ -1488,6 +1530,7 @@ extension DeviceFarm {
         /// The account settings.
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -1501,6 +1544,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the instance you're requesting information about.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1520,6 +1564,7 @@ extension DeviceFarm {
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
 
+        @inlinable
         public init(deviceInstance: DeviceInstance? = nil) {
             self.deviceInstance = deviceInstance
         }
@@ -1541,6 +1586,7 @@ extension DeviceFarm {
         /// The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ.   APPIUM_JAVA_JUNIT.   APPIUM_JAVA_TESTNG.   APPIUM_PYTHON.   APPIUM_NODE.   APPIUM_RUBY.   APPIUM_WEB_JAVA_JUNIT.   APPIUM_WEB_JAVA_TESTNG.   APPIUM_WEB_PYTHON.   APPIUM_WEB_NODE.   APPIUM_WEB_RUBY.   INSTRUMENTATION.   XCTEST.   XCTEST_UI.
         public let testType: TestType?
 
+        @inlinable
         public init(appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String, test: ScheduleRunTest? = nil, testType: TestType? = nil) {
             self.appArn = appArn
             self.configuration = configuration
@@ -1575,6 +1621,7 @@ extension DeviceFarm {
         /// Information about incompatible devices.
         public let incompatibleDevices: [DevicePoolCompatibilityResult]?
 
+        @inlinable
         public init(compatibleDevices: [DevicePoolCompatibilityResult]? = nil, incompatibleDevices: [DevicePoolCompatibilityResult]? = nil) {
             self.compatibleDevices = compatibleDevices
             self.incompatibleDevices = incompatibleDevices
@@ -1590,6 +1637,7 @@ extension DeviceFarm {
         /// The device pool's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1609,6 +1657,7 @@ extension DeviceFarm {
         /// An object that contains information about the requested device pool.
         public let devicePool: DevicePool?
 
+        @inlinable
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
@@ -1622,6 +1671,7 @@ extension DeviceFarm {
         /// The device type's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1641,6 +1691,7 @@ extension DeviceFarm {
         /// An object that contains information about the requested device.
         public let device: Device?
 
+        @inlinable
         public init(device: Device? = nil) {
             self.device = device
         }
@@ -1654,6 +1705,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of an instance profile.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1673,6 +1725,7 @@ extension DeviceFarm {
         /// An object that contains information about an instance profile.
         public let instanceProfile: InstanceProfile?
 
+        @inlinable
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
         }
@@ -1686,6 +1739,7 @@ extension DeviceFarm {
         /// The job's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1705,6 +1759,7 @@ extension DeviceFarm {
         /// An object that contains information about the requested job.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -1718,6 +1773,7 @@ extension DeviceFarm {
         /// The ARN of the network profile to return information about.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1737,6 +1793,7 @@ extension DeviceFarm {
         /// The network profile.
         public let networkProfile: NetworkProfile?
 
+        @inlinable
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -1750,6 +1807,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1772,6 +1830,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(current: [String: OfferingStatus]? = nil, nextPeriod: [String: OfferingStatus]? = nil, nextToken: String? = nil) {
             self.current = current
             self.nextPeriod = nextPeriod
@@ -1789,6 +1848,7 @@ extension DeviceFarm {
         /// The project's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1808,6 +1868,7 @@ extension DeviceFarm {
         /// The project to get information about.
         public let project: Project?
 
+        @inlinable
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -1821,6 +1882,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1840,6 +1902,7 @@ extension DeviceFarm {
         /// A container that lists detailed information about the remote access session.
         public let remoteAccessSession: RemoteAccessSession?
 
+        @inlinable
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
@@ -1853,6 +1916,7 @@ extension DeviceFarm {
         /// The run's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1872,6 +1936,7 @@ extension DeviceFarm {
         /// The run to get results from.
         public let run: Run?
 
+        @inlinable
         public init(run: Run? = nil) {
             self.run = run
         }
@@ -1885,6 +1950,7 @@ extension DeviceFarm {
         /// The suite's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1904,6 +1970,7 @@ extension DeviceFarm {
         /// A collection of one or more tests.
         public let suite: Suite?
 
+        @inlinable
         public init(suite: Suite? = nil) {
             self.suite = suite
         }
@@ -1917,6 +1984,7 @@ extension DeviceFarm {
         /// The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects.
         public let projectArn: String
 
+        @inlinable
         public init(projectArn: String) {
             self.projectArn = projectArn
         }
@@ -1936,6 +2004,7 @@ extension DeviceFarm {
         /// A TestGridProject.
         public let testGridProject: TestGridProject?
 
+        @inlinable
         public init(testGridProject: TestGridProject? = nil) {
             self.testGridProject = testGridProject
         }
@@ -1953,6 +2022,7 @@ extension DeviceFarm {
         /// An ID associated with this session.
         public let sessionId: String?
 
+        @inlinable
         public init(projectArn: String? = nil, sessionArn: String? = nil, sessionId: String? = nil) {
             self.projectArn = projectArn
             self.sessionArn = sessionArn
@@ -1982,6 +2052,7 @@ extension DeviceFarm {
         /// The TestGridSession that was requested.
         public let testGridSession: TestGridSession?
 
+        @inlinable
         public init(testGridSession: TestGridSession? = nil) {
             self.testGridSession = testGridSession
         }
@@ -1995,6 +2066,7 @@ extension DeviceFarm {
         /// The test's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2014,6 +2086,7 @@ extension DeviceFarm {
         /// A test condition that is evaluated.
         public let test: Test?
 
+        @inlinable
         public init(test: Test? = nil) {
             self.test = test
         }
@@ -2027,6 +2100,7 @@ extension DeviceFarm {
         /// The upload's ARN.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2046,6 +2120,7 @@ extension DeviceFarm {
         /// An app or a set of one or more tests to upload or that have been uploaded.
         public let upload: Upload?
 
+        @inlinable
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
@@ -2059,6 +2134,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2078,6 +2154,7 @@ extension DeviceFarm {
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
+        @inlinable
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
         }
@@ -2093,6 +2170,7 @@ extension DeviceFarm {
         /// The type of incompatibility. Allowed values include:   ARN   FORM_FACTOR (for example, phone or tablet)   MANUFACTURER   PLATFORM (for example, Android or iOS)   REMOTE_ACCESS_ENABLED   APPIUM_VERSION
         public let type: DeviceAttribute?
 
+        @inlinable
         public init(message: String? = nil, type: DeviceAttribute? = nil) {
             self.message = message
             self.type = type
@@ -2110,6 +2188,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
         public let remoteAccessSessionArn: String
 
+        @inlinable
         public init(appArn: String, remoteAccessSessionArn: String) {
             self.appArn = appArn
             self.remoteAccessSessionArn = remoteAccessSessionArn
@@ -2134,6 +2213,7 @@ extension DeviceFarm {
         /// An app to upload or that has been uploaded.
         public let appUpload: Upload?
 
+        @inlinable
         public init(appUpload: Upload? = nil) {
             self.appUpload = appUpload
         }
@@ -2157,6 +2237,7 @@ extension DeviceFarm {
         /// When set to true, Device Farm reboots the instance after a test run. The default value is true.
         public let rebootAfterUse: Bool?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.arn = arn
             self.description = description
@@ -2208,6 +2289,7 @@ extension DeviceFarm {
         /// The endpoint for streaming device video.
         public let videoEndpoint: String?
 
+        @inlinable
         public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil, videoCapture: Bool? = nil, videoEndpoint: String? = nil) {
             self.arn = arn
             self.counters = counters
@@ -2253,6 +2335,7 @@ extension DeviceFarm {
         /// The artifacts' type. Allowed values include:   FILE   LOG   SCREENSHOT
         public let type: ArtifactCategory
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil, type: ArtifactCategory) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2280,6 +2363,7 @@ extension DeviceFarm {
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(artifacts: [Artifact]? = nil, nextToken: String? = nil) {
             self.artifacts = artifacts
             self.nextToken = nextToken
@@ -2297,6 +2381,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2319,6 +2404,7 @@ extension DeviceFarm {
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceInstances: [DeviceInstance]? = nil, nextToken: String? = nil) {
             self.deviceInstances = deviceInstances
             self.nextToken = nextToken
@@ -2338,6 +2424,7 @@ extension DeviceFarm {
         /// The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.
         public let type: DevicePoolType?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil, type: DevicePoolType? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2365,6 +2452,7 @@ extension DeviceFarm {
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(devicePools: [DevicePool]? = nil, nextToken: String? = nil) {
             self.devicePools = devicePools
             self.nextToken = nextToken
@@ -2384,6 +2472,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String? = nil, filters: [DeviceFilter]? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.filters = filters
@@ -2411,6 +2500,7 @@ extension DeviceFarm {
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [Device]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -2428,6 +2518,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2450,6 +2541,7 @@ extension DeviceFarm {
         /// An identifier that can be used in the next call to this operation to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceProfiles: [InstanceProfile]? = nil, nextToken: String? = nil) {
             self.instanceProfiles = instanceProfiles
             self.nextToken = nextToken
@@ -2467,6 +2559,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2492,6 +2585,7 @@ extension DeviceFarm {
         /// If the number of items that are returned is significantly large, this is an identifier that is also returned. It can be used in a subsequent call to this operation to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [Job]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -2511,6 +2605,7 @@ extension DeviceFarm {
         /// The type of network profile to return information about. Valid values are listed here.
         public let type: NetworkProfileType?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil, type: NetworkProfileType? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2538,6 +2633,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(networkProfiles: [NetworkProfile]? = nil, nextToken: String? = nil) {
             self.networkProfiles = networkProfiles
             self.nextToken = nextToken
@@ -2553,6 +2649,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2573,6 +2670,7 @@ extension DeviceFarm {
         /// Information about the offering promotions.
         public let offeringPromotions: [OfferingPromotion]?
 
+        @inlinable
         public init(nextToken: String? = nil, offeringPromotions: [OfferingPromotion]? = nil) {
             self.nextToken = nextToken
             self.offeringPromotions = offeringPromotions
@@ -2588,6 +2686,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2608,6 +2707,7 @@ extension DeviceFarm {
         /// The audit log of subscriptions you have purchased and modified through AWS Device Farm.
         public let offeringTransactions: [OfferingTransaction]?
 
+        @inlinable
         public init(nextToken: String? = nil, offeringTransactions: [OfferingTransaction]? = nil) {
             self.nextToken = nextToken
             self.offeringTransactions = offeringTransactions
@@ -2623,6 +2723,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2643,6 +2744,7 @@ extension DeviceFarm {
         /// A value that represents the list offering results.
         public let offerings: [Offering]?
 
+        @inlinable
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
             self.offerings = offerings
@@ -2660,6 +2762,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2685,6 +2788,7 @@ extension DeviceFarm {
         /// Information about the projects.
         public let projects: [Project]?
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [Project]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -2702,6 +2806,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2727,6 +2832,7 @@ extension DeviceFarm {
         /// A container that represents the metadata from the service about each remote access session you are requesting.
         public let remoteAccessSessions: [RemoteAccessSession]?
 
+        @inlinable
         public init(nextToken: String? = nil, remoteAccessSessions: [RemoteAccessSession]? = nil) {
             self.nextToken = nextToken
             self.remoteAccessSessions = remoteAccessSessions
@@ -2744,6 +2850,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2769,6 +2876,7 @@ extension DeviceFarm {
         /// Information about the runs.
         public let runs: [Run]?
 
+        @inlinable
         public init(nextToken: String? = nil, runs: [Run]? = nil) {
             self.nextToken = nextToken
             self.runs = runs
@@ -2786,6 +2894,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2811,6 +2920,7 @@ extension DeviceFarm {
         /// Information about the samples.
         public let samples: [Sample]?
 
+        @inlinable
         public init(nextToken: String? = nil, samples: [Sample]? = nil) {
             self.nextToken = nextToken
             self.samples = samples
@@ -2828,6 +2938,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2853,6 +2964,7 @@ extension DeviceFarm {
         /// Information about the suites.
         public let suites: [Suite]?
 
+        @inlinable
         public init(nextToken: String? = nil, suites: [Suite]? = nil) {
             self.nextToken = nextToken
             self.suites = suites
@@ -2868,6 +2980,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2887,6 +3000,7 @@ extension DeviceFarm {
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2902,6 +3016,7 @@ extension DeviceFarm {
         /// From a response, used to continue a paginated listing.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResult: Int? = nil, nextToken: String? = nil) {
             self.maxResult = maxResult
             self.nextToken = nextToken
@@ -2926,6 +3041,7 @@ extension DeviceFarm {
         /// The list of TestGridProjects, based on a ListTestGridProjectsRequest.
         public let testGridProjects: [TestGridProject]?
 
+        @inlinable
         public init(nextToken: String? = nil, testGridProjects: [TestGridProject]? = nil) {
             self.nextToken = nextToken
             self.testGridProjects = testGridProjects
@@ -2945,6 +3061,7 @@ extension DeviceFarm {
         /// The ARN of the session to retrieve.
         public let sessionArn: String
 
+        @inlinable
         public init(maxResult: Int? = nil, nextToken: String? = nil, sessionArn: String) {
             self.maxResult = maxResult
             self.nextToken = nextToken
@@ -2974,6 +3091,7 @@ extension DeviceFarm {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(actions: [TestGridSessionAction]? = nil, nextToken: String? = nil) {
             self.actions = actions
             self.nextToken = nextToken
@@ -2995,6 +3113,7 @@ extension DeviceFarm {
         /// Limit results to a specified type of artifact.
         public let type: TestGridSessionArtifactCategory?
 
+        @inlinable
         public init(maxResult: Int? = nil, nextToken: String? = nil, sessionArn: String, type: TestGridSessionArtifactCategory? = nil) {
             self.maxResult = maxResult
             self.nextToken = nextToken
@@ -3026,6 +3145,7 @@ extension DeviceFarm {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(artifacts: [TestGridSessionArtifact]? = nil, nextToken: String? = nil) {
             self.artifacts = artifacts
             self.nextToken = nextToken
@@ -3055,6 +3175,7 @@ extension DeviceFarm {
         /// Return only sessions in this state.
         public let status: TestGridSessionStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endTimeAfter: Date? = nil, endTimeBefore: Date? = nil, maxResult: Int? = nil, nextToken: String? = nil, projectArn: String, status: TestGridSessionStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3094,6 +3215,7 @@ extension DeviceFarm {
         /// The sessions that match the criteria in a ListTestGridSessionsRequest.
         public let testGridSessions: [TestGridSession]?
 
+        @inlinable
         public init(nextToken: String? = nil, testGridSessions: [TestGridSession]? = nil) {
             self.nextToken = nextToken
             self.testGridSessions = testGridSessions
@@ -3111,6 +3233,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3136,6 +3259,7 @@ extension DeviceFarm {
         /// Information about the tests.
         public let tests: [Test]?
 
+        @inlinable
         public init(nextToken: String? = nil, tests: [Test]? = nil) {
             self.nextToken = nextToken
             self.tests = tests
@@ -3153,6 +3277,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3178,6 +3303,7 @@ extension DeviceFarm {
         /// Information about the unique problems. Allowed values include:   PENDING   PASSED   WARNED   FAILED   SKIPPED   ERRORED   STOPPED
         public let uniqueProblems: [ExecutionResult: [UniqueProblem]]?
 
+        @inlinable
         public init(nextToken: String? = nil, uniqueProblems: [ExecutionResult: [UniqueProblem]]? = nil) {
             self.nextToken = nextToken
             self.uniqueProblems = uniqueProblems
@@ -3197,6 +3323,7 @@ extension DeviceFarm {
         /// The type of upload. Must be one of the following values:   ANDROID_APP   IOS_APP   WEB_APP   EXTERNAL_DATA   APPIUM_JAVA_JUNIT_TEST_PACKAGE   APPIUM_JAVA_TESTNG_TEST_PACKAGE   APPIUM_PYTHON_TEST_PACKAGE   APPIUM_NODE_TEST_PACKAGE   APPIUM_RUBY_TEST_PACKAGE   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE   APPIUM_WEB_PYTHON_TEST_PACKAGE   APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   INSTRUMENTATION_TEST_PACKAGE   XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC   APPIUM_JAVA_TESTNG_TEST_SPEC   APPIUM_PYTHON_TEST_SPEC   APPIUM_NODE_TEST_SPEC   APPIUM_RUBY_TEST_SPEC   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC   APPIUM_WEB_PYTHON_TEST_SPEC   APPIUM_WEB_NODE_TEST_SPEC   APPIUM_WEB_RUBY_TEST_SPEC   INSTRUMENTATION_TEST_SPEC   XCTEST_UI_TEST_SPEC
         public let type: UploadType?
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil, type: UploadType? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3224,6 +3351,7 @@ extension DeviceFarm {
         /// Information about the uploads.
         public let uploads: [Upload]?
 
+        @inlinable
         public init(nextToken: String? = nil, uploads: [Upload]? = nil) {
             self.nextToken = nextToken
             self.uploads = uploads
@@ -3241,6 +3369,7 @@ extension DeviceFarm {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3263,6 +3392,7 @@ extension DeviceFarm {
         /// An array of VPCEConfiguration objects that contain information about your VPC endpoint configuration.
         public let vpceConfigurations: [VPCEConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpceConfigurations: [VPCEConfiguration]? = nil) {
             self.nextToken = nextToken
             self.vpceConfigurations = vpceConfigurations
@@ -3280,6 +3410,7 @@ extension DeviceFarm {
         /// The longitude.
         public let longitude: Double
 
+        @inlinable
         public init(latitude: Double, longitude: Double) {
             self.latitude = latitude
             self.longitude = longitude
@@ -3297,6 +3428,7 @@ extension DeviceFarm {
         /// The currency code of a monetary amount. For example, USD means U.S. dollars.
         public let currencyCode: CurrencyCode?
 
+        @inlinable
         public init(amount: Double? = nil, currencyCode: CurrencyCode? = nil) {
             self.amount = amount
             self.currencyCode = currencyCode
@@ -3334,6 +3466,7 @@ extension DeviceFarm {
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         public let uplinkLossPercent: Int?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.arn = arn
             self.description = description
@@ -3377,6 +3510,7 @@ extension DeviceFarm {
         /// The type of offering (for example, RECURRING) for a device.
         public let type: OfferingType?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, platform: DevicePlatform? = nil, recurringCharges: [RecurringCharge]? = nil, type: OfferingType? = nil) {
             self.description = description
             self.id = id
@@ -3400,6 +3534,7 @@ extension DeviceFarm {
         /// The ID of the offering promotion.
         public let id: String?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil) {
             self.description = description
             self.id = id
@@ -3421,6 +3556,7 @@ extension DeviceFarm {
         /// The type specified for the offering status.
         public let type: OfferingTransactionType?
 
+        @inlinable
         public init(effectiveOn: Date? = nil, offering: Offering? = nil, quantity: Int? = nil, type: OfferingTransactionType? = nil) {
             self.effectiveOn = effectiveOn
             self.offering = offering
@@ -3448,6 +3584,7 @@ extension DeviceFarm {
         /// The transaction ID of the offering transaction.
         public let transactionId: String?
 
+        @inlinable
         public init(cost: MonetaryAmount? = nil, createdOn: Date? = nil, offeringPromotionId: String? = nil, offeringStatus: OfferingStatus? = nil, transactionId: String? = nil) {
             self.cost = cost
             self.createdOn = createdOn
@@ -3481,6 +3618,7 @@ extension DeviceFarm {
         /// Information about the associated test.
         public let test: ProblemDetail?
 
+        @inlinable
         public init(device: Device? = nil, job: ProblemDetail? = nil, message: String? = nil, result: ExecutionResult? = nil, run: ProblemDetail? = nil, suite: ProblemDetail? = nil, test: ProblemDetail? = nil) {
             self.device = device
             self.job = job
@@ -3508,6 +3646,7 @@ extension DeviceFarm {
         /// The problem detail's name.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -3531,6 +3670,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.created = created
@@ -3556,6 +3696,7 @@ extension DeviceFarm {
         /// The number of device slots to purchase in an offering request.
         public let quantity: Int
 
+        @inlinable
         public init(offeringId: String, offeringPromotionId: String? = nil, quantity: Int) {
             self.offeringId = offeringId
             self.offeringPromotionId = offeringPromotionId
@@ -3578,6 +3719,7 @@ extension DeviceFarm {
         /// Represents the offering transaction for the purchase result.
         public let offeringTransaction: OfferingTransaction?
 
+        @inlinable
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
         }
@@ -3597,6 +3739,7 @@ extension DeviceFarm {
         /// True if Wi-Fi is enabled at the beginning of the test. Otherwise, false.
         public let wifi: Bool?
 
+        @inlinable
         public init(bluetooth: Bool? = nil, gps: Bool? = nil, nfc: Bool? = nil, wifi: Bool? = nil) {
             self.bluetooth = bluetooth
             self.gps = gps
@@ -3618,6 +3761,7 @@ extension DeviceFarm {
         /// The frequency in which charges recur.
         public let frequency: RecurringChargeFrequency?
 
+        @inlinable
         public init(cost: MonetaryAmount? = nil, frequency: RecurringChargeFrequency? = nil) {
             self.cost = cost
             self.frequency = frequency
@@ -3675,6 +3819,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.billingMethod = billingMethod
@@ -3732,6 +3877,7 @@ extension DeviceFarm {
         /// The quantity requested in an offering renewal.
         public let quantity: Int
 
+        @inlinable
         public init(offeringId: String, quantity: Int) {
             self.offeringId = offeringId
             self.quantity = quantity
@@ -3751,6 +3897,7 @@ extension DeviceFarm {
         /// Represents the status of the offering transaction for the renewal.
         public let offeringTransaction: OfferingTransaction?
 
+        @inlinable
         public init(offeringTransaction: OfferingTransaction? = nil) {
             self.offeringTransaction = offeringTransaction
         }
@@ -3766,6 +3913,7 @@ extension DeviceFarm {
         /// The screen resolution's width, expressed in pixels.
         public let width: Int?
 
+        @inlinable
         public init(height: Int? = nil, width: Int? = nil) {
             self.height = height
             self.width = width
@@ -3785,6 +3933,7 @@ extension DeviceFarm {
         /// The rule's value.
         public let value: String?
 
+        @inlinable
         public init(attribute: DeviceAttribute? = nil, operator: RuleOperator? = nil, value: String? = nil) {
             self.attribute = attribute
             self.`operator` = `operator`
@@ -3864,6 +4013,7 @@ extension DeviceFarm {
         /// The Device Farm console URL for the recording of the run.
         public let webUrl: String?
 
+        @inlinable
         public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
@@ -3943,6 +4093,7 @@ extension DeviceFarm {
         /// The presigned Amazon S3 URL that can be used with a GET request to download the sample's file.
         public let url: String?
 
+        @inlinable
         public init(arn: String? = nil, type: SampleType? = nil, url: String? = nil) {
             self.arn = arn
             self.type = type
@@ -3976,6 +4127,7 @@ extension DeviceFarm {
         /// An array of ARNs for your VPC endpoint configurations.
         public let vpceConfigurationArns: [String]?
 
+        @inlinable
         public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
@@ -4038,6 +4190,7 @@ extension DeviceFarm {
         /// Information about the test for the run to be scheduled.
         public let test: ScheduleRunTest
 
+        @inlinable
         public init(appArn: String? = nil, configuration: ScheduleRunConfiguration? = nil, devicePoolArn: String? = nil, deviceSelectionConfiguration: DeviceSelectionConfiguration? = nil, executionConfiguration: ExecutionConfiguration? = nil, name: String? = nil, projectArn: String, test: ScheduleRunTest) {
             self.appArn = appArn
             self.configuration = configuration
@@ -4080,6 +4233,7 @@ extension DeviceFarm {
         /// Information about the scheduled run.
         public let run: Run?
 
+        @inlinable
         public init(run: Run? = nil) {
             self.run = run
         }
@@ -4101,6 +4255,7 @@ extension DeviceFarm {
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ   APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   INSTRUMENTATION   XCTEST   XCTEST_UI
         public let type: TestType
 
+        @inlinable
         public init(filter: String? = nil, parameters: [String: String]? = nil, testPackageArn: String? = nil, testSpecArn: String? = nil, type: TestType) {
             self.filter = filter
             self.parameters = parameters
@@ -4132,6 +4287,7 @@ extension DeviceFarm {
         /// Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -4151,6 +4307,7 @@ extension DeviceFarm {
         /// The job that was stopped.
         public let job: Job?
 
+        @inlinable
         public init(job: Job? = nil) {
             self.job = job
         }
@@ -4164,6 +4321,7 @@ extension DeviceFarm {
         /// The Amazon Resource Name (ARN) of the remote access session to stop.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -4183,6 +4341,7 @@ extension DeviceFarm {
         /// A container that represents the metadata from the service about the remote access session you are stopping.
         public let remoteAccessSession: RemoteAccessSession?
 
+        @inlinable
         public init(remoteAccessSession: RemoteAccessSession? = nil) {
             self.remoteAccessSession = remoteAccessSession
         }
@@ -4196,6 +4355,7 @@ extension DeviceFarm {
         /// Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -4215,6 +4375,7 @@ extension DeviceFarm {
         /// The run that was stopped.
         public let run: Run?
 
+        @inlinable
         public init(run: Run? = nil) {
             self.run = run
         }
@@ -4248,6 +4409,7 @@ extension DeviceFarm {
         /// The suite's type. Must be one of the following values:   BUILTIN_FUZZ   APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   INSTRUMENTATION   XCTEST   XCTEST_UI
         public let type: TestType?
 
+        @inlinable
         public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil) {
             self.arn = arn
             self.counters = counters
@@ -4283,6 +4445,7 @@ extension DeviceFarm {
         /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor in a tag category (key).
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4306,6 +4469,7 @@ extension DeviceFarm {
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4355,6 +4519,7 @@ extension DeviceFarm {
         /// The test's type. Must be one of the following values:   BUILTIN_FUZZ   APPIUM_JAVA_JUNIT   APPIUM_JAVA_TESTNG   APPIUM_PYTHON   APPIUM_NODE   APPIUM_RUBY   APPIUM_WEB_JAVA_JUNIT   APPIUM_WEB_JAVA_TESTNG   APPIUM_WEB_PYTHON   APPIUM_WEB_NODE   APPIUM_WEB_RUBY   INSTRUMENTATION   XCTEST   XCTEST_UI
         public let type: TestType?
 
+        @inlinable
         public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, deviceMinutes: DeviceMinutes? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil) {
             self.arn = arn
             self.counters = counters
@@ -4396,6 +4561,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: TestGridVpcConfig?
 
+        @inlinable
         public init(arn: String? = nil, created: Date? = nil, description: String? = nil, name: String? = nil, vpcConfig: TestGridVpcConfig? = nil) {
             self.arn = arn
             self.created = created
@@ -4427,6 +4593,7 @@ extension DeviceFarm {
         /// The state of the session.
         public let status: TestGridSessionStatus?
 
+        @inlinable
         public init(arn: String? = nil, billingMinutes: Double? = nil, created: Date? = nil, ended: Date? = nil, seleniumProperties: String? = nil, status: TestGridSessionStatus? = nil) {
             self.arn = arn
             self.billingMinutes = billingMinutes
@@ -4458,6 +4625,7 @@ extension DeviceFarm {
         /// HTTP status code returned to the browser when the action was taken.
         public let statusCode: String?
 
+        @inlinable
         public init(action: String? = nil, duration: Int64? = nil, requestMethod: String? = nil, started: Date? = nil, statusCode: String? = nil) {
             self.action = action
             self.duration = duration
@@ -4483,6 +4651,7 @@ extension DeviceFarm {
         /// A semi-stable URL to the content of the object.
         public let url: String?
 
+        @inlinable
         public init(filename: String? = nil, type: TestGridSessionArtifactType? = nil, url: String? = nil) {
             self.filename = filename
             self.type = type
@@ -4504,6 +4673,7 @@ extension DeviceFarm {
         /// The ID of the Amazon VPC.
         public let vpcId: String
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String], vpcId: String) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4543,6 +4713,7 @@ extension DeviceFarm {
         /// The total number of free trial minutes that the account started with.
         public let total: Double?
 
+        @inlinable
         public init(remaining: Double? = nil, total: Double? = nil) {
             self.remaining = remaining
             self.total = total
@@ -4560,6 +4731,7 @@ extension DeviceFarm {
         /// Information about the problems.
         public let problems: [Problem]?
 
+        @inlinable
         public init(message: String? = nil, problems: [Problem]? = nil) {
             self.message = message
             self.problems = problems
@@ -4577,6 +4749,7 @@ extension DeviceFarm {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4611,6 +4784,7 @@ extension DeviceFarm {
         /// The ARN of the profile that you want to associate with the device instance.
         public let profileArn: String?
 
+        @inlinable
         public init(arn: String, labels: [String]? = nil, profileArn: String? = nil) {
             self.arn = arn
             self.labels = labels
@@ -4637,6 +4811,7 @@ extension DeviceFarm {
         /// An object that contains information about your device instance.
         public let deviceInstance: DeviceInstance?
 
+        @inlinable
         public init(deviceInstance: DeviceInstance? = nil) {
             self.deviceInstance = deviceInstance
         }
@@ -4660,6 +4835,7 @@ extension DeviceFarm {
         /// Represents the rules to modify for the device pool. Updating rules is optional. If you update rules for your request, the update replaces the existing rules.
         public let rules: [Rule]?
 
+        @inlinable
         public init(arn: String, clearMaxDevices: Bool? = nil, description: String? = nil, maxDevices: Int? = nil, name: String? = nil, rules: [Rule]? = nil) {
             self.arn = arn
             self.clearMaxDevices = clearMaxDevices
@@ -4691,6 +4867,7 @@ extension DeviceFarm {
         /// The device pool you just updated.
         public let devicePool: DevicePool?
 
+        @inlinable
         public init(devicePool: DevicePool? = nil) {
             self.devicePool = devicePool
         }
@@ -4714,6 +4891,7 @@ extension DeviceFarm {
         /// The updated choice for whether you want to reboot the device after use. The default value is true.
         public let rebootAfterUse: Bool?
 
+        @inlinable
         public init(arn: String, description: String? = nil, excludeAppPackagesFromCleanup: [String]? = nil, name: String? = nil, packageCleanup: Bool? = nil, rebootAfterUse: Bool? = nil) {
             self.arn = arn
             self.description = description
@@ -4745,6 +4923,7 @@ extension DeviceFarm {
         /// An object that contains information about your instance profile.
         public let instanceProfile: InstanceProfile?
 
+        @inlinable
         public init(instanceProfile: InstanceProfile? = nil) {
             self.instanceProfile = instanceProfile
         }
@@ -4780,6 +4959,7 @@ extension DeviceFarm {
         /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
         public let uplinkLossPercent: Int?
 
+        @inlinable
         public init(arn: String, description: String? = nil, downlinkBandwidthBits: Int64? = nil, downlinkDelayMs: Int64? = nil, downlinkJitterMs: Int64? = nil, downlinkLossPercent: Int? = nil, name: String? = nil, type: NetworkProfileType? = nil, uplinkBandwidthBits: Int64? = nil, uplinkDelayMs: Int64? = nil, uplinkJitterMs: Int64? = nil, uplinkLossPercent: Int? = nil) {
             self.arn = arn
             self.description = description
@@ -4827,6 +5007,7 @@ extension DeviceFarm {
         /// A list of the available network profiles.
         public let networkProfile: NetworkProfile?
 
+        @inlinable
         public init(networkProfile: NetworkProfile? = nil) {
             self.networkProfile = networkProfile
         }
@@ -4846,6 +5027,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(arn: String, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
@@ -4873,6 +5055,7 @@ extension DeviceFarm {
         /// The project to update.
         public let project: Project?
 
+        @inlinable
         public init(project: Project? = nil) {
             self.project = project
         }
@@ -4892,6 +5075,7 @@ extension DeviceFarm {
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: TestGridVpcConfig?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, projectArn: String, vpcConfig: TestGridVpcConfig? = nil) {
             self.description = description
             self.name = name
@@ -4924,6 +5108,7 @@ extension DeviceFarm {
         /// The project, including updated information.
         public let testGridProject: TestGridProject?
 
+        @inlinable
         public init(testGridProject: TestGridProject? = nil) {
             self.testGridProject = testGridProject
         }
@@ -4943,6 +5128,7 @@ extension DeviceFarm {
         /// The upload's test spec file name. The name must not contain any forward slashes (/). The test spec file name must end with the .yaml or .yml file extension.
         public let name: String?
 
+        @inlinable
         public init(arn: String, contentType: String? = nil, editContent: Bool? = nil, name: String? = nil) {
             self.arn = arn
             self.contentType = contentType
@@ -4970,6 +5156,7 @@ extension DeviceFarm {
         /// A test spec uploaded to Device Farm.
         public let upload: Upload?
 
+        @inlinable
         public init(upload: Upload? = nil) {
             self.upload = upload
         }
@@ -4991,6 +5178,7 @@ extension DeviceFarm {
         /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test.
         public let vpceServiceName: String?
 
+        @inlinable
         public init(arn: String, serviceDnsName: String? = nil, vpceConfigurationDescription: String? = nil, vpceConfigurationName: String? = nil, vpceServiceName: String? = nil) {
             self.arn = arn
             self.serviceDnsName = serviceDnsName
@@ -5022,6 +5210,7 @@ extension DeviceFarm {
         /// An object that contains information about your VPC endpoint configuration.
         public let vpceConfiguration: VPCEConfiguration?
 
+        @inlinable
         public init(vpceConfiguration: VPCEConfiguration? = nil) {
             self.vpceConfiguration = vpceConfiguration
         }
@@ -5053,6 +5242,7 @@ extension DeviceFarm {
         /// The presigned Amazon S3 URL that was used to store a file using a PUT request.
         public let url: String?
 
+        @inlinable
         public init(arn: String? = nil, category: UploadCategory? = nil, contentType: String? = nil, created: Date? = nil, message: String? = nil, metadata: String? = nil, name: String? = nil, status: UploadStatus? = nil, type: UploadType? = nil, url: String? = nil) {
             self.arn = arn
             self.category = category
@@ -5092,6 +5282,7 @@ extension DeviceFarm {
         /// The name of the VPC endpoint service running in your AWS account that you want Device Farm to test.
         public let vpceServiceName: String?
 
+        @inlinable
         public init(arn: String? = nil, serviceDnsName: String? = nil, vpceConfigurationDescription: String? = nil, vpceConfigurationName: String? = nil, vpceServiceName: String? = nil) {
             self.arn = arn
             self.serviceDnsName = serviceDnsName
@@ -5117,6 +5308,7 @@ extension DeviceFarm {
         /// The ID of the Amazon VPC.
         public let vpcId: String
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String], vpcId: String) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds

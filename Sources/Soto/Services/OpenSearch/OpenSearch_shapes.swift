@@ -531,6 +531,7 @@ extension OpenSearch {
         /// Container for parameters required for natural language query generation on the specified domain.
         public let naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput?
 
+        @inlinable
         public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput? = nil) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
         }
@@ -544,6 +545,7 @@ extension OpenSearch {
         /// Container for parameters required for natural language query generation on the specified domain.
         public let naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput?
 
+        @inlinable
         public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput? = nil) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
         }
@@ -558,6 +560,7 @@ extension OpenSearch {
         public let options: AIMLOptionsOutput?
         public let status: OptionStatus?
 
+        @inlinable
         public init(options: AIMLOptionsOutput? = nil, status: OptionStatus? = nil) {
             self.options = options
             self.status = status
@@ -577,6 +580,7 @@ extension OpenSearch {
         /// The Amazon Web Services Region in which the domain is located.
         public let region: String?
 
+        @inlinable
         public init(domainName: String, ownerId: String? = nil, region: String? = nil) {
             self.domainName = domainName
             self.ownerId = ownerId
@@ -606,6 +610,7 @@ extension OpenSearch {
         /// The ID of the inbound connection to accept.
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -629,6 +634,7 @@ extension OpenSearch {
         /// Information about the accepted inbound connection.
         public let connection: InboundConnection?
 
+        @inlinable
         public init(connection: InboundConnection? = nil) {
             self.connection = connection
         }
@@ -644,6 +650,7 @@ extension OpenSearch {
         /// The status of the access policy for the domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: String, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -665,6 +672,7 @@ extension OpenSearch {
         /// A name for the data source.
         public let name: String
 
+        @inlinable
         public init(dataSourceType: DataSourceType, description: String? = nil, domainName: String, name: String) {
             self.dataSourceType = dataSourceType
             self.description = description
@@ -704,6 +712,7 @@ extension OpenSearch {
         /// A message associated with creation of the data source.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -719,6 +728,7 @@ extension OpenSearch {
         /// List of resource tags.
         public let tagList: [Tag]
 
+        @inlinable
         public init(arn: String, tagList: [Tag]) {
             self.arn = arn
             self.tagList = tagList
@@ -745,6 +755,7 @@ extension OpenSearch {
         ///  The values of the additional instance type limits.
         public let limitValues: [String]?
 
+        @inlinable
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
             self.limitName = limitName
             self.limitValues = limitValues
@@ -762,6 +773,7 @@ extension OpenSearch {
         /// The status of advanced options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: [String: String], status: OptionStatus) {
             self.options = options
             self.status = status
@@ -787,6 +799,7 @@ extension OpenSearch {
         /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public let samlOptions: SAMLOptionsOutput?
 
+        @inlinable
         public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsOutput? = nil, samlOptions: SAMLOptionsOutput? = nil) {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
@@ -820,6 +833,7 @@ extension OpenSearch {
         /// Container for information about the SAML configuration for OpenSearch Dashboards.
         public let samlOptions: SAMLOptionsInput?
 
+        @inlinable
         public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, jwtOptions: JWTOptionsInput? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
@@ -851,6 +865,7 @@ extension OpenSearch {
         /// Status of the fine-grained access control settings for a domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: AdvancedSecurityOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -868,6 +883,7 @@ extension OpenSearch {
         /// Internal ID of the package to associate with a domain. Use DescribePackages to find this value.
         public let packageID: String
 
+        @inlinable
         public init(domainName: String, packageID: String) {
             self.domainName = domainName
             self.packageID = packageID
@@ -894,6 +910,7 @@ extension OpenSearch {
         /// Information about a package that is associated with a domain.
         public let domainPackageDetails: DomainPackageDetails?
 
+        @inlinable
         public init(domainPackageDetails: DomainPackageDetails? = nil) {
             self.domainPackageDetails = domainPackageDetails
         }
@@ -909,6 +926,7 @@ extension OpenSearch {
         /// The name of the OpenSearch Service domain to provide access to.
         public let domainName: String
 
+        @inlinable
         public init(account: String, domainName: String) {
             self.account = account
             self.domainName = domainName
@@ -937,6 +955,7 @@ extension OpenSearch {
         /// Information about the Amazon Web Services account or service that was provided access to the domain.
         public let authorizedPrincipal: AuthorizedPrincipal
 
+        @inlinable
         public init(authorizedPrincipal: AuthorizedPrincipal) {
             self.authorizedPrincipal = authorizedPrincipal
         }
@@ -952,6 +971,7 @@ extension OpenSearch {
         /// The type of principal.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(principal: String? = nil, principalType: PrincipalType? = nil) {
             self.principal = principal
             self.principalType = principalType
@@ -969,6 +989,7 @@ extension OpenSearch {
         /// The type of Auto-Tune action.
         public let autoTuneType: AutoTuneType?
 
+        @inlinable
         public init(autoTuneDetails: AutoTuneDetails? = nil, autoTuneType: AutoTuneType? = nil) {
             self.autoTuneDetails = autoTuneDetails
             self.autoTuneType = autoTuneType
@@ -984,6 +1005,7 @@ extension OpenSearch {
         /// Container for details about a scheduled Auto-Tune action.
         public let scheduledAutoTuneDetails: ScheduledAutoTuneDetails?
 
+        @inlinable
         public init(scheduledAutoTuneDetails: ScheduledAutoTuneDetails? = nil) {
             self.scheduledAutoTuneDetails = scheduledAutoTuneDetails
         }
@@ -1001,6 +1023,7 @@ extension OpenSearch {
         /// The Epoch timestamp at which the Auto-Tune maintenance schedule starts.
         public let startAt: Date?
 
+        @inlinable
         public init(cronExpressionForRecurrence: String? = nil, duration: Duration? = nil, startAt: Date? = nil) {
             self.cronExpressionForRecurrence = cronExpressionForRecurrence
             self.duration = duration
@@ -1028,6 +1051,7 @@ extension OpenSearch {
         /// Whether to use the domain's off-peak window to deploy configuration changes on the domain rather than a maintenance schedule.
         public let useOffPeakWindow: Bool?
 
+        @inlinable
         public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, rollbackOnDisable: RollbackOnDisable? = nil, useOffPeakWindow: Bool? = nil) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
@@ -1058,6 +1082,7 @@ extension OpenSearch {
         /// Whether to schedule Auto-Tune optimizations that require blue/green deployments during the domain's configured daily off-peak window.
         public let useOffPeakWindow: Bool?
 
+        @inlinable
         public init(desiredState: AutoTuneDesiredState? = nil, maintenanceSchedules: [AutoTuneMaintenanceSchedule]? = nil, useOffPeakWindow: Bool? = nil) {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
@@ -1086,6 +1111,7 @@ extension OpenSearch {
         /// Whether the domain's off-peak window will be used to deploy Auto-Tune changes rather than a maintenance schedule.
         public let useOffPeakWindow: Bool?
 
+        @inlinable
         public init(errorMessage: String? = nil, state: AutoTuneState? = nil, useOffPeakWindow: Bool? = nil) {
             self.errorMessage = errorMessage
             self.state = state
@@ -1105,6 +1131,7 @@ extension OpenSearch {
         /// The current status of Auto-Tune for a domain.
         public let status: AutoTuneStatus?
 
+        @inlinable
         public init(options: AutoTuneOptions? = nil, status: AutoTuneStatus? = nil) {
             self.options = options
             self.status = status
@@ -1130,6 +1157,7 @@ extension OpenSearch {
         /// The latest version of the Auto-Tune options.
         public let updateVersion: Int?
 
+        @inlinable
         public init(creationDate: Date, errorMessage: String? = nil, pendingDeletion: Bool? = nil, state: AutoTuneState, updateDate: Date, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.errorMessage = errorMessage
@@ -1163,6 +1191,7 @@ extension OpenSearch {
         /// The current state of the Availability Zone. Current options are Active and StandBy.    Active - Data nodes in the Availability Zone are in use.    StandBy - Data nodes in the Availability Zone are in a standby state.    NotAvailable - Unable to retrieve information.
         public let zoneStatus: ZoneStatus?
 
+        @inlinable
         public init(availabilityZoneName: String? = nil, availableDataNodeCount: String? = nil, configuredDataNodeCount: String? = nil, totalShards: String? = nil, totalUnAssignedShards: String? = nil, zoneStatus: ZoneStatus? = nil) {
             self.availabilityZoneName = availabilityZoneName
             self.availableDataNodeCount = availableDataNodeCount
@@ -1187,6 +1216,7 @@ extension OpenSearch {
         /// When set to True, returns the list of change IDs and properties that will be cancelled without actually cancelling the change.
         public let dryRun: Bool?
 
+        @inlinable
         public init(domainName: String, dryRun: Bool? = nil) {
             self.domainName = domainName
             self.dryRun = dryRun
@@ -1218,6 +1248,7 @@ extension OpenSearch {
         /// Whether or not the request was a dry run. If True, the changes were not actually cancelled.
         public let dryRun: Bool?
 
+        @inlinable
         public init(cancelledChangeIds: [String]? = nil, cancelledChangeProperties: [CancelledChangeProperty]? = nil, dryRun: Bool? = nil) {
             self.cancelledChangeIds = cancelledChangeIds
             self.cancelledChangeProperties = cancelledChangeProperties
@@ -1235,6 +1266,7 @@ extension OpenSearch {
         /// Name of the OpenSearch Service domain that you want to cancel the service software update on.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1254,6 +1286,7 @@ extension OpenSearch {
         /// Container for the state of your domain relative to the latest service software.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
+        @inlinable
         public init(serviceSoftwareOptions: ServiceSoftwareOptions? = nil) {
             self.serviceSoftwareOptions = serviceSoftwareOptions
         }
@@ -1271,6 +1304,7 @@ extension OpenSearch {
         /// The name of the property whose change was cancelled.
         public let propertyName: String?
 
+        @inlinable
         public init(activeValue: String? = nil, cancelledValue: String? = nil, propertyName: String? = nil) {
             self.activeValue = activeValue
             self.cancelledValue = cancelledValue
@@ -1298,6 +1332,7 @@ extension OpenSearch {
         /// The time that the configuration change was initiated, in Universal Coordinated Time (UTC).
         public let startTime: Date?
 
+        @inlinable
         public init(changeId: String? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, message: String? = nil, startTime: Date? = nil) {
             self.changeId = changeId
             self.configChangeStatus = configChangeStatus
@@ -1327,6 +1362,7 @@ extension OpenSearch {
         /// The status of the stage.
         public let status: String?
 
+        @inlinable
         public init(description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, status: String? = nil) {
             self.description = description
             self.lastUpdated = lastUpdated
@@ -1364,6 +1400,7 @@ extension OpenSearch {
         /// The total number of stages required for the configuration change.
         public let totalNumberOfStages: Int?
 
+        @inlinable
         public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
@@ -1417,6 +1454,7 @@ extension OpenSearch {
         /// Indicates whether multiple Availability Zones are enabled. For more information, see Configuring a multi-AZ domain in Amazon OpenSearch Service.
         public let zoneAwarenessEnabled: Bool?
 
+        @inlinable
         public init(coldStorageOptions: ColdStorageOptions? = nil, dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: OpenSearchPartitionInstanceType? = nil, instanceCount: Int? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, multiAZWithStandbyEnabled: Bool? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: OpenSearchWarmPartitionInstanceType? = nil, zoneAwarenessConfig: ZoneAwarenessConfig? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.coldStorageOptions = coldStorageOptions
             self.dedicatedMasterCount = dedicatedMasterCount
@@ -1454,6 +1492,7 @@ extension OpenSearch {
         /// The status of cluster configuration options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: ClusterConfig, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1475,6 +1514,7 @@ extension OpenSearch {
         /// The Amazon Cognito user pool ID that you want OpenSearch Service to use for OpenSearch Dashboards authentication.
         public let userPoolId: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, identityPoolId: String? = nil, roleArn: String? = nil, userPoolId: String? = nil) {
             self.enabled = enabled
             self.identityPoolId = identityPoolId
@@ -1508,6 +1548,7 @@ extension OpenSearch {
         /// The status of the Cognito options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: CognitoOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -1523,6 +1564,7 @@ extension OpenSearch {
         /// Whether to enable or disable cold storage on the domain. You must enable UltraWarm storage to enable cold storage.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool) {
             self.enabled = enabled
         }
@@ -1538,6 +1580,7 @@ extension OpenSearch {
         /// The possible versions that you can upgrade the domain to.
         public let targetVersions: [String]?
 
+        @inlinable
         public init(sourceVersion: String? = nil, targetVersions: [String]? = nil) {
             self.sourceVersion = sourceVersion
             self.targetVersions = targetVersions
@@ -1555,6 +1598,7 @@ extension OpenSearch {
         ///  The Endpoint attribute cannot be modified.   The endpoint of the remote domain. Applicable for VPC_ENDPOINT connection mode.
         public let endpoint: String?
 
+        @inlinable
         public init(crossClusterSearch: CrossClusterSearchConnectionProperties? = nil, endpoint: String? = nil) {
             self.crossClusterSearch = crossClusterSearch
             self.endpoint = endpoint
@@ -1612,6 +1656,7 @@ extension OpenSearch {
         /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -1686,6 +1731,7 @@ extension OpenSearch {
         /// The status of the newly created domain.
         public let domainStatus: DomainStatus?
 
+        @inlinable
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -1707,6 +1753,7 @@ extension OpenSearch {
         /// Name and Region of the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer
 
+        @inlinable
         public init(connectionAlias: String, connectionMode: ConnectionMode? = nil, connectionProperties: ConnectionProperties? = nil, localDomainInfo: DomainInformationContainer, remoteDomainInfo: DomainInformationContainer) {
             self.connectionAlias = connectionAlias
             self.connectionMode = connectionMode
@@ -1749,6 +1796,7 @@ extension OpenSearch {
         /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
+        @inlinable
         public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionMode: ConnectionMode? = nil, connectionProperties: ConnectionProperties? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
             self.connectionAlias = connectionAlias
             self.connectionId = connectionId
@@ -1780,6 +1828,7 @@ extension OpenSearch {
         /// The type of package.
         public let packageType: PackageType
 
+        @inlinable
         public init(packageDescription: String? = nil, packageName: String, packageSource: PackageSource, packageType: PackageType) {
             self.packageDescription = packageDescription
             self.packageName = packageName
@@ -1807,6 +1856,7 @@ extension OpenSearch {
         /// Basic information about an OpenSearch Service package.
         public let packageDetails: PackageDetails?
 
+        @inlinable
         public init(packageDetails: PackageDetails? = nil) {
             self.packageDetails = packageDetails
         }
@@ -1824,6 +1874,7 @@ extension OpenSearch {
         /// Options to specify the subnets and security groups for the endpoint.
         public let vpcOptions: VPCOptions
 
+        @inlinable
         public init(clientToken: String? = nil, domainArn: String, vpcOptions: VPCOptions) {
             self.clientToken = clientToken
             self.domainArn = domainArn
@@ -1849,6 +1900,7 @@ extension OpenSearch {
         /// Information about the newly created VPC endpoint.
         public let vpcEndpoint: VpcEndpoint
 
+        @inlinable
         public init(vpcEndpoint: VpcEndpoint) {
             self.vpcEndpoint = vpcEndpoint
         }
@@ -1862,6 +1914,7 @@ extension OpenSearch {
         /// The status of the SkipUnavailable setting for the outbound connection. This feature allows you to specify some clusters as optional and ensure that your cross-cluster queries return partial results despite failures on one or more remote clusters.
         public let skipUnavailable: SkipUnavailableStatus?
 
+        @inlinable
         public init(skipUnavailable: SkipUnavailableStatus? = nil) {
             self.skipUnavailable = skipUnavailable
         }
@@ -1881,6 +1934,7 @@ extension OpenSearch {
         /// The status of the data source.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(dataSourceType: DataSourceType? = nil, description: String? = nil, name: String? = nil, status: DataSourceStatus? = nil) {
             self.dataSourceType = dataSourceType
             self.description = description
@@ -1902,6 +1956,7 @@ extension OpenSearch {
         /// The name of the data source to delete.
         public let name: String
 
+        @inlinable
         public init(domainName: String, name: String) {
             self.domainName = domainName
             self.name = name
@@ -1930,6 +1985,7 @@ extension OpenSearch {
         /// A message associated with deletion of the data source.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1943,6 +1999,7 @@ extension OpenSearch {
         /// The name of the domain you want to permanently delete.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1966,6 +2023,7 @@ extension OpenSearch {
         /// The status of the domain being deleted.
         public let domainStatus: DomainStatus?
 
+        @inlinable
         public init(domainStatus: DomainStatus? = nil) {
             self.domainStatus = domainStatus
         }
@@ -1979,6 +2037,7 @@ extension OpenSearch {
         /// The ID of the inbound connection to permanently delete.
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -2002,6 +2061,7 @@ extension OpenSearch {
         /// The deleted inbound connection.
         public let connection: InboundConnection?
 
+        @inlinable
         public init(connection: InboundConnection? = nil) {
             self.connection = connection
         }
@@ -2015,6 +2075,7 @@ extension OpenSearch {
         /// The ID of the outbound connection you want to permanently delete.
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -2038,6 +2099,7 @@ extension OpenSearch {
         /// The deleted inbound connection.
         public let connection: OutboundConnection?
 
+        @inlinable
         public init(connection: OutboundConnection? = nil) {
             self.connection = connection
         }
@@ -2051,6 +2113,7 @@ extension OpenSearch {
         /// The internal ID of the package you want to delete. Use DescribePackages to find this value.
         public let packageID: String
 
+        @inlinable
         public init(packageID: String) {
             self.packageID = packageID
         }
@@ -2072,6 +2135,7 @@ extension OpenSearch {
         ///  Information about the deleted package.
         public let packageDetails: PackageDetails?
 
+        @inlinable
         public init(packageDetails: PackageDetails? = nil) {
             self.packageDetails = packageDetails
         }
@@ -2085,6 +2149,7 @@ extension OpenSearch {
         /// The unique identifier of the endpoint.
         public let vpcEndpointId: String
 
+        @inlinable
         public init(vpcEndpointId: String) {
             self.vpcEndpointId = vpcEndpointId
         }
@@ -2108,6 +2173,7 @@ extension OpenSearch {
         /// Information about the deleted endpoint, including its current status (DELETING or DELETE_FAILED).
         public let vpcEndpointSummary: VpcEndpointSummary
 
+        @inlinable
         public init(vpcEndpointSummary: VpcEndpointSummary) {
             self.vpcEndpointSummary = vpcEndpointSummary
         }
@@ -2125,6 +2191,7 @@ extension OpenSearch {
         /// If your initial DescribeDomainAutoTunes operation returns a nextToken, you can include the returned nextToken in subsequent DescribeDomainAutoTunes operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -2158,6 +2225,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(autoTunes: [AutoTune]? = nil, nextToken: String? = nil) {
             self.autoTunes = autoTunes
             self.nextToken = nextToken
@@ -2175,6 +2243,7 @@ extension OpenSearch {
         /// The name of the domain to get progress information for.
         public let domainName: String
 
+        @inlinable
         public init(changeId: String? = nil, domainName: String) {
             self.changeId = changeId
             self.domainName = domainName
@@ -2203,6 +2272,7 @@ extension OpenSearch {
         /// Container for information about the stages of a configuration change happening on a domain.
         public let changeProgressStatus: ChangeProgressStatusDetails?
 
+        @inlinable
         public init(changeProgressStatus: ChangeProgressStatusDetails? = nil) {
             self.changeProgressStatus = changeProgressStatus
         }
@@ -2216,6 +2286,7 @@ extension OpenSearch {
         /// Name of the OpenSearch Service domain configuration that you want to describe.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2239,6 +2310,7 @@ extension OpenSearch {
         /// Container for the configuration of the OpenSearch Service domain.
         public let domainConfig: DomainConfig
 
+        @inlinable
         public init(domainConfig: DomainConfig) {
             self.domainConfig = domainConfig
         }
@@ -2252,6 +2324,7 @@ extension OpenSearch {
         /// The name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2299,6 +2372,7 @@ extension OpenSearch {
         /// The number of warm nodes configured for the domain.
         public let warmNodeCount: String?
 
+        @inlinable
         public init(activeAvailabilityZoneCount: String? = nil, availabilityZoneCount: String? = nil, clusterHealth: DomainHealth? = nil, dataNodeCount: String? = nil, dedicatedMaster: Bool? = nil, domainState: DomainState? = nil, environmentInformation: [EnvironmentInfo]? = nil, masterEligibleNodeCount: String? = nil, masterNode: MasterNodeStatus? = nil, standByAvailabilityZoneCount: String? = nil, totalShards: String? = nil, totalUnAssignedShards: String? = nil, warmNodeCount: String? = nil) {
             self.activeAvailabilityZoneCount = activeAvailabilityZoneCount
             self.availabilityZoneCount = availabilityZoneCount
@@ -2336,6 +2410,7 @@ extension OpenSearch {
         /// The name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2359,6 +2434,7 @@ extension OpenSearch {
         /// Contains nodes information list DomainNodesStatusList with details about the all nodes on the requested domain.
         public let domainNodesStatusList: [DomainNodesStatus]?
 
+        @inlinable
         public init(domainNodesStatusList: [DomainNodesStatus]? = nil) {
             self.domainNodesStatusList = domainNodesStatusList
         }
@@ -2372,6 +2448,7 @@ extension OpenSearch {
         /// The name of the domain that you want information about.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2395,6 +2472,7 @@ extension OpenSearch {
         /// List that contains the status of each specified OpenSearch Service domain.
         public let domainStatus: DomainStatus
 
+        @inlinable
         public init(domainStatus: DomainStatus) {
             self.domainStatus = domainStatus
         }
@@ -2408,6 +2486,7 @@ extension OpenSearch {
         /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name.
         public let domainNames: [String]
 
+        @inlinable
         public init(domainNames: [String]) {
             self.domainNames = domainNames
         }
@@ -2429,6 +2508,7 @@ extension OpenSearch {
         /// The status of the requested domains.
         public let domainStatusList: [DomainStatus]
 
+        @inlinable
         public init(domainStatusList: [DomainStatus]) {
             self.domainStatusList = domainStatusList
         }
@@ -2446,6 +2526,7 @@ extension OpenSearch {
         /// Whether to include the configuration of the dry run in the response. The configuration specifies the updates that you're planning to make on the domain.
         public let loadDryRunConfig: Bool?
 
+        @inlinable
         public init(domainName: String, dryRunId: String? = nil, loadDryRunConfig: Bool? = nil) {
             self.domainName = domainName
             self.dryRunId = dryRunId
@@ -2480,6 +2561,7 @@ extension OpenSearch {
         /// The results of the dry run.
         public let dryRunResults: DryRunResults?
 
+        @inlinable
         public init(dryRunConfig: DomainStatus? = nil, dryRunProgressStatus: DryRunProgressStatus? = nil, dryRunResults: DryRunResults? = nil) {
             self.dryRunConfig = dryRunConfig
             self.dryRunProgressStatus = dryRunProgressStatus
@@ -2501,6 +2583,7 @@ extension OpenSearch {
         /// If your initial DescribeInboundConnections operation returns a nextToken, you can include the returned nextToken in subsequent DescribeInboundConnections operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2527,6 +2610,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(connections: [InboundConnection]? = nil, nextToken: String? = nil) {
             self.connections = connections
             self.nextToken = nextToken
@@ -2546,6 +2630,7 @@ extension OpenSearch {
         /// The OpenSearch Service instance type for which you need limit information.
         public let instanceType: OpenSearchPartitionInstanceType
 
+        @inlinable
         public init(domainName: String? = nil, engineVersion: String, instanceType: OpenSearchPartitionInstanceType) {
             self.domainName = domainName
             self.engineVersion = engineVersion
@@ -2576,6 +2661,7 @@ extension OpenSearch {
         /// Map that contains all applicable instance type limits.data refers to data nodes.master refers to dedicated master nodes.
         public let limitsByRole: [String: Limits]?
 
+        @inlinable
         public init(limitsByRole: [String: Limits]? = nil) {
             self.limitsByRole = limitsByRole
         }
@@ -2593,6 +2679,7 @@ extension OpenSearch {
         /// If your initial DescribeOutboundConnections operation returns a nextToken, you can include the returned nextToken in subsequent DescribeOutboundConnections operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2619,6 +2706,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(connections: [OutboundConnection]? = nil, nextToken: String? = nil) {
             self.connections = connections
             self.nextToken = nextToken
@@ -2636,6 +2724,7 @@ extension OpenSearch {
         /// A non-empty list of values for the specified filter field.
         public let value: [String]?
 
+        @inlinable
         public init(name: DescribePackagesFilterName? = nil, value: [String]? = nil) {
             self.name = name
             self.value = value
@@ -2662,6 +2751,7 @@ extension OpenSearch {
         /// If your initial DescribePackageFilters operation returns a nextToken, you can include the returned nextToken in subsequent DescribePackageFilters operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [DescribePackagesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2688,6 +2778,7 @@ extension OpenSearch {
         /// Basic information about a package.
         public let packageDetailsList: [PackageDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageDetailsList: [PackageDetails]? = nil) {
             self.nextToken = nextToken
             self.packageDetailsList = packageDetailsList
@@ -2707,6 +2798,7 @@ extension OpenSearch {
         /// The Reserved Instance identifier filter value. Use this parameter to show only the available instance types that match the specified reservation identifier.
         public let reservedInstanceOfferingId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, reservedInstanceOfferingId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2737,6 +2829,7 @@ extension OpenSearch {
         /// List of Reserved Instance offerings.
         public let reservedInstanceOfferings: [ReservedInstanceOffering]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedInstanceOfferings: [ReservedInstanceOffering]? = nil) {
             self.nextToken = nextToken
             self.reservedInstanceOfferings = reservedInstanceOfferings
@@ -2756,6 +2849,7 @@ extension OpenSearch {
         /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved OpenSearch instance ID.
         public let reservedInstanceId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, reservedInstanceId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2786,6 +2880,7 @@ extension OpenSearch {
         /// List of Reserved Instances in the current Region.
         public let reservedInstances: [ReservedInstance]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedInstances: [ReservedInstance]? = nil) {
             self.nextToken = nextToken
             self.reservedInstances = reservedInstances
@@ -2801,6 +2896,7 @@ extension OpenSearch {
         /// The unique identifiers of the endpoints to get information about.
         public let vpcEndpointIds: [String]
 
+        @inlinable
         public init(vpcEndpointIds: [String]) {
             self.vpcEndpointIds = vpcEndpointIds
         }
@@ -2824,6 +2920,7 @@ extension OpenSearch {
         /// Information about each requested VPC endpoint.
         public let vpcEndpoints: [VpcEndpoint]
 
+        @inlinable
         public init(vpcEndpointErrors: [VpcEndpointError], vpcEndpoints: [VpcEndpoint]) {
             self.vpcEndpointErrors = vpcEndpointErrors
             self.vpcEndpoints = vpcEndpoints
@@ -2841,6 +2938,7 @@ extension OpenSearch {
         /// Internal ID of the package to dissociate from the domain. Use ListPackagesForDomain to find this value.
         public let packageID: String
 
+        @inlinable
         public init(domainName: String, packageID: String) {
             self.domainName = domainName
             self.packageID = packageID
@@ -2867,6 +2965,7 @@ extension OpenSearch {
         ///  Information about a package that has been dissociated from the domain.
         public let domainPackageDetails: DomainPackageDetails?
 
+        @inlinable
         public init(domainPackageDetails: DomainPackageDetails? = nil) {
             self.domainPackageDetails = domainPackageDetails
         }
@@ -2918,6 +3017,7 @@ extension OpenSearch {
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public let vpcOptions: VPCDerivedInfoStatus?
 
+        @inlinable
         public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -2977,6 +3077,7 @@ extension OpenSearch {
         /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
+        @inlinable
         public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
@@ -3009,6 +3110,7 @@ extension OpenSearch {
         /// The status of the endpoint options for a domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: DomainEndpointOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -3026,6 +3128,7 @@ extension OpenSearch {
         /// The type of search engine that the domain is running.OpenSearch for an OpenSearch engine, or Elasticsearch for a legacy Elasticsearch OSS engine.
         public let engineType: EngineType?
 
+        @inlinable
         public init(domainName: String? = nil, engineType: EngineType? = nil) {
             self.domainName = domainName
             self.engineType = engineType
@@ -3041,6 +3144,7 @@ extension OpenSearch {
         /// Information about an Amazon OpenSearch Service domain.
         public let awsDomainInformation: AWSDomainInformation?
 
+        @inlinable
         public init(awsDomainInformation: AWSDomainInformation? = nil) {
             self.awsDomainInformation = awsDomainInformation
         }
@@ -3072,6 +3176,7 @@ extension OpenSearch {
         /// The time at which the action was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(action: MaintenanceType? = nil, createdAt: Date? = nil, domainName: String? = nil, maintenanceId: String? = nil, nodeId: String? = nil, status: MaintenanceStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.createdAt = createdAt
@@ -3113,6 +3218,7 @@ extension OpenSearch {
         /// If the nodes has EBS storage, indicates if the volume type is GP2 or GP3. Only applicable for data nodes.
         public let storageVolumeType: VolumeType?
 
+        @inlinable
         public init(availabilityZone: String? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, nodeId: String? = nil, nodeStatus: NodeStatus? = nil, nodeType: NodeType? = nil, storageSize: String? = nil, storageType: String? = nil, storageVolumeType: VolumeType? = nil) {
             self.availabilityZone = availabilityZone
             self.instanceType = instanceType
@@ -3156,6 +3262,7 @@ extension OpenSearch {
         /// The relative path of the package on the OpenSearch Service cluster nodes. This is synonym_path when the package is for synonym files.
         public let referencePath: String?
 
+        @inlinable
         public init(domainName: String? = nil, domainPackageStatus: DomainPackageStatus? = nil, errorDetails: ErrorDetails? = nil, lastUpdated: Date? = nil, packageID: String? = nil, packageName: String? = nil, packageType: PackageType? = nil, packageVersion: String? = nil, referencePath: String? = nil) {
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
@@ -3249,6 +3356,7 @@ extension OpenSearch {
         /// The VPC configuration for the domain.
         public let vpcOptions: VPCDerivedInfo?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -3334,6 +3442,7 @@ extension OpenSearch {
         /// Any validation failures that occurred as a result of the dry run.
         public let validationFailures: [ValidationFailure]?
 
+        @inlinable
         public init(creationDate: String, dryRunId: String, dryRunStatus: String, updateDate: String, validationFailures: [ValidationFailure]? = nil) {
             self.creationDate = creationDate
             self.dryRunId = dryRunId
@@ -3357,6 +3466,7 @@ extension OpenSearch {
         /// A message corresponding to the deployment type.
         public let message: String?
 
+        @inlinable
         public init(deploymentType: String? = nil, message: String? = nil) {
             self.deploymentType = deploymentType
             self.message = message
@@ -3374,6 +3484,7 @@ extension OpenSearch {
         /// Integer to specify the value of a maintenance schedule duration.
         public let value: Int64?
 
+        @inlinable
         public init(unit: TimeUnit? = nil, value: Int64? = nil) {
             self.unit = unit
             self.value = value
@@ -3402,6 +3513,7 @@ extension OpenSearch {
         /// Specifies the type of EBS volumes attached to data nodes.
         public let volumeType: VolumeType?
 
+        @inlinable
         public init(ebsEnabled: Bool? = nil, iops: Int? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
             self.ebsEnabled = ebsEnabled
             self.iops = iops
@@ -3425,6 +3537,7 @@ extension OpenSearch {
         /// The status of the EBS options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: EBSOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -3442,6 +3555,7 @@ extension OpenSearch {
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
@@ -3465,6 +3579,7 @@ extension OpenSearch {
         /// The status of the encryption at rest options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: EncryptionAtRestOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -3480,6 +3595,7 @@ extension OpenSearch {
         ///  A list of AvailabilityZoneInfo for the domain.
         public let availabilityZoneInformation: [AvailabilityZoneInfo]?
 
+        @inlinable
         public init(availabilityZoneInformation: [AvailabilityZoneInfo]? = nil) {
             self.availabilityZoneInformation = availabilityZoneInformation
         }
@@ -3495,6 +3611,7 @@ extension OpenSearch {
         /// The type of error that occurred.
         public let errorType: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: String? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -3512,6 +3629,7 @@ extension OpenSearch {
         /// One or more values for the filter.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -3539,6 +3657,7 @@ extension OpenSearch {
         /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
         public let domainName: String?
 
+        @inlinable
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -3562,6 +3681,7 @@ extension OpenSearch {
         /// A map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
         public let compatibleVersions: [CompatibleVersionsMap]?
 
+        @inlinable
         public init(compatibleVersions: [CompatibleVersionsMap]? = nil) {
             self.compatibleVersions = compatibleVersions
         }
@@ -3577,6 +3697,7 @@ extension OpenSearch {
         /// The name of the data source to get information about.
         public let name: String
 
+        @inlinable
         public init(domainName: String, name: String) {
             self.domainName = domainName
             self.name = name
@@ -3611,6 +3732,7 @@ extension OpenSearch {
         /// The status of the data source.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(dataSourceType: DataSourceType? = nil, description: String? = nil, name: String? = nil, status: DataSourceStatus? = nil) {
             self.dataSourceType = dataSourceType
             self.description = description
@@ -3632,6 +3754,7 @@ extension OpenSearch {
         /// The request ID of the maintenance action.
         public let maintenanceId: String
 
+        @inlinable
         public init(domainName: String, maintenanceId: String) {
             self.domainName = domainName
             self.maintenanceId = maintenanceId
@@ -3670,6 +3793,7 @@ extension OpenSearch {
         /// The time at which the action was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(action: MaintenanceType? = nil, createdAt: Date? = nil, nodeId: String? = nil, status: MaintenanceStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
             self.action = action
             self.createdAt = createdAt
@@ -3697,6 +3821,7 @@ extension OpenSearch {
         /// The unique identifier of the package.
         public let packageID: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3727,6 +3852,7 @@ extension OpenSearch {
         /// A list of package versions, along with their creation time and commit message.
         public let packageVersionHistoryList: [PackageVersionHistory]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageID: String? = nil, packageVersionHistoryList: [PackageVersionHistory]? = nil) {
             self.nextToken = nextToken
             self.packageID = packageID
@@ -3748,6 +3874,7 @@ extension OpenSearch {
         /// If your initial GetUpgradeHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetUpgradeHistory operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -3778,6 +3905,7 @@ extension OpenSearch {
         /// A list of objects corresponding to each upgrade or upgrade eligibility check performed on a domain.
         public let upgradeHistories: [UpgradeHistory]?
 
+        @inlinable
         public init(nextToken: String? = nil, upgradeHistories: [UpgradeHistory]? = nil) {
             self.nextToken = nextToken
             self.upgradeHistories = upgradeHistories
@@ -3793,6 +3921,7 @@ extension OpenSearch {
         /// The domain of the domain to get upgrade status information for.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -3820,6 +3949,7 @@ extension OpenSearch {
         /// One of three steps that an upgrade or upgrade eligibility check goes through.
         public let upgradeStep: UpgradeStep?
 
+        @inlinable
         public init(stepStatus: UpgradeStatus? = nil, upgradeName: String? = nil, upgradeStep: UpgradeStep? = nil) {
             self.stepStatus = stepStatus
             self.upgradeName = upgradeName
@@ -3838,6 +3968,7 @@ extension OpenSearch {
         public let options: IPAddressType
         public let status: OptionStatus
 
+        @inlinable
         public init(options: IPAddressType, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -3861,6 +3992,7 @@ extension OpenSearch {
         /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
+        @inlinable
         public init(connectionId: String? = nil, connectionMode: ConnectionMode? = nil, connectionStatus: InboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
             self.connectionId = connectionId
             self.connectionMode = connectionMode
@@ -3884,6 +4016,7 @@ extension OpenSearch {
         /// The status code for the connection. Can be one of the following:    PENDING_ACCEPTANCE - Inbound connection is not yet accepted by the remote domain owner.    APPROVED: Inbound connection is pending acceptance by the remote domain owner.    PROVISIONING: Inbound connection is being provisioned.    ACTIVE: Inbound connection is active and ready to use.    REJECTING: Inbound connection rejection is in process.    REJECTED: Inbound connection is rejected.    DELETING: Inbound connection deletion is in progress.    DELETED: Inbound connection is deleted and can no longer be used.
         public let statusCode: InboundConnectionStatusCode?
 
+        @inlinable
         public init(message: String? = nil, statusCode: InboundConnectionStatusCode? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -3901,6 +4034,7 @@ extension OpenSearch {
         /// The maximum allowed number of instances.
         public let minimumInstanceCount: Int?
 
+        @inlinable
         public init(maximumInstanceCount: Int? = nil, minimumInstanceCount: Int? = nil) {
             self.maximumInstanceCount = maximumInstanceCount
             self.minimumInstanceCount = minimumInstanceCount
@@ -3916,6 +4050,7 @@ extension OpenSearch {
         /// Limits on the number of instances that can be created for a given instance type.
         public let instanceCountLimits: InstanceCountLimits?
 
+        @inlinable
         public init(instanceCountLimits: InstanceCountLimits? = nil) {
             self.instanceCountLimits = instanceCountLimits
         }
@@ -3943,6 +4078,7 @@ extension OpenSearch {
         /// Whether UltraWarm is supported for the instance type.
         public let warmEnabled: Bool?
 
+        @inlinable
         public init(advancedSecurityEnabled: Bool? = nil, appLogsEnabled: Bool? = nil, availabilityZones: [String]? = nil, cognitoEnabled: Bool? = nil, encryptionEnabled: Bool? = nil, instanceRole: [String]? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, warmEnabled: Bool? = nil) {
             self.advancedSecurityEnabled = advancedSecurityEnabled
             self.appLogsEnabled = appLogsEnabled
@@ -3976,6 +4112,7 @@ extension OpenSearch {
         /// Element of the JWT assertion to use for the user name.
         public let subjectKey: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
             self.publicKey = publicKey
@@ -4008,6 +4145,7 @@ extension OpenSearch {
         /// The key used for matching the JWT subject attribute.
         public let subjectKey: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
             self.publicKey = publicKey
@@ -4031,6 +4169,7 @@ extension OpenSearch {
         /// Storage-related attributes that are available for a given instance type.
         public let storageTypes: [StorageType]?
 
+        @inlinable
         public init(additionalLimits: [AdditionalLimit]? = nil, instanceLimits: InstanceLimits? = nil, storageTypes: [StorageType]? = nil) {
             self.additionalLimits = additionalLimits
             self.instanceLimits = instanceLimits
@@ -4048,6 +4187,7 @@ extension OpenSearch {
         /// The name of the domain.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -4071,6 +4211,7 @@ extension OpenSearch {
         /// A list of data sources associated with specified domain.
         public let dataSources: [DataSourceDetails]?
 
+        @inlinable
         public init(dataSources: [DataSourceDetails]? = nil) {
             self.dataSources = dataSources
         }
@@ -4092,6 +4233,7 @@ extension OpenSearch {
         /// The status of the action.
         public let status: MaintenanceStatus?
 
+        @inlinable
         public init(action: MaintenanceType? = nil, domainName: String, maxResults: Int? = nil, nextToken: String? = nil, status: MaintenanceStatus? = nil) {
             self.action = action
             self.domainName = domainName
@@ -4126,6 +4268,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainMaintenances: [DomainMaintenanceDetails]? = nil, nextToken: String? = nil) {
             self.domainMaintenances = domainMaintenances
             self.nextToken = nextToken
@@ -4141,6 +4284,7 @@ extension OpenSearch {
         /// Filters the output by domain engine type.
         public let engineType: EngineType?
 
+        @inlinable
         public init(engineType: EngineType? = nil) {
             self.engineType = engineType
         }
@@ -4158,6 +4302,7 @@ extension OpenSearch {
         /// The names of all OpenSearch Service domains owned by the current user and their respective engine types.
         public let domainNames: [DomainInfo]?
 
+        @inlinable
         public init(domainNames: [DomainInfo]? = nil) {
             self.domainNames = domainNames
         }
@@ -4175,6 +4320,7 @@ extension OpenSearch {
         /// The unique identifier of the package for which to list associated domains.
         public let packageID: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, packageID: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4203,6 +4349,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
             self.domainPackageDetailsList = domainPackageDetailsList
             self.nextToken = nextToken
@@ -4228,6 +4375,7 @@ extension OpenSearch {
         /// An optional parameter that specifies the Availability Zones for the domain.
         public let retrieveAZs: Bool?
 
+        @inlinable
         public init(domainName: String? = nil, engineVersion: String, instanceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, retrieveAZs: Bool? = nil) {
             self.domainName = domainName
             self.engineVersion = engineVersion
@@ -4270,6 +4418,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceTypeDetails: [InstanceTypeDetails]? = nil, nextToken: String? = nil) {
             self.instanceTypeDetails = instanceTypeDetails
             self.nextToken = nextToken
@@ -4289,6 +4438,7 @@ extension OpenSearch {
         /// If your initial ListPackagesForDomain operation returns a nextToken, you can include the returned nextToken in subsequent ListPackagesForDomain operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -4319,6 +4469,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainPackageDetailsList: [DomainPackageDetails]? = nil, nextToken: String? = nil) {
             self.domainPackageDetailsList = domainPackageDetailsList
             self.nextToken = nextToken
@@ -4338,6 +4489,7 @@ extension OpenSearch {
         /// If your initial ListScheduledActions operation returns a nextToken, you can include the returned nextToken in subsequent ListScheduledActions operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
             self.maxResults = maxResults
@@ -4368,6 +4520,7 @@ extension OpenSearch {
         /// A list of actions that are scheduled for the domain.
         public let scheduledActions: [ScheduledAction]?
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
             self.nextToken = nextToken
             self.scheduledActions = scheduledActions
@@ -4383,6 +4536,7 @@ extension OpenSearch {
         /// Amazon Resource Name (ARN) for the domain to view tags for.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -4406,6 +4560,7 @@ extension OpenSearch {
         /// List of resource tags associated with the specified domain.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -4421,6 +4576,7 @@ extension OpenSearch {
         /// If your initial ListVersions operation returns a nextToken, you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4446,6 +4602,7 @@ extension OpenSearch {
         /// A list of all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
         public let versions: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, versions: [String]? = nil) {
             self.nextToken = nextToken
             self.versions = versions
@@ -4463,6 +4620,7 @@ extension OpenSearch {
         /// If your initial ListVpcEndpointAccess operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpointAccess operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, nextToken: String? = nil) {
             self.domainName = domainName
             self.nextToken = nextToken
@@ -4490,6 +4648,7 @@ extension OpenSearch {
         /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
         public let nextToken: String
 
+        @inlinable
         public init(authorizedPrincipalList: [AuthorizedPrincipal], nextToken: String) {
             self.authorizedPrincipalList = authorizedPrincipalList
             self.nextToken = nextToken
@@ -4507,6 +4666,7 @@ extension OpenSearch {
         /// If your initial ListEndpointsForDomain operation returns a nextToken, you can include the returned nextToken in subsequent ListEndpointsForDomain operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(domainName: String, nextToken: String? = nil) {
             self.domainName = domainName
             self.nextToken = nextToken
@@ -4534,6 +4694,7 @@ extension OpenSearch {
         /// Information about each endpoint associated with the domain.
         public let vpcEndpointSummaryList: [VpcEndpointSummary]
 
+        @inlinable
         public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
             self.nextToken = nextToken
             self.vpcEndpointSummaryList = vpcEndpointSummaryList
@@ -4549,6 +4710,7 @@ extension OpenSearch {
         /// If your initial ListVpcEndpoints operation returns a nextToken, you can include the returned nextToken in subsequent ListVpcEndpoints operations, which returns results in the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -4568,6 +4730,7 @@ extension OpenSearch {
         /// Information about each endpoint.
         public let vpcEndpointSummaryList: [VpcEndpointSummary]
 
+        @inlinable
         public init(nextToken: String, vpcEndpointSummaryList: [VpcEndpointSummary]) {
             self.nextToken = nextToken
             self.vpcEndpointSummaryList = vpcEndpointSummaryList
@@ -4585,6 +4748,7 @@ extension OpenSearch {
         /// Whether the log should be published.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, enabled: Bool? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
@@ -4608,6 +4772,7 @@ extension OpenSearch {
         /// The status of the log publishing options for the domain.
         public let status: OptionStatus?
 
+        @inlinable
         public init(options: [LogType: LogPublishingOption]? = nil, status: OptionStatus? = nil) {
             self.options = options
             self.status = status
@@ -4627,6 +4792,7 @@ extension OpenSearch {
         /// Password for the master user. Only specify if InternalUserDatabaseEnabled is true.
         public let masterUserPassword: String?
 
+        @inlinable
         public init(masterUserARN: String? = nil, masterUserName: String? = nil, masterUserPassword: String? = nil) {
             self.masterUserARN = masterUserARN
             self.masterUserName = masterUserName
@@ -4662,6 +4828,7 @@ extension OpenSearch {
         /// The type of value that is currently being modified. Properties can have two types:    PLAIN_TEXT: Contain direct values such as "1", "True", or "c5.large.search".    STRINGIFIED_JSON: Contain content in JSON format, such as {"Enabled":"True"}".
         public let valueType: PropertyValueType?
 
+        @inlinable
         public init(activeValue: String? = nil, name: String? = nil, pendingValue: String? = nil, valueType: PropertyValueType? = nil) {
             self.activeValue = activeValue
             self.name = name
@@ -4681,6 +4848,7 @@ extension OpenSearch {
         /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
         public let desiredState: NaturalLanguageQueryGenerationDesiredState?
 
+        @inlinable
         public init(desiredState: NaturalLanguageQueryGenerationDesiredState? = nil) {
             self.desiredState = desiredState
         }
@@ -4696,6 +4864,7 @@ extension OpenSearch {
         /// The desired state of the natural language query generation feature. Valid values are ENABLED and DISABLED.
         public let desiredState: NaturalLanguageQueryGenerationDesiredState?
 
+        @inlinable
         public init(currentState: NaturalLanguageQueryGenerationCurrentState? = nil, desiredState: NaturalLanguageQueryGenerationDesiredState? = nil) {
             self.currentState = currentState
             self.desiredState = desiredState
@@ -4711,6 +4880,7 @@ extension OpenSearch {
         /// True to enable node-to-node encryption.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -4726,6 +4896,7 @@ extension OpenSearch {
         /// The status of the node-to-node encryption options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: NodeToNodeEncryptionOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -4741,6 +4912,7 @@ extension OpenSearch {
         /// A custom start time for the off-peak window, in Coordinated Universal Time (UTC). The window length will always be 10 hours, so you can't specify an end time. For example, if you specify 11:00 P.M. UTC as a start time, the end time will automatically be set to 9:00 A.M.
         public let windowStartTime: WindowStartTime?
 
+        @inlinable
         public init(windowStartTime: WindowStartTime? = nil) {
             self.windowStartTime = windowStartTime
         }
@@ -4760,6 +4932,7 @@ extension OpenSearch {
         /// Off-peak window settings for the domain.
         public let offPeakWindow: OffPeakWindow?
 
+        @inlinable
         public init(enabled: Bool? = nil, offPeakWindow: OffPeakWindow? = nil) {
             self.enabled = enabled
             self.offPeakWindow = offPeakWindow
@@ -4781,6 +4954,7 @@ extension OpenSearch {
         /// The current status of off-peak window options.
         public let status: OptionStatus?
 
+        @inlinable
         public init(options: OffPeakWindowOptions? = nil, status: OptionStatus? = nil) {
             self.options = options
             self.status = status
@@ -4804,6 +4978,7 @@ extension OpenSearch {
         /// The latest version of the entity.
         public let updateVersion: Int?
 
+        @inlinable
         public init(creationDate: Date, pendingDeletion: Bool? = nil, state: OptionState, updateDate: Date, updateVersion: Int? = nil) {
             self.creationDate = creationDate
             self.pendingDeletion = pendingDeletion
@@ -4837,6 +5012,7 @@ extension OpenSearch {
         /// Information about the destination (remote) domain.
         public let remoteDomainInfo: DomainInformationContainer?
 
+        @inlinable
         public init(connectionAlias: String? = nil, connectionId: String? = nil, connectionMode: ConnectionMode? = nil, connectionProperties: ConnectionProperties? = nil, connectionStatus: OutboundConnectionStatus? = nil, localDomainInfo: DomainInformationContainer? = nil, remoteDomainInfo: DomainInformationContainer? = nil) {
             self.connectionAlias = connectionAlias
             self.connectionId = connectionId
@@ -4864,6 +5040,7 @@ extension OpenSearch {
         /// The status code for the outbound connection. Can be one of the following:    VALIDATING - The outbound connection request is being validated.    VALIDATION_FAILED - Validation failed for the connection request.    PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by the remote domain owner.    APPROVED - Outbound connection has been approved by the remote domain owner for getting provisioned.    PROVISIONING - Outbound connection request is in process.    ACTIVE - Outbound connection is active and ready to use.    REJECTING - Outbound connection rejection by remote domain owner is in progress.    REJECTED - Outbound connection request is rejected by remote domain owner.    DELETING - Outbound connection deletion is in progress.    DELETED - Outbound connection is deleted and can no longer be used.
         public let statusCode: OutboundConnectionStatusCode?
 
+        @inlinable
         public init(message: String? = nil, statusCode: OutboundConnectionStatusCode? = nil) {
             self.message = message
             self.statusCode = statusCode
@@ -4899,6 +5076,7 @@ extension OpenSearch {
         /// The type of package.
         public let packageType: PackageType?
 
+        @inlinable
         public init(availablePackageVersion: String? = nil, availablePluginProperties: PluginProperties? = nil, createdAt: Date? = nil, engineVersion: String? = nil, errorDetails: ErrorDetails? = nil, lastUpdatedAt: Date? = nil, packageDescription: String? = nil, packageID: String? = nil, packageName: String? = nil, packageStatus: PackageStatus? = nil, packageType: PackageType? = nil) {
             self.availablePackageVersion = availablePackageVersion
             self.availablePluginProperties = availablePluginProperties
@@ -4934,6 +5112,7 @@ extension OpenSearch {
         /// Key (file name) of the package.
         public let s3Key: String?
 
+        @inlinable
         public init(s3BucketName: String? = nil, s3Key: String? = nil) {
             self.s3BucketName = s3BucketName
             self.s3Key = s3Key
@@ -4962,6 +5141,7 @@ extension OpenSearch {
         /// Additional information about plugin properties if the package is a ZIP-PLUGIN package.
         public let pluginProperties: PluginProperties?
 
+        @inlinable
         public init(commitMessage: String? = nil, createdAt: Date? = nil, packageVersion: String? = nil, pluginProperties: PluginProperties? = nil) {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
@@ -4989,6 +5169,7 @@ extension OpenSearch {
         /// The version of the plugin.
         public let version: String?
 
+        @inlinable
         public init(className: String? = nil, description: String? = nil, name: String? = nil, uncompressedSizeInBytes: Int64? = nil, version: String? = nil) {
             self.className = className
             self.description = description
@@ -5014,6 +5195,7 @@ extension OpenSearch {
         /// The ID of the Reserved Instance offering to purchase.
         public let reservedInstanceOfferingId: String
 
+        @inlinable
         public init(instanceCount: Int? = nil, reservationName: String, reservedInstanceOfferingId: String) {
             self.instanceCount = instanceCount
             self.reservationName = reservationName
@@ -5043,6 +5225,7 @@ extension OpenSearch {
         /// The ID of the Reserved Instance offering that was purchased.
         public let reservedInstanceId: String?
 
+        @inlinable
         public init(reservationName: String? = nil, reservedInstanceId: String? = nil) {
             self.reservationName = reservationName
             self.reservedInstanceId = reservedInstanceId
@@ -5060,6 +5243,7 @@ extension OpenSearch {
         /// The frequency of the recurring charge.
         public let recurringChargeFrequency: String?
 
+        @inlinable
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
@@ -5075,6 +5259,7 @@ extension OpenSearch {
         /// The unique identifier of the inbound connection to reject.
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -5098,6 +5283,7 @@ extension OpenSearch {
         /// Contains details about the rejected inbound connection.
         public let connection: InboundConnection?
 
+        @inlinable
         public init(connection: InboundConnection? = nil) {
             self.connection = connection
         }
@@ -5113,6 +5299,7 @@ extension OpenSearch {
         /// The list of tag keys to remove from the domain.
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -5160,6 +5347,7 @@ extension OpenSearch {
         /// The hourly rate at which you're charged for the domain using this Reserved Instance.
         public let usagePrice: Double?
 
+        @inlinable
         public init(billingSubscriptionId: Int64? = nil, currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, instanceCount: Int? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, paymentOption: ReservedInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservationName: String? = nil, reservedInstanceId: String? = nil, reservedInstanceOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil, usagePrice: Double? = nil) {
             self.billingSubscriptionId = billingSubscriptionId
             self.currencyCode = currencyCode
@@ -5213,6 +5401,7 @@ extension OpenSearch {
         /// The hourly rate at which you're charged for the domain using this Reserved Instance.
         public let usagePrice: Double?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, instanceType: OpenSearchPartitionInstanceType? = nil, paymentOption: ReservedInstancePaymentOption? = nil, recurringCharges: [RecurringCharge]? = nil, reservedInstanceOfferingId: String? = nil, usagePrice: Double? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -5242,6 +5431,7 @@ extension OpenSearch {
         /// The name of the OpenSearch Service domain.
         public let domainName: String
 
+        @inlinable
         public init(account: String, domainName: String) {
             self.account = account
             self.domainName = domainName
@@ -5274,6 +5464,7 @@ extension OpenSearch {
         /// >The Amazon Resource Name (ARN) for the S3 Glue Data Catalog.
         public let roleArn: String?
 
+        @inlinable
         public init(roleArn: String? = nil) {
             self.roleArn = roleArn
         }
@@ -5295,6 +5486,7 @@ extension OpenSearch {
         /// The metadata of the SAML application, in XML format.
         public let metadataContent: String
 
+        @inlinable
         public init(entityId: String, metadataContent: String) {
             self.entityId = entityId
             self.metadataContent = metadataContent
@@ -5329,6 +5521,7 @@ extension OpenSearch {
         /// Element of the SAML assertion to use for the user name. Default is NameID.
         public let subjectKey: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, masterBackendRole: String? = nil, masterUserName: String? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
             self.idp = idp
@@ -5371,6 +5564,7 @@ extension OpenSearch {
         /// The key used for matching the SAML subject attribute.
         public let subjectKey: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, idp: SAMLIdp? = nil, rolesKey: String? = nil, sessionTimeoutMinutes: Int? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
             self.idp = idp
@@ -5408,6 +5602,7 @@ extension OpenSearch {
         /// The type of action that will be taken on the domain.
         public let type: ActionType
 
+        @inlinable
         public init(cancellable: Bool? = nil, description: String? = nil, id: String, mandatory: Bool? = nil, scheduledBy: ScheduledBy? = nil, scheduledTime: Int64, severity: ActionSeverity, status: ActionStatus? = nil, type: ActionType) {
             self.cancellable = cancellable
             self.description = description
@@ -5443,6 +5638,7 @@ extension OpenSearch {
         /// The severity of the Auto-Tune action. Valid values are LOW, MEDIUM, and HIGH.
         public let severity: ScheduledAutoTuneSeverityType?
 
+        @inlinable
         public init(action: String? = nil, actionType: ScheduledAutoTuneActionType? = nil, date: Date? = nil, severity: ScheduledAutoTuneSeverityType? = nil) {
             self.action = action
             self.actionType = actionType
@@ -5476,6 +5672,7 @@ extension OpenSearch {
         /// The status of your service software update.
         public let updateStatus: DeploymentStatus?
 
+        @inlinable
         public init(automatedUpdateDate: Date? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: DeploymentStatus? = nil) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
@@ -5503,6 +5700,7 @@ extension OpenSearch {
         /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
         public let automatedSnapshotStartHour: Int?
 
+        @inlinable
         public init(automatedSnapshotStartHour: Int? = nil) {
             self.automatedSnapshotStartHour = automatedSnapshotStartHour
         }
@@ -5518,6 +5716,7 @@ extension OpenSearch {
         /// The status of a daily automated snapshot.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: SnapshotOptions, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -5533,6 +5732,7 @@ extension OpenSearch {
         /// Whether automatic service software updates are enabled for the domain.
         public let autoSoftwareUpdateEnabled: Bool?
 
+        @inlinable
         public init(autoSoftwareUpdateEnabled: Bool? = nil) {
             self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
         }
@@ -5548,6 +5748,7 @@ extension OpenSearch {
         /// The status of service software update options, including creation date and last updated date.
         public let status: OptionStatus?
 
+        @inlinable
         public init(options: SoftwareUpdateOptions? = nil, status: OptionStatus? = nil) {
             self.options = options
             self.status = status
@@ -5567,6 +5768,7 @@ extension OpenSearch {
         /// The ID of the data node.
         public let nodeId: String?
 
+        @inlinable
         public init(action: MaintenanceType, domainName: String, nodeId: String? = nil) {
             self.action = action
             self.domainName = domainName
@@ -5599,6 +5801,7 @@ extension OpenSearch {
         /// The request ID of requested action.
         public let maintenanceId: String?
 
+        @inlinable
         public init(maintenanceId: String? = nil) {
             self.maintenanceId = maintenanceId
         }
@@ -5616,6 +5819,7 @@ extension OpenSearch {
         /// When to start the service software update.    NOW - Immediately schedules the update to happen in the current hour if there's capacity available.    TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime.    OFF_PEAK_WINDOW - Marks the update to be picked up during an upcoming off-peak window. There's no guarantee that the update will happen during the next immediate window. Depending on capacity, it might happen in subsequent days.   Default: NOW if you don't specify a value for DesiredStartTime, and TIMESTAMP if you do.
         public let scheduleAt: ScheduleAt?
 
+        @inlinable
         public init(desiredStartTime: Int64? = nil, domainName: String, scheduleAt: ScheduleAt? = nil) {
             self.desiredStartTime = desiredStartTime
             self.domainName = domainName
@@ -5639,6 +5843,7 @@ extension OpenSearch {
         /// The current status of the OpenSearch Service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
+        @inlinable
         public init(serviceSoftwareOptions: ServiceSoftwareOptions? = nil) {
             self.serviceSoftwareOptions = serviceSoftwareOptions
         }
@@ -5656,6 +5861,7 @@ extension OpenSearch {
         /// The name of the storage type.
         public let storageTypeName: String?
 
+        @inlinable
         public init(storageSubTypeName: String? = nil, storageTypeLimits: [StorageTypeLimit]? = nil, storageTypeName: String? = nil) {
             self.storageSubTypeName = storageSubTypeName
             self.storageTypeLimits = storageTypeLimits
@@ -5675,6 +5881,7 @@ extension OpenSearch {
         /// The limit values.
         public let limitValues: [String]?
 
+        @inlinable
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
             self.limitName = limitName
             self.limitValues = limitValues
@@ -5692,6 +5899,7 @@ extension OpenSearch {
         /// The value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5723,6 +5931,7 @@ extension OpenSearch {
         /// The status of the data source update.
         public let status: DataSourceStatus?
 
+        @inlinable
         public init(dataSourceType: DataSourceType, description: String? = nil, domainName: String, name: String, status: DataSourceStatus? = nil) {
             self.dataSourceType = dataSourceType
             self.description = description
@@ -5764,6 +5973,7 @@ extension OpenSearch {
         /// A message associated with the updated data source.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -5815,6 +6025,7 @@ extension OpenSearch {
         /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
@@ -5911,6 +6122,7 @@ extension OpenSearch {
         /// Results of the dry run performed in the update domain request.
         public let dryRunResults: DryRunResults?
 
+        @inlinable
         public init(domainConfig: DomainConfig, dryRunProgressStatus: DryRunProgressStatus? = nil, dryRunResults: DryRunResults? = nil) {
             self.domainConfig = domainConfig
             self.dryRunProgressStatus = dryRunProgressStatus
@@ -5934,6 +6146,7 @@ extension OpenSearch {
         /// Amazon S3 bucket and key for the package.
         public let packageSource: PackageSource
 
+        @inlinable
         public init(commitMessage: String? = nil, packageDescription: String? = nil, packageID: String, packageSource: PackageSource) {
             self.commitMessage = commitMessage
             self.packageDescription = packageDescription
@@ -5960,6 +6173,7 @@ extension OpenSearch {
         /// Information about a package.
         public let packageDetails: PackageDetails?
 
+        @inlinable
         public init(packageDetails: PackageDetails? = nil) {
             self.packageDetails = packageDetails
         }
@@ -5981,6 +6195,7 @@ extension OpenSearch {
         /// When to schedule the action.    NOW - Immediately schedules the update to happen in the current hour if there's capacity available.    TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime.    OFF_PEAK_WINDOW - Marks the action to be picked up during an upcoming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on capacity, it might happen in subsequent days.
         public let scheduleAt: ScheduleAt
 
+        @inlinable
         public init(actionID: String, actionType: ActionType, desiredStartTime: Int64? = nil, domainName: String, scheduleAt: ScheduleAt) {
             self.actionID = actionID
             self.actionType = actionType
@@ -6017,6 +6232,7 @@ extension OpenSearch {
         /// Information about the rescheduled action.
         public let scheduledAction: ScheduledAction?
 
+        @inlinable
         public init(scheduledAction: ScheduledAction? = nil) {
             self.scheduledAction = scheduledAction
         }
@@ -6032,6 +6248,7 @@ extension OpenSearch {
         /// The security groups and/or subnets to add, remove, or modify.
         public let vpcOptions: VPCOptions
 
+        @inlinable
         public init(vpcEndpointId: String, vpcOptions: VPCOptions) {
             self.vpcEndpointId = vpcEndpointId
             self.vpcOptions = vpcOptions
@@ -6053,6 +6270,7 @@ extension OpenSearch {
         /// The endpoint to be updated.
         public let vpcEndpoint: VpcEndpoint
 
+        @inlinable
         public init(vpcEndpoint: VpcEndpoint) {
             self.vpcEndpoint = vpcEndpoint
         }
@@ -6072,6 +6290,7 @@ extension OpenSearch {
         /// OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y.
         public let targetVersion: String
 
+        @inlinable
         public init(advancedOptions: [String: String]? = nil, domainName: String, performCheckOnly: Bool? = nil, targetVersion: String) {
             self.advancedOptions = advancedOptions
             self.domainName = domainName
@@ -6110,6 +6329,7 @@ extension OpenSearch {
         /// The unique identifier of the domain upgrade.
         public let upgradeId: String?
 
+        @inlinable
         public init(advancedOptions: [String: String]? = nil, changeProgressDetails: ChangeProgressDetails? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil, upgradeId: String? = nil) {
             self.advancedOptions = advancedOptions
             self.changeProgressDetails = changeProgressDetails
@@ -6139,6 +6359,7 @@ extension OpenSearch {
         ///  The current status of the upgrade. The status can take one of the following values:    In Progress   Succeeded   Succeeded with Issues   Failed
         public let upgradeStatus: UpgradeStatus?
 
+        @inlinable
         public init(startTimestamp: Date? = nil, stepsList: [UpgradeStepItem]? = nil, upgradeName: String? = nil, upgradeStatus: UpgradeStatus? = nil) {
             self.startTimestamp = startTimestamp
             self.stepsList = stepsList
@@ -6164,6 +6385,7 @@ extension OpenSearch {
         ///  The current status of the upgrade. The status can take one of the following values:    In Progress   Succeeded   Succeeded with Issues   Failed
         public let upgradeStepStatus: UpgradeStatus?
 
+        @inlinable
         public init(issues: [String]? = nil, progressPercent: Double? = nil, upgradeStep: UpgradeStep? = nil, upgradeStepStatus: UpgradeStatus? = nil) {
             self.issues = issues
             self.progressPercent = progressPercent
@@ -6189,6 +6411,7 @@ extension OpenSearch {
         /// The ID for your VPC. Amazon VPC generates this value when you create a VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
@@ -6210,6 +6433,7 @@ extension OpenSearch {
         /// The status of the VPC options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: VPCDerivedInfo, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -6227,6 +6451,7 @@ extension OpenSearch {
         /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -6244,6 +6469,7 @@ extension OpenSearch {
         /// A message corresponding to the failure.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -6261,6 +6487,7 @@ extension OpenSearch {
         /// The status of the version options for the specified domain.
         public let status: OptionStatus
 
+        @inlinable
         public init(options: String, status: OptionStatus) {
             self.options = options
             self.status = status
@@ -6286,6 +6513,7 @@ extension OpenSearch {
         /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint.
         public let vpcOptions: VPCDerivedInfo?
 
+        @inlinable
         public init(domainArn: String? = nil, endpoint: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.domainArn = domainArn
             self.endpoint = endpoint
@@ -6313,6 +6541,7 @@ extension OpenSearch {
         /// The unique identifier of the endpoint.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(errorCode: VpcEndpointErrorCode? = nil, errorMessage: String? = nil, vpcEndpointId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -6336,6 +6565,7 @@ extension OpenSearch {
         /// The creator of the endpoint.
         public let vpcEndpointOwner: String?
 
+        @inlinable
         public init(domainArn: String? = nil, status: VpcEndpointStatus? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
             self.domainArn = domainArn
             self.status = status
@@ -6357,6 +6587,7 @@ extension OpenSearch {
         /// The start minute of the window, in UTC.
         public let minutes: Int64
 
+        @inlinable
         public init(hours: Int64, minutes: Int64) {
             self.hours = hours
             self.minutes = minutes
@@ -6379,6 +6610,7 @@ extension OpenSearch {
         /// If you enabled multiple Availability Zones, this value is the number of zones that you want the domain to use. Valid values are 2 and 3. If your domain is provisioned within a VPC, this value be equal to number of subnets.
         public let availabilityZoneCount: Int?
 
+        @inlinable
         public init(availabilityZoneCount: Int? = nil) {
             self.availabilityZoneCount = availabilityZoneCount
         }
@@ -6392,6 +6624,7 @@ extension OpenSearch {
         /// An Amazon S3 data source.
         public let s3GlueDataCatalog: S3GlueDataCatalog?
 
+        @inlinable
         public init(s3GlueDataCatalog: S3GlueDataCatalog? = nil) {
             self.s3GlueDataCatalog = s3GlueDataCatalog
         }

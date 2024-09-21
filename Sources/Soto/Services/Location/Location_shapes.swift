@@ -143,6 +143,7 @@ extension Location {
         /// Filter on Active or Expired API keys.
         public let keyStatus: Status?
 
+        @inlinable
         public init(keyStatus: Status? = nil) {
             self.keyStatus = keyStatus
         }
@@ -160,6 +161,7 @@ extension Location {
         /// A list of allowed resource ARNs that a API key bearer can perform actions on.   The ARN must be the correct ARN for a map, place, or route ARN. You may  include wildcards in the resource-id to match multiple resources of the  same type.   The resources must be in the same partition,  region, and account-id as the key that is being  created.   Other than wildcards, you must include the full ARN, including the  arn, partition, service, region, account-id and resource-id delimited by colons (:).   No spaces allowed, even with wildcards. For example, arn:aws:geo:region:account-id:map/ExampleMap*.   For more information about ARN format, see Amazon Resource Names (ARNs).
         public let allowResources: [String]
 
+        @inlinable
         public init(allowActions: [String], allowReferers: [String]? = nil, allowResources: [String]) {
             self.allowActions = allowActions
             self.allowReferers = allowReferers
@@ -195,6 +197,7 @@ extension Location {
         /// The name of the tracker resource to be associated with a geofence collection.
         public let trackerName: String
 
+        @inlinable
         public init(consumerArn: String, trackerName: String) {
             self.consumerArn = consumerArn
             self.trackerName = trackerName
@@ -229,6 +232,7 @@ extension Location {
         public let deviceId: String
         public let error: BatchItemError
 
+        @inlinable
         public init(deviceId: String, error: BatchItemError) {
             self.deviceId = deviceId
             self.error = error
@@ -246,6 +250,7 @@ extension Location {
         /// The name of the tracker resource to delete the device position history from.
         public let trackerName: String
 
+        @inlinable
         public init(deviceIds: [String], trackerName: String) {
             self.deviceIds = deviceIds
             self.trackerName = trackerName
@@ -278,6 +283,7 @@ extension Location {
         /// Contains error details for each device history that failed to delete.
         public let errors: [BatchDeleteDevicePositionHistoryError]
 
+        @inlinable
         public init(errors: [BatchDeleteDevicePositionHistoryError]) {
             self.errors = errors
         }
@@ -293,6 +299,7 @@ extension Location {
         /// The geofence associated with the error message.
         public let geofenceId: String
 
+        @inlinable
         public init(error: BatchItemError, geofenceId: String) {
             self.error = error
             self.geofenceId = geofenceId
@@ -310,6 +317,7 @@ extension Location {
         /// The batch of geofences to be deleted.
         public let geofenceIds: [String]
 
+        @inlinable
         public init(collectionName: String, geofenceIds: [String]) {
             self.collectionName = collectionName
             self.geofenceIds = geofenceIds
@@ -342,6 +350,7 @@ extension Location {
         /// Contains error details for each geofence that failed to delete.
         public let errors: [BatchDeleteGeofenceError]
 
+        @inlinable
         public init(errors: [BatchDeleteGeofenceError]) {
             self.errors = errors
         }
@@ -360,6 +369,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(deviceId: String, error: BatchItemError, sampleTime: Date) {
             self.deviceId = deviceId
             self.error = error
@@ -379,6 +389,7 @@ extension Location {
         /// Contains device details for each device to be evaluated against the given geofence collection.
         public let devicePositionUpdates: [DevicePositionUpdate]
 
+        @inlinable
         public init(collectionName: String, devicePositionUpdates: [DevicePositionUpdate]) {
             self.collectionName = collectionName
             self.devicePositionUpdates = devicePositionUpdates
@@ -409,6 +420,7 @@ extension Location {
         /// Contains error details for each device that failed to evaluate its position against the given geofence collection.
         public let errors: [BatchEvaluateGeofencesError]
 
+        @inlinable
         public init(errors: [BatchEvaluateGeofencesError]) {
             self.errors = errors
         }
@@ -424,6 +436,7 @@ extension Location {
         /// Contains details related to the error code.
         public let error: BatchItemError
 
+        @inlinable
         public init(deviceId: String, error: BatchItemError) {
             self.deviceId = deviceId
             self.error = error
@@ -441,6 +454,7 @@ extension Location {
         /// The tracker resource retrieving the device position.
         public let trackerName: String
 
+        @inlinable
         public init(deviceIds: [String], trackerName: String) {
             self.deviceIds = deviceIds
             self.trackerName = trackerName
@@ -475,6 +489,7 @@ extension Location {
         /// Contains  error details for each device that failed to send its position to the tracker resource.
         public let errors: [BatchGetDevicePositionError]
 
+        @inlinable
         public init(devicePositions: [DevicePosition], errors: [BatchGetDevicePositionError]) {
             self.devicePositions = devicePositions
             self.errors = errors
@@ -492,6 +507,7 @@ extension Location {
         /// A message with the reason for the batch request error.
         public let message: String?
 
+        @inlinable
         public init(code: BatchItemErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -509,6 +525,7 @@ extension Location {
         /// The geofence associated with the error message.
         public let geofenceId: String
 
+        @inlinable
         public init(error: BatchItemError, geofenceId: String) {
             self.error = error
             self.geofenceId = geofenceId
@@ -526,6 +543,7 @@ extension Location {
         /// The batch of geofences to be stored in a geofence collection.
         public let entries: [BatchPutGeofenceRequestEntry]
 
+        @inlinable
         public init(collectionName: String, entries: [BatchPutGeofenceRequestEntry]) {
             self.collectionName = collectionName
             self.entries = entries
@@ -560,6 +578,7 @@ extension Location {
         /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence geobuf format supports a maximum of 100,000 vertices.
         public let geometry: GeofenceGeometry
 
+        @inlinable
         public init(geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
             self.geofenceId = geofenceId
             self.geofenceProperties = geofenceProperties
@@ -587,6 +606,7 @@ extension Location {
         /// Contains each geofence that was successfully stored in a geofence collection.
         public let successes: [BatchPutGeofenceSuccess]
 
+        @inlinable
         public init(errors: [BatchPutGeofenceError], successes: [BatchPutGeofenceSuccess]) {
             self.errors = errors
             self.successes = successes
@@ -608,6 +628,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, geofenceId: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
@@ -630,6 +651,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(deviceId: String, error: BatchItemError, sampleTime: Date) {
             self.deviceId = deviceId
             self.error = error
@@ -649,6 +671,7 @@ extension Location {
         /// Contains the position update details for each device, up to 10 devices.
         public let updates: [DevicePositionUpdate]
 
+        @inlinable
         public init(trackerName: String, updates: [DevicePositionUpdate]) {
             self.trackerName = trackerName
             self.updates = updates
@@ -679,6 +702,7 @@ extension Location {
         /// Contains  error details for each device that failed to update its position.
         public let errors: [BatchUpdateDevicePositionError]
 
+        @inlinable
         public init(errors: [BatchUpdateDevicePositionError]) {
             self.errors = errors
         }
@@ -694,6 +718,7 @@ extension Location {
         /// Avoids tolls when calculating routes. Default Value: false  Valid Values: false | true
         public let avoidTolls: Bool?
 
+        @inlinable
         public init(avoidFerries: Bool? = nil, avoidTolls: Bool? = nil) {
             self.avoidFerries = avoidFerries
             self.avoidTolls = avoidTolls
@@ -728,6 +753,7 @@ extension Location {
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
 
+        @inlinable
         public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePositions: [[Double]], departureTime: Date? = nil, destinationPositions: [[Double]], distanceUnit: DistanceUnit? = nil, key: String? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil) {
             self.calculatorName = calculatorName
             self.carModeOptions = carModeOptions
@@ -793,6 +819,7 @@ extension Location {
         /// Contains information about the route matrix, DataSource, DistanceUnit, RouteCount and ErrorCount.
         public let summary: CalculateRouteMatrixSummary
 
+        @inlinable
         public init(routeMatrix: [[RouteMatrixEntry]], snappedDeparturePositions: [[Double]]? = nil, snappedDestinationPositions: [[Double]]? = nil, summary: CalculateRouteMatrixSummary) {
             self.routeMatrix = routeMatrix
             self.snappedDeparturePositions = snappedDeparturePositions
@@ -818,6 +845,7 @@ extension Location {
         /// The count of cells in the route matrix. Equal to the number of DeparturePositions multiplied by the number of DestinationPositions.
         public let routeCount: Int
 
+        @inlinable
         public init(dataSource: String, distanceUnit: DistanceUnit, errorCount: Int, routeCount: Int) {
             self.dataSource = dataSource
             self.distanceUnit = distanceUnit
@@ -865,6 +893,7 @@ extension Location {
         /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position.    For example, from the DeparturePosition [-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road.  Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
         public let waypointPositions: [[Double]]?
 
+        @inlinable
         public init(arrivalTime: Date? = nil, calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePosition: [Double], departureTime: Date? = nil, destinationPosition: [Double], distanceUnit: DistanceUnit? = nil, includeLegGeometry: Bool? = nil, key: String? = nil, optimizeFor: OptimizationMode? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil, waypointPositions: [[Double]]? = nil) {
             self.arrivalTime = arrivalTime
             self.calculatorName = calculatorName
@@ -938,6 +967,7 @@ extension Location {
         /// Contains information about the whole route, such as: RouteBBox, DataSource, Distance, DistanceUnit, and DurationSeconds.
         public let summary: CalculateRouteSummary
 
+        @inlinable
         public init(legs: [Leg], summary: CalculateRouteSummary) {
             self.legs = legs
             self.summary = summary
@@ -961,6 +991,7 @@ extension Location {
         /// Specifies a geographical box surrounding a route. Used to zoom into a route when displaying it in a map. For example, [min x, min y, max x, max y]. The first 2 bbox parameters describe the lower southwest corner:    The first bbox position is the X coordinate or longitude of the lower southwest corner.    The second bbox position is the Y coordinate or latitude of the lower southwest corner.    The next 2 bbox parameters describe the upper northeast corner:    The third bbox position is the X coordinate, or longitude of the upper northeast corner.    The fourth bbox position is the Y coordinate, or latitude of the upper northeast corner.
         public let routeBBox: [Double]
 
+        @inlinable
         public init(dataSource: String, distance: Double, distanceUnit: DistanceUnit, durationSeconds: Double, routeBBox: [Double]) {
             self.dataSource = dataSource
             self.distance = distance
@@ -988,6 +1019,7 @@ extension Location {
         /// Specifies the truck's weight specifications including total weight and unit of measurement. Used to avoid roads that can't support the truck's weight.
         public let weight: TruckWeight?
 
+        @inlinable
         public init(avoidFerries: Bool? = nil, avoidTolls: Bool? = nil, dimensions: TruckDimensions? = nil, weight: TruckWeight? = nil) {
             self.avoidFerries = avoidFerries
             self.avoidTolls = avoidTolls
@@ -1007,6 +1039,7 @@ extension Location {
         /// Information about the Long-Term Evolution (LTE) network the device is connected to.
         public let lteCellDetails: [LteCellDetails]
 
+        @inlinable
         public init(lteCellDetails: [LteCellDetails]) {
             self.lteCellDetails = lteCellDetails
         }
@@ -1028,6 +1061,7 @@ extension Location {
         /// The radius of the circle in meters. Must be greater than zero and no  larger than 100,000 (100 kilometers).
         public let radius: Double
 
+        @inlinable
         public init(center: [Double], radius: Double) {
             self.center = center
             self.radius = radius
@@ -1059,6 +1093,7 @@ extension Location {
         /// Applies one or more tags to the geofence collection. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
+        @inlinable
         public init(collectionName: String, description: String? = nil, kmsKeyId: String? = nil, tags: [String: String]? = nil) {
             self.collectionName = collectionName
             self.description = description
@@ -1069,6 +1104,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(collectionName: String, description: String? = nil, kmsKeyId: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil) {
             self.collectionName = collectionName
             self.description = description
@@ -1114,6 +1150,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
 
+        @inlinable
         public init(collectionArn: String, collectionName: String, createTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
@@ -1142,6 +1179,7 @@ extension Location {
         /// Applies one or more tags to the map resource. A tag is a key-value pair that helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, expireTime: Date? = nil, keyName: String, noExpiry: Bool? = nil, restrictions: ApiKeyRestrictions, tags: [String: String]? = nil) {
             self.description = description
             self.expireTime = expireTime
@@ -1188,6 +1226,7 @@ extension Location {
         /// The name of the API key resource.
         public let keyName: String
 
+        @inlinable
         public init(createTime: Date, key: String, keyArn: String, keyName: String) {
             self.createTime = createTime
             self.key = key
@@ -1215,6 +1254,7 @@ extension Location {
         /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length:  256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configuration: MapConfiguration, description: String? = nil, mapName: String, tags: [String: String]? = nil) {
             self.configuration = configuration
             self.description = description
@@ -1224,6 +1264,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(configuration: MapConfiguration, description: String? = nil, mapName: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil) {
             self.configuration = configuration
             self.description = description
@@ -1266,6 +1307,7 @@ extension Location {
         /// The name of the map resource.
         public let mapName: String
 
+        @inlinable
         public init(createTime: Date, mapArn: String, mapName: String) {
             self.createTime = createTime
             self.mapArn = mapArn
@@ -1293,6 +1335,7 @@ extension Location {
         /// Applies one or more tags to the place index resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
+        @inlinable
         public init(dataSource: String, dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, tags: [String: String]? = nil) {
             self.dataSource = dataSource
             self.dataSourceConfiguration = dataSourceConfiguration
@@ -1303,6 +1346,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(dataSource: String, dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil) {
             self.dataSource = dataSource
             self.dataSourceConfiguration = dataSourceConfiguration
@@ -1346,6 +1390,7 @@ extension Location {
         /// The name for the place index resource.
         public let indexName: String
 
+        @inlinable
         public init(createTime: Date, indexArn: String, indexName: String) {
             self.createTime = createTime
             self.indexArn = indexArn
@@ -1371,6 +1416,7 @@ extension Location {
         /// Applies one or more tags to the route calculator resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them.   For example: { "tag1" : "value1", "tag2" : "value2"}   Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
+        @inlinable
         public init(calculatorName: String, dataSource: String, description: String? = nil, tags: [String: String]? = nil) {
             self.calculatorName = calculatorName
             self.dataSource = dataSource
@@ -1380,6 +1426,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(calculatorName: String, dataSource: String, description: String? = nil, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil) {
             self.calculatorName = calculatorName
             self.dataSource = dataSource
@@ -1421,6 +1468,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var createTime: Date
 
+        @inlinable
         public init(calculatorArn: String, calculatorName: String, createTime: Date) {
             self.calculatorArn = calculatorArn
             self.calculatorName = calculatorName
@@ -1454,6 +1502,7 @@ extension Location {
         /// The name for the tracker resource. Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
         public let trackerName: String
 
+        @inlinable
         public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, tags: [String: String]? = nil, trackerName: String) {
             self.description = description
             self.eventBridgeEnabled = eventBridgeEnabled
@@ -1467,6 +1516,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
             self.description = description
             self.eventBridgeEnabled = eventBridgeEnabled
@@ -1518,6 +1568,7 @@ extension Location {
         /// The name of the tracker resource.
         public let trackerName: String
 
+        @inlinable
         public init(createTime: Date, trackerArn: String, trackerName: String) {
             self.createTime = createTime
             self.trackerArn = trackerArn
@@ -1535,6 +1586,7 @@ extension Location {
         /// Specifies how the results of an operation will be stored by the caller.  Valid values include:    SingleUse specifies that the results won't be stored.     Storage specifies that the result can be cached or stored in a database.   Default value: SingleUse
         public let intendedUse: IntendedUse?
 
+        @inlinable
         public init(intendedUse: IntendedUse? = nil) {
             self.intendedUse = intendedUse
         }
@@ -1548,6 +1600,7 @@ extension Location {
         /// The name of the geofence collection to be deleted.
         public let collectionName: String
 
+        @inlinable
         public init(collectionName: String) {
             self.collectionName = collectionName
         }
@@ -1577,6 +1630,7 @@ extension Location {
         /// The name of the API key to delete.
         public let keyName: String
 
+        @inlinable
         public init(forceDelete: Bool? = nil, keyName: String) {
             self.forceDelete = forceDelete
             self.keyName = keyName
@@ -1606,6 +1660,7 @@ extension Location {
         /// The name of the map resource to be deleted.
         public let mapName: String
 
+        @inlinable
         public init(mapName: String) {
             self.mapName = mapName
         }
@@ -1633,6 +1688,7 @@ extension Location {
         /// The name of the place index resource to be deleted.
         public let indexName: String
 
+        @inlinable
         public init(indexName: String) {
             self.indexName = indexName
         }
@@ -1660,6 +1716,7 @@ extension Location {
         /// The name of the route calculator resource to be deleted.
         public let calculatorName: String
 
+        @inlinable
         public init(calculatorName: String) {
             self.calculatorName = calculatorName
         }
@@ -1687,6 +1744,7 @@ extension Location {
         /// The name of the tracker resource to be deleted.
         public let trackerName: String
 
+        @inlinable
         public init(trackerName: String) {
             self.trackerName = trackerName
         }
@@ -1714,6 +1772,7 @@ extension Location {
         /// The name of the geofence collection.
         public let collectionName: String
 
+        @inlinable
         public init(collectionName: String) {
             self.collectionName = collectionName
         }
@@ -1757,6 +1816,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(collectionArn: String, collectionName: String, createTime: Date, description: String, geofenceCount: Int? = nil, kmsKeyId: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
@@ -1771,6 +1831,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(collectionArn: String, collectionName: String, createTime: Date, description: String, geofenceCount: Int? = nil, kmsKeyId: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
@@ -1802,6 +1863,7 @@ extension Location {
         /// The name of the API key resource.
         public let keyName: String
 
+        @inlinable
         public init(keyName: String) {
             self.keyName = keyName
         }
@@ -1843,6 +1905,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, description: String? = nil, expireTime: Date, key: String, keyArn: String, keyName: String, restrictions: ApiKeyRestrictions, tags: [String: String]? = nil, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -1872,6 +1935,7 @@ extension Location {
         /// The name of the map resource.
         public let mapName: String
 
+        @inlinable
         public init(mapName: String) {
             self.mapName = mapName
         }
@@ -1913,6 +1977,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(configuration: MapConfiguration, createTime: Date, dataSource: String, description: String, mapArn: String, mapName: String, tags: [String: String]? = nil, updateTime: Date) {
             self.configuration = configuration
             self.createTime = createTime
@@ -1926,6 +1991,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(configuration: MapConfiguration, createTime: Date, dataSource: String, description: String, mapArn: String, mapName: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.configuration = configuration
             self.createTime = createTime
@@ -1955,6 +2021,7 @@ extension Location {
         /// The name of the place index resource.
         public let indexName: String
 
+        @inlinable
         public init(indexName: String) {
             self.indexName = indexName
         }
@@ -1996,6 +2063,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, dataSource: String, dataSourceConfiguration: DataSourceConfiguration, description: String, indexArn: String, indexName: String, tags: [String: String]? = nil, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
@@ -2009,6 +2077,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(createTime: Date, dataSource: String, dataSourceConfiguration: DataSourceConfiguration, description: String, indexArn: String, indexName: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
@@ -2038,6 +2107,7 @@ extension Location {
         /// The name of the route calculator resource.
         public let calculatorName: String
 
+        @inlinable
         public init(calculatorName: String) {
             self.calculatorName = calculatorName
         }
@@ -2077,6 +2147,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(calculatorArn: String, calculatorName: String, createTime: Date, dataSource: String, description: String, tags: [String: String]? = nil, updateTime: Date) {
             self.calculatorArn = calculatorArn
             self.calculatorName = calculatorName
@@ -2089,6 +2160,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(calculatorArn: String, calculatorName: String, createTime: Date, dataSource: String, description: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.calculatorArn = calculatorArn
             self.calculatorName = calculatorName
@@ -2116,6 +2188,7 @@ extension Location {
         /// The name of the tracker resource.
         public let trackerName: String
 
+        @inlinable
         public init(trackerName: String) {
             self.trackerName = trackerName
         }
@@ -2163,6 +2236,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, description: String, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -2179,6 +2253,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(createTime: Date, description: String, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerArn: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -2226,6 +2301,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(accuracy: PositionalAccuracy? = nil, deviceId: String? = nil, position: [Double], positionProperties: [String: String]? = nil, receivedTime: Date, sampleTime: Date) {
             self.accuracy = accuracy
             self.deviceId = deviceId
@@ -2258,6 +2334,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(accuracy: PositionalAccuracy? = nil, deviceId: String, position: [Double], positionProperties: [String: String]? = nil, sampleTime: Date) {
             self.accuracy = accuracy
             self.deviceId = deviceId
@@ -2300,6 +2377,7 @@ extension Location {
         /// The Wi-Fi access points the device is using.
         public let wiFiAccessPoints: [WiFiAccessPoint]?
 
+        @inlinable
         public init(accuracy: PositionalAccuracy? = nil, cellSignals: CellSignals? = nil, deviceId: String, ipv4Address: String? = nil, position: [Double], sampleTime: Date, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
             self.accuracy = accuracy
             self.cellSignals = cellSignals
@@ -2336,6 +2414,7 @@ extension Location {
         /// The name of the tracker resource to be dissociated from the consumer.
         public let trackerName: String
 
+        @inlinable
         public init(consumerArn: String, trackerName: String) {
             self.consumerArn = consumerArn
             self.trackerName = trackerName
@@ -2369,6 +2448,7 @@ extension Location {
         /// The device's speed.
         public let speed: Double?
 
+        @inlinable
         public init(position: [Double], speed: Double? = nil) {
             self.position = position
             self.speed = speed
@@ -2401,6 +2481,7 @@ extension Location {
         /// Specifies the time horizon in minutes for the forecasted events.
         public let timeHorizonMinutes: Double?
 
+        @inlinable
         public init(collectionName: String, deviceState: ForecastGeofenceEventsDeviceState, distanceUnit: DistanceUnit? = nil, maxResults: Int? = nil, nextToken: String? = nil, speedUnit: SpeedUnit? = nil, timeHorizonMinutes: Double? = nil) {
             self.collectionName = collectionName
             self.deviceState = deviceState
@@ -2452,6 +2533,7 @@ extension Location {
         /// The speed unit for the forecasted events.
         public let speedUnit: SpeedUnit
 
+        @inlinable
         public init(distanceUnit: DistanceUnit, forecastedEvents: [ForecastedEvent], nextToken: String? = nil, speedUnit: SpeedUnit) {
             self.distanceUnit = distanceUnit
             self.forecastedEvents = forecastedEvents
@@ -2484,6 +2566,7 @@ extension Location {
         /// The closest distance from the device's position to the geofence.
         public let nearestDistance: Double
 
+        @inlinable
         public init(eventId: String, eventType: ForecastedGeofenceEventType, forecastedBreachTime: Date? = nil, geofenceId: String, geofenceProperties: [String: String]? = nil, isDeviceInGeofence: Bool, nearestDistance: Double) {
             self.eventId = eventId
             self.eventType = eventType
@@ -2513,6 +2596,7 @@ extension Location {
         /// A polygon is a list of linear rings which are each made up of a list of vertices. Each vertex is a 2-dimensional point of the form: [longitude, latitude]. This is represented as an array of doubles of length 2 (so [double, double]). An array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary), is called a linear ring. The linear ring vertices must be listed in counter-clockwise order around the ring’s interior. The linear ring is represented as an array of vertices, or an array of arrays of doubles ([[double, double], ...]). A geofence consists of a single linear ring. To allow for future expansion, the Polygon parameter takes an array of linear rings, which is represented as an array of arrays of arrays of doubles ([[[double, double], ...], ...]). A linear ring for use in geofences can consist of between 4 and 1,000 vertices.
         public let polygon: [[[Double]]]?
 
+        @inlinable
         public init(circle: Circle? = nil, geobuf: AWSBase64Data? = nil, polygon: [[[Double]]]? = nil) {
             self.circle = circle
             self.geobuf = geobuf
@@ -2551,6 +2635,7 @@ extension Location {
         /// The tracker resource receiving the request for the device position history.
         public let trackerName: String
 
+        @inlinable
         public init(deviceId: String, endTimeExclusive: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTimeInclusive: Date? = nil, trackerName: String) {
             self.deviceId = deviceId
             self.endTimeExclusive = endTimeExclusive
@@ -2596,6 +2681,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(devicePositions: [DevicePosition], nextToken: String? = nil) {
             self.devicePositions = devicePositions
             self.nextToken = nextToken
@@ -2613,6 +2699,7 @@ extension Location {
         /// The tracker resource receiving the position update.
         public let trackerName: String
 
+        @inlinable
         public init(deviceId: String, trackerName: String) {
             self.deviceId = deviceId
             self.trackerName = trackerName
@@ -2653,6 +2740,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(accuracy: PositionalAccuracy? = nil, deviceId: String? = nil, position: [Double], positionProperties: [String: String]? = nil, receivedTime: Date, sampleTime: Date) {
             self.accuracy = accuracy
             self.deviceId = deviceId
@@ -2678,6 +2766,7 @@ extension Location {
         /// The geofence you're retrieving details for.
         public let geofenceId: String
 
+        @inlinable
         public init(collectionName: String, geofenceId: String) {
             self.collectionName = collectionName
             self.geofenceId = geofenceId
@@ -2718,6 +2807,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry, status: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
@@ -2747,6 +2837,7 @@ extension Location {
         /// The map resource associated with the glyph ﬁle.
         public let mapName: String
 
+        @inlinable
         public init(fontStack: String, fontUnicodeRange: String, key: String? = nil, mapName: String) {
             self.fontStack = fontStack
             self.fontUnicodeRange = fontUnicodeRange
@@ -2782,6 +2873,7 @@ extension Location {
         /// The map glyph content type. For example, application/octet-stream.
         public let contentType: String?
 
+        @inlinable
         public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
@@ -2807,6 +2899,7 @@ extension Location {
         /// The map resource associated with the sprite ﬁle.
         public let mapName: String
 
+        @inlinable
         public init(fileName: String, key: String? = nil, mapName: String) {
             self.fileName = fileName
             self.key = key
@@ -2840,6 +2933,7 @@ extension Location {
         /// The content type of the sprite sheet and offsets. For example, the sprite sheet content type is image/png, and the sprite offset JSON document is application/json.
         public let contentType: String?
 
+        @inlinable
         public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
@@ -2863,6 +2957,7 @@ extension Location {
         /// The map resource to retrieve the style descriptor from.
         public let mapName: String
 
+        @inlinable
         public init(key: String? = nil, mapName: String) {
             self.key = key
             self.mapName = mapName
@@ -2894,6 +2989,7 @@ extension Location {
         /// The style descriptor's content type. For example, application/json.
         public let contentType: String?
 
+        @inlinable
         public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
@@ -2923,6 +3019,7 @@ extension Location {
         /// The zoom value for the map tile.
         public let z: String
 
+        @inlinable
         public init(key: String? = nil, mapName: String, x: String, y: String, z: String) {
             self.key = key
             self.mapName = mapName
@@ -2960,6 +3057,7 @@ extension Location {
         /// The map tile's content type. For example, application/vnd.mapbox-vector-tile.
         public let contentType: String?
 
+        @inlinable
         public init(blob: AWSHTTPBody, cacheControl: String? = nil, contentType: String? = nil) {
             self.blob = blob
             self.cacheControl = cacheControl
@@ -2987,6 +3085,7 @@ extension Location {
         /// The identifier of the place to find.
         public let placeId: String
 
+        @inlinable
         public init(indexName: String, key: String? = nil, language: String? = nil, placeId: String) {
             self.indexName = indexName
             self.key = key
@@ -3019,6 +3118,7 @@ extension Location {
         /// Details about the result, such as its address and position.
         public let place: Place
 
+        @inlinable
         public init(place: Place) {
             self.place = place
         }
@@ -3038,6 +3138,7 @@ extension Location {
         /// Indicates if a proxy was used.
         public let proxyDetected: Bool
 
+        @inlinable
         public init(accuracy: PositionalAccuracy? = nil, deviationDistance: Double? = nil, position: [Double]? = nil, proxyDetected: Bool) {
             self.accuracy = accuracy
             self.deviationDistance = deviationDistance
@@ -3067,6 +3168,7 @@ extension Location {
         /// Contains a list of steps, which represent subsections of a leg. Each step provides instructions for how to move to the next step in the leg such as the step's start position, end position, travel distance, travel duration, and geometry offset.
         public let steps: [Step]
 
+        @inlinable
         public init(distance: Double, durationSeconds: Double, endPosition: [Double], geometry: LegGeometry? = nil, startPosition: [Double], steps: [Step]) {
             self.distance = distance
             self.durationSeconds = durationSeconds
@@ -3090,6 +3192,7 @@ extension Location {
         /// An ordered list of positions used to plot a route on a map.  The first position is closest to the start position for the leg, and the last position is the closest to the end position for the leg.   For example, [[-123.117, 49.284],[-123.115, 49.285],[-123.115, 49.285]]
         public let lineString: [[Double]]?
 
+        @inlinable
         public init(lineString: [[Double]]? = nil) {
             self.lineString = lineString
         }
@@ -3109,6 +3212,7 @@ extension Location {
         /// The tracker resource containing the requested devices.
         public let trackerName: String
 
+        @inlinable
         public init(filterGeometry: TrackingFilterGeometry? = nil, maxResults: Int? = nil, nextToken: String? = nil, trackerName: String) {
             self.filterGeometry = filterGeometry
             self.maxResults = maxResults
@@ -3147,6 +3251,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListDevicePositionsResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3171,6 +3276,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(accuracy: PositionalAccuracy? = nil, deviceId: String, position: [Double], positionProperties: [String: String]? = nil, sampleTime: Date) {
             self.accuracy = accuracy
             self.deviceId = deviceId
@@ -3194,6 +3300,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3216,6 +3323,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListGeofenceCollectionsResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3243,6 +3351,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(collectionName: String, createTime: Date, description: String, updateTime: Date) {
             self.collectionName = collectionName
             self.createTime = createTime
@@ -3253,6 +3362,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(collectionName: String, createTime: Date, description: String, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, updateTime: Date) {
             self.collectionName = collectionName
             self.createTime = createTime
@@ -3288,6 +3398,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry, status: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
@@ -3315,6 +3426,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
         public let nextToken: String?
 
+        @inlinable
         public init(collectionName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collectionName = collectionName
             self.maxResults = maxResults
@@ -3349,6 +3461,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListGeofenceResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3368,6 +3481,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ApiKeyFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -3392,6 +3506,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListKeysResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3419,6 +3534,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, description: String? = nil, expireTime: Date, keyName: String, restrictions: ApiKeyRestrictions, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -3444,6 +3560,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3466,6 +3583,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListMapsResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3493,6 +3611,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, dataSource: String, description: String, mapName: String, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
@@ -3503,6 +3622,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(createTime: Date, dataSource: String, description: String, mapName: String, pricingPlan: PricingPlan? = nil, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
@@ -3528,6 +3648,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3550,6 +3671,7 @@ extension Location {
         /// A pagination token indicating that there are additional pages available. You can use the token in a new request to fetch the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListPlaceIndexesResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3577,6 +3699,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, dataSource: String, description: String, indexName: String, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
@@ -3587,6 +3710,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(createTime: Date, dataSource: String, description: String, indexName: String, pricingPlan: PricingPlan? = nil, updateTime: Date) {
             self.createTime = createTime
             self.dataSource = dataSource
@@ -3612,6 +3736,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default Value: null
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3634,6 +3759,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a subsequent request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListRouteCalculatorsResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3661,6 +3787,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(calculatorName: String, createTime: Date, dataSource: String, description: String, updateTime: Date) {
             self.calculatorName = calculatorName
             self.createTime = createTime
@@ -3671,6 +3798,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(calculatorName: String, createTime: Date, dataSource: String, description: String, pricingPlan: PricingPlan? = nil, updateTime: Date) {
             self.calculatorName = calculatorName
             self.createTime = createTime
@@ -3694,6 +3822,7 @@ extension Location {
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3716,6 +3845,7 @@ extension Location {
         /// Tags that have been applied to the specified resource. Tags are mapped from the tag key to the tag value: "TagKey" : "TagValue".   Format example: {"tag1" : "value1", "tag2" : "value2"}
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3733,6 +3863,7 @@ extension Location {
         /// The tracker resource whose associated geofence collections you want to list.
         public let trackerName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, trackerName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3767,6 +3898,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(consumerArns: [String], nextToken: String? = nil) {
             self.consumerArns = consumerArns
             self.nextToken = nextToken
@@ -3784,6 +3916,7 @@ extension Location {
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3806,6 +3939,7 @@ extension Location {
         /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [ListTrackersResponseEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -3833,6 +3967,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, description: String, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -3843,6 +3978,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(createTime: Date, description: String, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String, updateTime: Date) {
             self.createTime = createTime
             self.description = description
@@ -3884,6 +4020,7 @@ extension Location {
         /// Timing Advance (TA).
         public let timingAdvance: Int?
 
+        @inlinable
         public init(cellId: Int = 0, localId: LteLocalId? = nil, mcc: Int, mnc: Int, networkMeasurements: [LteNetworkMeasurements]? = nil, nrCapable: Bool? = nil, rsrp: Int? = nil, rsrq: Float? = nil, tac: Int? = nil, timingAdvance: Int? = nil) {
             self.cellId = cellId
             self.localId = localId
@@ -3930,6 +4067,7 @@ extension Location {
         /// Physical Cell ID (PCI).
         public let pci: Int
 
+        @inlinable
         public init(earfcn: Int = 0, pci: Int = 0) {
             self.earfcn = earfcn
             self.pci = pci
@@ -3960,6 +4098,7 @@ extension Location {
         /// Signal quality of the reference Signal received, measured in decibels (dB).
         public let rsrq: Float?
 
+        @inlinable
         public init(cellId: Int = 0, earfcn: Int = 0, pci: Int = 0, rsrp: Int? = nil, rsrq: Float? = nil) {
             self.cellId = cellId
             self.earfcn = earfcn
@@ -3999,6 +4138,7 @@ extension Location {
         /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world  suitable for website and mobile application use. The map includes highways  major roads, minor roads, railways, water features, cities, parks,  landmarks, building footprints, and administrative boundaries.    VectorOpenDataVisualizationLight – The Open Data  Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.    VectorOpenDataVisualizationDark – The Open Data  Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
         public let style: String
 
+        @inlinable
         public init(customLayers: [String]? = nil, politicalView: String? = nil, style: String) {
             self.customLayers = customLayers
             self.politicalView = politicalView
@@ -4034,6 +4174,7 @@ extension Location {
         /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a  view, such as IND for the Indian view.  Not all map resources or styles support political view styles. See  Political  views  for more information.
         public let politicalView: String?
 
+        @inlinable
         public init(customLayers: [String]? = nil, politicalView: String? = nil) {
             self.customLayers = customLayers
             self.politicalView = politicalView
@@ -4091,6 +4232,7 @@ extension Location {
         /// For addresses with a UnitNumber, the type of unit. For example, Apartment.  Returned only for a place index that uses Esri as a data provider.
         public let unitType: String?
 
+        @inlinable
         public init(addressNumber: String? = nil, categories: [String]? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subMunicipality: String? = nil, subRegion: String? = nil, supplementalCategories: [String]? = nil, timeZone: TimeZone? = nil, unitNumber: String? = nil, unitType: String? = nil) {
             self.addressNumber = addressNumber
             self.categories = categories
@@ -4136,6 +4278,7 @@ extension Location {
         /// A single point geometry specifies a location for a Place using WGS 84 coordinates:    x — Specifies the x coordinate or longitude.     y — Specifies the y coordinate or latitude.
         public let point: [Double]?
 
+        @inlinable
         public init(point: [Double]? = nil) {
             self.point = point
         }
@@ -4149,6 +4292,7 @@ extension Location {
         /// Estimated maximum distance, in meters, between the measured position and the true position of a device, along the Earth's surface.
         public let horizontal: Double
 
+        @inlinable
         public init(horizontal: Double) {
             self.horizontal = horizontal
         }
@@ -4168,6 +4312,7 @@ extension Location {
         /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error.  The  geofence polygon format supports a maximum of 1,000 vertices. The Geofence Geobuf format supports a maximum of 100,000 vertices.
         public let geometry: GeofenceGeometry
 
+        @inlinable
         public init(collectionName: String, geofenceId: String, geofenceProperties: [String: String]? = nil, geometry: GeofenceGeometry) {
             self.collectionName = collectionName
             self.geofenceId = geofenceId
@@ -4211,6 +4356,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(createTime: Date, geofenceId: String, updateTime: Date) {
             self.createTime = createTime
             self.geofenceId = geofenceId
@@ -4232,6 +4378,7 @@ extension Location {
         /// An error corresponding to the calculation of a route between the DeparturePosition and DestinationPosition.
         public let error: RouteMatrixEntryError?
 
+        @inlinable
         public init(distance: Double? = nil, durationSeconds: Double? = nil, error: RouteMatrixEntryError? = nil) {
             self.distance = distance
             self.durationSeconds = durationSeconds
@@ -4251,6 +4398,7 @@ extension Location {
         /// A message about the error that occurred for the route calculation.
         public let message: String?
 
+        @inlinable
         public init(code: RouteMatrixErrorCode, message: String? = nil) {
             self.code = code
             self.message = message
@@ -4270,6 +4418,7 @@ extension Location {
         /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later.  For SearchPlaceIndexForPosition operations, the PlaceId is returned only by place indexes that use HERE or Grab as a data provider.
         public let placeId: String?
 
+        @inlinable
         public init(distance: Double, place: Place, placeId: String? = nil) {
             self.distance = distance
             self.place = place
@@ -4293,6 +4442,7 @@ extension Location {
         /// The text of the place suggestion, typically formatted as an address string.
         public let text: String
 
+        @inlinable
         public init(categories: [String]? = nil, placeId: String? = nil, supplementalCategories: [String]? = nil, text: String) {
             self.categories = categories
             self.placeId = placeId
@@ -4318,6 +4468,7 @@ extension Location {
         /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri or Grab.
         public let relevance: Double?
 
+        @inlinable
         public init(distance: Double? = nil, place: Place, placeId: String? = nil, relevance: Double? = nil) {
             self.distance = distance
             self.place = place
@@ -4345,6 +4496,7 @@ extension Location {
         /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
         public let position: [Double]
 
+        @inlinable
         public init(indexName: String, key: String? = nil, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
             self.indexName = indexName
             self.key = key
@@ -4389,6 +4541,7 @@ extension Location {
         /// Contains a summary of the request. Echoes the input values for Position, Language, MaxResults, and the DataSource of the place index.
         public let summary: SearchPlaceIndexForPositionSummary
 
+        @inlinable
         public init(results: [SearchForPositionResult], summary: SearchPlaceIndexForPositionSummary) {
             self.results = results
             self.summary = summary
@@ -4410,6 +4563,7 @@ extension Location {
         /// The position specified in the request.
         public let position: [Double]
 
+        @inlinable
         public init(dataSource: String, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
             self.dataSource = dataSource
             self.language = language
@@ -4445,6 +4599,7 @@ extension Location {
         /// The free-form partial text to use to generate place suggestions. For example, eiffel tow.
         public let text: String
 
+        @inlinable
         public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, indexName: String, key: String? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
@@ -4513,6 +4668,7 @@ extension Location {
         /// Contains a summary of the request. Echoes the input values for BiasPosition, FilterBBox, FilterCountries, Language, MaxResults, and Text. Also includes the DataSource of the place index.
         public let summary: SearchPlaceIndexForSuggestionsSummary
 
+        @inlinable
         public init(results: [SearchForSuggestionsResult], summary: SearchPlaceIndexForSuggestionsSummary) {
             self.results = results
             self.summary = summary
@@ -4542,6 +4698,7 @@ extension Location {
         /// The free-form partial text input specified in the request.
         public let text: String
 
+        @inlinable
         public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
@@ -4585,6 +4742,7 @@ extension Location {
         /// The address, name, city, or region to be used in the search in free-form text format. For example, 123 Any Street.
         public let text: String
 
+        @inlinable
         public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, indexName: String, key: String? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
             self.biasPosition = biasPosition
             self.filterBBox = filterBBox
@@ -4655,6 +4813,7 @@ extension Location {
         /// Contains a summary of the request. Echoes the input values for BiasPosition, FilterBBox, FilterCountries, Language, MaxResults, and Text. Also includes the DataSource of the place index and the bounding box, ResultBBox, which surrounds the search results.
         public let summary: SearchPlaceIndexForTextSummary
 
+        @inlinable
         public init(results: [SearchForTextResult], summary: SearchPlaceIndexForTextSummary) {
             self.results = results
             self.summary = summary
@@ -4686,6 +4845,7 @@ extension Location {
         /// The search text specified in the request.
         public let text: String
 
+        @inlinable
         public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCategories: [String]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, resultBBox: [Double]? = nil, text: String) {
             self.biasPosition = biasPosition
             self.dataSource = dataSource
@@ -4723,6 +4883,7 @@ extension Location {
         /// The starting position of a step. If the position is the first step in the leg, this position is the same as the start position of the leg.
         public let startPosition: [Double]
 
+        @inlinable
         public init(distance: Double, durationSeconds: Double, endPosition: [Double], geometryOffset: Int? = nil, startPosition: [Double]) {
             self.distance = distance
             self.durationSeconds = durationSeconds
@@ -4746,6 +4907,7 @@ extension Location {
         /// Applies one or more tags to specific resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4786,6 +4948,7 @@ extension Location {
         /// The time zone's offset, in seconds, from UTC.
         public let offset: Int?
 
+        @inlinable
         public init(name: String, offset: Int? = nil) {
             self.name = name
             self.offset = offset
@@ -4801,6 +4964,7 @@ extension Location {
         /// The set of arrays which define the polygon. A polygon can have between 4 and 1000 vertices.
         public let polygon: [[[Double]]]?
 
+        @inlinable
         public init(polygon: [[[Double]]]? = nil) {
             self.polygon = polygon
         }
@@ -4827,6 +4991,7 @@ extension Location {
         /// The width of the truck.   For example, 4.5.     For routes calculated with a HERE resource, this value must be between 0 and 50 meters.
         public let width: Double?
 
+        @inlinable
         public init(height: Double? = nil, length: Double? = nil, unit: DimensionUnit? = nil, width: Double? = nil) {
             self.height = height
             self.length = length
@@ -4848,6 +5013,7 @@ extension Location {
         /// The unit of measurement to use for the truck weight. Default Value: Kilograms
         public let unit: VehicleWeightUnit?
 
+        @inlinable
         public init(total: Double? = nil, unit: VehicleWeightUnit? = nil) {
             self.total = total
             self.unit = unit
@@ -4865,6 +5031,7 @@ extension Location {
         /// The list of tag keys to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4901,6 +5068,7 @@ extension Location {
         /// This parameter is no longer used.
         public let pricingPlanDataSource: String?
 
+        @inlinable
         public init(collectionName: String, description: String? = nil) {
             self.collectionName = collectionName
             self.description = description
@@ -4909,6 +5077,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(collectionName: String, description: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil) {
             self.collectionName = collectionName
             self.description = description
@@ -4948,6 +5117,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(collectionArn: String, collectionName: String, updateTime: Date) {
             self.collectionArn = collectionArn
             self.collectionName = collectionName
@@ -4976,6 +5146,7 @@ extension Location {
         /// Updates the API key restrictions for the API key resource.
         public let restrictions: ApiKeyRestrictions?
 
+        @inlinable
         public init(description: String? = nil, expireTime: Date? = nil, forceUpdate: Bool? = nil, keyName: String, noExpiry: Bool? = nil, restrictions: ApiKeyRestrictions? = nil) {
             self.description = description
             self.expireTime = expireTime
@@ -5022,6 +5193,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(keyArn: String, keyName: String, updateTime: Date) {
             self.keyArn = keyArn
             self.keyName = keyName
@@ -5045,6 +5217,7 @@ extension Location {
         /// No longer used. If included, the only allowed value is  RequestBasedUsage.
         public let pricingPlan: PricingPlan?
 
+        @inlinable
         public init(configurationUpdate: MapConfigurationUpdate? = nil, description: String? = nil, mapName: String) {
             self.configurationUpdate = configurationUpdate
             self.description = description
@@ -5053,6 +5226,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(configurationUpdate: MapConfigurationUpdate? = nil, description: String? = nil, mapName: String, pricingPlan: PricingPlan? = nil) {
             self.configurationUpdate = configurationUpdate
             self.description = description
@@ -5093,6 +5267,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(mapArn: String, mapName: String, updateTime: Date) {
             self.mapArn = mapArn
             self.mapName = mapName
@@ -5116,6 +5291,7 @@ extension Location {
         /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
 
+        @inlinable
         public init(dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String) {
             self.dataSourceConfiguration = dataSourceConfiguration
             self.description = description
@@ -5124,6 +5300,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, pricingPlan: PricingPlan? = nil) {
             self.dataSourceConfiguration = dataSourceConfiguration
             self.description = description
@@ -5163,6 +5340,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(indexArn: String, indexName: String, updateTime: Date) {
             self.indexArn = indexArn
             self.indexName = indexName
@@ -5184,6 +5362,7 @@ extension Location {
         /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
 
+        @inlinable
         public init(calculatorName: String, description: String? = nil) {
             self.calculatorName = calculatorName
             self.description = description
@@ -5191,6 +5370,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan have been deprecated")
+        @inlinable
         public init(calculatorName: String, description: String? = nil, pricingPlan: PricingPlan? = nil) {
             self.calculatorName = calculatorName
             self.description = description
@@ -5227,6 +5407,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(calculatorArn: String, calculatorName: String, updateTime: Date) {
             self.calculatorArn = calculatorArn
             self.calculatorName = calculatorName
@@ -5256,6 +5437,7 @@ extension Location {
         /// The name of the tracker resource to update.
         public let trackerName: String
 
+        @inlinable
         public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, positionFiltering: PositionFiltering? = nil, trackerName: String) {
             self.description = description
             self.eventBridgeEnabled = eventBridgeEnabled
@@ -5267,6 +5449,7 @@ extension Location {
         }
 
         @available(*, deprecated, message: "Members pricingPlan, pricingPlanDataSource have been deprecated")
+        @inlinable
         public init(description: String? = nil, eventBridgeEnabled: Bool? = nil, kmsKeyEnableGeospatialQueries: Bool? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, trackerName: String) {
             self.description = description
             self.eventBridgeEnabled = eventBridgeEnabled
@@ -5315,6 +5498,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
 
+        @inlinable
         public init(trackerArn: String, trackerName: String, updateTime: Date) {
             self.trackerArn = trackerArn
             self.trackerName = trackerName
@@ -5336,6 +5520,7 @@ extension Location {
         /// The name of the tracker resource to be associated with verification request.
         public let trackerName: String
 
+        @inlinable
         public init(deviceState: DeviceState, distanceUnit: DistanceUnit? = nil, trackerName: String) {
             self.deviceState = deviceState
             self.distanceUnit = distanceUnit
@@ -5377,6 +5562,7 @@ extension Location {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
+        @inlinable
         public init(deviceId: String, distanceUnit: DistanceUnit, inferredState: InferredState, receivedTime: Date, sampleTime: Date) {
             self.deviceId = deviceId
             self.distanceUnit = distanceUnit
@@ -5400,6 +5586,7 @@ extension Location {
         /// Received signal strength (dBm) of the WLAN measurement data.
         public let rss: Int
 
+        @inlinable
         public init(macAddress: String, rss: Int) {
             self.macAddress = macAddress
             self.rss = rss

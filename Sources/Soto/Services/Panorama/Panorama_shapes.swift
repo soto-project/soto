@@ -245,6 +245,7 @@ extension Panorama {
         /// The appliance software version.
         public let version: String?
 
+        @inlinable
         public init(version: String? = nil) {
             self.version = version
         }
@@ -280,6 +281,7 @@ extension Panorama {
         /// The application instance's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationInstanceId: String? = nil, arn: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, defaultRuntimeContextDeviceName: String? = nil, description: String? = nil, healthStatus: ApplicationInstanceHealthStatus? = nil, name: String? = nil, runtimeContextStates: [ReportedRuntimeContextState]? = nil, status: ApplicationInstanceStatus? = nil, statusDescription: String? = nil, tags: [String: String]? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.arn = arn
@@ -329,6 +331,7 @@ extension Panorama {
         /// Tags for the application instance.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationInstanceIdToReplace: String? = nil, defaultRuntimeContextDevice: String, description: String? = nil, manifestOverridesPayload: ManifestOverridesPayload? = nil, manifestPayload: ManifestPayload, name: String? = nil, runtimeRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
             self.defaultRuntimeContextDevice = defaultRuntimeContextDevice
@@ -383,6 +386,7 @@ extension Panorama {
         /// The application instance's ID.
         public let applicationInstanceId: String
 
+        @inlinable
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
         }
@@ -400,6 +404,7 @@ extension Panorama {
         /// The type of job to run.
         public let jobType: JobType
 
+        @inlinable
         public init(deviceIds: [String], deviceJobConfig: DeviceJobConfig? = nil, jobType: JobType) {
             self.deviceIds = deviceIds
             self.deviceJobConfig = deviceJobConfig
@@ -428,6 +433,7 @@ extension Panorama {
         /// A list of jobs.
         public let jobs: [Job]
 
+        @inlinable
         public init(jobs: [Job]) {
             self.jobs = jobs
         }
@@ -453,6 +459,7 @@ extension Panorama {
         /// The type of node.
         public let templateType: TemplateType
 
+        @inlinable
         public init(jobTags: [JobResourceTags]? = nil, nodeDescription: String? = nil, nodeName: String, outputPackageName: String, outputPackageVersion: String, templateParameters: [String: String], templateType: TemplateType) {
             self.jobTags = jobTags
             self.nodeDescription = nodeDescription
@@ -503,6 +510,7 @@ extension Panorama {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -524,6 +532,7 @@ extension Panorama {
         /// An output config for the package import job.
         public let outputConfig: PackageImportJobOutputConfig
 
+        @inlinable
         public init(clientToken: String, inputConfig: PackageImportJobInputConfig, jobTags: [JobResourceTags]? = nil, jobType: PackageImportJobType, outputConfig: PackageImportJobOutputConfig) {
             self.clientToken = clientToken
             self.inputConfig = inputConfig
@@ -556,6 +565,7 @@ extension Panorama {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -571,6 +581,7 @@ extension Panorama {
         /// Tags for the package.
         public let tags: [String: String]?
 
+        @inlinable
         public init(packageName: String, tags: [String: String]? = nil) {
             self.packageName = packageName
             self.tags = tags
@@ -604,6 +615,7 @@ extension Panorama {
         /// The package's storage location.
         public let storageLocation: StorageLocation
 
+        @inlinable
         public init(arn: String? = nil, packageId: String? = nil, storageLocation: StorageLocation) {
             self.arn = arn
             self.packageId = packageId
@@ -621,6 +633,7 @@ extension Panorama {
         /// The device's ID.
         public let deviceId: String
 
+        @inlinable
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -644,6 +657,7 @@ extension Panorama {
         /// The device's ID.
         public let deviceId: String?
 
+        @inlinable
         public init(deviceId: String? = nil) {
             self.deviceId = deviceId
         }
@@ -659,6 +673,7 @@ extension Panorama {
         /// The package's ID.
         public let packageId: String
 
+        @inlinable
         public init(forceDelete: Bool? = nil, packageId: String) {
             self.forceDelete = forceDelete
             self.packageId = packageId
@@ -696,6 +711,7 @@ extension Panorama {
         /// If the version was marked latest, the new version to maker as latest.
         public let updatedLatestPatchVersion: String?
 
+        @inlinable
         public init(ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String, updatedLatestPatchVersion: String? = nil) {
             self.ownerAccount = ownerAccount
             self.packageId = packageId
@@ -743,6 +759,7 @@ extension Panorama {
         /// The application instance's ID.
         public let applicationInstanceId: String
 
+        @inlinable
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
         }
@@ -780,6 +797,7 @@ extension Panorama {
         /// The application instance's name.
         public let name: String?
 
+        @inlinable
         public init(applicationInstanceId: String? = nil, applicationInstanceIdToReplace: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, description: String? = nil, manifestOverridesPayload: ManifestOverridesPayload? = nil, manifestPayload: ManifestPayload? = nil, name: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
@@ -807,6 +825,7 @@ extension Panorama {
         /// The application instance's ID.
         public let applicationInstanceId: String
 
+        @inlinable
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
         }
@@ -858,6 +877,7 @@ extension Panorama {
         /// The application instance's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationInstanceId: String? = nil, applicationInstanceIdToReplace: String? = nil, arn: String? = nil, createdTime: Date? = nil, defaultRuntimeContextDevice: String? = nil, defaultRuntimeContextDeviceName: String? = nil, description: String? = nil, healthStatus: ApplicationInstanceHealthStatus? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, runtimeContextStates: [ReportedRuntimeContextState]? = nil, runtimeRoleArn: String? = nil, status: ApplicationInstanceStatus? = nil, statusDescription: String? = nil, tags: [String: String]? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.applicationInstanceIdToReplace = applicationInstanceIdToReplace
@@ -899,6 +919,7 @@ extension Panorama {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -938,6 +959,7 @@ extension Panorama {
         /// The job's status.
         public let status: UpdateProgress?
 
+        @inlinable
         public init(createdTime: Date? = nil, deviceArn: String? = nil, deviceId: String? = nil, deviceName: String? = nil, deviceType: DeviceType? = nil, imageVersion: String? = nil, jobId: String? = nil, jobType: JobType? = nil, status: UpdateProgress? = nil) {
             self.createdTime = createdTime
             self.deviceArn = deviceArn
@@ -967,6 +989,7 @@ extension Panorama {
         /// The device's ID.
         public let deviceId: String
 
+        @inlinable
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -1028,6 +1051,7 @@ extension Panorama {
         /// The device's type.
         public let type: DeviceType?
 
+        @inlinable
         public init(alternateSoftwares: [AlternateSoftwareMetadata]? = nil, arn: String? = nil, brand: DeviceBrand? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceAggregatedStatus: DeviceAggregatedStatus? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestAlternateSoftware: String? = nil, latestDeviceJob: LatestDeviceJob? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
             self.alternateSoftwares = alternateSoftwares
             self.arn = arn
@@ -1079,6 +1103,7 @@ extension Panorama {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1124,6 +1149,7 @@ extension Panorama {
         /// The job's template type.
         public let templateType: TemplateType
 
+        @inlinable
         public init(createdTime: Date, jobId: String, jobTags: [JobResourceTags]? = nil, lastUpdatedTime: Date, nodeDescription: String? = nil, nodeName: String, outputPackageName: String, outputPackageVersion: String, status: NodeFromTemplateJobStatus, statusMessage: String, templateParameters: [String: String], templateType: TemplateType) {
             self.createdTime = createdTime
             self.jobId = jobId
@@ -1161,6 +1187,7 @@ extension Panorama {
         /// The account ID of the node's owner.
         public let ownerAccount: String?
 
+        @inlinable
         public init(nodeId: String, ownerAccount: String? = nil) {
             self.nodeId = nodeId
             self.ownerAccount = ownerAccount
@@ -1215,6 +1242,7 @@ extension Panorama {
         /// The node's patch version.
         public let patchVersion: String
 
+        @inlinable
         public init(assetName: String? = nil, category: NodeCategory, createdTime: Date, description: String, lastUpdatedTime: Date, name: String, nodeId: String, nodeInterface: NodeInterface, ownerAccount: String, packageArn: String? = nil, packageId: String, packageName: String, packageVersion: String, patchVersion: String) {
             self.assetName = assetName
             self.category = category
@@ -1254,6 +1282,7 @@ extension Panorama {
         /// The job's ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1297,6 +1326,7 @@ extension Panorama {
         /// The job's status message.
         public let statusMessage: String
 
+        @inlinable
         public init(clientToken: String? = nil, createdTime: Date, inputConfig: PackageImportJobInputConfig, jobId: String, jobTags: [JobResourceTags]? = nil, jobType: PackageImportJobType, lastUpdatedTime: Date, output: PackageImportJobOutput, outputConfig: PackageImportJobOutputConfig, status: PackageImportJobStatus, statusMessage: String) {
             self.clientToken = clientToken
             self.createdTime = createdTime
@@ -1330,6 +1360,7 @@ extension Panorama {
         /// The package's ID.
         public let packageId: String
 
+        @inlinable
         public init(packageId: String) {
             self.packageId = packageId
         }
@@ -1367,6 +1398,7 @@ extension Panorama {
         /// ARNs of accounts that have write access to the package.
         public let writeAccessPrincipalArns: [String]?
 
+        @inlinable
         public init(arn: String, createdTime: Date, packageId: String, packageName: String, readAccessPrincipalArns: [String]? = nil, storageLocation: StorageLocation, tags: [String: String], writeAccessPrincipalArns: [String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1400,6 +1432,7 @@ extension Panorama {
         /// The version's patch version.
         public let patchVersion: String?
 
+        @inlinable
         public init(ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String? = nil) {
             self.ownerAccount = ownerAccount
             self.packageId = packageId
@@ -1456,6 +1489,7 @@ extension Panorama {
         /// The version's status description.
         public let statusDescription: String?
 
+        @inlinable
         public init(isLatestPatch: Bool, ownerAccount: String? = nil, packageArn: String? = nil, packageId: String, packageName: String, packageVersion: String, patchVersion: String, registeredTime: Date? = nil, status: PackageVersionStatus, statusDescription: String? = nil) {
             self.isLatestPatch = isLatestPatch
             self.ownerAccount = ownerAccount
@@ -1511,6 +1545,7 @@ extension Panorama {
         /// The device's type.
         public let type: DeviceType?
 
+        @inlinable
         public init(brand: DeviceBrand? = nil, createdTime: Date? = nil, currentSoftware: String? = nil, description: String? = nil, deviceAggregatedStatus: DeviceAggregatedStatus? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, latestDeviceJob: LatestDeviceJob? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
             self.brand = brand
             self.createdTime = createdTime
@@ -1556,6 +1591,7 @@ extension Panorama {
         /// The job's type.
         public let jobType: JobType?
 
+        @inlinable
         public init(createdTime: Date? = nil, deviceId: String? = nil, deviceName: String? = nil, jobId: String? = nil, jobType: JobType? = nil) {
             self.createdTime = createdTime
             self.deviceId = deviceId
@@ -1577,6 +1613,7 @@ extension Panorama {
         /// A configuration for an over-the-air (OTA) upgrade. Required for OTA jobs.
         public let otaJobConfig: OTAJobConfig?
 
+        @inlinable
         public init(otaJobConfig: OTAJobConfig? = nil) {
             self.otaJobConfig = otaJobConfig
         }
@@ -1596,6 +1633,7 @@ extension Panorama {
         /// Network configuration for a static IP connection.
         public let staticIpConnectionInfo: StaticIpConnectionInfo?
 
+        @inlinable
         public init(connectionType: ConnectionType, staticIpConnectionInfo: StaticIpConnectionInfo? = nil) {
             self.connectionType = connectionType
             self.staticIpConnectionInfo = staticIpConnectionInfo
@@ -1619,6 +1657,7 @@ extension Panorama {
         /// The device's IP address.
         public let ipAddress: String?
 
+        @inlinable
         public init(connectionStatus: NetworkConnectionStatus? = nil, hwAddress: String? = nil, ipAddress: String? = nil) {
             self.connectionStatus = connectionStatus
             self.hwAddress = hwAddress
@@ -1638,6 +1677,7 @@ extension Panorama {
         /// The job's ID.
         public let jobId: String?
 
+        @inlinable
         public init(deviceId: String? = nil, jobId: String? = nil) {
             self.deviceId = deviceId
             self.jobId = jobId
@@ -1655,6 +1695,7 @@ extension Panorama {
         /// The job's tags.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceType: JobResourceType, tags: [String: String]) {
             self.resourceType = resourceType
             self.tags = tags
@@ -1685,6 +1726,7 @@ extension Panorama {
         /// Status of the latest device job.
         public let status: UpdateProgress?
 
+        @inlinable
         public init(imageVersion: String? = nil, jobType: JobType? = nil, status: UpdateProgress? = nil) {
             self.imageVersion = imageVersion
             self.jobType = jobType
@@ -1706,6 +1748,7 @@ extension Panorama {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationInstanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
@@ -1740,6 +1783,7 @@ extension Panorama {
         /// A list of package objects.
         public let packageObjects: [PackageObject]?
 
+        @inlinable
         public init(nextToken: String? = nil, packageObjects: [PackageObject]? = nil) {
             self.nextToken = nextToken
             self.packageObjects = packageObjects
@@ -1759,6 +1803,7 @@ extension Panorama {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationInstanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationInstanceId = applicationInstanceId
             self.maxResults = maxResults
@@ -1793,6 +1838,7 @@ extension Panorama {
         /// A list of node instances.
         public let nodeInstances: [NodeInstance]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodeInstances: [NodeInstance]? = nil) {
             self.nextToken = nextToken
             self.nodeInstances = nodeInstances
@@ -1814,6 +1860,7 @@ extension Panorama {
         /// Only include instances with a specific status.
         public let statusFilter: StatusFilter?
 
+        @inlinable
         public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, statusFilter: StatusFilter? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
@@ -1850,6 +1897,7 @@ extension Panorama {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationInstances: [ApplicationInstance]? = nil, nextToken: String? = nil) {
             self.applicationInstances = applicationInstances
             self.nextToken = nextToken
@@ -1869,6 +1917,7 @@ extension Panorama {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
@@ -1903,6 +1952,7 @@ extension Panorama {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceJobs: [DeviceJob]? = nil, nextToken: String? = nil) {
             self.deviceJobs = deviceJobs
             self.nextToken = nextToken
@@ -1928,6 +1978,7 @@ extension Panorama {
         /// The sorting order for the returned list. SortOrder is DESCENDING by default based on CREATED_TIME. Otherwise, SortOrder is ASCENDING.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(deviceAggregatedStatusFilter: DeviceAggregatedStatus? = nil, maxResults: Int? = nil, nameFilter: String? = nil, nextToken: String? = nil, sortBy: ListDevicesSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.deviceAggregatedStatusFilter = deviceAggregatedStatusFilter
             self.maxResults = maxResults
@@ -1965,6 +2016,7 @@ extension Panorama {
         /// A pagination token that's included if more results are available.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [Device], nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -1982,6 +2034,7 @@ extension Panorama {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2011,6 +2064,7 @@ extension Panorama {
         /// A list of jobs.
         public let nodeFromTemplateJobs: [NodeFromTemplateJob]
 
+        @inlinable
         public init(nextToken: String? = nil, nodeFromTemplateJobs: [NodeFromTemplateJob]) {
             self.nextToken = nextToken
             self.nodeFromTemplateJobs = nodeFromTemplateJobs
@@ -2038,6 +2092,7 @@ extension Panorama {
         /// Search for nodes by patch version.
         public let patchVersion: String?
 
+        @inlinable
         public init(category: NodeCategory? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccount: String? = nil, packageName: String? = nil, packageVersion: String? = nil, patchVersion: String? = nil) {
             self.category = category
             self.maxResults = maxResults
@@ -2089,6 +2144,7 @@ extension Panorama {
         /// A list of nodes.
         public let nodes: [Node]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodes: [Node]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -2106,6 +2162,7 @@ extension Panorama {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2135,6 +2192,7 @@ extension Panorama {
         /// A list of package import jobs.
         public let packageImportJobs: [PackageImportJob]
 
+        @inlinable
         public init(nextToken: String? = nil, packageImportJobs: [PackageImportJob]) {
             self.nextToken = nextToken
             self.packageImportJobs = packageImportJobs
@@ -2152,6 +2210,7 @@ extension Panorama {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2181,6 +2240,7 @@ extension Panorama {
         /// A list of packages.
         public let packages: [PackageListItem]?
 
+        @inlinable
         public init(nextToken: String? = nil, packages: [PackageListItem]? = nil) {
             self.nextToken = nextToken
             self.packages = packages
@@ -2196,6 +2256,7 @@ extension Panorama {
         /// The resource's ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2219,6 +2280,7 @@ extension Panorama {
         /// A list of tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2236,6 +2298,7 @@ extension Panorama {
         /// Network time protocol (NTP) server settings.
         public let ntp: NtpPayload?
 
+        @inlinable
         public init(ethernet0: EthernetPayload? = nil, ethernet1: EthernetPayload? = nil, ntp: NtpPayload? = nil) {
             self.ethernet0 = ethernet0
             self.ethernet1 = ethernet1
@@ -2265,6 +2328,7 @@ extension Panorama {
         /// Details about a network time protocol (NTP) server connection.
         public let ntpStatus: NtpStatus?
 
+        @inlinable
         public init(ethernet0Status: EthernetStatus? = nil, ethernet1Status: EthernetStatus? = nil, lastUpdatedTime: Date? = nil, ntpStatus: NtpStatus? = nil) {
             self.ethernet0Status = ethernet0Status
             self.ethernet1Status = ethernet1Status
@@ -2304,6 +2368,7 @@ extension Panorama {
         /// The node's patch version.
         public let patchVersion: String
 
+        @inlinable
         public init(category: NodeCategory, createdTime: Date, description: String? = nil, name: String, nodeId: String, ownerAccount: String? = nil, packageArn: String? = nil, packageId: String, packageName: String, packageVersion: String, patchVersion: String) {
             self.category = category
             self.createdTime = createdTime
@@ -2347,6 +2412,7 @@ extension Panorama {
         /// The job's template type.
         public let templateType: TemplateType?
 
+        @inlinable
         public init(createdTime: Date? = nil, jobId: String? = nil, nodeName: String? = nil, status: NodeFromTemplateJobStatus? = nil, statusMessage: String? = nil, templateType: TemplateType? = nil) {
             self.createdTime = createdTime
             self.jobId = jobId
@@ -2378,6 +2444,7 @@ extension Panorama {
         /// The input port's type.
         public let type: PortType?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, maxConnections: Int? = nil, name: String? = nil, type: PortType? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -2411,6 +2478,7 @@ extension Panorama {
         /// The instance's package version.
         public let packageVersion: String?
 
+        @inlinable
         public init(currentStatus: NodeInstanceStatus, nodeId: String? = nil, nodeInstanceId: String, nodeName: String? = nil, packageName: String? = nil, packagePatchVersion: String? = nil, packageVersion: String? = nil) {
             self.currentStatus = currentStatus
             self.nodeId = nodeId
@@ -2438,6 +2506,7 @@ extension Panorama {
         /// The node interface's outputs.
         public let outputs: [NodeOutputPort]
 
+        @inlinable
         public init(inputs: [NodeInputPort], outputs: [NodeOutputPort]) {
             self.inputs = inputs
             self.outputs = outputs
@@ -2457,6 +2526,7 @@ extension Panorama {
         /// The output port's type.
         public let type: PortType?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, type: PortType? = nil) {
             self.description = description
             self.name = name
@@ -2476,6 +2546,7 @@ extension Panorama {
         /// The signal value.
         public let signal: NodeSignalValue
 
+        @inlinable
         public init(nodeInstanceId: String, signal: NodeSignalValue) {
             self.nodeInstanceId = nodeInstanceId
             self.signal = signal
@@ -2497,6 +2568,7 @@ extension Panorama {
         /// NTP servers to use, in order of preference.
         public let ntpServers: [String]
 
+        @inlinable
         public init(ntpServers: [String]) {
             self.ntpServers = ntpServers
         }
@@ -2523,6 +2595,7 @@ extension Panorama {
         /// The domain name of the server.
         public let ntpServerName: String?
 
+        @inlinable
         public init(connectionStatus: NetworkConnectionStatus? = nil, ipAddress: String? = nil, ntpServerName: String? = nil) {
             self.connectionStatus = connectionStatus
             self.ipAddress = ipAddress
@@ -2542,6 +2615,7 @@ extension Panorama {
         /// The target version of the device software.
         public let imageVersion: String
 
+        @inlinable
         public init(allowMajorVersionUpdate: Bool? = nil, imageVersion: String) {
             self.allowMajorVersionUpdate = allowMajorVersionUpdate
             self.imageVersion = imageVersion
@@ -2565,6 +2639,7 @@ extension Panorama {
         /// The object's key.
         public let objectKey: String
 
+        @inlinable
         public init(bucketName: String, objectKey: String) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -2590,6 +2665,7 @@ extension Panorama {
         /// The job's status message.
         public let statusMessage: String?
 
+        @inlinable
         public init(createdTime: Date? = nil, jobId: String? = nil, jobType: PackageImportJobType? = nil, lastUpdatedTime: Date? = nil, status: PackageImportJobStatus? = nil, statusMessage: String? = nil) {
             self.createdTime = createdTime
             self.jobId = jobId
@@ -2613,6 +2689,7 @@ extension Panorama {
         /// The package version's input configuration.
         public let packageVersionInputConfig: PackageVersionInputConfig?
 
+        @inlinable
         public init(packageVersionInputConfig: PackageVersionInputConfig? = nil) {
             self.packageVersionInputConfig = packageVersionInputConfig
         }
@@ -2636,6 +2713,7 @@ extension Panorama {
         /// The package's patch version.
         public let patchVersion: String
 
+        @inlinable
         public init(outputS3Location: OutPutS3Location, packageId: String, packageVersion: String, patchVersion: String) {
             self.outputS3Location = outputS3Location
             self.packageId = packageId
@@ -2655,6 +2733,7 @@ extension Panorama {
         /// The package version's output configuration.
         public let packageVersionOutputConfig: PackageVersionOutputConfig?
 
+        @inlinable
         public init(packageVersionOutputConfig: PackageVersionOutputConfig? = nil) {
             self.packageVersionOutputConfig = packageVersionOutputConfig
         }
@@ -2680,6 +2759,7 @@ extension Panorama {
         /// The package's tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, packageId: String? = nil, packageName: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -2705,6 +2785,7 @@ extension Panorama {
         /// The object's patch version.
         public let patchVersion: String
 
+        @inlinable
         public init(name: String, packageVersion: String, patchVersion: String) {
             self.name = name
             self.packageVersion = packageVersion
@@ -2722,6 +2803,7 @@ extension Panorama {
         /// A location in Amazon S3.
         public let s3Location: S3Location
 
+        @inlinable
         public init(s3Location: S3Location) {
             self.s3Location = s3Location
         }
@@ -2743,6 +2825,7 @@ extension Panorama {
         /// The output's package version.
         public let packageVersion: String
 
+        @inlinable
         public init(markLatest: Bool? = nil, packageName: String, packageVersion: String) {
             self.markLatest = markLatest
             self.packageName = packageName
@@ -2775,6 +2858,7 @@ extension Panorama {
         /// Tags for the device.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, networkingConfiguration: NetworkPayload? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -2819,6 +2903,7 @@ extension Panorama {
         /// The device's status.
         public let status: DeviceStatus
 
+        @inlinable
         public init(arn: String, certificates: AWSBase64Data? = nil, deviceId: String? = nil, iotThingName: String? = nil, status: DeviceStatus) {
             self.arn = arn
             self.certificates = certificates
@@ -2848,6 +2933,7 @@ extension Panorama {
         /// A patch version.
         public let patchVersion: String
 
+        @inlinable
         public init(markLatest: Bool? = nil, ownerAccount: String? = nil, packageId: String, packageVersion: String, patchVersion: String) {
             self.markLatest = markLatest
             self.ownerAccount = ownerAccount
@@ -2895,6 +2981,7 @@ extension Panorama {
         /// An application instance ID.
         public let applicationInstanceId: String
 
+        @inlinable
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
         }
@@ -2928,6 +3015,7 @@ extension Panorama {
         /// The device's name.
         public let runtimeContextName: String
 
+        @inlinable
         public init(desiredState: DesiredState, deviceReportedStatus: DeviceReportedStatus, deviceReportedTime: Date, runtimeContextName: String) {
             self.desiredState = desiredState
             self.deviceReportedStatus = deviceReportedStatus
@@ -2951,6 +3039,7 @@ extension Panorama {
         /// The bucket's Region.
         public let region: String?
 
+        @inlinable
         public init(bucketName: String, objectKey: String, region: String? = nil) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -2982,6 +3071,7 @@ extension Panorama {
         /// A list of signals.
         public let nodeSignals: [NodeSignal]
 
+        @inlinable
         public init(applicationInstanceId: String, nodeSignals: [NodeSignal]) {
             self.applicationInstanceId = applicationInstanceId
             self.nodeSignals = nodeSignals
@@ -3013,6 +3103,7 @@ extension Panorama {
         /// An application instance ID.
         public let applicationInstanceId: String
 
+        @inlinable
         public init(applicationInstanceId: String) {
             self.applicationInstanceId = applicationInstanceId
         }
@@ -3032,6 +3123,7 @@ extension Panorama {
         /// The connection's DNS mask.
         public let mask: String
 
+        @inlinable
         public init(defaultGateway: String, dns: [String], ipAddress: String, mask: String) {
             self.defaultGateway = defaultGateway
             self.dns = dns
@@ -3076,6 +3168,7 @@ extension Panorama {
         /// The location's repo prefix.
         public let repoPrefixLocation: String
 
+        @inlinable
         public init(binaryPrefixLocation: String, bucket: String, generatedPrefixLocation: String, manifestPrefixLocation: String, repoPrefixLocation: String) {
             self.binaryPrefixLocation = binaryPrefixLocation
             self.bucket = bucket
@@ -3099,6 +3192,7 @@ extension Panorama {
         /// Tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3140,6 +3234,7 @@ extension Panorama {
         /// Tag keys to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3178,6 +3273,7 @@ extension Panorama {
         /// The device's ID.
         public let deviceId: String
 
+        @inlinable
         public init(description: String? = nil, deviceId: String) {
             self.description = description
             self.deviceId = deviceId
@@ -3207,6 +3303,7 @@ extension Panorama {
         /// The device's ID.
         public let deviceId: String?
 
+        @inlinable
         public init(deviceId: String? = nil) {
             self.deviceId = deviceId
         }
@@ -3220,6 +3317,7 @@ extension Panorama {
         /// The overrides document.
         public let payloadData: String?
 
+        @inlinable
         public init(payloadData: String? = nil) {
             self.payloadData = payloadData
         }
@@ -3238,6 +3336,7 @@ extension Panorama {
         /// The application manifest.
         public let payloadData: String?
 
+        @inlinable
         public init(payloadData: String? = nil) {
             self.payloadData = payloadData
         }

@@ -154,6 +154,7 @@ extension SavingsPlans {
         /// The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is only supported if the payment option is Partial Upfront.
         public let upfrontPaymentAmount: String?
 
+        @inlinable
         public init(clientToken: String? = CreateSavingsPlanRequest.idempotencyToken(), commitment: String, purchaseTime: Date? = nil, savingsPlanOfferingId: String, tags: [String: String]? = nil, upfrontPaymentAmount: String? = nil) {
             self.clientToken = clientToken
             self.commitment = commitment
@@ -177,6 +178,7 @@ extension SavingsPlans {
         /// The ID of the Savings Plan.
         public let savingsPlanId: String?
 
+        @inlinable
         public init(savingsPlanId: String? = nil) {
             self.savingsPlanId = savingsPlanId
         }
@@ -190,6 +192,7 @@ extension SavingsPlans {
         /// The ID of the Savings Plan.
         public let savingsPlanId: String
 
+        @inlinable
         public init(savingsPlanId: String) {
             self.savingsPlanId = savingsPlanId
         }
@@ -213,6 +216,7 @@ extension SavingsPlans {
         /// The ID of the Savings Plan.
         public let savingsPlanId: String
 
+        @inlinable
         public init(filters: [SavingsPlanRateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, savingsPlanId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -243,6 +247,7 @@ extension SavingsPlans {
         /// Information about the Savings Plan rates.
         public let searchResults: [SavingsPlanRate]?
 
+        @inlinable
         public init(nextToken: String? = nil, savingsPlanId: String? = nil, searchResults: [SavingsPlanRate]? = nil) {
             self.nextToken = nextToken
             self.savingsPlanId = savingsPlanId
@@ -278,6 +283,7 @@ extension SavingsPlans {
         /// The usage details of the line item in the billing report.
         public let usageTypes: [String]?
 
+        @inlinable
         public init(filters: [SavingsPlanOfferingRateFilterElement]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operations: [String]? = nil, products: [SavingsPlanProductType]? = nil, savingsPlanOfferingIds: [String]? = nil, savingsPlanPaymentOptions: [SavingsPlanPaymentOption]? = nil, savingsPlanTypes: [SavingsPlanType]? = nil, serviceCodes: [SavingsPlanRateServiceCode]? = nil, usageTypes: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -332,6 +338,7 @@ extension SavingsPlans {
         /// Information about the Savings Plans offering rates.
         public let searchResults: [SavingsPlanOfferingRate]?
 
+        @inlinable
         public init(nextToken: String? = nil, searchResults: [SavingsPlanOfferingRate]? = nil) {
             self.nextToken = nextToken
             self.searchResults = searchResults
@@ -371,6 +378,7 @@ extension SavingsPlans {
         /// The usage details of the line item in the billing report.
         public let usageTypes: [String]?
 
+        @inlinable
         public init(currencies: [CurrencyCode]? = nil, descriptions: [String]? = nil, durations: [Int64]? = nil, filters: [SavingsPlanOfferingFilterElement]? = nil, maxResults: Int? = nil, nextToken: String? = nil, offeringIds: [String]? = nil, operations: [String]? = nil, paymentOptions: [SavingsPlanPaymentOption]? = nil, planTypes: [SavingsPlanType]? = nil, productType: SavingsPlanProductType? = nil, serviceCodes: [String]? = nil, usageTypes: [String]? = nil) {
             self.currencies = currencies
             self.descriptions = descriptions
@@ -441,6 +449,7 @@ extension SavingsPlans {
         /// Information about the Savings Plans offerings.
         public let searchResults: [SavingsPlanOffering]?
 
+        @inlinable
         public init(nextToken: String? = nil, searchResults: [SavingsPlanOffering]? = nil) {
             self.nextToken = nextToken
             self.searchResults = searchResults
@@ -466,6 +475,7 @@ extension SavingsPlans {
         /// The current states of the Savings Plans.
         public let states: [SavingsPlanState]?
 
+        @inlinable
         public init(filters: [SavingsPlanFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, savingsPlanArns: [String]? = nil, savingsPlanIds: [String]? = nil, states: [SavingsPlanState]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -502,6 +512,7 @@ extension SavingsPlans {
         /// Information about the Savings Plans.
         public let savingsPlans: [SavingsPlan]?
 
+        @inlinable
         public init(nextToken: String? = nil, savingsPlans: [SavingsPlan]? = nil) {
             self.nextToken = nextToken
             self.savingsPlans = savingsPlans
@@ -517,6 +528,7 @@ extension SavingsPlans {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -534,6 +546,7 @@ extension SavingsPlans {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -557,6 +570,7 @@ extension SavingsPlans {
         /// The plan type.
         public let planType: SavingsPlanType?
 
+        @inlinable
         public init(currency: CurrencyCode? = nil, durationSeconds: Int64? = nil, offeringId: String? = nil, paymentOption: SavingsPlanPaymentOption? = nil, planDescription: String? = nil, planType: SavingsPlanType? = nil) {
             self.currency = currency
             self.durationSeconds = durationSeconds
@@ -582,6 +596,7 @@ extension SavingsPlans {
         /// The ID of the Savings Plan.
         public let savingsPlanId: String
 
+        @inlinable
         public init(clientToken: String? = ReturnSavingsPlanRequest.idempotencyToken(), savingsPlanId: String) {
             self.clientToken = clientToken
             self.savingsPlanId = savingsPlanId
@@ -597,6 +612,7 @@ extension SavingsPlans {
         /// The ID of the Savings Plan.
         public let savingsPlanId: String?
 
+        @inlinable
         public init(savingsPlanId: String? = nil) {
             self.savingsPlanId = savingsPlanId
         }
@@ -646,6 +662,7 @@ extension SavingsPlans {
         /// The up-front payment amount.
         public let upfrontPaymentAmount: String?
 
+        @inlinable
         public init(commitment: String? = nil, currency: CurrencyCode? = nil, description: String? = nil, ec2InstanceFamily: String? = nil, end: String? = nil, offeringId: String? = nil, paymentOption: SavingsPlanPaymentOption? = nil, productTypes: [SavingsPlanProductType]? = nil, recurringPaymentAmount: String? = nil, region: String? = nil, returnableUntil: String? = nil, savingsPlanArn: String? = nil, savingsPlanId: String? = nil, savingsPlanType: SavingsPlanType? = nil, start: String? = nil, state: SavingsPlanState? = nil, tags: [String: String]? = nil, termDurationInSeconds: Int64? = nil, upfrontPaymentAmount: String? = nil) {
             self.commitment = commitment
             self.currency = currency
@@ -697,6 +714,7 @@ extension SavingsPlans {
         /// The filter value.
         public let values: [String]?
 
+        @inlinable
         public init(name: SavingsPlansFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -732,6 +750,7 @@ extension SavingsPlans {
         /// The usage details of the line item in the billing report.
         public let usageType: String?
 
+        @inlinable
         public init(currency: CurrencyCode? = nil, description: String? = nil, durationSeconds: Int64? = nil, offeringId: String? = nil, operation: String? = nil, paymentOption: SavingsPlanPaymentOption? = nil, planType: SavingsPlanType? = nil, productTypes: [SavingsPlanProductType]? = nil, properties: [SavingsPlanOfferingProperty]? = nil, serviceCode: String? = nil, usageType: String? = nil) {
             self.currency = currency
             self.description = description
@@ -767,6 +786,7 @@ extension SavingsPlans {
         /// The filter values.
         public let values: [String]?
 
+        @inlinable
         public init(name: SavingsPlanOfferingFilterAttribute? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -790,6 +810,7 @@ extension SavingsPlans {
         /// The property value.
         public let value: String?
 
+        @inlinable
         public init(name: SavingsPlanOfferingPropertyKey? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -819,6 +840,7 @@ extension SavingsPlans {
         /// The usage details of the line item in the billing report.
         public let usageType: String?
 
+        @inlinable
         public init(operation: String? = nil, productType: SavingsPlanProductType? = nil, properties: [SavingsPlanOfferingRateProperty]? = nil, rate: String? = nil, savingsPlanOffering: ParentSavingsPlanOffering? = nil, serviceCode: SavingsPlanRateServiceCode? = nil, unit: SavingsPlanRateUnit? = nil, usageType: String? = nil) {
             self.operation = operation
             self.productType = productType
@@ -848,6 +870,7 @@ extension SavingsPlans {
         /// The filter values.
         public let values: [String]?
 
+        @inlinable
         public init(name: SavingsPlanRateFilterAttribute? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -871,6 +894,7 @@ extension SavingsPlans {
         /// The property value.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -900,6 +924,7 @@ extension SavingsPlans {
         /// The usage details of the line item in the billing report.
         public let usageType: String?
 
+        @inlinable
         public init(currency: CurrencyCode? = nil, operation: String? = nil, productType: SavingsPlanProductType? = nil, properties: [SavingsPlanRateProperty]? = nil, rate: String? = nil, serviceCode: SavingsPlanRateServiceCode? = nil, unit: SavingsPlanRateUnit? = nil, usageType: String? = nil) {
             self.currency = currency
             self.operation = operation
@@ -929,6 +954,7 @@ extension SavingsPlans {
         /// The filter values.
         public let values: [String]?
 
+        @inlinable
         public init(name: SavingsPlanRateFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -946,6 +972,7 @@ extension SavingsPlans {
         /// The property value.
         public let value: String?
 
+        @inlinable
         public init(name: SavingsPlanRatePropertyKey? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -963,6 +990,7 @@ extension SavingsPlans {
         /// One or more tags. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -988,6 +1016,7 @@ extension SavingsPlans {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

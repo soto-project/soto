@@ -272,6 +272,7 @@ extension KMS {
         /// String that contains the key identifier of the KMS key associated with the alias.
         public let targetKeyId: String?
 
+        @inlinable
         public init(aliasArn: String? = nil, aliasName: String? = nil, creationDate: Date? = nil, lastUpdatedDate: Date? = nil, targetKeyId: String? = nil) {
             self.aliasArn = aliasArn
             self.aliasName = aliasName
@@ -293,6 +294,7 @@ extension KMS {
         /// Identifies the KMS key whose deletion is being canceled. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -311,6 +313,7 @@ extension KMS {
         /// The Amazon Resource Name (key ARN) of the KMS key whose deletion is canceled.
         public let keyId: String?
 
+        @inlinable
         public init(keyId: String? = nil) {
             self.keyId = keyId
         }
@@ -324,6 +327,7 @@ extension KMS {
         /// Enter the key store ID of the custom key store that you want to connect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String
 
+        @inlinable
         public init(customKeyStoreId: String) {
             self.customKeyStoreId = customKeyStoreId
         }
@@ -348,6 +352,7 @@ extension KMS {
         /// Associates the alias with the specified customer managed key. The KMS key must be in the same Amazon Web Services Region.  A valid key ID is required. If you supply a null or empty string value, this operation returns an error. For help finding the key ID and ARN, see Finding the Key ID and ARN in the  Key Management Service Developer Guide . Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let targetKeyId: String
 
+        @inlinable
         public init(aliasName: String, targetKeyId: String) {
             self.aliasName = aliasName
             self.targetKeyId = targetKeyId
@@ -389,6 +394,7 @@ extension KMS {
         /// Specifies the name of the Amazon VPC endpoint service for interface endpoints that is used to communicate with your external key store proxy (XKS proxy). This parameter is required when the value of CustomKeyStoreType is EXTERNAL_KEY_STORE and the value of XksProxyConnectivity is VPC_ENDPOINT_SERVICE. The Amazon VPC endpoint service must fulfill all requirements for use with an external key store.   Uniqueness requirements:    External key stores with VPC_ENDPOINT_SERVICE connectivity can share an Amazon VPC, but each external key store must have its own VPC endpoint service and private DNS name.
         public let xksProxyVpcEndpointServiceName: String?
 
+        @inlinable
         public init(cloudHsmClusterId: String? = nil, customKeyStoreName: String, customKeyStoreType: CustomKeyStoreType? = nil, keyStorePassword: String? = nil, trustAnchorCertificate: String? = nil, xksProxyAuthenticationCredential: XksProxyAuthenticationCredentialType? = nil, xksProxyConnectivity: XksProxyConnectivityType? = nil, xksProxyUriEndpoint: String? = nil, xksProxyUriPath: String? = nil, xksProxyVpcEndpointServiceName: String? = nil) {
             self.cloudHsmClusterId = cloudHsmClusterId
             self.customKeyStoreName = customKeyStoreName
@@ -442,6 +448,7 @@ extension KMS {
         /// A unique identifier for the new custom key store.
         public let customKeyStoreId: String?
 
+        @inlinable
         public init(customKeyStoreId: String? = nil) {
             self.customKeyStoreId = customKeyStoreId
         }
@@ -470,6 +477,7 @@ extension KMS {
         /// The principal that has permission to use the RetireGrant operation to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide . The grant determines the retiring principal. Other principals might have permission to retire the grant or revoke the grant. For details, see RevokeGrant and Retiring and revoking grants in the Key Management Service Developer Guide.
         public let retiringPrincipal: String?
 
+        @inlinable
         public init(constraints: GrantConstraints? = nil, dryRun: Bool? = nil, granteePrincipal: String, grantTokens: [String]? = nil, keyId: String, name: String? = nil, operations: [GrantOperation], retiringPrincipal: String? = nil) {
             self.constraints = constraints
             self.dryRun = dryRun
@@ -518,6 +526,7 @@ extension KMS {
         /// The grant token. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantToken: String?
 
+        @inlinable
         public init(grantId: String? = nil, grantToken: String? = nil) {
             self.grantId = grantId
             self.grantToken = grantToken
@@ -553,6 +562,7 @@ extension KMS {
         /// Identifies the external key that serves as key material for the KMS key in an external key store. Specify the ID that the external key store proxy uses to refer to the external key. For help, see the documentation for your external key store proxy. This parameter is required for a KMS key with an Origin value of EXTERNAL_KEY_STORE. It is not valid for KMS keys with any other Origin value. The external key must be an existing 256-bit AES symmetric encryption key hosted outside of Amazon Web Services in an external key manager associated with the external key store specified by the CustomKeyStoreId parameter. This key must be enabled and configured to perform encryption and decryption. Each KMS key in an external key store must use a different external key. For details, see Requirements for a KMS key in an external key store in the Key Management Service Developer Guide. Each KMS key in an external key store is associated two backing keys. One is key material that KMS generates. The other is the external key specified by this parameter. When you use the KMS key in an external key store to encrypt data, the encryption operation is performed first by KMS using the KMS key material, and then by the external key manager using the specified external key, a process known as double encryption. For details, see Double encryption in the Key Management Service Developer Guide.
         public let xksKeyId: String?
 
+        @inlinable
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customKeyStoreId: String? = nil, description: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil, xksKeyId: String? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.customerMasterKeySpec = nil
@@ -568,6 +578,7 @@ extension KMS {
         }
 
         @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
+        @inlinable
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, description: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, origin: OriginType? = nil, policy: String? = nil, tags: [Tag]? = nil, xksKeyId: String? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.customerMasterKeySpec = customerMasterKeySpec
@@ -616,6 +627,7 @@ extension KMS {
         /// Metadata associated with the KMS key.
         public let keyMetadata: KeyMetadata?
 
+        @inlinable
         public init(keyMetadata: KeyMetadata? = nil) {
             self.keyMetadata = keyMetadata
         }
@@ -649,6 +661,7 @@ extension KMS {
         /// Configuration settings for the external key store proxy (XKS proxy). The external key store proxy translates KMS requests into a format that your external key manager can understand. The proxy configuration includes connection information that KMS requires. This field appears only when the CustomKeyStoreType is EXTERNAL_KEY_STORE.
         public let xksProxyConfiguration: XksProxyConfigurationType?
 
+        @inlinable
         public init(cloudHsmClusterId: String? = nil, connectionErrorCode: ConnectionErrorCodeType? = nil, connectionState: ConnectionStateType? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, customKeyStoreType: CustomKeyStoreType? = nil, trustAnchorCertificate: String? = nil, xksProxyConfiguration: XksProxyConfigurationType? = nil) {
             self.cloudHsmClusterId = cloudHsmClusterId
             self.connectionErrorCode = connectionErrorCode
@@ -693,6 +706,7 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
+        @inlinable
         public init(ciphertextBlob: AWSBase64Data, dryRun: Bool? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil, recipient: RecipientInfo? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.dryRun = dryRun
@@ -737,6 +751,7 @@ extension KMS {
         /// Decrypted plaintext data. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
         public let plaintext: AWSBase64Data?
 
+        @inlinable
         public init(ciphertextForRecipient: AWSBase64Data? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil, plaintext: AWSBase64Data? = nil) {
             self.ciphertextForRecipient = ciphertextForRecipient
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -756,6 +771,7 @@ extension KMS {
         /// The alias to be deleted. The alias name must begin with alias/ followed by the alias name, such as alias/ExampleAlias.
         public let aliasName: String
 
+        @inlinable
         public init(aliasName: String) {
             self.aliasName = aliasName
         }
@@ -775,6 +791,7 @@ extension KMS {
         /// Enter the ID of the custom key store you want to delete. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String
 
+        @inlinable
         public init(customKeyStoreId: String) {
             self.customKeyStoreId = customKeyStoreId
         }
@@ -797,6 +814,7 @@ extension KMS {
         /// Identifies the KMS key from which you are deleting imported key material. The Origin of the KMS key must be EXTERNAL. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -825,6 +843,7 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To call  DeriveSharedSecret for an Amazon Web Services Nitro Enclaves, use the Amazon Web Services Nitro Enclaves SDK to generate the attestation  document and then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation  document for the enclave. When you use this parameter, instead of returning a plaintext copy of the shared secret, KMS encrypts the plaintext shared secret under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains the encrypted shared  secret derived from the KMS key specified by the KeyId parameter and public key specified by the PublicKey parameter. The SharedSecret field in  the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyAgreementAlgorithm: KeyAgreementAlgorithmSpec, keyId: String, publicKey: AWSBase64Data, recipient: RecipientInfo? = nil) {
             self.dryRun = dryRun
             self.grantTokens = grantTokens
@@ -869,6 +888,7 @@ extension KMS {
         /// The raw secret derived from the specified key agreement algorithm, private key in the asymmetric KMS key, and your peer's public key. If the response includes the CiphertextForRecipient field, the SharedSecret field is null or empty.
         public let sharedSecret: AWSBase64Data?
 
+        @inlinable
         public init(ciphertextForRecipient: AWSBase64Data? = nil, keyAgreementAlgorithm: KeyAgreementAlgorithmSpec? = nil, keyId: String? = nil, keyOrigin: OriginType? = nil, sharedSecret: AWSBase64Data? = nil) {
             self.ciphertextForRecipient = ciphertextForRecipient
             self.keyAgreementAlgorithm = keyAgreementAlgorithm
@@ -896,6 +916,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(customKeyStoreId: String? = nil, customKeyStoreName: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.customKeyStoreId = customKeyStoreId
             self.customKeyStoreName = customKeyStoreName
@@ -931,6 +952,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(customKeyStores: [CustomKeyStoresListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
             self.customKeyStores = customKeyStores
             self.nextMarker = nextMarker
@@ -950,6 +972,7 @@ extension KMS {
         /// Describes the specified KMS key.  If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
 
+        @inlinable
         public init(grantTokens: [String]? = nil, keyId: String) {
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -975,6 +998,7 @@ extension KMS {
         /// Metadata associated with the key.
         public let keyMetadata: KeyMetadata?
 
+        @inlinable
         public init(keyMetadata: KeyMetadata? = nil) {
             self.keyMetadata = keyMetadata
         }
@@ -988,6 +1012,7 @@ extension KMS {
         /// Identifies the KMS key to disable. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -1006,6 +1031,7 @@ extension KMS {
         /// Identifies a symmetric encryption KMS key. You cannot enable or disable automatic rotation of asymmetric KMS keys, HMAC KMS keys, KMS keys with imported key material, or KMS keys in a custom key store. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -1024,6 +1050,7 @@ extension KMS {
         /// Enter the ID of the custom key store you want to disconnect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
         public let customKeyStoreId: String
 
+        @inlinable
         public init(customKeyStoreId: String) {
             self.customKeyStoreId = customKeyStoreId
         }
@@ -1046,6 +1073,7 @@ extension KMS {
         /// Identifies the KMS key to enable. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -1066,6 +1094,7 @@ extension KMS {
         /// Use this parameter to specify a custom period of time between each rotation date. If no value is specified, the default value is 365 days. The rotation period defines the number of days after you enable automatic key rotation that KMS will rotate your key material, and the number of days between each automatic rotation thereafter. You can use the  kms:RotationPeriodInDays condition key to further constrain the  values that principals can specify in the RotationPeriodInDays parameter.
         public let rotationPeriodInDays: Int?
 
+        @inlinable
         public init(keyId: String, rotationPeriodInDays: Int? = nil) {
             self.keyId = keyId
             self.rotationPeriodInDays = rotationPeriodInDays
@@ -1101,6 +1130,7 @@ extension KMS {
         /// Data to be encrypted.
         public let plaintext: AWSBase64Data
 
+        @inlinable
         public init(dryRun: Bool? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, plaintext: AWSBase64Data) {
             self.dryRun = dryRun
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -1140,6 +1170,7 @@ extension KMS {
         /// The Amazon Resource Name (key ARN) of the KMS key that was used to encrypt the plaintext.
         public let keyId: String?
 
+        @inlinable
         public init(ciphertextBlob: AWSBase64Data? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -1170,6 +1201,7 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To call  DeriveSharedSecret for an Amazon Web Services Nitro Enclaves, use the Amazon Web Services Nitro Enclaves SDK to generate the attestation  document and then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation  document for the enclave. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
+        @inlinable
         public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec, recipient: RecipientInfo? = nil) {
             self.dryRun = dryRun
             self.encryptionContext = encryptionContext
@@ -1214,6 +1246,7 @@ extension KMS {
         /// The public key (in plaintext). When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let publicKey: AWSBase64Data?
 
+        @inlinable
         public init(ciphertextForRecipient: AWSBase64Data? = nil, keyId: String? = nil, keyPairSpec: DataKeyPairSpec? = nil, privateKeyCiphertextBlob: AWSBase64Data? = nil, privateKeyPlaintext: AWSBase64Data? = nil, publicKey: AWSBase64Data? = nil) {
             self.ciphertextForRecipient = ciphertextForRecipient
             self.keyId = keyId
@@ -1248,6 +1281,7 @@ extension KMS {
         /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), and the rule that permits you to use ECC KMS keys only to sign and verify, are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
         public let keyPairSpec: DataKeyPairSpec
 
+        @inlinable
         public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keyPairSpec: DataKeyPairSpec) {
             self.dryRun = dryRun
             self.encryptionContext = encryptionContext
@@ -1285,6 +1319,7 @@ extension KMS {
         /// The public key (in plaintext). When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
         public let publicKey: AWSBase64Data?
 
+        @inlinable
         public init(keyId: String? = nil, keyPairSpec: DataKeyPairSpec? = nil, privateKeyCiphertextBlob: AWSBase64Data? = nil, publicKey: AWSBase64Data? = nil) {
             self.keyId = keyId
             self.keyPairSpec = keyPairSpec
@@ -1319,6 +1354,7 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data key, KMS encrypts the plaintext data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the data key encrypted under the KMS key specified by the KeyId parameter. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
+        @inlinable
         public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil, recipient: RecipientInfo? = nil) {
             self.dryRun = dryRun
             self.encryptionContext = encryptionContext
@@ -1363,6 +1399,7 @@ extension KMS {
         /// The plaintext data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. Use this data key to encrypt your data outside of KMS. Then, remove it from memory as soon as possible. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
         public let plaintext: AWSBase64Data?
 
+        @inlinable
         public init(ciphertextBlob: AWSBase64Data? = nil, ciphertextForRecipient: AWSBase64Data? = nil, keyId: String? = nil, plaintext: AWSBase64Data? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.ciphertextForRecipient = ciphertextForRecipient
@@ -1395,6 +1432,7 @@ extension KMS {
         /// The length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
         public let numberOfBytes: Int?
 
+        @inlinable
         public init(dryRun: Bool? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String, keySpec: DataKeySpec? = nil, numberOfBytes: Int? = nil) {
             self.dryRun = dryRun
             self.encryptionContext = encryptionContext
@@ -1432,6 +1470,7 @@ extension KMS {
         /// The Amazon Resource Name (key ARN) of the KMS key that encrypted the data key.
         public let keyId: String?
 
+        @inlinable
         public init(ciphertextBlob: AWSBase64Data? = nil, keyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.keyId = keyId
@@ -1455,6 +1494,7 @@ extension KMS {
         /// The message to be hashed. Specify a message of up to 4,096 bytes.   GenerateMac and VerifyMac do not provide special handling for message digests. If you generate an HMAC for a hash digest of a message, you must verify the HMAC of the same hash digest.
         public let message: AWSBase64Data
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, macAlgorithm: MacAlgorithmSpec, message: AWSBase64Data) {
             self.dryRun = dryRun
             self.grantTokens = grantTokens
@@ -1492,6 +1532,7 @@ extension KMS {
         /// The MAC algorithm that was used to generate the HMAC.
         public let macAlgorithm: MacAlgorithmSpec?
 
+        @inlinable
         public init(keyId: String? = nil, mac: AWSBase64Data? = nil, macAlgorithm: MacAlgorithmSpec? = nil) {
             self.keyId = keyId
             self.mac = mac
@@ -1513,6 +1554,7 @@ extension KMS {
         /// A signed attestation document from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this parameter, instead of returning plaintext bytes, KMS encrypts the plaintext bytes under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
+        @inlinable
         public init(customKeyStoreId: String? = nil, numberOfBytes: Int? = nil, recipient: RecipientInfo? = nil) {
             self.customKeyStoreId = customKeyStoreId
             self.numberOfBytes = numberOfBytes
@@ -1540,6 +1582,7 @@ extension KMS {
         /// The random byte string. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
         public let plaintext: AWSBase64Data?
 
+        @inlinable
         public init(ciphertextForRecipient: AWSBase64Data? = nil, plaintext: AWSBase64Data? = nil) {
             self.ciphertextForRecipient = ciphertextForRecipient
             self.plaintext = plaintext
@@ -1557,6 +1600,7 @@ extension KMS {
         /// Specifies the name of the key policy. If no policy name is specified, the default value is default. The only valid name is default. To get the names of key policies, use ListKeyPolicies.
         public let policyName: String?
 
+        @inlinable
         public init(keyId: String, policyName: String? = nil) {
             self.keyId = keyId
             self.policyName = policyName
@@ -1582,6 +1626,7 @@ extension KMS {
         /// The name of the key policy. The only valid value is default.
         public let policyName: String?
 
+        @inlinable
         public init(policy: String? = nil, policyName: String? = nil) {
             self.policy = policy
             self.policyName = policyName
@@ -1598,6 +1643,7 @@ extension KMS {
         /// different Amazon Web Services account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -1624,6 +1670,7 @@ extension KMS {
         /// The number of days between each automatic rotation. The default value is 365 days.
         public let rotationPeriodInDays: Int?
 
+        @inlinable
         public init(keyId: String? = nil, keyRotationEnabled: Bool? = nil, nextRotationDate: Date? = nil, onDemandRotationStartDate: Date? = nil, rotationPeriodInDays: Int? = nil) {
             self.keyId = keyId
             self.keyRotationEnabled = keyRotationEnabled
@@ -1649,6 +1696,7 @@ extension KMS {
         /// The type of RSA public key to return in the response. You will use this wrapping key with the specified wrapping algorithm to protect your key material during import.  Use the longest RSA wrapping key that is practical.  You cannot use an RSA_2048 public key to directly wrap an ECC_NIST_P521 private key. Instead, use an RSA_AES wrapping algorithm or choose a longer RSA public key.
         public let wrappingKeySpec: WrappingKeySpec
 
+        @inlinable
         public init(keyId: String, wrappingAlgorithm: AlgorithmSpec, wrappingKeySpec: WrappingKeySpec) {
             self.keyId = keyId
             self.wrappingAlgorithm = wrappingAlgorithm
@@ -1677,6 +1725,7 @@ extension KMS {
         /// The public key to use to encrypt the key material before importing it with ImportKeyMaterial.
         public let publicKey: AWSBase64Data?
 
+        @inlinable
         public init(importToken: AWSBase64Data? = nil, keyId: String? = nil, parametersValidTo: Date? = nil, publicKey: AWSBase64Data? = nil) {
             self.importToken = importToken
             self.keyId = keyId
@@ -1698,6 +1747,7 @@ extension KMS {
         /// Identifies the asymmetric KMS key that includes the public key. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String
 
+        @inlinable
         public init(grantTokens: [String]? = nil, keyId: String) {
             self.grantTokens = grantTokens
             self.keyId = keyId
@@ -1737,6 +1787,7 @@ extension KMS {
         /// The signing algorithms that KMS supports for this key. This field appears in the response only when the KeyUsage of the public key is SIGN_VERIFY.
         public let signingAlgorithms: [SigningAlgorithmSpec]?
 
+        @inlinable
         public init(encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: AWSBase64Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
             self.customerMasterKeySpec = nil
             self.encryptionAlgorithms = encryptionAlgorithms
@@ -1749,6 +1800,7 @@ extension KMS {
         }
 
         @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
+        @inlinable
         public init(customerMasterKeySpec: CustomerMasterKeySpec? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String? = nil, keySpec: KeySpec? = nil, keyUsage: KeyUsageType? = nil, publicKey: AWSBase64Data? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil) {
             self.customerMasterKeySpec = customerMasterKeySpec
             self.encryptionAlgorithms = encryptionAlgorithms
@@ -1778,6 +1830,7 @@ extension KMS {
         /// A list of key-value pairs that must be included in the encryption context of the cryptographic operation request. The grant allows the cryptographic operation only when the encryption context in the request includes the key-value pairs specified in this constraint, although it can include additional key-value pairs.
         public let encryptionContextSubset: [String: String]?
 
+        @inlinable
         public init(encryptionContextEquals: [String: String]? = nil, encryptionContextSubset: [String: String]? = nil) {
             self.encryptionContextEquals = encryptionContextEquals
             self.encryptionContextSubset = encryptionContextSubset
@@ -1809,6 +1862,7 @@ extension KMS {
         /// The principal that can retire the grant.
         public let retiringPrincipal: String?
 
+        @inlinable
         public init(constraints: GrantConstraints? = nil, creationDate: Date? = nil, granteePrincipal: String? = nil, grantId: String? = nil, issuingAccount: String? = nil, keyId: String? = nil, name: String? = nil, operations: [GrantOperation]? = nil, retiringPrincipal: String? = nil) {
             self.constraints = constraints
             self.creationDate = creationDate
@@ -1846,6 +1900,7 @@ extension KMS {
         /// The date and time when the imported key material expires. This parameter is required when the value of the ExpirationModel parameter is KEY_MATERIAL_EXPIRES. Otherwise it is not valid. The value of this parameter must be a future date and time. The maximum value is 365 days from the request date. When the key material expires, KMS deletes the key material from the KMS key. Without its key material, the KMS key is unusable. To use the KMS key in cryptographic operations, you must reimport the same key material. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must delete (DeleteImportedKeyMaterial) and reimport the key material.
         public let validTo: Date?
 
+        @inlinable
         public init(encryptedKeyMaterial: AWSBase64Data, expirationModel: ExpirationModelType? = nil, importToken: AWSBase64Data, keyId: String, validTo: Date? = nil) {
             self.encryptedKeyMaterial = encryptedKeyMaterial
             self.expirationModel = expirationModel
@@ -1882,6 +1937,7 @@ extension KMS {
         /// Unique identifier of the key.
         public let keyId: String?
 
+        @inlinable
         public init(keyArn: String? = nil, keyId: String? = nil) {
             self.keyArn = keyArn
             self.keyId = keyId
@@ -1945,6 +2001,7 @@ extension KMS {
         /// Information about the external key that is associated with a KMS key in an external key store. For more information, see External key in the Key Management Service Developer Guide.
         public let xksKeyConfiguration: XksKeyConfigurationType?
 
+        @inlinable
         public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
             self.arn = arn
             self.awsAccountId = awsAccountId
@@ -1974,6 +2031,7 @@ extension KMS {
         }
 
         @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
+        @inlinable
         public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyAgreementAlgorithms: [KeyAgreementAlgorithmSpec]? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, macAlgorithms: [MacAlgorithmSpec]? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil, xksKeyConfiguration: XksKeyConfigurationType? = nil) {
             self.arn = arn
             self.awsAccountId = awsAccountId
@@ -2039,6 +2097,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(keyId: String? = nil, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
@@ -2070,6 +2129,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(aliases: [AliasListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
             self.aliases = aliases
             self.nextMarker = nextMarker
@@ -2096,6 +2156,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(granteePrincipal: String? = nil, grantId: String? = nil, keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.granteePrincipal = granteePrincipal
             self.grantId = grantId
@@ -2136,6 +2197,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(grants: [GrantListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
             self.grants = grants
             self.nextMarker = nextMarker
@@ -2157,6 +2219,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
@@ -2188,6 +2251,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(nextMarker: String? = nil, policyNames: [String]? = nil, truncated: Bool? = nil) {
             self.nextMarker = nextMarker
             self.policyNames = policyNames
@@ -2209,6 +2273,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
@@ -2240,6 +2305,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(nextMarker: String? = nil, rotations: [RotationsListEntry]? = nil, truncated: Bool? = nil) {
             self.nextMarker = nextMarker
             self.rotations = rotations
@@ -2259,6 +2325,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil) {
             self.limit = limit
             self.marker = marker
@@ -2286,6 +2353,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(keys: [KeyListEntry]? = nil, nextMarker: String? = nil, truncated: Bool? = nil) {
             self.keys = keys
             self.nextMarker = nextMarker
@@ -2307,6 +2375,7 @@ extension KMS {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received. Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
         public let marker: String?
 
+        @inlinable
         public init(keyId: String, limit: Int? = nil, marker: String? = nil) {
             self.keyId = keyId
             self.limit = limit
@@ -2338,6 +2407,7 @@ extension KMS {
         /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
         public let truncated: Bool?
 
+        @inlinable
         public init(nextMarker: String? = nil, tags: [Tag]? = nil, truncated: Bool? = nil) {
             self.nextMarker = nextMarker
             self.tags = tags
@@ -2359,6 +2429,7 @@ extension KMS {
         /// The retiring principal for which to list grants. Enter a principal in your Amazon Web Services account. To specify the retiring principal, use the Amazon Resource Name (ARN) of an Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM users, IAM roles, federated users, and assumed role users. For help with the ARN syntax for a principal, see IAM ARNs in the  Identity and Access Management User Guide .
         public let retiringPrincipal: String
 
+        @inlinable
         public init(limit: Int? = nil, marker: String? = nil, retiringPrincipal: String) {
             self.limit = limit
             self.marker = marker
@@ -2391,6 +2462,7 @@ extension KMS {
         /// displays the key ARNs and Regions of all replica keys. This field includes the current KMS key if it is a replica key.
         public let replicaKeys: [MultiRegionKey]?
 
+        @inlinable
         public init(multiRegionKeyType: MultiRegionKeyType? = nil, primaryKey: MultiRegionKey? = nil, replicaKeys: [MultiRegionKey]? = nil) {
             self.multiRegionKeyType = multiRegionKeyType
             self.primaryKey = primaryKey
@@ -2410,6 +2482,7 @@ extension KMS {
         /// Displays the Amazon Web Services Region of a primary or replica key in a multi-Region key.
         public let region: String?
 
+        @inlinable
         public init(arn: String? = nil, region: String? = nil) {
             self.arn = arn
             self.region = region
@@ -2431,6 +2504,7 @@ extension KMS {
         /// The name of the key policy. If no policy name is specified, the default value is default. The only valid value is default.
         public let policyName: String?
 
+        @inlinable
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, keyId: String, policy: String, policyName: String? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.keyId = keyId
@@ -2483,6 +2557,7 @@ extension KMS {
         /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let sourceKeyId: String?
 
+        @inlinable
         public init(ciphertextBlob: AWSBase64Data, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, dryRun: Bool? = nil, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
@@ -2534,6 +2609,7 @@ extension KMS {
         /// Unique identifier of the KMS key used to originally encrypt the data.
         public let sourceKeyId: String?
 
+        @inlinable
         public init(ciphertextBlob: AWSBase64Data? = nil, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, keyId: String? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceKeyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
@@ -2557,6 +2633,7 @@ extension KMS {
         /// The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256.
         public let keyEncryptionAlgorithm: KeyEncryptionMechanism?
 
+        @inlinable
         public init(attestationDocument: AWSBase64Data? = nil, keyEncryptionAlgorithm: KeyEncryptionMechanism? = nil) {
             self.attestationDocument = attestationDocument
             self.keyEncryptionAlgorithm = keyEncryptionAlgorithm
@@ -2587,6 +2664,7 @@ extension KMS {
         /// Assigns one or more tags to the replica key. Use this parameter to tag the KMS key when it is created. To tag an existing KMS key, use the TagResource operation.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management Service Developer Guide.  To use this parameter, you must have kms:TagResource permission in an IAM policy. Tags are not a shared property of multi-Region keys. You can specify the same tags or different tags for each key in a set of related multi-Region keys. KMS does not synchronize this property. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost allocation report with usage and costs aggregated by tags. Tags can also be used to control access to a KMS key. For details, see Tagging Keys.
         public let tags: [Tag]?
 
+        @inlinable
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, description: String? = nil, keyId: String, policy: String? = nil, replicaRegion: String, tags: [Tag]? = nil) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.description = description
@@ -2629,6 +2707,7 @@ extension KMS {
         /// The tags on the new replica key. The value is a list of tag key and tag value pairs.
         public let replicaTags: [Tag]?
 
+        @inlinable
         public init(replicaKeyMetadata: KeyMetadata? = nil, replicaPolicy: String? = nil, replicaTags: [Tag]? = nil) {
             self.replicaKeyMetadata = replicaKeyMetadata
             self.replicaPolicy = replicaPolicy
@@ -2652,6 +2731,7 @@ extension KMS {
         /// The key ARN KMS key associated with the grant. To find the key ARN, use the ListKeys operation. For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
         public let keyId: String?
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantId: String? = nil, grantToken: String? = nil, keyId: String? = nil) {
             self.dryRun = dryRun
             self.grantId = grantId
@@ -2685,6 +2765,7 @@ extension KMS {
         /// different Amazon Web Services account, you must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantId: String, keyId: String) {
             self.dryRun = dryRun
             self.grantId = grantId
@@ -2709,6 +2790,7 @@ extension KMS {
         /// Identifies a symmetric encryption KMS key. You cannot perform on-demand rotation of asymmetric KMS keys, HMAC KMS keys,  KMS keys with imported key material, or KMS keys in a custom key store. To perform on-demand rotation of a set of related multi-Region keys, invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(keyId: String) {
             self.keyId = keyId
         }
@@ -2727,6 +2809,7 @@ extension KMS {
         /// Identifies the symmetric encryption KMS key that you initiated on-demand rotation on.
         public let keyId: String?
 
+        @inlinable
         public init(keyId: String? = nil) {
             self.keyId = keyId
         }
@@ -2744,6 +2827,7 @@ extension KMS {
         /// Identifies whether the key material rotation was a scheduled automatic rotation or an on-demand rotation.
         public let rotationType: RotationType?
 
+        @inlinable
         public init(keyId: String? = nil, rotationDate: Date? = nil, rotationType: RotationType? = nil) {
             self.keyId = keyId
             self.rotationDate = rotationDate
@@ -2763,6 +2847,7 @@ extension KMS {
         /// The waiting period, specified in number of days. After the waiting period ends, KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately. This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30. You can use the  kms:ScheduleKeyDeletionPendingWindowInDays condition key to further constrain the values that principals can specify in the PendingWindowInDays parameter.
         public let pendingWindowInDays: Int?
 
+        @inlinable
         public init(keyId: String, pendingWindowInDays: Int? = nil) {
             self.keyId = keyId
             self.pendingWindowInDays = pendingWindowInDays
@@ -2791,6 +2876,7 @@ extension KMS {
         /// The waiting period before the KMS key is deleted.  If the KMS key is a multi-Region primary key with replicas, the waiting period begins when the last of its replica keys is deleted. Otherwise, the waiting period begins immediately.
         public let pendingWindowInDays: Int?
 
+        @inlinable
         public init(deletionDate: Date? = nil, keyId: String? = nil, keyState: KeyState? = nil, pendingWindowInDays: Int? = nil) {
             self.deletionDate = deletionDate
             self.keyId = keyId
@@ -2820,6 +2906,7 @@ extension KMS {
         /// Specifies the signing algorithm to use when signing the message.  Choose an algorithm that is compatible with the type and size of the specified asymmetric KMS key. When signing with RSA key pairs, RSASSA-PSS algorithms are preferred. We include RSASSA-PKCS1-v1_5 algorithms for compatibility with existing applications.
         public let signingAlgorithm: SigningAlgorithmSpec
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, message: AWSBase64Data, messageType: MessageType? = nil, signingAlgorithm: SigningAlgorithmSpec) {
             self.dryRun = dryRun
             self.grantTokens = grantTokens
@@ -2859,6 +2946,7 @@ extension KMS {
         /// The signing algorithm that was used to sign the message.
         public let signingAlgorithm: SigningAlgorithmSpec?
 
+        @inlinable
         public init(keyId: String? = nil, signature: AWSBase64Data? = nil, signingAlgorithm: SigningAlgorithmSpec? = nil) {
             self.keyId = keyId
             self.signature = signature
@@ -2878,6 +2966,7 @@ extension KMS {
         /// The value of the tag.
         public let tagValue: String
 
+        @inlinable
         public init(tagKey: String, tagValue: String) {
             self.tagKey = tagKey
             self.tagValue = tagValue
@@ -2901,6 +2990,7 @@ extension KMS {
         /// One or more tags. Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string.   Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  You cannot have more than one tag on a KMS key with the same tag key. If you specify an existing tag key with a different tag value, KMS replaces the current tag value with the specified one.
         public let tags: [Tag]
 
+        @inlinable
         public init(keyId: String, tags: [Tag]) {
             self.keyId = keyId
             self.tags = tags
@@ -2926,6 +3016,7 @@ extension KMS {
         /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
 
+        @inlinable
         public init(keyId: String, tagKeys: [String]) {
             self.keyId = keyId
             self.tagKeys = tagKeys
@@ -2952,6 +3043,7 @@ extension KMS {
         /// Identifies the customer managed key to associate with the alias. You don't have permission to associate an alias with an Amazon Web Services managed key. The KMS key must be in the same Amazon Web Services account and Region as the alias. Also, the new target KMS key must be the same type as the current target KMS key (both symmetric or both asymmetric or both HMAC) and they must have the same key usage.  Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To verify that the alias is mapped to the correct KMS key, use ListAliases.
         public let targetKeyId: String
 
+        @inlinable
         public init(aliasName: String, targetKeyId: String) {
             self.aliasName = aliasName
             self.targetKeyId = targetKeyId
@@ -2991,6 +3083,7 @@ extension KMS {
         /// Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is valid when the CustomKeyStoreType is EXTERNAL_KEY_STORE and the XksProxyConnectivity is VPC_ENDPOINT_SERVICE. To change this value, the external key store must be disconnected.
         public let xksProxyVpcEndpointServiceName: String?
 
+        @inlinable
         public init(cloudHsmClusterId: String? = nil, customKeyStoreId: String, keyStorePassword: String? = nil, newCustomKeyStoreName: String? = nil, xksProxyAuthenticationCredential: XksProxyAuthenticationCredentialType? = nil, xksProxyConnectivity: XksProxyConnectivityType? = nil, xksProxyUriEndpoint: String? = nil, xksProxyUriPath: String? = nil, xksProxyVpcEndpointServiceName: String? = nil) {
             self.cloudHsmClusterId = cloudHsmClusterId
             self.customKeyStoreId = customKeyStoreId
@@ -3048,6 +3141,7 @@ extension KMS {
         /// Updates the description of the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
         public let keyId: String
 
+        @inlinable
         public init(description: String, keyId: String) {
             self.description = description
             self.keyId = keyId
@@ -3071,6 +3165,7 @@ extension KMS {
         /// The Amazon Web Services Region of the new primary key. Enter the Region ID, such as us-east-1 or ap-southeast-2. There must be an existing replica key in this Region.  When the operation completes, the multi-Region key in this Region will be the primary key.
         public let primaryRegion: String
 
+        @inlinable
         public init(keyId: String, primaryRegion: String) {
             self.keyId = keyId
             self.primaryRegion = primaryRegion
@@ -3104,6 +3199,7 @@ extension KMS {
         /// The message that will be used in the verification. Enter the same message that was used to generate the HMAC.  GenerateMac and VerifyMac do not provide special handling for message digests. If you generated an HMAC for a hash digest of a message, you must verify the HMAC for the same hash digest.
         public let message: AWSBase64Data
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, mac: AWSBase64Data, macAlgorithm: MacAlgorithmSpec, message: AWSBase64Data) {
             self.dryRun = dryRun
             self.grantTokens = grantTokens
@@ -3145,6 +3241,7 @@ extension KMS {
         /// A Boolean value that indicates whether the HMAC was verified. A value of True indicates that the HMAC (Mac) was generated with the specified Message, HMAC KMS key (KeyID) and MacAlgorithm.. If the HMAC is not verified, the VerifyMac operation fails with a KMSInvalidMacException exception. This exception indicates that one or more of the inputs changed since the HMAC was computed.
         public let macValid: Bool?
 
+        @inlinable
         public init(keyId: String? = nil, macAlgorithm: MacAlgorithmSpec? = nil, macValid: Bool? = nil) {
             self.keyId = keyId
             self.macAlgorithm = macAlgorithm
@@ -3174,6 +3271,7 @@ extension KMS {
         /// The signing algorithm that was used to sign the message. If you submit a different algorithm, the signature verification fails.
         public let signingAlgorithm: SigningAlgorithmSpec
 
+        @inlinable
         public init(dryRun: Bool? = nil, grantTokens: [String]? = nil, keyId: String, message: AWSBase64Data, messageType: MessageType? = nil, signature: AWSBase64Data, signingAlgorithm: SigningAlgorithmSpec) {
             self.dryRun = dryRun
             self.grantTokens = grantTokens
@@ -3217,6 +3315,7 @@ extension KMS {
         /// The signing algorithm that was used to verify the signature.
         public let signingAlgorithm: SigningAlgorithmSpec?
 
+        @inlinable
         public init(keyId: String? = nil, signatureValid: Bool? = nil, signingAlgorithm: SigningAlgorithmSpec? = nil) {
             self.keyId = keyId
             self.signatureValid = signatureValid
@@ -3234,6 +3333,7 @@ extension KMS {
         /// The ID of the external key in its external key manager. This is the ID that the external key store proxy uses to identify the external key.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -3249,6 +3349,7 @@ extension KMS {
         /// A secret string of 43-64 characters. Valid characters are a-z, A-Z, 0-9, /, +, and =.
         public let rawSecretAccessKey: String
 
+        @inlinable
         public init(accessKeyId: String, rawSecretAccessKey: String) {
             self.accessKeyId = accessKeyId
             self.rawSecretAccessKey = rawSecretAccessKey
@@ -3281,6 +3382,7 @@ extension KMS {
         /// The Amazon VPC endpoint service used to communicate with the external key store proxy. This field appears only when the external key store proxy uses an Amazon VPC endpoint service to communicate with KMS.
         public let vpcEndpointServiceName: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, connectivity: XksProxyConnectivityType? = nil, uriEndpoint: String? = nil, uriPath: String? = nil, vpcEndpointServiceName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.connectivity = connectivity

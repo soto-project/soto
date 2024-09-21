@@ -401,6 +401,7 @@ extension QConnect {
         ///  The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
         public let flowId: String?
 
+        @inlinable
         public init(flowId: String? = nil) {
             self.flowId = flowId
         }
@@ -422,6 +423,7 @@ extension QConnect {
         /// The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfiguration is included in the provided DataIntegration.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    For  Zendesk, you must include at least id, title, updated_at, and draft.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
         public let objectFields: [String]?
 
+        @inlinable
         public init(appIntegrationArn: String, objectFields: [String]? = nil) {
             self.appIntegrationArn = appIntegrationArn
             self.objectFields = objectFields
@@ -461,6 +463,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assistantArn: String, assistantAssociationArn: String, assistantAssociationId: String, assistantId: String, associationData: AssistantAssociationOutputData, associationType: AssociationType, tags: [String: String]? = nil) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
@@ -498,6 +501,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assistantArn: String, assistantAssociationArn: String, assistantAssociationId: String, assistantId: String, associationData: AssistantAssociationOutputData, associationType: AssociationType, tags: [String: String]? = nil) {
             self.assistantArn = assistantArn
             self.assistantAssociationArn = assistantAssociationArn
@@ -523,6 +527,7 @@ extension QConnect {
         /// The type of Amazon Q in Connect assistant capability.
         public let type: AssistantCapabilityType?
 
+        @inlinable
         public init(type: AssistantCapabilityType? = nil) {
             self.type = type
         }
@@ -554,6 +559,7 @@ extension QConnect {
         /// The type of assistant.
         public let type: AssistantType
 
+        @inlinable
         public init(assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
@@ -585,6 +591,7 @@ extension QConnect {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public let topicIntegrationArn: String?
 
+        @inlinable
         public init(topicIntegrationArn: String? = nil) {
             self.topicIntegrationArn = topicIntegrationArn
         }
@@ -616,6 +623,7 @@ extension QConnect {
         /// The type of the assistant.
         public let type: AssistantType
 
+        @inlinable
         public init(assistantArn: String, assistantId: String, capabilityConfiguration: AssistantCapabilityConfiguration? = nil, description: String? = nil, integrationConfiguration: AssistantIntegrationConfiguration? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: AssistantStatus, tags: [String: String]? = nil, type: AssistantType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
@@ -647,6 +655,7 @@ extension QConnect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String?
 
+        @inlinable
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -681,6 +690,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associationData: ContentAssociationContents, associationType: ContentAssociationType, contentArn: String, contentAssociationArn: String, contentAssociationId: String, contentId: String, knowledgeBaseArn: String, knowledgeBaseId: String, tags: [String: String]? = nil) {
             self.associationData = associationData
             self.associationType = associationType
@@ -726,6 +736,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associationData: ContentAssociationContents, associationType: ContentAssociationType, contentArn: String, contentAssociationArn: String, contentAssociationId: String, contentId: String, knowledgeBaseArn: String, knowledgeBaseId: String, tags: [String: String]? = nil) {
             self.associationData = associationData
             self.associationType = associationType
@@ -782,6 +793,7 @@ extension QConnect {
         /// The expiration time of the URL as an epoch timestamp.
         public let urlExpiry: Date
 
+        @inlinable
         public init(contentArn: String, contentId: String, contentType: String, knowledgeBaseArn: String, knowledgeBaseId: String, linkOutUri: String? = nil, metadata: [String: String], name: String, revisionId: String, status: ContentStatus, tags: [String: String]? = nil, title: String, url: String, urlExpiry: Date) {
             self.contentArn = contentArn
             self.contentId = contentId
@@ -823,6 +835,7 @@ extension QConnect {
         /// Details about the content text data.
         public let textData: TextData
 
+        @inlinable
         public init(rankingData: RankingData, textData: TextData) {
             self.rankingData = rankingData
             self.textData = textData
@@ -844,6 +857,7 @@ extension QConnect {
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public let knowledgeBaseId: String?
 
+        @inlinable
         public init(contentArn: String? = nil, contentId: String? = nil, knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
             self.contentArn = contentArn
             self.contentId = contentId
@@ -884,6 +898,7 @@ extension QConnect {
         /// The title of the content.
         public let title: String
 
+        @inlinable
         public init(contentArn: String, contentId: String, contentType: String, knowledgeBaseArn: String, knowledgeBaseId: String, metadata: [String: String], name: String, revisionId: String, status: ContentStatus, tags: [String: String]? = nil, title: String) {
             self.contentArn = contentArn
             self.contentId = contentId
@@ -925,6 +940,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assistantId: String, association: AssistantAssociationInputData, associationType: AssociationType, clientToken: String? = CreateAssistantAssociationRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.assistantId = assistantId
             self.association = association
@@ -969,6 +985,7 @@ extension QConnect {
         /// The assistant association.
         public let assistantAssociation: AssistantAssociationData?
 
+        @inlinable
         public init(assistantAssociation: AssistantAssociationData? = nil) {
             self.assistantAssociation = assistantAssociation
         }
@@ -992,6 +1009,7 @@ extension QConnect {
         /// The type of assistant.
         public let type: AssistantType
 
+        @inlinable
         public init(clientToken: String? = CreateAssistantRequest.idempotencyToken(), description: String? = nil, name: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [String: String]? = nil, type: AssistantType) {
             self.clientToken = clientToken
             self.description = description
@@ -1034,6 +1052,7 @@ extension QConnect {
         /// Information about the assistant.
         public let assistant: AssistantData?
 
+        @inlinable
         public init(assistant: AssistantData? = nil) {
             self.assistant = assistant
         }
@@ -1057,6 +1076,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(association: ContentAssociationContents, associationType: ContentAssociationType, clientToken: String? = CreateContentAssociationRequest.idempotencyToken(), contentId: String, knowledgeBaseId: String, tags: [String: String]? = nil) {
             self.association = association
             self.associationType = associationType
@@ -1104,6 +1124,7 @@ extension QConnect {
         /// The association between Amazon Q in Connect content and another resource.
         public let contentAssociation: ContentAssociationData?
 
+        @inlinable
         public init(contentAssociation: ContentAssociationData? = nil) {
             self.contentAssociation = contentAssociation
         }
@@ -1132,6 +1153,7 @@ extension QConnect {
         /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
         public let uploadId: String
 
+        @inlinable
         public init(clientToken: String? = CreateContentRequest.idempotencyToken(), knowledgeBaseId: String, metadata: [String: String]? = nil, name: String, overrideLinkOutUri: String? = nil, tags: [String: String]? = nil, title: String? = nil, uploadId: String) {
             self.clientToken = clientToken
             self.knowledgeBaseId = knowledgeBaseId
@@ -1200,6 +1222,7 @@ extension QConnect {
         /// The content.
         public let content: ContentData?
 
+        @inlinable
         public init(content: ContentData? = nil) {
             self.content = content
         }
@@ -1227,6 +1250,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateKnowledgeBaseRequest.idempotencyToken(), description: String? = nil, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1275,6 +1299,7 @@ extension QConnect {
         /// The knowledge base.
         public let knowledgeBase: KnowledgeBaseData?
 
+        @inlinable
         public init(knowledgeBase: KnowledgeBaseData? = nil) {
             self.knowledgeBase = knowledgeBase
         }
@@ -1310,6 +1335,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(channels: [String]? = nil, clientToken: String? = CreateQuickResponseRequest.idempotencyToken(), content: QuickResponseDataProvider, contentType: String? = nil, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseId: String, language: String? = nil, name: String, shortcutKey: String? = nil, tags: [String: String]? = nil) {
             self.channels = channels
             self.clientToken = clientToken
@@ -1389,6 +1415,7 @@ extension QConnect {
         /// The quick response.
         public let quickResponse: QuickResponseData?
 
+        @inlinable
         public init(quickResponse: QuickResponseData? = nil) {
             self.quickResponse = quickResponse
         }
@@ -1412,6 +1439,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assistantId: String, clientToken: String? = CreateSessionRequest.idempotencyToken(), description: String? = nil, name: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
             self.assistantId = assistantId
             self.clientToken = clientToken
@@ -1465,6 +1493,7 @@ extension QConnect {
         /// The session.
         public let session: SessionData?
 
+        @inlinable
         public init(session: SessionData? = nil) {
             self.session = session
         }
@@ -1480,6 +1509,7 @@ extension QConnect {
         /// Reference information about the content.
         public let reference: DataReference
 
+        @inlinable
         public init(details: DataDetails, reference: DataReference) {
             self.details = details
             self.reference = reference
@@ -1497,6 +1527,7 @@ extension QConnect {
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
 
+        @inlinable
         public init(assistantAssociationId: String, assistantId: String) {
             self.assistantAssociationId = assistantAssociationId
             self.assistantId = assistantId
@@ -1525,6 +1556,7 @@ extension QConnect {
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
 
+        @inlinable
         public init(assistantId: String) {
             self.assistantId = assistantId
         }
@@ -1554,6 +1586,7 @@ extension QConnect {
         /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(contentAssociationId: String, contentId: String, knowledgeBaseId: String) {
             self.contentAssociationId = contentAssociationId
             self.contentId = contentId
@@ -1587,6 +1620,7 @@ extension QConnect {
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(contentId: String, knowledgeBaseId: String) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
@@ -1617,6 +1651,7 @@ extension QConnect {
         /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(importJobId: String, knowledgeBaseId: String) {
             self.importJobId = importJobId
             self.knowledgeBaseId = knowledgeBaseId
@@ -1645,6 +1680,7 @@ extension QConnect {
         /// The knowledge base to delete content from. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -1672,6 +1708,7 @@ extension QConnect {
         /// The identifier of the quick response to delete.
         public let quickResponseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String, quickResponseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
             self.quickResponseId = quickResponseId
@@ -1704,6 +1741,7 @@ extension QConnect {
         /// The title of the document.
         public let title: DocumentText?
 
+        @inlinable
         public init(contentReference: ContentReference, excerpt: DocumentText? = nil, title: DocumentText? = nil) {
             self.contentReference = contentReference
             self.excerpt = excerpt
@@ -1723,6 +1761,7 @@ extension QConnect {
         /// Text in the document.
         public let text: String?
 
+        @inlinable
         public init(highlights: [Highlight]? = nil, text: String? = nil) {
             self.highlights = highlights
             self.text = text
@@ -1740,6 +1779,7 @@ extension QConnect {
         /// The type of the external data source.
         public let source: ExternalSource
 
+        @inlinable
         public init(configuration: Configuration, source: ExternalSource) {
             self.configuration = configuration
             self.source = source
@@ -1763,6 +1803,7 @@ extension QConnect {
         /// The desired field value on which to filter.
         public let value: String
 
+        @inlinable
         public init(field: FilterField, operator: FilterOperator, value: String) {
             self.field = field
             self.`operator` = `operator`
@@ -1785,6 +1826,7 @@ extension QConnect {
         /// The relevance of the feedback.
         public let relevance: Relevance
 
+        @inlinable
         public init(relevance: Relevance) {
             self.relevance = relevance
         }
@@ -1802,6 +1844,7 @@ extension QConnect {
         /// The references used to generative the LLM response.
         public let references: [DataSummary]
 
+        @inlinable
         public init(completion: String, rankingData: RankingData, references: [DataSummary]) {
             self.completion = completion
             self.rankingData = rankingData
@@ -1821,6 +1864,7 @@ extension QConnect {
         /// The identifier of the LLM model.
         public let modelId: String?
 
+        @inlinable
         public init(generationId: String? = nil, modelId: String? = nil) {
             self.generationId = generationId
             self.modelId = modelId
@@ -1838,6 +1882,7 @@ extension QConnect {
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
 
+        @inlinable
         public init(assistantAssociationId: String, assistantId: String) {
             self.assistantAssociationId = assistantAssociationId
             self.assistantId = assistantId
@@ -1862,6 +1907,7 @@ extension QConnect {
         /// The assistant association.
         public let assistantAssociation: AssistantAssociationData?
 
+        @inlinable
         public init(assistantAssociation: AssistantAssociationData? = nil) {
             self.assistantAssociation = assistantAssociation
         }
@@ -1875,6 +1921,7 @@ extension QConnect {
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
 
+        @inlinable
         public init(assistantId: String) {
             self.assistantId = assistantId
         }
@@ -1896,6 +1943,7 @@ extension QConnect {
         /// Information about the assistant.
         public let assistant: AssistantData?
 
+        @inlinable
         public init(assistant: AssistantData? = nil) {
             self.assistant = assistant
         }
@@ -1913,6 +1961,7 @@ extension QConnect {
         /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(contentAssociationId: String, contentId: String, knowledgeBaseId: String) {
             self.contentAssociationId = contentAssociationId
             self.contentId = contentId
@@ -1940,6 +1989,7 @@ extension QConnect {
         /// The association between Amazon Q in Connect content and another resource.
         public let contentAssociation: ContentAssociationData?
 
+        @inlinable
         public init(contentAssociation: ContentAssociationData? = nil) {
             self.contentAssociation = contentAssociation
         }
@@ -1955,6 +2005,7 @@ extension QConnect {
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(contentId: String, knowledgeBaseId: String) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
@@ -1979,6 +2030,7 @@ extension QConnect {
         /// The content.
         public let content: ContentData?
 
+        @inlinable
         public init(content: ContentData? = nil) {
             self.content = content
         }
@@ -1994,6 +2046,7 @@ extension QConnect {
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(contentId: String, knowledgeBaseId: String) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
@@ -2018,6 +2071,7 @@ extension QConnect {
         /// The content summary.
         public let contentSummary: ContentSummary?
 
+        @inlinable
         public init(contentSummary: ContentSummary? = nil) {
             self.contentSummary = contentSummary
         }
@@ -2033,6 +2087,7 @@ extension QConnect {
         /// The identifier of the knowledge base that the import job belongs to.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(importJobId: String, knowledgeBaseId: String) {
             self.importJobId = importJobId
             self.knowledgeBaseId = knowledgeBaseId
@@ -2057,6 +2112,7 @@ extension QConnect {
         /// The import job.
         public let importJob: ImportJobData?
 
+        @inlinable
         public init(importJob: ImportJobData? = nil) {
             self.importJob = importJob
         }
@@ -2070,6 +2126,7 @@ extension QConnect {
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -2091,6 +2148,7 @@ extension QConnect {
         /// The knowledge base.
         public let knowledgeBase: KnowledgeBaseData?
 
+        @inlinable
         public init(knowledgeBase: KnowledgeBaseData? = nil) {
             self.knowledgeBase = knowledgeBase
         }
@@ -2106,6 +2164,7 @@ extension QConnect {
         /// The identifier of the quick response.
         public let quickResponseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String, quickResponseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
             self.quickResponseId = quickResponseId
@@ -2130,6 +2189,7 @@ extension QConnect {
         /// The quick response.
         public let quickResponse: QuickResponseData?
 
+        @inlinable
         public init(quickResponse: QuickResponseData? = nil) {
             self.quickResponse = quickResponse
         }
@@ -2149,6 +2209,7 @@ extension QConnect {
         /// The duration (in seconds) for which the call waits for a recommendation to be made available before returning. If a recommendation is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list.
         public let waitTimeSeconds: Int?
 
+        @inlinable
         public init(assistantId: String, maxResults: Int? = nil, sessionId: String, waitTimeSeconds: Int? = nil) {
             self.assistantId = assistantId
             self.maxResults = maxResults
@@ -2183,6 +2244,7 @@ extension QConnect {
         /// The triggers corresponding to recommendations.
         public let triggers: [RecommendationTrigger]?
 
+        @inlinable
         public init(recommendations: [RecommendationData], triggers: [RecommendationTrigger]? = nil) {
             self.recommendations = recommendations
             self.triggers = triggers
@@ -2200,6 +2262,7 @@ extension QConnect {
         /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let sessionId: String
 
+        @inlinable
         public init(assistantId: String, sessionId: String) {
             self.assistantId = assistantId
             self.sessionId = sessionId
@@ -2224,6 +2287,7 @@ extension QConnect {
         /// The session.
         public let session: SessionData?
 
+        @inlinable
         public init(session: SessionData? = nil) {
             self.session = session
         }
@@ -2239,6 +2303,7 @@ extension QConnect {
         /// The list of values that define different groups of Amazon Q in Connect users.   When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of Amazon Connect routing profiles as values of this parameter.
         public let values: [String]?
 
+        @inlinable
         public init(criteria: String? = nil, values: [String]? = nil) {
             self.criteria = criteria
             self.values = values
@@ -2265,6 +2330,7 @@ extension QConnect {
         /// The offset for the end of the highlight.
         public let endOffsetExclusive: Int?
 
+        @inlinable
         public init(beginOffsetInclusive: Int? = nil, endOffsetExclusive: Int? = nil) {
             self.beginOffsetInclusive = beginOffsetInclusive
             self.endOffsetExclusive = endOffsetExclusive
@@ -2303,6 +2369,7 @@ extension QConnect {
         /// The expiration time of the URL as an epoch timestamp.
         public let urlExpiry: Date
 
+        @inlinable
         public init(createdTime: Date, externalSourceConfiguration: ExternalSourceConfiguration? = nil, failedRecordReport: String? = nil, importJobId: String, importJobType: ImportJobType, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedTime: Date, metadata: [String: String]? = nil, status: ImportJobStatus, uploadId: String, url: String, urlExpiry: Date) {
             self.createdTime = createdTime
             self.externalSourceConfiguration = externalSourceConfiguration
@@ -2358,6 +2425,7 @@ extension QConnect {
         /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
         public let uploadId: String
 
+        @inlinable
         public init(createdTime: Date, externalSourceConfiguration: ExternalSourceConfiguration? = nil, importJobId: String, importJobType: ImportJobType, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedTime: Date, metadata: [String: String]? = nil, status: ImportJobStatus, uploadId: String) {
             self.createdTime = createdTime
             self.externalSourceConfiguration = externalSourceConfiguration
@@ -2391,6 +2459,7 @@ extension QConnect {
         /// The identifier of the knowledge base.
         public let knowledgeBaseId: String?
 
+        @inlinable
         public init(knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
@@ -2426,6 +2495,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, lastContentModificationTime: Date? = nil, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
@@ -2477,6 +2547,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseType: KnowledgeBaseType, name: String, renderingConfiguration: RenderingConfiguration? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, sourceConfiguration: SourceConfiguration? = nil, status: KnowledgeBaseStatus, tags: [String: String]? = nil) {
             self.description = description
             self.knowledgeBaseArn = knowledgeBaseArn
@@ -2513,6 +2584,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assistantId = assistantId
             self.maxResults = maxResults
@@ -2544,6 +2616,7 @@ extension QConnect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assistantAssociationSummaries: [AssistantAssociationSummary], nextToken: String? = nil) {
             self.assistantAssociationSummaries = assistantAssociationSummaries
             self.nextToken = nextToken
@@ -2562,6 +2635,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2590,6 +2664,7 @@ extension QConnect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assistantSummaries: [AssistantSummary], nextToken: String? = nil) {
             self.assistantSummaries = assistantSummaries
             self.nextToken = nextToken
@@ -2612,6 +2687,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contentId: String, knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
@@ -2646,6 +2722,7 @@ extension QConnect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contentAssociationSummaries: [ContentAssociationSummary], nextToken: String? = nil) {
             self.contentAssociationSummaries = contentAssociationSummaries
             self.nextToken = nextToken
@@ -2666,6 +2743,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
             self.maxResults = maxResults
@@ -2697,6 +2775,7 @@ extension QConnect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contentSummaries: [ContentSummary], nextToken: String? = nil) {
             self.contentSummaries = contentSummaries
             self.nextToken = nextToken
@@ -2717,6 +2796,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
             self.maxResults = maxResults
@@ -2749,6 +2829,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(importJobSummaries: [ImportJobSummary], nextToken: String? = nil) {
             self.importJobSummaries = importJobSummaries
             self.nextToken = nextToken
@@ -2767,6 +2848,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2795,6 +2877,7 @@ extension QConnect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(knowledgeBaseSummaries: [KnowledgeBaseSummary], nextToken: String? = nil) {
             self.knowledgeBaseSummaries = knowledgeBaseSummaries
             self.nextToken = nextToken
@@ -2815,6 +2898,7 @@ extension QConnect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
             self.maxResults = maxResults
@@ -2847,6 +2931,7 @@ extension QConnect {
         /// Summary information about the quick responses.
         public let quickResponseSummaries: [QuickResponseSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, quickResponseSummaries: [QuickResponseSummary]) {
             self.nextToken = nextToken
             self.quickResponseSummaries = quickResponseSummaries
@@ -2862,6 +2947,7 @@ extension QConnect {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2883,6 +2969,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2898,6 +2985,7 @@ extension QConnect {
         /// The identifier of the recommendation that is in error.
         public let recommendationId: String?
 
+        @inlinable
         public init(message: String? = nil, recommendationId: String? = nil) {
             self.message = message
             self.recommendationId = recommendationId
@@ -2917,6 +3005,7 @@ extension QConnect {
         /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let sessionId: String
 
+        @inlinable
         public init(assistantId: String, recommendationIds: [String], sessionId: String) {
             self.assistantId = assistantId
             self.recommendationIds = recommendationIds
@@ -2952,6 +3041,7 @@ extension QConnect {
         /// The identifiers of the recommendations.
         public let recommendationIds: [String]?
 
+        @inlinable
         public init(errors: [NotifyRecommendationsReceivedError]? = nil, recommendationIds: [String]? = nil) {
             self.errors = errors
             self.recommendationIds = recommendationIds
@@ -2973,6 +3063,7 @@ extension QConnect {
         /// The type of the feedback target.
         public let targetType: TargetType
 
+        @inlinable
         public init(assistantId: String, contentFeedback: ContentFeedbackData, targetId: String, targetType: TargetType) {
             self.assistantId = assistantId
             self.contentFeedback = contentFeedback
@@ -3013,6 +3104,7 @@ extension QConnect {
         /// The type of the feedback target.
         public let targetType: TargetType
 
+        @inlinable
         public init(assistantArn: String, assistantId: String, contentFeedback: ContentFeedbackData, targetId: String, targetType: TargetType) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
@@ -3045,6 +3137,7 @@ extension QConnect {
         /// The identifier of the Amazon Q in Connect session. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let sessionId: String?
 
+        @inlinable
         public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, queryCondition: [QueryCondition]? = nil, queryText: String, sessionId: String? = nil) {
             self.assistantId = assistantId
             self.maxResults = maxResults
@@ -3094,6 +3187,7 @@ extension QConnect {
         /// The results of the query.
         public let results: [ResultData]
 
+        @inlinable
         public init(nextToken: String? = nil, results: [ResultData]) {
             self.nextToken = nextToken
             self.results = results
@@ -3113,6 +3207,7 @@ extension QConnect {
         /// The value for the query condition to query on.
         public let value: String
 
+        @inlinable
         public init(comparator: QueryConditionComparisonOperator, field: QueryConditionFieldName, value: String) {
             self.comparator = comparator
             self.field = field
@@ -3135,6 +3230,7 @@ extension QConnect {
         /// The text associated with the recommendation trigger.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -3148,6 +3244,7 @@ extension QConnect {
         public let markdown: QuickResponseContentProvider?
         public let plainText: QuickResponseContentProvider?
 
+        @inlinable
         public init(markdown: QuickResponseContentProvider? = nil, plainText: QuickResponseContentProvider? = nil) {
             self.markdown = markdown
             self.plainText = plainText
@@ -3197,6 +3294,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(channels: [String]? = nil, contents: QuickResponseContents? = nil, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
             self.channels = channels
             self.contents = contents
@@ -3250,6 +3348,7 @@ extension QConnect {
         /// The values of attribute field to filter the quick response by.
         public let values: [String]?
 
+        @inlinable
         public init(includeNoExistence: Bool? = nil, name: String, operator: QuickResponseFilterOperator, values: [String]? = nil) {
             self.includeNoExistence = includeNoExistence
             self.name = name
@@ -3282,6 +3381,7 @@ extension QConnect {
         /// The order at which the quick responses are sorted by.
         public let order: Order?
 
+        @inlinable
         public init(name: String, order: Order? = nil) {
             self.name = name
             self.order = order
@@ -3310,6 +3410,7 @@ extension QConnect {
         /// The values of the attribute to query the quick responses by.
         public let values: [String]
 
+        @inlinable
         public init(allowFuzziness: Bool? = nil, name: String, operator: QuickResponseQueryOperator, priority: Priority? = nil, values: [String]) {
             self.allowFuzziness = allowFuzziness
             self.name = name
@@ -3346,6 +3447,7 @@ extension QConnect {
         /// The quick response query expressions.
         public let queries: [QuickResponseQueryField]?
 
+        @inlinable
         public init(filters: [QuickResponseFilterField]? = nil, orderOnField: QuickResponseOrderField? = nil, queries: [QuickResponseQueryField]? = nil) {
             self.filters = filters
             self.orderOnField = orderOnField
@@ -3413,6 +3515,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributesInterpolated: [String]? = nil, attributesNotInterpolated: [String]? = nil, channels: [String]? = nil, contents: QuickResponseContents, contentType: String, createdTime: Date, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool, knowledgeBaseArn: String, knowledgeBaseId: String, language: String? = nil, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, shortcutKey: String? = nil, status: QuickResponseStatus, tags: [String: String]? = nil) {
             self.attributesInterpolated = attributesInterpolated
             self.attributesNotInterpolated = attributesNotInterpolated
@@ -3490,6 +3593,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(channels: [String]? = nil, contentType: String, createdTime: Date, description: String? = nil, isActive: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, lastModifiedBy: String? = nil, lastModifiedTime: Date, name: String, quickResponseArn: String, quickResponseId: String, status: QuickResponseStatus, tags: [String: String]? = nil) {
             self.channels = channels
             self.contentType = contentType
@@ -3531,6 +3635,7 @@ extension QConnect {
         /// The relevance level of the recommendation.
         public let relevanceScore: Double?
 
+        @inlinable
         public init(relevanceLevel: RelevanceLevel? = nil, relevanceScore: Double? = nil) {
             self.relevanceLevel = relevanceLevel
             self.relevanceScore = relevanceScore
@@ -3556,6 +3661,7 @@ extension QConnect {
         /// The type of recommendation.
         public let type: RecommendationType?
 
+        @inlinable
         public init(data: DataSummary? = nil, document: Document? = nil, recommendationId: String, relevanceLevel: RelevanceLevel? = nil, relevanceScore: Double? = nil, type: RecommendationType? = nil) {
             self.data = data
             self.document = document
@@ -3587,6 +3693,7 @@ extension QConnect {
         /// The type of recommendation trigger.
         public let type: RecommendationTriggerType
 
+        @inlinable
         public init(data: RecommendationTriggerData, id: String, recommendationIds: [String], source: RecommendationSourceType, type: RecommendationTriggerType) {
             self.data = data
             self.id = id
@@ -3608,6 +3715,7 @@ extension QConnect {
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
+        @inlinable
         public init(knowledgeBaseId: String) {
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -3633,6 +3741,7 @@ extension QConnect {
         /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce, ServiceNow, and Zendesk, the variable must be one of the following:   Salesforce: Id, ArticleNumber, VersionNumber, Title, PublishStatus, or IsDeleted    ServiceNow: number, short_description, sys_mod_count, workflow_state, or active    Zendesk: id, title, updated_at, or draft    The variable is replaced with the actual value for a piece of content when calling GetContent.
         public let templateUri: String?
 
+        @inlinable
         public init(templateUri: String? = nil) {
             self.templateUri = templateUri
         }
@@ -3659,6 +3768,7 @@ extension QConnect {
         /// The type of the query result.
         public let type: QueryResultType?
 
+        @inlinable
         public init(data: DataSummary? = nil, document: Document? = nil, relevanceScore: Double? = nil, resultId: String, type: QueryResultType? = nil) {
             self.data = data
             self.document = document
@@ -3687,6 +3797,7 @@ extension QConnect {
         /// The search expression to filter results.
         public let searchExpression: SearchExpression
 
+        @inlinable
         public init(knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil, searchExpression: SearchExpression) {
             self.knowledgeBaseId = knowledgeBaseId
             self.maxResults = maxResults
@@ -3723,6 +3834,7 @@ extension QConnect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contentSummaries: [ContentSummary], nextToken: String? = nil) {
             self.contentSummaries = contentSummaries
             self.nextToken = nextToken
@@ -3738,6 +3850,7 @@ extension QConnect {
         /// The search expression filters.
         public let filters: [Filter]
 
+        @inlinable
         public init(filters: [Filter]) {
             self.filters = filters
         }
@@ -3766,6 +3879,7 @@ extension QConnect {
         /// The search expression for querying the quick response.
         public let searchExpression: QuickResponseSearchExpression
 
+        @inlinable
         public init(attributes: [String: String]? = nil, knowledgeBaseId: String, maxResults: Int? = nil, nextToken: String? = nil, searchExpression: QuickResponseSearchExpression) {
             self.attributes = attributes
             self.knowledgeBaseId = knowledgeBaseId
@@ -3806,6 +3920,7 @@ extension QConnect {
         /// The results of the quick response search.
         public let results: [QuickResponseSearchResultData]
 
+        @inlinable
         public init(nextToken: String? = nil, results: [QuickResponseSearchResultData]) {
             self.nextToken = nextToken
             self.results = results
@@ -3828,6 +3943,7 @@ extension QConnect {
         /// The search expression to filter results.
         public let searchExpression: SearchExpression
 
+        @inlinable
         public init(assistantId: String, maxResults: Int? = nil, nextToken: String? = nil, searchExpression: SearchExpression) {
             self.assistantId = assistantId
             self.maxResults = maxResults
@@ -3864,6 +3980,7 @@ extension QConnect {
         /// Summary information about the sessions.
         public let sessionSummaries: [SessionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, sessionSummaries: [SessionSummary]) {
             self.nextToken = nextToken
             self.sessionSummaries = sessionSummaries
@@ -3879,6 +3996,7 @@ extension QConnect {
         /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance. For information about valid ID values, see Key identifiers (KeyId).
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -3909,6 +4027,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, sessionArn: String, sessionId: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.integrationConfiguration = integrationConfiguration
@@ -3934,6 +4053,7 @@ extension QConnect {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public let topicIntegrationArn: String?
 
+        @inlinable
         public init(topicIntegrationArn: String? = nil) {
             self.topicIntegrationArn = topicIntegrationArn
         }
@@ -3953,6 +4073,7 @@ extension QConnect {
         /// The identifier of the session.
         public let sessionId: String
 
+        @inlinable
         public init(assistantArn: String, assistantId: String, sessionArn: String, sessionId: String) {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
@@ -3978,6 +4099,7 @@ extension QConnect {
         /// The type of the source content.
         public let type: SourceContentType
 
+        @inlinable
         public init(id: String, rankingData: RankingData, textData: TextData, type: SourceContentType) {
             self.id = id
             self.rankingData = rankingData
@@ -4001,6 +4123,7 @@ extension QConnect {
         /// The expected expiration time of the generated presigned URL, specified in minutes.
         public let presignedUrlTimeToLive: Int?
 
+        @inlinable
         public init(contentType: String, knowledgeBaseId: String, presignedUrlTimeToLive: Int? = nil) {
             self.contentType = contentType
             self.knowledgeBaseId = knowledgeBaseId
@@ -4038,6 +4161,7 @@ extension QConnect {
         /// The expiration time of the URL as an epoch timestamp.
         public let urlExpiry: Date
 
+        @inlinable
         public init(headersToInclude: [String: String], uploadId: String, url: String, urlExpiry: Date) {
             self.headersToInclude = headersToInclude
             self.uploadId = uploadId
@@ -4067,6 +4191,7 @@ extension QConnect {
         /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
         public let uploadId: String
 
+        @inlinable
         public init(clientToken: String? = StartImportJobRequest.idempotencyToken(), externalSourceConfiguration: ExternalSourceConfiguration? = nil, importJobType: ImportJobType, knowledgeBaseId: String, metadata: [String: String]? = nil, uploadId: String) {
             self.clientToken = clientToken
             self.externalSourceConfiguration = externalSourceConfiguration
@@ -4116,6 +4241,7 @@ extension QConnect {
         /// The import job.
         public let importJob: ImportJobData?
 
+        @inlinable
         public init(importJob: ImportJobData? = nil) {
             self.importJob = importJob
         }
@@ -4131,6 +4257,7 @@ extension QConnect {
         /// The tag value in the tag condition.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4156,6 +4283,7 @@ extension QConnect {
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4192,6 +4320,7 @@ extension QConnect {
         public let excerpt: DocumentText?
         public let title: DocumentText?
 
+        @inlinable
         public init(excerpt: DocumentText? = nil, title: DocumentText? = nil) {
             self.excerpt = excerpt
             self.title = title
@@ -4209,6 +4338,7 @@ extension QConnect {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4257,6 +4387,7 @@ extension QConnect {
         /// A pointer to the uploaded asset. This value is returned by StartContentUpload.
         public let uploadId: String?
 
+        @inlinable
         public init(contentId: String, knowledgeBaseId: String, metadata: [String: String]? = nil, overrideLinkOutUri: String? = nil, removeOverrideLinkOutUri: Bool? = nil, revisionId: String? = nil, title: String? = nil, uploadId: String? = nil) {
             self.contentId = contentId
             self.knowledgeBaseId = knowledgeBaseId
@@ -4315,6 +4446,7 @@ extension QConnect {
         /// The content.
         public let content: ContentData?
 
+        @inlinable
         public init(content: ContentData? = nil) {
             self.content = content
         }
@@ -4330,6 +4462,7 @@ extension QConnect {
         /// The template URI to update.
         public let templateUri: String
 
+        @inlinable
         public init(knowledgeBaseId: String, templateUri: String) {
             self.knowledgeBaseId = knowledgeBaseId
             self.templateUri = templateUri
@@ -4357,6 +4490,7 @@ extension QConnect {
         /// The knowledge base to update.
         public let knowledgeBase: KnowledgeBaseData?
 
+        @inlinable
         public init(knowledgeBase: KnowledgeBaseData? = nil) {
             self.knowledgeBase = knowledgeBase
         }
@@ -4396,6 +4530,7 @@ extension QConnect {
         /// The shortcut key of the quick response. The value should be unique across the knowledge base.
         public let shortcutKey: String?
 
+        @inlinable
         public init(channels: [String]? = nil, content: QuickResponseDataProvider? = nil, contentType: String? = nil, description: String? = nil, groupingConfiguration: GroupingConfiguration? = nil, isActive: Bool? = nil, knowledgeBaseId: String, language: String? = nil, name: String? = nil, quickResponseId: String, removeDescription: Bool? = nil, removeGroupingConfiguration: Bool? = nil, removeShortcutKey: Bool? = nil, shortcutKey: String? = nil) {
             self.channels = channels
             self.content = content
@@ -4472,6 +4607,7 @@ extension QConnect {
         /// The quick response.
         public let quickResponse: QuickResponseData?
 
+        @inlinable
         public init(quickResponse: QuickResponseData? = nil) {
             self.quickResponse = quickResponse
         }
@@ -4491,6 +4627,7 @@ extension QConnect {
         /// An object that can be used to specify Tag conditions.
         public let tagFilter: TagFilter?
 
+        @inlinable
         public init(assistantId: String, description: String? = nil, sessionId: String, tagFilter: TagFilter? = nil) {
             self.assistantId = assistantId
             self.description = description
@@ -4525,6 +4662,7 @@ extension QConnect {
     public struct UpdateSessionResponse: AWSDecodableShape {
         public let session: SessionData?
 
+        @inlinable
         public init(session: SessionData? = nil) {
             self.session = session
         }
@@ -4538,6 +4676,7 @@ extension QConnect {
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public let knowledgeBaseId: String?
 
+        @inlinable
         public init(knowledgeBaseId: String? = nil) {
             self.knowledgeBaseId = knowledgeBaseId
         }
@@ -4555,6 +4694,7 @@ extension QConnect {
         /// The knowledge base where output data is sent.
         public let knowledgeBaseAssociation: KnowledgeBaseAssociationData?
 
+        @inlinable
         public init(knowledgeBaseAssociation: KnowledgeBaseAssociationData? = nil) {
             self.knowledgeBaseAssociation = knowledgeBaseAssociation
         }
@@ -4568,6 +4708,7 @@ extension QConnect {
         /// The configuration information of the Amazon Connect data source.
         public let connectConfiguration: ConnectConfiguration?
 
+        @inlinable
         public init(connectConfiguration: ConnectConfiguration? = nil) {
             self.connectConfiguration = connectConfiguration
         }
@@ -4585,6 +4726,7 @@ extension QConnect {
         /// The data of the step-by-step guide association.
         public let amazonConnectGuideAssociation: AmazonConnectGuideAssociationData?
 
+        @inlinable
         public init(amazonConnectGuideAssociation: AmazonConnectGuideAssociationData? = nil) {
             self.amazonConnectGuideAssociation = amazonConnectGuideAssociation
         }
@@ -4602,6 +4744,7 @@ extension QConnect {
         /// Information about the feedback for a generative target type.
         public let generativeContentFeedbackData: GenerativeContentFeedbackData?
 
+        @inlinable
         public init(generativeContentFeedbackData: GenerativeContentFeedbackData? = nil) {
             self.generativeContentFeedbackData = generativeContentFeedbackData
         }
@@ -4615,6 +4758,7 @@ extension QConnect {
         /// The condition for the query.
         public let single: QueryConditionItem?
 
+        @inlinable
         public init(single: QueryConditionItem? = nil) {
             self.single = single
         }
@@ -4632,6 +4776,7 @@ extension QConnect {
         /// The content of the quick response.
         public let content: String?
 
+        @inlinable
         public init(content: String? = nil) {
             self.content = content
         }
@@ -4645,6 +4790,7 @@ extension QConnect {
         /// The content of the quick response.
         public let content: String?
 
+        @inlinable
         public init(content: String? = nil) {
             self.content = content
         }
@@ -4663,6 +4809,7 @@ extension QConnect {
         /// Data associated with the QUERY RecommendationTriggerType.
         public let query: QueryRecommendationTriggerData?
 
+        @inlinable
         public init(query: QueryRecommendationTriggerData? = nil) {
             self.query = query
         }
@@ -4676,6 +4823,7 @@ extension QConnect {
         /// Configuration information for Amazon AppIntegrations to automatically ingest content.
         public let appIntegrations: AppIntegrationsConfiguration?
 
+        @inlinable
         public init(appIntegrations: AppIntegrationsConfiguration? = nil) {
             self.appIntegrations = appIntegrations
         }

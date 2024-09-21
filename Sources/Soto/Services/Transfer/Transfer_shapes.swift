@@ -261,6 +261,7 @@ extension Transfer {
         /// The algorithm that is used to sign the AS2 messages sent with the connector.
         public let signingAlgorithm: SigningAlg?
 
+        @inlinable
         public init(basicAuthSecretId: String? = nil, compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, signingAlgorithm: SigningAlg? = nil) {
             self.basicAuthSecretId = basicAuthSecretId
             self.compression = compression
@@ -309,6 +310,7 @@ extension Transfer {
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.   To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.   To use the originally uploaded file location as input for this step, enter ${original.file}.
         public let sourceFileLocation: String?
 
+        @inlinable
         public init(destinationFileLocation: InputFileLocation? = nil, name: String? = nil, overwriteExisting: OverwriteExisting? = nil, sourceFileLocation: String? = nil) {
             self.destinationFileLocation = destinationFileLocation
             self.name = name
@@ -349,6 +351,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
 
+        @inlinable
         public init(externalId: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String, serverId: String) {
             self.externalId = externalId
             self.homeDirectory = homeDirectory
@@ -399,6 +402,7 @@ extension Transfer {
         /// The identifier of the server that the user is attached to.
         public let serverId: String
 
+        @inlinable
         public init(externalId: String, serverId: String) {
             self.externalId = externalId
             self.serverId = serverId
@@ -428,6 +432,7 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for agreements.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accessRole: String, baseDirectory: String, description: String? = nil, localProfileId: String, partnerProfileId: String, serverId: String, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
             self.accessRole = accessRole
             self.baseDirectory = baseDirectory
@@ -480,6 +485,7 @@ extension Transfer {
         /// The unique identifier for the agreement. Use this ID for deleting, or updating an agreement, as well as in any other API calls that require that you specify the agreement ID.
         public let agreementId: String
 
+        @inlinable
         public init(agreementId: String) {
             self.agreementId = agreementId
         }
@@ -505,6 +511,7 @@ extension Transfer {
         /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String
 
+        @inlinable
         public init(accessRole: String, as2Config: As2ConnectorConfig? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String) {
             self.accessRole = accessRole
             self.as2Config = as2Config
@@ -549,6 +556,7 @@ extension Transfer {
         /// The unique identifier for the connector, returned after the API call succeeds.
         public let connectorId: String
 
+        @inlinable
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -568,6 +576,7 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for AS2 profiles.
         public let tags: [Tag]?
 
+        @inlinable
         public init(as2Id: String, certificateIds: [String]? = nil, profileType: ProfileType, tags: [Tag]? = nil) {
             self.as2Id = as2Id
             self.certificateIds = certificateIds
@@ -603,6 +612,7 @@ extension Transfer {
         /// The unique identifier for the AS2 profile, returned after the API call succeeds.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -648,6 +658,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
         public let workflowDetails: WorkflowDetails?
 
+        @inlinable
         public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.domain = domain
@@ -723,6 +734,7 @@ extension Transfer {
         /// The service-assigned identifier of the server that is created.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -754,6 +766,7 @@ extension Transfer {
         /// A unique string that identifies a user and is associated with a ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign.
         public let userName: String
 
+        @inlinable
         public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String, serverId: String, sshPublicKeyBody: String? = nil, tags: [Tag]? = nil, userName: String) {
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
@@ -815,6 +828,7 @@ extension Transfer {
         /// A unique string that identifies a Transfer Family user.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -836,6 +850,7 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, onExceptionSteps: [WorkflowStep]? = nil, steps: [WorkflowStep], tags: [Tag]? = nil) {
             self.description = description
             self.onExceptionSteps = onExceptionSteps
@@ -873,6 +888,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(workflowId: String) {
             self.workflowId = workflowId
         }
@@ -892,6 +908,7 @@ extension Transfer {
         /// Timeout, in seconds, for the step.
         public let timeoutSeconds: Int?
 
+        @inlinable
         public init(name: String? = nil, sourceFileLocation: String? = nil, target: String? = nil, timeoutSeconds: Int? = nil) {
             self.name = name
             self.sourceFileLocation = sourceFileLocation
@@ -930,6 +947,7 @@ extension Transfer {
         /// The type of encryption used. Currently, this value must be PGP.
         public let type: EncryptionType
 
+        @inlinable
         public init(destinationFileLocation: InputFileLocation, name: String? = nil, overwriteExisting: OverwriteExisting? = nil, sourceFileLocation: String? = nil, type: EncryptionType) {
             self.destinationFileLocation = destinationFileLocation
             self.name = name
@@ -961,6 +979,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that has this user assigned.
         public let serverId: String
 
+        @inlinable
         public init(externalId: String, serverId: String) {
             self.externalId = externalId
             self.serverId = serverId
@@ -987,6 +1006,7 @@ extension Transfer {
         /// The server identifier associated with the agreement that you are deleting.
         public let serverId: String
 
+        @inlinable
         public init(agreementId: String, serverId: String) {
             self.agreementId = agreementId
             self.serverId = serverId
@@ -1011,6 +1031,7 @@ extension Transfer {
         /// The identifier of the certificate object that you are deleting.
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -1030,6 +1051,7 @@ extension Transfer {
         /// The unique identifier for the connector.
         public let connectorId: String
 
+        @inlinable
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -1051,6 +1073,7 @@ extension Transfer {
         /// The identifier of the server that contains the host key that you are deleting.
         public let serverId: String
 
+        @inlinable
         public init(hostKeyId: String, serverId: String) {
             self.hostKeyId = hostKeyId
             self.serverId = serverId
@@ -1075,6 +1098,7 @@ extension Transfer {
         /// The identifier of the profile that you are deleting.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -1094,6 +1118,7 @@ extension Transfer {
         /// A unique system-assigned identifier for a server instance.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -1117,6 +1142,7 @@ extension Transfer {
         /// A unique string that identifies a user whose public key is being deleted.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, sshPublicKeyId: String, userName: String) {
             self.serverId = serverId
             self.sshPublicKeyId = sshPublicKeyId
@@ -1148,6 +1174,7 @@ extension Transfer {
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.   To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.   To use the originally uploaded file location as input for this step, enter ${original.file}.
         public let sourceFileLocation: String?
 
+        @inlinable
         public init(name: String? = nil, sourceFileLocation: String? = nil) {
             self.name = name
             self.sourceFileLocation = sourceFileLocation
@@ -1172,6 +1199,7 @@ extension Transfer {
         /// A unique string that identifies a user that is being deleted from a server.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -1196,6 +1224,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(workflowId: String) {
             self.workflowId = workflowId
         }
@@ -1217,6 +1246,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that has this access assigned.
         public let serverId: String
 
+        @inlinable
         public init(externalId: String, serverId: String) {
             self.externalId = externalId
             self.serverId = serverId
@@ -1243,6 +1273,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that has this access assigned.
         public let serverId: String
 
+        @inlinable
         public init(access: DescribedAccess, serverId: String) {
             self.access = access
             self.serverId = serverId
@@ -1260,6 +1291,7 @@ extension Transfer {
         /// The server identifier that's associated with the agreement.
         public let serverId: String
 
+        @inlinable
         public init(agreementId: String, serverId: String) {
             self.agreementId = agreementId
             self.serverId = serverId
@@ -1284,6 +1316,7 @@ extension Transfer {
         /// The details for the specified agreement, returned as a DescribedAgreement object.
         public let agreement: DescribedAgreement
 
+        @inlinable
         public init(agreement: DescribedAgreement) {
             self.agreement = agreement
         }
@@ -1297,6 +1330,7 @@ extension Transfer {
         /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -1316,6 +1350,7 @@ extension Transfer {
         /// The details for the specified certificate, returned as an object.
         public let certificate: DescribedCertificate
 
+        @inlinable
         public init(certificate: DescribedCertificate) {
             self.certificate = certificate
         }
@@ -1329,6 +1364,7 @@ extension Transfer {
         /// The unique identifier for the connector.
         public let connectorId: String
 
+        @inlinable
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -1348,6 +1384,7 @@ extension Transfer {
         /// The structure that contains the details of the connector.
         public let connector: DescribedConnector
 
+        @inlinable
         public init(connector: DescribedConnector) {
             self.connector = connector
         }
@@ -1363,6 +1400,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(executionId: String, workflowId: String) {
             self.executionId = executionId
             self.workflowId = workflowId
@@ -1389,6 +1427,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(execution: DescribedExecution, workflowId: String) {
             self.execution = execution
             self.workflowId = workflowId
@@ -1406,6 +1445,7 @@ extension Transfer {
         /// The identifier of the server that contains the host key that you want described.
         public let serverId: String
 
+        @inlinable
         public init(hostKeyId: String, serverId: String) {
             self.hostKeyId = hostKeyId
             self.serverId = serverId
@@ -1430,6 +1470,7 @@ extension Transfer {
         /// Returns the details for the specified host key.
         public let hostKey: DescribedHostKey
 
+        @inlinable
         public init(hostKey: DescribedHostKey) {
             self.hostKey = hostKey
         }
@@ -1443,6 +1484,7 @@ extension Transfer {
         /// The identifier of the profile that you want described.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -1462,6 +1504,7 @@ extension Transfer {
         /// The details of the specified profile, returned as an object.
         public let profile: DescribedProfile
 
+        @inlinable
         public init(profile: DescribedProfile) {
             self.profile = profile
         }
@@ -1475,6 +1518,7 @@ extension Transfer {
         /// Specify the text name of the security policy for which you want the details.
         public let securityPolicyName: String
 
+        @inlinable
         public init(securityPolicyName: String) {
             self.securityPolicyName = securityPolicyName
         }
@@ -1493,6 +1537,7 @@ extension Transfer {
         /// An array containing the properties of the security policy.
         public let securityPolicy: DescribedSecurityPolicy
 
+        @inlinable
         public init(securityPolicy: DescribedSecurityPolicy) {
             self.securityPolicy = securityPolicy
         }
@@ -1506,6 +1551,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -1525,6 +1571,7 @@ extension Transfer {
         /// An array containing the properties of a server with the ServerID you specified.
         public let server: DescribedServer
 
+        @inlinable
         public init(server: DescribedServer) {
             self.server = server
         }
@@ -1540,6 +1587,7 @@ extension Transfer {
         /// The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the Transfer Family service and perform file transfer tasks.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -1566,6 +1614,7 @@ extension Transfer {
         /// An array containing the properties of the Transfer Family user for the ServerID value that you specified.
         public let user: DescribedUser
 
+        @inlinable
         public init(serverId: String, user: DescribedUser) {
             self.serverId = serverId
             self.user = user
@@ -1581,6 +1630,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(workflowId: String) {
             self.workflowId = workflowId
         }
@@ -1600,6 +1650,7 @@ extension Transfer {
         /// The structure that contains the details of the workflow.
         public let workflow: DescribedWorkflow
 
+        @inlinable
         public init(workflow: DescribedWorkflow) {
             self.workflow = workflow
         }
@@ -1624,6 +1675,7 @@ extension Transfer {
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
 
+        @inlinable
         public init(externalId: String? = nil, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil) {
             self.externalId = externalId
             self.homeDirectory = homeDirectory
@@ -1667,6 +1719,7 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for agreements.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accessRole: String? = nil, agreementId: String? = nil, arn: String, baseDirectory: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String? = nil, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
             self.accessRole = accessRole
             self.agreementId = agreementId
@@ -1724,6 +1777,7 @@ extension Transfer {
         /// Specifies how this certificate is used. It can be used in the following ways:    SIGNING: For signing AS2 messages    ENCRYPTION: For encrypting AS2 messages    TLS: For securing AS2 communications sent over HTTPS
         public let usage: CertificateUsageType?
 
+        @inlinable
         public init(activeDate: Date? = nil, arn: String, certificate: String? = nil, certificateChain: String? = nil, certificateId: String? = nil, description: String? = nil, inactiveDate: Date? = nil, notAfterDate: Date? = nil, notBeforeDate: Date? = nil, serial: String? = nil, status: CertificateStatusType? = nil, tags: [Tag]? = nil, type: CertificateType? = nil, usage: CertificateUsageType? = nil) {
             self.activeDate = activeDate
             self.arn = arn
@@ -1781,6 +1835,7 @@ extension Transfer {
         /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String?
 
+        @inlinable
         public init(accessRole: String? = nil, arn: String, as2Config: As2ConnectorConfig? = nil, connectorId: String? = nil, loggingRole: String? = nil, securityPolicyName: String? = nil, serviceManagedEgressIpAddresses: [String]? = nil, sftpConfig: SftpConnectorConfig? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.arn = arn
@@ -1825,6 +1880,7 @@ extension Transfer {
         /// The status is one of the execution. Can be in progress, completed, exception encountered, or handling the exception.
         public let status: ExecutionStatus?
 
+        @inlinable
         public init(executionId: String? = nil, executionRole: String? = nil, initialFileLocation: FileLocation? = nil, loggingConfiguration: LoggingConfiguration? = nil, posixProfile: PosixProfile? = nil, results: ExecutionResults? = nil, serviceMetadata: ServiceMetadata? = nil, status: ExecutionStatus? = nil) {
             self.executionId = executionId
             self.executionRole = executionRole
@@ -1864,6 +1920,7 @@ extension Transfer {
         /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:    ssh-rsa     ssh-ed25519     ecdsa-sha2-nistp256     ecdsa-sha2-nistp384     ecdsa-sha2-nistp521
         public let type: String?
 
+        @inlinable
         public init(arn: String, dateImported: Date? = nil, description: String? = nil, hostKeyFingerprint: String? = nil, hostKeyId: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.arn = arn
             self.dateImported = dateImported
@@ -1899,6 +1956,7 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for profiles.
         public let tags: [Tag]?
 
+        @inlinable
         public init(arn: String, as2Id: String? = nil, certificateIds: [String]? = nil, profileId: String? = nil, profileType: ProfileType? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.as2Id = as2Id
@@ -1938,6 +1996,7 @@ extension Transfer {
         /// The resource type to which the security policy applies, either server or connector.
         public let type: SecurityPolicyResourceType?
 
+        @inlinable
         public init(fips: Bool? = nil, protocols: [SecurityPolicyProtocol]? = nil, securityPolicyName: String, sshCiphers: [String]? = nil, sshHostKeyAlgorithms: [String]? = nil, sshKexs: [String]? = nil, sshMacs: [String]? = nil, tlsCiphers: [String]? = nil, type: SecurityPolicyResourceType? = nil) {
             self.fips = fips
             self.protocols = protocols
@@ -2009,6 +2068,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
         public let workflowDetails: WorkflowDetails?
 
+        @inlinable
         public init(arn: String, as2ServiceManagedEgressIpAddresses: [String]? = nil, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.arn = arn
             self.as2ServiceManagedEgressIpAddresses = as2ServiceManagedEgressIpAddresses
@@ -2082,6 +2142,7 @@ extension Transfer {
         /// Specifies the name of the user that was requested to be described. User names are used for authentication purposes. This is the string that will be used by your user when they log in to your server.
         public let userName: String?
 
+        @inlinable
         public init(arn: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil, sshPublicKeys: [SshPublicKey]? = nil, tags: [Tag]? = nil, userName: String? = nil) {
             self.arn = arn
             self.homeDirectory = homeDirectory
@@ -2123,6 +2184,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(arn: String, description: String? = nil, onExceptionSteps: [WorkflowStep]? = nil, steps: [WorkflowStep]? = nil, tags: [Tag]? = nil, workflowId: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2148,6 +2210,7 @@ extension Transfer {
         /// The pathname for the folder being used by a workflow.
         public let path: String?
 
+        @inlinable
         public init(fileSystemId: String? = nil, path: String? = nil) {
             self.fileSystemId = fileSystemId
             self.path = path
@@ -2179,6 +2242,7 @@ extension Transfer {
         /// The VPC identifier of the VPC in which a server's endpoint will be hosted.  This property can only be set when EndpointType is set to VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(addressAllocationIds: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
             self.addressAllocationIds = addressAllocationIds
             self.securityGroupIds = securityGroupIds
@@ -2213,6 +2277,7 @@ extension Transfer {
         /// Specifies the error type.    ALREADY_EXISTS: occurs for a copy step, if the overwrite option is not selected and a file with the same name already exists in the target location.    BAD_REQUEST: a general bad request: for example, a step that attempts to tag an EFS file returns BAD_REQUEST, as only S3 files can be tagged.    CUSTOM_STEP_FAILED: occurs when the custom step provided a callback that indicates failure.    INTERNAL_SERVER_ERROR: a catch-all error that can occur for a variety of reasons.    NOT_FOUND: occurs when a requested entity, for example a source file for a copy step, does not exist.    PERMISSION_DENIED: occurs if your policy does not contain the correct permissions to complete one or more of the steps in the workflow.    TIMEOUT: occurs when the execution times out.  You can set the TimeoutSeconds for a custom step, anywhere from 1 second to 1800 seconds (30 minutes).      THROTTLED: occurs if you exceed the new execution refill rate of one workflow per second.
         public let type: ExecutionErrorType
 
+        @inlinable
         public init(message: String, type: ExecutionErrorType) {
             self.message = message
             self.type = type
@@ -2230,6 +2295,7 @@ extension Transfer {
         /// Specifies the details for the steps that are in the specified workflow.
         public let steps: [ExecutionStepResult]?
 
+        @inlinable
         public init(onExceptionSteps: [ExecutionStepResult]? = nil, steps: [ExecutionStepResult]? = nil) {
             self.onExceptionSteps = onExceptionSteps
             self.steps = steps
@@ -2249,6 +2315,7 @@ extension Transfer {
         /// One of the available step types.     COPY - Copy the file to another location.     CUSTOM - Perform a custom step with an Lambda function target.     DECRYPT - Decrypt a file that was encrypted before it was uploaded.     DELETE - Delete the file.     TAG - Add a tag to the file.
         public let stepType: WorkflowStepType?
 
+        @inlinable
         public init(error: ExecutionError? = nil, outputs: String? = nil, stepType: WorkflowStepType? = nil) {
             self.error = error
             self.outputs = outputs
@@ -2268,6 +2335,7 @@ extension Transfer {
         /// Specifies the S3 details for the file being used, such as bucket, ETag, and so forth.
         public let s3FileLocation: S3FileLocation?
 
+        @inlinable
         public init(efsFileLocation: EfsFileLocation? = nil, s3FileLocation: S3FileLocation? = nil) {
             self.efsFileLocation = efsFileLocation
             self.s3FileLocation = s3FileLocation
@@ -2287,6 +2355,7 @@ extension Transfer {
         /// Specifies the type of mapping. Set the type to FILE if you want the mapping to point to a file, or DIRECTORY for the directory to point to a directory.  By default, home directory mappings have a Type of DIRECTORY when you create a Transfer Family server. You would need to explicitly set Type to FILE if you want a mapping to have a file target.
         public let type: MapType?
 
+        @inlinable
         public init(entry: String, target: String, type: MapType? = nil) {
             self.entry = entry
             self.target = target
@@ -2319,6 +2388,7 @@ extension Transfer {
         /// Provides the location of the service endpoint used to authenticate users.
         public let url: String?
 
+        @inlinable
         public init(directoryId: String? = nil, function: String? = nil, invocationRole: String? = nil, sftpAuthenticationMethods: SftpAuthenticationMethods? = nil, url: String? = nil) {
             self.directoryId = directoryId
             self.function = function
@@ -2367,6 +2437,7 @@ extension Transfer {
         /// Specifies how this certificate is used. It can be used in the following ways:    SIGNING: For signing AS2 messages    ENCRYPTION: For encrypting AS2 messages    TLS: For securing AS2 communications sent over HTTPS
         public let usage: CertificateUsageType
 
+        @inlinable
         public init(activeDate: Date? = nil, certificate: String, certificateChain: String? = nil, description: String? = nil, inactiveDate: Date? = nil, privateKey: String? = nil, tags: [Tag]? = nil, usage: CertificateUsageType) {
             self.activeDate = activeDate
             self.certificate = certificate
@@ -2414,6 +2485,7 @@ extension Transfer {
         /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -2433,6 +2505,7 @@ extension Transfer {
         /// Key-value pairs that can be used to group and search for host keys.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, hostKeyBody: String, serverId: String, tags: [Tag]? = nil) {
             self.description = description
             self.hostKeyBody = hostKeyBody
@@ -2468,6 +2541,7 @@ extension Transfer {
         /// Returns the server identifier that contains the imported key.
         public let serverId: String
 
+        @inlinable
         public init(hostKeyId: String, serverId: String) {
             self.hostKeyId = hostKeyId
             self.serverId = serverId
@@ -2487,6 +2561,7 @@ extension Transfer {
         /// The name of the Transfer Family user that is assigned to one or more servers.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, sshPublicKeyBody: String, userName: String) {
             self.serverId = serverId
             self.sshPublicKeyBody = sshPublicKeyBody
@@ -2519,6 +2594,7 @@ extension Transfer {
         /// A user name assigned to the ServerID value that you specified.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, sshPublicKeyId: String, userName: String) {
             self.serverId = serverId
             self.sshPublicKeyId = sshPublicKeyId
@@ -2538,6 +2614,7 @@ extension Transfer {
         /// Specifies the details for the Amazon S3 file that's being copied or decrypted.
         public let s3FileLocation: S3InputFileLocation?
 
+        @inlinable
         public init(efsFileLocation: EfsFileLocation? = nil, s3FileLocation: S3InputFileLocation? = nil) {
             self.efsFileLocation = efsFileLocation
             self.s3FileLocation = s3FileLocation
@@ -2562,6 +2639,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that has users assigned to it.
         public let serverId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2593,6 +2671,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that has users assigned to it.
         public let serverId: String
 
+        @inlinable
         public init(accesses: [ListedAccess], nextToken: String? = nil, serverId: String) {
             self.accesses = accesses
             self.nextToken = nextToken
@@ -2614,6 +2693,7 @@ extension Transfer {
         /// The identifier of the server for which you want a list of agreements.
         public let serverId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2643,6 +2723,7 @@ extension Transfer {
         /// Returns a token that you can use to call ListAgreements again and receive additional results, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(agreements: [ListedAgreement], nextToken: String? = nil) {
             self.agreements = agreements
             self.nextToken = nextToken
@@ -2660,6 +2741,7 @@ extension Transfer {
         /// When you can get additional results from the ListCertificates call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional certificates.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2684,6 +2766,7 @@ extension Transfer {
         /// Returns the next token, which you can use to list the next certificate.
         public let nextToken: String?
 
+        @inlinable
         public init(certificates: [ListedCertificate], nextToken: String? = nil) {
             self.certificates = certificates
             self.nextToken = nextToken
@@ -2701,6 +2784,7 @@ extension Transfer {
         /// When you can get additional results from the ListConnectors call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional connectors.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2725,6 +2809,7 @@ extension Transfer {
         /// Returns a token that you can use to call ListConnectors again and receive additional results, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(connectors: [ListedConnector], nextToken: String? = nil) {
             self.connectors = connectors
             self.nextToken = nextToken
@@ -2744,6 +2829,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workflowId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2775,6 +2861,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(executions: [ListedExecution], nextToken: String? = nil, workflowId: String) {
             self.executions = executions
             self.nextToken = nextToken
@@ -2796,6 +2883,7 @@ extension Transfer {
         /// The identifier of the server that contains the host keys that you want to view.
         public let serverId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2827,6 +2915,7 @@ extension Transfer {
         /// Returns the server identifier that contains the listed host keys.
         public let serverId: String
 
+        @inlinable
         public init(hostKeys: [ListedHostKey], nextToken: String? = nil, serverId: String) {
             self.hostKeys = hostKeys
             self.nextToken = nextToken
@@ -2848,6 +2937,7 @@ extension Transfer {
         /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
         public let profileType: ProfileType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileType: ProfileType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2874,6 +2964,7 @@ extension Transfer {
         /// Returns an array, where each item contains the details of a profile.
         public let profiles: [ListedProfile]
 
+        @inlinable
         public init(nextToken: String? = nil, profiles: [ListedProfile]) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -2891,6 +2982,7 @@ extension Transfer {
         /// When additional results are obtained from the ListSecurityPolicies command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional security policies.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2915,6 +3007,7 @@ extension Transfer {
         /// An array of security policies that were listed.
         public let securityPolicyNames: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, securityPolicyNames: [String]) {
             self.nextToken = nextToken
             self.securityPolicyNames = securityPolicyNames
@@ -2932,6 +3025,7 @@ extension Transfer {
         /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2956,6 +3050,7 @@ extension Transfer {
         /// An array of servers that were listed.
         public let servers: [ListedServer]
 
+        @inlinable
         public init(nextToken: String? = nil, servers: [ListedServer]) {
             self.nextToken = nextToken
             self.servers = servers
@@ -2975,6 +3070,7 @@ extension Transfer {
         /// When you request additional results from the ListTagsForResource operation, a NextToken parameter is returned in the input. You can then pass in a subsequent command to the NextToken parameter to continue listing additional tags.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
@@ -3006,6 +3102,7 @@ extension Transfer {
         /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define.
         public let tags: [Tag]?
 
+        @inlinable
         public init(arn: String? = nil, nextToken: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.nextToken = nextToken
@@ -3027,6 +3124,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that has users assigned to it.
         public let serverId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serverId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3058,6 +3156,7 @@ extension Transfer {
         /// Returns the Transfer Family users and their properties for the ServerId value that you specify.
         public let users: [ListedUser]
 
+        @inlinable
         public init(nextToken: String? = nil, serverId: String, users: [ListedUser]) {
             self.nextToken = nextToken
             self.serverId = serverId
@@ -3077,6 +3176,7 @@ extension Transfer {
         ///  ListWorkflows returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional workflows.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3101,6 +3201,7 @@ extension Transfer {
         /// Returns the Arn, WorkflowId, and Description for each workflow.
         public let workflows: [ListedWorkflow]
 
+        @inlinable
         public init(nextToken: String? = nil, workflows: [ListedWorkflow]) {
             self.nextToken = nextToken
             self.workflows = workflows
@@ -3122,6 +3223,7 @@ extension Transfer {
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that controls your users' access to your Amazon S3  bucket or Amazon EFS file system. The policies attached to this role determine the level of access that you want to provide your users  when transferring files into and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should also contain a trust  relationship that allows the server to access your resources when servicing your users' transfer requests.
         public let role: String?
 
+        @inlinable
         public init(externalId: String? = nil, homeDirectory: String? = nil, homeDirectoryType: HomeDirectoryType? = nil, role: String? = nil) {
             self.externalId = externalId
             self.homeDirectory = homeDirectory
@@ -3153,6 +3255,7 @@ extension Transfer {
         /// The agreement can be either ACTIVE or INACTIVE.
         public let status: AgreementStatusType?
 
+        @inlinable
         public init(agreementId: String? = nil, arn: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String? = nil, status: AgreementStatusType? = nil) {
             self.agreementId = agreementId
             self.arn = arn
@@ -3192,6 +3295,7 @@ extension Transfer {
         /// Specifies how this certificate is used. It can be used in the following ways:    SIGNING: For signing AS2 messages    ENCRYPTION: For encrypting AS2 messages    TLS: For securing AS2 communications sent over HTTPS
         public let usage: CertificateUsageType?
 
+        @inlinable
         public init(activeDate: Date? = nil, arn: String? = nil, certificateId: String? = nil, description: String? = nil, inactiveDate: Date? = nil, status: CertificateStatusType? = nil, type: CertificateType? = nil, usage: CertificateUsageType? = nil) {
             self.activeDate = activeDate
             self.arn = arn
@@ -3223,6 +3327,7 @@ extension Transfer {
         /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String?
 
+        @inlinable
         public init(arn: String? = nil, connectorId: String? = nil, url: String? = nil) {
             self.arn = arn
             self.connectorId = connectorId
@@ -3246,6 +3351,7 @@ extension Transfer {
         /// The status is one of the execution. Can be in progress, completed, exception encountered, or handling the exception.
         public let status: ExecutionStatus?
 
+        @inlinable
         public init(executionId: String? = nil, initialFileLocation: FileLocation? = nil, serviceMetadata: ServiceMetadata? = nil, status: ExecutionStatus? = nil) {
             self.executionId = executionId
             self.initialFileLocation = initialFileLocation
@@ -3275,6 +3381,7 @@ extension Transfer {
         /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:    ssh-rsa     ssh-ed25519     ecdsa-sha2-nistp256     ecdsa-sha2-nistp384     ecdsa-sha2-nistp521
         public let type: String?
 
+        @inlinable
         public init(arn: String, dateImported: Date? = nil, description: String? = nil, fingerprint: String? = nil, hostKeyId: String? = nil, type: String? = nil) {
             self.arn = arn
             self.dateImported = dateImported
@@ -3304,6 +3411,7 @@ extension Transfer {
         /// Indicates whether to list only LOCAL type profiles or only PARTNER type profiles.  If not supplied in the request, the command lists all types of profiles.
         public let profileType: ProfileType?
 
+        @inlinable
         public init(arn: String? = nil, as2Id: String? = nil, profileId: String? = nil, profileType: ProfileType? = nil) {
             self.arn = arn
             self.as2Id = as2Id
@@ -3337,6 +3445,7 @@ extension Transfer {
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public let userCount: Int?
 
+        @inlinable
         public init(arn: String, domain: Domain? = nil, endpointType: EndpointType? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, serverId: String? = nil, state: State? = nil, userCount: Int? = nil) {
             self.arn = arn
             self.domain = domain
@@ -3374,6 +3483,7 @@ extension Transfer {
         /// Specifies the name of the user whose ARN was specified. User names are used for authentication purposes.
         public let userName: String?
 
+        @inlinable
         public init(arn: String, homeDirectory: String? = nil, homeDirectoryType: HomeDirectoryType? = nil, role: String? = nil, sshPublicKeyCount: Int? = nil, userName: String? = nil) {
             self.arn = arn
             self.homeDirectory = homeDirectory
@@ -3401,6 +3511,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, workflowId: String? = nil) {
             self.arn = arn
             self.description = description
@@ -3420,6 +3531,7 @@ extension Transfer {
         /// The name of the CloudWatch logging group for the Transfer Family server to which this workflow belongs.
         public let logGroupName: String?
 
+        @inlinable
         public init(loggingRole: String? = nil, logGroupName: String? = nil) {
             self.loggingRole = loggingRole
             self.logGroupName = logGroupName
@@ -3439,6 +3551,7 @@ extension Transfer {
         /// The POSIX user ID used for all EFS operations by this user.
         public let uid: Int64
 
+        @inlinable
         public init(gid: Int64, secondaryGids: [Int64]? = nil, uid: Int64) {
             self.gid = gid
             self.secondaryGids = secondaryGids
@@ -3474,6 +3587,7 @@ extension Transfer {
         /// A property used with Transfer Family servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.    DISABLED: the server does not process TLS session resumption client requests and creates a new TLS session for each request.     ENABLED: the server processes and accepts clients that are performing TLS session resumption. The server doesn't reject client data connections that do not perform the TLS session resumption client processing.    ENFORCED: the server processes and accepts clients that are performing TLS session resumption. The server rejects client data connections that do not perform the TLS session resumption client processing. Before you set the value to ENFORCED, test your clients.  Not all FTPS clients perform TLS session resumption. So, if you choose to enforce TLS session resumption, you prevent any connections from FTPS clients that don't perform the protocol negotiation. To determine whether or not you can use the ENFORCED value, you need to test your clients.
         public let tlsSessionResumptionMode: TlsSessionResumptionMode?
 
+        @inlinable
         public init(as2Transports: [As2Transport]? = nil, passiveIp: String? = nil, setStatOption: SetStatOption? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
             self.as2Transports = as2Transports
             self.passiveIp = passiveIp
@@ -3505,6 +3619,7 @@ extension Transfer {
         /// Specifies the file version.
         public let versionId: String?
 
+        @inlinable
         public init(bucket: String? = nil, etag: String? = nil, key: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.etag = etag
@@ -3526,6 +3641,7 @@ extension Transfer {
         /// The name assigned to the file when it was created in Amazon S3. You use the object key to retrieve the object.
         public let key: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -3549,6 +3665,7 @@ extension Transfer {
         /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
         public let directoryListingOptimization: DirectoryListingOptimization?
 
+        @inlinable
         public init(directoryListingOptimization: DirectoryListingOptimization? = nil) {
             self.directoryListingOptimization = directoryListingOptimization
         }
@@ -3564,6 +3681,7 @@ extension Transfer {
         /// The value that corresponds to the key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3593,6 +3711,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(executionId: String, status: CustomStepStatus, token: String, workflowId: String) {
             self.executionId = executionId
             self.status = status
@@ -3628,6 +3747,7 @@ extension Transfer {
         /// The Server ID (ServerId), Session ID (SessionId) and user (UserName) make up the UserDetails.
         public let userDetails: UserDetails
 
+        @inlinable
         public init(userDetails: UserDetails) {
             self.userDetails = userDetails
         }
@@ -3643,6 +3763,7 @@ extension Transfer {
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
         public let userSecretId: String?
 
+        @inlinable
         public init(trustedHostKeys: [String]? = nil, userSecretId: String? = nil) {
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
@@ -3673,6 +3794,7 @@ extension Transfer {
         /// Specifies the SshPublicKeyId parameter contains the identifier of the public key.
         public let sshPublicKeyId: String
 
+        @inlinable
         public init(dateImported: Date, sshPublicKeyBody: String, sshPublicKeyId: String) {
             self.dateImported = dateImported
             self.sshPublicKeyBody = sshPublicKeyBody
@@ -3696,6 +3818,7 @@ extension Transfer {
         /// Specifies the directory on the remote SFTP server for which you want to list its contents.
         public let remoteDirectoryPath: String
 
+        @inlinable
         public init(connectorId: String, maxItems: Int? = nil, outputDirectoryPath: String, remoteDirectoryPath: String) {
             self.connectorId = connectorId
             self.maxItems = maxItems
@@ -3731,6 +3854,7 @@ extension Transfer {
         /// Returns the file name where the results are stored. This is a combination of the connector ID and the listing ID: &lt;connector-id&gt;-&lt;listing-id&gt;.json.
         public let outputFileName: String
 
+        @inlinable
         public init(listingId: String, outputFileName: String) {
             self.listingId = listingId
             self.outputFileName = outputFileName
@@ -3754,6 +3878,7 @@ extension Transfer {
         /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .  Replace  DOC-EXAMPLE-BUCKET with one of your actual buckets.
         public let sendFilePaths: [String]?
 
+        @inlinable
         public init(connectorId: String, localDirectoryPath: String? = nil, remoteDirectoryPath: String? = nil, retrieveFilePaths: [String]? = nil, sendFilePaths: [String]? = nil) {
             self.connectorId = connectorId
             self.localDirectoryPath = localDirectoryPath
@@ -3801,6 +3926,7 @@ extension Transfer {
         /// Returns the unique identifier for the file transfer.
         public let transferId: String
 
+        @inlinable
         public init(transferId: String) {
             self.transferId = transferId
         }
@@ -3814,6 +3940,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that you start.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -3833,6 +3960,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that you stopped.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -3854,6 +3982,7 @@ extension Transfer {
         /// Contains one or more values that you assigned to the key name you create.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3876,6 +4005,7 @@ extension Transfer {
         /// Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (servers, users, workflows, and so on) for any purpose.
         public let tags: [Tag]
 
+        @inlinable
         public init(arn: String, tags: [Tag]) {
             self.arn = arn
             self.tags = tags
@@ -3906,6 +4036,7 @@ extension Transfer {
         /// Array that contains from 1 to 10 key/value pairs.
         public let tags: [S3Tag]?
 
+        @inlinable
         public init(name: String? = nil, sourceFileLocation: String? = nil, tags: [S3Tag]? = nil) {
             self.name = name
             self.sourceFileLocation = sourceFileLocation
@@ -3935,6 +4066,7 @@ extension Transfer {
         /// The unique identifier for the connector.
         public let connectorId: String
 
+        @inlinable
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -3958,6 +4090,7 @@ extension Transfer {
         /// Returns Connection succeeded if the test is successful. Or, returns a descriptive error message  if the test fails. The following list provides troubleshooting details, depending on the error message that you receive.   Verify that your secret name aligns with the one in Transfer Role permissions.   Verify the server URL in the connector configuration , and verify that the login credentials work successfully outside of the connector.   Verify that the secret exists and is formatted correctly.   Verify that the trusted host key in the connector configuration matches the ssh-keyscan output.
         public let statusMessage: String?
 
+        @inlinable
         public init(connectorId: String? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.connectorId = connectorId
             self.status = status
@@ -3983,6 +4116,7 @@ extension Transfer {
         /// The password of the account to be tested.
         public let userPassword: String?
 
+        @inlinable
         public init(serverId: String, serverProtocol: `Protocol`? = nil, sourceIp: String? = nil, userName: String, userPassword: String? = nil) {
             self.serverId = serverId
             self.serverProtocol = serverProtocol
@@ -4022,6 +4156,7 @@ extension Transfer {
         /// The endpoint of the service used to authenticate a user.
         public let url: String
 
+        @inlinable
         public init(message: String? = nil, response: String? = nil, statusCode: Int, url: String) {
             self.message = message
             self.response = response
@@ -4043,6 +4178,7 @@ extension Transfer {
         /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
         public let tagKeys: [String]
 
+        @inlinable
         public init(arn: String, tagKeys: [String]) {
             self.arn = arn
             self.tagKeys = tagKeys
@@ -4082,6 +4218,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
         public let serverId: String
 
+        @inlinable
         public init(externalId: String, homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil, serverId: String) {
             self.externalId = externalId
             self.homeDirectory = homeDirectory
@@ -4132,6 +4269,7 @@ extension Transfer {
         /// The identifier of the server that the user is attached to.
         public let serverId: String
 
+        @inlinable
         public init(externalId: String, serverId: String) {
             self.externalId = externalId
             self.serverId = serverId
@@ -4161,6 +4299,7 @@ extension Transfer {
         /// You can update the status for the agreement, either activating an inactive agreement or the reverse.
         public let status: AgreementStatusType?
 
+        @inlinable
         public init(accessRole: String? = nil, agreementId: String, baseDirectory: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String, status: AgreementStatusType? = nil) {
             self.accessRole = accessRole
             self.agreementId = agreementId
@@ -4211,6 +4350,7 @@ extension Transfer {
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String
 
+        @inlinable
         public init(agreementId: String) {
             self.agreementId = agreementId
         }
@@ -4230,6 +4370,7 @@ extension Transfer {
         /// An optional date that specifies when the certificate becomes inactive.
         public let inactiveDate: Date?
 
+        @inlinable
         public init(activeDate: Date? = nil, certificateId: String, description: String? = nil, inactiveDate: Date? = nil) {
             self.activeDate = activeDate
             self.certificateId = certificateId
@@ -4258,6 +4399,7 @@ extension Transfer {
         /// Returns the identifier of the certificate object that you are updating.
         public let certificateId: String
 
+        @inlinable
         public init(certificateId: String) {
             self.certificateId = certificateId
         }
@@ -4283,6 +4425,7 @@ extension Transfer {
         /// The URL of the partner's AS2 or SFTP endpoint.
         public let url: String?
 
+        @inlinable
         public init(accessRole: String? = nil, as2Config: As2ConnectorConfig? = nil, connectorId: String, loggingRole: String? = nil, securityPolicyName: String? = nil, sftpConfig: SftpConnectorConfig? = nil, url: String? = nil) {
             self.accessRole = accessRole
             self.as2Config = as2Config
@@ -4325,6 +4468,7 @@ extension Transfer {
         /// Returns the identifier of the connector object that you are updating.
         public let connectorId: String
 
+        @inlinable
         public init(connectorId: String) {
             self.connectorId = connectorId
         }
@@ -4342,6 +4486,7 @@ extension Transfer {
         /// The identifier of the server that contains the host key that you are updating.
         public let serverId: String
 
+        @inlinable
         public init(description: String, hostKeyId: String, serverId: String) {
             self.description = description
             self.hostKeyId = hostKeyId
@@ -4372,6 +4517,7 @@ extension Transfer {
         /// Returns the server identifier for the server that contains the updated host key.
         public let serverId: String
 
+        @inlinable
         public init(hostKeyId: String, serverId: String) {
             self.hostKeyId = hostKeyId
             self.serverId = serverId
@@ -4389,6 +4535,7 @@ extension Transfer {
         /// The identifier of the profile object that you are updating.
         public let profileId: String
 
+        @inlinable
         public init(certificateIds: [String]? = nil, profileId: String) {
             self.certificateIds = certificateIds
             self.profileId = profileId
@@ -4415,6 +4562,7 @@ extension Transfer {
         /// Returns the identifier for the profile that's being updated.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -4456,6 +4604,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?
 
+        @inlinable
         public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, serverId: String, structuredLogDestinations: [String]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
@@ -4525,6 +4674,7 @@ extension Transfer {
         /// A system-assigned unique identifier for a server that the Transfer Family user is assigned to.
         public let serverId: String
 
+        @inlinable
         public init(serverId: String) {
             self.serverId = serverId
         }
@@ -4552,6 +4702,7 @@ extension Transfer {
         /// A unique string that identifies a user and is associated with a server as specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100 characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen '-', period '.', and at sign '@'. The user name can't start with a hyphen, period, or at sign.
         public let userName: String
 
+        @inlinable
         public init(homeDirectory: String? = nil, homeDirectoryMappings: [HomeDirectoryMapEntry]? = nil, homeDirectoryType: HomeDirectoryType? = nil, policy: String? = nil, posixProfile: PosixProfile? = nil, role: String? = nil, serverId: String, userName: String) {
             self.homeDirectory = homeDirectory
             self.homeDirectoryMappings = homeDirectoryMappings
@@ -4602,6 +4753,7 @@ extension Transfer {
         /// The unique identifier for a user that is assigned to a server instance that was specified in the request.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, userName: String) {
             self.serverId = serverId
             self.userName = userName
@@ -4621,6 +4773,7 @@ extension Transfer {
         /// A unique string that identifies a Transfer Family user associated with a server.
         public let userName: String
 
+        @inlinable
         public init(serverId: String, sessionId: String? = nil, userName: String) {
             self.serverId = serverId
             self.sessionId = sessionId
@@ -4640,6 +4793,7 @@ extension Transfer {
         /// A unique identifier for the workflow.
         public let workflowId: String
 
+        @inlinable
         public init(executionRole: String, workflowId: String) {
             self.executionRole = executionRole
             self.workflowId = workflowId
@@ -4666,6 +4820,7 @@ extension Transfer {
         /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let onUpload: [WorkflowDetail]?
 
+        @inlinable
         public init(onPartialUpload: [WorkflowDetail]? = nil, onUpload: [WorkflowDetail]? = nil) {
             self.onPartialUpload = onPartialUpload
             self.onUpload = onUpload
@@ -4702,6 +4857,7 @@ extension Transfer {
         ///  Currently, the following step types are supported.      COPY - Copy the file to another location.     CUSTOM - Perform a custom step with an Lambda function target.     DECRYPT - Decrypt a file that was encrypted before it was uploaded.     DELETE - Delete the file.     TAG - Add a tag to the file.
         public let type: WorkflowStepType?
 
+        @inlinable
         public init(copyStepDetails: CopyStepDetails? = nil, customStepDetails: CustomStepDetails? = nil, decryptStepDetails: DecryptStepDetails? = nil, deleteStepDetails: DeleteStepDetails? = nil, tagStepDetails: TagStepDetails? = nil, type: WorkflowStepType? = nil) {
             self.copyStepDetails = copyStepDetails
             self.customStepDetails = customStepDetails

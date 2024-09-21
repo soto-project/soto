@@ -1022,6 +1022,7 @@ extension Inspector2 {
         /// The status of Amazon Inspector for the account.
         public let status: Status
 
+        @inlinable
         public init(accountId: String, resourceStatus: ResourceStatus, status: Status) {
             self.accountId = accountId
             self.resourceStatus = resourceStatus
@@ -1045,6 +1046,7 @@ extension Inspector2 {
         /// The sort order (ascending or descending).
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(findingType: AggregationFindingType? = nil, resourceType: AggregationResourceType? = nil, sortBy: AccountSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.findingType = findingType
             self.resourceType = resourceType
@@ -1070,6 +1072,7 @@ extension Inspector2 {
         /// The number of findings by severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, exploitAvailableCount: Int64? = nil, fixAvailableCount: Int64? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.exploitAvailableCount = exploitAvailableCount
@@ -1093,6 +1096,7 @@ extension Inspector2 {
         /// An object detailing the status of Amazon Inspector for the account.
         public let state: State
 
+        @inlinable
         public init(accountId: String, resourceState: ResourceState, state: State) {
             self.accountId = accountId
             self.resourceState = resourceState
@@ -1114,6 +1118,7 @@ extension Inspector2 {
         /// The order to sort results by.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(amis: [StringFilter]? = nil, sortBy: AmiSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.amis = amis
             self.sortBy = sortBy
@@ -1145,6 +1150,7 @@ extension Inspector2 {
         /// An object that contains the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, affectedInstances: Int64? = nil, ami: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.affectedInstances = affectedInstances
@@ -1164,6 +1170,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the member account to be associated.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1183,6 +1190,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the successfully associated member account.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -1202,6 +1210,7 @@ extension Inspector2 {
         /// The MITRE ATT&amp;CK tactics, techniques, and procedures (TTPs) associated with vulnerability.
         public let ttps: [String]?
 
+        @inlinable
         public init(firstSeen: Date? = nil, lastSeen: Date? = nil, targets: [String]? = nil, ttps: [String]? = nil) {
             self.firstSeen = firstSeen
             self.lastSeen = lastSeen
@@ -1227,6 +1236,7 @@ extension Inspector2 {
         /// Represents whether Lambda code scans are automatically enabled for new members of your Amazon Inspector organization.
         public let lambdaCode: Bool?
 
+        @inlinable
         public init(ec2: Bool, ecr: Bool, lambda: Bool? = nil, lambdaCode: Bool? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
@@ -1264,6 +1274,7 @@ extension Inspector2 {
         /// The VPC ID of the Amazon EC2 instance.
         public let vpcId: String?
 
+        @inlinable
         public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: Date? = nil, platform: String? = nil, subnetId: String? = nil, type: String? = nil, vpcId: String? = nil) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
@@ -1307,6 +1318,7 @@ extension Inspector2 {
         /// The sort order (ascending or descending).
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(architectures: [StringFilter]? = nil, imageShas: [StringFilter]? = nil, imageTags: [StringFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: AwsEcrContainerSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.architectures = architectures
             self.imageShas = imageShas
@@ -1372,6 +1384,7 @@ extension Inspector2 {
         /// The number of finding by severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, architecture: String? = nil, imageSha: String? = nil, imageTags: [String]? = nil, repository: String? = nil, resourceId: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.architecture = architecture
@@ -1411,6 +1424,7 @@ extension Inspector2 {
         /// The name of the repository the Amazon ECR container image resides in.
         public let repositoryName: String
 
+        @inlinable
         public init(architecture: String? = nil, author: String? = nil, imageHash: String, imageTags: [String]? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String, repositoryName: String) {
             self.architecture = architecture
             self.author = author
@@ -1456,6 +1470,7 @@ extension Inspector2 {
         /// The Amazon Web Services Lambda function's networking configuration.
         public let vpcConfig: LambdaVpcConfig?
 
+        @inlinable
         public init(architectures: [Architecture]? = nil, codeSha256: String, executionRoleArn: String, functionName: String, lastModifiedAt: Date? = nil, layers: [String]? = nil, packageType: PackageType? = nil, runtime: Runtime, version: String, vpcConfig: LambdaVpcConfig? = nil) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
@@ -1487,6 +1502,7 @@ extension Inspector2 {
         /// The 12-digit Amazon Web Services account IDs of the accounts to retrieve Amazon Inspector status for.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1511,6 +1527,7 @@ extension Inspector2 {
         /// An array of objects detailing any accounts that failed to enable Amazon Inspector and why.
         public let failedAccounts: [FailedAccount]?
 
+        @inlinable
         public init(accounts: [AccountState], failedAccounts: [FailedAccount]? = nil) {
             self.accounts = accounts
             self.failedAccounts = failedAccounts
@@ -1526,6 +1543,7 @@ extension Inspector2 {
         /// An array of finding ARNs for the findings you want to retrieve code snippets from.
         public let findingArns: [String]
 
+        @inlinable
         public init(findingArns: [String]) {
             self.findingArns = findingArns
         }
@@ -1549,6 +1567,7 @@ extension Inspector2 {
         /// Any errors Amazon Inspector encountered while trying to retrieve the requested code snippets.
         public let errors: [CodeSnippetError]?
 
+        @inlinable
         public init(codeSnippetResults: [CodeSnippetResult]? = nil, errors: [CodeSnippetError]? = nil) {
             self.codeSnippetResults = codeSnippetResults
             self.errors = errors
@@ -1564,6 +1583,7 @@ extension Inspector2 {
         /// A list of finding ARNs.
         public let findingArns: [String]
 
+        @inlinable
         public init(findingArns: [String]) {
             self.findingArns = findingArns
         }
@@ -1589,6 +1609,7 @@ extension Inspector2 {
         /// A finding's vulnerability details.
         public let findingDetails: [FindingDetail]?
 
+        @inlinable
         public init(errors: [FindingDetailsError]? = nil, findingDetails: [FindingDetail]? = nil) {
             self.errors = errors
             self.findingDetails = findingDetails
@@ -1604,6 +1625,7 @@ extension Inspector2 {
         /// The account IDs to get free trial status for.
         public let accountIds: [String]
 
+        @inlinable
         public init(accountIds: [String]) {
             self.accountIds = accountIds
         }
@@ -1625,6 +1647,7 @@ extension Inspector2 {
         /// An array of objects detailing any accounts that free trial data could not be returned for.
         public let failedAccounts: [FreeTrialInfoError]
 
+        @inlinable
         public init(accounts: [FreeTrialAccountInfo], failedAccounts: [FreeTrialInfoError]) {
             self.accounts = accounts
             self.failedAccounts = failedAccounts
@@ -1640,6 +1663,7 @@ extension Inspector2 {
         /// The unique identifiers for the Amazon Web Services accounts to retrieve Amazon Inspector deep inspection activation status for.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -1664,6 +1688,7 @@ extension Inspector2 {
         /// An array of objects that provide details on any accounts that failed to activate Amazon Inspector deep inspection and why.
         public let failedAccountIds: [FailedMemberAccountEc2DeepInspectionStatusState]?
 
+        @inlinable
         public init(accountIds: [MemberAccountEc2DeepInspectionStatusState]? = nil, failedAccountIds: [FailedMemberAccountEc2DeepInspectionStatusState]? = nil) {
             self.accountIds = accountIds
             self.failedAccountIds = failedAccountIds
@@ -1679,6 +1704,7 @@ extension Inspector2 {
         /// The unique identifiers for the Amazon Web Services accounts to change Amazon Inspector deep inspection status for.
         public let accountIds: [MemberAccountEc2DeepInspectionStatus]
 
+        @inlinable
         public init(accountIds: [MemberAccountEc2DeepInspectionStatus]) {
             self.accountIds = accountIds
         }
@@ -1701,6 +1727,7 @@ extension Inspector2 {
         /// An array of objects that provide details for each of the accounts that Amazon Inspector deep inspection status could not be successfully changed for.
         public let failedAccountIds: [FailedMemberAccountEc2DeepInspectionStatusState]?
 
+        @inlinable
         public init(accountIds: [MemberAccountEc2DeepInspectionStatusState]? = nil, failedAccountIds: [FailedMemberAccountEc2DeepInspectionStatusState]? = nil) {
             self.accountIds = accountIds
             self.failedAccountIds = failedAccountIds
@@ -1716,6 +1743,7 @@ extension Inspector2 {
         /// The ID of the report to be canceled.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -1733,6 +1761,7 @@ extension Inspector2 {
         /// The ID of the canceled report.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -1746,6 +1775,7 @@ extension Inspector2 {
         /// The report ID of the SBOM export to cancel.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -1763,6 +1793,7 @@ extension Inspector2 {
         /// The report ID of the canceled SBOM export.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }
@@ -1790,6 +1821,7 @@ extension Inspector2 {
         /// The CIS check title.
         public let title: String?
 
+        @inlinable
         public init(accountId: String? = nil, checkDescription: String? = nil, checkId: String? = nil, level: CisSecurityLevel? = nil, platform: String? = nil, scanArn: String, statusCounts: StatusCounts? = nil, title: String? = nil) {
             self.accountId = accountId
             self.checkDescription = checkDescription
@@ -1819,6 +1851,7 @@ extension Inspector2 {
         /// The CIS date filter's latest scan start time.
         public let latestScanStartTime: Date?
 
+        @inlinable
         public init(earliestScanStartTime: Date? = nil, latestScanStartTime: Date? = nil) {
             self.earliestScanStartTime = earliestScanStartTime
             self.latestScanStartTime = latestScanStartTime
@@ -1836,6 +1869,7 @@ extension Inspector2 {
         /// The value of the CIS finding status filter.
         public let value: CisFindingStatus
 
+        @inlinable
         public init(comparison: CisFindingStatusComparison, value: CisFindingStatus) {
             self.comparison = comparison
             self.value = value
@@ -1853,6 +1887,7 @@ extension Inspector2 {
         /// The CIS number filter's upper inclusive.
         public let upperInclusive: Int?
 
+        @inlinable
         public init(lowerInclusive: Int? = nil, upperInclusive: Int? = nil) {
             self.lowerInclusive = lowerInclusive
             self.upperInclusive = upperInclusive
@@ -1870,6 +1905,7 @@ extension Inspector2 {
         /// The value of the CIS result status filter.
         public let value: CisResultStatus
 
+        @inlinable
         public init(comparison: CisResultStatusComparison, value: CisResultStatus) {
             self.comparison = comparison
             self.value = value
@@ -1903,6 +1939,7 @@ extension Inspector2 {
         /// The CIS scan's total checks.
         public let totalChecks: Int?
 
+        @inlinable
         public init(failedChecks: Int? = nil, scanArn: String, scanConfigurationArn: String, scanDate: Date? = nil, scanName: String? = nil, scheduledBy: String? = nil, securityLevel: CisSecurityLevel? = nil, status: CisScanStatus? = nil, targets: CisTargets? = nil, totalChecks: Int? = nil) {
             self.failedChecks = failedChecks
             self.scanArn = scanArn
@@ -1946,6 +1983,7 @@ extension Inspector2 {
         /// The CIS scan configuration's targets.
         public let targets: CisTargets?
 
+        @inlinable
         public init(ownerId: String? = nil, scanConfigurationArn: String, scanName: String? = nil, schedule: Schedule? = nil, securityLevel: CisSecurityLevel? = nil, tags: [String: String]? = nil, targets: CisTargets? = nil) {
             self.ownerId = ownerId
             self.scanConfigurationArn = scanConfigurationArn
@@ -1993,6 +2031,7 @@ extension Inspector2 {
         /// The CIS scan result details' title.
         public let title: String?
 
+        @inlinable
         public init(accountId: String? = nil, checkDescription: String? = nil, checkId: String? = nil, findingArn: String? = nil, level: CisSecurityLevel? = nil, platform: String? = nil, remediation: String? = nil, scanArn: String, status: CisFindingStatus? = nil, statusReason: String? = nil, targetResourceId: String? = nil, title: String? = nil) {
             self.accountId = accountId
             self.checkDescription = checkDescription
@@ -2036,6 +2075,7 @@ extension Inspector2 {
         /// The criteria's title filters.
         public let titleFilters: [CisStringFilter]?
 
+        @inlinable
         public init(checkIdFilters: [CisStringFilter]? = nil, findingArnFilters: [CisStringFilter]? = nil, findingStatusFilters: [CisFindingStatusFilter]? = nil, securityLevelFilters: [CisSecurityLevelFilter]? = nil, titleFilters: [CisStringFilter]? = nil) {
             self.checkIdFilters = checkIdFilters
             self.findingArnFilters = findingArnFilters
@@ -2080,6 +2120,7 @@ extension Inspector2 {
         /// The criteria's title filters.
         public let titleFilters: [CisStringFilter]?
 
+        @inlinable
         public init(accountIdFilters: [CisStringFilter]? = nil, checkIdFilters: [CisStringFilter]? = nil, failedResourcesFilters: [CisNumberFilter]? = nil, platformFilters: [CisStringFilter]? = nil, securityLevelFilters: [CisSecurityLevelFilter]? = nil, titleFilters: [CisStringFilter]? = nil) {
             self.accountIdFilters = accountIdFilters
             self.checkIdFilters = checkIdFilters
@@ -2134,6 +2175,7 @@ extension Inspector2 {
         /// The criteria's target status reason filters.
         public let targetStatusReasonFilters: [CisTargetStatusReasonFilter]?
 
+        @inlinable
         public init(accountIdFilters: [CisStringFilter]? = nil, checkIdFilters: [CisStringFilter]? = nil, failedChecksFilters: [CisNumberFilter]? = nil, platformFilters: [CisStringFilter]? = nil, statusFilters: [CisResultStatusFilter]? = nil, targetResourceIdFilters: [CisStringFilter]? = nil, targetResourceTagFilters: [TagFilter]? = nil, targetStatusFilters: [CisTargetStatusFilter]? = nil, targetStatusReasonFilters: [CisTargetStatusReasonFilter]? = nil) {
             self.accountIdFilters = accountIdFilters
             self.checkIdFilters = checkIdFilters
@@ -2189,6 +2231,7 @@ extension Inspector2 {
         /// The filter value.
         public let value: CisScanStatus
 
+        @inlinable
         public init(comparison: CisScanStatusComparison, value: CisScanStatus) {
             self.comparison = comparison
             self.value = value
@@ -2206,6 +2249,7 @@ extension Inspector2 {
         /// The CIS security filter value.
         public let value: CisSecurityLevel
 
+        @inlinable
         public init(comparison: CisSecurityLevelComparison, value: CisSecurityLevel) {
             self.comparison = comparison
             self.value = value
@@ -2225,6 +2269,7 @@ extension Inspector2 {
         /// The status of the CIS session message.
         public let status: CisRuleStatus
 
+        @inlinable
         public init(cisRuleDetails: AWSBase64Data, ruleId: String, status: CisRuleStatus) {
             self.cisRuleDetails = cisRuleDetails
             self.ruleId = ruleId
@@ -2250,6 +2295,7 @@ extension Inspector2 {
         /// The value of the CIS string filter.
         public let value: String
 
+        @inlinable
         public init(comparison: CisStringComparison, value: String) {
             self.comparison = comparison
             self.value = value
@@ -2279,6 +2325,7 @@ extension Inspector2 {
         /// The reason for the target resource.
         public let targetStatusReason: CisTargetStatusReason?
 
+        @inlinable
         public init(accountId: String? = nil, platform: String? = nil, scanArn: String, statusCounts: StatusCounts? = nil, targetResourceId: String? = nil, targetResourceTags: [String: [String]]? = nil, targetStatus: CisTargetStatus? = nil, targetStatusReason: CisTargetStatusReason? = nil) {
             self.accountId = accountId
             self.platform = platform
@@ -2308,6 +2355,7 @@ extension Inspector2 {
         /// The value of the CIS target status filter.
         public let value: CisTargetStatus
 
+        @inlinable
         public init(comparison: CisTargetStatusComparison, value: CisTargetStatus) {
             self.comparison = comparison
             self.value = value
@@ -2325,6 +2373,7 @@ extension Inspector2 {
         /// The value of the CIS target status reason filter.
         public let value: CisTargetStatusReason
 
+        @inlinable
         public init(comparison: CisTargetStatusComparison, value: CisTargetStatusReason) {
             self.comparison = comparison
             self.value = value
@@ -2342,6 +2391,7 @@ extension Inspector2 {
         /// The CIS target resource tags.
         public let targetResourceTags: [String: [String]]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, targetResourceTags: [String: [String]]? = nil) {
             self.accountIds = accountIds
             self.targetResourceTags = targetResourceTags
@@ -2361,6 +2411,7 @@ extension Inspector2 {
         /// The date and time CISA expects a fix to have been provided vulnerability.
         public let dateDue: Date?
 
+        @inlinable
         public init(action: String? = nil, dateAdded: Date? = nil, dateDue: Date? = nil) {
             self.action = action
             self.dateAdded = dateAdded
@@ -2384,6 +2435,7 @@ extension Inspector2 {
         /// The line number of the first line of code that a vulnerability was found in.
         public let startLine: Int
 
+        @inlinable
         public init(endLine: Int, fileName: String, filePath: String, startLine: Int) {
             self.endLine = endLine
             self.fileName = fileName
@@ -2405,6 +2457,7 @@ extension Inspector2 {
         /// The line number that a section of code is located at.
         public let lineNumber: Int
 
+        @inlinable
         public init(content: String, lineNumber: Int) {
             self.content = content
             self.lineNumber = lineNumber
@@ -2424,6 +2477,7 @@ extension Inspector2 {
         /// The ARN of the finding that a code snippet couldn't be retrieved for.
         public let findingArn: String
 
+        @inlinable
         public init(errorCode: CodeSnippetErrorCode, errorMessage: String, findingArn: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2449,6 +2503,7 @@ extension Inspector2 {
         /// Details of a suggested code fix.
         public let suggestedFixes: [SuggestedFix]?
 
+        @inlinable
         public init(codeSnippet: [CodeLine]? = nil, endLine: Int? = nil, findingArn: String? = nil, startLine: Int? = nil, suggestedFixes: [SuggestedFix]? = nil) {
             self.codeSnippet = codeSnippet
             self.endLine = endLine
@@ -2484,6 +2539,7 @@ extension Inspector2 {
         /// The Amazon Resource Name (ARN) of the Lambda layer that the code vulnerability was detected in.
         public let sourceLambdaLayerArn: String?
 
+        @inlinable
         public init(cwes: [String], detectorId: String, detectorName: String, detectorTags: [String]? = nil, filePath: CodeFilePath, referenceUrls: [String]? = nil, ruleId: String? = nil, sourceLambdaLayerArn: String? = nil) {
             self.cwes = cwes
             self.detectorId = detectorId
@@ -2515,6 +2571,7 @@ extension Inspector2 {
         /// The compute platform version.
         public let version: String?
 
+        @inlinable
         public init(product: String? = nil, vendor: String? = nil, version: String? = nil) {
             self.product = product
             self.vendor = vendor
@@ -2540,6 +2597,7 @@ extension Inspector2 {
         /// The key associated with this group
         public let groupKey: GroupKey?
 
+        @inlinable
         public init(count: Int64? = nil, groupKey: GroupKey? = nil) {
             self.count = count
             self.groupKey = groupKey
@@ -2557,6 +2615,7 @@ extension Inspector2 {
         /// A timestamp representing the start of the time period to filter results by.
         public let startInclusive: Date?
 
+        @inlinable
         public init(endInclusive: Date? = nil, startInclusive: Date? = nil) {
             self.endInclusive = endInclusive
             self.startInclusive = startInclusive
@@ -2600,6 +2659,7 @@ extension Inspector2 {
         /// An array of Amazon Inspector scan types to return coverage statistics for.
         public let scanType: [CoverageStringFilter]?
 
+        @inlinable
         public init(accountId: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
@@ -2717,6 +2777,7 @@ extension Inspector2 {
         /// The tag value associated with the coverage map filter.
         public let value: String?
 
+        @inlinable
         public init(comparison: CoverageMapComparison, key: String, value: String? = nil) {
             self.comparison = comparison
             self.key = key
@@ -2741,6 +2802,7 @@ extension Inspector2 {
         /// The value to compare strings on.
         public let value: String
 
+        @inlinable
         public init(comparison: CoverageStringComparison, value: String) {
             self.comparison = comparison
             self.value = value
@@ -2775,6 +2837,7 @@ extension Inspector2 {
         /// The Amazon Inspector scan type covering the resource.
         public let scanType: ScanType
 
+        @inlinable
         public init(accountId: String, lastScannedAt: Date? = nil, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanMode: ScanMode? = nil, scanStatus: ScanStatus? = nil, scanType: ScanType) {
             self.accountId = accountId
             self.lastScannedAt = lastScannedAt
@@ -2810,6 +2873,7 @@ extension Inspector2 {
         /// The targets for the CIS scan configuration.
         public let targets: CreateCisTargets
 
+        @inlinable
         public init(scanName: String, schedule: Schedule, securityLevel: CisSecurityLevel, tags: [String: String]? = nil, targets: CreateCisTargets) {
             self.scanName = scanName
             self.schedule = schedule
@@ -2843,6 +2907,7 @@ extension Inspector2 {
         /// The scan configuration ARN for the CIS scan configuration.
         public let scanConfigurationArn: String?
 
+        @inlinable
         public init(scanConfigurationArn: String? = nil) {
             self.scanConfigurationArn = scanConfigurationArn
         }
@@ -2858,6 +2923,7 @@ extension Inspector2 {
         /// The CIS target resource tags.
         public let targetResourceTags: [String: [String]]
 
+        @inlinable
         public init(accountIds: [String], targetResourceTags: [String: [String]]) {
             self.accountIds = accountIds
             self.targetResourceTags = targetResourceTags
@@ -2900,6 +2966,7 @@ extension Inspector2 {
         /// A list of tags for the filter.
         public let tags: [String: String]?
 
+        @inlinable
         public init(action: FilterAction, description: String? = nil, filterCriteria: FilterCriteria, name: String, reason: String? = nil, tags: [String: String]? = nil) {
             self.action = action
             self.description = description
@@ -2938,6 +3005,7 @@ extension Inspector2 {
         /// The Amazon Resource Number (ARN) of the successfully created filter.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2955,6 +3023,7 @@ extension Inspector2 {
         /// The Amazon S3 export destination for the report.
         public let s3Destination: Destination
 
+        @inlinable
         public init(filterCriteria: FilterCriteria? = nil, reportFormat: ReportFormat, s3Destination: Destination) {
             self.filterCriteria = filterCriteria
             self.reportFormat = reportFormat
@@ -2976,6 +3045,7 @@ extension Inspector2 {
         /// The ID of the report.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }
@@ -2992,6 +3062,7 @@ extension Inspector2 {
         public let resourceFilterCriteria: ResourceFilterCriteria?
         public let s3Destination: Destination
 
+        @inlinable
         public init(reportFormat: SbomReportFormat, resourceFilterCriteria: ResourceFilterCriteria? = nil, s3Destination: Destination) {
             self.reportFormat = reportFormat
             self.resourceFilterCriteria = resourceFilterCriteria
@@ -3013,6 +3084,7 @@ extension Inspector2 {
         /// The report ID for the software bill of materials (SBOM) report.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }
@@ -3028,6 +3100,7 @@ extension Inspector2 {
         /// The scoring vector associated with the CVSS v2 score.
         public let scoringVector: String?
 
+        @inlinable
         public init(baseScore: Double? = nil, scoringVector: String? = nil) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
@@ -3045,6 +3118,7 @@ extension Inspector2 {
         /// The scoring vector associated with the CVSS v3 score.
         public let scoringVector: String?
 
+        @inlinable
         public init(baseScore: Double? = nil, scoringVector: String? = nil) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
@@ -3066,6 +3140,7 @@ extension Inspector2 {
         /// The version of CVSS used for the score.
         public let version: String
 
+        @inlinable
         public init(baseScore: Double, scoringVector: String, source: String, version: String) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
@@ -3087,6 +3162,7 @@ extension Inspector2 {
         /// The reason the CVSS score has been adjustment.
         public let reason: String
 
+        @inlinable
         public init(metric: String, reason: String) {
             self.metric = metric
             self.reason = reason
@@ -3112,6 +3188,7 @@ extension Inspector2 {
         /// The CVSS version used in scoring.
         public let version: String
 
+        @inlinable
         public init(adjustments: [CvssScoreAdjustment]? = nil, cvssSource: String? = nil, score: Double, scoreSource: String, scoringVector: String, version: String) {
             self.adjustments = adjustments
             self.cvssSource = cvssSource
@@ -3135,6 +3212,7 @@ extension Inspector2 {
         /// The schedule start time.
         public let startTime: Time
 
+        @inlinable
         public init(startTime: Time) {
             self.startTime = startTime
         }
@@ -3154,6 +3232,7 @@ extension Inspector2 {
         /// A timestamp representing the start of the time period filtered on.
         public let startInclusive: Date?
 
+        @inlinable
         public init(endInclusive: Date? = nil, startInclusive: Date? = nil) {
             self.endInclusive = endInclusive
             self.startInclusive = startInclusive
@@ -3171,6 +3250,7 @@ extension Inspector2 {
         /// The status of the Amazon Inspector delegated administrator.
         public let relationshipStatus: RelationshipStatus?
 
+        @inlinable
         public init(accountId: String? = nil, relationshipStatus: RelationshipStatus? = nil) {
             self.accountId = accountId
             self.relationshipStatus = relationshipStatus
@@ -3188,6 +3268,7 @@ extension Inspector2 {
         /// The status of the Amazon Inspector delegated administrator.
         public let status: DelegatedAdminStatus?
 
+        @inlinable
         public init(accountId: String? = nil, status: DelegatedAdminStatus? = nil) {
             self.accountId = accountId
             self.status = status
@@ -3203,6 +3284,7 @@ extension Inspector2 {
         /// The ARN of the CIS scan configuration.
         public let scanConfigurationArn: String
 
+        @inlinable
         public init(scanConfigurationArn: String) {
             self.scanConfigurationArn = scanConfigurationArn
         }
@@ -3220,6 +3302,7 @@ extension Inspector2 {
         /// The ARN of the CIS scan configuration.
         public let scanConfigurationArn: String
 
+        @inlinable
         public init(scanConfigurationArn: String) {
             self.scanConfigurationArn = scanConfigurationArn
         }
@@ -3233,6 +3316,7 @@ extension Inspector2 {
         /// The Amazon Resource Number (ARN) of the filter to be deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -3251,6 +3335,7 @@ extension Inspector2 {
         /// The Amazon Resource Number (ARN) of the filter that has been deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -3270,6 +3355,7 @@ extension Inspector2 {
         /// Represents whether your organization has reached the maximum Amazon Web Services account limit for Amazon Inspector.
         public let maxAccountLimitReached: Bool?
 
+        @inlinable
         public init(autoEnable: AutoEnable? = nil, maxAccountLimitReached: Bool? = nil) {
             self.autoEnable = autoEnable
             self.maxAccountLimitReached = maxAccountLimitReached
@@ -3289,6 +3375,7 @@ extension Inspector2 {
         /// The ARN of the KMS key used to encrypt data when exporting findings.
         public let kmsKeyArn: String
 
+        @inlinable
         public init(bucketName: String, keyPrefix: String? = nil, kmsKeyArn: String) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
@@ -3306,6 +3393,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the current Amazon Inspector delegated administrator.
         public let delegatedAdminAccountId: String
 
+        @inlinable
         public init(delegatedAdminAccountId: String) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
         }
@@ -3325,6 +3413,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the successfully disabled delegated administrator.
         public let delegatedAdminAccountId: String
 
+        @inlinable
         public init(delegatedAdminAccountId: String) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
         }
@@ -3340,6 +3429,7 @@ extension Inspector2 {
         /// The resource scan types you want to disable.
         public let resourceTypes: [ResourceScanType]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, resourceTypes: [ResourceScanType]? = nil) {
             self.accountIds = accountIds
             self.resourceTypes = resourceTypes
@@ -3367,6 +3457,7 @@ extension Inspector2 {
         /// Information on any accounts for which Amazon Inspector scans could not be disabled. Details are provided for each account.
         public let failedAccounts: [FailedAccount]?
 
+        @inlinable
         public init(accounts: [Account], failedAccounts: [FailedAccount]? = nil) {
             self.accounts = accounts
             self.failedAccounts = failedAccounts
@@ -3382,6 +3473,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the member account to disassociate.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -3401,6 +3493,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the successfully disassociated member.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -3414,6 +3507,7 @@ extension Inspector2 {
         /// The scan method that is applied to the instance.
         public let scanMode: Ec2ScanMode
 
+        @inlinable
         public init(scanMode: Ec2ScanMode) {
             self.scanMode = scanMode
         }
@@ -3427,6 +3521,7 @@ extension Inspector2 {
         /// An object that contains details about the state of the Amazon EC2 scan mode.
         public let scanModeState: Ec2ScanModeState?
 
+        @inlinable
         public init(scanModeState: Ec2ScanModeState? = nil) {
             self.scanModeState = scanModeState
         }
@@ -3450,6 +3545,7 @@ extension Inspector2 {
         /// The order to sort results by.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(amis: [StringFilter]? = nil, instanceIds: [StringFilter]? = nil, instanceTags: [MapFilter]? = nil, operatingSystems: [StringFilter]? = nil, sortBy: Ec2InstanceSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.amis = amis
             self.instanceIds = instanceIds
@@ -3508,6 +3604,7 @@ extension Inspector2 {
         /// An object that contains the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, ami: String? = nil, instanceId: String, instanceTags: [String: String]? = nil, networkFindings: Int64? = nil, operatingSystem: String? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.ami = ami
@@ -3537,6 +3634,7 @@ extension Inspector2 {
         /// The tags attached to the instance.
         public let tags: [String: String]?
 
+        @inlinable
         public init(amiId: String? = nil, platform: Ec2Platform? = nil, tags: [String: String]? = nil) {
             self.amiId = amiId
             self.platform = platform
@@ -3556,6 +3654,7 @@ extension Inspector2 {
         /// The status of the Amazon EC2 scan mode setting.
         public let scanModeStatus: Ec2ScanModeStatus?
 
+        @inlinable
         public init(scanMode: Ec2ScanMode? = nil, scanModeStatus: Ec2ScanModeStatus? = nil) {
             self.scanMode = scanMode
             self.scanModeStatus = scanModeStatus
@@ -3573,6 +3672,7 @@ extension Inspector2 {
         /// The rescan duration configured for image push date.
         public let rescanDuration: EcrRescanDuration
 
+        @inlinable
         public init(pullDateRescanDuration: EcrPullDateRescanDuration? = nil, rescanDuration: EcrRescanDuration) {
             self.pullDateRescanDuration = pullDateRescanDuration
             self.rescanDuration = rescanDuration
@@ -3588,6 +3688,7 @@ extension Inspector2 {
         /// An object that contains details about the state of the ECR re-scan settings.
         public let rescanDurationState: EcrRescanDurationState?
 
+        @inlinable
         public init(rescanDurationState: EcrRescanDurationState? = nil) {
             self.rescanDurationState = rescanDurationState
         }
@@ -3603,6 +3704,7 @@ extension Inspector2 {
         /// Tags associated with the Amazon ECR image metadata.
         public let tags: [String]?
 
+        @inlinable
         public init(imagePulledAt: Date? = nil, tags: [String]? = nil) {
             self.imagePulledAt = imagePulledAt
             self.tags = tags
@@ -3620,6 +3722,7 @@ extension Inspector2 {
         /// The frequency of scans.
         public let scanFrequency: EcrScanFrequency?
 
+        @inlinable
         public init(name: String? = nil, scanFrequency: EcrScanFrequency? = nil) {
             self.name = name
             self.scanFrequency = scanFrequency
@@ -3641,6 +3744,7 @@ extension Inspector2 {
         /// A timestamp representing when the last time the ECR scan duration setting was changed.
         public let updatedAt: Date?
 
+        @inlinable
         public init(pullDateRescanDuration: EcrPullDateRescanDuration? = nil, rescanDuration: EcrRescanDuration? = nil, status: EcrRescanDurationStatus? = nil, updatedAt: Date? = nil) {
             self.pullDateRescanDuration = pullDateRescanDuration
             self.rescanDuration = rescanDuration
@@ -3662,6 +3766,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator.
         public let delegatedAdminAccountId: String
 
+        @inlinable
         public init(clientToken: String? = EnableDelegatedAdminAccountRequest.idempotencyToken(), delegatedAdminAccountId: String) {
             self.clientToken = clientToken
             self.delegatedAdminAccountId = delegatedAdminAccountId
@@ -3685,6 +3790,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the successfully Amazon Inspector delegated administrator.
         public let delegatedAdminAccountId: String
 
+        @inlinable
         public init(delegatedAdminAccountId: String) {
             self.delegatedAdminAccountId = delegatedAdminAccountId
         }
@@ -3702,6 +3808,7 @@ extension Inspector2 {
         /// The resource scan types you want to enable.
         public let resourceTypes: [ResourceScanType]
 
+        @inlinable
         public init(accountIds: [String]? = nil, clientToken: String? = EnableRequest.idempotencyToken(), resourceTypes: [ResourceScanType]) {
             self.accountIds = accountIds
             self.clientToken = clientToken
@@ -3734,6 +3841,7 @@ extension Inspector2 {
         /// Information on any accounts for which Amazon Inspector scans could not be enabled. Details are provided for each account.
         public let failedAccounts: [FailedAccount]?
 
+        @inlinable
         public init(accounts: [Account], failedAccounts: [FailedAccount]? = nil) {
             self.accounts = accounts
             self.failedAccounts = failedAccounts
@@ -3749,6 +3857,7 @@ extension Inspector2 {
         /// The Exploit Prediction Scoring System (EPSS) score.
         public let score: Double?
 
+        @inlinable
         public init(score: Double? = nil) {
             self.score = score
         }
@@ -3762,6 +3871,7 @@ extension Inspector2 {
         /// The EPSS score.
         public let score: Double?
 
+        @inlinable
         public init(score: Double? = nil) {
             self.score = score
         }
@@ -3779,6 +3889,7 @@ extension Inspector2 {
         /// The evidence severity.
         public let severity: String?
 
+        @inlinable
         public init(evidenceDetail: String? = nil, evidenceRule: String? = nil, severity: String? = nil) {
             self.evidenceDetail = evidenceDetail
             self.evidenceRule = evidenceRule
@@ -3798,6 +3909,7 @@ extension Inspector2 {
         /// The date an time when the exploit was last seen.
         public let lastSeen: Date?
 
+        @inlinable
         public init(firstSeen: Date? = nil, lastSeen: Date? = nil) {
             self.firstSeen = firstSeen
             self.lastSeen = lastSeen
@@ -3813,6 +3925,7 @@ extension Inspector2 {
         /// The date and time of the last exploit associated with a finding discovered in your environment.
         public let lastKnownExploitAt: Date?
 
+        @inlinable
         public init(lastKnownExploitAt: Date? = nil) {
             self.lastKnownExploitAt = lastKnownExploitAt
         }
@@ -3834,6 +3947,7 @@ extension Inspector2 {
         /// The status of Amazon Inspector for the account.
         public let status: Status?
 
+        @inlinable
         public init(accountId: String, errorCode: ErrorCode, errorMessage: String, resourceStatus: ResourceStatus? = nil, status: Status? = nil) {
             self.accountId = accountId
             self.errorCode = errorCode
@@ -3859,6 +3973,7 @@ extension Inspector2 {
         /// The error message explaining why the account failed to activate Amazon Inspector deep inspection.
         public let errorMessage: String?
 
+        @inlinable
         public init(accountId: String, ec2ScanStatus: Status? = nil, errorMessage: String? = nil) {
             self.accountId = accountId
             self.ec2ScanStatus = ec2ScanStatus
@@ -3894,6 +4009,7 @@ extension Inspector2 {
         /// The date and time the filter was last updated at.
         public let updatedAt: Date
 
+        @inlinable
         public init(action: FilterAction, arn: String, createdAt: Date, criteria: FilterCriteria, description: String? = nil, name: String, ownerId: String, reason: String? = nil, tags: [String: String]? = nil, updatedAt: Date) {
             self.action = action
             self.arn = arn
@@ -4007,6 +4123,7 @@ extension Inspector2 {
         /// Details on the vulnerable packages used to filter findings.
         public let vulnerablePackages: [PackageFilter]?
 
+        @inlinable
         public init(awsAccountId: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
@@ -4334,6 +4451,7 @@ extension Inspector2 {
         /// The date and time the finding was last updated at.
         public let updatedAt: Date?
 
+        @inlinable
         public init(awsAccountId: String, codeVulnerabilityDetails: CodeVulnerabilityDetails? = nil, description: String, epss: EpssDetails? = nil, exploitabilityDetails: ExploitabilityDetails? = nil, exploitAvailable: ExploitAvailable? = nil, findingArn: String, firstObservedAt: Date, fixAvailable: FixAvailable? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, lastObservedAt: Date, networkReachabilityDetails: NetworkReachabilityDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation, resources: [Resource], severity: Severity, status: FindingStatus, title: String? = nil, type: FindingType, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.codeVulnerabilityDetails = codeVulnerabilityDetails
@@ -4403,6 +4521,7 @@ extension Inspector2 {
         /// The MITRE adversary tactics, techniques, or procedures (TTPs) associated with the vulnerability.
         public let ttps: [String]?
 
+        @inlinable
         public init(cisaData: CisaData? = nil, cwes: [String]? = nil, epssScore: Double? = nil, evidences: [Evidence]? = nil, exploitObserved: ExploitObserved? = nil, findingArn: String? = nil, referenceUrls: [String]? = nil, riskScore: Int? = nil, tools: [String]? = nil, ttps: [String]? = nil) {
             self.cisaData = cisaData
             self.cwes = cwes
@@ -4438,6 +4557,7 @@ extension Inspector2 {
         /// The finding ARN that returned an error.
         public let findingArn: String
 
+        @inlinable
         public init(errorCode: FindingDetailsErrorCode, errorMessage: String, findingArn: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4461,6 +4581,7 @@ extension Inspector2 {
         /// The order to sort results by.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(findingType: AggregationFindingType? = nil, resourceType: AggregationResourceType? = nil, sortBy: FindingTypeSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.findingType = findingType
             self.resourceType = resourceType
@@ -4486,6 +4607,7 @@ extension Inspector2 {
         /// The value to sort results by.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, exploitAvailableCount: Int64? = nil, fixAvailableCount: Int64? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.exploitAvailableCount = exploitAvailableCount
@@ -4507,6 +4629,7 @@ extension Inspector2 {
         /// Contains information about the Amazon Inspector free trial for an account.
         public let freeTrialInfo: [FreeTrialInfo]
 
+        @inlinable
         public init(accountId: String, freeTrialInfo: [FreeTrialInfo]) {
             self.accountId = accountId
             self.freeTrialInfo = freeTrialInfo
@@ -4528,6 +4651,7 @@ extension Inspector2 {
         /// The type of scan covered by the Amazon Inspector free trail.
         public let type: FreeTrialType
 
+        @inlinable
         public init(end: Date, start: Date, status: FreeTrialStatus, type: FreeTrialType) {
             self.end = end
             self.start = start
@@ -4551,6 +4675,7 @@ extension Inspector2 {
         /// The error message returned.
         public let message: String
 
+        @inlinable
         public init(accountId: String, code: FreeTrialInfoErrorCode, message: String) {
             self.accountId = accountId
             self.code = code
@@ -4572,6 +4697,7 @@ extension Inspector2 {
         /// The target accounts.
         public let targetAccounts: [String]?
 
+        @inlinable
         public init(reportFormat: CisReportFormat? = nil, scanArn: String, targetAccounts: [String]? = nil) {
             self.reportFormat = reportFormat
             self.scanArn = scanArn
@@ -4601,6 +4727,7 @@ extension Inspector2 {
         ///  The URL where a PDF or CSV of the CIS scan report can be downloaded.
         public let url: String?
 
+        @inlinable
         public init(status: CisReportStatus? = nil, url: String? = nil) {
             self.status = status
             self.url = url
@@ -4630,6 +4757,7 @@ extension Inspector2 {
         /// The target resource ID.
         public let targetResourceId: String
 
+        @inlinable
         public init(accountId: String, filterCriteria: CisScanResultDetailsFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, scanArn: String, sortBy: CisScanResultDetailsSortBy? = nil, sortOrder: CisSortOrder? = nil, targetResourceId: String) {
             self.accountId = accountId
             self.filterCriteria = filterCriteria
@@ -4673,6 +4801,7 @@ extension Inspector2 {
         /// The scan result details.
         public let scanResultDetails: [CisScanResultDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, scanResultDetails: [CisScanResultDetails]? = nil) {
             self.nextToken = nextToken
             self.scanResultDetails = scanResultDetails
@@ -4694,6 +4823,7 @@ extension Inspector2 {
         /// Specifies how the ECR automated re-scan duration is currently configured for your environment.
         public let ecrConfiguration: EcrConfigurationState?
 
+        @inlinable
         public init(ec2Configuration: Ec2ConfigurationState? = nil, ecrConfiguration: EcrConfigurationState? = nil) {
             self.ec2Configuration = ec2Configuration
             self.ecrConfiguration = ecrConfiguration
@@ -4713,6 +4843,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator.
         public let delegatedAdmin: DelegatedAdmin?
 
+        @inlinable
         public init(delegatedAdmin: DelegatedAdmin? = nil) {
             self.delegatedAdmin = delegatedAdmin
         }
@@ -4736,6 +4867,7 @@ extension Inspector2 {
         /// The activation status of Amazon Inspector deep inspection in your account.
         public let status: Ec2DeepInspectionStatus?
 
+        @inlinable
         public init(errorMessage: String? = nil, orgPackagePaths: [String]? = nil, packagePaths: [String]? = nil, status: Ec2DeepInspectionStatus? = nil) {
             self.errorMessage = errorMessage
             self.orgPackagePaths = orgPackagePaths
@@ -4757,6 +4889,7 @@ extension Inspector2 {
         /// The scan type the key encrypts.
         public let scanType: ScanType
 
+        @inlinable
         public init(resourceType: ResourceType, scanType: ScanType) {
             self.resourceType = resourceType
             self.scanType = scanType
@@ -4776,6 +4909,7 @@ extension Inspector2 {
         /// A kms key ID.
         public let kmsKeyId: String
 
+        @inlinable
         public init(kmsKeyId: String) {
             self.kmsKeyId = kmsKeyId
         }
@@ -4789,6 +4923,7 @@ extension Inspector2 {
         /// The ID of the report to retrieve the status of.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }
@@ -4816,6 +4951,7 @@ extension Inspector2 {
         /// The status of the report.
         public let status: ExternalReportStatus?
 
+        @inlinable
         public init(destination: Destination? = nil, errorCode: ReportingErrorCode? = nil, errorMessage: String? = nil, filterCriteria: FilterCriteria? = nil, reportId: String? = nil, status: ExternalReportStatus? = nil) {
             self.destination = destination
             self.errorCode = errorCode
@@ -4839,6 +4975,7 @@ extension Inspector2 {
         /// The Amazon Web Services account ID of the member account to retrieve information on.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -4858,6 +4995,7 @@ extension Inspector2 {
         /// Details of the retrieved member account.
         public let member: Member?
 
+        @inlinable
         public init(member: Member? = nil) {
             self.member = member
         }
@@ -4871,6 +5009,7 @@ extension Inspector2 {
         /// The report ID of the SBOM export to get details for.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -4899,6 +5038,7 @@ extension Inspector2 {
         /// The status of the software bill of materials (SBOM) report.
         public let status: ExternalReportStatus?
 
+        @inlinable
         public init(errorCode: ReportingErrorCode? = nil, errorMessage: String? = nil, filterCriteria: ResourceFilterCriteria? = nil, format: SbomReportFormat? = nil, reportId: String? = nil, s3Destination: Destination? = nil, status: ExternalReportStatus? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4932,6 +5072,7 @@ extension Inspector2 {
         /// The order to sort results by.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(layerHashes: [StringFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: ImageLayerSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.layerHashes = layerHashes
             self.repositories = repositories
@@ -4979,6 +5120,7 @@ extension Inspector2 {
         /// An object that represents the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String, layerHash: String, repository: String, resourceId: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.layerHash = layerHash
@@ -5000,6 +5142,7 @@ extension Inspector2 {
         /// An object that contains details about the CVSS score given to a finding.
         public let adjustedCvss: CvssScoreDetails?
 
+        @inlinable
         public init(adjustedCvss: CvssScoreDetails? = nil) {
             self.adjustedCvss = adjustedCvss
         }
@@ -5023,6 +5166,7 @@ extension Inspector2 {
         /// The order to use for sorting the results.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(functionNames: [StringFilter]? = nil, functionTags: [MapFilter]? = nil, resourceIds: [StringFilter]? = nil, runtimes: [StringFilter]? = nil, sortBy: LambdaFunctionSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.functionNames = functionNames
             self.functionTags = functionTags
@@ -5080,6 +5224,7 @@ extension Inspector2 {
         public let runtime: String?
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, functionName: String? = nil, lambdaTags: [String: String]? = nil, lastModifiedAt: Date? = nil, resourceId: String, runtime: String? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.functionName = functionName
@@ -5111,6 +5256,7 @@ extension Inspector2 {
         /// An Amazon Web Services Lambda function's runtime.
         public let runtime: Runtime?
 
+        @inlinable
         public init(functionName: String? = nil, functionTags: [String: String]? = nil, layers: [String]? = nil, runtime: Runtime? = nil) {
             self.functionName = functionName
             self.functionTags = functionTags
@@ -5138,6 +5284,7 @@ extension Inspector2 {
         /// The order to use for sorting the results.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(functionNames: [StringFilter]? = nil, layerArns: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: LambdaLayerSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.functionNames = functionNames
             self.layerArns = layerArns
@@ -5184,6 +5331,7 @@ extension Inspector2 {
         public let resourceId: String
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String, functionName: String, layerArn: String, resourceId: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.functionName = functionName
@@ -5209,6 +5357,7 @@ extension Inspector2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -5230,6 +5379,7 @@ extension Inspector2 {
         /// The service scan type to check permissions for.
         public let service: Service?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, service: Service? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5255,6 +5405,7 @@ extension Inspector2 {
         /// Contains details on the permissions an account has to configure Amazon Inspector.
         public let permissions: [Permission]
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [Permission]) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -5274,6 +5425,7 @@ extension Inspector2 {
         /// The list of target resource tag filters.
         public let targetResourceTagFilters: [TagFilter]?
 
+        @inlinable
         public init(scanConfigurationArnFilters: [CisStringFilter]? = nil, scanNameFilters: [CisStringFilter]? = nil, targetResourceTagFilters: [TagFilter]? = nil) {
             self.scanConfigurationArnFilters = scanConfigurationArnFilters
             self.scanNameFilters = scanNameFilters
@@ -5311,6 +5463,7 @@ extension Inspector2 {
         /// The CIS scan configuration sort order order.
         public let sortOrder: CisSortOrder?
 
+        @inlinable
         public init(filterCriteria: ListCisScanConfigurationsFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: CisScanConfigurationsSortBy? = nil, sortOrder: CisSortOrder? = nil) {
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -5341,6 +5494,7 @@ extension Inspector2 {
         /// The CIS scan configuration scan configurations.
         public let scanConfigurations: [CisScanConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, scanConfigurations: [CisScanConfiguration]? = nil) {
             self.nextToken = nextToken
             self.scanConfigurations = scanConfigurations
@@ -5366,6 +5520,7 @@ extension Inspector2 {
         /// The sort order.
         public let sortOrder: CisSortOrder?
 
+        @inlinable
         public init(filterCriteria: CisScanResultsAggregatedByChecksFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, scanArn: String, sortBy: CisScanResultsAggregatedByChecksSortBy? = nil, sortOrder: CisSortOrder? = nil) {
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -5399,6 +5554,7 @@ extension Inspector2 {
         /// The pagination token from a previous request that's used to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(checkAggregations: [CisCheckAggregation]? = nil, nextToken: String? = nil) {
             self.checkAggregations = checkAggregations
             self.nextToken = nextToken
@@ -5424,6 +5580,7 @@ extension Inspector2 {
         /// The sort order.
         public let sortOrder: CisSortOrder?
 
+        @inlinable
         public init(filterCriteria: CisScanResultsAggregatedByTargetResourceFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, scanArn: String, sortBy: CisScanResultsAggregatedByTargetResourceSortBy? = nil, sortOrder: CisSortOrder? = nil) {
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -5457,6 +5614,7 @@ extension Inspector2 {
         /// The resource aggregations.
         public let targetResourceAggregations: [CisTargetResourceAggregation]?
 
+        @inlinable
         public init(nextToken: String? = nil, targetResourceAggregations: [CisTargetResourceAggregation]? = nil) {
             self.nextToken = nextToken
             self.targetResourceAggregations = targetResourceAggregations
@@ -5490,6 +5648,7 @@ extension Inspector2 {
         /// The list of target resource tag filters.
         public let targetResourceTagFilters: [TagFilter]?
 
+        @inlinable
         public init(failedChecksFilters: [CisNumberFilter]? = nil, scanArnFilters: [CisStringFilter]? = nil, scanAtFilters: [CisDateFilter]? = nil, scanConfigurationArnFilters: [CisStringFilter]? = nil, scanNameFilters: [CisStringFilter]? = nil, scanStatusFilters: [CisScanStatusFilter]? = nil, scheduledByFilters: [CisStringFilter]? = nil, targetAccountIdFilters: [CisStringFilter]? = nil, targetResourceIdFilters: [CisStringFilter]? = nil, targetResourceTagFilters: [TagFilter]? = nil) {
             self.failedChecksFilters = failedChecksFilters
             self.scanArnFilters = scanArnFilters
@@ -5557,6 +5716,7 @@ extension Inspector2 {
         /// The CIS scans sort order.
         public let sortOrder: CisSortOrder?
 
+        @inlinable
         public init(detailLevel: ListCisScansDetailLevel? = nil, filterCriteria: ListCisScansFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ListCisScansSortBy? = nil, sortOrder: CisSortOrder? = nil) {
             self.detailLevel = detailLevel
             self.filterCriteria = filterCriteria
@@ -5589,6 +5749,7 @@ extension Inspector2 {
         /// The CIS scans.
         public let scans: [CisScan]?
 
+        @inlinable
         public init(nextToken: String? = nil, scans: [CisScan]? = nil) {
             self.nextToken = nextToken
             self.scans = scans
@@ -5608,6 +5769,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(filterCriteria: CoverageFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -5634,6 +5796,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(coveredResources: [CoveredResource]? = nil, nextToken: String? = nil) {
             self.coveredResources = coveredResources
             self.nextToken = nextToken
@@ -5653,6 +5816,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(filterCriteria: CoverageFilterCriteria? = nil, groupBy: GroupKey? = nil, nextToken: String? = nil) {
             self.filterCriteria = filterCriteria
             self.groupBy = groupBy
@@ -5679,6 +5843,7 @@ extension Inspector2 {
         /// The total number for all groups.
         public let totalCounts: Int64
 
+        @inlinable
         public init(countsByGroup: [Counts]? = nil, nextToken: String? = nil, totalCounts: Int64) {
             self.countsByGroup = countsByGroup
             self.nextToken = nextToken
@@ -5698,6 +5863,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5721,6 +5887,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(delegatedAdminAccounts: [DelegatedAdminAccount]? = nil, nextToken: String? = nil) {
             self.delegatedAdminAccounts = delegatedAdminAccounts
             self.nextToken = nextToken
@@ -5742,6 +5909,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(action: FilterAction? = nil, arns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.action = action
             self.arns = arns
@@ -5773,6 +5941,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter], nextToken: String? = nil) {
             self.filters = filters
             self.nextToken = nextToken
@@ -5796,6 +5965,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIds: [StringFilter]? = nil, aggregationRequest: AggregationRequest? = nil, aggregationType: AggregationType, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.aggregationRequest = aggregationRequest
@@ -5833,6 +6003,7 @@ extension Inspector2 {
         /// Objects that contain the results of an aggregation operation.
         public let responses: [AggregationResponse]?
 
+        @inlinable
         public init(aggregationType: AggregationType, nextToken: String? = nil, responses: [AggregationResponse]? = nil) {
             self.aggregationType = aggregationType
             self.nextToken = nextToken
@@ -5856,6 +6027,7 @@ extension Inspector2 {
         /// Details on the sort criteria to apply to your finding results.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(filterCriteria: FilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.filterCriteria = filterCriteria
             self.maxResults = maxResults
@@ -5884,6 +6056,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [Finding]? = nil, nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -5903,6 +6076,7 @@ extension Inspector2 {
         /// Specifies whether to list only currently associated members if True or to list all members within the organization if False.
         public let onlyAssociated: Bool?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5928,6 +6102,7 @@ extension Inspector2 {
         /// The pagination parameter to be used on the next list operation to retrieve more items.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -5943,6 +6118,7 @@ extension Inspector2 {
         /// The Amazon resource number (ARN) of the resource to list tags of.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5965,6 +6141,7 @@ extension Inspector2 {
         /// The tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -5982,6 +6159,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. If your response returns more than the maxResults maximum value it will also return a nextToken value. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.maxResults = maxResults
@@ -6012,6 +6190,7 @@ extension Inspector2 {
         /// An object with details on the total usage for the requested account.
         public let totals: [UsageTotal]?
 
+        @inlinable
         public init(nextToken: String? = nil, totals: [UsageTotal]? = nil) {
             self.nextToken = nextToken
             self.totals = totals
@@ -6031,6 +6210,7 @@ extension Inspector2 {
         /// The tag value used in the filter.
         public let value: String?
 
+        @inlinable
         public init(comparison: MapComparison, key: String, value: String? = nil) {
             self.comparison = comparison
             self.key = key
@@ -6060,6 +6240,7 @@ extension Inspector2 {
         /// A timestamp showing when the status of this member was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, delegatedAdminAccountId: String? = nil, relationshipStatus: RelationshipStatus? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.delegatedAdminAccountId = delegatedAdminAccountId
@@ -6081,6 +6262,7 @@ extension Inspector2 {
         /// Whether Amazon Inspector deep inspection is active in the account.  If TRUE Amazon Inspector deep inspection is active, if FALSE it is not active.
         public let activateDeepInspection: Bool
 
+        @inlinable
         public init(accountId: String, activateDeepInspection: Bool) {
             self.accountId = accountId
             self.activateDeepInspection = activateDeepInspection
@@ -6106,6 +6288,7 @@ extension Inspector2 {
         /// The state of Amazon Inspector deep inspection in the member account.
         public let status: Ec2DeepInspectionStatus?
 
+        @inlinable
         public init(accountId: String, errorMessage: String? = nil, status: Ec2DeepInspectionStatus? = nil) {
             self.accountId = accountId
             self.errorMessage = errorMessage
@@ -6125,6 +6308,7 @@ extension Inspector2 {
         /// The monthly schedule's start time.
         public let startTime: Time
 
+        @inlinable
         public init(day: Day, startTime: Time) {
             self.day = day
             self.startTime = startTime
@@ -6144,6 +6328,7 @@ extension Inspector2 {
         /// The details on the steps in the network path.
         public let steps: [Step]?
 
+        @inlinable
         public init(steps: [Step]? = nil) {
             self.steps = steps
         }
@@ -6161,6 +6346,7 @@ extension Inspector2 {
         /// The protocol associated with a finding.
         public let `protocol`: NetworkProtocol
 
+        @inlinable
         public init(networkPath: NetworkPath, openPortRange: PortRange, protocol: NetworkProtocol) {
             self.networkPath = networkPath
             self.openPortRange = openPortRange
@@ -6180,6 +6366,7 @@ extension Inspector2 {
         /// The highest number to be included in the filter.
         public let upperInclusive: Double?
 
+        @inlinable
         public init(lowerInclusive: Double? = nil, upperInclusive: Double? = nil) {
             self.lowerInclusive = lowerInclusive
             self.upperInclusive = upperInclusive
@@ -6203,6 +6390,7 @@ extension Inspector2 {
         /// The order to sort results by.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(packageNames: [StringFilter]? = nil, sortBy: PackageSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.packageNames = packageNames
             self.sortBy = sortBy
@@ -6232,6 +6420,7 @@ extension Inspector2 {
         /// An object that contains the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, packageName: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.packageName = packageName
@@ -6260,6 +6449,7 @@ extension Inspector2 {
         /// The package version to filter on.
         public let version: StringFilter?
 
+        @inlinable
         public init(architecture: StringFilter? = nil, epoch: NumberFilter? = nil, name: StringFilter? = nil, release: StringFilter? = nil, sourceLambdaLayerArn: StringFilter? = nil, sourceLayerHash: StringFilter? = nil, version: StringFilter? = nil) {
             self.architecture = architecture
             self.epoch = epoch
@@ -6312,6 +6502,7 @@ extension Inspector2 {
         /// The packages impacted by this vulnerability.
         public let vulnerablePackages: [VulnerablePackage]?
 
+        @inlinable
         public init(cvss: [CvssScore]? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: String, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil, vulnerabilityId: String, vulnerablePackages: [VulnerablePackage]? = nil) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
@@ -6345,6 +6536,7 @@ extension Inspector2 {
         /// The services that the permissions allow an account to perform the given operations for.
         public let service: Service
 
+        @inlinable
         public init(operation: Operation, service: Service) {
             self.operation = operation
             self.service = service
@@ -6362,6 +6554,7 @@ extension Inspector2 {
         /// The ending port in a port range.
         public let end: Int
 
+        @inlinable
         public init(begin: Int, end: Int) {
             self.begin = begin
             self.end = end
@@ -6379,6 +6572,7 @@ extension Inspector2 {
         /// The port number the port range ends at.
         public let endInclusive: Int?
 
+        @inlinable
         public init(beginInclusive: Int? = nil, endInclusive: Int? = nil) {
             self.beginInclusive = beginInclusive
             self.endInclusive = endInclusive
@@ -6403,6 +6597,7 @@ extension Inspector2 {
         /// The URL address to the CVE remediation recommendations.
         public let url: String?
 
+        @inlinable
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
@@ -6418,6 +6613,7 @@ extension Inspector2 {
         /// An object that contains information about the recommended course of action to remediate the finding.
         public let recommendation: Recommendation?
 
+        @inlinable
         public init(recommendation: Recommendation? = nil) {
             self.recommendation = recommendation
         }
@@ -6435,6 +6631,7 @@ extension Inspector2 {
         /// The order to sort results by.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(repositories: [StringFilter]? = nil, sortBy: RepositorySortBy? = nil, sortOrder: SortOrder? = nil) {
             self.repositories = repositories
             self.sortBy = sortBy
@@ -6466,6 +6663,7 @@ extension Inspector2 {
         /// An object that represent the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, affectedImages: Int64? = nil, repository: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.affectedImages = affectedImages
@@ -6487,6 +6685,7 @@ extension Inspector2 {
         /// The scan type the key encrypts.
         public let scanType: ScanType
 
+        @inlinable
         public init(resourceType: ResourceType, scanType: ScanType) {
             self.resourceType = resourceType
             self.scanType = scanType
@@ -6516,6 +6715,7 @@ extension Inspector2 {
         /// The type of resource.
         public let type: ResourceType
 
+        @inlinable
         public init(details: ResourceDetails? = nil, id: String, partition: String? = nil, region: String? = nil, tags: [String: String]? = nil, type: ResourceType) {
             self.details = details
             self.id = id
@@ -6543,6 +6743,7 @@ extension Inspector2 {
         /// A summary of the information about an Amazon Web Services Lambda function affected by a finding.
         public let awsLambdaFunction: AwsLambdaFunctionDetails?
 
+        @inlinable
         public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
@@ -6574,6 +6775,7 @@ extension Inspector2 {
         /// The resource types used as resource filter criteria.
         public let resourceType: [ResourceStringFilter]?
 
+        @inlinable
         public init(accountId: [ResourceStringFilter]? = nil, ec2InstanceTags: [ResourceMapFilter]? = nil, ecrImageTags: [ResourceStringFilter]? = nil, ecrRepositoryName: [ResourceStringFilter]? = nil, lambdaFunctionName: [ResourceStringFilter]? = nil, lambdaFunctionTags: [ResourceMapFilter]? = nil, resourceId: [ResourceStringFilter]? = nil, resourceType: [ResourceStringFilter]? = nil) {
             self.accountId = accountId
             self.ec2InstanceTags = ec2InstanceTags
@@ -6648,6 +6850,7 @@ extension Inspector2 {
         /// The filter's value.
         public let value: String?
 
+        @inlinable
         public init(comparison: ResourceMapComparison, key: String, value: String? = nil) {
             self.comparison = comparison
             self.key = key
@@ -6676,6 +6879,7 @@ extension Inspector2 {
         /// An object that contains metadata details for an Amazon Web Services Lambda function.
         public let lambdaFunction: LambdaFunctionMetadata?
 
+        @inlinable
         public init(ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil, lambdaFunction: LambdaFunctionMetadata? = nil) {
             self.ec2 = ec2
             self.ecrImage = ecrImage
@@ -6699,6 +6903,7 @@ extension Inspector2 {
         public let lambda: State?
         public let lambdaCode: State?
 
+        @inlinable
         public init(ec2: State, ecr: State, lambda: State? = nil, lambdaCode: State? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
@@ -6724,6 +6929,7 @@ extension Inspector2 {
         /// The status of Amazon Inspector scanning for custom application code for Amazon Web Services Lambda functions.
         public let lambdaCode: Status?
 
+        @inlinable
         public init(ec2: Status, ecr: Status, lambda: Status? = nil, lambdaCode: Status? = nil) {
             self.ec2 = ec2
             self.ecr = ecr
@@ -6745,6 +6951,7 @@ extension Inspector2 {
         /// The filter's value.
         public let value: String
 
+        @inlinable
         public init(comparison: ResourceStringComparison, value: String) {
             self.comparison = comparison
             self.value = value
@@ -6767,6 +6974,7 @@ extension Inspector2 {
         /// The status code of the scan.
         public let statusCode: ScanStatusCode
 
+        @inlinable
         public init(reason: ScanStatusReason, statusCode: ScanStatusCode) {
             self.reason = reason
             self.statusCode = statusCode
@@ -6782,6 +6990,7 @@ extension Inspector2 {
         /// The IDs for specific vulnerabilities.
         public let vulnerabilityIds: [String]
 
+        @inlinable
         public init(vulnerabilityIds: [String]) {
             self.vulnerabilityIds = vulnerabilityIds
         }
@@ -6805,6 +7014,7 @@ extension Inspector2 {
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(filterCriteria: SearchVulnerabilitiesFilterCriteria, nextToken: String? = nil) {
             self.filterCriteria = filterCriteria
             self.nextToken = nextToken
@@ -6827,6 +7037,7 @@ extension Inspector2 {
         /// Details about the listed vulnerability.
         public let vulnerabilities: [Vulnerability]
 
+        @inlinable
         public init(nextToken: String? = nil, vulnerabilities: [Vulnerability]) {
             self.nextToken = nextToken
             self.vulnerabilities = vulnerabilities
@@ -6844,6 +7055,7 @@ extension Inspector2 {
         /// The unique token that identifies the CIS session.
         public let sessionToken: String
 
+        @inlinable
         public init(scanJobId: String, sessionToken: String) {
             self.scanJobId = scanJobId
             self.sessionToken = sessionToken
@@ -6872,6 +7084,7 @@ extension Inspector2 {
         /// The unique token that identifies the CIS session.
         public let sessionToken: String
 
+        @inlinable
         public init(messages: [CisSessionMessage], scanJobId: String, sessionToken: String) {
             self.messages = messages
             self.scanJobId = scanJobId
@@ -6909,6 +7122,7 @@ extension Inspector2 {
         /// The total count of medium severity findings.
         public let medium: Int64?
 
+        @inlinable
         public init(all: Int64? = nil, critical: Int64? = nil, high: Int64? = nil, medium: Int64? = nil) {
             self.all = all
             self.critical = critical
@@ -6930,6 +7144,7 @@ extension Inspector2 {
         /// The order by which findings are sorted.
         public let sortOrder: SortOrder
 
+        @inlinable
         public init(field: SortField, sortOrder: SortOrder) {
             self.field = field
             self.sortOrder = sortOrder
@@ -6945,6 +7160,7 @@ extension Inspector2 {
         /// The unique token that identifies the CIS session.
         public let sessionToken: String
 
+        @inlinable
         public init(sessionToken: String) {
             self.sessionToken = sessionToken
         }
@@ -6964,6 +7180,7 @@ extension Inspector2 {
         /// A unique identifier for the scan job.
         public let scanJobId: String
 
+        @inlinable
         public init(message: StartCisSessionMessage, scanJobId: String) {
             self.message = message
             self.scanJobId = scanJobId
@@ -6992,6 +7209,7 @@ extension Inspector2 {
         /// The status of Amazon Inspector for the account.
         public let status: Status
 
+        @inlinable
         public init(errorCode: ErrorCode, errorMessage: String, status: Status) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -7013,6 +7231,7 @@ extension Inspector2 {
         /// The number of checks that were skipped.
         public let skipped: Int?
 
+        @inlinable
         public init(failed: Int? = nil, passed: Int? = nil, skipped: Int? = nil) {
             self.failed = failed
             self.passed = passed
@@ -7032,6 +7251,7 @@ extension Inspector2 {
         /// The component type.
         public let componentType: String
 
+        @inlinable
         public init(componentId: String, componentType: String) {
             self.componentId = componentId
             self.componentType = componentType
@@ -7061,6 +7281,7 @@ extension Inspector2 {
         /// The progress' unknown checks.
         public let unknownChecks: Int?
 
+        @inlinable
         public init(errorChecks: Int? = nil, failedChecks: Int? = nil, informationalChecks: Int? = nil, notApplicableChecks: Int? = nil, notEvaluatedChecks: Int? = nil, successfulChecks: Int? = nil, totalChecks: Int? = nil, unknownChecks: Int? = nil) {
             self.errorChecks = errorChecks
             self.failedChecks = failedChecks
@@ -7117,6 +7338,7 @@ extension Inspector2 {
         /// The status of the message.
         public let status: StopCisSessionStatus
 
+        @inlinable
         public init(benchmarkProfile: String? = nil, benchmarkVersion: String? = nil, computePlatform: ComputePlatform? = nil, progress: StopCisMessageProgress, reason: String? = nil, status: StopCisSessionStatus) {
             self.benchmarkProfile = benchmarkProfile
             self.benchmarkVersion = benchmarkVersion
@@ -7152,6 +7374,7 @@ extension Inspector2 {
         /// The unique token that identifies the CIS session.
         public let sessionToken: String
 
+        @inlinable
         public init(message: StopCisSessionMessage, scanJobId: String, sessionToken: String) {
             self.message = message
             self.scanJobId = scanJobId
@@ -7181,6 +7404,7 @@ extension Inspector2 {
         /// The value to filter on.
         public let value: String
 
+        @inlinable
         public init(comparison: StringComparison, value: String) {
             self.comparison = comparison
             self.value = value
@@ -7203,6 +7427,7 @@ extension Inspector2 {
         /// The fix's description.
         public let description: String?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil) {
             self.code = code
             self.description = description
@@ -7222,6 +7447,7 @@ extension Inspector2 {
         /// The tag filter value.
         public let value: String
 
+        @inlinable
         public init(comparison: TagComparison, key: String, value: String) {
             self.comparison = comparison
             self.key = key
@@ -7246,6 +7472,7 @@ extension Inspector2 {
         /// The tags to be added to a resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -7283,6 +7510,7 @@ extension Inspector2 {
         /// The timezone.
         public let timezone: String
 
+        @inlinable
         public init(timeOfDay: String, timezone: String) {
             self.timeOfDay = timeOfDay
             self.timezone = timezone
@@ -7314,6 +7542,7 @@ extension Inspector2 {
         /// The vulnerability IDs of the findings.
         public let vulnerabilityIds: [StringFilter]?
 
+        @inlinable
         public init(findingType: AggregationFindingType? = nil, resourceType: AggregationResourceType? = nil, sortBy: TitleSortBy? = nil, sortOrder: SortOrder? = nil, titles: [StringFilter]? = nil, vulnerabilityIds: [StringFilter]? = nil) {
             self.findingType = findingType
             self.resourceType = resourceType
@@ -7356,6 +7585,7 @@ extension Inspector2 {
         /// The vulnerability ID of the finding.
         public let vulnerabilityId: String?
 
+        @inlinable
         public init(accountId: String? = nil, severityCounts: SeverityCounts? = nil, title: String, vulnerabilityId: String? = nil) {
             self.accountId = accountId
             self.severityCounts = severityCounts
@@ -7377,6 +7607,7 @@ extension Inspector2 {
         /// The tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7419,6 +7650,7 @@ extension Inspector2 {
         /// The targets for the CIS scan configuration.
         public let targets: UpdateCisTargets?
 
+        @inlinable
         public init(scanConfigurationArn: String, scanName: String? = nil, schedule: Schedule? = nil, securityLevel: CisSecurityLevel? = nil, targets: UpdateCisTargets? = nil) {
             self.scanConfigurationArn = scanConfigurationArn
             self.scanName = scanName
@@ -7448,6 +7680,7 @@ extension Inspector2 {
         /// The CIS scan configuration ARN.
         public let scanConfigurationArn: String
 
+        @inlinable
         public init(scanConfigurationArn: String) {
             self.scanConfigurationArn = scanConfigurationArn
         }
@@ -7463,6 +7696,7 @@ extension Inspector2 {
         /// The target resource tags.
         public let targetResourceTags: [String: [String]]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, targetResourceTags: [String: [String]]? = nil) {
             self.accountIds = accountIds
             self.targetResourceTags = targetResourceTags
@@ -7497,6 +7731,7 @@ extension Inspector2 {
         /// Specifies how the ECR automated re-scan will be updated for your environment.
         public let ecrConfiguration: EcrConfiguration?
 
+        @inlinable
         public init(ec2Configuration: Ec2Configuration? = nil, ecrConfiguration: EcrConfiguration? = nil) {
             self.ec2Configuration = ec2Configuration
             self.ecrConfiguration = ecrConfiguration
@@ -7518,6 +7753,7 @@ extension Inspector2 {
         /// The Amazon Inspector deep inspection custom paths you are adding for your account.
         public let packagePaths: [String]?
 
+        @inlinable
         public init(activateDeepInspection: Bool? = nil, packagePaths: [String]? = nil) {
             self.activateDeepInspection = activateDeepInspection
             self.packagePaths = packagePaths
@@ -7548,6 +7784,7 @@ extension Inspector2 {
         /// The status of Amazon Inspector deep inspection in your account.
         public let status: Ec2DeepInspectionStatus?
 
+        @inlinable
         public init(errorMessage: String? = nil, orgPackagePaths: [String]? = nil, packagePaths: [String]? = nil, status: Ec2DeepInspectionStatus? = nil) {
             self.errorMessage = errorMessage
             self.orgPackagePaths = orgPackagePaths
@@ -7571,6 +7808,7 @@ extension Inspector2 {
         /// The scan type for the encryption key.
         public let scanType: ScanType
 
+        @inlinable
         public init(kmsKeyId: String, resourceType: ResourceType, scanType: ScanType) {
             self.kmsKeyId = kmsKeyId
             self.resourceType = resourceType
@@ -7606,6 +7844,7 @@ extension Inspector2 {
         /// The reason the filter was updated.
         public let reason: String?
 
+        @inlinable
         public init(action: FilterAction? = nil, description: String? = nil, filterArn: String, filterCriteria: FilterCriteria? = nil, name: String? = nil, reason: String? = nil) {
             self.action = action
             self.description = description
@@ -7641,6 +7880,7 @@ extension Inspector2 {
         /// The Amazon Resource Number (ARN) of the successfully updated filter.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -7654,6 +7894,7 @@ extension Inspector2 {
         /// The Amazon Inspector deep inspection custom paths you are adding for your organization.
         public let orgPackagePaths: [String]
 
+        @inlinable
         public init(orgPackagePaths: [String]) {
             self.orgPackagePaths = orgPackagePaths
         }
@@ -7680,6 +7921,7 @@ extension Inspector2 {
         /// Defines which scan types are enabled automatically for new members of your Amazon Inspector organization.
         public let autoEnable: AutoEnable
 
+        @inlinable
         public init(autoEnable: AutoEnable) {
             self.autoEnable = autoEnable
         }
@@ -7693,6 +7935,7 @@ extension Inspector2 {
         /// The updated status of scan types automatically enabled for new members of your Amazon Inspector organization.
         public let autoEnable: AutoEnable
 
+        @inlinable
         public init(autoEnable: AutoEnable) {
             self.autoEnable = autoEnable
         }
@@ -7712,6 +7955,7 @@ extension Inspector2 {
         /// The type scan.
         public let type: UsageType?
 
+        @inlinable
         public init(currency: Currency? = nil, estimatedMonthlyCost: Double? = nil, total: Double? = nil, type: UsageType? = nil) {
             self.currency = currency
             self.estimatedMonthlyCost = estimatedMonthlyCost
@@ -7733,6 +7977,7 @@ extension Inspector2 {
         /// An object representing the total usage for an account.
         public let usage: [Usage]?
 
+        @inlinable
         public init(accountId: String? = nil, usage: [Usage]? = nil) {
             self.accountId = accountId
             self.usage = usage
@@ -7780,6 +8025,7 @@ extension Inspector2 {
         /// The date and time when the vendor last updated this vulnerability.
         public let vendorUpdatedAt: Date?
 
+        @inlinable
         public init(atigData: AtigData? = nil, cisaData: CisaData? = nil, cvss2: Cvss2? = nil, cvss3: Cvss3? = nil, cwes: [String]? = nil, description: String? = nil, detectionPlatforms: [String]? = nil, epss: Epss? = nil, exploitObserved: ExploitObserved? = nil, id: String, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: VulnerabilitySource? = nil, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil) {
             self.atigData = atigData
             self.cisaData = cisaData
@@ -7845,6 +8091,7 @@ extension Inspector2 {
         /// The version of the vulnerable package.
         public let version: String
 
+        @inlinable
         public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String, packageManager: PackageManager? = nil, release: String? = nil, remediation: String? = nil, sourceLambdaLayerArn: String? = nil, sourceLayerHash: String? = nil, version: String) {
             self.arch = arch
             self.epoch = epoch
@@ -7880,6 +8127,7 @@ extension Inspector2 {
         /// The weekly schedule's start time.
         public let startTime: Time
 
+        @inlinable
         public init(days: [Day], startTime: Time) {
             self.days = days
             self.startTime = startTime

@@ -32,6 +32,7 @@ extension WorkMailMessageFlow {
         /// The identifier of the email message to retrieve.
         public let messageId: String
 
+        @inlinable
         public init(messageId: String) {
             self.messageId = messageId
         }
@@ -56,6 +57,7 @@ extension WorkMailMessageFlow {
         /// The raw content of the email message, in MIME format.
         public let messageContent: AWSHTTPBody
 
+        @inlinable
         public init(messageContent: AWSHTTPBody) {
             self.messageContent = messageContent
         }
@@ -74,6 +76,7 @@ extension WorkMailMessageFlow {
         /// The identifier of the email message being updated.
         public let messageId: String
 
+        @inlinable
         public init(content: RawMessageContent, messageId: String) {
             self.content = content
             self.messageId = messageId
@@ -106,6 +109,7 @@ extension WorkMailMessageFlow {
         /// The S3 reference of an email message.
         public let s3Reference: S3Reference
 
+        @inlinable
         public init(s3Reference: S3Reference) {
             self.s3Reference = s3Reference
         }
@@ -127,6 +131,7 @@ extension WorkMailMessageFlow {
         /// If you enable versioning for the bucket, you can specify the object version.
         public let objectVersion: String?
 
+        @inlinable
         public init(bucket: String, key: String, objectVersion: String? = nil) {
             self.bucket = bucket
             self.key = key

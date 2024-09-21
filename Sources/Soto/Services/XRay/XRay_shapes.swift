@@ -109,6 +109,7 @@ extension XRay {
         /// The type of the alias.
         public let type: String?
 
+        @inlinable
         public init(name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.name = name
             self.names = names
@@ -125,6 +126,7 @@ extension XRay {
     public struct AnomalousService: AWSDecodableShape {
         public let serviceId: ServiceId?
 
+        @inlinable
         public init(serviceId: ServiceId? = nil) {
             self.serviceId = serviceId
         }
@@ -138,6 +140,7 @@ extension XRay {
         /// The name of a corresponding Availability Zone.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -155,6 +158,7 @@ extension XRay {
         public let timeoutCount: Int?
         public let unknownHostCount: Int?
 
+        @inlinable
         public init(connectionRefusedCount: Int? = nil, httpCode4XXCount: Int? = nil, httpCode5XXCount: Int? = nil, otherCount: Int? = nil, timeoutCount: Int? = nil, unknownHostCount: Int? = nil) {
             self.connectionRefusedCount = connectionRefusedCount
             self.httpCode4XXCount = httpCode4XXCount
@@ -180,6 +184,7 @@ extension XRay {
         /// Specify the trace IDs of requests for which to retrieve segments.
         public let traceIds: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, traceIds: [String]) {
             self.nextToken = nextToken
             self.traceIds = traceIds
@@ -206,6 +211,7 @@ extension XRay {
         /// Trace IDs of requests that haven't been processed.
         public let unprocessedTraceIds: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, traces: [Trace]? = nil, unprocessedTraceIds: [String]? = nil) {
             self.nextToken = nextToken
             self.traces = traces
@@ -229,6 +235,7 @@ extension XRay {
         /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use.
         public let tags: [Tag]?
 
+        @inlinable
         public init(filterExpression: String? = nil, groupName: String, insightsConfiguration: InsightsConfiguration? = nil, tags: [Tag]? = nil) {
             self.filterExpression = filterExpression
             self.groupName = groupName
@@ -257,6 +264,7 @@ extension XRay {
         /// The group that was created. Contains the name of the group that was created, the Amazon Resource Name (ARN) of the group that was generated based on the group name, the filter expression, and the insight configuration that was assigned to the group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -272,6 +280,7 @@ extension XRay {
         /// A map that contains one or more tag keys and tag values to attach to an X-Ray sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use.
         public let tags: [Tag]?
 
+        @inlinable
         public init(samplingRule: SamplingRule, tags: [Tag]? = nil) {
             self.samplingRule = samplingRule
             self.tags = tags
@@ -295,6 +304,7 @@ extension XRay {
         /// The saved rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
 
+        @inlinable
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
         }
@@ -310,6 +320,7 @@ extension XRay {
         /// The case-sensitive name of the group.
         public let groupName: String?
 
+        @inlinable
         public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
             self.groupName = groupName
@@ -338,6 +349,7 @@ extension XRay {
         /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the provided revision id does  not match the latest policy revision id, an InvalidPolicyRevisionIdException exception is returned.
         public let policyRevisionId: String?
 
+        @inlinable
         public init(policyName: String, policyRevisionId: String? = nil) {
             self.policyName = policyName
             self.policyRevisionId = policyRevisionId
@@ -365,6 +377,7 @@ extension XRay {
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
         public let ruleName: String?
 
+        @inlinable
         public init(ruleARN: String? = nil, ruleName: String? = nil) {
             self.ruleARN = ruleARN
             self.ruleName = ruleName
@@ -380,6 +393,7 @@ extension XRay {
         /// The deleted rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
 
+        @inlinable
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
         }
@@ -407,6 +421,7 @@ extension XRay {
         /// Response statistics for segments on the edge.
         public let summaryStatistics: EdgeStatistics?
 
+        @inlinable
         public init(aliases: [Alias]? = nil, edgeType: String? = nil, endTime: Date? = nil, receivedEventAgeHistogram: [HistogramEntry]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, startTime: Date? = nil, summaryStatistics: EdgeStatistics? = nil) {
             self.aliases = aliases
             self.edgeType = edgeType
@@ -442,6 +457,7 @@ extension XRay {
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
 
+        @inlinable
         public init(errorStatistics: ErrorStatistics? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, totalCount: Int64? = nil, totalResponseTime: Double? = nil) {
             self.errorStatistics = errorStatistics
             self.faultStatistics = faultStatistics
@@ -467,6 +483,7 @@ extension XRay {
         /// The type of encryption. Set to KMS for encryption with KMS keys. Set to NONE for default encryption.
         public let type: EncryptionType?
 
+        @inlinable
         public init(keyId: String? = nil, status: EncryptionStatus? = nil, type: EncryptionType? = nil) {
             self.keyId = keyId
             self.status = status
@@ -486,6 +503,7 @@ extension XRay {
         /// A list of services corresponding to an error. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [ErrorRootCauseService]?
 
+        @inlinable
         public init(clientImpacting: Bool? = nil, services: [ErrorRootCauseService]? = nil) {
             self.clientImpacting = clientImpacting
             self.services = services
@@ -505,6 +523,7 @@ extension XRay {
         /// A flag that denotes a remote subsegment.
         public let remote: Bool?
 
+        @inlinable
         public init(exceptions: [RootCauseException]? = nil, name: String? = nil, remote: Bool? = nil) {
             self.exceptions = exceptions
             self.name = name
@@ -532,6 +551,7 @@ extension XRay {
         /// The type associated to the service.
         public let type: String?
 
+        @inlinable
         public init(accountId: String? = nil, entityPath: [ErrorRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.entityPath = entityPath
@@ -559,6 +579,7 @@ extension XRay {
         /// The total number of requests that failed with a 4xx Client Error status code.
         public let totalCount: Int64?
 
+        @inlinable
         public init(otherCount: Int64? = nil, throttleCount: Int64? = nil, totalCount: Int64? = nil) {
             self.otherCount = otherCount
             self.throttleCount = throttleCount
@@ -578,6 +599,7 @@ extension XRay {
         /// A list of corresponding services. A service identifies a segment and it contains a name, account ID, type, and inferred flag.
         public let services: [FaultRootCauseService]?
 
+        @inlinable
         public init(clientImpacting: Bool? = nil, services: [FaultRootCauseService]? = nil) {
             self.clientImpacting = clientImpacting
             self.services = services
@@ -597,6 +619,7 @@ extension XRay {
         /// A flag that denotes a remote subsegment.
         public let remote: Bool?
 
+        @inlinable
         public init(exceptions: [RootCauseException]? = nil, name: String? = nil, remote: Bool? = nil) {
             self.exceptions = exceptions
             self.name = name
@@ -624,6 +647,7 @@ extension XRay {
         /// The type associated to the service.
         public let type: String?
 
+        @inlinable
         public init(accountId: String? = nil, entityPath: [FaultRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.entityPath = entityPath
@@ -649,6 +673,7 @@ extension XRay {
         /// The total number of requests that failed with a 5xx Server Error status code.
         public let totalCount: Int64?
 
+        @inlinable
         public init(otherCount: Int64? = nil, totalCount: Int64? = nil) {
             self.otherCount = otherCount
             self.totalCount = totalCount
@@ -666,6 +691,7 @@ extension XRay {
         /// The lower limit of fault counts for a service.
         public let faultCountLow: Int64?
 
+        @inlinable
         public init(faultCountHigh: Int64? = nil, faultCountLow: Int64? = nil) {
             self.faultCountHigh = faultCountHigh
             self.faultCountLow = faultCountLow
@@ -685,6 +711,7 @@ extension XRay {
         /// The encryption configuration document.
         public let encryptionConfig: EncryptionConfig?
 
+        @inlinable
         public init(encryptionConfig: EncryptionConfig? = nil) {
             self.encryptionConfig = encryptionConfig
         }
@@ -700,6 +727,7 @@ extension XRay {
         /// The case-sensitive name of the group.
         public let groupName: String?
 
+        @inlinable
         public init(groupARN: String? = nil, groupName: String? = nil) {
             self.groupARN = groupARN
             self.groupName = groupName
@@ -722,6 +750,7 @@ extension XRay {
         /// The group that was requested. Contains the name of the group, the ARN of the group, the filter expression, and the insight configuration assigned to the group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -735,6 +764,7 @@ extension XRay {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -755,6 +785,7 @@ extension XRay {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -774,6 +805,7 @@ extension XRay {
         /// Specify the pagination token returned by a previous request to retrieve the next page of events.
         public let nextToken: String?
 
+        @inlinable
         public init(insightId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.insightId = insightId
             self.maxResults = maxResults
@@ -801,6 +833,7 @@ extension XRay {
         /// Use this token to retrieve the next page of insight events.
         public let nextToken: String?
 
+        @inlinable
         public init(insightEvents: [InsightEvent]? = nil, nextToken: String? = nil) {
             self.insightEvents = insightEvents
             self.nextToken = nextToken
@@ -822,6 +855,7 @@ extension XRay {
         /// The estimated start time of the insight, in Unix time seconds. The StartTime is inclusive of the value provided and can't be more than 30 days old.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, insightId: String, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.insightId = insightId
@@ -859,6 +893,7 @@ extension XRay {
         /// The provided start time.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, insightId: String? = nil, nextToken: String? = nil, serviceGraphEndTime: Date? = nil, serviceGraphStartTime: Date? = nil, services: [InsightImpactGraphService]? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.insightId = insightId
@@ -884,6 +919,7 @@ extension XRay {
         /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
         public let insightId: String
 
+        @inlinable
         public init(insightId: String) {
             self.insightId = insightId
         }
@@ -901,6 +937,7 @@ extension XRay {
         /// The summary information of an insight.
         public let insight: Insight?
 
+        @inlinable
         public init(insight: Insight? = nil) {
             self.insight = insight
         }
@@ -926,6 +963,7 @@ extension XRay {
         /// The list of insight states.
         public let states: [InsightState]?
 
+        @inlinable
         public init(endTime: Date, groupARN: String? = nil, groupName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date, states: [InsightState]? = nil) {
             self.endTime = endTime
             self.groupARN = groupARN
@@ -965,6 +1003,7 @@ extension XRay {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(insightSummaries: [InsightSummary]? = nil, nextToken: String? = nil) {
             self.insightSummaries = insightSummaries
             self.nextToken = nextToken
@@ -980,6 +1019,7 @@ extension XRay {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -995,6 +1035,7 @@ extension XRay {
         /// Rule definitions and metadata.
         public let samplingRuleRecords: [SamplingRuleRecord]?
 
+        @inlinable
         public init(nextToken: String? = nil, samplingRuleRecords: [SamplingRuleRecord]? = nil) {
             self.nextToken = nextToken
             self.samplingRuleRecords = samplingRuleRecords
@@ -1010,6 +1051,7 @@ extension XRay {
         /// Pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1025,6 +1067,7 @@ extension XRay {
         /// Information about the number of requests instrumented for each sampling rule.
         public let samplingStatisticSummaries: [SamplingStatisticSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, samplingStatisticSummaries: [SamplingStatisticSummary]? = nil) {
             self.nextToken = nextToken
             self.samplingStatisticSummaries = samplingStatisticSummaries
@@ -1040,6 +1083,7 @@ extension XRay {
         /// Information about rules that the service is using to sample requests.
         public let samplingStatisticsDocuments: [SamplingStatisticsDocument]
 
+        @inlinable
         public init(samplingStatisticsDocuments: [SamplingStatisticsDocument]) {
             self.samplingStatisticsDocuments = samplingStatisticsDocuments
         }
@@ -1064,6 +1108,7 @@ extension XRay {
         /// Information about SamplingStatisticsDocument that X-Ray could not process.
         public let unprocessedStatistics: [UnprocessedStatistics]?
 
+        @inlinable
         public init(lastRuleModification: Date? = nil, samplingTargetDocuments: [SamplingTargetDocument]? = nil, unprocessedStatistics: [UnprocessedStatistics]? = nil) {
             self.lastRuleModification = lastRuleModification
             self.samplingTargetDocuments = samplingTargetDocuments
@@ -1089,6 +1134,7 @@ extension XRay {
         /// The start of the time frame for which to generate a graph.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.groupARN = groupARN
@@ -1125,6 +1171,7 @@ extension XRay {
         /// The start of the time frame for which the graph was generated.
         public let startTime: Date?
 
+        @inlinable
         public init(containsOldGroupVersions: Bool? = nil, endTime: Date? = nil, nextToken: String? = nil, services: [Service]? = nil, startTime: Date? = nil) {
             self.containsOldGroupVersions = containsOldGroupVersions
             self.endTime = endTime
@@ -1160,6 +1207,7 @@ extension XRay {
         /// The start of the time frame for which to aggregate statistics.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, entitySelectorExpression: String? = nil, forecastStatistics: Bool? = nil, groupARN: String? = nil, groupName: String? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date) {
             self.endTime = endTime
             self.entitySelectorExpression = entitySelectorExpression
@@ -1200,6 +1248,7 @@ extension XRay {
         /// The collection of statistics.
         public let timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]?
 
+        @inlinable
         public init(containsOldGroupVersions: Bool? = nil, nextToken: String? = nil, timeSeriesServiceStatistics: [TimeSeriesServiceStatistics]? = nil) {
             self.containsOldGroupVersions = containsOldGroupVersions
             self.nextToken = nextToken
@@ -1219,6 +1268,7 @@ extension XRay {
         /// Trace IDs of requests for which to generate a service graph.
         public let traceIds: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, traceIds: [String]) {
             self.nextToken = nextToken
             self.traceIds = traceIds
@@ -1243,6 +1293,7 @@ extension XRay {
         /// The services that have processed one of the specified requests.
         public let services: [Service]?
 
+        @inlinable
         public init(nextToken: String? = nil, services: [Service]? = nil) {
             self.nextToken = nextToken
             self.services = services
@@ -1270,6 +1321,7 @@ extension XRay {
         /// A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
         public let timeRangeType: TimeRangeType?
 
+        @inlinable
         public init(endTime: Date, filterExpression: String? = nil, nextToken: String? = nil, sampling: Bool? = nil, samplingStrategy: SamplingStrategy? = nil, startTime: Date, timeRangeType: TimeRangeType? = nil) {
             self.endTime = endTime
             self.filterExpression = filterExpression
@@ -1301,6 +1353,7 @@ extension XRay {
         /// Trace IDs and annotations for traces that were found in the specified time frame.
         public let traceSummaries: [TraceSummary]?
 
+        @inlinable
         public init(approximateTime: Date? = nil, nextToken: String? = nil, tracesProcessedCount: Int64? = nil, traceSummaries: [TraceSummary]? = nil) {
             self.approximateTime = approximateTime
             self.nextToken = nextToken
@@ -1326,6 +1379,7 @@ extension XRay {
         /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotificationsEnabled boolean can be set to true to enable insights notifications through Amazon EventBridge for the group.
         public let insightsConfiguration: InsightsConfiguration?
 
+        @inlinable
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
@@ -1351,6 +1405,7 @@ extension XRay {
         /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotificationsEnabled boolean can be set to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true.
         public let insightsConfiguration: InsightsConfiguration?
 
+        @inlinable
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
@@ -1372,6 +1427,7 @@ extension XRay {
         /// The value of the entry.
         public let value: Double?
 
+        @inlinable
         public init(count: Int? = nil, value: Double? = nil) {
             self.count = count
             self.value = value
@@ -1395,6 +1451,7 @@ extension XRay {
         /// The request's user agent string.
         public let userAgent: String?
 
+        @inlinable
         public init(clientIp: String? = nil, httpMethod: String? = nil, httpStatus: Int? = nil, httpURL: String? = nil, userAgent: String? = nil) {
             self.clientIp = clientIp
             self.httpMethod = httpMethod
@@ -1437,6 +1494,7 @@ extension XRay {
         /// The service within the insight that is most impacted by the incident.
         public let topAnomalousServices: [AnomalousService]?
 
+        @inlinable
         public init(categories: [InsightCategory]? = nil, clientRequestImpactStatistics: RequestImpactStatistics? = nil, endTime: Date? = nil, groupARN: String? = nil, groupName: String? = nil, insightId: String? = nil, rootCauseServiceId: ServiceId? = nil, rootCauseServiceRequestImpactStatistics: RequestImpactStatistics? = nil, startTime: Date? = nil, state: InsightState? = nil, summary: String? = nil, topAnomalousServices: [AnomalousService]? = nil) {
             self.categories = categories
             self.clientRequestImpactStatistics = clientRequestImpactStatistics
@@ -1480,6 +1538,7 @@ extension XRay {
         /// The service during the event that is most impacted by the incident.
         public let topAnomalousServices: [AnomalousService]?
 
+        @inlinable
         public init(clientRequestImpactStatistics: RequestImpactStatistics? = nil, eventTime: Date? = nil, rootCauseServiceRequestImpactStatistics: RequestImpactStatistics? = nil, summary: String? = nil, topAnomalousServices: [AnomalousService]? = nil) {
             self.clientRequestImpactStatistics = clientRequestImpactStatistics
             self.eventTime = eventTime
@@ -1501,6 +1560,7 @@ extension XRay {
         /// Identifier of the edge. Unique within a service map.
         public let referenceId: Int?
 
+        @inlinable
         public init(referenceId: Int? = nil) {
             self.referenceId = referenceId
         }
@@ -1524,6 +1584,7 @@ extension XRay {
         /// Identifier for the service. Unique within the service map.   Amazon Web Services Resource - The type of an Amazon Web Services resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.    Amazon Web Services Service - The type of an Amazon Web Services service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    Amazon Web Services Service - The type of an Amazon Web Services service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    remote - A downstream service of indeterminate type.
         public let type: String?
 
+        @inlinable
         public init(accountId: String? = nil, edges: [InsightImpactGraphEdge]? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, type: String? = nil) {
             self.accountId = accountId
             self.edges = edges
@@ -1570,6 +1631,7 @@ extension XRay {
         /// The service within the insight that is most impacted by the incident.
         public let topAnomalousServices: [AnomalousService]?
 
+        @inlinable
         public init(categories: [InsightCategory]? = nil, clientRequestImpactStatistics: RequestImpactStatistics? = nil, endTime: Date? = nil, groupARN: String? = nil, groupName: String? = nil, insightId: String? = nil, lastUpdateTime: Date? = nil, rootCauseServiceId: ServiceId? = nil, rootCauseServiceRequestImpactStatistics: RequestImpactStatistics? = nil, startTime: Date? = nil, state: InsightState? = nil, summary: String? = nil, topAnomalousServices: [AnomalousService]? = nil) {
             self.categories = categories
             self.clientRequestImpactStatistics = clientRequestImpactStatistics
@@ -1609,6 +1671,7 @@ extension XRay {
         /// Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true.
         public let notificationsEnabled: Bool?
 
+        @inlinable
         public init(insightsEnabled: Bool? = nil, notificationsEnabled: Bool? = nil) {
             self.insightsEnabled = insightsEnabled
             self.notificationsEnabled = notificationsEnabled
@@ -1624,6 +1687,7 @@ extension XRay {
         /// The ID of a corresponding EC2 instance.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -1637,6 +1701,7 @@ extension XRay {
         /// Not currently supported.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1657,6 +1722,7 @@ extension XRay {
         /// The list of resource policies in the target Amazon Web Services account.
         public let resourcePolicies: [ResourcePolicy]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourcePolicies: [ResourcePolicy]? = nil) {
             self.nextToken = nextToken
             self.resourcePolicies = resourcePolicies
@@ -1674,6 +1740,7 @@ extension XRay {
         /// The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
         public let resourceARN: String
 
+        @inlinable
         public init(nextToken: String? = nil, resourceARN: String) {
             self.nextToken = nextToken
             self.resourceARN = resourceARN
@@ -1696,6 +1763,7 @@ extension XRay {
         /// A list of tags, as key and value pairs, that is associated with the specified X-Ray group or sampling rule.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1713,6 +1781,7 @@ extension XRay {
         /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
         public let type: EncryptionType
 
+        @inlinable
         public init(keyId: String? = nil, type: EncryptionType) {
             self.keyId = keyId
             self.type = type
@@ -1733,6 +1802,7 @@ extension XRay {
         /// The new encryption configuration.
         public let encryptionConfig: EncryptionConfig?
 
+        @inlinable
         public init(encryptionConfig: EncryptionConfig? = nil) {
             self.encryptionConfig = encryptionConfig
         }
@@ -1752,6 +1822,7 @@ extension XRay {
         /// Specifies a specific policy revision, to ensure an atomic create operation. By default the resource policy is created if it does not exist, or updated with an incremented revision id.  The revision id is unique to each policy in the account. If the policy revision id does not match the latest revision id, the operation will fail with an InvalidPolicyRevisionIdException exception. You can also provide a  PolicyRevisionId of 0. In this case, the operation will fail with an InvalidPolicyRevisionIdException exception if a resource policy with the same name already exists.
         public let policyRevisionId: String?
 
+        @inlinable
         public init(bypassPolicyLockoutCheck: Bool? = nil, policyDocument: String, policyName: String, policyRevisionId: String? = nil) {
             self.bypassPolicyLockoutCheck = bypassPolicyLockoutCheck
             self.policyDocument = policyDocument
@@ -1777,6 +1848,7 @@ extension XRay {
         /// The resource policy document, as provided in the PutResourcePolicyRequest.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -1792,6 +1864,7 @@ extension XRay {
         public let resourceARN: String?
         public let telemetryRecords: [TelemetryRecord]
 
+        @inlinable
         public init(ec2InstanceId: String? = nil, hostname: String? = nil, resourceARN: String? = nil, telemetryRecords: [TelemetryRecord]) {
             self.ec2InstanceId = ec2InstanceId
             self.hostname = hostname
@@ -1821,6 +1894,7 @@ extension XRay {
         /// A string containing a JSON document defining one or more segments or subsegments.
         public let traceSegmentDocuments: [String]
 
+        @inlinable
         public init(traceSegmentDocuments: [String]) {
             self.traceSegmentDocuments = traceSegmentDocuments
         }
@@ -1834,6 +1908,7 @@ extension XRay {
         /// Segments that failed processing.
         public let unprocessedTraceSegments: [UnprocessedTraceSegment]?
 
+        @inlinable
         public init(unprocessedTraceSegments: [UnprocessedTraceSegment]? = nil) {
             self.unprocessedTraceSegments = unprocessedTraceSegments
         }
@@ -1851,6 +1926,7 @@ extension XRay {
         /// The total number of requests to the service.
         public let totalCount: Int64?
 
+        @inlinable
         public init(faultCount: Int64? = nil, okCount: Int64? = nil, totalCount: Int64? = nil) {
             self.faultCount = faultCount
             self.okCount = okCount
@@ -1868,6 +1944,7 @@ extension XRay {
         /// The ARN of a corresponding resource.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1887,6 +1964,7 @@ extension XRay {
         /// Returns the current policy revision id for this policy name.
         public let policyRevisionId: String?
 
+        @inlinable
         public init(lastUpdatedTime: Date? = nil, policyDocument: String? = nil, policyName: String? = nil, policyRevisionId: String? = nil) {
             self.lastUpdatedTime = lastUpdatedTime
             self.policyDocument = policyDocument
@@ -1908,6 +1986,7 @@ extension XRay {
         /// A list of corresponding services. A service identifies a segment and contains a name, account ID, type, and inferred flag.
         public let services: [ResponseTimeRootCauseService]?
 
+        @inlinable
         public init(clientImpacting: Bool? = nil, services: [ResponseTimeRootCauseService]? = nil) {
             self.clientImpacting = clientImpacting
             self.services = services
@@ -1927,6 +2006,7 @@ extension XRay {
         /// A flag that denotes a remote subsegment.
         public let remote: Bool?
 
+        @inlinable
         public init(coverage: Double? = nil, name: String? = nil, remote: Bool? = nil) {
             self.coverage = coverage
             self.name = name
@@ -1954,6 +2034,7 @@ extension XRay {
         /// The type associated to the service.
         public let type: String?
 
+        @inlinable
         public init(accountId: String? = nil, entityPath: [ResponseTimeRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.entityPath = entityPath
@@ -1979,6 +2060,7 @@ extension XRay {
         /// The name of the exception.
         public let name: String?
 
+        @inlinable
         public init(message: String? = nil, name: String? = nil) {
             self.message = message
             self.name = name
@@ -2018,6 +2100,7 @@ extension XRay {
         /// The version of the sampling rule format (1).
         public let version: Int
 
+        @inlinable
         public init(attributes: [String: String]? = nil, fixedRate: Double, host: String, httpMethod: String, priority: Int, reservoirSize: Int, resourceARN: String, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String, serviceType: String, urlPath: String, version: Int) {
             self.attributes = attributes
             self.fixedRate = fixedRate
@@ -2083,6 +2166,7 @@ extension XRay {
         /// The sampling rule.
         public let samplingRule: SamplingRule?
 
+        @inlinable
         public init(createdAt: Date? = nil, modifiedAt: Date? = nil, samplingRule: SamplingRule? = nil) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
@@ -2122,6 +2206,7 @@ extension XRay {
         /// Matches the path from a request URL.
         public let urlPath: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, fixedRate: Double? = nil, host: String? = nil, httpMethod: String? = nil, priority: Int? = nil, reservoirSize: Int? = nil, resourceARN: String? = nil, ruleARN: String? = nil, ruleName: String? = nil, serviceName: String? = nil, serviceType: String? = nil, urlPath: String? = nil) {
             self.attributes = attributes
             self.fixedRate = fixedRate
@@ -2183,6 +2268,7 @@ extension XRay {
         /// The start time of the reporting window.
         public let timestamp: Date?
 
+        @inlinable
         public init(borrowCount: Int? = nil, requestCount: Int? = nil, ruleName: String? = nil, sampledCount: Int? = nil, timestamp: Date? = nil) {
             self.borrowCount = borrowCount
             self.requestCount = requestCount
@@ -2214,6 +2300,7 @@ extension XRay {
         /// The current time.
         public let timestamp: Date
 
+        @inlinable
         public init(borrowCount: Int? = nil, clientID: String, requestCount: Int = 0, ruleName: String, sampledCount: Int = 0, timestamp: Date) {
             self.borrowCount = borrowCount
             self.clientID = clientID
@@ -2249,6 +2336,7 @@ extension XRay {
         /// The value of a sampling rule.
         public let value: Double?
 
+        @inlinable
         public init(name: SamplingStrategyName? = nil, value: Double? = nil) {
             self.name = name
             self.value = value
@@ -2272,6 +2360,7 @@ extension XRay {
         /// The name of the sampling rule.
         public let ruleName: String?
 
+        @inlinable
         public init(fixedRate: Double? = nil, interval: Int? = nil, reservoirQuota: Int? = nil, reservoirQuotaTTL: Date? = nil, ruleName: String? = nil) {
             self.fixedRate = fixedRate
             self.interval = interval
@@ -2295,6 +2384,7 @@ extension XRay {
         /// The segment's ID.
         public let id: String?
 
+        @inlinable
         public init(document: String? = nil, id: String? = nil) {
             self.document = document
             self.id = id
@@ -2334,6 +2424,7 @@ extension XRay {
         /// The type of service.   Amazon Web Services Resource - The type of an Amazon Web Services resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   Amazon Web Services Service - The type of an Amazon Web Services service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.
         public let type: String?
 
+        @inlinable
         public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: Date? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: Date? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
             self.accountId = accountId
             self.durationHistogram = durationHistogram
@@ -2373,6 +2464,7 @@ extension XRay {
         public let names: [String]?
         public let type: String?
 
+        @inlinable
         public init(accountId: String? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.name = name
@@ -2400,6 +2492,7 @@ extension XRay {
         /// The aggregate response time of completed requests.
         public let totalResponseTime: Double?
 
+        @inlinable
         public init(errorStatistics: ErrorStatistics? = nil, faultStatistics: FaultStatistics? = nil, okCount: Int64? = nil, totalCount: Int64? = nil, totalResponseTime: Double? = nil) {
             self.errorStatistics = errorStatistics
             self.faultStatistics = faultStatistics
@@ -2423,6 +2516,7 @@ extension XRay {
         /// An optional tag value, such as Production or test-only. The value can be  a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following  special characters: + - = . _ : /
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2446,6 +2540,7 @@ extension XRay {
         /// A map that contains one or more tag keys and tag values to attach to an X-Ray group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for Amazon Web Services use. You cannot edit or delete system tags.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -2478,6 +2573,7 @@ extension XRay {
         public let segmentsSpilloverCount: Int?
         public let timestamp: Date
 
+        @inlinable
         public init(backendConnectionErrors: BackendConnectionErrors? = nil, segmentsReceivedCount: Int? = nil, segmentsRejectedCount: Int? = nil, segmentsSentCount: Int? = nil, segmentsSpilloverCount: Int? = nil, timestamp: Date) {
             self.backendConnectionErrors = backendConnectionErrors
             self.segmentsReceivedCount = segmentsReceivedCount
@@ -2507,6 +2603,7 @@ extension XRay {
         /// Timestamp of the window for which statistics are aggregated.
         public let timestamp: Date?
 
+        @inlinable
         public init(edgeSummaryStatistics: EdgeStatistics? = nil, responseTimeHistogram: [HistogramEntry]? = nil, serviceForecastStatistics: ForecastStatistics? = nil, serviceSummaryStatistics: ServiceStatistics? = nil, timestamp: Date? = nil) {
             self.edgeSummaryStatistics = edgeSummaryStatistics
             self.responseTimeHistogram = responseTimeHistogram
@@ -2534,6 +2631,7 @@ extension XRay {
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?
 
+        @inlinable
         public init(duration: Double? = nil, id: String? = nil, limitExceeded: Bool? = nil, segments: [Segment]? = nil) {
             self.duration = duration
             self.id = id
@@ -2593,6 +2691,7 @@ extension XRay {
         /// Users from the trace's segment documents.
         public let users: [TraceUser]?
 
+        @inlinable
         public init(annotations: [String: [ValueWithServiceIds]]? = nil, availabilityZones: [AvailabilityZoneDetail]? = nil, duration: Double? = nil, entryPoint: ServiceId? = nil, errorRootCauses: [ErrorRootCause]? = nil, faultRootCauses: [FaultRootCause]? = nil, hasError: Bool? = nil, hasFault: Bool? = nil, hasThrottle: Bool? = nil, http: Http? = nil, id: String? = nil, instanceIds: [InstanceIdDetail]? = nil, isPartial: Bool? = nil, matchedEventTime: Date? = nil, resourceARNs: [ResourceARNDetail]? = nil, responseTime: Double? = nil, responseTimeRootCauses: [ResponseTimeRootCause]? = nil, revision: Int? = nil, serviceIds: [ServiceId]? = nil, startTime: Date? = nil, users: [TraceUser]? = nil) {
             self.annotations = annotations
             self.availabilityZones = availabilityZones
@@ -2648,6 +2747,7 @@ extension XRay {
         /// The user's name.
         public let userName: String?
 
+        @inlinable
         public init(serviceIds: [ServiceId]? = nil, userName: String? = nil) {
             self.serviceIds = serviceIds
             self.userName = userName
@@ -2667,6 +2767,7 @@ extension XRay {
         /// The name of the sampling rule.
         public let ruleName: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil, ruleName: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -2688,6 +2789,7 @@ extension XRay {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, id: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.id = id
@@ -2707,6 +2809,7 @@ extension XRay {
         /// Keys for one or more tags that you want to remove from an X-Ray group or sampling rule.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -2742,6 +2845,7 @@ extension XRay {
         /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotificationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.
         public let insightsConfiguration: InsightsConfiguration?
 
+        @inlinable
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
             self.filterExpression = filterExpression
             self.groupARN = groupARN
@@ -2768,6 +2872,7 @@ extension XRay {
         /// The group that was updated. Contains the name of the group that was updated, the ARN of the group that was updated, the updated filter expression, and the updated insight configuration assigned to the group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -2781,6 +2886,7 @@ extension XRay {
         /// The rule and fields to change.
         public let samplingRuleUpdate: SamplingRuleUpdate
 
+        @inlinable
         public init(samplingRuleUpdate: SamplingRuleUpdate) {
             self.samplingRuleUpdate = samplingRuleUpdate
         }
@@ -2798,6 +2904,7 @@ extension XRay {
         /// The updated rule definition and metadata.
         public let samplingRuleRecord: SamplingRuleRecord?
 
+        @inlinable
         public init(samplingRuleRecord: SamplingRuleRecord? = nil) {
             self.samplingRuleRecord = samplingRuleRecord
         }
@@ -2813,6 +2920,7 @@ extension XRay {
         /// Services to which the annotation applies.
         public let serviceIds: [ServiceId]?
 
+        @inlinable
         public init(annotationValue: AnnotationValue? = nil, serviceIds: [ServiceId]? = nil) {
             self.annotationValue = annotationValue
             self.serviceIds = serviceIds

@@ -360,6 +360,7 @@ extension IoTSiteWise {
         /// The IoT SiteWise Monitor resource (a portal or project).
         public let resource: Resource
 
+        @inlinable
         public init(creationDate: Date? = nil, id: String, identity: Identity, lastUpdateDate: Date? = nil, permission: Permission, resource: Resource) {
             self.creationDate = creationDate
             self.id = id
@@ -387,6 +388,7 @@ extension IoTSiteWise {
         /// The type of the action definition.
         public let actionType: String
 
+        @inlinable
         public init(actionDefinitionId: String, actionName: String, actionType: String) {
             self.actionDefinitionId = actionDefinitionId
             self.actionName = actionName
@@ -404,6 +406,7 @@ extension IoTSiteWise {
         /// The payload of the action in a JSON string.
         public let stringValue: String
 
+        @inlinable
         public init(stringValue: String) {
             self.stringValue = stringValue
         }
@@ -425,6 +428,7 @@ extension IoTSiteWise {
         /// The resource the action will be taken on.
         public let targetResource: TargetResource?
 
+        @inlinable
         public init(actionDefinitionId: String? = nil, actionId: String? = nil, targetResource: TargetResource? = nil) {
             self.actionDefinitionId = actionDefinitionId
             self.actionId = actionId
@@ -446,6 +450,7 @@ extension IoTSiteWise {
         /// The value of the aggregates.
         public let value: Aggregates
 
+        @inlinable
         public init(quality: Quality? = nil, timestamp: Date, value: Aggregates) {
             self.quality = quality
             self.timestamp = timestamp
@@ -473,6 +478,7 @@ extension IoTSiteWise {
         /// The sum of the time series over a time interval window.
         public let sum: Double?
 
+        @inlinable
         public init(average: Double? = nil, count: Double? = nil, maximum: Double? = nil, minimum: Double? = nil, standardDeviation: Double? = nil, sum: Double? = nil) {
             self.average = average
             self.count = count
@@ -498,6 +504,7 @@ extension IoTSiteWise {
         /// The ARN of the Lambda function that manages alarm notifications. For more information, see Managing alarm notifications in the IoT Events Developer Guide.
         public let notificationLambdaArn: String?
 
+        @inlinable
         public init(alarmRoleArn: String, notificationLambdaArn: String? = nil) {
             self.alarmRoleArn = alarmRoleArn
             self.notificationLambdaArn = notificationLambdaArn
@@ -532,6 +539,7 @@ extension IoTSiteWise {
         /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
         public let type: String
 
+        @inlinable
         public init(description: String? = nil, externalId: String? = nil, id: String? = nil, name: String, properties: [AssetProperty], type: String) {
             self.description = description
             self.externalId = externalId
@@ -557,6 +565,7 @@ extension IoTSiteWise {
         /// The name of the path segment.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -582,6 +591,7 @@ extension IoTSiteWise {
         /// The type of asset model.    ASSET_MODEL – (default) An asset model that you can use to create assets. Can't be included as a component in another asset model.    COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
         public let type: String
 
+        @inlinable
         public init(description: String, externalId: String? = nil, id: String, name: String, path: [AssetCompositeModelPathSegment], type: String) {
             self.description = description
             self.externalId = externalId
@@ -609,6 +619,7 @@ extension IoTSiteWise {
         /// The error message.
         public let message: String
 
+        @inlinable
         public init(assetId: String, code: AssetErrorCode, message: String) {
             self.assetId = assetId
             self.code = code
@@ -630,6 +641,7 @@ extension IoTSiteWise {
         /// The hierarchy name provided in the CreateAssetModel or UpdateAssetModel API operation.
         public let name: String
 
+        @inlinable
         public init(externalId: String? = nil, id: String? = nil, name: String) {
             self.externalId = externalId
             self.id = id
@@ -649,6 +661,7 @@ extension IoTSiteWise {
         /// The ID of the parent asset in this asset relationship.
         public let parentAssetId: String?
 
+        @inlinable
         public init(childAssetId: String? = nil, parentAssetId: String? = nil) {
             self.childAssetId = childAssetId
             self.parentAssetId = parentAssetId
@@ -674,6 +687,7 @@ extension IoTSiteWise {
         /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
         public let type: String
 
+        @inlinable
         public init(description: String? = nil, externalId: String? = nil, id: String? = nil, name: String, properties: [AssetModelProperty]? = nil, type: String) {
             self.description = description
             self.externalId = externalId
@@ -728,6 +742,7 @@ extension IoTSiteWise {
         /// The type of the composite model. For alarm composite models, this type is AWS/ALARM.
         public let type: String
 
+        @inlinable
         public init(description: String? = nil, externalId: String? = nil, id: String? = nil, name: String, properties: [AssetModelPropertyDefinition]? = nil, type: String) {
             self.description = description
             self.externalId = externalId
@@ -774,6 +789,7 @@ extension IoTSiteWise {
         /// The name of the path segment.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -799,6 +815,7 @@ extension IoTSiteWise {
         /// The composite model type. Valid values are AWS/ALARM, CUSTOM, or  AWS/L4E_ANOMALY.
         public let type: String
 
+        @inlinable
         public init(description: String? = nil, externalId: String? = nil, id: String, name: String, path: [AssetModelCompositeModelPathSegment]? = nil, type: String) {
             self.description = description
             self.externalId = externalId
@@ -828,6 +845,7 @@ extension IoTSiteWise {
         /// The name of the asset model hierarchy that you specify by using the CreateAssetModel or UpdateAssetModel API operation.
         public let name: String
 
+        @inlinable
         public init(childAssetModelId: String, externalId: String? = nil, id: String? = nil, name: String) {
             self.childAssetModelId = childAssetModelId
             self.externalId = externalId
@@ -868,6 +886,7 @@ extension IoTSiteWise {
         /// The name of the asset model hierarchy definition (as specified in the CreateAssetModel or UpdateAssetModel API operation).
         public let name: String
 
+        @inlinable
         public init(childAssetModelId: String, externalId: String? = nil, id: String? = nil, name: String) {
             self.childAssetModelId = childAssetModelId
             self.externalId = externalId
@@ -916,6 +935,7 @@ extension IoTSiteWise {
         /// The unit of the asset model property, such as Newtons or RPM.
         public let unit: String?
 
+        @inlinable
         public init(dataType: PropertyDataType, dataTypeSpec: String? = nil, externalId: String? = nil, id: String? = nil, name: String, path: [AssetModelPropertyPathSegment]? = nil, type: PropertyType, unit: String? = nil) {
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
@@ -977,6 +997,7 @@ extension IoTSiteWise {
         /// The unit of the property definition, such as Newtons or RPM.
         public let unit: String?
 
+        @inlinable
         public init(dataType: PropertyDataType, dataTypeSpec: String? = nil, externalId: String? = nil, id: String? = nil, name: String, type: PropertyType, unit: String? = nil) {
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
@@ -1023,6 +1044,7 @@ extension IoTSiteWise {
         /// The name of the path segment.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -1062,6 +1084,7 @@ extension IoTSiteWise {
         /// The unit (such as Newtons or RPM) of the property.
         public let unit: String?
 
+        @inlinable
         public init(assetModelCompositeModelId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, externalId: String? = nil, id: String? = nil, name: String, path: [AssetModelPropertyPathSegment]? = nil, type: PropertyType, unit: String? = nil) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.dataType = dataType
@@ -1093,6 +1116,7 @@ extension IoTSiteWise {
         /// The current state of the asset model.
         public let state: AssetModelState
 
+        @inlinable
         public init(error: ErrorDetails? = nil, state: AssetModelState) {
             self.error = error
             self.state = state
@@ -1126,6 +1150,7 @@ extension IoTSiteWise {
         /// The version number of the asset model.
         public let version: String?
 
+        @inlinable
         public init(arn: String, assetModelType: AssetModelType? = nil, creationDate: Date, description: String, externalId: String? = nil, id: String, lastUpdateDate: Date, name: String, status: AssetModelStatus, version: String? = nil) {
             self.arn = arn
             self.assetModelType = assetModelType
@@ -1173,6 +1198,7 @@ extension IoTSiteWise {
         /// The unit (such as Newtons or RPM) of the asset property.
         public let unit: String?
 
+        @inlinable
         public init(alias: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, externalId: String? = nil, id: String, name: String, notification: PropertyNotification? = nil, path: [AssetPropertyPathSegment]? = nil, unit: String? = nil) {
             self.alias = alias
             self.dataType = dataType
@@ -1204,6 +1230,7 @@ extension IoTSiteWise {
         /// The name of the path segment.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -1230,6 +1257,7 @@ extension IoTSiteWise {
         ///  The unit of measure (such as Newtons or RPM) of the asset property.
         public let unit: String?
 
+        @inlinable
         public init(alias: String? = nil, assetCompositeModelId: String? = nil, externalId: String? = nil, id: String, notification: PropertyNotification? = nil, path: [AssetPropertyPathSegment]? = nil, unit: String? = nil) {
             self.alias = alias
             self.assetCompositeModelId = assetCompositeModelId
@@ -1259,6 +1287,7 @@ extension IoTSiteWise {
         /// The value of the asset property (see Variant).
         public let value: Variant
 
+        @inlinable
         public init(quality: Quality? = nil, timestamp: TimeInNanos, value: Variant) {
             self.quality = quality
             self.timestamp = timestamp
@@ -1282,6 +1311,7 @@ extension IoTSiteWise {
         /// The relationship type of the assets in this relationship. This value is one of the following:    HIERARCHY – The assets are related through an asset hierarchy. If you specify this relationship type, this asset relationship includes the hierarchyInfo object.
         public let relationshipType: AssetRelationshipType
 
+        @inlinable
         public init(hierarchyInfo: AssetHierarchyInfo? = nil, relationshipType: AssetRelationshipType) {
             self.hierarchyInfo = hierarchyInfo
             self.relationshipType = relationshipType
@@ -1299,6 +1329,7 @@ extension IoTSiteWise {
         /// The current status of the asset.
         public let state: AssetState
 
+        @inlinable
         public init(error: ErrorDetails? = nil, state: AssetState) {
             self.error = error
             self.state = state
@@ -1332,6 +1363,7 @@ extension IoTSiteWise {
         /// The current status of the asset.
         public let status: AssetStatus
 
+        @inlinable
         public init(arn: String, assetModelId: String, creationDate: Date, description: String? = nil, externalId: String? = nil, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
             self.arn = arn
             self.assetModelId = assetModelId
@@ -1369,6 +1401,7 @@ extension IoTSiteWise {
         /// The ID of a hierarchy in the parent asset's model. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) Hierarchies allow different groupings of assets to be formed that all come from the same asset model. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String
 
+        @inlinable
         public init(assetId: String, childAssetId: String, clientToken: String? = AssociateAssetsRequest.idempotencyToken(), hierarchyId: String) {
             self.assetId = assetId
             self.childAssetId = childAssetId
@@ -1417,6 +1450,7 @@ extension IoTSiteWise {
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String
 
+        @inlinable
         public init(alias: String, assetId: String, clientToken: String? = AssociateTimeSeriesToAssetPropertyRequest.idempotencyToken(), propertyId: String) {
             self.alias = alias
             self.assetId = assetId
@@ -1474,6 +1508,7 @@ extension IoTSiteWise {
         /// The current status of the asset.
         public let status: AssetStatus
 
+        @inlinable
         public init(arn: String, assetModelId: String, creationDate: Date, description: String? = nil, externalId: String? = nil, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
             self.arn = arn
             self.assetModelId = assetModelId
@@ -1505,6 +1540,7 @@ extension IoTSiteWise {
         /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see Updating attribute values in the IoT SiteWise User Guide.
         public let defaultValue: String?
 
+        @inlinable
         public init(defaultValue: String? = nil) {
             self.defaultValue = defaultValue
         }
@@ -1526,6 +1562,7 @@ extension IoTSiteWise {
         /// The ID of the project to which to associate the assets.
         public let projectId: String
 
+        @inlinable
         public init(assetIds: [String], clientToken: String? = BatchAssociateProjectAssetsRequest.idempotencyToken(), projectId: String) {
             self.assetIds = assetIds
             self.clientToken = clientToken
@@ -1566,6 +1603,7 @@ extension IoTSiteWise {
         /// A list of associated error information, if any.
         public let errors: [AssetErrorDetails]?
 
+        @inlinable
         public init(errors: [AssetErrorDetails]? = nil) {
             self.errors = errors
         }
@@ -1583,6 +1621,7 @@ extension IoTSiteWise {
         /// The ID of the project from which to disassociate the assets.
         public let projectId: String
 
+        @inlinable
         public init(assetIds: [String], clientToken: String? = BatchDisassociateProjectAssetsRequest.idempotencyToken(), projectId: String) {
             self.assetIds = assetIds
             self.clientToken = clientToken
@@ -1623,6 +1662,7 @@ extension IoTSiteWise {
         /// A list of associated error information, if any.
         public let errors: [AssetErrorDetails]?
 
+        @inlinable
         public init(errors: [AssetErrorDetails]? = nil) {
             self.errors = errors
         }
@@ -1654,6 +1694,7 @@ extension IoTSiteWise {
         /// The chronological sorting order of the requested information. Default: ASCENDING
         public let timeOrdering: TimeOrdering?
 
+        @inlinable
         public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: Date, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: Date, timeOrdering: TimeOrdering? = nil) {
             self.aggregateTypes = aggregateTypes
             self.assetId = assetId
@@ -1710,6 +1751,7 @@ extension IoTSiteWise {
         /// The associated error message.
         public let errorMessage: String
 
+        @inlinable
         public init(entryId: String, errorCode: BatchGetAssetPropertyAggregatesErrorCode, errorMessage: String) {
             self.entryId = entryId
             self.errorCode = errorCode
@@ -1729,6 +1771,7 @@ extension IoTSiteWise {
         /// The date the error occurred, in Unix epoch time.
         public let errorTimestamp: Date
 
+        @inlinable
         public init(errorCode: BatchGetAssetPropertyAggregatesErrorCode, errorTimestamp: Date) {
             self.errorCode = errorCode
             self.errorTimestamp = errorTimestamp
@@ -1748,6 +1791,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [BatchGetAssetPropertyAggregatesEntry], maxResults: Int? = nil, nextToken: String? = nil) {
             self.entries = entries
             self.maxResults = maxResults
@@ -1781,6 +1825,7 @@ extension IoTSiteWise {
         /// A list of entries that were processed successfully by this batch request. Each success entry contains the entryId of the entry that succeeded and the latest query result.
         public let successEntries: [BatchGetAssetPropertyAggregatesSuccessEntry]
 
+        @inlinable
         public init(errorEntries: [BatchGetAssetPropertyAggregatesErrorEntry], nextToken: String? = nil, skippedEntries: [BatchGetAssetPropertyAggregatesSkippedEntry], successEntries: [BatchGetAssetPropertyAggregatesSuccessEntry]) {
             self.errorEntries = errorEntries
             self.nextToken = nextToken
@@ -1804,6 +1849,7 @@ extension IoTSiteWise {
         /// The error information, such as the error code and the timestamp.
         public let errorInfo: BatchGetAssetPropertyAggregatesErrorInfo?
 
+        @inlinable
         public init(completionStatus: BatchEntryCompletionStatus, entryId: String, errorInfo: BatchGetAssetPropertyAggregatesErrorInfo? = nil) {
             self.completionStatus = completionStatus
             self.entryId = entryId
@@ -1823,6 +1869,7 @@ extension IoTSiteWise {
         /// The ID of the entry.
         public let entryId: String
 
+        @inlinable
         public init(aggregatedValues: [AggregatedValue], entryId: String) {
             self.aggregatedValues = aggregatedValues
             self.entryId = entryId
@@ -1844,6 +1891,7 @@ extension IoTSiteWise {
         /// The ID of the asset property, in UUID format.
         public let propertyId: String?
 
+        @inlinable
         public init(assetId: String? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil) {
             self.assetId = assetId
             self.entryId = entryId
@@ -1882,6 +1930,7 @@ extension IoTSiteWise {
         /// The associated error message.
         public let errorMessage: String
 
+        @inlinable
         public init(entryId: String, errorCode: BatchGetAssetPropertyValueErrorCode, errorMessage: String) {
             self.entryId = entryId
             self.errorCode = errorCode
@@ -1901,6 +1950,7 @@ extension IoTSiteWise {
         /// The date the error occurred, in Unix epoch time.
         public let errorTimestamp: Date
 
+        @inlinable
         public init(errorCode: BatchGetAssetPropertyValueErrorCode, errorTimestamp: Date) {
             self.errorCode = errorCode
             self.errorTimestamp = errorTimestamp
@@ -1930,6 +1980,7 @@ extension IoTSiteWise {
         /// The chronological sorting order of the requested information. Default: ASCENDING
         public let timeOrdering: TimeOrdering?
 
+        @inlinable
         public init(assetId: String? = nil, endDate: Date? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: Date? = nil, timeOrdering: TimeOrdering? = nil) {
             self.assetId = assetId
             self.endDate = endDate
@@ -1978,6 +2029,7 @@ extension IoTSiteWise {
         /// The associated error message.
         public let errorMessage: String
 
+        @inlinable
         public init(entryId: String, errorCode: BatchGetAssetPropertyValueHistoryErrorCode, errorMessage: String) {
             self.entryId = entryId
             self.errorCode = errorCode
@@ -1997,6 +2049,7 @@ extension IoTSiteWise {
         /// The date the error occurred, in Unix epoch time.
         public let errorTimestamp: Date
 
+        @inlinable
         public init(errorCode: BatchGetAssetPropertyValueHistoryErrorCode, errorTimestamp: Date) {
             self.errorCode = errorCode
             self.errorTimestamp = errorTimestamp
@@ -2016,6 +2069,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [BatchGetAssetPropertyValueHistoryEntry], maxResults: Int? = nil, nextToken: String? = nil) {
             self.entries = entries
             self.maxResults = maxResults
@@ -2049,6 +2103,7 @@ extension IoTSiteWise {
         /// A list of entries that were processed successfully by this batch request. Each success entry contains the entryId of the entry that succeeded and the latest query result.
         public let successEntries: [BatchGetAssetPropertyValueHistorySuccessEntry]
 
+        @inlinable
         public init(errorEntries: [BatchGetAssetPropertyValueHistoryErrorEntry], nextToken: String? = nil, skippedEntries: [BatchGetAssetPropertyValueHistorySkippedEntry], successEntries: [BatchGetAssetPropertyValueHistorySuccessEntry]) {
             self.errorEntries = errorEntries
             self.nextToken = nextToken
@@ -2072,6 +2127,7 @@ extension IoTSiteWise {
         /// The error information, such as the error code and the timestamp.
         public let errorInfo: BatchGetAssetPropertyValueHistoryErrorInfo?
 
+        @inlinable
         public init(completionStatus: BatchEntryCompletionStatus, entryId: String, errorInfo: BatchGetAssetPropertyValueHistoryErrorInfo? = nil) {
             self.completionStatus = completionStatus
             self.entryId = entryId
@@ -2091,6 +2147,7 @@ extension IoTSiteWise {
         /// The ID of the entry.
         public let entryId: String
 
+        @inlinable
         public init(assetPropertyValueHistory: [AssetPropertyValue], entryId: String) {
             self.assetPropertyValueHistory = assetPropertyValueHistory
             self.entryId = entryId
@@ -2108,6 +2165,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(entries: [BatchGetAssetPropertyValueEntry], nextToken: String? = nil) {
             self.entries = entries
             self.nextToken = nextToken
@@ -2138,6 +2196,7 @@ extension IoTSiteWise {
         /// A list of entries that were processed successfully by this batch request. Each success entry contains the entryId of the entry that succeeded and the latest query result.
         public let successEntries: [BatchGetAssetPropertyValueSuccessEntry]
 
+        @inlinable
         public init(errorEntries: [BatchGetAssetPropertyValueErrorEntry], nextToken: String? = nil, skippedEntries: [BatchGetAssetPropertyValueSkippedEntry], successEntries: [BatchGetAssetPropertyValueSuccessEntry]) {
             self.errorEntries = errorEntries
             self.nextToken = nextToken
@@ -2161,6 +2220,7 @@ extension IoTSiteWise {
         /// The error information, such as the error code and the timestamp.
         public let errorInfo: BatchGetAssetPropertyValueErrorInfo?
 
+        @inlinable
         public init(completionStatus: BatchEntryCompletionStatus, entryId: String, errorInfo: BatchGetAssetPropertyValueErrorInfo? = nil) {
             self.completionStatus = completionStatus
             self.entryId = entryId
@@ -2179,6 +2239,7 @@ extension IoTSiteWise {
         /// The ID of the entry.
         public let entryId: String
 
+        @inlinable
         public init(assetPropertyValue: AssetPropertyValue? = nil, entryId: String) {
             self.assetPropertyValue = assetPropertyValue
             self.entryId = entryId
@@ -2198,6 +2259,7 @@ extension IoTSiteWise {
         /// A list of timestamps for each  error, if any.
         public let timestamps: [TimeInNanos]
 
+        @inlinable
         public init(errorCode: BatchPutAssetPropertyValueErrorCode, errorMessage: String, timestamps: [TimeInNanos]) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2217,6 +2279,7 @@ extension IoTSiteWise {
         /// The list of update property value errors.
         public let errors: [BatchPutAssetPropertyError]
 
+        @inlinable
         public init(entryId: String, errors: [BatchPutAssetPropertyError]) {
             self.entryId = entryId
             self.errors = errors
@@ -2232,6 +2295,7 @@ extension IoTSiteWise {
         /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
         public let entries: [PutAssetPropertyValueEntry]
 
+        @inlinable
         public init(entries: [PutAssetPropertyValueEntry]) {
             self.entries = entries
         }
@@ -2251,6 +2315,7 @@ extension IoTSiteWise {
         /// A list of the errors (if any) associated with the batch put request. Each error entry contains the entryId of the entry that failed.
         public let errorEntries: [BatchPutAssetPropertyErrorEntry]
 
+        @inlinable
         public init(errorEntries: [BatchPutAssetPropertyErrorEntry]) {
             self.errorEntries = errorEntries
         }
@@ -2266,6 +2331,7 @@ extension IoTSiteWise {
         /// The type of the column description.
         public let type: ColumnType?
 
+        @inlinable
         public init(name: String? = nil, type: ColumnType? = nil) {
             self.name = name
             self.type = type
@@ -2281,6 +2347,7 @@ extension IoTSiteWise {
         /// The allowed data types that the column has as it's value.
         public let scalarType: ScalarType?
 
+        @inlinable
         public init(scalarType: ScalarType? = nil) {
             self.scalarType = scalarType
         }
@@ -2301,6 +2368,7 @@ extension IoTSiteWise {
         /// The type of the composite model that defines this property.
         public let type: String
 
+        @inlinable
         public init(assetProperty: Property, externalId: String? = nil, id: String? = nil, name: String, type: String) {
             self.assetProperty = assetProperty
             self.externalId = externalId
@@ -2322,6 +2390,7 @@ extension IoTSiteWise {
         /// An array detailing the composition relationship for this composite model.
         public let compositionRelationship: [CompositionRelationshipItem]?
 
+        @inlinable
         public init(compositionRelationship: [CompositionRelationshipItem]? = nil) {
             self.compositionRelationship = compositionRelationship
         }
@@ -2335,6 +2404,7 @@ extension IoTSiteWise {
         /// The ID of the component.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2352,6 +2422,7 @@ extension IoTSiteWise {
         /// The ID of the asset model, in UUID format.
         public let assetModelId: String
 
+        @inlinable
         public init(assetModelCompositeModelId: String, assetModelCompositeModelType: String, assetModelId: String) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelCompositeModelType = assetModelCompositeModelType
@@ -2371,6 +2442,7 @@ extension IoTSiteWise {
         /// The error message.
         public let message: String
 
+        @inlinable
         public init(code: ErrorCode, message: String) {
             self.code = code
             self.message = message
@@ -2388,6 +2460,7 @@ extension IoTSiteWise {
         /// The current state of the configuration.
         public let state: ConfigurationState
 
+        @inlinable
         public init(error: ConfigurationErrorDetails? = nil, state: ConfigurationState) {
             self.error = error
             self.state = state
@@ -2411,6 +2484,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accessPolicyIdentity: Identity, accessPolicyPermission: Permission, accessPolicyResource: Resource, clientToken: String? = CreateAccessPolicyRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.accessPolicyIdentity = accessPolicyIdentity
             self.accessPolicyPermission = accessPolicyPermission
@@ -2449,6 +2523,7 @@ extension IoTSiteWise {
         /// The ID of the access policy.
         public let accessPolicyId: String
 
+        @inlinable
         public init(accessPolicyArn: String, accessPolicyId: String) {
             self.accessPolicyArn = accessPolicyArn
             self.accessPolicyId = accessPolicyId
@@ -2488,6 +2563,7 @@ extension IoTSiteWise {
         /// The ID of the parent composite model in this asset model relationship.
         public let parentAssetModelCompositeModelId: String?
 
+        @inlinable
         public init(assetModelCompositeModelDescription: String? = nil, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String? = nil, assetModelCompositeModelName: String, assetModelCompositeModelProperties: [AssetModelPropertyDefinition]? = nil, assetModelCompositeModelType: String, assetModelId: String, clientToken: String? = CreateAssetModelCompositeModelRequest.idempotencyToken(), composedAssetModelId: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil, parentAssetModelCompositeModelId: String? = nil) {
             self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
             self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
@@ -2577,6 +2653,7 @@ extension IoTSiteWise {
         public let assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment]
         public let assetModelStatus: AssetModelStatus
 
+        @inlinable
         public init(assetModelCompositeModelId: String, assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelStatus: AssetModelStatus) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelCompositeModelPath = assetModelCompositeModelPath
@@ -2612,6 +2689,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the asset model. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assetModelCompositeModels: [AssetModelCompositeModelDefinition]? = nil, assetModelDescription: String? = nil, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchyDefinition]? = nil, assetModelId: String? = nil, assetModelName: String, assetModelProperties: [AssetModelPropertyDefinition]? = nil, assetModelType: AssetModelType? = nil, clientToken: String? = CreateAssetModelRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelDescription = assetModelDescription
@@ -2681,6 +2759,7 @@ extension IoTSiteWise {
         /// The status of the asset model, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
+        @inlinable
         public init(assetModelArn: String, assetModelId: String, assetModelStatus: AssetModelStatus) {
             self.assetModelArn = assetModelArn
             self.assetModelId = assetModelId
@@ -2710,6 +2789,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assetDescription: String? = nil, assetExternalId: String? = nil, assetId: String? = nil, assetModelId: String, assetName: String, clientToken: String? = CreateAssetRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.assetDescription = assetDescription
             self.assetExternalId = assetExternalId
@@ -2767,6 +2847,7 @@ extension IoTSiteWise {
         /// The status of the asset, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
+        @inlinable
         public init(assetArn: String, assetId: String, assetStatus: AssetStatus) {
             self.assetArn = assetArn
             self.assetId = assetId
@@ -2796,6 +2877,7 @@ extension IoTSiteWise {
         /// The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data.
         public let jobRoleArn: String
 
+        @inlinable
         public init(adaptiveIngestion: Bool? = nil, deleteFilesAfterImport: Bool? = nil, errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration, jobName: String, jobRoleArn: String) {
             self.adaptiveIngestion = adaptiveIngestion
             self.deleteFilesAfterImport = deleteFilesAfterImport
@@ -2838,6 +2920,7 @@ extension IoTSiteWise {
         /// The status of the bulk import job can be one of following values:    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
         public let jobStatus: JobStatus
 
+        @inlinable
         public init(jobId: String, jobName: String, jobStatus: JobStatus) {
             self.jobId = jobId
             self.jobName = jobName
@@ -2865,6 +2948,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the dashboard. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateDashboardRequest.idempotencyToken(), dashboardDefinition: String, dashboardDescription: String? = nil, dashboardName: String, projectId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.dashboardDefinition = dashboardDefinition
@@ -2914,6 +2998,7 @@ extension IoTSiteWise {
         /// The ID of the dashboard.
         public let dashboardId: String
 
+        @inlinable
         public init(dashboardArn: String, dashboardId: String) {
             self.dashboardArn = dashboardArn
             self.dashboardId = dashboardId
@@ -2933,6 +3018,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(gatewayName: String, gatewayPlatform: GatewayPlatform, tags: [String: String]? = nil) {
             self.gatewayName = gatewayName
             self.gatewayPlatform = gatewayPlatform
@@ -2966,6 +3052,7 @@ extension IoTSiteWise {
         /// The ID of the gateway device. You can use this ID when you call other IoT SiteWise API operations.
         public let gatewayId: String
 
+        @inlinable
         public init(gatewayArn: String, gatewayId: String) {
             self.gatewayArn = gatewayArn
             self.gatewayId = gatewayId
@@ -2999,6 +3086,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(alarms: Alarms? = nil, clientToken: String? = CreatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
             self.alarms = alarms
             self.clientToken = clientToken
@@ -3068,6 +3156,7 @@ extension IoTSiteWise {
         /// The associated IAM Identity Center application ID, if the portal uses IAM Identity Center.
         public let ssoApplicationId: String
 
+        @inlinable
         public init(portalArn: String, portalId: String, portalStartUrl: String, portalStatus: PortalStatus, ssoApplicationId: String) {
             self.portalArn = portalArn
             self.portalId = portalId
@@ -3097,6 +3186,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the project. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), portalId: String, projectDescription: String? = nil, projectName: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.portalId = portalId
@@ -3142,6 +3232,7 @@ extension IoTSiteWise {
         /// The ID of the project.
         public let projectId: String
 
+        @inlinable
         public init(projectArn: String, projectId: String) {
             self.projectArn = projectArn
             self.projectId = projectId
@@ -3157,6 +3248,7 @@ extension IoTSiteWise {
         /// The column names specified in the .csv file.
         public let columnNames: [ColumnName]
 
+        @inlinable
         public init(columnNames: [ColumnName]) {
             self.columnNames = columnNames
         }
@@ -3172,6 +3264,7 @@ extension IoTSiteWise {
         /// The ARN of the Amazon S3 object. For more information about how to find the ARN for an Amazon S3 object, see Amazon S3 resources in the Amazon Simple Storage Service User Guide.
         public let s3ResourceArn: String
 
+        @inlinable
         public init(roleArn: String, s3ResourceArn: String) {
             self.roleArn = roleArn
             self.s3ResourceArn = s3ResourceArn
@@ -3204,6 +3297,7 @@ extension IoTSiteWise {
         /// The name of the dashboard
         public let name: String
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String) {
             self.creationDate = creationDate
             self.description = description
@@ -3231,6 +3325,7 @@ extension IoTSiteWise {
         /// Indicates if the data point is a scalar value such as integer, string, double, or Boolean.
         public let scalarValue: String?
 
+        @inlinable
         public init(arrayValue: [Datum]? = nil, nullValue: Bool? = nil, rowValue: Row? = nil, scalarValue: String? = nil) {
             self.arrayValue = arrayValue
             self.nullValue = nullValue
@@ -3252,6 +3347,7 @@ extension IoTSiteWise {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
+        @inlinable
         public init(accessPolicyId: String, clientToken: String? = DeleteAccessPolicyRequest.idempotencyToken()) {
             self.accessPolicyId = accessPolicyId
             self.clientToken = clientToken
@@ -3294,6 +3390,7 @@ extension IoTSiteWise {
         /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the delete operation.
         public let matchForVersionType: AssetModelVersionType?
 
+        @inlinable
         public init(assetModelCompositeModelId: String, assetModelId: String, clientToken: String? = DeleteAssetModelCompositeModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelId = assetModelId
@@ -3334,6 +3431,7 @@ extension IoTSiteWise {
     public struct DeleteAssetModelCompositeModelResponse: AWSDecodableShape {
         public let assetModelStatus: AssetModelStatus
 
+        @inlinable
         public init(assetModelStatus: AssetModelStatus) {
             self.assetModelStatus = assetModelStatus
         }
@@ -3355,6 +3453,7 @@ extension IoTSiteWise {
         /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the delete operation.
         public let matchForVersionType: AssetModelVersionType?
 
+        @inlinable
         public init(assetModelId: String, clientToken: String? = DeleteAssetModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelId = assetModelId
             self.clientToken = clientToken
@@ -3391,6 +3490,7 @@ extension IoTSiteWise {
         /// The status of the asset model, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
+        @inlinable
         public init(assetModelStatus: AssetModelStatus) {
             self.assetModelStatus = assetModelStatus
         }
@@ -3406,6 +3506,7 @@ extension IoTSiteWise {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
+        @inlinable
         public init(assetId: String, clientToken: String? = DeleteAssetRequest.idempotencyToken()) {
             self.assetId = assetId
             self.clientToken = clientToken
@@ -3434,6 +3535,7 @@ extension IoTSiteWise {
         /// The status of the asset, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
+        @inlinable
         public init(assetStatus: AssetStatus) {
             self.assetStatus = assetStatus
         }
@@ -3449,6 +3551,7 @@ extension IoTSiteWise {
         /// The ID of the dashboard to delete.
         public let dashboardId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteDashboardRequest.idempotencyToken(), dashboardId: String) {
             self.clientToken = clientToken
             self.dashboardId = dashboardId
@@ -3481,6 +3584,7 @@ extension IoTSiteWise {
         /// The ID of the gateway to delete.
         public let gatewayId: String
 
+        @inlinable
         public init(gatewayId: String) {
             self.gatewayId = gatewayId
         }
@@ -3506,6 +3610,7 @@ extension IoTSiteWise {
         /// The ID of the portal to delete.
         public let portalId: String
 
+        @inlinable
         public init(clientToken: String? = DeletePortalRequest.idempotencyToken(), portalId: String) {
             self.clientToken = clientToken
             self.portalId = portalId
@@ -3534,6 +3639,7 @@ extension IoTSiteWise {
         /// The status of the portal, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
 
+        @inlinable
         public init(portalStatus: PortalStatus) {
             self.portalStatus = portalStatus
         }
@@ -3549,6 +3655,7 @@ extension IoTSiteWise {
         /// The ID of the project.
         public let projectId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteProjectRequest.idempotencyToken(), projectId: String) {
             self.clientToken = clientToken
             self.projectId = projectId
@@ -3587,6 +3694,7 @@ extension IoTSiteWise {
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String?
 
+        @inlinable
         public init(alias: String? = nil, assetId: String? = nil, clientToken: String? = DeleteTimeSeriesRequest.idempotencyToken(), propertyId: String? = nil) {
             self.alias = alias
             self.assetId = assetId
@@ -3626,6 +3734,7 @@ extension IoTSiteWise {
         /// The ID of the access policy.
         public let accessPolicyId: String
 
+        @inlinable
         public init(accessPolicyId: String) {
             self.accessPolicyId = accessPolicyId
         }
@@ -3661,6 +3770,7 @@ extension IoTSiteWise {
         /// The IoT SiteWise Monitor resource (portal or project) to which this access policy provides access.
         public let accessPolicyResource: Resource
 
+        @inlinable
         public init(accessPolicyArn: String, accessPolicyCreationDate: Date, accessPolicyId: String, accessPolicyIdentity: Identity, accessPolicyLastUpdateDate: Date, accessPolicyPermission: Permission, accessPolicyResource: Resource) {
             self.accessPolicyArn = accessPolicyArn
             self.accessPolicyCreationDate = accessPolicyCreationDate
@@ -3686,6 +3796,7 @@ extension IoTSiteWise {
         /// The ID of the action.
         public let actionId: String
 
+        @inlinable
         public init(actionId: String) {
             self.actionId = actionId
         }
@@ -3717,6 +3828,7 @@ extension IoTSiteWise {
         /// The resource the action will be taken on.
         public let targetResource: TargetResource
 
+        @inlinable
         public init(actionDefinitionId: String, actionId: String, actionPayload: ActionPayload, executionTime: Date, targetResource: TargetResource) {
             self.actionDefinitionId = actionDefinitionId
             self.actionId = actionId
@@ -3740,6 +3852,7 @@ extension IoTSiteWise {
         /// The ID of the asset. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let assetId: String
 
+        @inlinable
         public init(assetCompositeModelId: String, assetId: String) {
             self.assetCompositeModelId = assetCompositeModelId
             self.assetId = assetId
@@ -3786,6 +3899,7 @@ extension IoTSiteWise {
         /// The ID of the asset, in UUID format. This ID uniquely identifies the asset within IoT SiteWise and can be used with other IoT SiteWise APIs.
         public let assetId: String
 
+        @inlinable
         public init(actionDefinitions: [ActionDefinition]? = nil, assetCompositeModelDescription: String, assetCompositeModelExternalId: String? = nil, assetCompositeModelId: String, assetCompositeModelName: String, assetCompositeModelPath: [AssetCompositeModelPathSegment], assetCompositeModelProperties: [AssetProperty], assetCompositeModelSummaries: [AssetCompositeModelSummary], assetCompositeModelType: String, assetId: String) {
             self.actionDefinitions = actionDefinitions
             self.assetCompositeModelDescription = assetCompositeModelDescription
@@ -3821,6 +3935,7 @@ extension IoTSiteWise {
         /// The version alias that specifies the latest or active version of the asset model.  The details are returned in the response. The default value is LATEST. See  Asset model versions in the IoT SiteWise User Guide.
         public let assetModelVersion: String?
 
+        @inlinable
         public init(assetModelCompositeModelId: String, assetModelId: String, assetModelVersion: String? = nil) {
             self.assetModelCompositeModelId = assetModelCompositeModelId
             self.assetModelId = assetModelId
@@ -3872,6 +3987,7 @@ extension IoTSiteWise {
         /// Metadata for the composition relationship established by using composedAssetModelId in  CreateAssetModelCompositeModel . For instance, an array detailing the path of the composition relationship for this composite model.
         public let compositionDetails: CompositionDetails?
 
+        @inlinable
         public init(actionDefinitions: [ActionDefinition]? = nil, assetModelCompositeModelDescription: String, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String, assetModelCompositeModelName: String, assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelCompositeModelProperties: [AssetModelProperty], assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary], assetModelCompositeModelType: String, assetModelId: String, compositionDetails: CompositionDetails? = nil) {
             self.actionDefinitions = actionDefinitions
             self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
@@ -3909,6 +4025,7 @@ extension IoTSiteWise {
         ///  Whether or not to exclude asset model properties from the response.
         public let excludeProperties: Bool?
 
+        @inlinable
         public init(assetModelId: String, assetModelVersion: String? = nil, excludeProperties: Bool? = nil) {
             self.assetModelId = assetModelId
             self.assetModelVersion = assetModelVersion
@@ -3965,6 +4082,7 @@ extension IoTSiteWise {
         /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See Optimistic locking for asset model writes in the IoT SiteWise User Guide.  See  Optimistic locking for asset model writes  in the IoT SiteWise User Guide.
         public let eTag: String?
 
+        @inlinable
         public init(assetModelArn: String, assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary]? = nil, assetModelCreationDate: Date, assetModelDescription: String, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy], assetModelId: String, assetModelLastUpdateDate: Date, assetModelName: String, assetModelProperties: [AssetModelProperty], assetModelStatus: AssetModelStatus, assetModelType: AssetModelType? = nil, assetModelVersion: String? = nil, eTag: String? = nil) {
             self.assetModelArn = assetModelArn
             self.assetModelCompositeModels = assetModelCompositeModels
@@ -4027,6 +4145,7 @@ extension IoTSiteWise {
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String
 
+        @inlinable
         public init(assetId: String, propertyId: String) {
             self.assetId = assetId
             self.propertyId = propertyId
@@ -4065,6 +4184,7 @@ extension IoTSiteWise {
         /// The composite model that declares this asset property, if this asset property exists in a composite model.
         public let compositeModel: CompositeModelProperty?
 
+        @inlinable
         public init(assetExternalId: String? = nil, assetId: String, assetModelId: String, assetName: String, assetProperty: Property? = nil, compositeModel: CompositeModelProperty? = nil) {
             self.assetExternalId = assetExternalId
             self.assetId = assetId
@@ -4090,6 +4210,7 @@ extension IoTSiteWise {
         ///  Whether or not to exclude asset properties from the response.
         public let excludeProperties: Bool?
 
+        @inlinable
         public init(assetId: String, excludeProperties: Bool? = nil) {
             self.assetId = assetId
             self.excludeProperties = excludeProperties
@@ -4139,6 +4260,7 @@ extension IoTSiteWise {
         /// The current status of the asset, which contains a state and any error message.
         public let assetStatus: AssetStatus
 
+        @inlinable
         public init(assetArn: String, assetCompositeModels: [AssetCompositeModel]? = nil, assetCompositeModelSummaries: [AssetCompositeModelSummary]? = nil, assetCreationDate: Date, assetDescription: String? = nil, assetExternalId: String? = nil, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: Date, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
             self.assetArn = assetArn
             self.assetCompositeModels = assetCompositeModels
@@ -4176,6 +4298,7 @@ extension IoTSiteWise {
         /// The ID of the job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -4219,6 +4342,7 @@ extension IoTSiteWise {
         /// The status of the bulk import job can be one of following values:    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
         public let jobStatus: JobStatus
 
+        @inlinable
         public init(adaptiveIngestion: Bool? = nil, deleteFilesAfterImport: Bool? = nil, errorReportLocation: ErrorReportLocation, files: [File], jobConfiguration: JobConfiguration, jobCreationDate: Date, jobId: String, jobLastUpdateDate: Date, jobName: String, jobRoleArn: String, jobStatus: JobStatus) {
             self.adaptiveIngestion = adaptiveIngestion
             self.deleteFilesAfterImport = deleteFilesAfterImport
@@ -4252,6 +4376,7 @@ extension IoTSiteWise {
         /// The ID of the dashboard.
         public let dashboardId: String
 
+        @inlinable
         public init(dashboardId: String) {
             self.dashboardId = dashboardId
         }
@@ -4289,6 +4414,7 @@ extension IoTSiteWise {
         /// The ID of the project that the dashboard is in.
         public let projectId: String
 
+        @inlinable
         public init(dashboardArn: String, dashboardCreationDate: Date, dashboardDefinition: String, dashboardDescription: String? = nil, dashboardId: String, dashboardLastUpdateDate: Date, dashboardName: String, projectId: String) {
             self.dashboardArn = dashboardArn
             self.dashboardCreationDate = dashboardCreationDate
@@ -4324,6 +4450,7 @@ extension IoTSiteWise {
         /// The key ARN of the customer managed key used for KMS encryption if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
             self.configurationStatus = configurationStatus
             self.encryptionType = encryptionType
@@ -4343,6 +4470,7 @@ extension IoTSiteWise {
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
 
+        @inlinable
         public init(capabilityNamespace: String, gatewayId: String) {
             self.capabilityNamespace = capabilityNamespace
             self.gatewayId = gatewayId
@@ -4377,6 +4505,7 @@ extension IoTSiteWise {
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
 
+        @inlinable
         public init(capabilityConfiguration: String, capabilityNamespace: String, capabilitySyncStatus: CapabilitySyncStatus, gatewayId: String) {
             self.capabilityConfiguration = capabilityConfiguration
             self.capabilityNamespace = capabilityNamespace
@@ -4396,6 +4525,7 @@ extension IoTSiteWise {
         /// The ID of the gateway device.
         public let gatewayId: String
 
+        @inlinable
         public init(gatewayId: String) {
             self.gatewayId = gatewayId
         }
@@ -4431,6 +4561,7 @@ extension IoTSiteWise {
         /// The date the gateway was last updated, in Unix epoch time.
         public let lastUpdateDate: Date
 
+        @inlinable
         public init(creationDate: Date, gatewayArn: String, gatewayCapabilitySummaries: [GatewayCapabilitySummary], gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, lastUpdateDate: Date) {
             self.creationDate = creationDate
             self.gatewayArn = gatewayArn
@@ -4460,6 +4591,7 @@ extension IoTSiteWise {
         /// The current logging options.
         public let loggingOptions: LoggingOptions
 
+        @inlinable
         public init(loggingOptions: LoggingOptions) {
             self.loggingOptions = loggingOptions
         }
@@ -4473,6 +4605,7 @@ extension IoTSiteWise {
         /// The ID of the portal.
         public let portalId: String
 
+        @inlinable
         public init(portalId: String) {
             self.portalId = portalId
         }
@@ -4524,6 +4657,7 @@ extension IoTSiteWise {
         /// The ARN of the service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String?
 
+        @inlinable
         public init(alarms: Alarms? = nil, notificationSenderEmail: String? = nil, portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: Date, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: Date, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
             self.alarms = alarms
             self.notificationSenderEmail = notificationSenderEmail
@@ -4565,6 +4699,7 @@ extension IoTSiteWise {
         /// The ID of the project.
         public let projectId: String
 
+        @inlinable
         public init(projectId: String) {
             self.projectId = projectId
         }
@@ -4600,6 +4735,7 @@ extension IoTSiteWise {
         /// The name of the project.
         public let projectName: String
 
+        @inlinable
         public init(portalId: String, projectArn: String, projectCreationDate: Date, projectDescription: String? = nil, projectId: String, projectLastUpdateDate: Date, projectName: String) {
             self.portalId = portalId
             self.projectArn = projectArn
@@ -4642,6 +4778,7 @@ extension IoTSiteWise {
         /// Set this period to specify how long your data is stored in the warm tier before it is deleted. You can set this only if cold tier is enabled.
         public let warmTierRetentionPeriod: WarmTierRetentionPeriod?
 
+        @inlinable
         public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
             self.configurationStatus = configurationStatus
             self.disassociatedDataStorage = disassociatedDataStorage
@@ -4673,6 +4810,7 @@ extension IoTSiteWise {
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String?
 
+        @inlinable
         public init(alias: String? = nil, assetId: String? = nil, propertyId: String? = nil) {
             self.alias = alias
             self.assetId = assetId
@@ -4721,6 +4859,7 @@ extension IoTSiteWise {
         /// The date that the time series was last updated, in Unix epoch time.
         public let timeSeriesLastUpdateDate: Date
 
+        @inlinable
         public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesArn: String, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
             self.alias = alias
             self.assetId = assetId
@@ -4752,6 +4891,7 @@ extension IoTSiteWise {
         /// The error message.
         public let message: String
 
+        @inlinable
         public init(code: DetailedErrorCode, message: String) {
             self.code = code
             self.message = message
@@ -4773,6 +4913,7 @@ extension IoTSiteWise {
         /// The ID of a hierarchy in the parent asset's model. (This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.) Hierarchies allow different groupings of assets to be formed that all come from the same asset model. You can use the hierarchy ID to identify the correct asset to disassociate. For more information, see Asset hierarchies in the IoT SiteWise User Guide.
         public let hierarchyId: String
 
+        @inlinable
         public init(assetId: String, childAssetId: String, clientToken: String? = DisassociateAssetsRequest.idempotencyToken(), hierarchyId: String) {
             self.assetId = assetId
             self.childAssetId = childAssetId
@@ -4821,6 +4962,7 @@ extension IoTSiteWise {
         /// The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
         public let propertyId: String
 
+        @inlinable
         public init(alias: String, assetId: String, clientToken: String? = DisassociateTimeSeriesFromAssetPropertyRequest.idempotencyToken(), propertyId: String) {
             self.alias = alias
             self.assetId = assetId
@@ -4864,6 +5006,7 @@ extension IoTSiteWise {
         /// The error message.
         public let message: String
 
+        @inlinable
         public init(code: ErrorCode, details: [DetailedError]? = nil, message: String) {
             self.code = code
             self.details = details
@@ -4883,6 +5026,7 @@ extension IoTSiteWise {
         /// Amazon S3 uses the prefix as a folder name to organize data in the bucket. Each Amazon S3 object has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String
 
+        @inlinable
         public init(bucket: String, prefix: String) {
             self.bucket = bucket
             self.prefix = prefix
@@ -4909,6 +5053,7 @@ extension IoTSiteWise {
         /// The resource the action will be taken on.
         public let targetResource: TargetResource
 
+        @inlinable
         public init(actionDefinitionId: String, actionPayload: ActionPayload, clientToken: String? = nil, targetResource: TargetResource) {
             self.actionDefinitionId = actionDefinitionId
             self.actionPayload = actionPayload
@@ -4939,6 +5084,7 @@ extension IoTSiteWise {
         /// The ID of the action.
         public let actionId: String
 
+        @inlinable
         public init(actionId: String) {
             self.actionId = actionId
         }
@@ -4956,6 +5102,7 @@ extension IoTSiteWise {
         /// The IoT SiteWise query statement.
         public let queryStatement: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, queryStatement: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4985,6 +5132,7 @@ extension IoTSiteWise {
         /// Represents a single row in the query results.
         public let rows: [Row]?
 
+        @inlinable
         public init(columns: [ColumnInfo]? = nil, nextToken: String? = nil, rows: [Row]? = nil) {
             self.columns = columns
             self.nextToken = nextToken
@@ -5004,6 +5152,7 @@ extension IoTSiteWise {
         /// The variable that identifies an asset property from which to use values.
         public let value: VariableValue
 
+        @inlinable
         public init(name: String, value: VariableValue) {
             self.name = name
             self.value = value
@@ -5030,6 +5179,7 @@ extension IoTSiteWise {
         /// The version ID to identify a specific version of the Amazon S3 object that contains your data.
         public let versionId: String?
 
+        @inlinable
         public init(bucket: String, key: String, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -5054,6 +5204,7 @@ extension IoTSiteWise {
         /// The file is in parquet format.
         public let parquet: Parquet?
 
+        @inlinable
         public init(csv: Csv? = nil, parquet: Parquet? = nil) {
             self.csv = csv
             self.parquet = parquet
@@ -5069,6 +5220,7 @@ extension IoTSiteWise {
         /// The forwarding state for the given property.
         public let state: ForwardingConfigState
 
+        @inlinable
         public init(state: ForwardingConfigState) {
             self.state = state
         }
@@ -5084,6 +5236,7 @@ extension IoTSiteWise {
         /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.
         public let capabilitySyncStatus: CapabilitySyncStatus
 
+        @inlinable
         public init(capabilityNamespace: String, capabilitySyncStatus: CapabilitySyncStatus) {
             self.capabilityNamespace = capabilityNamespace
             self.capabilitySyncStatus = capabilitySyncStatus
@@ -5103,6 +5256,7 @@ extension IoTSiteWise {
         /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
         public let siemensIE: SiemensIE?
 
+        @inlinable
         public init(greengrass: Greengrass? = nil, greengrassV2: GreengrassV2? = nil, siemensIE: SiemensIE? = nil) {
             self.greengrass = greengrass
             self.greengrassV2 = greengrassV2
@@ -5135,6 +5289,7 @@ extension IoTSiteWise {
         /// The date the gateway was last updated, in Unix epoch time.
         public let lastUpdateDate: Date
 
+        @inlinable
         public init(creationDate: Date, gatewayCapabilitySummaries: [GatewayCapabilitySummary]? = nil, gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, lastUpdateDate: Date) {
             self.creationDate = creationDate
             self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
@@ -5178,6 +5333,7 @@ extension IoTSiteWise {
         /// The chronological sorting order of the requested information. Default: ASCENDING
         public let timeOrdering: TimeOrdering?
 
+        @inlinable
         public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: Date, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: Date, timeOrdering: TimeOrdering? = nil) {
             self.aggregateTypes = aggregateTypes
             self.assetId = assetId
@@ -5239,6 +5395,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregatedValues: [AggregatedValue], nextToken: String? = nil) {
             self.aggregatedValues = aggregatedValues
             self.nextToken = nextToken
@@ -5270,6 +5427,7 @@ extension IoTSiteWise {
         /// The chronological sorting order of the requested information. Default: ASCENDING
         public let timeOrdering: TimeOrdering?
 
+        @inlinable
         public init(assetId: String? = nil, endDate: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: Date? = nil, timeOrdering: TimeOrdering? = nil) {
             self.assetId = assetId
             self.endDate = endDate
@@ -5323,6 +5481,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetPropertyValueHistory: [AssetPropertyValue], nextToken: String? = nil) {
             self.assetPropertyValueHistory = assetPropertyValueHistory
             self.nextToken = nextToken
@@ -5342,6 +5501,7 @@ extension IoTSiteWise {
         /// The ID of the asset property, in UUID format.
         public let propertyId: String?
 
+        @inlinable
         public init(assetId: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil) {
             self.assetId = assetId
             self.propertyAlias = propertyAlias
@@ -5375,6 +5535,7 @@ extension IoTSiteWise {
         /// The current asset property value.
         public let propertyValue: AssetPropertyValue?
 
+        @inlinable
         public init(propertyValue: AssetPropertyValue? = nil) {
             self.propertyValue = propertyValue
         }
@@ -5412,6 +5573,7 @@ extension IoTSiteWise {
         /// The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION     LINEAR_INTERPOLATION – Estimates missing data using linear interpolation. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on.    LOCF_INTERPOLATION – Estimates missing data using last observation carried forward interpolation If no data point is found for an interval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value until a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days.
         public let type: String
 
+        @inlinable
         public init(assetId: String? = nil, endTimeInSeconds: Int64, endTimeOffsetInNanos: Int? = nil, intervalInSeconds: Int64, intervalWindowInSeconds: Int64? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, quality: Quality, startTimeInSeconds: Int64, startTimeOffsetInNanos: Int? = nil, type: String) {
             self.assetId = assetId
             self.endTimeInSeconds = endTimeInSeconds
@@ -5485,6 +5647,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(interpolatedAssetPropertyValues: [InterpolatedAssetPropertyValue], nextToken: String? = nil) {
             self.interpolatedAssetPropertyValues = interpolatedAssetPropertyValues
             self.nextToken = nextToken
@@ -5500,6 +5663,7 @@ extension IoTSiteWise {
         /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the IoT Greengrass V1 API Reference.
         public let groupArn: String
 
+        @inlinable
         public init(groupArn: String) {
             self.groupArn = groupArn
         }
@@ -5519,6 +5683,7 @@ extension IoTSiteWise {
         /// The name of the IoT thing for your IoT Greengrass V2 core device.
         public let coreDeviceThingName: String
 
+        @inlinable
         public init(coreDeviceThingName: String) {
             self.coreDeviceThingName = coreDeviceThingName
         }
@@ -5538,6 +5703,7 @@ extension IoTSiteWise {
         /// The IAM Identity Center ID of the group.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -5557,6 +5723,7 @@ extension IoTSiteWise {
         /// The ARN of the IAM role. For more information, see IAM ARNs in the IAM User Guide.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -5576,6 +5743,7 @@ extension IoTSiteWise {
         /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -5601,6 +5769,7 @@ extension IoTSiteWise {
         /// An IAM Identity Center user identity.
         public let user: UserIdentity?
 
+        @inlinable
         public init(group: GroupIdentity? = nil, iamRole: IAMRoleIdentity? = nil, iamUser: IAMUserIdentity? = nil, user: UserIdentity? = nil) {
             self.group = group
             self.iamRole = iamRole
@@ -5628,6 +5797,7 @@ extension IoTSiteWise {
         /// The ID of an existing image. Specify this parameter to keep an existing image.
         public let id: String?
 
+        @inlinable
         public init(file: ImageFile? = nil, id: String? = nil) {
             self.file = file
             self.id = id
@@ -5652,6 +5822,7 @@ extension IoTSiteWise {
         /// The file type of the image.
         public let type: ImageFileType
 
+        @inlinable
         public init(data: AWSBase64Data, type: ImageFileType) {
             self.data = data
             self.type = type
@@ -5674,6 +5845,7 @@ extension IoTSiteWise {
         /// The URL where the image is available. The URL is valid for 15 minutes so that you can view and download the image
         public let url: String
 
+        @inlinable
         public init(id: String, url: String) {
             self.id = id
             self.url = url
@@ -5689,6 +5861,7 @@ extension IoTSiteWise {
         public let timestamp: TimeInNanos
         public let value: Variant
 
+        @inlinable
         public init(timestamp: TimeInNanos, value: Variant) {
             self.timestamp = timestamp
             self.value = value
@@ -5704,6 +5877,7 @@ extension IoTSiteWise {
         /// The file format of the data in S3.
         public let fileFormat: FileFormat
 
+        @inlinable
         public init(fileFormat: FileFormat) {
             self.fileFormat = fileFormat
         }
@@ -5721,6 +5895,7 @@ extension IoTSiteWise {
         /// The status of the bulk import job can be one of following values:    PENDING – IoT SiteWise is waiting for the current bulk import job to finish.    CANCELLED – The bulk import job has been canceled.    RUNNING – IoT SiteWise is processing your request to import your data from Amazon S3.    COMPLETED – IoT SiteWise successfully completed your request to import data from Amazon S3.    FAILED – IoT SiteWise couldn't process your request to import data from Amazon S3. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.    COMPLETED_WITH_FAILURES – IoT SiteWise completed your request to import data from Amazon S3 with errors. You can use logs saved in the specified error report location in Amazon S3 to troubleshoot issues.
         public let status: JobStatus
 
+        @inlinable
         public init(id: String, name: String, status: JobStatus) {
             self.id = id
             self.name = name
@@ -5750,6 +5925,7 @@ extension IoTSiteWise {
         /// The type of resource (portal or project). This parameter is required if you specify resourceId.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(iamArn: String? = nil, identityId: String? = nil, identityType: IdentityType? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
             self.iamArn = iamArn
             self.identityId = identityId
@@ -5798,6 +5974,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPolicySummaries: [AccessPolicySummary], nextToken: String? = nil) {
             self.accessPolicySummaries = accessPolicySummaries
             self.nextToken = nextToken
@@ -5819,6 +5996,7 @@ extension IoTSiteWise {
         /// The type of resource.
         public let targetResourceType: TargetResourceType
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetResourceId: String, targetResourceType: TargetResourceType) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5855,6 +6033,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String
 
+        @inlinable
         public init(actionSummaries: [ActionSummary], nextToken: String) {
             self.actionSummaries = actionSummaries
             self.nextToken = nextToken
@@ -5876,6 +6055,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelId: String, assetModelVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelId = assetModelId
             self.assetModelVersion = assetModelVersion
@@ -5913,6 +6093,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelCompositeModelSummaries: [AssetModelCompositeModelSummary], nextToken: String? = nil) {
             self.assetModelCompositeModelSummaries = assetModelCompositeModelSummaries
             self.nextToken = nextToken
@@ -5936,6 +6117,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelId: String, assetModelVersion: String? = nil, filter: ListAssetModelPropertiesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelId = assetModelId
             self.assetModelVersion = assetModelVersion
@@ -5975,6 +6157,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelPropertySummaries: [AssetModelPropertySummary], nextToken: String? = nil) {
             self.assetModelPropertySummaries = assetModelPropertySummaries
             self.nextToken = nextToken
@@ -5996,6 +6179,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelTypes: [AssetModelType]? = nil, assetModelVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelTypes = assetModelTypes
             self.assetModelVersion = assetModelVersion
@@ -6030,6 +6214,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelSummaries: [AssetModelSummary], nextToken: String? = nil) {
             self.assetModelSummaries = assetModelSummaries
             self.nextToken = nextToken
@@ -6051,6 +6236,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetId: String, filter: ListAssetPropertiesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetId = assetId
             self.filter = filter
@@ -6087,6 +6273,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetPropertySummaries: [AssetPropertySummary], nextToken: String? = nil) {
             self.assetPropertySummaries = assetPropertySummaries
             self.nextToken = nextToken
@@ -6108,6 +6295,7 @@ extension IoTSiteWise {
         /// The type of traversal to use to identify asset relationships. Choose the following option:    PATH_TO_ROOT – Identify the asset's parent assets up to the root asset. The asset that you specify in assetId is the first result in the list of assetRelationshipSummaries, and the root asset is the last result.
         public let traversalType: TraversalType
 
+        @inlinable
         public init(assetId: String, maxResults: Int? = nil, nextToken: String? = nil, traversalType: TraversalType) {
             self.assetId = assetId
             self.maxResults = maxResults
@@ -6144,6 +6332,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetRelationshipSummaries: [AssetRelationshipSummary], nextToken: String? = nil) {
             self.assetRelationshipSummaries = assetRelationshipSummaries
             self.nextToken = nextToken
@@ -6165,6 +6354,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelId: String? = nil, filter: ListAssetsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelId = assetModelId
             self.filter = filter
@@ -6201,6 +6391,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetSummaries: [AssetSummary], nextToken: String? = nil) {
             self.assetSummaries = assetSummaries
             self.nextToken = nextToken
@@ -6224,6 +6415,7 @@ extension IoTSiteWise {
         /// The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset.    PARENT – The list includes the asset's parent asset.   Default: CHILD
         public let traversalDirection: TraversalDirection?
 
+        @inlinable
         public init(assetId: String, hierarchyId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, traversalDirection: TraversalDirection? = nil) {
             self.assetId = assetId
             self.hierarchyId = hierarchyId
@@ -6265,6 +6457,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetSummaries: [AssociatedAssetsSummary], nextToken: String? = nil) {
             self.assetSummaries = assetSummaries
             self.nextToken = nextToken
@@ -6284,6 +6477,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ListBulkImportJobsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -6315,6 +6509,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaries: [JobSummary], nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -6334,6 +6529,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetModelId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assetModelId = assetModelId
             self.maxResults = maxResults
@@ -6368,6 +6564,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(compositionRelationshipSummaries: [CompositionRelationshipSummary], nextToken: String? = nil) {
             self.compositionRelationshipSummaries = compositionRelationshipSummaries
             self.nextToken = nextToken
@@ -6387,6 +6584,7 @@ extension IoTSiteWise {
         /// The ID of the project.
         public let projectId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6421,6 +6619,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(dashboardSummaries: [DashboardSummary], nextToken: String? = nil) {
             self.dashboardSummaries = dashboardSummaries
             self.nextToken = nextToken
@@ -6438,6 +6637,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6467,6 +6667,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(gatewaySummaries: [GatewaySummary], nextToken: String? = nil) {
             self.gatewaySummaries = gatewaySummaries
             self.nextToken = nextToken
@@ -6484,6 +6685,7 @@ extension IoTSiteWise {
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6513,6 +6715,7 @@ extension IoTSiteWise {
         /// A list that summarizes each portal.
         public let portalSummaries: [PortalSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, portalSummaries: [PortalSummary]? = nil) {
             self.nextToken = nextToken
             self.portalSummaries = portalSummaries
@@ -6532,6 +6735,7 @@ extension IoTSiteWise {
         /// The ID of the project.
         public let projectId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6566,6 +6770,7 @@ extension IoTSiteWise {
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(assetIds: [String], nextToken: String? = nil) {
             self.assetIds = assetIds
             self.nextToken = nextToken
@@ -6585,6 +6790,7 @@ extension IoTSiteWise {
         /// The ID of the portal.
         public let portalId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, portalId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6619,6 +6825,7 @@ extension IoTSiteWise {
         /// A list that summarizes each project in the portal.
         public let projectSummaries: [ProjectSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, projectSummaries: [ProjectSummary]) {
             self.nextToken = nextToken
             self.projectSummaries = projectSummaries
@@ -6634,6 +6841,7 @@ extension IoTSiteWise {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -6656,6 +6864,7 @@ extension IoTSiteWise {
         /// The list of key-value pairs that contain metadata for the resource. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -6677,6 +6886,7 @@ extension IoTSiteWise {
         /// The type of the time series. The time series type can be one of the following values:    ASSOCIATED – The time series is associated with an asset property.    DISASSOCIATED – The time series isn't associated with any asset property.
         public let timeSeriesType: ListTimeSeriesType?
 
+        @inlinable
         public init(aliasPrefix: String? = nil, assetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, timeSeriesType: ListTimeSeriesType? = nil) {
             self.aliasPrefix = aliasPrefix
             self.assetId = assetId
@@ -6717,6 +6927,7 @@ extension IoTSiteWise {
         /// One or more time series summaries to list.
         public let timeSeriesSummaries: [TimeSeriesSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, timeSeriesSummaries: [TimeSeriesSummary]) {
             self.nextToken = nextToken
             self.timeSeriesSummaries = timeSeriesSummaries
@@ -6732,6 +6943,7 @@ extension IoTSiteWise {
         /// The IoT SiteWise logging verbosity level.
         public let level: LoggingLevel
 
+        @inlinable
         public init(level: LoggingLevel) {
             self.level = level
         }
@@ -6745,6 +6957,7 @@ extension IoTSiteWise {
         /// The processing configuration for the given measurement property. You can configure measurements to be kept at the edge or forwarded to the Amazon Web Services Cloud. By default, measurements are forwarded to the cloud.
         public let processingConfig: MeasurementProcessingConfig?
 
+        @inlinable
         public init(processingConfig: MeasurementProcessingConfig? = nil) {
             self.processingConfig = processingConfig
         }
@@ -6758,6 +6971,7 @@ extension IoTSiteWise {
         /// The forwarding configuration for the given measurement property.
         public let forwardingConfig: ForwardingConfig
 
+        @inlinable
         public init(forwardingConfig: ForwardingConfig) {
             self.forwardingConfig = forwardingConfig
         }
@@ -6777,6 +6991,7 @@ extension IoTSiteWise {
         /// The window (time interval) over which IoT SiteWise computes the metric's aggregation expression. IoT SiteWise computes one data point per window.
         public let window: MetricWindow
 
+        @inlinable
         public init(expression: String, processingConfig: MetricProcessingConfig? = nil, variables: [ExpressionVariable], window: MetricWindow) {
             self.expression = expression
             self.processingConfig = processingConfig
@@ -6805,6 +7020,7 @@ extension IoTSiteWise {
         /// The compute location for the given metric property.
         public let computeLocation: ComputeLocation
 
+        @inlinable
         public init(computeLocation: ComputeLocation) {
             self.computeLocation = computeLocation
         }
@@ -6818,6 +7034,7 @@ extension IoTSiteWise {
         /// The tumbling time interval window.
         public let tumbling: TumblingWindow?
 
+        @inlinable
         public init(tumbling: TumblingWindow? = nil) {
             self.tumbling = tumbling
         }
@@ -6837,6 +7054,7 @@ extension IoTSiteWise {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: MonitorErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -6852,6 +7070,7 @@ extension IoTSiteWise {
         /// Contains information about a customer managed Amazon S3 bucket.
         public let customerManagedS3Storage: CustomerManagedS3Storage
 
+        @inlinable
         public init(customerManagedS3Storage: CustomerManagedS3Storage) {
             self.customerManagedS3Storage = customerManagedS3Storage
         }
@@ -6873,6 +7092,7 @@ extension IoTSiteWise {
         /// The ID of the portal.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -6894,6 +7114,7 @@ extension IoTSiteWise {
         /// The current state of the portal.
         public let state: PortalState
 
+        @inlinable
         public init(error: MonitorErrorDetails? = nil, state: PortalState) {
             self.error = error
             self.state = state
@@ -6922,6 +7143,7 @@ extension IoTSiteWise {
         public let startUrl: String
         public let status: PortalStatus
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String, roleArn: String? = nil, startUrl: String, status: PortalStatus) {
             self.creationDate = creationDate
             self.description = description
@@ -6949,6 +7171,7 @@ extension IoTSiteWise {
         /// The ID of the project.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -6976,6 +7199,7 @@ extension IoTSiteWise {
         /// The name of the project.
         public let name: String
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, id: String, lastUpdateDate: Date? = nil, name: String) {
             self.creationDate = creationDate
             self.description = description
@@ -7013,6 +7237,7 @@ extension IoTSiteWise {
         /// The unit (such as Newtons or RPM) of the asset property.
         public let unit: String?
 
+        @inlinable
         public init(alias: String? = nil, dataType: PropertyDataType, externalId: String? = nil, id: String, name: String, notification: PropertyNotification? = nil, path: [AssetPropertyPathSegment]? = nil, type: PropertyType? = nil, unit: String? = nil) {
             self.alias = alias
             self.dataType = dataType
@@ -7044,6 +7269,7 @@ extension IoTSiteWise {
         /// The MQTT topic to which IoT SiteWise publishes property value update notifications.
         public let topic: String
 
+        @inlinable
         public init(state: PropertyNotificationState, topic: String) {
             self.state = state
             self.topic = topic
@@ -7065,6 +7291,7 @@ extension IoTSiteWise {
         /// Specifies an asset transform property. A transform contains a mathematical expression that maps a property's data points from one form to another, such as a unit conversion from Celsius to Fahrenheit.
         public let transform: Transform?
 
+        @inlinable
         public init(attribute: Attribute? = nil, measurement: Measurement? = nil, metric: Metric? = nil, transform: Transform? = nil) {
             self.attribute = attribute
             self.measurement = measurement
@@ -7098,6 +7325,7 @@ extension IoTSiteWise {
         /// The list of property values to upload. You can specify up to 10 propertyValues array elements.
         public let propertyValues: [AssetPropertyValue]
 
+        @inlinable
         public init(assetId: String? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, propertyValues: [AssetPropertyValue]) {
             self.assetId = assetId
             self.entryId = entryId
@@ -7139,6 +7367,7 @@ extension IoTSiteWise {
         /// The Key ID of the customer managed key used for KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsKeyId = kmsKeyId
@@ -7163,6 +7392,7 @@ extension IoTSiteWise {
         /// The Key ARN of the KMS key used for KMS encryption if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
             self.configurationStatus = configurationStatus
             self.encryptionType = encryptionType
@@ -7180,6 +7410,7 @@ extension IoTSiteWise {
         /// The logging options to set.
         public let loggingOptions: LoggingOptions
 
+        @inlinable
         public init(loggingOptions: LoggingOptions) {
             self.loggingOptions = loggingOptions
         }
@@ -7206,6 +7437,7 @@ extension IoTSiteWise {
         /// Set this period to specify how long your data is stored in the warm tier before it is deleted. You can set this only if cold tier is enabled.
         public let warmTierRetentionPeriod: WarmTierRetentionPeriod?
 
+        @inlinable
         public init(disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
             self.disassociatedDataStorage = disassociatedDataStorage
             self.multiLayerStorage = multiLayerStorage
@@ -7245,6 +7477,7 @@ extension IoTSiteWise {
         /// Set this period to specify how long your data is stored in the warm tier before it is deleted. You can set this only if cold tier is enabled.
         public let warmTierRetentionPeriod: WarmTierRetentionPeriod?
 
+        @inlinable
         public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
             self.configurationStatus = configurationStatus
             self.disassociatedDataStorage = disassociatedDataStorage
@@ -7272,6 +7505,7 @@ extension IoTSiteWise {
         /// A project resource.
         public let project: ProjectResource?
 
+        @inlinable
         public init(portal: PortalResource? = nil, project: ProjectResource? = nil) {
             self.portal = portal
             self.project = project
@@ -7294,6 +7528,7 @@ extension IoTSiteWise {
         /// If true, your data is kept indefinitely.  If configured to true, you must not specify a value for the numberOfDays parameter.
         public let unlimited: Bool?
 
+        @inlinable
         public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
@@ -7313,6 +7548,7 @@ extension IoTSiteWise {
         /// List of data points in a single row of the result set.
         public let data: [Datum]
 
+        @inlinable
         public init(data: [Datum]) {
             self.data = data
         }
@@ -7326,6 +7562,7 @@ extension IoTSiteWise {
         /// The name of the IoT Thing for your SiteWise Edge gateway.
         public let iotCoreThingName: String
 
+        @inlinable
         public init(iotCoreThingName: String) {
             self.iotCoreThingName = iotCoreThingName
         }
@@ -7347,6 +7584,7 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the resource. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -7384,6 +7622,7 @@ extension IoTSiteWise {
         /// The ID of the asset, in UUID format.
         public let assetId: String
 
+        @inlinable
         public init(assetId: String) {
             self.assetId = assetId
         }
@@ -7405,6 +7644,7 @@ extension IoTSiteWise {
         /// The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos.
         public let timeInSeconds: Int64
 
+        @inlinable
         public init(offsetInNanos: Int? = nil, timeInSeconds: Int64) {
             self.offsetInNanos = offsetInNanos
             self.timeInSeconds = timeInSeconds
@@ -7443,6 +7683,7 @@ extension IoTSiteWise {
         /// The date that the time series was last updated, in Unix epoch time.
         public let timeSeriesLastUpdateDate: Date
 
+        @inlinable
         public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesArn: String, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
             self.alias = alias
             self.assetId = assetId
@@ -7476,6 +7717,7 @@ extension IoTSiteWise {
         /// The list of variables used in the expression.
         public let variables: [ExpressionVariable]
 
+        @inlinable
         public init(expression: String, processingConfig: TransformProcessingConfig? = nil, variables: [ExpressionVariable]) {
             self.expression = expression
             self.processingConfig = processingConfig
@@ -7502,6 +7744,7 @@ extension IoTSiteWise {
         public let computeLocation: ComputeLocation
         public let forwardingConfig: ForwardingConfig?
 
+        @inlinable
         public init(computeLocation: ComputeLocation, forwardingConfig: ForwardingConfig? = nil) {
             self.computeLocation = computeLocation
             self.forwardingConfig = forwardingConfig
@@ -7519,6 +7762,7 @@ extension IoTSiteWise {
         /// The offset for the tumbling window. The offset parameter accepts the following:   The offset time. For example, if you specify 18h for offset and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.   If you create the metric after 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) the next day.     The ISO 8601 format. For example, if you specify PT18H for offset and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.   If you create the metric after 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) the next day.     The 24-hour clock. For example, if you specify 00:03:00 for offset, 5m for interval, and you create the metric at 2 PM (UTC), you get the first aggregation result at 2:03 PM (UTC). You get the second aggregation result at 2:08 PM (UTC).    The offset time zone. For example, if you specify 2021-07-23T18:00-08 for offset and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6 PM (PST), you get the first aggregation result at 6 PM (PST) on the day when you create the metric.   If you create the metric after 6 PM (PST), you get the first aggregation result at 6 PM (PST) the next day.
         public let offset: String?
 
+        @inlinable
         public init(interval: String, offset: String? = nil) {
             self.interval = interval
             self.offset = offset
@@ -7543,6 +7787,7 @@ extension IoTSiteWise {
         /// A list of keys for tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7584,6 +7829,7 @@ extension IoTSiteWise {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
+        @inlinable
         public init(accessPolicyId: String, accessPolicyIdentity: Identity, accessPolicyPermission: Permission, accessPolicyResource: Resource, clientToken: String? = UpdateAccessPolicyRequest.idempotencyToken()) {
             self.accessPolicyId = accessPolicyId
             self.accessPolicyIdentity = accessPolicyIdentity
@@ -7647,6 +7893,7 @@ extension IoTSiteWise {
         /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the update operation.
         public let matchForVersionType: AssetModelVersionType?
 
+        @inlinable
         public init(assetModelCompositeModelDescription: String? = nil, assetModelCompositeModelExternalId: String? = nil, assetModelCompositeModelId: String, assetModelCompositeModelName: String, assetModelCompositeModelProperties: [AssetModelProperty]? = nil, assetModelId: String, clientToken: String? = UpdateAssetModelCompositeModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelCompositeModelDescription = assetModelCompositeModelDescription
             self.assetModelCompositeModelExternalId = assetModelCompositeModelExternalId
@@ -7715,6 +7962,7 @@ extension IoTSiteWise {
         public let assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment]
         public let assetModelStatus: AssetModelStatus
 
+        @inlinable
         public init(assetModelCompositeModelPath: [AssetModelCompositeModelPathSegment], assetModelStatus: AssetModelStatus) {
             self.assetModelCompositeModelPath = assetModelCompositeModelPath
             self.assetModelStatus = assetModelStatus
@@ -7750,6 +7998,7 @@ extension IoTSiteWise {
         /// Specifies the asset model version type (LATEST or ACTIVE) used in  conjunction with If-Match or If-None-Match headers to determine the target ETag for the update operation.
         public let matchForVersionType: AssetModelVersionType?
 
+        @inlinable
         public init(assetModelCompositeModels: [AssetModelCompositeModel]? = nil, assetModelDescription: String? = nil, assetModelExternalId: String? = nil, assetModelHierarchies: [AssetModelHierarchy]? = nil, assetModelId: String, assetModelName: String, assetModelProperties: [AssetModelProperty]? = nil, clientToken: String? = UpdateAssetModelRequest.idempotencyToken(), ifMatch: String? = nil, ifNoneMatch: String? = nil, matchForVersionType: AssetModelVersionType? = nil) {
             self.assetModelCompositeModels = assetModelCompositeModels
             self.assetModelDescription = assetModelDescription
@@ -7824,6 +8073,7 @@ extension IoTSiteWise {
         /// The status of the asset model, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
+        @inlinable
         public init(assetModelStatus: AssetModelStatus) {
             self.assetModelStatus = assetModelStatus
         }
@@ -7847,6 +8097,7 @@ extension IoTSiteWise {
         /// The unit of measure (such as Newtons or RPM) of the asset property. If you don't specify a value for this parameter, the service uses the value of the assetModelProperty in the asset model.
         public let propertyUnit: String?
 
+        @inlinable
         public init(assetId: String, clientToken: String? = UpdateAssetPropertyRequest.idempotencyToken(), propertyAlias: String? = nil, propertyId: String, propertyNotificationState: PropertyNotificationState? = nil, propertyUnit: String? = nil) {
             self.assetId = assetId
             self.clientToken = clientToken
@@ -7904,6 +8155,7 @@ extension IoTSiteWise {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
+        @inlinable
         public init(assetDescription: String? = nil, assetExternalId: String? = nil, assetId: String, assetName: String, clientToken: String? = UpdateAssetRequest.idempotencyToken()) {
             self.assetDescription = assetDescription
             self.assetExternalId = assetExternalId
@@ -7952,6 +8204,7 @@ extension IoTSiteWise {
         /// The status of the asset, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
+        @inlinable
         public init(assetStatus: AssetStatus) {
             self.assetStatus = assetStatus
         }
@@ -7973,6 +8226,7 @@ extension IoTSiteWise {
         /// A new friendly name for the dashboard.
         public let dashboardName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateDashboardRequest.idempotencyToken(), dashboardDefinition: String, dashboardDescription: String? = nil, dashboardId: String, dashboardName: String) {
             self.clientToken = clientToken
             self.dashboardDefinition = dashboardDefinition
@@ -8028,6 +8282,7 @@ extension IoTSiteWise {
         /// The ID of the gateway to be updated.
         public let gatewayId: String
 
+        @inlinable
         public init(capabilityConfiguration: String, capabilityNamespace: String, gatewayId: String) {
             self.capabilityConfiguration = capabilityConfiguration
             self.capabilityNamespace = capabilityNamespace
@@ -8065,6 +8320,7 @@ extension IoTSiteWise {
         /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.   After you update a capability configuration, its sync status is OUT_OF_SYNC until the gateway receives and applies or rejects the updated configuration.
         public let capabilitySyncStatus: CapabilitySyncStatus
 
+        @inlinable
         public init(capabilityNamespace: String, capabilitySyncStatus: CapabilitySyncStatus) {
             self.capabilityNamespace = capabilityNamespace
             self.capabilitySyncStatus = capabilitySyncStatus
@@ -8082,6 +8338,7 @@ extension IoTSiteWise {
         /// A unique name for the gateway.
         public let gatewayName: String
 
+        @inlinable
         public init(gatewayId: String, gatewayName: String) {
             self.gatewayId = gatewayId
             self.gatewayName = gatewayName
@@ -8127,6 +8384,7 @@ extension IoTSiteWise {
         /// The ARN of a service role that allows the portal's users to access your IoT SiteWise resources on your behalf. For more information, see Using service roles for IoT SiteWise Monitor in the IoT SiteWise User Guide.
         public let roleArn: String
 
+        @inlinable
         public init(alarms: Alarms? = nil, clientToken: String? = UpdatePortalRequest.idempotencyToken(), notificationSenderEmail: String? = nil, portalContactEmail: String, portalDescription: String? = nil, portalId: String, portalLogoImage: Image? = nil, portalName: String, roleArn: String) {
             self.alarms = alarms
             self.clientToken = clientToken
@@ -8195,6 +8453,7 @@ extension IoTSiteWise {
         /// The status of the portal, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
 
+        @inlinable
         public init(portalStatus: PortalStatus) {
             self.portalStatus = portalStatus
         }
@@ -8214,6 +8473,7 @@ extension IoTSiteWise {
         /// A new friendly name for the project.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateProjectRequest.idempotencyToken(), projectDescription: String? = nil, projectId: String, projectName: String) {
             self.clientToken = clientToken
             self.projectDescription = projectDescription
@@ -8260,6 +8520,7 @@ extension IoTSiteWise {
         /// The IAM Identity Center ID of the user.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -8283,6 +8544,7 @@ extension IoTSiteWise {
         /// The path of the property.
         public let propertyPath: [AssetModelPropertyPathSegment]?
 
+        @inlinable
         public init(hierarchyId: String? = nil, propertyId: String? = nil, propertyPath: [AssetModelPropertyPathSegment]? = nil) {
             self.hierarchyId = hierarchyId
             self.propertyId = propertyId
@@ -8318,6 +8580,7 @@ extension IoTSiteWise {
         /// Asset property data of type string (sequence of characters).
         public let stringValue: String?
 
+        @inlinable
         public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
@@ -8339,6 +8602,7 @@ extension IoTSiteWise {
         /// If set to true, the data is stored indefinitely in the warm tier.
         public let unlimited: Bool?
 
+        @inlinable
         public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited

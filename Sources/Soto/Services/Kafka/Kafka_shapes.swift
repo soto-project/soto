@@ -149,6 +149,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of an Amazon MSK cluster.
         public let mskClusterArn: String?
 
+        @inlinable
         public init(mskClusterArn: String? = nil) {
             self.mskClusterArn = mskClusterArn
         }
@@ -164,6 +165,7 @@ extension Kafka {
         /// List of AWS Secrets Manager secret ARNs.
         public let secretArnList: [String]?
 
+        @inlinable
         public init(clusterArn: String, secretArnList: [String]? = nil) {
             self.clusterArn = clusterArn
             self.secretArnList = secretArnList
@@ -187,6 +189,7 @@ extension Kafka {
         /// List of errors when associating secrets to cluster.
         public let unprocessedScramSecrets: [UnprocessedScramSecret]?
 
+        @inlinable
         public init(clusterArn: String? = nil, unprocessedScramSecrets: [UnprocessedScramSecret]? = nil) {
             self.clusterArn = clusterArn
             self.unprocessedScramSecrets = unprocessedScramSecrets
@@ -204,6 +207,7 @@ extension Kafka {
         /// List of AWS Secrets Manager secret ARNs.
         public let secretArnList: [String]?
 
+        @inlinable
         public init(clusterArn: String, secretArnList: [String]? = nil) {
             self.clusterArn = clusterArn
             self.secretArnList = secretArnList
@@ -227,6 +231,7 @@ extension Kafka {
         /// List of errors when disassociating secrets to cluster.
         public let unprocessedScramSecrets: [UnprocessedScramSecret]?
 
+        @inlinable
         public init(clusterArn: String? = nil, unprocessedScramSecrets: [UnprocessedScramSecret]? = nil) {
             self.clusterArn = clusterArn
             self.unprocessedScramSecrets = unprocessedScramSecrets
@@ -244,6 +249,7 @@ extension Kafka {
         /// Kafka Broker IDs of brokers being deleted.
         public let deletedBrokerIds: [Double]?
 
+        @inlinable
         public init(createdBrokerIds: [Double]? = nil, deletedBrokerIds: [Double]? = nil) {
             self.createdBrokerIds = createdBrokerIds
             self.deletedBrokerIds = deletedBrokerIds
@@ -263,6 +269,7 @@ extension Kafka {
         /// Size of the EBS volume to update.
         public let volumeSizeGB: Int?
 
+        @inlinable
         public init(kafkaBrokerNodeId: String? = nil, provisionedThroughput: ProvisionedThroughput? = nil, volumeSizeGB: Int? = nil) {
             self.kafkaBrokerNodeId = kafkaBrokerNodeId
             self.provisionedThroughput = provisionedThroughput
@@ -281,6 +288,7 @@ extension Kafka {
         public let firehose: Firehose?
         public let s3: S3?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogs? = nil, firehose: Firehose? = nil, s3: S3? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.firehose = firehose
@@ -311,6 +319,7 @@ extension Kafka {
         /// The list of zoneIds for the cluster in the virtual private cloud (VPC).
         public let zoneIds: [String]?
 
+        @inlinable
         public init(brokerAZDistribution: BrokerAZDistribution? = nil, clientSubnets: [String]? = nil, connectivityInfo: ConnectivityInfo? = nil, instanceType: String? = nil, securityGroups: [String]? = nil, storageInfo: StorageInfo? = nil, zoneIds: [String]? = nil) {
             self.brokerAZDistribution = brokerAZDistribution
             self.clientSubnets = clientSubnets
@@ -352,6 +361,7 @@ extension Kafka {
         /// Endpoints for accessing the broker.
         public let endpoints: [String]?
 
+        @inlinable
         public init(attachedENIId: String? = nil, brokerId: Double? = nil, clientSubnet: String? = nil, clientVpcIpAddress: String? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, endpoints: [String]? = nil) {
             self.attachedENIId = attachedENIId
             self.brokerId = brokerId
@@ -379,6 +389,7 @@ extension Kafka {
         /// The version of Apache Kafka.
         public let kafkaVersion: String?
 
+        @inlinable
         public init(configurationArn: String? = nil, configurationRevision: Int64? = nil, kafkaVersion: String? = nil) {
             self.configurationArn = configurationArn
             self.configurationRevision = configurationRevision
@@ -400,6 +411,7 @@ extension Kafka {
         /// Contains information about unauthenticated traffic to the cluster.
         public let unauthenticated: Unauthenticated?
 
+        @inlinable
         public init(sasl: Sasl? = nil, tls: Tls? = nil, unauthenticated: Unauthenticated? = nil) {
             self.sasl = sasl
             self.tls = tls
@@ -426,6 +438,7 @@ extension Kafka {
         /// The ARN that identifies the Vpc Connection.
         public let vpcConnectionArn: String?
 
+        @inlinable
         public init(authentication: String? = nil, creationTime: Date? = nil, owner: String? = nil, state: VpcConnectionState? = nil, vpcConnectionArn: String? = nil) {
             self.authentication = authentication
             self.creationTime = creationTime
@@ -447,6 +460,7 @@ extension Kafka {
         public let enabled: Bool?
         public let logGroup: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, logGroup: String? = nil) {
             self.enabled = enabled
             self.logGroup = logGroup
@@ -483,6 +497,7 @@ extension Kafka {
         /// Tags attached to the cluster.
         public let tags: [String: String]?
 
+        @inlinable
         public init(activeOperationArn: String? = nil, clusterArn: String? = nil, clusterName: String? = nil, clusterType: ClusterType? = nil, creationTime: Date? = nil, currentVersion: String? = nil, provisioned: Provisioned? = nil, serverless: Serverless? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, tags: [String: String]? = nil) {
             self.activeOperationArn = activeOperationArn
             self.clusterArn = clusterArn
@@ -553,6 +568,7 @@ extension Kafka {
         /// The connection string to use to connect to zookeeper cluster on Tls port.
         public let zookeeperConnectStringTls: String?
 
+        @inlinable
         public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, customerActionStatus: CustomerActionStatus? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
@@ -628,6 +644,7 @@ extension Kafka {
         /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
         public let vpcConnectionInfo: VpcConnectionInfo?
 
+        @inlinable
         public init(clientRequestId: String? = nil, clusterArn: String? = nil, creationTime: Date? = nil, endTime: Date? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationSteps: [ClusterOperationStep]? = nil, operationType: String? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil, vpcConnectionInfo: VpcConnectionInfo? = nil) {
             self.clientRequestId = clientRequestId
             self.clusterArn = clusterArn
@@ -665,6 +682,7 @@ extension Kafka {
         /// The name of the step.
         public let stepName: String?
 
+        @inlinable
         public init(stepInfo: ClusterOperationStepInfo? = nil, stepName: String? = nil) {
             self.stepInfo = stepInfo
             self.stepName = stepName
@@ -680,6 +698,7 @@ extension Kafka {
         /// The steps current status.
         public let stepStatus: String?
 
+        @inlinable
         public init(stepStatus: String? = nil) {
             self.stepStatus = stepStatus
         }
@@ -713,6 +732,7 @@ extension Kafka {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterType: ClusterType? = nil, endTime: Date? = nil, errorInfo: ErrorInfo? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, provisioned: ClusterOperationV2Provisioned? = nil, serverless: ClusterOperationV2Serverless? = nil, startTime: Date? = nil) {
             self.clusterArn = clusterArn
             self.clusterType = clusterType
@@ -750,6 +770,7 @@ extension Kafka {
         /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
         public let vpcConnectionInfo: VpcConnectionInfo?
 
+        @inlinable
         public init(operationSteps: [ClusterOperationStep]? = nil, sourceClusterInfo: MutableClusterInfo? = nil, targetClusterInfo: MutableClusterInfo? = nil, vpcConnectionInfo: VpcConnectionInfo? = nil) {
             self.operationSteps = operationSteps
             self.sourceClusterInfo = sourceClusterInfo
@@ -769,6 +790,7 @@ extension Kafka {
         /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
         public let vpcConnectionInfo: VpcConnectionInfoServerless?
 
+        @inlinable
         public init(vpcConnectionInfo: VpcConnectionInfoServerless? = nil) {
             self.vpcConnectionInfo = vpcConnectionInfo
         }
@@ -796,6 +818,7 @@ extension Kafka {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterType: ClusterType? = nil, endTime: Date? = nil, operationArn: String? = nil, operationState: String? = nil, operationType: String? = nil, startTime: Date? = nil) {
             self.clusterArn = clusterArn
             self.clusterType = clusterType
@@ -823,6 +846,7 @@ extension Kafka {
         /// A list of Apache Kafka versions.
         public let targetVersions: [String]?
 
+        @inlinable
         public init(sourceVersion: String? = nil, targetVersions: [String]? = nil) {
             self.sourceVersion = sourceVersion
             self.targetVersions = targetVersions
@@ -851,6 +875,7 @@ extension Kafka {
         /// The state of the configuration. The possible states are ACTIVE, DELETING, and DELETE_FAILED.
         public let state: ConfigurationState?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -878,6 +903,7 @@ extension Kafka {
         /// The revision of the configuration to use.
         public let revision: Int64?
 
+        @inlinable
         public init(arn: String? = nil, revision: Int64? = nil) {
             self.arn = arn
             self.revision = revision
@@ -898,6 +924,7 @@ extension Kafka {
         /// The revision number.
         public let revision: Int64?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, revision: Int64? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -917,6 +944,7 @@ extension Kafka {
         /// VPC connectivity access control for brokers.
         public let vpcConnectivity: VpcConnectivity?
 
+        @inlinable
         public init(publicAccess: PublicAccess? = nil, vpcConnectivity: VpcConnectivity? = nil) {
             self.publicAccess = publicAccess
             self.vpcConnectivity = vpcConnectivity
@@ -938,6 +966,7 @@ extension Kafka {
         /// Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __consumer_offsets.
         public let synchroniseConsumerGroupOffsets: Bool?
 
+        @inlinable
         public init(consumerGroupsToExclude: [String]? = nil, consumerGroupsToReplicate: [String]? = nil, detectAndCopyNewConsumerGroups: Bool? = nil, synchroniseConsumerGroupOffsets: Bool? = nil) {
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
@@ -972,6 +1001,7 @@ extension Kafka {
         /// Enables synchronization of consumer group offsets to target cluster. The translated offsets will be written to topic __consumer_offsets.
         public let synchroniseConsumerGroupOffsets: Bool?
 
+        @inlinable
         public init(consumerGroupsToExclude: [String]? = nil, consumerGroupsToReplicate: [String]? = nil, detectAndCopyNewConsumerGroups: Bool? = nil, synchroniseConsumerGroupOffsets: Bool? = nil) {
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
@@ -1000,6 +1030,7 @@ extension Kafka {
         /// Endpoints for accessing the Controller.
         public let endpoints: [String]?
 
+        @inlinable
         public init(endpoints: [String]? = nil) {
             self.endpoints = endpoints
         }
@@ -1034,6 +1065,7 @@ extension Kafka {
         /// Create tags when creating the cluster.
         public let tags: [String: String]?
 
+        @inlinable
         public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterName: String? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -1083,6 +1115,7 @@ extension Kafka {
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterName: String? = nil, state: ClusterState? = nil) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -1106,6 +1139,7 @@ extension Kafka {
         /// A map of tags that you want the cluster to have.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clusterName: String? = nil, provisioned: ProvisionedRequest? = nil, serverless: ServerlessRequest? = nil, tags: [String: String]? = nil) {
             self.clusterName = clusterName
             self.provisioned = provisioned
@@ -1137,6 +1171,7 @@ extension Kafka {
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterName: String? = nil, clusterType: ClusterType? = nil, state: ClusterState? = nil) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -1162,6 +1197,7 @@ extension Kafka {
         /// Contents of the server.properties file. When using the API, you must ensure that the contents of the file are base64 encoded.  When using the AWS Management Console, the SDK, or the AWS CLI, the contents of server.properties can be in plaintext.
         public let serverProperties: AWSBase64Data?
 
+        @inlinable
         public init(description: String? = nil, kafkaVersions: [String]? = nil, name: String? = nil, serverProperties: AWSBase64Data? = nil) {
             self.description = description
             self.kafkaVersions = kafkaVersions
@@ -1190,6 +1226,7 @@ extension Kafka {
         /// The state of the configuration. The possible states are ACTIVE, DELETING, and DELETE_FAILED.
         public let state: ConfigurationState?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1221,6 +1258,7 @@ extension Kafka {
         /// List of tags to attach to created Replicator.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, kafkaClusters: [KafkaCluster]? = nil, replicationInfoList: [ReplicationInfo]? = nil, replicatorName: String? = nil, serviceExecutionRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.kafkaClusters = kafkaClusters
@@ -1258,6 +1296,7 @@ extension Kafka {
         /// State of the replicator.
         public let replicatorState: ReplicatorState?
 
+        @inlinable
         public init(replicatorArn: String? = nil, replicatorName: String? = nil, replicatorState: ReplicatorState? = nil) {
             self.replicatorArn = replicatorArn
             self.replicatorName = replicatorName
@@ -1285,6 +1324,7 @@ extension Kafka {
         /// The VPC ID of VPC connection.
         public let vpcId: String?
 
+        @inlinable
         public init(authentication: String? = nil, clientSubnets: [String]? = nil, securityGroups: [String]? = nil, tags: [String: String]? = nil, targetClusterArn: String? = nil, vpcId: String? = nil) {
             self.authentication = authentication
             self.clientSubnets = clientSubnets
@@ -1323,6 +1363,7 @@ extension Kafka {
         /// The VPC ID of the VPC connection.
         public let vpcId: String?
 
+        @inlinable
         public init(authentication: String? = nil, clientSubnets: [String]? = nil, creationTime: Date? = nil, securityGroups: [String]? = nil, state: VpcConnectionState? = nil, tags: [String: String]? = nil, vpcConnectionArn: String? = nil, vpcId: String? = nil) {
             self.authentication = authentication
             self.clientSubnets = clientSubnets
@@ -1350,6 +1391,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -1373,6 +1415,7 @@ extension Kafka {
         /// The current version of the MSK cluster.
         public let currentVersion: String?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -1394,6 +1437,7 @@ extension Kafka {
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
 
+        @inlinable
         public init(clusterArn: String? = nil, state: ClusterState? = nil) {
             self.clusterArn = clusterArn
             self.state = state
@@ -1409,6 +1453,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1428,6 +1473,7 @@ extension Kafka {
         /// The state of the configuration. The possible states are ACTIVE, DELETING, and DELETE_FAILED.
         public let state: ConfigurationState?
 
+        @inlinable
         public init(arn: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.state = state
@@ -1445,6 +1491,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the replicator to be deleted.
         public let replicatorArn: String
 
+        @inlinable
         public init(currentVersion: String? = nil, replicatorArn: String) {
             self.currentVersion = currentVersion
             self.replicatorArn = replicatorArn
@@ -1466,6 +1513,7 @@ extension Kafka {
         /// The state of the replicator.
         public let replicatorState: ReplicatorState?
 
+        @inlinable
         public init(replicatorArn: String? = nil, replicatorState: ReplicatorState? = nil) {
             self.replicatorArn = replicatorArn
             self.replicatorState = replicatorState
@@ -1481,6 +1529,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1500,6 +1549,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC connection.
         public let vpcConnectionArn: String?
 
+        @inlinable
         public init(state: VpcConnectionState? = nil, vpcConnectionArn: String? = nil) {
             self.state = state
             self.vpcConnectionArn = vpcConnectionArn
@@ -1515,6 +1565,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies the MSK cluster operation.
         public let clusterOperationArn: String
 
+        @inlinable
         public init(clusterOperationArn: String) {
             self.clusterOperationArn = clusterOperationArn
         }
@@ -1532,6 +1583,7 @@ extension Kafka {
         /// Cluster operation information
         public let clusterOperationInfo: ClusterOperationInfo?
 
+        @inlinable
         public init(clusterOperationInfo: ClusterOperationInfo? = nil) {
             self.clusterOperationInfo = clusterOperationInfo
         }
@@ -1545,6 +1597,7 @@ extension Kafka {
         /// ARN of the cluster operation to describe.
         public let clusterOperationArn: String
 
+        @inlinable
         public init(clusterOperationArn: String) {
             self.clusterOperationArn = clusterOperationArn
         }
@@ -1562,6 +1615,7 @@ extension Kafka {
         /// Cluster operation information
         public let clusterOperationInfo: ClusterOperationV2?
 
+        @inlinable
         public init(clusterOperationInfo: ClusterOperationV2? = nil) {
             self.clusterOperationInfo = clusterOperationInfo
         }
@@ -1575,6 +1629,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -1592,6 +1647,7 @@ extension Kafka {
         /// The cluster information.
         public let clusterInfo: ClusterInfo?
 
+        @inlinable
         public init(clusterInfo: ClusterInfo? = nil) {
             self.clusterInfo = clusterInfo
         }
@@ -1605,6 +1661,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -1622,6 +1679,7 @@ extension Kafka {
         /// The cluster information.
         public let clusterInfo: Cluster?
 
+        @inlinable
         public init(clusterInfo: Cluster? = nil) {
             self.clusterInfo = clusterInfo
         }
@@ -1635,6 +1693,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1665,6 +1724,7 @@ extension Kafka {
         /// The state of the configuration. The possible states are ACTIVE, DELETING, and DELETE_FAILED.
         public let state: ConfigurationState?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, kafkaVersions: [String]? = nil, latestRevision: ConfigurationRevision? = nil, name: String? = nil, state: ConfigurationState? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1692,6 +1752,7 @@ extension Kafka {
         /// A string that uniquely identifies a revision of an MSK configuration.
         public let revision: Int64
 
+        @inlinable
         public init(arn: String, revision: Int64) {
             self.arn = arn
             self.revision = revision
@@ -1720,6 +1781,7 @@ extension Kafka {
         /// Contents of the server.properties file. When using the API, you must ensure that the contents of the file are base64 encoded.  When using the AWS Management Console, the SDK, or the AWS CLI, the contents of server.properties can be in plaintext.
         public let serverProperties: AWSBase64Data?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, revision: Int64? = nil, serverProperties: AWSBase64Data? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1741,6 +1803,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the replicator to be described.
         public let replicatorArn: String
 
+        @inlinable
         public init(replicatorArn: String) {
             self.replicatorArn = replicatorArn
         }
@@ -1783,6 +1846,7 @@ extension Kafka {
         /// List of tags attached to the Replicator.
         public let tags: [String: String]?
 
+        @inlinable
         public init(creationTime: Date? = nil, currentVersion: String? = nil, isReplicatorReference: Bool? = nil, kafkaClusters: [KafkaClusterDescription]? = nil, replicationInfoList: [ReplicationInfoDescription]? = nil, replicatorArn: String? = nil, replicatorDescription: String? = nil, replicatorName: String? = nil, replicatorResourceArn: String? = nil, replicatorState: ReplicatorState? = nil, serviceExecutionRoleArn: String? = nil, stateInfo: ReplicationStateInfo? = nil, tags: [String: String]? = nil) {
             self.creationTime = creationTime
             self.currentVersion = currentVersion
@@ -1820,6 +1884,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1854,6 +1919,7 @@ extension Kafka {
         /// The VPC Id for the VPC connection.
         public let vpcId: String?
 
+        @inlinable
         public init(authentication: String? = nil, creationTime: Date? = nil, securityGroups: [String]? = nil, state: VpcConnectionState? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, targetClusterArn: String? = nil, vpcConnectionArn: String? = nil, vpcId: String? = nil) {
             self.authentication = authentication
             self.creationTime = creationTime
@@ -1885,6 +1951,7 @@ extension Kafka {
         /// The size in GiB of the EBS volume for the data drive on each broker node.
         public let volumeSize: Int?
 
+        @inlinable
         public init(provisionedThroughput: ProvisionedThroughput? = nil, volumeSize: Int? = nil) {
             self.provisionedThroughput = provisionedThroughput
             self.volumeSize = volumeSize
@@ -1905,6 +1972,7 @@ extension Kafka {
         /// The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it.
         public let dataVolumeKMSKeyId: String?
 
+        @inlinable
         public init(dataVolumeKMSKeyId: String? = nil) {
             self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
         }
@@ -1920,6 +1988,7 @@ extension Kafka {
         /// When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plaintext. The default value is true.
         public let inCluster: Bool?
 
+        @inlinable
         public init(clientBroker: ClientBroker? = nil, inCluster: Bool? = nil) {
             self.clientBroker = clientBroker
             self.inCluster = inCluster
@@ -1937,6 +2006,7 @@ extension Kafka {
         /// The details for encryption in transit.
         public let encryptionInTransit: EncryptionInTransit?
 
+        @inlinable
         public init(encryptionAtRest: EncryptionAtRest? = nil, encryptionInTransit: EncryptionInTransit? = nil) {
             self.encryptionAtRest = encryptionAtRest
             self.encryptionInTransit = encryptionInTransit
@@ -1954,6 +2024,7 @@ extension Kafka {
         /// An optional field to provide more details about the error.
         public let errorString: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorString: String? = nil) {
             self.errorCode = errorCode
             self.errorString = errorString
@@ -1969,6 +2040,7 @@ extension Kafka {
         public let deliveryStream: String?
         public let enabled: Bool?
 
+        @inlinable
         public init(deliveryStream: String? = nil, enabled: Bool? = nil) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
@@ -1984,6 +2056,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -2019,6 +2092,7 @@ extension Kafka {
         /// A string containing one or more DNS names (or IP) and TLS port pairs for VPC connectivity.
         public let bootstrapBrokerStringVpcConnectivityTls: String?
 
+        @inlinable
         public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringPublicSaslIam: String? = nil, bootstrapBrokerStringPublicSaslScram: String? = nil, bootstrapBrokerStringPublicTls: String? = nil, bootstrapBrokerStringSaslIam: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil, bootstrapBrokerStringVpcConnectivitySaslIam: String? = nil, bootstrapBrokerStringVpcConnectivitySaslScram: String? = nil, bootstrapBrokerStringVpcConnectivityTls: String? = nil) {
             self.bootstrapBrokerString = bootstrapBrokerString
             self.bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIam
@@ -2050,6 +2124,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
 
+        @inlinable
         public init(clusterArn: String) {
             self.clusterArn = clusterArn
         }
@@ -2069,6 +2144,7 @@ extension Kafka {
         /// The cluster policy.
         public let policy: String?
 
+        @inlinable
         public init(currentVersion: String? = nil, policy: String? = nil) {
             self.currentVersion = currentVersion
             self.policy = policy
@@ -2084,6 +2160,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster check.
         public let clusterArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
         }
@@ -2101,6 +2178,7 @@ extension Kafka {
         /// A list of CompatibleKafkaVersion objects.
         public let compatibleKafkaVersions: [CompatibleKafkaVersion]?
 
+        @inlinable
         public init(compatibleKafkaVersions: [CompatibleKafkaVersion]? = nil) {
             self.compatibleKafkaVersions = compatibleKafkaVersions
         }
@@ -2114,6 +2192,7 @@ extension Kafka {
         /// Indicates whether IAM access control is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -2127,6 +2206,7 @@ extension Kafka {
         /// Indicates whether you want to turn on or turn off the JMX Exporter.
         public let enabledInBroker: Bool?
 
+        @inlinable
         public init(enabledInBroker: Bool? = nil) {
             self.enabledInBroker = enabledInBroker
         }
@@ -2140,6 +2220,7 @@ extension Kafka {
         /// Indicates whether you want to turn on or turn off the JMX Exporter.
         public let enabledInBroker: Bool?
 
+        @inlinable
         public init(enabledInBroker: Bool? = nil) {
             self.enabledInBroker = enabledInBroker
         }
@@ -2155,6 +2236,7 @@ extension Kafka {
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
         public let vpcConfig: KafkaClusterClientVpcConfig?
 
+        @inlinable
         public init(amazonMskCluster: AmazonMskCluster? = nil, vpcConfig: KafkaClusterClientVpcConfig? = nil) {
             self.amazonMskCluster = amazonMskCluster
             self.vpcConfig = vpcConfig
@@ -2172,6 +2254,7 @@ extension Kafka {
         /// The list of subnets in the client VPC to connect to.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2191,6 +2274,7 @@ extension Kafka {
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
         public let vpcConfig: KafkaClusterClientVpcConfig?
 
+        @inlinable
         public init(amazonMskCluster: AmazonMskCluster? = nil, kafkaClusterAlias: String? = nil, vpcConfig: KafkaClusterClientVpcConfig? = nil) {
             self.amazonMskCluster = amazonMskCluster
             self.kafkaClusterAlias = kafkaClusterAlias
@@ -2210,6 +2294,7 @@ extension Kafka {
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public let kafkaClusterAlias: String?
 
+        @inlinable
         public init(amazonMskCluster: AmazonMskCluster? = nil, kafkaClusterAlias: String? = nil) {
             self.amazonMskCluster = amazonMskCluster
             self.kafkaClusterAlias = kafkaClusterAlias
@@ -2225,6 +2310,7 @@ extension Kafka {
         public let status: KafkaVersionStatus?
         public let version: String?
 
+        @inlinable
         public init(status: KafkaVersionStatus? = nil, version: String? = nil) {
             self.status = status
             self.version = version
@@ -2244,6 +2330,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -2272,6 +2359,7 @@ extension Kafka {
         /// The paginated results marker. When the result of a ListClientVpcConnections operation is truncated, the call returns NextToken in the response.  To get another batch of configurations, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clientVpcConnections: [ClientVpcConnection]? = nil, nextToken: String? = nil) {
             self.clientVpcConnections = clientVpcConnections
             self.nextToken = nextToken
@@ -2291,6 +2379,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -2319,6 +2408,7 @@ extension Kafka {
         /// If the response of ListClusterOperations is truncated, it returns a NextToken in the response. This Nexttoken should be sent in the subsequent request to ListClusterOperations.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterOperationInfoList: [ClusterOperationInfo]? = nil, nextToken: String? = nil) {
             self.clusterOperationInfoList = clusterOperationInfoList
             self.nextToken = nextToken
@@ -2338,6 +2428,7 @@ extension Kafka {
         /// The nextToken of the query.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -2366,6 +2457,7 @@ extension Kafka {
         /// If the response of ListClusterOperationsV2 is truncated, it returns a NextToken in the response. This NextToken should be sent in the subsequent request to ListClusterOperationsV2.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterOperationInfoList: [ClusterOperationV2Summary]? = nil, nextToken: String? = nil) {
             self.clusterOperationInfoList = clusterOperationInfoList
             self.nextToken = nextToken
@@ -2385,6 +2477,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterNameFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterNameFilter = clusterNameFilter
             self.maxResults = maxResults
@@ -2413,6 +2506,7 @@ extension Kafka {
         /// The paginated results marker. When the result of a ListClusters operation is truncated, the call returns NextToken in the response.  To get another batch of clusters, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterInfoList: [ClusterInfo]? = nil, nextToken: String? = nil) {
             self.clusterInfoList = clusterInfoList
             self.nextToken = nextToken
@@ -2434,6 +2528,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterNameFilter: String? = nil, clusterTypeFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterNameFilter = clusterNameFilter
             self.clusterTypeFilter = clusterTypeFilter
@@ -2464,6 +2559,7 @@ extension Kafka {
         /// The paginated results marker. When the result of a ListClusters operation is truncated, the call returns NextToken in the response.  To get another batch of clusters, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterInfoList: [Cluster]? = nil, nextToken: String? = nil) {
             self.clusterInfoList = clusterInfoList
             self.nextToken = nextToken
@@ -2483,6 +2579,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.maxResults = maxResults
@@ -2511,6 +2608,7 @@ extension Kafka {
         /// List of ConfigurationRevision objects.
         public let revisions: [ConfigurationRevision]?
 
+        @inlinable
         public init(nextToken: String? = nil, revisions: [ConfigurationRevision]? = nil) {
             self.nextToken = nextToken
             self.revisions = revisions
@@ -2528,6 +2626,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2554,6 +2653,7 @@ extension Kafka {
         /// The paginated results marker. When the result of a ListConfigurations operation is truncated, the call returns NextToken in the response.  To get another batch of configurations, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(configurations: [Configuration]? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.nextToken = nextToken
@@ -2571,6 +2671,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2595,6 +2696,7 @@ extension Kafka {
         public let kafkaVersions: [KafkaVersion]?
         public let nextToken: String?
 
+        @inlinable
         public init(kafkaVersions: [KafkaVersion]? = nil, nextToken: String? = nil) {
             self.kafkaVersions = kafkaVersions
             self.nextToken = nextToken
@@ -2614,6 +2716,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -2642,6 +2745,7 @@ extension Kafka {
         /// List containing a NodeInfo object.
         public let nodeInfoList: [NodeInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodeInfoList: [NodeInfo]? = nil) {
             self.nextToken = nextToken
             self.nodeInfoList = nodeInfoList
@@ -2661,6 +2765,7 @@ extension Kafka {
         /// Returns replicators starting with given name.
         public let replicatorNameFilter: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, replicatorNameFilter: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2689,6 +2794,7 @@ extension Kafka {
         /// List containing information of each of the replicators in the account.
         public let replicators: [ReplicatorSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, replicators: [ReplicatorSummary]? = nil) {
             self.nextToken = nextToken
             self.replicators = replicators
@@ -2708,6 +2814,7 @@ extension Kafka {
         /// The nextToken of the query.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterArn = clusterArn
             self.maxResults = maxResults
@@ -2736,6 +2843,7 @@ extension Kafka {
         /// The list of scram secrets associated with the cluster.
         public let secretArnList: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, secretArnList: [String]? = nil) {
             self.nextToken = nextToken
             self.secretArnList = secretArnList
@@ -2751,6 +2859,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2768,6 +2877,7 @@ extension Kafka {
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2783,6 +2893,7 @@ extension Kafka {
         /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2809,6 +2920,7 @@ extension Kafka {
         /// List of VPC connections.
         public let vpcConnections: [VpcConnection]?
 
+        @inlinable
         public init(nextToken: String? = nil, vpcConnections: [VpcConnection]? = nil) {
             self.nextToken = nextToken
             self.vpcConnections = vpcConnections
@@ -2823,6 +2935,7 @@ extension Kafka {
     public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
         public let brokerLogs: BrokerLogs?
 
+        @inlinable
         public init(brokerLogs: BrokerLogs? = nil) {
             self.brokerLogs = brokerLogs
         }
@@ -2860,6 +2973,7 @@ extension Kafka {
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
 
+        @inlinable
         public init(brokerCountUpdateInfo: BrokerCountUpdateInfo? = nil, brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, storageMode: StorageMode? = nil) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
@@ -2897,6 +3011,7 @@ extension Kafka {
         /// Indicates whether you want to turn on or turn off the Node Exporter.
         public let enabledInBroker: Bool?
 
+        @inlinable
         public init(enabledInBroker: Bool? = nil) {
             self.enabledInBroker = enabledInBroker
         }
@@ -2910,6 +3025,7 @@ extension Kafka {
         /// Indicates whether you want to turn on or turn off the Node Exporter.
         public let enabledInBroker: Bool?
 
+        @inlinable
         public init(enabledInBroker: Bool? = nil) {
             self.enabledInBroker = enabledInBroker
         }
@@ -2935,6 +3051,7 @@ extension Kafka {
         /// The ZookeeperNodeInfo.
         public let zookeeperNodeInfo: ZookeeperNodeInfo?
 
+        @inlinable
         public init(addedToClusterTime: String? = nil, brokerNodeInfo: BrokerNodeInfo? = nil, controllerNodeInfo: ControllerNodeInfo? = nil, instanceType: String? = nil, nodeARN: String? = nil, nodeType: NodeType? = nil, zookeeperNodeInfo: ZookeeperNodeInfo? = nil) {
             self.addedToClusterTime = addedToClusterTime
             self.brokerNodeInfo = brokerNodeInfo
@@ -2960,6 +3077,7 @@ extension Kafka {
         /// Prometheus settings.
         public let prometheus: Prometheus?
 
+        @inlinable
         public init(prometheus: Prometheus? = nil) {
             self.prometheus = prometheus
         }
@@ -2973,6 +3091,7 @@ extension Kafka {
         /// Prometheus settings.
         public let prometheus: PrometheusInfo?
 
+        @inlinable
         public init(prometheus: PrometheusInfo? = nil) {
             self.prometheus = prometheus
         }
@@ -2988,6 +3107,7 @@ extension Kafka {
         /// Indicates whether you want to turn on or turn off the Node Exporter.
         public let nodeExporter: NodeExporter?
 
+        @inlinable
         public init(jmxExporter: JmxExporter? = nil, nodeExporter: NodeExporter? = nil) {
             self.jmxExporter = jmxExporter
             self.nodeExporter = nodeExporter
@@ -3005,6 +3125,7 @@ extension Kafka {
         /// Indicates whether you want to turn on or turn off the Node Exporter.
         public let nodeExporter: NodeExporterInfo?
 
+        @inlinable
         public init(jmxExporter: JmxExporterInfo? = nil, nodeExporter: NodeExporterInfo? = nil) {
             self.jmxExporter = jmxExporter
             self.nodeExporter = nodeExporter
@@ -3042,6 +3163,7 @@ extension Kafka {
         /// The connection string to use to connect to the Apache ZooKeeper cluster on a TLS port.
         public let zookeeperConnectStringTls: String?
 
+        @inlinable
         public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, customerActionStatus: CustomerActionStatus? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -3095,6 +3217,7 @@ extension Kafka {
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
 
+        @inlinable
         public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -3136,6 +3259,7 @@ extension Kafka {
         /// Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second.
         public let volumeThroughput: Int?
 
+        @inlinable
         public init(enabled: Bool? = nil, volumeThroughput: Int? = nil) {
             self.enabled = enabled
             self.volumeThroughput = volumeThroughput
@@ -3151,6 +3275,7 @@ extension Kafka {
         /// The value DISABLED indicates that public access is turned off. SERVICE_PROVIDED_EIPS indicates that public access is turned on.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -3168,6 +3293,7 @@ extension Kafka {
         /// The policy.
         public let policy: String?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil, policy: String? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -3192,6 +3318,7 @@ extension Kafka {
         /// The policy version.
         public let currentVersion: String?
 
+        @inlinable
         public init(currentVersion: String? = nil) {
             self.currentVersion = currentVersion
         }
@@ -3207,6 +3334,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster to be updated.
         public let clusterArn: String
 
+        @inlinable
         public init(brokerIds: [String]? = nil, clusterArn: String) {
             self.brokerIds = brokerIds
             self.clusterArn = clusterArn
@@ -3230,6 +3358,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -3247,6 +3376,7 @@ extension Kafka {
         /// The VPC connection ARN.
         public let vpcConnectionArn: String?
 
+        @inlinable
         public init(clusterArn: String, vpcConnectionArn: String? = nil) {
             self.clusterArn = clusterArn
             self.vpcConnectionArn = vpcConnectionArn
@@ -3280,6 +3410,7 @@ extension Kafka {
         /// Configuration relating to topic replication.
         public let topicReplication: TopicReplication?
 
+        @inlinable
         public init(consumerGroupReplication: ConsumerGroupReplication? = nil, sourceKafkaClusterArn: String? = nil, targetCompressionType: TargetCompressionType? = nil, targetKafkaClusterArn: String? = nil, topicReplication: TopicReplication? = nil) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterArn = sourceKafkaClusterArn
@@ -3314,6 +3445,7 @@ extension Kafka {
         /// Configuration relating to topic replication.
         public let topicReplication: TopicReplication?
 
+        @inlinable
         public init(consumerGroupReplication: ConsumerGroupReplication? = nil, sourceKafkaClusterAlias: String? = nil, targetCompressionType: TargetCompressionType? = nil, targetKafkaClusterAlias: String? = nil, topicReplication: TopicReplication? = nil) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterAlias = sourceKafkaClusterAlias
@@ -3337,6 +3469,7 @@ extension Kafka {
         /// The alias of the target Kafka cluster.
         public let targetKafkaClusterAlias: String?
 
+        @inlinable
         public init(sourceKafkaClusterAlias: String? = nil, targetKafkaClusterAlias: String? = nil) {
             self.sourceKafkaClusterAlias = sourceKafkaClusterAlias
             self.targetKafkaClusterAlias = targetKafkaClusterAlias
@@ -3352,6 +3485,7 @@ extension Kafka {
         /// The type of replication starting position.
         public let type: ReplicationStartingPositionType?
 
+        @inlinable
         public init(type: ReplicationStartingPositionType? = nil) {
             self.type = type
         }
@@ -3367,6 +3501,7 @@ extension Kafka {
         /// Message that describes the state of the replicator.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -3382,6 +3517,7 @@ extension Kafka {
         /// The type of replicated topic name.
         public let type: ReplicationTopicNameConfigurationType?
 
+        @inlinable
         public init(type: ReplicationTopicNameConfigurationType? = nil) {
             self.type = type
         }
@@ -3412,6 +3548,7 @@ extension Kafka {
         /// State of the replicator.
         public let replicatorState: ReplicatorState?
 
+        @inlinable
         public init(creationTime: Date? = nil, currentVersion: String? = nil, isReplicatorReference: Bool? = nil, kafkaClustersSummary: [KafkaClusterSummary]? = nil, replicationInfoSummaryList: [ReplicationInfoSummary]? = nil, replicatorArn: String? = nil, replicatorName: String? = nil, replicatorResourceArn: String? = nil, replicatorState: ReplicatorState? = nil) {
             self.creationTime = creationTime
             self.currentVersion = currentVersion
@@ -3442,6 +3579,7 @@ extension Kafka {
         public let enabled: Bool?
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, enabled: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.enabled = enabled
@@ -3461,6 +3599,7 @@ extension Kafka {
         /// Details for SASL/SCRAM client authentication.
         public let scram: Scram?
 
+        @inlinable
         public init(iam: Iam? = nil, scram: Scram? = nil) {
             self.iam = iam
             self.scram = scram
@@ -3476,6 +3615,7 @@ extension Kafka {
         /// SASL/SCRAM authentication is enabled or not.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -3491,6 +3631,7 @@ extension Kafka {
         /// The configuration of the Amazon VPCs for the cluster.
         public let vpcConfigs: [VpcConfig]?
 
+        @inlinable
         public init(clientAuthentication: ServerlessClientAuthentication? = nil, vpcConfigs: [VpcConfig]? = nil) {
             self.clientAuthentication = clientAuthentication
             self.vpcConfigs = vpcConfigs
@@ -3506,6 +3647,7 @@ extension Kafka {
         /// Details for ClientAuthentication using SASL.
         public let sasl: ServerlessSasl?
 
+        @inlinable
         public init(sasl: ServerlessSasl? = nil) {
             self.sasl = sasl
         }
@@ -3521,6 +3663,7 @@ extension Kafka {
         /// The configuration of the Amazon VPCs for the cluster.
         public let vpcConfigs: [VpcConfig]?
 
+        @inlinable
         public init(clientAuthentication: ServerlessClientAuthentication? = nil, vpcConfigs: [VpcConfig]? = nil) {
             self.clientAuthentication = clientAuthentication
             self.vpcConfigs = vpcConfigs
@@ -3536,6 +3679,7 @@ extension Kafka {
         /// Indicates whether IAM access control is enabled.
         public let iam: Iam?
 
+        @inlinable
         public init(iam: Iam? = nil) {
             self.iam = iam
         }
@@ -3549,6 +3693,7 @@ extension Kafka {
         public let code: String?
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -3564,6 +3709,7 @@ extension Kafka {
         /// EBS volume information.
         public let ebsStorageInfo: EBSStorageInfo?
 
+        @inlinable
         public init(ebsStorageInfo: EBSStorageInfo? = nil) {
             self.ebsStorageInfo = ebsStorageInfo
         }
@@ -3583,6 +3729,7 @@ extension Kafka {
         /// The key-value pair for the resource tag.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3606,6 +3753,7 @@ extension Kafka {
         /// Specifies whether you want to turn on or turn off TLS authentication.
         public let enabled: Bool?
 
+        @inlinable
         public init(certificateAuthorityArnList: [String]? = nil, enabled: Bool? = nil) {
             self.certificateAuthorityArnList = certificateAuthorityArnList
             self.enabled = enabled
@@ -3633,6 +3781,7 @@ extension Kafka {
         /// List of regular expression patterns indicating the topics to copy.
         public let topicsToReplicate: [String]?
 
+        @inlinable
         public init(copyAccessControlListsForTopics: Bool? = nil, copyTopicConfigurations: Bool? = nil, detectAndCopyNewTopics: Bool? = nil, startingPosition: ReplicationStartingPosition? = nil, topicNameConfiguration: ReplicationTopicNameConfiguration? = nil, topicsToExclude: [String]? = nil, topicsToReplicate: [String]? = nil) {
             self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
             self.copyTopicConfigurations = copyTopicConfigurations
@@ -3675,6 +3824,7 @@ extension Kafka {
         /// List of regular expression patterns indicating the topics to copy.
         public let topicsToReplicate: [String]?
 
+        @inlinable
         public init(copyAccessControlListsForTopics: Bool? = nil, copyTopicConfigurations: Bool? = nil, detectAndCopyNewTopics: Bool? = nil, topicsToExclude: [String]? = nil, topicsToReplicate: [String]? = nil) {
             self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
             self.copyTopicConfigurations = copyTopicConfigurations
@@ -3705,6 +3855,7 @@ extension Kafka {
         /// Specifies whether you want to turn on or turn off unauthenticated traffic to your cluster.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -3722,6 +3873,7 @@ extension Kafka {
         /// AWS Secrets Manager secret ARN.
         public let secretArn: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, secretArn: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3741,6 +3893,7 @@ extension Kafka {
         /// Tag keys must be unique for a given cluster. In addition, the following restrictions apply:   Each tag key must be unique. If you add a tag with a key that's already in use, your new tag overwrites the existing key-value pair.    You can't start a tag key with aws: because this prefix is reserved for use by  AWS.  AWS creates tags that begin with this prefix on your behalf, but you can't edit or delete them.   Tag keys must be between 1 and 128 Unicode characters in length.   Tag keys must consist of the following characters: Unicode letters, digits, white space, and the following special characters: _ . / = + - @.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3764,6 +3917,7 @@ extension Kafka {
         /// The number of broker nodes that you want the cluster to have after this operation completes successfully.
         public let targetNumberOfBrokerNodes: Int?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil, targetNumberOfBrokerNodes: Int? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -3795,6 +3949,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -3814,6 +3969,7 @@ extension Kafka {
         /// Describes the target volume size and the ID of the broker to apply the update to.
         public let targetBrokerEBSVolumeInfo: [BrokerEBSVolumeInfo]?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil, targetBrokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -3840,6 +3996,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -3859,6 +4016,7 @@ extension Kafka {
         /// The Amazon MSK broker type that you want all of the brokers in this cluster to be.
         public let targetInstanceType: String?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil, targetInstanceType: String? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -3885,6 +4043,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -3904,6 +4063,7 @@ extension Kafka {
         /// The version of the cluster that needs to be updated.
         public let currentVersion: String?
 
+        @inlinable
         public init(clusterArn: String, configurationInfo: ConfigurationInfo? = nil, currentVersion: String? = nil) {
             self.clusterArn = clusterArn
             self.configurationInfo = configurationInfo
@@ -3930,6 +4090,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -3951,6 +4112,7 @@ extension Kafka {
         /// Target Kafka version.
         public let targetKafkaVersion: String?
 
+        @inlinable
         public init(clusterArn: String, configurationInfo: ConfigurationInfo? = nil, currentVersion: String? = nil, targetKafkaVersion: String? = nil) {
             self.clusterArn = clusterArn
             self.configurationInfo = configurationInfo
@@ -3980,6 +4142,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -3999,6 +4162,7 @@ extension Kafka {
         /// Contents of the server.properties file. When using the API, you must ensure that the contents of the file are base64 encoded.  When using the AWS Management Console, the SDK, or the AWS CLI, the contents of server.properties can be in plaintext.
         public let serverProperties: AWSBase64Data?
 
+        @inlinable
         public init(arn: String, description: String? = nil, serverProperties: AWSBase64Data? = nil) {
             self.arn = arn
             self.description = description
@@ -4025,6 +4189,7 @@ extension Kafka {
         /// Latest revision of the configuration.
         public let latestRevision: ConfigurationRevision?
 
+        @inlinable
         public init(arn: String? = nil, latestRevision: ConfigurationRevision? = nil) {
             self.arn = arn
             self.latestRevision = latestRevision
@@ -4044,6 +4209,7 @@ extension Kafka {
         /// The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
         public let currentVersion: String?
 
+        @inlinable
         public init(clusterArn: String, connectivityInfo: ConnectivityInfo? = nil, currentVersion: String? = nil) {
             self.clusterArn = clusterArn
             self.connectivityInfo = connectivityInfo
@@ -4070,6 +4236,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -4092,6 +4259,7 @@ extension Kafka {
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, openMonitoring: OpenMonitoringInfo? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -4124,6 +4292,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -4149,6 +4318,7 @@ extension Kafka {
         /// Updated topic replication information.
         public let topicReplication: TopicReplicationUpdate?
 
+        @inlinable
         public init(consumerGroupReplication: ConsumerGroupReplicationUpdate? = nil, currentVersion: String? = nil, replicatorArn: String, sourceKafkaClusterArn: String? = nil, targetKafkaClusterArn: String? = nil, topicReplication: TopicReplicationUpdate? = nil) {
             self.consumerGroupReplication = consumerGroupReplication
             self.currentVersion = currentVersion
@@ -4189,6 +4359,7 @@ extension Kafka {
         /// State of the replicator.
         public let replicatorState: ReplicatorState?
 
+        @inlinable
         public init(replicatorArn: String? = nil, replicatorState: ReplicatorState? = nil) {
             self.replicatorArn = replicatorArn
             self.replicatorState = replicatorState
@@ -4210,6 +4381,7 @@ extension Kafka {
         /// Includes all encryption-related information.
         public let encryptionInfo: EncryptionInfo?
 
+        @inlinable
         public init(clientAuthentication: ClientAuthentication? = nil, clusterArn: String, currentVersion: String? = nil, encryptionInfo: EncryptionInfo? = nil) {
             self.clientAuthentication = clientAuthentication
             self.clusterArn = clusterArn
@@ -4239,6 +4411,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -4262,6 +4435,7 @@ extension Kafka {
         /// size of the EBS volume to update.
         public let volumeSizeGB: Int?
 
+        @inlinable
         public init(clusterArn: String, currentVersion: String? = nil, provisionedThroughput: ProvisionedThroughput? = nil, storageMode: StorageMode? = nil, volumeSizeGB: Int? = nil) {
             self.clusterArn = clusterArn
             self.currentVersion = currentVersion
@@ -4294,6 +4468,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
             self.clusterArn = clusterArn
             self.clusterOperationArn = clusterOperationArn
@@ -4311,6 +4486,7 @@ extension Kafka {
         /// The identity type of the requester that calls the API operation.
         public let type: UserIdentityType?
 
+        @inlinable
         public init(principalId: String? = nil, type: UserIdentityType? = nil) {
             self.principalId = principalId
             self.type = type
@@ -4328,6 +4504,7 @@ extension Kafka {
         /// The IDs of the subnets associated with the cluster.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4354,6 +4531,7 @@ extension Kafka {
         /// The vpcId that belongs to the Vpc Connection.
         public let vpcId: String?
 
+        @inlinable
         public init(authentication: String? = nil, creationTime: Date? = nil, state: VpcConnectionState? = nil, targetClusterArn: String? = nil, vpcConnectionArn: String? = nil, vpcId: String? = nil) {
             self.authentication = authentication
             self.creationTime = creationTime
@@ -4384,6 +4562,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the VPC connection.
         public let vpcConnectionArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, owner: String? = nil, userIdentity: UserIdentity? = nil, vpcConnectionArn: String? = nil) {
             self.creationTime = creationTime
             self.owner = owner
@@ -4410,6 +4589,7 @@ extension Kafka {
         /// The Amazon Resource Name (ARN) of the VPC connection.
         public let vpcConnectionArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, owner: String? = nil, userIdentity: UserIdentity? = nil, vpcConnectionArn: String? = nil) {
             self.creationTime = creationTime
             self.owner = owner
@@ -4429,6 +4609,7 @@ extension Kafka {
         /// Includes all client authentication information for VPC connectivity.
         public let clientAuthentication: VpcConnectivityClientAuthentication?
 
+        @inlinable
         public init(clientAuthentication: VpcConnectivityClientAuthentication? = nil) {
             self.clientAuthentication = clientAuthentication
         }
@@ -4444,6 +4625,7 @@ extension Kafka {
         /// TLS authentication type details for VPC connectivity.
         public let tls: VpcConnectivityTls?
 
+        @inlinable
         public init(sasl: VpcConnectivitySasl? = nil, tls: VpcConnectivityTls? = nil) {
             self.sasl = sasl
             self.tls = tls
@@ -4459,6 +4641,7 @@ extension Kafka {
         /// SASL/IAM authentication is on or off for VPC connectivity.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -4474,6 +4657,7 @@ extension Kafka {
         /// Details for SASL/SCRAM client authentication for VPC connectivity.
         public let scram: VpcConnectivityScram?
 
+        @inlinable
         public init(iam: VpcConnectivityIam? = nil, scram: VpcConnectivityScram? = nil) {
             self.iam = iam
             self.scram = scram
@@ -4489,6 +4673,7 @@ extension Kafka {
         /// SASL/SCRAM authentication is on or off for VPC connectivity.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -4502,6 +4687,7 @@ extension Kafka {
         /// TLS authentication is on or off for VPC connectivity.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -4523,6 +4709,7 @@ extension Kafka {
         /// The version of Zookeeper.
         public let zookeeperVersion: String?
 
+        @inlinable
         public init(attachedENIId: String? = nil, clientVpcIpAddress: String? = nil, endpoints: [String]? = nil, zookeeperId: Double? = nil, zookeeperVersion: String? = nil) {
             self.attachedENIId = attachedENIId
             self.clientVpcIpAddress = clientVpcIpAddress

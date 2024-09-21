@@ -138,6 +138,7 @@ extension CloudWatchEvents {
         /// The name of the partner event source to activate.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -173,6 +174,7 @@ extension CloudWatchEvents {
         /// The name of the API destination.
         public let name: String?
 
+        @inlinable
         public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, connectionArn: String? = nil, creationTime: Date? = nil, httpMethod: ApiDestinationHttpMethod? = nil, invocationEndpoint: String? = nil, invocationRateLimitPerSecond: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.apiDestinationArn = apiDestinationArn
             self.apiDestinationState = apiDestinationState
@@ -216,6 +218,7 @@ extension CloudWatchEvents {
         /// A description for the reason that the archive is in the current state.
         public let stateReason: String?
 
+        @inlinable
         public init(archiveName: String? = nil, creationTime: Date? = nil, eventCount: Int64? = nil, eventSourceArn: String? = nil, retentionDays: Int? = nil, sizeBytes: Int64? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
             self.archiveName = archiveName
             self.creationTime = creationTime
@@ -247,6 +250,7 @@ extension CloudWatchEvents {
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
 
+        @inlinable
         public init(assignPublicIp: AssignPublicIp? = nil, securityGroups: [String]? = nil, subnets: [String]) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -264,6 +268,7 @@ extension CloudWatchEvents {
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
         public let size: Int?
 
+        @inlinable
         public init(size: Int? = nil) {
             self.size = size
         }
@@ -283,6 +288,7 @@ extension CloudWatchEvents {
         /// The retry strategy to use for failed jobs, if the target is an Batch job. The retry strategy is the number of times to retry the failed job execution. Valid values are 1–10. When you specify a retry strategy here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
 
+        @inlinable
         public init(arrayProperties: BatchArrayProperties? = nil, jobDefinition: String, jobName: String, retryStrategy: BatchRetryStrategy? = nil) {
             self.arrayProperties = arrayProperties
             self.jobDefinition = jobDefinition
@@ -302,6 +308,7 @@ extension CloudWatchEvents {
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
         public let attempts: Int?
 
+        @inlinable
         public init(attempts: Int? = nil) {
             self.attempts = attempts
         }
@@ -315,6 +322,7 @@ extension CloudWatchEvents {
         /// The name of the replay to cancel.
         public let replayName: String
 
+        @inlinable
         public init(replayName: String) {
             self.replayName = replayName
         }
@@ -338,6 +346,7 @@ extension CloudWatchEvents {
         /// The reason that the replay is in the current state.
         public let stateReason: String?
 
+        @inlinable
         public init(replayArn: String? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
             self.replayArn = replayArn
             self.state = state
@@ -359,6 +368,7 @@ extension CloudWatchEvents {
         /// The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into consideration after the base value, if defined, is satisfied.
         public let weight: Int?
 
+        @inlinable
         public init(base: Int? = nil, capacityProvider: String, weight: Int? = nil) {
             self.base = base
             self.capacityProvider = capacityProvider
@@ -389,6 +399,7 @@ extension CloudWatchEvents {
         /// Specifies the value for the key. Currently, this must be the ID of the organization.
         public let value: String
 
+        @inlinable
         public init(key: String, type: String, value: String) {
             self.key = key
             self.type = type
@@ -420,6 +431,7 @@ extension CloudWatchEvents {
         /// The reason that the connection is in the connection state.
         public let stateReason: String?
 
+        @inlinable
         public init(authorizationType: ConnectionAuthorizationType? = nil, connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, stateReason: String? = nil) {
             self.authorizationType = authorizationType
             self.connectionArn = connectionArn
@@ -447,6 +459,7 @@ extension CloudWatchEvents {
         /// The name of the header to use for the APIKeyValue used for authorization.
         public let apiKeyName: String?
 
+        @inlinable
         public init(apiKeyName: String? = nil) {
             self.apiKeyName = apiKeyName
         }
@@ -466,6 +479,7 @@ extension CloudWatchEvents {
         /// The OAuth parameters to use for authorization.
         public let oAuthParameters: ConnectionOAuthResponseParameters?
 
+        @inlinable
         public init(apiKeyAuthParameters: ConnectionApiKeyAuthResponseParameters? = nil, basicAuthParameters: ConnectionBasicAuthResponseParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: ConnectionOAuthResponseParameters? = nil) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
@@ -485,6 +499,7 @@ extension CloudWatchEvents {
         /// The user name to use for Basic authorization.
         public let username: String?
 
+        @inlinable
         public init(username: String? = nil) {
             self.username = username
         }
@@ -502,6 +517,7 @@ extension CloudWatchEvents {
         /// The value associated with the key.
         public let value: String?
 
+        @inlinable
         public init(isValueSecret: Bool? = nil, key: String? = nil, value: String? = nil) {
             self.isValueSecret = isValueSecret
             self.key = key
@@ -523,6 +539,7 @@ extension CloudWatchEvents {
         /// The value associated with the key.
         public let value: String?
 
+        @inlinable
         public init(isValueSecret: Bool? = nil, key: String? = nil, value: String? = nil) {
             self.isValueSecret = isValueSecret
             self.key = key
@@ -551,6 +568,7 @@ extension CloudWatchEvents {
         /// Contains additional query string parameters for the connection.
         public let queryStringParameters: [ConnectionQueryStringParameter]?
 
+        @inlinable
         public init(bodyParameters: [ConnectionBodyParameter]? = nil, headerParameters: [ConnectionHeaderParameter]? = nil, queryStringParameters: [ConnectionQueryStringParameter]? = nil) {
             self.bodyParameters = bodyParameters
             self.headerParameters = headerParameters
@@ -580,6 +598,7 @@ extension CloudWatchEvents {
         /// The client ID associated with the response to the connection request.
         public let clientID: String?
 
+        @inlinable
         public init(clientID: String? = nil) {
             self.clientID = clientID
         }
@@ -599,6 +618,7 @@ extension CloudWatchEvents {
         /// The additional HTTP parameters used for the OAuth authorization request.
         public let oAuthHttpParameters: ConnectionHttpParameters?
 
+        @inlinable
         public init(authorizationEndpoint: String? = nil, clientParameters: ConnectionOAuthClientResponseParameters? = nil, httpMethod: ConnectionOAuthHttpMethod? = nil, oAuthHttpParameters: ConnectionHttpParameters? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
@@ -622,6 +642,7 @@ extension CloudWatchEvents {
         /// The value associated with the key for the query string parameter.
         public let value: String?
 
+        @inlinable
         public init(isValueSecret: Bool? = nil, key: String? = nil, value: String? = nil) {
             self.isValueSecret = isValueSecret
             self.key = key
@@ -656,6 +677,7 @@ extension CloudWatchEvents {
         /// The name for the API destination to create.
         public let name: String
 
+        @inlinable
         public init(connectionArn: String, description: String? = nil, httpMethod: ApiDestinationHttpMethod, invocationEndpoint: String, invocationRateLimitPerSecond: Int? = nil, name: String) {
             self.connectionArn = connectionArn
             self.description = description
@@ -700,6 +722,7 @@ extension CloudWatchEvents {
         /// A time stamp indicating the time that the API destination was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.apiDestinationArn = apiDestinationArn
             self.apiDestinationState = apiDestinationState
@@ -727,6 +750,7 @@ extension CloudWatchEvents {
         /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
         public let retentionDays: Int?
 
+        @inlinable
         public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, eventSourceArn: String, retentionDays: Int? = nil) {
             self.archiveName = archiveName
             self.description = description
@@ -765,6 +789,7 @@ extension CloudWatchEvents {
         /// The reason that the archive is in the state.
         public let stateReason: String?
 
+        @inlinable
         public init(archiveArn: String? = nil, creationTime: Date? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
             self.archiveArn = archiveArn
             self.creationTime = creationTime
@@ -786,6 +811,7 @@ extension CloudWatchEvents {
         /// The value for the API key to use for authorization.
         public let apiKeyValue: String
 
+        @inlinable
         public init(apiKeyName: String, apiKeyValue: String) {
             self.apiKeyName = apiKeyName
             self.apiKeyValue = apiKeyValue
@@ -816,6 +842,7 @@ extension CloudWatchEvents {
         /// A CreateConnectionOAuthRequestParameters object that contains the OAuth authorization parameters to use for the connection.
         public let oAuthParameters: CreateConnectionOAuthRequestParameters?
 
+        @inlinable
         public init(apiKeyAuthParameters: CreateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: CreateConnectionBasicAuthRequestParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: CreateConnectionOAuthRequestParameters? = nil) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
@@ -844,6 +871,7 @@ extension CloudWatchEvents {
         /// The user name to use for Basic authorization.
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -870,6 +898,7 @@ extension CloudWatchEvents {
         /// The client secret associated with the client ID to use for OAuth authorization for the connection.
         public let clientSecret: String
 
+        @inlinable
         public init(clientID: String, clientSecret: String) {
             self.clientID = clientID
             self.clientSecret = clientSecret
@@ -900,6 +929,7 @@ extension CloudWatchEvents {
         /// A ConnectionHttpParameters object that contains details about the additional parameters to use for the connection.
         public let oAuthHttpParameters: ConnectionHttpParameters?
 
+        @inlinable
         public init(authorizationEndpoint: String, clientParameters: CreateConnectionOAuthClientRequestParameters, httpMethod: ConnectionOAuthHttpMethod, oAuthHttpParameters: ConnectionHttpParameters? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
@@ -933,6 +963,7 @@ extension CloudWatchEvents {
         /// The name for the connection to create.
         public let name: String
 
+        @inlinable
         public init(authorizationType: ConnectionAuthorizationType, authParameters: CreateConnectionAuthRequestParameters, description: String? = nil, name: String) {
             self.authorizationType = authorizationType
             self.authParameters = authParameters
@@ -967,6 +998,7 @@ extension CloudWatchEvents {
         /// A time stamp for the time that the connection was last updated.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.connectionArn = connectionArn
             self.connectionState = connectionState
@@ -990,6 +1022,7 @@ extension CloudWatchEvents {
         /// Tags to associate with the event bus.
         public let tags: [Tag]?
 
+        @inlinable
         public init(eventSourceName: String? = nil, name: String, tags: [Tag]? = nil) {
             self.eventSourceName = eventSourceName
             self.name = name
@@ -1019,6 +1052,7 @@ extension CloudWatchEvents {
         /// The ARN of the new event bus.
         public let eventBusArn: String?
 
+        @inlinable
         public init(eventBusArn: String? = nil) {
             self.eventBusArn = eventBusArn
         }
@@ -1034,6 +1068,7 @@ extension CloudWatchEvents {
         /// The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The Amazon Web Services account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
         public let name: String
 
+        @inlinable
         public init(account: String, name: String) {
             self.account = account
             self.name = name
@@ -1058,6 +1093,7 @@ extension CloudWatchEvents {
         /// The ARN of the partner event source.
         public let eventSourceArn: String?
 
+        @inlinable
         public init(eventSourceArn: String? = nil) {
             self.eventSourceArn = eventSourceArn
         }
@@ -1071,6 +1107,7 @@ extension CloudWatchEvents {
         /// The name of the partner event source to deactivate.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1090,6 +1127,7 @@ extension CloudWatchEvents {
         /// The ARN of the SQS queue specified as the target for the dead-letter queue.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1108,6 +1146,7 @@ extension CloudWatchEvents {
         /// The name of the connection to remove authorization from.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1135,6 +1174,7 @@ extension CloudWatchEvents {
         /// A time stamp for the time that the connection was last updated.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.connectionArn = connectionArn
             self.connectionState = connectionState
@@ -1156,6 +1196,7 @@ extension CloudWatchEvents {
         /// The name of the destination to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1179,6 +1220,7 @@ extension CloudWatchEvents {
         /// The name of the archive to delete.
         public let archiveName: String
 
+        @inlinable
         public init(archiveName: String) {
             self.archiveName = archiveName
         }
@@ -1202,6 +1244,7 @@ extension CloudWatchEvents {
         /// The name of the connection to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1229,6 +1272,7 @@ extension CloudWatchEvents {
         /// A time stamp for the time that the connection was last modified before it was deleted.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.connectionArn = connectionArn
             self.connectionState = connectionState
@@ -1250,6 +1294,7 @@ extension CloudWatchEvents {
         /// The name of the event bus to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1271,6 +1316,7 @@ extension CloudWatchEvents {
         /// The name of the event source to delete.
         public let name: String
 
+        @inlinable
         public init(account: String, name: String) {
             self.account = account
             self.name = name
@@ -1299,6 +1345,7 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let name: String
 
+        @inlinable
         public init(eventBusName: String? = nil, force: Bool? = nil, name: String) {
             self.eventBusName = eventBusName
             self.force = force
@@ -1325,6 +1372,7 @@ extension CloudWatchEvents {
         /// The name of the API destination to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1362,6 +1410,7 @@ extension CloudWatchEvents {
         /// The name of the API destination retrieved.
         public let name: String?
 
+        @inlinable
         public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, connectionArn: String? = nil, creationTime: Date? = nil, description: String? = nil, httpMethod: ApiDestinationHttpMethod? = nil, invocationEndpoint: String? = nil, invocationRateLimitPerSecond: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.apiDestinationArn = apiDestinationArn
             self.apiDestinationState = apiDestinationState
@@ -1393,6 +1442,7 @@ extension CloudWatchEvents {
         /// The name of the archive to retrieve.
         public let archiveName: String
 
+        @inlinable
         public init(archiveName: String) {
             self.archiveName = archiveName
         }
@@ -1432,6 +1482,7 @@ extension CloudWatchEvents {
         /// The reason that the archive is in the state.
         public let stateReason: String?
 
+        @inlinable
         public init(archiveArn: String? = nil, archiveName: String? = nil, creationTime: Date? = nil, description: String? = nil, eventCount: Int64? = nil, eventPattern: String? = nil, eventSourceArn: String? = nil, retentionDays: Int? = nil, sizeBytes: Int64? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
             self.archiveArn = archiveArn
             self.archiveName = archiveName
@@ -1465,6 +1516,7 @@ extension CloudWatchEvents {
         /// The name of the connection to retrieve.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1504,6 +1556,7 @@ extension CloudWatchEvents {
         /// The reason that the connection is in the current connection state.
         public let stateReason: String?
 
+        @inlinable
         public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: ConnectionAuthResponseParameters? = nil, connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, description: String? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, stateReason: String? = nil) {
             self.authorizationType = authorizationType
             self.authParameters = authParameters
@@ -1537,6 +1590,7 @@ extension CloudWatchEvents {
         /// The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1560,6 +1614,7 @@ extension CloudWatchEvents {
         /// The policy that enables the external account to send events to your account.
         public let policy: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1577,6 +1632,7 @@ extension CloudWatchEvents {
         /// The name of the partner event source to display the details of.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1606,6 +1662,7 @@ extension CloudWatchEvents {
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, expirationTime: Date? = nil, name: String? = nil, state: EventSourceState? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -1629,6 +1686,7 @@ extension CloudWatchEvents {
         /// The name of the event source to display.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1650,6 +1708,7 @@ extension CloudWatchEvents {
         /// The name of the event source.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1665,6 +1724,7 @@ extension CloudWatchEvents {
         /// The name of the replay to retrieve.
         public let replayName: String
 
+        @inlinable
         public init(replayName: String) {
             self.replayName = replayName
         }
@@ -1706,6 +1766,7 @@ extension CloudWatchEvents {
         /// The reason that the replay is in the current state.
         public let stateReason: String?
 
+        @inlinable
         public init(description: String? = nil, destination: ReplayDestination? = nil, eventEndTime: Date? = nil, eventLastReplayedTime: Date? = nil, eventSourceArn: String? = nil, eventStartTime: Date? = nil, replayArn: String? = nil, replayEndTime: Date? = nil, replayName: String? = nil, replayStartTime: Date? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
             self.description = description
             self.destination = destination
@@ -1743,6 +1804,7 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let name: String
 
+        @inlinable
         public init(eventBusName: String? = nil, name: String) {
             self.eventBusName = eventBusName
             self.name = name
@@ -1785,6 +1847,7 @@ extension CloudWatchEvents {
         /// Specifies whether the rule is enabled or disabled.
         public let state: RuleState?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -1818,6 +1881,7 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let name: String
 
+        @inlinable
         public init(eventBusName: String? = nil, name: String) {
             self.eventBusName = eventBusName
             self.name = name
@@ -1868,6 +1932,7 @@ extension CloudWatchEvents {
         /// The ARN of the task definition to use if the event target is an Amazon ECS task.
         public let taskDefinitionArn: String
 
+        @inlinable
         public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, tags: [Tag]? = nil, taskCount: Int? = nil, taskDefinitionArn: String) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
@@ -1931,6 +1996,7 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let name: String
 
+        @inlinable
         public init(eventBusName: String? = nil, name: String) {
             self.eventBusName = eventBusName
             self.name = name
@@ -1959,6 +2025,7 @@ extension CloudWatchEvents {
         /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
         public let policy: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1986,6 +2053,7 @@ extension CloudWatchEvents {
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
+        @inlinable
         public init(arn: String? = nil, createdBy: String? = nil, creationTime: Date? = nil, expirationTime: Date? = nil, name: String? = nil, state: EventSourceState? = nil) {
             self.arn = arn
             self.createdBy = createdBy
@@ -2013,6 +2081,7 @@ extension CloudWatchEvents {
         /// The query string keys/values that need to be sent as part of request invoking the API Gateway  REST API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
+        @inlinable
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
@@ -2050,6 +2119,7 @@ extension CloudWatchEvents {
         /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: value> The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   The following example shows the syntax for using InputPathsMap and InputTemplate.  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": " is in state "   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": " is in state \"\""   }  The InputTemplate can also be valid JSON with varibles in quotes or out, as in the following example:  "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": '{"myInstance": ,"myStatus": " is in state \"\""}'   }
         public let inputTemplate: String
 
+        @inlinable
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
             self.inputPathsMap = inputPathsMap
             self.inputTemplate = inputTemplate
@@ -2077,6 +2147,7 @@ extension CloudWatchEvents {
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKeyPath: String
 
+        @inlinable
         public init(partitionKeyPath: String) {
             self.partitionKeyPath = partitionKeyPath
         }
@@ -2100,6 +2171,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionArn: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.connectionArn = connectionArn
             self.limit = limit
@@ -2134,6 +2206,7 @@ extension CloudWatchEvents {
         /// A token you can use in a subsequent request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(apiDestinations: [ApiDestination]? = nil, nextToken: String? = nil) {
             self.apiDestinations = apiDestinations
             self.nextToken = nextToken
@@ -2157,6 +2230,7 @@ extension CloudWatchEvents {
         /// The state of the archive.
         public let state: ArchiveState?
 
+        @inlinable
         public init(eventSourceArn: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, state: ArchiveState? = nil) {
             self.eventSourceArn = eventSourceArn
             self.limit = limit
@@ -2192,6 +2266,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(archives: [Archive]? = nil, nextToken: String? = nil) {
             self.archives = archives
             self.nextToken = nextToken
@@ -2213,6 +2288,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionState: ConnectionState? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.connectionState = connectionState
             self.limit = limit
@@ -2244,6 +2320,7 @@ extension CloudWatchEvents {
         /// A token you can use in a subsequent request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(connections: [Connection]? = nil, nextToken: String? = nil) {
             self.connections = connections
             self.nextToken = nextToken
@@ -2263,6 +2340,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.namePrefix = namePrefix
@@ -2292,6 +2370,7 @@ extension CloudWatchEvents {
         /// A token you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventBuses: [EventBus]? = nil, nextToken: String? = nil) {
             self.eventBuses = eventBuses
             self.nextToken = nextToken
@@ -2311,6 +2390,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.namePrefix = namePrefix
@@ -2340,6 +2420,7 @@ extension CloudWatchEvents {
         /// A token you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventSources: [EventSource]? = nil, nextToken: String? = nil) {
             self.eventSources = eventSources
             self.nextToken = nextToken
@@ -2359,6 +2440,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventSourceName: String, limit: Int? = nil, nextToken: String? = nil) {
             self.eventSourceName = eventSourceName
             self.limit = limit
@@ -2388,6 +2470,7 @@ extension CloudWatchEvents {
         /// The list of partner event sources returned by the operation.
         public let partnerEventSourceAccounts: [PartnerEventSourceAccount]?
 
+        @inlinable
         public init(nextToken: String? = nil, partnerEventSourceAccounts: [PartnerEventSourceAccount]? = nil) {
             self.nextToken = nextToken
             self.partnerEventSourceAccounts = partnerEventSourceAccounts
@@ -2407,6 +2490,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, namePrefix: String, nextToken: String? = nil) {
             self.limit = limit
             self.namePrefix = namePrefix
@@ -2436,6 +2520,7 @@ extension CloudWatchEvents {
         /// The list of partner event sources returned by the operation.
         public let partnerEventSources: [PartnerEventSource]?
 
+        @inlinable
         public init(nextToken: String? = nil, partnerEventSources: [PartnerEventSource]? = nil) {
             self.nextToken = nextToken
             self.partnerEventSources = partnerEventSources
@@ -2459,6 +2544,7 @@ extension CloudWatchEvents {
         /// The state of the replay.
         public let state: ReplayState?
 
+        @inlinable
         public init(eventSourceArn: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, state: ReplayState? = nil) {
             self.eventSourceArn = eventSourceArn
             self.limit = limit
@@ -2494,6 +2580,7 @@ extension CloudWatchEvents {
         /// An array of Replay objects that contain information about the replay.
         public let replays: [Replay]?
 
+        @inlinable
         public init(nextToken: String? = nil, replays: [Replay]? = nil) {
             self.nextToken = nextToken
             self.replays = replays
@@ -2515,6 +2602,7 @@ extension CloudWatchEvents {
         /// The Amazon Resource Name (ARN) of the target resource.
         public let targetArn: String
 
+        @inlinable
         public init(eventBusName: String? = nil, limit: Int? = nil, nextToken: String? = nil, targetArn: String) {
             self.eventBusName = eventBusName
             self.limit = limit
@@ -2548,6 +2636,7 @@ extension CloudWatchEvents {
         /// The names of the rules that can invoke the given target.
         public let ruleNames: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, ruleNames: [String]? = nil) {
             self.nextToken = nextToken
             self.ruleNames = ruleNames
@@ -2569,6 +2658,7 @@ extension CloudWatchEvents {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventBusName: String? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.eventBusName = eventBusName
             self.limit = limit
@@ -2603,6 +2693,7 @@ extension CloudWatchEvents {
         /// The rules that match the specified criteria.
         public let rules: [Rule]?
 
+        @inlinable
         public init(nextToken: String? = nil, rules: [Rule]? = nil) {
             self.nextToken = nextToken
             self.rules = rules
@@ -2618,6 +2709,7 @@ extension CloudWatchEvents {
         /// The ARN of the EventBridge resource for which you want to view tags.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2636,6 +2728,7 @@ extension CloudWatchEvents {
         /// The list of tag keys and values associated with the resource you specified
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2655,6 +2748,7 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let rule: String
 
+        @inlinable
         public init(eventBusName: String? = nil, limit: Int? = nil, nextToken: String? = nil, rule: String) {
             self.eventBusName = eventBusName
             self.limit = limit
@@ -2689,6 +2783,7 @@ extension CloudWatchEvents {
         /// The targets assigned to the rule.
         public let targets: [Target]?
 
+        @inlinable
         public init(nextToken: String? = nil, targets: [Target]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
@@ -2704,6 +2799,7 @@ extension CloudWatchEvents {
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
+        @inlinable
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
@@ -2719,6 +2815,7 @@ extension CloudWatchEvents {
         /// The name of the partner event source.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -2740,6 +2837,7 @@ extension CloudWatchEvents {
         /// The state of the event source. If it is ACTIVE, you have already created a matching event bus for this event source, and that event bus is active. If it is PENDING, either you haven't yet created a matching event bus, or that event bus is deactivated. If it is DELETED, you have created a matching event bus, but the event source has since been deleted.
         public let state: EventSourceState?
 
+        @inlinable
         public init(account: String? = nil, creationTime: Date? = nil, expirationTime: Date? = nil, state: EventSourceState? = nil) {
             self.account = account
             self.creationTime = creationTime
@@ -2761,6 +2859,7 @@ extension CloudWatchEvents {
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
         public let type: PlacementConstraintType?
 
+        @inlinable
         public init(expression: String? = nil, type: PlacementConstraintType? = nil) {
             self.expression = expression
             self.type = type
@@ -2782,6 +2881,7 @@ extension CloudWatchEvents {
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public let type: PlacementStrategyType?
 
+        @inlinable
         public init(field: String? = nil, type: PlacementStrategyType? = nil) {
             self.field = field
             self.type = type
@@ -2801,6 +2901,7 @@ extension CloudWatchEvents {
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
 
+        @inlinable
         public init(entries: [PutEventsRequestEntry]) {
             self.entries = entries
         }
@@ -2834,6 +2935,7 @@ extension CloudWatchEvents {
         /// An X-Ray trade header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide.
         public let traceHeader: String?
 
+        @inlinable
         public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil, traceHeader: String? = nil) {
             self.detail = detail
             self.detailType = detailType
@@ -2869,6 +2971,7 @@ extension CloudWatchEvents {
         /// The number of failed entries.
         public let failedEntryCount: Int?
 
+        @inlinable
         public init(entries: [PutEventsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.entries = entries
             self.failedEntryCount = failedEntryCount
@@ -2888,6 +2991,7 @@ extension CloudWatchEvents {
         /// The ID of the event.
         public let eventId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, eventId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2905,6 +3009,7 @@ extension CloudWatchEvents {
         /// The list of events to write to the event bus.
         public let entries: [PutPartnerEventsRequestEntry]
 
+        @inlinable
         public init(entries: [PutPartnerEventsRequestEntry]) {
             self.entries = entries
         }
@@ -2934,6 +3039,7 @@ extension CloudWatchEvents {
         /// The date and time of the event.
         public let time: Date?
 
+        @inlinable
         public init(detail: String? = nil, detailType: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil) {
             self.detail = detail
             self.detailType = detailType
@@ -2963,6 +3069,7 @@ extension CloudWatchEvents {
         /// The number of events from this operation that could not be written to the partner event bus.
         public let failedEntryCount: Int?
 
+        @inlinable
         public init(entries: [PutPartnerEventsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.entries = entries
             self.failedEntryCount = failedEntryCount
@@ -2982,6 +3089,7 @@ extension CloudWatchEvents {
         /// The ID of the event.
         public let eventId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, eventId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3009,6 +3117,7 @@ extension CloudWatchEvents {
         /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
         public let statementId: String?
 
+        @inlinable
         public init(action: String? = nil, condition: Condition? = nil, eventBusName: String? = nil, policy: String? = nil, principal: String? = nil, statementId: String? = nil) {
             self.action = action
             self.condition = condition
@@ -3061,6 +3170,7 @@ extension CloudWatchEvents {
         /// The list of key-value pairs to associate with the rule.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, name: String, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.eventBusName = eventBusName
@@ -3104,6 +3214,7 @@ extension CloudWatchEvents {
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(ruleArn: String? = nil) {
             self.ruleArn = ruleArn
         }
@@ -3121,6 +3232,7 @@ extension CloudWatchEvents {
         /// The targets to update or add to the rule.
         public let targets: [Target]
 
+        @inlinable
         public init(eventBusName: String? = nil, rule: String, targets: [Target]) {
             self.eventBusName = eventBusName
             self.rule = rule
@@ -3154,6 +3266,7 @@ extension CloudWatchEvents {
         /// The number of failed entries.
         public let failedEntryCount: Int?
 
+        @inlinable
         public init(failedEntries: [PutTargetsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
@@ -3173,6 +3286,7 @@ extension CloudWatchEvents {
         /// The ID of the target.
         public let targetId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, targetId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3200,6 +3314,7 @@ extension CloudWatchEvents {
         /// Indicates whether to send an event back to EventBridge after the SQL statement runs.
         public let withEvent: Bool?
 
+        @inlinable
         public init(database: String, dbUser: String? = nil, secretManagerArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil) {
             self.database = database
             self.dbUser = dbUser
@@ -3241,6 +3356,7 @@ extension CloudWatchEvents {
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
         public let statementId: String?
 
+        @inlinable
         public init(eventBusName: String? = nil, removeAllPermissions: Bool? = nil, statementId: String? = nil) {
             self.eventBusName = eventBusName
             self.removeAllPermissions = removeAllPermissions
@@ -3273,6 +3389,7 @@ extension CloudWatchEvents {
         /// The name of the rule.
         public let rule: String
 
+        @inlinable
         public init(eventBusName: String? = nil, force: Bool? = nil, ids: [String], rule: String) {
             self.eventBusName = eventBusName
             self.force = force
@@ -3310,6 +3427,7 @@ extension CloudWatchEvents {
         /// The number of failed entries.
         public let failedEntryCount: Int?
 
+        @inlinable
         public init(failedEntries: [RemoveTargetsResultEntry]? = nil, failedEntryCount: Int? = nil) {
             self.failedEntries = failedEntries
             self.failedEntryCount = failedEntryCount
@@ -3329,6 +3447,7 @@ extension CloudWatchEvents {
         /// The ID of the target.
         public let targetId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, targetId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3362,6 +3481,7 @@ extension CloudWatchEvents {
         /// A description of why the replay is in the current state.
         public let stateReason: String?
 
+        @inlinable
         public init(eventEndTime: Date? = nil, eventLastReplayedTime: Date? = nil, eventSourceArn: String? = nil, eventStartTime: Date? = nil, replayEndTime: Date? = nil, replayName: String? = nil, replayStartTime: Date? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
             self.eventEndTime = eventEndTime
             self.eventLastReplayedTime = eventLastReplayedTime
@@ -3393,6 +3513,7 @@ extension CloudWatchEvents {
         /// A list of ARNs for rules to replay events to.
         public let filterArns: [String]?
 
+        @inlinable
         public init(arn: String, filterArns: [String]? = nil) {
             self.arn = arn
             self.filterArns = filterArns
@@ -3419,6 +3540,7 @@ extension CloudWatchEvents {
         /// The maximum number of retry attempts to make before the request fails. Retry attempts continue until either the maximum number of attempts is made or until the duration of the MaximumEventAgeInSeconds is met.
         public let maximumRetryAttempts: Int?
 
+        @inlinable
         public init(maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
             self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -3457,6 +3579,7 @@ extension CloudWatchEvents {
         /// The state of the rule.
         public let state: RuleState?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, eventBusName: String? = nil, eventPattern: String? = nil, managedBy: String? = nil, name: String? = nil, roleArn: String? = nil, scheduleExpression: String? = nil, state: RuleState? = nil) {
             self.arn = arn
             self.description = description
@@ -3486,6 +3609,7 @@ extension CloudWatchEvents {
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public let runCommandTargets: [RunCommandTarget]
 
+        @inlinable
         public init(runCommandTargets: [RunCommandTarget]) {
             self.runCommandTargets = runCommandTargets
         }
@@ -3509,6 +3633,7 @@ extension CloudWatchEvents {
         /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
         public let values: [String]
 
+        @inlinable
         public init(key: String, values: [String]) {
             self.key = key
             self.values = values
@@ -3538,6 +3663,7 @@ extension CloudWatchEvents {
         /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -3560,6 +3686,7 @@ extension CloudWatchEvents {
         /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
         public let pipelineParameterList: [SageMakerPipelineParameter]?
 
+        @inlinable
         public init(pipelineParameterList: [SageMakerPipelineParameter]? = nil) {
             self.pipelineParameterList = pipelineParameterList
         }
@@ -3580,6 +3707,7 @@ extension CloudWatchEvents {
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
 
+        @inlinable
         public init(messageGroupId: String? = nil) {
             self.messageGroupId = messageGroupId
         }
@@ -3603,6 +3731,7 @@ extension CloudWatchEvents {
         /// The name of the replay to start.
         public let replayName: String
 
+        @inlinable
         public init(description: String? = nil, destination: ReplayDestination, eventEndTime: Date, eventSourceArn: String, eventStartTime: Date, replayName: String) {
             self.description = description
             self.destination = destination
@@ -3643,6 +3772,7 @@ extension CloudWatchEvents {
         /// The reason that the replay is in the state.
         public let stateReason: String?
 
+        @inlinable
         public init(replayArn: String? = nil, replayStartTime: Date? = nil, state: ReplayState? = nil, stateReason: String? = nil) {
             self.replayArn = replayArn
             self.replayStartTime = replayStartTime
@@ -3664,6 +3794,7 @@ extension CloudWatchEvents {
         /// The value for the specified tag key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3687,6 +3818,7 @@ extension CloudWatchEvents {
         /// The list of key-value pairs to associate with the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -3744,6 +3876,7 @@ extension CloudWatchEvents {
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
 
+        @inlinable
         public init(arn: String, batchParameters: BatchParameters? = nil, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, redshiftDataParameters: RedshiftDataParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sageMakerPipelineParameters: SageMakerPipelineParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.batchParameters = batchParameters
@@ -3810,6 +3943,7 @@ extension CloudWatchEvents {
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String
 
+        @inlinable
         public init(event: String, eventPattern: String) {
             self.event = event
             self.eventPattern = eventPattern
@@ -3825,6 +3959,7 @@ extension CloudWatchEvents {
         /// Indicates whether the event matches the event pattern.
         public let result: Bool?
 
+        @inlinable
         public init(result: Bool? = nil) {
             self.result = result
         }
@@ -3840,6 +3975,7 @@ extension CloudWatchEvents {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -3878,6 +4014,7 @@ extension CloudWatchEvents {
         /// The name of the API destination to update.
         public let name: String
 
+        @inlinable
         public init(connectionArn: String? = nil, description: String? = nil, httpMethod: ApiDestinationHttpMethod? = nil, invocationEndpoint: String? = nil, invocationRateLimitPerSecond: Int? = nil, name: String) {
             self.connectionArn = connectionArn
             self.description = description
@@ -3922,6 +4059,7 @@ extension CloudWatchEvents {
         /// A time stamp for the time that the API destination was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(apiDestinationArn: String? = nil, apiDestinationState: ApiDestinationState? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.apiDestinationArn = apiDestinationArn
             self.apiDestinationState = apiDestinationState
@@ -3947,6 +4085,7 @@ extension CloudWatchEvents {
         /// The number of days to retain events in the archive.
         public let retentionDays: Int?
 
+        @inlinable
         public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, retentionDays: Int? = nil) {
             self.archiveName = archiveName
             self.description = description
@@ -3981,6 +4120,7 @@ extension CloudWatchEvents {
         /// The reason that the archive is in the current state.
         public let stateReason: String?
 
+        @inlinable
         public init(archiveArn: String? = nil, creationTime: Date? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
             self.archiveArn = archiveArn
             self.creationTime = creationTime
@@ -4002,6 +4142,7 @@ extension CloudWatchEvents {
         /// The value associated with teh API key to use for authorization.
         public let apiKeyValue: String?
 
+        @inlinable
         public init(apiKeyName: String? = nil, apiKeyValue: String? = nil) {
             self.apiKeyName = apiKeyName
             self.apiKeyValue = apiKeyValue
@@ -4032,6 +4173,7 @@ extension CloudWatchEvents {
         /// A UpdateConnectionOAuthRequestParameters object that contains the authorization parameters for OAuth authorization.
         public let oAuthParameters: UpdateConnectionOAuthRequestParameters?
 
+        @inlinable
         public init(apiKeyAuthParameters: UpdateConnectionApiKeyAuthRequestParameters? = nil, basicAuthParameters: UpdateConnectionBasicAuthRequestParameters? = nil, invocationHttpParameters: ConnectionHttpParameters? = nil, oAuthParameters: UpdateConnectionOAuthRequestParameters? = nil) {
             self.apiKeyAuthParameters = apiKeyAuthParameters
             self.basicAuthParameters = basicAuthParameters
@@ -4060,6 +4202,7 @@ extension CloudWatchEvents {
         /// The user name to use for Basic authorization.
         public let username: String?
 
+        @inlinable
         public init(password: String? = nil, username: String? = nil) {
             self.password = password
             self.username = username
@@ -4086,6 +4229,7 @@ extension CloudWatchEvents {
         /// The client secret assciated with the client ID to use for OAuth authorization.
         public let clientSecret: String?
 
+        @inlinable
         public init(clientID: String? = nil, clientSecret: String? = nil) {
             self.clientID = clientID
             self.clientSecret = clientSecret
@@ -4116,6 +4260,7 @@ extension CloudWatchEvents {
         /// The additional HTTP parameters used for the OAuth authorization request.
         public let oAuthHttpParameters: ConnectionHttpParameters?
 
+        @inlinable
         public init(authorizationEndpoint: String? = nil, clientParameters: UpdateConnectionOAuthClientRequestParameters? = nil, httpMethod: ConnectionOAuthHttpMethod? = nil, oAuthHttpParameters: ConnectionHttpParameters? = nil) {
             self.authorizationEndpoint = authorizationEndpoint
             self.clientParameters = clientParameters
@@ -4149,6 +4294,7 @@ extension CloudWatchEvents {
         /// The name of the connection to update.
         public let name: String
 
+        @inlinable
         public init(authorizationType: ConnectionAuthorizationType? = nil, authParameters: UpdateConnectionAuthRequestParameters? = nil, description: String? = nil, name: String) {
             self.authorizationType = authorizationType
             self.authParameters = authParameters
@@ -4185,6 +4331,7 @@ extension CloudWatchEvents {
         /// A time stamp for the time that the connection was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(connectionArn: String? = nil, connectionState: ConnectionState? = nil, creationTime: Date? = nil, lastAuthorizedTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.connectionArn = connectionArn
             self.connectionState = connectionState

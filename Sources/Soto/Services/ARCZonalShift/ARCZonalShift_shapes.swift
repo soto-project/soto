@@ -98,6 +98,7 @@ extension ARCZonalShift {
         /// The time (UTC) when the autoshift started.
         public let startTime: Date
 
+        @inlinable
         public init(appliedStatus: AutoshiftAppliedStatus, awayFrom: String, startTime: Date) {
             self.appliedStatus = appliedStatus
             self.awayFrom = awayFrom
@@ -124,6 +125,7 @@ extension ARCZonalShift {
         /// The status for an autoshift.
         public let status: AutoshiftExecutionStatus
 
+        @inlinable
         public init(awayFrom: String, endTime: Date, startTime: Date, status: AutoshiftExecutionStatus) {
             self.awayFrom = awayFrom
             self.endTime = endTime
@@ -143,6 +145,7 @@ extension ARCZonalShift {
         /// The internally-generated identifier of a zonal shift.
         public let zonalShiftId: String
 
+        @inlinable
         public init(zonalShiftId: String) {
             self.zonalShiftId = zonalShiftId
         }
@@ -169,6 +172,7 @@ extension ARCZonalShift {
         /// 			only valid value is CLOUDWATCH.
         public let type: ControlConditionType
 
+        @inlinable
         public init(alarmIdentifier: String, type: ControlConditionType) {
             self.alarmIdentifier = alarmIdentifier
             self.type = type
@@ -220,6 +224,7 @@ extension ARCZonalShift {
         /// 			run zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition], resourceIdentifier: String) {
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
@@ -282,6 +287,7 @@ extension ARCZonalShift {
         /// 			the resource.
         public let zonalAutoshiftStatus: ZonalAutoshiftStatus
 
+        @inlinable
         public init(arn: String, name: String, practiceRunConfiguration: PracticeRunConfiguration, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
             self.arn = arn
             self.name = name
@@ -302,6 +308,7 @@ extension ARCZonalShift {
         /// 			run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
         }
@@ -330,6 +337,7 @@ extension ARCZonalShift {
         /// The status of zonal autoshift for the resource.
         public let zonalAutoshiftStatus: ZonalAutoshiftStatus
 
+        @inlinable
         public init(arn: String, name: String, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
             self.arn = arn
             self.name = name
@@ -355,6 +363,7 @@ extension ARCZonalShift {
         /// 			resources is included in the autoshift.
         public let status: AutoshiftObserverNotificationStatus
 
+        @inlinable
         public init(status: AutoshiftObserverNotificationStatus) {
             self.status = status
         }
@@ -368,6 +377,7 @@ extension ARCZonalShift {
         /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(resourceIdentifier: String) {
             self.resourceIdentifier = resourceIdentifier
         }
@@ -407,6 +417,7 @@ extension ARCZonalShift {
         /// The zonal shifts that are currently active for a resource.
         public let zonalShifts: [ZonalShiftInResource]
 
+        @inlinable
         public init(appliedWeights: [String: Float], arn: String? = nil, autoshifts: [AutoshiftInResource]? = nil, name: String? = nil, practiceRunConfiguration: PracticeRunConfiguration? = nil, zonalAutoshiftStatus: ZonalAutoshiftStatus? = nil, zonalShifts: [ZonalShiftInResource]) {
             self.appliedWeights = appliedWeights
             self.arn = arn
@@ -438,6 +449,7 @@ extension ARCZonalShift {
         /// The status of the autoshift.
         public let status: AutoshiftExecutionStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: AutoshiftExecutionStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -468,6 +480,7 @@ extension ARCZonalShift {
         /// 			call's NextToken response to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [AutoshiftSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -485,6 +498,7 @@ extension ARCZonalShift {
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the  		previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous  		call's NextToken response to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -511,6 +525,7 @@ extension ARCZonalShift {
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the  		previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous  		call's NextToken response to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ManagedResourceSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -533,6 +548,7 @@ extension ARCZonalShift {
         /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:    ACTIVE: The zonal shift has been started and active.    EXPIRED: The zonal shift has expired (the expiry time was exceeded).    CANCELED: The zonal shift was canceled.
         public let status: ZonalShiftStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: String? = nil, status: ZonalShiftStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -565,6 +581,7 @@ extension ARCZonalShift {
         /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the  		previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous  		call's NextToken response to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ZonalShiftSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -600,6 +617,7 @@ extension ARCZonalShift {
         /// An array of the zonal shifts for a resource.
         public let zonalShifts: [ZonalShiftInResource]?
 
+        @inlinable
         public init(appliedWeights: [String: Float]? = nil, arn: String? = nil, autoshifts: [AutoshiftInResource]? = nil, availabilityZones: [String], name: String? = nil, practiceRunStatus: ZonalAutoshiftStatus? = nil, zonalAutoshiftStatus: ZonalAutoshiftStatus? = nil, zonalShifts: [ZonalShiftInResource]? = nil) {
             self.appliedWeights = appliedWeights
             self.arn = arn
@@ -637,6 +655,7 @@ extension ARCZonalShift {
         /// 			ends a practice run when the alarm is in an ALARM state.
         public let outcomeAlarms: [ControlCondition]
 
+        @inlinable
         public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]) {
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
@@ -665,6 +684,7 @@ extension ARCZonalShift {
         /// The identifier for the resource that Amazon Web Services shifts traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(awayFrom: String, comment: String, expiresIn: String, resourceIdentifier: String) {
             self.awayFrom = awayFrom
             self.comment = comment
@@ -698,6 +718,7 @@ extension ARCZonalShift {
         /// 			resources is included in the autoshift.
         public let status: AutoshiftObserverNotificationStatus
 
+        @inlinable
         public init(status: AutoshiftObserverNotificationStatus) {
             self.status = status
         }
@@ -711,6 +732,7 @@ extension ARCZonalShift {
         /// The status for autoshift observer notification.
         public let status: AutoshiftObserverNotificationStatus
 
+        @inlinable
         public init(status: AutoshiftObserverNotificationStatus) {
             self.status = status
         }
@@ -746,6 +768,7 @@ extension ARCZonalShift {
         /// 			run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
         public let resourceIdentifier: String
 
+        @inlinable
         public init(blockedDates: [String]? = nil, blockedWindows: [String]? = nil, blockingAlarms: [ControlCondition]? = nil, outcomeAlarms: [ControlCondition]? = nil, resourceIdentifier: String) {
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
@@ -812,6 +835,7 @@ extension ARCZonalShift {
         /// 		run for.
         public let zonalAutoshiftStatus: ZonalAutoshiftStatus
 
+        @inlinable
         public init(arn: String, name: String, practiceRunConfiguration: PracticeRunConfiguration, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
             self.arn = arn
             self.name = name
@@ -837,6 +861,7 @@ extension ARCZonalShift {
         /// 			on your behalf, to help reduce time to recovery.
         public let zonalAutoshiftStatus: ZonalAutoshiftStatus
 
+        @inlinable
         public init(resourceIdentifier: String, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
             self.resourceIdentifier = resourceIdentifier
             self.zonalAutoshiftStatus = zonalAutoshiftStatus
@@ -866,6 +891,7 @@ extension ARCZonalShift {
         /// The updated zonal autoshift status for the resource.
         public let zonalAutoshiftStatus: ZonalAutoshiftStatus
 
+        @inlinable
         public init(resourceIdentifier: String, zonalAutoshiftStatus: ZonalAutoshiftStatus) {
             self.resourceIdentifier = resourceIdentifier
             self.zonalAutoshiftStatus = zonalAutoshiftStatus
@@ -885,6 +911,7 @@ extension ARCZonalShift {
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
 
+        @inlinable
         public init(comment: String? = nil, expiresIn: String? = nil, zonalShiftId: String) {
             self.comment = comment
             self.expiresIn = expiresIn
@@ -936,6 +963,7 @@ extension ARCZonalShift {
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
 
+        @inlinable
         public init(awayFrom: String, comment: String, expiryTime: Date, resourceIdentifier: String, startTime: Date, status: ZonalShiftStatus, zonalShiftId: String) {
             self.awayFrom = awayFrom
             self.comment = comment
@@ -982,6 +1010,7 @@ extension ARCZonalShift {
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
 
+        @inlinable
         public init(appliedStatus: AppliedStatus, awayFrom: String, comment: String, expiryTime: Date, practiceRunOutcome: PracticeRunOutcome? = nil, resourceIdentifier: String, startTime: Date, zonalShiftId: String) {
             self.appliedStatus = appliedStatus
             self.awayFrom = awayFrom
@@ -1030,6 +1059,7 @@ extension ARCZonalShift {
         /// The identifier of a zonal shift.
         public let zonalShiftId: String
 
+        @inlinable
         public init(awayFrom: String, comment: String, expiryTime: Date, practiceRunOutcome: PracticeRunOutcome? = nil, resourceIdentifier: String, startTime: Date, status: ZonalShiftStatus, zonalShiftId: String) {
             self.awayFrom = awayFrom
             self.comment = comment

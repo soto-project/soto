@@ -373,6 +373,7 @@ extension DataSync {
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your on-premises storage system.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(agentArns: [String], clientToken: String = AddStorageSystemRequest.idempotencyToken(), cloudWatchLogGroupArn: String? = nil, credentials: Credentials, name: String? = nil, serverConfiguration: DiscoveryServerConfiguration, systemType: DiscoverySystemType, tags: [TagListEntry]? = nil) {
             self.agentArns = agentArns
             self.clientToken = clientToken
@@ -421,6 +422,7 @@ extension DataSync {
         /// The ARN of the on-premises storage system that you can use with DataSync Discovery.
         public let storageSystemArn: String
 
+        @inlinable
         public init(storageSystemArn: String) {
             self.storageSystemArn = storageSystemArn
         }
@@ -440,6 +442,7 @@ extension DataSync {
         /// The status of an agent.   If the status is ONLINE, the agent is configured properly and ready to use.   If the status is OFFLINE, the agent has been out of contact with DataSync for five minutes or longer. This can happen for a few reasons. For more information, see What do I do if my agent is offline?
         public let status: AgentStatus?
 
+        @inlinable
         public init(agentArn: String? = nil, name: String? = nil, platform: Platform? = nil, status: AgentStatus? = nil) {
             self.agentArn = agentArn
             self.name = name
@@ -459,6 +462,7 @@ extension DataSync {
         /// Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this:  sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D
         public let token: String
 
+        @inlinable
         public init(token: String) {
             self.token = token
         }
@@ -478,6 +482,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the task execution to stop.
         public let taskExecutionArn: String
 
+        @inlinable
         public init(taskExecutionArn: String) {
             self.taskExecutionArn = taskExecutionArn
         }
@@ -506,6 +511,7 @@ extension DataSync {
         /// The amount of space that's being used in a storage system resource.
         public let used: Int64?
 
+        @inlinable
         public init(clusterCloudStorageUsed: Int64? = nil, logicalUsed: Int64? = nil, provisioned: Int64? = nil, used: Int64? = nil) {
             self.clusterCloudStorageUsed = clusterCloudStorageUsed
             self.logicalUsed = logicalUsed
@@ -535,6 +541,7 @@ extension DataSync {
         /// Specifies the ID of the VPC endpoint that you want your agent to connect to. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1.  The VPC endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(activationKey: String, agentName: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, tags: [TagListEntry]? = nil, vpcEndpointId: String? = nil) {
             self.activationKey = activationKey
             self.agentName = agentName
@@ -582,6 +589,7 @@ extension DataSync {
         /// The ARN of the agent that you just activated. Use the ListAgents operation to return a list of agents in your Amazon Web Services account and Amazon Web Services Region.
         public let agentArn: String?
 
+        @inlinable
         public init(agentArn: String? = nil) {
             self.agentArn = agentArn
         }
@@ -609,6 +617,7 @@ extension DataSync {
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(accessTier: AzureAccessTier? = nil, agentArns: [String], authenticationType: AzureBlobAuthenticationType, blobType: AzureBlobType? = nil, containerUrl: String, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.accessTier = accessTier
             self.agentArns = agentArns
@@ -654,6 +663,7 @@ extension DataSync {
         /// The ARN of the Azure Blob Storage transfer location that you created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -679,6 +689,7 @@ extension DataSync {
         /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(accessPointArn: String? = nil, ec2Config: Ec2Config, efsFilesystemArn: String, fileSystemAccessRoleArn: String? = nil, inTransitEncryption: EfsInTransitEncryption? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.accessPointArn = accessPointArn
             self.ec2Config = ec2Config
@@ -720,6 +731,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you create.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -739,6 +751,7 @@ extension DataSync {
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(fsxFilesystemArn: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.fsxFilesystemArn = fsxFilesystemArn
             self.securityGroupArns = securityGroupArns
@@ -775,6 +788,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that's created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -795,6 +809,7 @@ extension DataSync {
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(protocol: FsxProtocol, securityGroupArns: [String], storageVirtualMachineArn: String, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.`protocol` = `protocol`
             self.securityGroupArns = securityGroupArns
@@ -834,6 +849,7 @@ extension DataSync {
         /// Specifies the ARN of the FSx for ONTAP file system location that you create.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -855,6 +871,7 @@ extension DataSync {
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(fsxFilesystemArn: String, protocol: FsxProtocol, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.fsxFilesystemArn = fsxFilesystemArn
             self.`protocol` = `protocol`
@@ -894,6 +911,7 @@ extension DataSync {
         /// The ARN of the FSx for OpenZFS file system location that you created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -919,6 +937,7 @@ extension DataSync {
         /// Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations.
         public let user: String
 
+        @inlinable
         public init(domain: String? = nil, fsxFilesystemArn: String, password: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil, user: String) {
             self.domain = domain
             self.fsxFilesystemArn = fsxFilesystemArn
@@ -967,6 +986,7 @@ extension DataSync {
         /// The ARN of the FSx for Windows File Server file system location you created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -1004,6 +1024,7 @@ extension DataSync {
         /// The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(agentArns: [String], authenticationType: HdfsAuthenticationType, blockSize: Int? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, nameNodes: [HdfsNameNode], qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
@@ -1075,6 +1096,7 @@ extension DataSync {
         /// The ARN of the source HDFS cluster location that's created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -1096,6 +1118,7 @@ extension DataSync {
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil) {
             self.mountOptions = mountOptions
             self.onPremConfig = onPremConfig
@@ -1129,6 +1152,7 @@ extension DataSync {
         /// The ARN of the transfer location that you created for your NFS file server.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -1160,6 +1184,7 @@ extension DataSync {
         /// Specifies the key-value pair that represents a tag that you want to add to the resource. Tags can help you manage, filter, and search for your resources. We recommend creating a name tag for your location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(accessKey: String? = nil, agentArns: [String], bucketName: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
@@ -1218,6 +1243,7 @@ extension DataSync {
         /// Specifies the ARN of the object storage system location that you create.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -1240,6 +1266,7 @@ extension DataSync {
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your transfer location.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(agentArns: [String]? = nil, s3BucketArn: String, s3Config: S3Config, s3StorageClass: S3StorageClass? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
             self.agentArns = agentArns
             self.s3BucketArn = s3BucketArn
@@ -1281,6 +1308,7 @@ extension DataSync {
         /// The ARN of the S3 location that you created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -1308,6 +1336,7 @@ extension DataSync {
         /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
         public let user: String
 
+        @inlinable
         public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
             self.agentArns = agentArns
             self.domain = domain
@@ -1358,6 +1387,7 @@ extension DataSync {
         /// The ARN of the SMB location that you created.
         public let locationArn: String?
 
+        @inlinable
         public init(locationArn: String? = nil) {
             self.locationArn = locationArn
         }
@@ -1391,6 +1421,7 @@ extension DataSync {
         /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission.
         public let taskReportConfig: TaskReportConfig?
 
+        @inlinable
         public init(cloudWatchLogGroupArn: String? = nil, destinationLocationArn: String, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, sourceLocationArn: String, tags: [TagListEntry]? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.destinationLocationArn = destinationLocationArn
@@ -1451,6 +1482,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
 
+        @inlinable
         public init(taskArn: String? = nil) {
             self.taskArn = taskArn
         }
@@ -1466,6 +1498,7 @@ extension DataSync {
         /// Specifies the user name for your storage system's management interface.
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -1488,6 +1521,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and Amazon Web Services Region.
         public let agentArn: String
 
+        @inlinable
         public init(agentArn: String) {
             self.agentArn = agentArn
         }
@@ -1510,6 +1544,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the location to delete.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1532,6 +1567,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the task that you want to delete.
         public let taskArn: String
 
+        @inlinable
         public init(taskArn: String) {
             self.taskArn = taskArn
         }
@@ -1554,6 +1590,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that you want information about.
         public let agentArn: String
 
+        @inlinable
         public init(agentArn: String) {
             self.agentArn = agentArn
         }
@@ -1586,6 +1623,7 @@ extension DataSync {
         /// The status of the agent.   If the status is ONLINE, the agent is configured properly and ready to use.   If the status is OFFLINE, the agent has been out of contact with DataSync for five minutes or longer. This can happen for a few reasons. For more information, see What do I do if my agent is offline?
         public let status: AgentStatus?
 
+        @inlinable
         public init(agentArn: String? = nil, creationTime: Date? = nil, endpointType: EndpointType? = nil, lastConnectionTime: Date? = nil, name: String? = nil, platform: Platform? = nil, privateLinkConfig: PrivateLinkConfig? = nil, status: AgentStatus? = nil) {
             self.agentArn = agentArn
             self.creationTime = creationTime
@@ -1613,6 +1651,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want information about.
         public let discoveryJobArn: String
 
+        @inlinable
         public init(discoveryJobArn: String) {
             self.discoveryJobArn = discoveryJobArn
         }
@@ -1641,6 +1680,7 @@ extension DataSync {
         /// The ARN of the on-premises storage system you're running the discovery job on.
         public let storageSystemArn: String?
 
+        @inlinable
         public init(collectionDurationMinutes: Int? = nil, discoveryJobArn: String? = nil, jobEndTime: Date? = nil, jobStartTime: Date? = nil, status: DiscoveryJobStatus? = nil, storageSystemArn: String? = nil) {
             self.collectionDurationMinutes = collectionDurationMinutes
             self.discoveryJobArn = discoveryJobArn
@@ -1664,6 +1704,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage transfer location.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1694,6 +1735,7 @@ extension DataSync {
         /// The URL of the Azure Blob Storage container involved in your transfer.
         public let locationUri: String?
 
+        @inlinable
         public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil) {
             self.accessTier = accessTier
             self.agentArns = agentArns
@@ -1719,6 +1761,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you want information about.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1748,6 +1791,7 @@ extension DataSync {
         /// The URL of the Amazon EFS file system location.
         public let locationUri: String?
 
+        @inlinable
         public init(accessPointArn: String? = nil, creationTime: Date? = nil, ec2Config: Ec2Config? = nil, fileSystemAccessRoleArn: String? = nil, inTransitEncryption: EfsInTransitEncryption? = nil, locationArn: String? = nil, locationUri: String? = nil) {
             self.accessPointArn = accessPointArn
             self.creationTime = creationTime
@@ -1773,6 +1817,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the FSx for Lustre location to describe.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1797,6 +1842,7 @@ extension DataSync {
         /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Lustre file system.
         public let securityGroupArns: [String]?
 
+        @inlinable
         public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
@@ -1816,6 +1862,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP file system location that you want information about.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1845,6 +1892,7 @@ extension DataSync {
         /// The ARN of the storage virtual machine (SVM) on your FSx for ONTAP file system where you're copying data to or from.
         public let storageVirtualMachineArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, fsxFilesystemArn: String? = nil, locationArn: String? = nil, locationUri: String? = nil, protocol: FsxProtocol? = nil, securityGroupArns: [String]? = nil, storageVirtualMachineArn: String? = nil) {
             self.creationTime = creationTime
             self.fsxFilesystemArn = fsxFilesystemArn
@@ -1870,6 +1918,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1896,6 +1945,7 @@ extension DataSync {
         /// The ARNs of the security groups that are configured for the FSx for OpenZFS file system.
         public let securityGroupArns: [String]?
 
+        @inlinable
         public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, protocol: FsxProtocol? = nil, securityGroupArns: [String]? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
@@ -1917,6 +1967,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the FSx for Windows File Server location.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -1945,6 +1996,7 @@ extension DataSync {
         /// The user with the permissions to mount and access the FSx for Windows File Server file system.
         public let user: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil, user: String? = nil) {
             self.creationTime = creationTime
             self.domain = domain
@@ -1968,6 +2020,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the HDFS location.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -2008,6 +2061,7 @@ extension DataSync {
         /// The user name to identify the client on the host operating system. This parameter is used if the AuthenticationType is defined as SIMPLE.
         public let simpleUser: String?
 
+        @inlinable
         public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, creationTime: Date? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String? = nil, locationUri: String? = nil, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
@@ -2043,6 +2097,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the NFS location that you want information about.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -2068,6 +2123,7 @@ extension DataSync {
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
 
+        @inlinable
         public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil) {
             self.creationTime = creationTime
             self.locationArn = locationArn
@@ -2089,6 +2145,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the object storage system location.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -2121,6 +2178,7 @@ extension DataSync {
         /// The protocol that your object storage system uses to communicate.
         public let serverProtocol: ObjectStorageServerProtocol?
 
+        @inlinable
         public init(accessKey: String? = nil, agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
@@ -2148,6 +2206,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 location.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -2175,6 +2234,7 @@ extension DataSync {
         /// When Amazon S3 is a destination location, this is the storage class that you chose for your objects. Some storage classes have behaviors that can affect your Amazon S3 storage costs. For more information, see Storage class considerations with Amazon S3 transfers.
         public let s3StorageClass: S3StorageClass?
 
+        @inlinable
         public init(agentArns: [String]? = nil, creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil) {
             self.agentArns = agentArns
             self.creationTime = creationTime
@@ -2198,6 +2258,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the SMB location that you want information about.
         public let locationArn: String
 
+        @inlinable
         public init(locationArn: String) {
             self.locationArn = locationArn
         }
@@ -2228,6 +2289,7 @@ extension DataSync {
         /// The user that can mount and access the files, folders, and file metadata in your SMB file server.
         public let user: String?
 
+        @inlinable
         public init(agentArns: [String]? = nil, creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.creationTime = creationTime
@@ -2253,6 +2315,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system that you're using with DataSync Discovery.
         public let storageSystemArn: String
 
+        @inlinable
         public init(storageSystemArn: String) {
             self.storageSystemArn = storageSystemArn
         }
@@ -2283,6 +2346,7 @@ extension DataSync {
         /// Specifies a time within the total duration that the discovery job ran. To see information gathered during a certain time frame, use this parameter with EndTime.
         public let startTime: Date?
 
+        @inlinable
         public init(discoveryJobArn: String, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String, resourceType: DiscoveryResourceType, startTime: Date? = nil) {
             self.discoveryJobArn = discoveryJobArn
             self.endTime = endTime
@@ -2320,6 +2384,7 @@ extension DataSync {
         /// The opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(metrics: [ResourceMetrics]? = nil, nextToken: String? = nil) {
             self.metrics = metrics
             self.nextToken = nextToken
@@ -2345,6 +2410,7 @@ extension DataSync {
         /// Specifies what kind of storage system resources that you want information about.
         public let resourceType: DiscoveryResourceType
 
+        @inlinable
         public init(discoveryJobArn: String, filter: [DiscoveryResourceFilter: [String]]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, resourceType: DiscoveryResourceType) {
             self.discoveryJobArn = discoveryJobArn
             self.filter = filter
@@ -2384,6 +2450,7 @@ extension DataSync {
         /// The information collected about your storage system's resources. A response can also include Amazon Web Services storage service recommendations. For more information, see storage resource information collected by and recommendations provided by DataSync Discovery.
         public let resourceDetails: ResourceDetails?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceDetails: ResourceDetails? = nil) {
             self.nextToken = nextToken
             self.resourceDetails = resourceDetails
@@ -2417,6 +2484,7 @@ extension DataSync {
         /// The type of on-premises storage system.  DataSync Discovery currently only supports NetApp Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
         public let systemType: DiscoverySystemType?
 
+        @inlinable
         public init(agentArns: [String]? = nil, cloudWatchLogGroupArn: String? = nil, connectivityStatus: StorageSystemConnectivityStatus? = nil, creationTime: Date? = nil, errorMessage: String? = nil, name: String? = nil, secretsManagerArn: String? = nil, serverConfiguration: DiscoveryServerConfiguration? = nil, storageSystemArn: String? = nil, systemType: DiscoverySystemType? = nil) {
             self.agentArns = agentArns
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -2448,6 +2516,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about.
         public let taskExecutionArn: String
 
+        @inlinable
         public init(taskExecutionArn: String) {
             self.taskExecutionArn = taskExecutionArn
         }
@@ -2503,6 +2572,7 @@ extension DataSync {
         /// The configuration of your task report, which provides detailed information about for your DataSync transfer. For more information, see Creating a task report.
         public let taskReportConfig: TaskReportConfig?
 
+        @inlinable
         public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToDelete: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesDeleted: Int64? = nil, filesSkipped: Int64? = nil, filesTransferred: Int64? = nil, filesVerified: Int64? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, options: Options? = nil, reportResult: ReportResult? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.bytesCompressed = bytesCompressed
             self.bytesTransferred = bytesTransferred
@@ -2554,6 +2624,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the transfer task that you want information about.
         public let taskArn: String
 
+        @inlinable
         public init(taskArn: String) {
             self.taskArn = taskArn
         }
@@ -2608,6 +2679,7 @@ extension DataSync {
         /// The configuration of your task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports.
         public let taskReportConfig: TaskReportConfig?
 
+        @inlinable
         public init(cloudWatchLogGroupArn: String? = nil, creationTime: Date? = nil, currentTaskExecutionArn: String? = nil, destinationLocationArn: String? = nil, destinationNetworkInterfaceArns: [String]? = nil, errorCode: String? = nil, errorDetail: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, scheduleDetails: TaskScheduleDetails? = nil, sourceLocationArn: String? = nil, sourceNetworkInterfaceArns: [String]? = nil, status: TaskStatus? = nil, taskArn: String? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.creationTime = creationTime
@@ -2659,6 +2731,7 @@ extension DataSync {
         /// The status of a discovery job. For more information, see Discovery job statuses.
         public let status: DiscoveryJobStatus?
 
+        @inlinable
         public init(discoveryJobArn: String? = nil, status: DiscoveryJobStatus? = nil) {
             self.discoveryJobArn = discoveryJobArn
             self.status = status
@@ -2676,6 +2749,7 @@ extension DataSync {
         /// The network port for accessing the storage system's management interface.
         public let serverPort: Int?
 
+        @inlinable
         public init(serverHostname: String, serverPort: Int? = nil) {
             self.serverHostname = serverHostname
             self.serverPort = serverPort
@@ -2700,6 +2774,7 @@ extension DataSync {
         /// Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located:   In the same virtual private cloud (VPC) as the Amazon EFS file system.   In the same Availability Zone as at least one mount target for the Amazon EFS file system.    You don't need to specify a subnet that includes a file system mount target.
         public let subnetArn: String
 
+        @inlinable
         public init(securityGroupArns: [String], subnetArn: String) {
             self.securityGroupArns = securityGroupArns
             self.subnetArn = subnetArn
@@ -2728,6 +2803,7 @@ extension DataSync {
         /// A single filter string that consists of the patterns to include or exclude. The patterns are delimited by "|" (that is, a pipe), for example: /folder1|/folder2
         public let value: String?
 
+        @inlinable
         public init(filterType: FilterType? = nil, value: String? = nil) {
             self.filterType = filterType
             self.value = value
@@ -2750,6 +2826,7 @@ extension DataSync {
         /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your FSx for ONTAP file system's SVM.
         public let smb: FsxProtocolSmb?
 
+        @inlinable
         public init(nfs: FsxProtocolNfs? = nil, smb: FsxProtocolSmb? = nil) {
             self.nfs = nfs
             self.smb = smb
@@ -2768,6 +2845,7 @@ extension DataSync {
     public struct FsxProtocolNfs: AWSEncodableShape & AWSDecodableShape {
         public let mountOptions: NfsMountOptions?
 
+        @inlinable
         public init(mountOptions: NfsMountOptions? = nil) {
             self.mountOptions = mountOptions
         }
@@ -2786,6 +2864,7 @@ extension DataSync {
         /// Specifies a user that can mount and access the files, folders, and metadata in your SVM. For information about choosing a user with the right level of access for your transfer, see Using the SMB protocol.
         public let user: String
 
+        @inlinable
         public init(domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, user: String) {
             self.domain = domain
             self.mountOptions = mountOptions
@@ -2818,6 +2897,7 @@ extension DataSync {
         /// Specifies the type of resource in your storage system that you want recommendations on.
         public let resourceType: DiscoveryResourceType
 
+        @inlinable
         public init(discoveryJobArn: String, resourceIds: [String], resourceType: DiscoveryResourceType) {
             self.discoveryJobArn = discoveryJobArn
             self.resourceIds = resourceIds
@@ -2851,6 +2931,7 @@ extension DataSync {
         /// The port that the NameNode uses to listen to client requests.
         public let port: Int
 
+        @inlinable
         public init(hostname: String, port: Int) {
             self.hostname = hostname
             self.port = port
@@ -2880,6 +2961,7 @@ extension DataSync {
         /// Peak IOPS related to write operations.
         public let write: Double?
 
+        @inlinable
         public init(other: Double? = nil, read: Double? = nil, total: Double? = nil, write: Double? = nil) {
             self.other = other
             self.read = read
@@ -2903,6 +2985,7 @@ extension DataSync {
         /// Peak latency for write operations.
         public let write: Double?
 
+        @inlinable
         public init(other: Double? = nil, read: Double? = nil, write: Double? = nil) {
             self.other = other
             self.read = read
@@ -2922,6 +3005,7 @@ extension DataSync {
         /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2946,6 +3030,7 @@ extension DataSync {
         /// The opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(agents: [AgentListEntry]? = nil, nextToken: String? = nil) {
             self.agents = agents
             self.nextToken = nextToken
@@ -2965,6 +3050,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of an on-premises storage system. Use this parameter if you only want to list the discovery jobs that are associated with a specific storage system.
         public let storageSystemArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, storageSystemArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2993,6 +3079,7 @@ extension DataSync {
         /// The opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(discoveryJobs: [DiscoveryJobListEntry]? = nil, nextToken: String? = nil) {
             self.discoveryJobs = discoveryJobs
             self.nextToken = nextToken
@@ -3012,6 +3099,7 @@ extension DataSync {
         /// An opaque string that indicates the position at which to begin the next list of locations.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [LocationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3041,6 +3129,7 @@ extension DataSync {
         /// An opaque string that indicates the position at which to begin returning the next list of locations.
         public let nextToken: String?
 
+        @inlinable
         public init(locations: [LocationListEntry]? = nil, nextToken: String? = nil) {
             self.locations = locations
             self.nextToken = nextToken
@@ -3058,6 +3147,7 @@ extension DataSync {
         /// Specifies an opaque string that indicates the position to begin the next list of results in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3082,6 +3172,7 @@ extension DataSync {
         /// The Amazon Resource Names ARNs) of the on-premises storage systems that you're using with DataSync Discovery.
         public let storageSystems: [StorageSystemListEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, storageSystems: [StorageSystemListEntry]? = nil) {
             self.nextToken = nextToken
             self.storageSystems = storageSystems
@@ -3101,6 +3192,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the resource that you want tag information on.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3129,6 +3221,7 @@ extension DataSync {
         /// An array of tags applied to the specified resource.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [TagListEntry]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3148,6 +3241,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the task that you want execution information about.
         public let taskArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, taskArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3176,6 +3270,7 @@ extension DataSync {
         /// A list of the task's executions.
         public let taskExecutions: [TaskExecutionListEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, taskExecutions: [TaskExecutionListEntry]? = nil) {
             self.nextToken = nextToken
             self.taskExecutions = taskExecutions
@@ -3195,6 +3290,7 @@ extension DataSync {
         /// An opaque string that indicates the position at which to begin the next list of tasks.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [TaskFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3224,6 +3320,7 @@ extension DataSync {
         /// A list of all the tasks that are returned.
         public let tasks: [TaskListEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [TaskListEntry]? = nil) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -3243,6 +3340,7 @@ extension DataSync {
         /// The values that you want to filter for. For example, you might want to display only Amazon S3 locations.
         public let values: [String]
 
+        @inlinable
         public init(name: LocationFilterName, operator: Operator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -3270,6 +3368,7 @@ extension DataSync {
         /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location (for example, nfs or s3). GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a hostname that is compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
         public let locationUri: String?
 
+        @inlinable
         public init(locationArn: String? = nil, locationUri: String? = nil) {
             self.locationArn = locationArn
             self.locationUri = locationUri
@@ -3289,6 +3388,7 @@ extension DataSync {
         /// Specifies the manifest that you want DataSync to use and where it's hosted.  You must specify this parameter if you're configuring a new manifest on or after February 7, 2024. If you don't, you'll get a 400 status code and ValidationException error stating that you're missing the IAM role for DataSync to access the S3 bucket where you're hosting your manifest. For more information, see Providing DataSync access to your manifest.
         public let source: SourceManifestConfig?
 
+        @inlinable
         public init(action: ManifestAction? = nil, format: ManifestFormat? = nil, source: SourceManifestConfig? = nil) {
             self.action = action
             self.format = format
@@ -3330,6 +3430,7 @@ extension DataSync {
         /// Peak throughput related to write operations.
         public let throughputWrite: Double?
 
+        @inlinable
         public init(iopsOther: Double? = nil, iopsRead: Double? = nil, iopsTotal: Double? = nil, iopsWrite: Double? = nil, latencyOther: Double? = nil, latencyRead: Double? = nil, latencyWrite: Double? = nil, throughputOther: Double? = nil, throughputRead: Double? = nil, throughputTotal: Double? = nil, throughputWrite: Double? = nil) {
             self.iopsOther = iopsOther
             self.iopsRead = iopsRead
@@ -3385,6 +3486,7 @@ extension DataSync {
         /// The universally unique identifier (UUID) of the cluster.
         public let resourceId: String?
 
+        @inlinable
         public init(cifsShareCount: Int64? = nil, clusterBlockStorageLogicalUsed: Int64? = nil, clusterBlockStorageSize: Int64? = nil, clusterBlockStorageUsed: Int64? = nil, clusterCloudStorageUsed: Int64? = nil, clusterName: String? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil) {
             self.cifsShareCount = cifsShareCount
             self.clusterBlockStorageLogicalUsed = clusterBlockStorageLogicalUsed
@@ -3446,6 +3548,7 @@ extension DataSync {
         /// The amount of storage in the SVM that's being used for snapshots.
         public let totalSnapshotCapacityUsed: Int64?
 
+        @inlinable
         public init(cifsShareCount: Int64? = nil, clusterUuid: String? = nil, enabledProtocols: [String]? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExportedVolumes: Int64? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, svmName: String? = nil, totalCapacityProvisioned: Int64? = nil, totalCapacityUsed: Int64? = nil, totalLogicalCapacityUsed: Int64? = nil, totalSnapshotCapacityUsed: Int64? = nil) {
             self.cifsShareCount = cifsShareCount
             self.clusterUuid = clusterUuid
@@ -3513,6 +3616,7 @@ extension DataSync {
         /// The name of the volume.
         public let volumeName: String?
 
+        @inlinable
         public init(capacityProvisioned: Int64? = nil, capacityUsed: Int64? = nil, cifsShareCount: Int64? = nil, logicalCapacityUsed: Int64? = nil, lunCount: Int64? = nil, maxP95Performance: MaxP95Performance? = nil, nfsExported: Bool? = nil, recommendations: [Recommendation]? = nil, recommendationStatus: RecommendationStatus? = nil, resourceId: String? = nil, securityStyle: String? = nil, snapshotCapacityUsed: Int64? = nil, svmName: String? = nil, svmUuid: String? = nil, volumeName: String? = nil) {
             self.capacityProvisioned = capacityProvisioned
             self.capacityUsed = capacityUsed
@@ -3554,6 +3658,7 @@ extension DataSync {
         /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:    AUTOMATIC (default): DataSync chooses NFS version 4.1.    NFS3: Stateless protocol version that allows for asynchronous writes on the server.    NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.    NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.    DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
         public let version: NfsVersion?
 
+        @inlinable
         public init(version: NfsVersion? = nil) {
             self.version = version
         }
@@ -3567,6 +3672,7 @@ extension DataSync {
         /// The Amazon Resource Names (ARNs) of the agents connecting to a transfer location.
         public let agentArns: [String]
 
+        @inlinable
         public init(agentArns: [String]) {
             self.agentArns = agentArns
         }
@@ -3617,6 +3723,7 @@ extension DataSync {
         /// Specifies how and when DataSync checks the integrity of your data during a transfer.    ONLY_FILES_TRANSFERRED (recommended) - DataSync calculates the checksum of transferred files and metadata at the source location. At the end of the transfer, DataSync then compares this checksum to the checksum calculated on those files at the destination. We recommend this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations.    POINT_IN_TIME_CONSISTENT (default) - At the end of the transfer, DataSync scans the entire source and destination to verify that both locations are fully synchronized. If you use a manifest, DataSync only scans and verifies what's listed in the manifest. You can't use this option when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. For more information, see Storage class considerations with Amazon S3 locations.    NONE - DataSync doesn't run additional verification at the end of the transfer. All data transmissions are still integrity-checked with checksum verification during the transfer.
         public let verifyMode: VerifyMode?
 
+        @inlinable
         public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
@@ -3666,6 +3773,7 @@ extension DataSync {
         /// The throughput peaks for an on-premises storage system resource. Each data point represents the 95th percentile peak value during a 1-hour interval.
         public let throughput: Throughput?
 
+        @inlinable
         public init(iops: IOPS? = nil, latency: Latency? = nil, throughput: Throughput? = nil) {
             self.iops = iops
             self.latency = latency
@@ -3683,6 +3791,7 @@ extension DataSync {
         /// The version of the DataSync agent.
         public let version: String?
 
+        @inlinable
         public init(version: String? = nil) {
             self.version = version
         }
@@ -3702,6 +3811,7 @@ extension DataSync {
         /// Specifies the ID of the VPC endpoint that your agent connects to.
         public let vpcEndpointId: String?
 
+        @inlinable
         public init(privateLinkEndpoint: String? = nil, securityGroupArns: [String]? = nil, subnetArns: [String]? = nil, vpcEndpointId: String? = nil) {
             self.privateLinkEndpoint = privateLinkEndpoint
             self.securityGroupArns = securityGroupArns
@@ -3723,6 +3833,7 @@ extension DataSync {
         /// The RPC protection setting configured on the HDFS cluster. This setting corresponds to your hadoop.rpc.protection setting in your core-site.xml file on your Hadoop cluster.
         public let rpcProtection: HdfsRpcProtection?
 
+        @inlinable
         public init(dataTransferProtection: HdfsDataTransferProtection? = nil, rpcProtection: HdfsRpcProtection? = nil) {
             self.dataTransferProtection = dataTransferProtection
             self.rpcProtection = rpcProtection
@@ -3742,6 +3853,7 @@ extension DataSync {
         /// A recommended Amazon Web Services storage service that you can migrate data to based on information that DataSync Discovery collects about your on-premises storage system.
         public let storageType: String?
 
+        @inlinable
         public init(estimatedMonthlyStorageCost: String? = nil, storageConfiguration: [String: String]? = nil, storageType: String? = nil) {
             self.estimatedMonthlyStorageCost = estimatedMonthlyStorageCost
             self.storageConfiguration = storageConfiguration
@@ -3759,6 +3871,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the storage system that you want to permanently remove from DataSync Discovery.
         public let storageSystemArn: String
 
+        @inlinable
         public init(storageSystemArn: String) {
             self.storageSystemArn = storageSystemArn
         }
@@ -3781,6 +3894,7 @@ extension DataSync {
         /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
         public let s3: ReportDestinationS3?
 
+        @inlinable
         public init(s3: ReportDestinationS3? = nil) {
             self.s3 = s3
         }
@@ -3802,6 +3916,7 @@ extension DataSync {
         /// Specifies a bucket prefix for your report.
         public let subdirectory: String?
 
+        @inlinable
         public init(bucketAccessRoleArn: String, s3BucketArn: String, subdirectory: String? = nil) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
             self.s3BucketArn = s3BucketArn
@@ -3828,6 +3943,7 @@ extension DataSync {
         /// Specifies whether your task report includes errors only or successes and errors. For example, your report might mostly include only what didn't go well in your transfer (ERRORS_ONLY). At the same time, you want to verify that your task filter is working correctly. In this situation, you can get a list of what files DataSync successfully skipped and if something transferred that you didn't to transfer (SUCCESSES_AND_ERRORS).
         public let reportLevel: ReportLevel?
 
+        @inlinable
         public init(reportLevel: ReportLevel? = nil) {
             self.reportLevel = reportLevel
         }
@@ -3847,6 +3963,7 @@ extension DataSync {
         /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to verify at the end of your transfer.
         public let verified: ReportOverride?
 
+        @inlinable
         public init(deleted: ReportOverride? = nil, skipped: ReportOverride? = nil, transferred: ReportOverride? = nil, verified: ReportOverride? = nil) {
             self.deleted = deleted
             self.skipped = skipped
@@ -3870,6 +3987,7 @@ extension DataSync {
         /// Indicates whether DataSync is still working on your report, created a report, or can't create a complete report.
         public let status: PhaseStatus?
 
+        @inlinable
         public init(errorCode: String? = nil, errorDetail: String? = nil, status: PhaseStatus? = nil) {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
@@ -3891,6 +4009,7 @@ extension DataSync {
         /// The information that DataSync Discovery collects about volumes in your on-premises storage system.
         public let netAppONTAPVolumes: [NetAppONTAPVolume]?
 
+        @inlinable
         public init(netAppONTAPClusters: [NetAppONTAPCluster]? = nil, netAppONTAPSVMs: [NetAppONTAPSVM]? = nil, netAppONTAPVolumes: [NetAppONTAPVolume]? = nil) {
             self.netAppONTAPClusters = netAppONTAPClusters
             self.netAppONTAPSVMs = netAppONTAPSVMs
@@ -3916,6 +4035,7 @@ extension DataSync {
         /// The time when DataSync Discovery collected this information from the resource.
         public let timestamp: Date?
 
+        @inlinable
         public init(capacity: Capacity? = nil, p95Metrics: P95Metrics? = nil, resourceId: String? = nil, resourceType: DiscoveryResourceType? = nil, timestamp: Date? = nil) {
             self.capacity = capacity
             self.p95Metrics = p95Metrics
@@ -3937,6 +4057,7 @@ extension DataSync {
         /// Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket.
         public let bucketAccessRoleArn: String
 
+        @inlinable
         public init(bucketAccessRoleArn: String) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
         }
@@ -3961,6 +4082,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the S3 bucket where you're hosting your manifest.
         public let s3BucketArn: String
 
+        @inlinable
         public init(bucketAccessRoleArn: String, manifestObjectPath: String, manifestObjectVersionId: String? = nil, s3BucketArn: String) {
             self.bucketAccessRoleArn = bucketAccessRoleArn
             self.manifestObjectPath = manifestObjectPath
@@ -3992,6 +4114,7 @@ extension DataSync {
         /// By default, DataSync automatically chooses an SMB protocol version based on negotiation with your SMB file server. You also can configure DataSync to use a specific SMB version, but we recommend doing this only if DataSync has trouble negotiating with the SMB file server automatically. These are the following options for configuring the SMB version:    AUTOMATIC (default): DataSync and the SMB file server negotiate the highest version of SMB that they mutually support between 2.1 and 3.1.1. This is the recommended option. If you instead choose a specific version that your file server doesn't support, you may get an Operation Not Supported error.    SMB3: Restricts the protocol negotiation to only SMB version 3.0.2.    SMB2: Restricts the protocol negotiation to only SMB version 2.1.    SMB2_0: Restricts the protocol negotiation to only SMB version 2.0.    SMB1: Restricts the protocol negotiation to only SMB version 1.0.  The SMB1 option isn't available when creating an Amazon FSx for NetApp ONTAP location.
         public let version: SmbVersion?
 
+        @inlinable
         public init(version: SmbVersion? = nil) {
             self.version = version
         }
@@ -4005,6 +4128,7 @@ extension DataSync {
         /// Specifies the S3 bucket where you're hosting your manifest.
         public let s3: S3ManifestConfig
 
+        @inlinable
         public init(s3: S3ManifestConfig) {
             self.s3 = s3
         }
@@ -4028,6 +4152,7 @@ extension DataSync {
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources.
         public let tags: [TagListEntry]?
 
+        @inlinable
         public init(clientToken: String = StartDiscoveryJobRequest.idempotencyToken(), collectionDurationMinutes: Int, storageSystemArn: String, tags: [TagListEntry]? = nil) {
             self.clientToken = clientToken
             self.collectionDurationMinutes = collectionDurationMinutes
@@ -4059,6 +4184,7 @@ extension DataSync {
         /// The ARN of the discovery job that you started.
         public let discoveryJobArn: String?
 
+        @inlinable
         public init(discoveryJobArn: String? = nil) {
             self.discoveryJobArn = discoveryJobArn
         }
@@ -4083,6 +4209,7 @@ extension DataSync {
         /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission. To remove a task report configuration, specify this parameter as empty.
         public let taskReportConfig: TaskReportConfig?
 
+        @inlinable
         public init(excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, overrideOptions: Options? = nil, tags: [TagListEntry]? = nil, taskArn: String, taskReportConfig: TaskReportConfig? = nil) {
             self.excludes = excludes
             self.includes = includes
@@ -4128,6 +4255,7 @@ extension DataSync {
         /// The ARN of the running task execution.
         public let taskExecutionArn: String?
 
+        @inlinable
         public init(taskExecutionArn: String? = nil) {
             self.taskExecutionArn = taskExecutionArn
         }
@@ -4141,6 +4269,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to stop.
         public let discoveryJobArn: String
 
+        @inlinable
         public init(discoveryJobArn: String) {
             self.discoveryJobArn = discoveryJobArn
         }
@@ -4165,6 +4294,7 @@ extension DataSync {
         /// The Amazon Resource Names (ARN) of an on-premises storage system that you added to DataSync Discovery.
         public let storageSystemArn: String?
 
+        @inlinable
         public init(name: String? = nil, storageSystemArn: String? = nil) {
             self.name = name
             self.storageSystemArn = storageSystemArn
@@ -4182,6 +4312,7 @@ extension DataSync {
         /// The value for an Amazon Web Services resource tag.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4207,6 +4338,7 @@ extension DataSync {
         /// Specifies the tags that you want to apply to the resource.
         public let tags: [TagListEntry]
 
+        @inlinable
         public init(resourceArn: String, tags: [TagListEntry]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4237,6 +4369,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of a task execution.
         public let taskExecutionArn: String?
 
+        @inlinable
         public init(status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil) {
             self.status = status
             self.taskExecutionArn = taskExecutionArn
@@ -4268,6 +4401,7 @@ extension DataSync {
         /// The status of the VERIFYING phase.
         public let verifyStatus: PhaseStatus?
 
+        @inlinable
         public init(errorCode: String? = nil, errorDetail: String? = nil, prepareDuration: Int64? = nil, prepareStatus: PhaseStatus? = nil, totalDuration: Int64? = nil, transferDuration: Int64? = nil, transferStatus: PhaseStatus? = nil, verifyDuration: Int64? = nil, verifyStatus: PhaseStatus? = nil) {
             self.errorCode = errorCode
             self.errorDetail = errorDetail
@@ -4301,6 +4435,7 @@ extension DataSync {
         /// The values that you want to filter for. For example, you might want to display only tasks for a specific destination location.
         public let values: [String]
 
+        @inlinable
         public init(name: TaskFilterName, operator: Operator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -4330,6 +4465,7 @@ extension DataSync {
         /// The Amazon Resource Name (ARN) of the task.
         public let taskArn: String?
 
+        @inlinable
         public init(name: String? = nil, status: TaskStatus? = nil, taskArn: String? = nil) {
             self.name = name
             self.status = status
@@ -4355,6 +4491,7 @@ extension DataSync {
         /// Specifies whether you want your task report to include only what went wrong with your transfer or a list of what succeeded and didn't.    ERRORS_ONLY: A report shows what DataSync was unable to transfer, skip, verify, and delete.    SUCCESSES_AND_ERRORS: A report shows what DataSync was able and unable to transfer, skip, verify, and delete.
         public let reportLevel: ReportLevel?
 
+        @inlinable
         public init(destination: ReportDestination? = nil, objectVersionIds: ObjectVersionIds? = nil, outputType: ReportOutputType? = nil, overrides: ReportOverrides? = nil, reportLevel: ReportLevel? = nil) {
             self.destination = destination
             self.objectVersionIds = objectVersionIds
@@ -4382,6 +4519,7 @@ extension DataSync {
         /// Specifies whether to enable or disable your task schedule. Your schedule is enabled by default, but there can be situations where you need to disable it. For example, you might need to pause a recurring transfer to fix an issue with your task or perform maintenance on your storage system. DataSync might disable your schedule automatically if your task fails repeatedly with the same error. For more information, see TaskScheduleDetails.
         public let status: ScheduleStatus?
 
+        @inlinable
         public init(scheduleExpression: String, status: ScheduleStatus? = nil) {
             self.scheduleExpression = scheduleExpression
             self.status = status
@@ -4406,6 +4544,7 @@ extension DataSync {
         /// Indicates the last time the status of your task schedule changed. For example, if DataSync automatically disables your schedule because of a repeated error, you can see when the schedule was disabled.
         public let statusUpdateTime: Date?
 
+        @inlinable
         public init(disabledBy: ScheduleDisabledBy? = nil, disabledReason: String? = nil, statusUpdateTime: Date? = nil) {
             self.disabledBy = disabledBy
             self.disabledReason = disabledReason
@@ -4429,6 +4568,7 @@ extension DataSync {
         /// Peak throughput related to write operations.
         public let write: Double?
 
+        @inlinable
         public init(other: Double? = nil, read: Double? = nil, total: Double? = nil, write: Double? = nil) {
             self.other = other
             self.read = read
@@ -4450,6 +4590,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the resource to remove the tags from.
         public let resourceArn: String
 
+        @inlinable
         public init(keys: [String], resourceArn: String) {
             self.keys = keys
             self.resourceArn = resourceArn
@@ -4483,6 +4624,7 @@ extension DataSync {
         /// The name that you want to use to configure the agent.
         public let name: String?
 
+        @inlinable
         public init(agentArn: String, name: String? = nil) {
             self.agentArn = agentArn
             self.name = name
@@ -4511,6 +4653,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the discovery job that you want to update.
         public let discoveryJobArn: String
 
+        @inlinable
         public init(collectionDurationMinutes: Int, discoveryJobArn: String) {
             self.collectionDurationMinutes = collectionDurationMinutes
             self.discoveryJobArn = discoveryJobArn
@@ -4549,6 +4692,7 @@ extension DataSync {
         /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
         public let subdirectory: String?
 
+        @inlinable
         public init(accessTier: AzureAccessTier? = nil, agentArns: [String]? = nil, authenticationType: AzureBlobAuthenticationType? = nil, blobType: AzureBlobType? = nil, locationArn: String, sasConfiguration: AzureBlobSasConfiguration? = nil, subdirectory: String? = nil) {
             self.accessTier = accessTier
             self.agentArns = agentArns
@@ -4616,6 +4760,7 @@ extension DataSync {
         /// A subdirectory in the HDFS cluster. This subdirectory is used to read data from or write data to the HDFS cluster.
         public let subdirectory: String?
 
+        @inlinable
         public init(agentArns: [String]? = nil, authenticationType: HdfsAuthenticationType? = nil, blockSize: Int? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, kmsKeyProviderUri: String? = nil, locationArn: String, nameNodes: [HdfsNameNode]? = nil, qopConfiguration: QopConfiguration? = nil, replicationFactor: Int? = nil, simpleUser: String? = nil, subdirectory: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
@@ -4693,6 +4838,7 @@ extension DataSync {
         /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers.
         public let subdirectory: String?
 
+        @inlinable
         public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, subdirectory: String? = nil) {
             self.locationArn = locationArn
             self.mountOptions = mountOptions
@@ -4738,6 +4884,7 @@ extension DataSync {
         /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix.
         public let subdirectory: String?
 
+        @inlinable
         public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
@@ -4800,6 +4947,7 @@ extension DataSync {
         /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
         public let user: String?
 
+        @inlinable
         public init(agentArns: [String]? = nil, domain: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.domain = domain
@@ -4858,6 +5006,7 @@ extension DataSync {
         /// Specifies the ARN of the on-premises storage system that you want reconfigure.
         public let storageSystemArn: String
 
+        @inlinable
         public init(agentArns: [String]? = nil, cloudWatchLogGroupArn: String? = nil, credentials: Credentials? = nil, name: String? = nil, serverConfiguration: DiscoveryServerConfiguration? = nil, storageSystemArn: String) {
             self.agentArns = agentArns
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -4904,6 +5053,7 @@ extension DataSync {
         /// Specifies the Amazon Resource Name (ARN) of the task execution that you're updating.
         public let taskExecutionArn: String
 
+        @inlinable
         public init(options: Options, taskExecutionArn: String) {
             self.options = options
             self.taskExecutionArn = taskExecutionArn
@@ -4944,6 +5094,7 @@ extension DataSync {
         /// Specifies how you want to configure a task report, which provides detailed information about your DataSync transfer. For more information, see Monitoring your DataSync transfers with task reports. When using this parameter, your caller identity (the IAM role that you're using DataSync with) must have the iam:PassRole permission. The AWSDataSyncFullAccess policy includes this permission. To remove a task report configuration, specify this parameter as empty.
         public let taskReportConfig: TaskReportConfig?
 
+        @inlinable
         public init(cloudWatchLogGroupArn: String? = nil, excludes: [FilterRule]? = nil, includes: [FilterRule]? = nil, manifestConfig: ManifestConfig? = nil, name: String? = nil, options: Options? = nil, schedule: TaskSchedule? = nil, taskArn: String, taskReportConfig: TaskReportConfig? = nil) {
             self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
             self.excludes = excludes

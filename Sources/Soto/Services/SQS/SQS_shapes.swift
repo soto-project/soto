@@ -83,6 +83,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(actions: [String], awsAccountIds: [String], label: String, queueUrl: String) {
             self.actions = actions
             self.awsAccountIds = awsAccountIds
@@ -108,6 +109,7 @@ extension SQS {
         /// Specifies whether the error happened due to the caller of the batch API action.
         public let senderFault: Bool
 
+        @inlinable
         public init(code: String, id: String, message: String? = nil, senderFault: Bool) {
             self.code = code
             self.id = id
@@ -127,6 +129,7 @@ extension SQS {
         /// An identifier associated with a message movement task.
         public let taskHandle: String
 
+        @inlinable
         public init(taskHandle: String) {
             self.taskHandle = taskHandle
         }
@@ -140,6 +143,7 @@ extension SQS {
         /// The approximate number of messages already moved to the destination queue.
         public let approximateNumberOfMessagesMoved: Int64?
 
+        @inlinable
         public init(approximateNumberOfMessagesMoved: Int64? = nil) {
             self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
         }
@@ -155,6 +159,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(entries: [ChangeMessageVisibilityBatchRequestEntry], queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
@@ -174,6 +179,7 @@ extension SQS {
         /// The new value (in seconds) for the message's visibility timeout.
         public let visibilityTimeout: Int?
 
+        @inlinable
         public init(id: String, receiptHandle: String, visibilityTimeout: Int? = nil) {
             self.id = id
             self.receiptHandle = receiptHandle
@@ -193,6 +199,7 @@ extension SQS {
         /// A list of  ChangeMessageVisibilityBatchResultEntry  items.
         public let successful: [ChangeMessageVisibilityBatchResultEntry]?
 
+        @inlinable
         public init(failed: [BatchResultErrorEntry]? = nil, successful: [ChangeMessageVisibilityBatchResultEntry]? = nil) {
             self.failed = failed
             self.successful = successful
@@ -208,6 +215,7 @@ extension SQS {
         /// Represents a message whose visibility timeout has been changed successfully.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -225,6 +233,7 @@ extension SQS {
         /// The new value for the message's visibility timeout (in seconds). Values range: 0 to 43200. Maximum: 12 hours.
         public let visibilityTimeout: Int
 
+        @inlinable
         public init(queueUrl: String, receiptHandle: String, visibilityTimeout: Int) {
             self.queueUrl = queueUrl
             self.receiptHandle = receiptHandle
@@ -253,6 +262,7 @@ extension SQS {
         /// cross-account permissions to a role and a username in the Amazon SQS Developer Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(attributes: [QueueAttributeName: String]? = nil, queueName: String, tags: [String: String]? = nil) {
             self.attributes = attributes
             self.queueName = queueName
@@ -270,6 +280,7 @@ extension SQS {
         /// The URL of the created Amazon SQS queue.
         public let queueUrl: String?
 
+        @inlinable
         public init(queueUrl: String? = nil) {
             self.queueUrl = queueUrl
         }
@@ -285,6 +296,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue from which messages are deleted. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(entries: [DeleteMessageBatchRequestEntry], queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
@@ -302,6 +314,7 @@ extension SQS {
         /// A receipt handle.
         public let receiptHandle: String
 
+        @inlinable
         public init(id: String, receiptHandle: String) {
             self.id = id
             self.receiptHandle = receiptHandle
@@ -319,6 +332,7 @@ extension SQS {
         /// A list of  DeleteMessageBatchResultEntry items.
         public let successful: [DeleteMessageBatchResultEntry]?
 
+        @inlinable
         public init(failed: [BatchResultErrorEntry]? = nil, successful: [DeleteMessageBatchResultEntry]? = nil) {
             self.failed = failed
             self.successful = successful
@@ -334,6 +348,7 @@ extension SQS {
         /// Represents a successfully deleted message.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -349,6 +364,7 @@ extension SQS {
         /// The receipt handle associated with the message to delete.
         public let receiptHandle: String
 
+        @inlinable
         public init(queueUrl: String, receiptHandle: String) {
             self.queueUrl = queueUrl
             self.receiptHandle = receiptHandle
@@ -364,6 +380,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue to delete. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(queueUrl: String) {
             self.queueUrl = queueUrl
         }
@@ -381,6 +398,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue whose attribute information is retrieved. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(attributeNames: [QueueAttributeName]? = nil, queueUrl: String) {
             self.attributeNames = attributeNames
             self.queueUrl = queueUrl
@@ -396,6 +414,7 @@ extension SQS {
         /// A map of attributes to their respective values.
         public let attributes: [QueueAttributeName: String]?
 
+        @inlinable
         public init(attributes: [QueueAttributeName: String]? = nil) {
             self.attributes = attributes
         }
@@ -411,6 +430,7 @@ extension SQS {
         /// The Amazon Web Services account ID of the account that created the queue.
         public let queueOwnerAWSAccountId: String?
 
+        @inlinable
         public init(queueName: String, queueOwnerAWSAccountId: String? = nil) {
             self.queueName = queueName
             self.queueOwnerAWSAccountId = queueOwnerAWSAccountId
@@ -426,6 +446,7 @@ extension SQS {
         /// The URL of the queue.
         public let queueUrl: String?
 
+        @inlinable
         public init(queueUrl: String? = nil) {
             self.queueUrl = queueUrl
         }
@@ -443,6 +464,7 @@ extension SQS {
         /// The URL of a dead-letter queue. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, queueUrl: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -462,6 +484,7 @@ extension SQS {
         /// A list of source queue URLs that have the RedrivePolicy queue attribute configured with a dead-letter queue.
         public let queueUrls: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, queueUrls: [String]) {
             self.nextToken = nextToken
             self.queueUrls = queueUrls
@@ -479,6 +502,7 @@ extension SQS {
         /// The ARN of the queue whose message movement tasks are to be listed.
         public let sourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, sourceArn: String) {
             self.maxResults = maxResults
             self.sourceArn = sourceArn
@@ -494,6 +518,7 @@ extension SQS {
         /// A list of message movement tasks and their attributes.
         public let results: [ListMessageMoveTasksResultEntry]?
 
+        @inlinable
         public init(results: [ListMessageMoveTasksResultEntry]? = nil) {
             self.results = results
         }
@@ -523,6 +548,7 @@ extension SQS {
         /// An identifier associated with a message movement task. When this field is returned in the response of the ListMessageMoveTasks action, it is only populated for tasks that are in RUNNING status.
         public let taskHandle: String?
 
+        @inlinable
         public init(approximateNumberOfMessagesMoved: Int64? = nil, approximateNumberOfMessagesToMove: Int64? = nil, destinationArn: String? = nil, failureReason: String? = nil, maxNumberOfMessagesPerSecond: Int? = nil, sourceArn: String? = nil, startedTimestamp: Int64? = nil, status: String? = nil, taskHandle: String? = nil) {
             self.approximateNumberOfMessagesMoved = approximateNumberOfMessagesMoved
             self.approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMove
@@ -552,6 +578,7 @@ extension SQS {
         /// The URL of the queue.
         public let queueUrl: String
 
+        @inlinable
         public init(queueUrl: String) {
             self.queueUrl = queueUrl
         }
@@ -565,6 +592,7 @@ extension SQS {
         /// The list of all tags added to the specified queue.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -582,6 +610,7 @@ extension SQS {
         /// A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned. Queue URLs and names are case-sensitive.
         public let queueNamePrefix: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, queueNamePrefix: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -601,6 +630,7 @@ extension SQS {
         /// A list of queue URLs, up to 1,000 entries, or the value of MaxResults that you sent in the request.
         public let queueUrls: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, queueUrls: [String]? = nil) {
             self.nextToken = nextToken
             self.queueUrls = queueUrls
@@ -631,6 +661,7 @@ extension SQS {
         /// An identifier associated with the act of receiving the message. A new receipt handle is returned every time you receive a message. When deleting a message, you provide the last received receipt handle to delete the message.
         public let receiptHandle: String?
 
+        @inlinable
         public init(attributes: [MessageSystemAttributeName: String]? = nil, body: String? = nil, md5OfBody: String? = nil, md5OfMessageAttributes: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, receiptHandle: String? = nil) {
             self.attributes = attributes
             self.body = body
@@ -664,6 +695,7 @@ extension SQS {
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
 
+        @inlinable
         public init(binaryListValues: [AWSBase64Data]? = nil, binaryValue: AWSBase64Data? = nil, dataType: String, stringListValues: [String]? = nil, stringValue: String? = nil) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
@@ -693,6 +725,7 @@ extension SQS {
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
 
+        @inlinable
         public init(binaryListValues: [AWSBase64Data]? = nil, binaryValue: AWSBase64Data? = nil, dataType: String, stringListValues: [String]? = nil, stringValue: String? = nil) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
@@ -714,6 +747,7 @@ extension SQS {
         /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(queueUrl: String) {
             self.queueUrl = queueUrl
         }
@@ -741,6 +775,7 @@ extension SQS {
         /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call does not return a message list.  To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the  NettyNioAsyncHttpClient for asynchronous clients, or the  ApacheHttpClient for synchronous clients.
         public let waitTimeSeconds: Int?
 
+        @inlinable
         public init(maxNumberOfMessages: Int? = nil, messageAttributeNames: [String]? = nil, messageSystemAttributeNames: [MessageSystemAttributeName]? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, visibilityTimeout: Int? = nil, waitTimeSeconds: Int? = nil) {
             self.attributeNames = nil
             self.maxNumberOfMessages = maxNumberOfMessages
@@ -753,6 +788,7 @@ extension SQS {
         }
 
         @available(*, deprecated, message: "Members attributeNames have been deprecated")
+        @inlinable
         public init(attributeNames: [QueueAttributeName]? = nil, maxNumberOfMessages: Int? = nil, messageAttributeNames: [String]? = nil, messageSystemAttributeNames: [MessageSystemAttributeName]? = nil, queueUrl: String, receiveRequestAttemptId: String? = nil, visibilityTimeout: Int? = nil, waitTimeSeconds: Int? = nil) {
             self.attributeNames = attributeNames
             self.maxNumberOfMessages = maxNumberOfMessages
@@ -780,6 +816,7 @@ extension SQS {
         /// A list of messages.
         public let messages: [Message]?
 
+        @inlinable
         public init(messages: [Message]? = nil) {
             self.messages = messages
         }
@@ -795,6 +832,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue from which permissions are removed. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(label: String, queueUrl: String) {
             self.label = label
             self.queueUrl = queueUrl
@@ -812,6 +850,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue to which batched messages are sent. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(entries: [SendMessageBatchRequestEntry], queueUrl: String) {
             self.entries = entries
             self.queueUrl = queueUrl
@@ -842,6 +881,7 @@ extension SQS {
         /// The message system attribute to send Each message system attribute consists of a Name, Type, and Value.    Currently, the only supported message system attribute is AWSTraceHeader. Its type must be String and its value must be a correctly formatted X-Ray trace header string.   The size of a message system attribute doesn't count towards the total size of a message.
         public let messageSystemAttributes: [MessageSystemAttributeNameForSends: MessageSystemAttributeValue]?
 
+        @inlinable
         public init(delaySeconds: Int? = nil, id: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageBody: String, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, messageSystemAttributes: [MessageSystemAttributeNameForSends: MessageSystemAttributeValue]? = nil) {
             self.delaySeconds = delaySeconds
             self.id = id
@@ -869,6 +909,7 @@ extension SQS {
         /// A list of  SendMessageBatchResultEntry items.
         public let successful: [SendMessageBatchResultEntry]?
 
+        @inlinable
         public init(failed: [BatchResultErrorEntry]? = nil, successful: [SendMessageBatchResultEntry]? = nil) {
             self.failed = failed
             self.successful = successful
@@ -895,6 +936,7 @@ extension SQS {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. As SequenceNumber continues to increase for a particular MessageGroupId.
         public let sequenceNumber: String?
 
+        @inlinable
         public init(id: String, md5OfMessageAttributes: String? = nil, md5OfMessageBody: String, md5OfMessageSystemAttributes: String? = nil, messageId: String, sequenceNumber: String? = nil) {
             self.id = id
             self.md5OfMessageAttributes = md5OfMessageAttributes
@@ -933,6 +975,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue to which a message is sent. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(delaySeconds: Int? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageBody: String, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, messageSystemAttributes: [MessageSystemAttributeNameForSends: MessageSystemAttributeValue]? = nil, queueUrl: String) {
             self.delaySeconds = delaySeconds
             self.messageAttributes = messageAttributes
@@ -967,6 +1010,7 @@ extension SQS {
         /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for a particular MessageGroupId.
         public let sequenceNumber: String?
 
+        @inlinable
         public init(md5OfMessageAttributes: String? = nil, md5OfMessageBody: String? = nil, md5OfMessageSystemAttributes: String? = nil, messageId: String? = nil, sequenceNumber: String? = nil) {
             self.md5OfMessageAttributes = md5OfMessageAttributes
             self.md5OfMessageBody = md5OfMessageBody
@@ -992,6 +1036,7 @@ extension SQS {
         /// The URL of the Amazon SQS queue whose attributes are set. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
+        @inlinable
         public init(attributes: [QueueAttributeName: String], queueUrl: String) {
             self.attributes = attributes
             self.queueUrl = queueUrl
@@ -1011,6 +1056,7 @@ extension SQS {
         /// The ARN of the queue that contains the messages to be moved to another queue. Currently, only ARNs of dead-letter queues (DLQs) whose sources are other Amazon SQS queues are accepted. DLQs whose sources are non-SQS queues, such as Lambda or Amazon SNS topics, are not currently supported.
         public let sourceArn: String
 
+        @inlinable
         public init(destinationArn: String? = nil, maxNumberOfMessagesPerSecond: Int? = nil, sourceArn: String) {
             self.destinationArn = destinationArn
             self.maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecond
@@ -1028,6 +1074,7 @@ extension SQS {
         /// An identifier associated with a message movement task. You can use this identifier to cancel a specified message movement task using the CancelMessageMoveTask action.
         public let taskHandle: String?
 
+        @inlinable
         public init(taskHandle: String? = nil) {
             self.taskHandle = taskHandle
         }
@@ -1043,6 +1090,7 @@ extension SQS {
         /// The list of tags to be added to the specified queue.
         public let tags: [String: String]
 
+        @inlinable
         public init(queueUrl: String, tags: [String: String]) {
             self.queueUrl = queueUrl
             self.tags = tags
@@ -1060,6 +1108,7 @@ extension SQS {
         /// The list of tags to be removed from the specified queue.
         public let tagKeys: [String]
 
+        @inlinable
         public init(queueUrl: String, tagKeys: [String]) {
             self.queueUrl = queueUrl
             self.tagKeys = tagKeys

@@ -159,6 +159,7 @@ extension B2bi {
         /// Returns the type of the capability. Currently, only edi is supported.
         public let type: CapabilityType
 
+        @inlinable
         public init(capabilityId: String, createdAt: Date, modifiedAt: Date? = nil, name: String, type: CapabilityType) {
             self.capabilityId = capabilityId
             self.createdAt = createdAt
@@ -190,6 +191,7 @@ extension B2bi {
         /// Specifies the type of the capability. Currently, only edi is supported.
         public let type: CapabilityType
 
+        @inlinable
         public init(clientToken: String? = CreateCapabilityRequest.idempotencyToken(), configuration: CapabilityConfiguration, instructionsDocuments: [S3Location]? = nil, name: String, tags: [Tag]? = nil, type: CapabilityType) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -240,6 +242,7 @@ extension B2bi {
         /// Returns the type of the capability. Currently, only edi is supported.
         public let type: CapabilityType
 
+        @inlinable
         public init(capabilityArn: String, capabilityId: String, configuration: CapabilityConfiguration, createdAt: Date, instructionsDocuments: [S3Location]? = nil, name: String, type: CapabilityType) {
             self.capabilityArn = capabilityArn
             self.capabilityId = capabilityId
@@ -277,6 +280,7 @@ extension B2bi {
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]?
 
+        @inlinable
         public init(capabilities: [String], clientToken: String? = CreatePartnershipRequest.idempotencyToken(), email: String, name: String, phone: String? = nil, profileId: String, tags: [Tag]? = nil) {
             self.capabilities = capabilities
             self.clientToken = clientToken
@@ -342,6 +346,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for a trading partner.
         public let tradingPartnerId: String?
 
+        @inlinable
         public init(capabilities: [String]? = nil, createdAt: Date, email: String? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
             self.createdAt = createdAt
@@ -383,6 +388,7 @@ extension B2bi {
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]?
 
+        @inlinable
         public init(businessName: String, clientToken: String? = CreateProfileRequest.idempotencyToken(), email: String? = nil, logging: Logging, name: String, phone: String, tags: [Tag]? = nil) {
             self.businessName = businessName
             self.clientToken = clientToken
@@ -442,6 +448,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(businessName: String, createdAt: Date, email: String? = nil, logging: Logging? = nil, logGroupName: String? = nil, name: String, phone: String, profileArn: String, profileId: String) {
             self.businessName = businessName
             self.createdAt = createdAt
@@ -483,6 +490,7 @@ extension B2bi {
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateTransformerRequest.idempotencyToken(), ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, name: String, sampleDocument: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.ediType = ediType
@@ -536,6 +544,7 @@ extension B2bi {
         /// Returns the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
@@ -565,6 +574,7 @@ extension B2bi {
         /// Specifies a system-assigned unique identifier for the capability.
         public let capabilityId: String
 
+        @inlinable
         public init(capabilityId: String) {
             self.capabilityId = capabilityId
         }
@@ -588,6 +598,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for a partnership.
         public let partnershipId: String
 
+        @inlinable
         public init(partnershipId: String) {
             self.partnershipId = partnershipId
         }
@@ -611,6 +622,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -634,6 +646,7 @@ extension B2bi {
         /// Specifies the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(transformerId: String) {
             self.transformerId = transformerId
         }
@@ -663,6 +676,7 @@ extension B2bi {
         /// Returns the type of the capability. Currently, only edi is supported.
         public let type: EdiType
 
+        @inlinable
         public init(inputLocation: S3Location, outputLocation: S3Location, transformerId: String, type: EdiType) {
             self.inputLocation = inputLocation
             self.outputLocation = outputLocation
@@ -690,6 +704,7 @@ extension B2bi {
         /// Specifies a system-assigned unique identifier for the capability.
         public let capabilityId: String
 
+        @inlinable
         public init(capabilityId: String) {
             self.capabilityId = capabilityId
         }
@@ -729,6 +744,7 @@ extension B2bi {
         /// Returns the type of the capability. Currently, only edi is supported.
         public let type: CapabilityType
 
+        @inlinable
         public init(capabilityArn: String, capabilityId: String, configuration: CapabilityConfiguration, createdAt: Date, instructionsDocuments: [S3Location]? = nil, modifiedAt: Date? = nil, name: String, type: CapabilityType) {
             self.capabilityArn = capabilityArn
             self.capabilityId = capabilityId
@@ -756,6 +772,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for a partnership.
         public let partnershipId: String
 
+        @inlinable
         public init(partnershipId: String) {
             self.partnershipId = partnershipId
         }
@@ -799,6 +816,7 @@ extension B2bi {
         /// Returns the unique identifier for the partner for this partnership.
         public let tradingPartnerId: String?
 
+        @inlinable
         public init(capabilities: [String]? = nil, createdAt: Date, email: String? = nil, modifiedAt: Date? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
             self.createdAt = createdAt
@@ -830,6 +848,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -873,6 +892,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(businessName: String, createdAt: Date, email: String? = nil, logging: Logging? = nil, logGroupName: String? = nil, modifiedAt: Date? = nil, name: String, phone: String, profileArn: String, profileId: String) {
             self.businessName = businessName
             self.createdAt = createdAt
@@ -906,6 +926,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for a transformer run.
         public let transformerJobId: String
 
+        @inlinable
         public init(transformerId: String, transformerJobId: String) {
             self.transformerId = transformerId
             self.transformerJobId = transformerJobId
@@ -938,6 +959,7 @@ extension B2bi {
         /// Returns the current state of the transformer job, either running, succeeded, or failed.
         public let status: TransformerJobStatus
 
+        @inlinable
         public init(message: String? = nil, outputFiles: [S3Location]? = nil, status: TransformerJobStatus) {
             self.message = message
             self.outputFiles = outputFiles
@@ -955,6 +977,7 @@ extension B2bi {
         /// Specifies the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(transformerId: String) {
             self.transformerId = transformerId
         }
@@ -998,6 +1021,7 @@ extension B2bi {
         /// Returns the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, modifiedAt: Date? = nil, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
@@ -1031,6 +1055,7 @@ extension B2bi {
         /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1059,6 +1084,7 @@ extension B2bi {
         /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
         public let nextToken: String?
 
+        @inlinable
         public init(capabilities: [CapabilitySummary], nextToken: String? = nil) {
             self.capabilities = capabilities
             self.nextToken = nextToken
@@ -1078,6 +1104,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for the profile connected to this partnership.
         public let profileId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1111,6 +1138,7 @@ extension B2bi {
         /// Specifies a list of your partnerships.
         public let partnerships: [PartnershipSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, partnerships: [PartnershipSummary]) {
             self.nextToken = nextToken
             self.partnerships = partnerships
@@ -1128,6 +1156,7 @@ extension B2bi {
         /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1156,6 +1185,7 @@ extension B2bi {
         /// Returns an array of ProfileSummary objects.
         public let profiles: [ProfileSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, profiles: [ProfileSummary]) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -1171,6 +1201,7 @@ extension B2bi {
         /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1193,6 +1224,7 @@ extension B2bi {
         /// Returns the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1208,6 +1240,7 @@ extension B2bi {
         /// When additional results are obtained from the command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional resources.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1236,6 +1269,7 @@ extension B2bi {
         /// Returns an array of one or more transformer objects. For each transformer, a TransformerSummary object is returned. The TransformerSummary contains all the details for a specific transformer.
         public let transformers: [TransformerSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, transformers: [TransformerSummary]) {
             self.nextToken = nextToken
             self.transformers = transformers
@@ -1265,6 +1299,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for a trading partner.
         public let tradingPartnerId: String?
 
+        @inlinable
         public init(capabilities: [String]? = nil, createdAt: Date, modifiedAt: Date? = nil, name: String? = nil, partnershipId: String, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
             self.createdAt = createdAt
@@ -1304,6 +1339,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(businessName: String, createdAt: Date, logging: Logging? = nil, logGroupName: String? = nil, modifiedAt: Date? = nil, name: String, profileId: String) {
             self.businessName = businessName
             self.createdAt = createdAt
@@ -1331,6 +1367,7 @@ extension B2bi {
         /// Specifies the Amazon S3 key for the file location.
         public let key: String?
 
+        @inlinable
         public init(bucketName: String? = nil, key: String? = nil) {
             self.bucketName = bucketName
             self.key = key
@@ -1358,6 +1395,7 @@ extension B2bi {
         /// Specifies the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(clientToken: String? = StartTransformerJobRequest.idempotencyToken(), inputFile: S3Location, outputLocation: S3Location, transformerId: String) {
             self.clientToken = clientToken
             self.inputFile = inputFile
@@ -1385,6 +1423,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for a transformer run.
         public let transformerJobId: String
 
+        @inlinable
         public init(transformerJobId: String) {
             self.transformerJobId = transformerJobId
         }
@@ -1400,6 +1439,7 @@ extension B2bi {
         /// Contains one or more values that you assigned to the key name that you create.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1423,6 +1463,7 @@ extension B2bi {
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1457,6 +1498,7 @@ extension B2bi {
         /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         public let mappingTemplate: String
 
+        @inlinable
         public init(fileFormat: FileFormat, inputFileContent: String, mappingTemplate: String) {
             self.fileFormat = fileFormat
             self.inputFileContent = inputFileContent
@@ -1479,6 +1521,7 @@ extension B2bi {
         /// Returns a string for the mapping that can be used to identify the mapping. Similar to a fingerprint
         public let mappedFileContent: String
 
+        @inlinable
         public init(mappedFileContent: String) {
             self.mappedFileContent = mappedFileContent
         }
@@ -1496,6 +1539,7 @@ extension B2bi {
         /// Specifies an S3Location object, which contains the Amazon S3 bucket and prefix for the location of the input file.
         public let inputFile: S3Location
 
+        @inlinable
         public init(ediType: EdiType, fileFormat: FileFormat, inputFile: S3Location) {
             self.ediType = ediType
             self.fileFormat = fileFormat
@@ -1517,6 +1561,7 @@ extension B2bi {
         /// Returns the contents of the input file being tested, parsed according to the specified EDI (electronic data interchange) type.
         public let parsedFileContent: String
 
+        @inlinable
         public init(parsedFileContent: String) {
             self.parsedFileContent = parsedFileContent
         }
@@ -1548,6 +1593,7 @@ extension B2bi {
         /// Returns the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, modifiedAt: Date? = nil, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
@@ -1579,6 +1625,7 @@ extension B2bi {
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1614,6 +1661,7 @@ extension B2bi {
         /// Specifies a new name for the capability, to replace the existing name.
         public let name: String?
 
+        @inlinable
         public init(capabilityId: String, configuration: CapabilityConfiguration? = nil, instructionsDocuments: [S3Location]? = nil, name: String? = nil) {
             self.capabilityId = capabilityId
             self.configuration = configuration
@@ -1670,6 +1718,7 @@ extension B2bi {
         /// Returns the type of the capability. Currently, only edi is supported.
         public let type: CapabilityType
 
+        @inlinable
         public init(capabilityArn: String, capabilityId: String, configuration: CapabilityConfiguration, createdAt: Date, instructionsDocuments: [S3Location]? = nil, modifiedAt: Date? = nil, name: String, type: CapabilityType) {
             self.capabilityArn = capabilityArn
             self.capabilityId = capabilityId
@@ -1701,6 +1750,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for a partnership.
         public let partnershipId: String
 
+        @inlinable
         public init(capabilities: [String]? = nil, name: String? = nil, partnershipId: String) {
             self.capabilities = capabilities
             self.name = name
@@ -1758,6 +1808,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for a trading partner.
         public let tradingPartnerId: String?
 
+        @inlinable
         public init(capabilities: [String]? = nil, createdAt: Date, email: String? = nil, modifiedAt: Date? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
             self.createdAt = createdAt
@@ -1797,6 +1848,7 @@ extension B2bi {
         /// Specifies the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(businessName: String? = nil, email: String? = nil, name: String? = nil, phone: String? = nil, profileId: String) {
             self.businessName = businessName
             self.email = email
@@ -1863,6 +1915,7 @@ extension B2bi {
         /// Returns the unique, system-generated identifier for the profile.
         public let profileId: String
 
+        @inlinable
         public init(businessName: String, createdAt: Date, email: String? = nil, logging: Logging? = nil, logGroupName: String? = nil, modifiedAt: Date? = nil, name: String, phone: String, profileArn: String, profileId: String) {
             self.businessName = businessName
             self.createdAt = createdAt
@@ -1906,6 +1959,7 @@ extension B2bi {
         /// Specifies the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(ediType: EdiType? = nil, fileFormat: FileFormat? = nil, mappingTemplate: String? = nil, name: String? = nil, sampleDocument: String? = nil, status: TransformerStatus? = nil, transformerId: String) {
             self.ediType = ediType
             self.fileFormat = fileFormat
@@ -1972,6 +2026,7 @@ extension B2bi {
         /// Returns the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
+        @inlinable
         public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, modifiedAt: Date, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
@@ -2005,6 +2060,7 @@ extension B2bi {
         /// Returns the version to use for the specified X12 transaction set.
         public let version: X12Version?
 
+        @inlinable
         public init(transactionSet: X12TransactionSet? = nil, version: X12Version? = nil) {
             self.transactionSet = transactionSet
             self.version = version
@@ -2020,6 +2076,7 @@ extension B2bi {
         /// An EDI (electronic data interchange) configuration object.
         public let edi: EdiConfiguration?
 
+        @inlinable
         public init(edi: EdiConfiguration? = nil) {
             self.edi = edi
         }
@@ -2037,6 +2094,7 @@ extension B2bi {
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
         public let x12Details: X12Details?
 
+        @inlinable
         public init(x12Details: X12Details? = nil) {
             self.x12Details = x12Details
         }

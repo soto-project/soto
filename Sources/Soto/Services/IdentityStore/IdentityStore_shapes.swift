@@ -77,6 +77,7 @@ extension IdentityStore {
         /// A string representing the type of address. For example, "Home."
         public let type: String?
 
+        @inlinable
         public init(country: String? = nil, formatted: String? = nil, locality: String? = nil, postalCode: String? = nil, primary: Bool? = nil, region: String? = nil, streetAddress: String? = nil, type: String? = nil) {
             self.country = country
             self.formatted = formatted
@@ -130,6 +131,7 @@ extension IdentityStore {
         /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
         public let attributeValue: String?
 
+        @inlinable
         public init(attributePath: String, attributeValue: String? = nil) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
@@ -155,6 +157,7 @@ extension IdentityStore {
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
         public let memberId: MemberId
 
+        @inlinable
         public init(groupId: String, identityStoreId: String, memberId: MemberId) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -184,6 +187,7 @@ extension IdentityStore {
         /// The identifier for a newly created GroupMembership in an identity store.
         public let membershipId: String
 
+        @inlinable
         public init(identityStoreId: String, membershipId: String) {
             self.identityStoreId = identityStoreId
             self.membershipId = membershipId
@@ -203,6 +207,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, identityStoreId: String) {
             self.description = description
             self.displayName = displayName
@@ -234,6 +239,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(groupId: String, identityStoreId: String) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -275,6 +281,7 @@ extension IdentityStore {
         /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let userType: String?
 
+        @inlinable
         public init(addresses: [Address]? = nil, displayName: String? = nil, emails: [Email]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userName: String? = nil, userType: String? = nil) {
             self.addresses = addresses
             self.displayName = displayName
@@ -365,6 +372,7 @@ extension IdentityStore {
         /// The identifier of the newly created user in the identity store.
         public let userId: String
 
+        @inlinable
         public init(identityStoreId: String, userId: String) {
             self.identityStoreId = identityStoreId
             self.userId = userId
@@ -382,6 +390,7 @@ extension IdentityStore {
         /// The identifier for a GroupMembership in an identity store.
         public let membershipId: String
 
+        @inlinable
         public init(identityStoreId: String, membershipId: String) {
             self.identityStoreId = identityStoreId
             self.membershipId = membershipId
@@ -412,6 +421,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(groupId: String, identityStoreId: String) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -442,6 +452,7 @@ extension IdentityStore {
         /// The identifier for a user in the identity store.
         public let userId: String
 
+        @inlinable
         public init(identityStoreId: String, userId: String) {
             self.identityStoreId = identityStoreId
             self.userId = userId
@@ -472,6 +483,7 @@ extension IdentityStore {
         /// The identifier for a GroupMembership in an identity store.
         public let membershipId: String
 
+        @inlinable
         public init(identityStoreId: String, membershipId: String) {
             self.identityStoreId = identityStoreId
             self.membershipId = membershipId
@@ -501,6 +513,7 @@ extension IdentityStore {
         /// The identifier for a GroupMembership in an identity store.
         public let membershipId: String
 
+        @inlinable
         public init(groupId: String, identityStoreId: String, memberId: MemberId, membershipId: String) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -522,6 +535,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
         public let identityStoreId: String
 
+        @inlinable
         public init(groupId: String, identityStoreId: String) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -554,6 +568,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, externalIds: [ExternalId]? = nil, groupId: String, identityStoreId: String) {
             self.description = description
             self.displayName = displayName
@@ -577,6 +592,7 @@ extension IdentityStore {
         /// The identifier for a user in the identity store.
         public let userId: String
 
+        @inlinable
         public init(identityStoreId: String, userId: String) {
             self.identityStoreId = identityStoreId
             self.userId = userId
@@ -631,6 +647,7 @@ extension IdentityStore {
         /// A string indicating the type of user.
         public let userType: String?
 
+        @inlinable
         public init(addresses: [Address]? = nil, displayName: String? = nil, emails: [Email]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userId: String, userName: String? = nil, userType: String? = nil) {
             self.addresses = addresses
             self.displayName = displayName
@@ -678,6 +695,7 @@ extension IdentityStore {
         /// A string containing an email address. For example, "johndoe@amazon.com."
         public let value: String?
 
+        @inlinable
         public init(primary: Bool? = nil, type: String? = nil, value: String? = nil) {
             self.primary = primary
             self.type = type
@@ -706,6 +724,7 @@ extension IdentityStore {
         /// The issuer for an external identifier.
         public let issuer: String
 
+        @inlinable
         public init(id: String, issuer: String) {
             self.id = id
             self.issuer = issuer
@@ -732,6 +751,7 @@ extension IdentityStore {
         /// Represents the data for an attribute. Each attribute value is described as a name-value pair.
         public let attributeValue: String
 
+        @inlinable
         public init(attributePath: String, attributeValue: String) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
@@ -758,6 +778,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(alternateIdentifier: AlternateIdentifier, identityStoreId: String) {
             self.alternateIdentifier = alternateIdentifier
             self.identityStoreId = identityStoreId
@@ -782,6 +803,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(groupId: String, identityStoreId: String) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -801,6 +823,7 @@ extension IdentityStore {
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
         public let memberId: MemberId
 
+        @inlinable
         public init(groupId: String, identityStoreId: String, memberId: MemberId) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -830,6 +853,7 @@ extension IdentityStore {
         /// The identifier for a GroupMembership in an identity store.
         public let membershipId: String
 
+        @inlinable
         public init(identityStoreId: String, membershipId: String) {
             self.identityStoreId = identityStoreId
             self.membershipId = membershipId
@@ -847,6 +871,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(alternateIdentifier: AlternateIdentifier, identityStoreId: String) {
             self.alternateIdentifier = alternateIdentifier
             self.identityStoreId = identityStoreId
@@ -871,6 +896,7 @@ extension IdentityStore {
         /// The identifier for a user in the identity store.
         public let userId: String
 
+        @inlinable
         public init(identityStoreId: String, userId: String) {
             self.identityStoreId = identityStoreId
             self.userId = userId
@@ -894,6 +920,7 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, externalIds: [ExternalId]? = nil, groupId: String, identityStoreId: String) {
             self.description = description
             self.displayName = displayName
@@ -921,6 +948,7 @@ extension IdentityStore {
         /// The identifier for a GroupMembership object in an identity store.
         public let membershipId: String?
 
+        @inlinable
         public init(groupId: String? = nil, identityStoreId: String, memberId: MemberId? = nil, membershipId: String? = nil) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -944,6 +972,7 @@ extension IdentityStore {
         /// Indicates whether a membership relation exists or not.
         public let membershipExists: Bool?
 
+        @inlinable
         public init(groupId: String? = nil, memberId: MemberId? = nil, membershipExists: Bool? = nil) {
             self.groupId = groupId
             self.memberId = memberId
@@ -965,6 +994,7 @@ extension IdentityStore {
         /// An object containing the identifier of a group member.
         public let memberId: MemberId
 
+        @inlinable
         public init(groupIds: [String], identityStoreId: String, memberId: MemberId) {
             self.groupIds = groupIds
             self.identityStoreId = identityStoreId
@@ -996,6 +1026,7 @@ extension IdentityStore {
         /// A list containing the results of membership existence checks.
         public let results: [GroupMembershipExistenceResult]
 
+        @inlinable
         public init(results: [GroupMembershipExistenceResult]) {
             self.results = results
         }
@@ -1015,6 +1046,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers, ListGroups, and ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(identityStoreId: String, maxResults: Int? = nil, memberId: MemberId, nextToken: String? = nil) {
             self.identityStoreId = identityStoreId
             self.maxResults = maxResults
@@ -1048,6 +1080,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers, ListGroups, and ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(groupMemberships: [GroupMembership], nextToken: String? = nil) {
             self.groupMemberships = groupMemberships
             self.nextToken = nextToken
@@ -1069,6 +1102,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers, ListGroups and ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(groupId: String, identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -1104,6 +1138,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers, ListGroups, and ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(groupMemberships: [GroupMembership], nextToken: String? = nil) {
             self.groupMemberships = groupMemberships
             self.nextToken = nextToken
@@ -1125,6 +1160,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = nil
             self.identityStoreId = identityStoreId
@@ -1133,6 +1169,7 @@ extension IdentityStore {
         }
 
         @available(*, deprecated, message: "Members filters have been deprecated")
+        @inlinable
         public init(filters: [Filter]? = nil, identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.identityStoreId = identityStoreId
@@ -1169,6 +1206,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it1 is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [Group], nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -1190,6 +1228,7 @@ extension IdentityStore {
         /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = nil
             self.identityStoreId = identityStoreId
@@ -1198,6 +1237,7 @@ extension IdentityStore {
         }
 
         @available(*, deprecated, message: "Members filters have been deprecated")
+        @inlinable
         public init(filters: [Filter]? = nil, identityStoreId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.identityStoreId = identityStoreId
@@ -1234,6 +1274,7 @@ extension IdentityStore {
         /// A list of User objects in the identity store.
         public let users: [User]
 
+        @inlinable
         public init(nextToken: String? = nil, users: [User]) {
             self.nextToken = nextToken
             self.users = users
@@ -1259,6 +1300,7 @@ extension IdentityStore {
         /// The middle name of the user.
         public let middleName: String?
 
+        @inlinable
         public init(familyName: String? = nil, formatted: String? = nil, givenName: String? = nil, honorificPrefix: String? = nil, honorificSuffix: String? = nil, middleName: String? = nil) {
             self.familyName = familyName
             self.formatted = formatted
@@ -1307,6 +1349,7 @@ extension IdentityStore {
         /// A string containing a phone number. For example, "8675309" or "+1 (800) 123-4567".
         public let value: String?
 
+        @inlinable
         public init(primary: Bool? = nil, type: String? = nil, value: String? = nil) {
             self.primary = primary
             self.type = type
@@ -1335,6 +1378,7 @@ extension IdentityStore {
         /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
         public let attributeValue: String
 
+        @inlinable
         public init(attributePath: String, attributeValue: String) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
@@ -1360,6 +1404,7 @@ extension IdentityStore {
         /// A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute.
         public let operations: [AttributeOperation]
 
+        @inlinable
         public init(groupId: String, identityStoreId: String, operations: [AttributeOperation]) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
@@ -1399,6 +1444,7 @@ extension IdentityStore {
         /// The identifier for a user in the identity store.
         public let userId: String
 
+        @inlinable
         public init(identityStoreId: String, operations: [AttributeOperation], userId: String) {
             self.identityStoreId = identityStoreId
             self.operations = operations
@@ -1464,6 +1510,7 @@ extension IdentityStore {
         /// A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
         public let userType: String?
 
+        @inlinable
         public init(addresses: [Address]? = nil, displayName: String? = nil, emails: [Email]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userId: String, userName: String? = nil, userType: String? = nil) {
             self.addresses = addresses
             self.displayName = displayName
@@ -1507,6 +1554,7 @@ extension IdentityStore {
         /// An object containing the identifiers of resources that can be members.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }

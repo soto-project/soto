@@ -62,6 +62,7 @@ extension SupportApp {
         /// T012ABCDEFG.
         public let teamId: String
 
+        @inlinable
         public init(channelId: String, channelName: String? = nil, channelRoleArn: String, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String) {
             self.channelId = channelId
             self.channelName = channelName
@@ -119,6 +120,7 @@ extension SupportApp {
         /// T012ABCDEFG.
         public let teamId: String
 
+        @inlinable
         public init(channelId: String, teamId: String) {
             self.channelId = channelId
             self.teamId = teamId
@@ -148,6 +150,7 @@ extension SupportApp {
         /// T012ABCDEFG.
         public let teamId: String
 
+        @inlinable
         public init(teamId: String) {
             self.teamId = teamId
         }
@@ -175,6 +178,7 @@ extension SupportApp {
         /// An alias or short name for an Amazon Web Services account.
         public let accountAlias: String?
 
+        @inlinable
         public init(accountAlias: String? = nil) {
             self.accountAlias = accountAlias
         }
@@ -190,6 +194,7 @@ extension SupportApp {
         /// When the API returns the last set of results, the response doesn't include a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -211,6 +216,7 @@ extension SupportApp {
         /// The configurations for a Slack channel.
         public let slackChannelConfigurations: [SlackChannelConfiguration]
 
+        @inlinable
         public init(nextToken: String? = nil, slackChannelConfigurations: [SlackChannelConfiguration]) {
             self.nextToken = nextToken
             self.slackChannelConfigurations = slackChannelConfigurations
@@ -228,6 +234,7 @@ extension SupportApp {
         /// When the API returns the last set of results, the response doesn't include a pagination token value.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -249,6 +256,7 @@ extension SupportApp {
         /// The configurations for a Slack workspace.
         public let slackWorkspaceConfigurations: [SlackWorkspaceConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, slackWorkspaceConfigurations: [SlackWorkspaceConfiguration]? = nil) {
             self.nextToken = nextToken
             self.slackWorkspaceConfigurations = slackWorkspaceConfigurations
@@ -264,6 +272,7 @@ extension SupportApp {
         /// An alias or short name for an Amazon Web Services account.
         public let accountAlias: String
 
+        @inlinable
         public init(accountAlias: String) {
             self.accountAlias = accountAlias
         }
@@ -288,6 +297,7 @@ extension SupportApp {
         /// T012ABCDEFG. Specify the Slack workspace that you want to use for your organization.
         public let teamId: String
 
+        @inlinable
         public init(teamId: String) {
             self.teamId = teamId
         }
@@ -312,6 +322,7 @@ extension SupportApp {
         /// The name of the Slack workspace.
         public let teamName: String?
 
+        @inlinable
         public init(accountType: AccountType? = nil, teamId: String? = nil, teamName: String? = nil) {
             self.accountType = accountType
             self.teamId = teamId
@@ -346,6 +357,7 @@ extension SupportApp {
         /// T012ABCDEFG.
         public let teamId: String
 
+        @inlinable
         public init(channelId: String, channelName: String? = nil, channelRoleArn: String? = nil, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel? = nil, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String) {
             self.channelId = channelId
             self.channelName = channelName
@@ -378,6 +390,7 @@ extension SupportApp {
         /// The name of the Slack workspace.
         public let teamName: String?
 
+        @inlinable
         public init(allowOrganizationMemberAccount: Bool? = nil, teamId: String, teamName: String? = nil) {
             self.allowOrganizationMemberAccount = allowOrganizationMemberAccount
             self.teamId = teamId
@@ -412,6 +425,7 @@ extension SupportApp {
         /// T012ABCDEFG.
         public let teamId: String
 
+        @inlinable
         public init(channelId: String, channelName: String? = nil, channelRoleArn: String? = nil, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel? = nil, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String) {
             self.channelId = channelId
             self.channelName = channelName
@@ -471,6 +485,7 @@ extension SupportApp {
         /// T012ABCDEFG.
         public let teamId: String?
 
+        @inlinable
         public init(channelId: String? = nil, channelName: String? = nil, channelRoleArn: String? = nil, notifyOnAddCorrespondenceToCase: Bool? = nil, notifyOnCaseSeverity: NotificationSeverityLevel? = nil, notifyOnCreateOrReopenCase: Bool? = nil, notifyOnResolveCase: Bool? = nil, teamId: String? = nil) {
             self.channelId = channelId
             self.channelName = channelName

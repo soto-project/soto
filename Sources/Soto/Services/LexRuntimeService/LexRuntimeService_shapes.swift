@@ -82,6 +82,7 @@ extension LexRuntimeService {
         /// The length of time or number of turns that a context remains active.
         public let timeToLive: ActiveContextTimeToLive
 
+        @inlinable
         public init(name: String, parameters: [String: String], timeToLive: ActiveContextTimeToLive) {
             self.name = name
             self.parameters = parameters
@@ -115,6 +116,7 @@ extension LexRuntimeService {
         /// The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Amazon Lex.
         public let turnsToLive: Int?
 
+        @inlinable
         public init(timeToLiveInSeconds: Int? = nil, turnsToLive: Int? = nil) {
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
@@ -139,6 +141,7 @@ extension LexRuntimeService {
         /// The value sent to Amazon Lex when a user chooses the button. For example, consider button text "NYC." When the user chooses the button, the value sent can be "New York City."
         public let value: String
 
+        @inlinable
         public init(text: String, value: String) {
             self.text = text
             self.value = value
@@ -158,6 +161,7 @@ extension LexRuntimeService {
         /// The identifier of the user associated with the session data.
         public let userId: String
 
+        @inlinable
         public init(botAlias: String, botName: String, userId: String) {
             self.botAlias = botAlias
             self.botName = botName
@@ -191,6 +195,7 @@ extension LexRuntimeService {
         /// The ID of the client application user.
         public let userId: String?
 
+        @inlinable
         public init(botAlias: String? = nil, botName: String? = nil, sessionId: String? = nil, userId: String? = nil) {
             self.botAlias = botAlias
             self.botName = botName
@@ -222,6 +227,7 @@ extension LexRuntimeService {
         /// The next action that the bot should take in its interaction with the user. The possible values are:    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Close - Indicates that the there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    Delegate - The next action is determined by Amazon Lex.    ElicitIntent - The next action is to determine the intent that the user wants to fulfill.    ElicitSlot - The next action is to elicit a slot value from the user.
         public let type: DialogActionType
 
+        @inlinable
         public init(fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil, type: DialogActionType) {
             self.fulfillmentState = fulfillmentState
             self.intentName = intentName
@@ -260,6 +266,7 @@ extension LexRuntimeService {
         /// The title of the option.
         public let title: String?
 
+        @inlinable
         public init(attachmentLinkUrl: String? = nil, buttons: [Button]? = nil, imageUrl: String? = nil, subTitle: String? = nil, title: String? = nil) {
             self.attachmentLinkUrl = attachmentLinkUrl
             self.buttons = buttons
@@ -287,6 +294,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot.
         public let userId: String
 
+        @inlinable
         public init(botAlias: String, botName: String, checkpointLabelFilter: String? = nil, userId: String) {
             self.botAlias = botAlias
             self.botName = botName
@@ -327,6 +335,7 @@ extension LexRuntimeService {
         /// A unique identifier for the session.
         public let sessionId: String?
 
+        @inlinable
         public init(activeContexts: [ActiveContext]? = nil, dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil) {
             self.activeContexts = activeContexts
             self.dialogAction = dialogAction
@@ -348,6 +357,7 @@ extension LexRuntimeService {
         /// A score that indicates how confident Amazon Lex is that an intent satisfies the user's intent. Ranges between 0.00 and 1.00. Higher scores indicate higher confidence.
         public let score: Double?
 
+        @inlinable
         public init(score: Double? = nil) {
             self.score = score
         }
@@ -373,6 +383,7 @@ extension LexRuntimeService {
         /// The next slot to elicit from the user. If there is not slot to elicit, the field is blank.
         public let slotToElicit: String?
 
+        @inlinable
         public init(checkpointLabel: String? = nil, confirmationStatus: ConfirmationStatus? = nil, dialogActionType: DialogActionType, fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
             self.checkpointLabel = checkpointLabel
             self.confirmationStatus = confirmationStatus
@@ -421,6 +432,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.
         public let userId: String
 
+        @inlinable
         public init(accept: String? = nil, activeContexts: String? = nil, botAlias: String, botName: String, contentType: String, inputStream: AWSHTTPBody, requestAttributes: String? = nil, sessionAttributes: String? = nil, userId: String) {
             self.accept = accept
             self.activeContexts = activeContexts
@@ -495,6 +507,7 @@ extension LexRuntimeService {
         ///  If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
+        @inlinable
         public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSHTTPBody, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
@@ -517,6 +530,7 @@ extension LexRuntimeService {
         }
 
         @available(*, deprecated, message: "Members inputTranscript, message have been deprecated")
+        @inlinable
         public init(activeContexts: String? = nil, alternativeIntents: String? = nil, audioStream: AWSHTTPBody, botVersion: String? = nil, contentType: String? = nil, dialogState: DialogState? = nil, encodedInputTranscript: String? = nil, encodedMessage: String? = nil, inputTranscript: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: String? = nil, sentimentResponse: String? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
@@ -580,6 +594,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors.   The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information.   If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier.   If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier.   A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations.
         public let userId: String
 
+        @inlinable
         public init(activeContexts: [ActiveContext]? = nil, botAlias: String, botName: String, inputText: String, requestAttributes: [String: String]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
             self.activeContexts = activeContexts
             self.botAlias = botAlias
@@ -653,6 +668,7 @@ extension LexRuntimeService {
         /// If the dialogState value is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
+        @inlinable
         public init(activeContexts: [ActiveContext]? = nil, alternativeIntents: [PredictedIntent]? = nil, botVersion: String? = nil, dialogState: DialogState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, nluIntentConfidence: IntentConfidence? = nil, responseCard: ResponseCard? = nil, sentimentResponse: SentimentResponse? = nil, sessionAttributes: [String: String]? = nil, sessionId: String? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.alternativeIntents = alternativeIntents
@@ -696,6 +712,7 @@ extension LexRuntimeService {
         /// The slot and slot values associated with the predicted intent.
         public let slots: [String: String]?
 
+        @inlinable
         public init(intentName: String? = nil, nluIntentConfidence: IntentConfidence? = nil, slots: [String: String]? = nil) {
             self.intentName = intentName
             self.nluIntentConfidence = nluIntentConfidence
@@ -727,6 +744,7 @@ extension LexRuntimeService {
         /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot.
         public let userId: String
 
+        @inlinable
         public init(accept: String? = nil, activeContexts: [ActiveContext]? = nil, botAlias: String, botName: String, dialogAction: DialogAction? = nil, recentIntentSummaryView: [IntentSummary]? = nil, sessionAttributes: [String: String]? = nil, userId: String) {
             self.accept = accept
             self.activeContexts = activeContexts
@@ -801,6 +819,7 @@ extension LexRuntimeService {
         /// If the dialogState is ElicitSlot, returns the name of the slot for which Amazon Lex is eliciting a value.
         public let slotToElicit: String?
 
+        @inlinable
         public init(activeContexts: String? = nil, audioStream: AWSHTTPBody, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.audioStream = audioStream
@@ -817,6 +836,7 @@ extension LexRuntimeService {
         }
 
         @available(*, deprecated, message: "Members message have been deprecated")
+        @inlinable
         public init(activeContexts: String? = nil, audioStream: AWSHTTPBody, contentType: String? = nil, dialogState: DialogState? = nil, encodedMessage: String? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, sessionAttributes: String? = nil, sessionId: String? = nil, slots: String? = nil, slotToElicit: String? = nil) {
             self.activeContexts = activeContexts
             self.audioStream = audioStream
@@ -860,6 +880,7 @@ extension LexRuntimeService {
         /// The version of the response card format.
         public let version: String?
 
+        @inlinable
         public init(contentType: ContentType? = nil, genericAttachments: [GenericAttachment]? = nil, version: String? = nil) {
             self.contentType = contentType
             self.genericAttachments = genericAttachments
@@ -879,6 +900,7 @@ extension LexRuntimeService {
         /// The likelihood that the sentiment was correctly inferred.
         public let sentimentScore: String?
 
+        @inlinable
         public init(sentimentLabel: String? = nil, sentimentScore: String? = nil) {
             self.sentimentLabel = sentimentLabel
             self.sentimentScore = sentimentScore

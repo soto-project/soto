@@ -3284,6 +3284,7 @@ extension SageMaker {
         /// The URI of the source.
         public let sourceUri: String?
 
+        @inlinable
         public init(sourceId: String? = nil, sourceType: String? = nil, sourceUri: String? = nil) {
             self.sourceId = sourceId
             self.sourceType = sourceType
@@ -3321,6 +3322,7 @@ extension SageMaker {
         /// The status of the action.
         public let status: ActionStatus?
 
+        @inlinable
         public init(actionArn: String? = nil, actionName: String? = nil, actionType: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, source: ActionSource? = nil, status: ActionStatus? = nil) {
             self.actionArn = actionArn
             self.actionName = actionName
@@ -3350,6 +3352,7 @@ extension SageMaker {
         /// The ARN of the source.
         public let sourceArn: String?
 
+        @inlinable
         public init(associationType: AssociationEdgeType? = nil, destinationArn: String? = nil, sourceArn: String? = nil) {
             self.associationType = associationType
             self.destinationArn = destinationArn
@@ -3376,6 +3379,7 @@ extension SageMaker {
         /// The ARN of the source.
         public let sourceArn: String?
 
+        @inlinable
         public init(destinationArn: String? = nil, sourceArn: String? = nil) {
             self.destinationArn = destinationArn
             self.sourceArn = sourceArn
@@ -3393,6 +3397,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3417,6 +3422,7 @@ extension SageMaker {
         /// A list of tags associated with the SageMaker resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3442,6 +3448,7 @@ extension SageMaker {
         /// A list of the instance types on which a transformation job can be run  or on which an endpoint can be deployed.
         public let supportedTransformInstanceTypes: [TransformInstanceType]?
 
+        @inlinable
         public init(containers: [ModelPackageContainerDefinition]? = nil, description: String? = nil, name: String? = nil, supportedContentTypes: [String]? = nil, supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType]? = nil, supportedResponseMIMETypes: [String]? = nil, supportedTransformInstanceTypes: [TransformInstanceType]? = nil) {
             self.containers = containers
             self.description = description
@@ -3490,6 +3497,7 @@ extension SageMaker {
         public let channelName: String?
         public let s3DataSource: S3ModelDataSource?
 
+        @inlinable
         public init(channelName: String? = nil, s3DataSource: S3ModelDataSource? = nil) {
             self.channelName = channelName
             self.s3DataSource = s3DataSource
@@ -3516,6 +3524,7 @@ extension SageMaker {
         /// The uniform resource identifier (URI) used to identify an additional data source used in inference or training.
         public let s3Uri: String?
 
+        @inlinable
         public init(compressionType: CompressionType? = nil, s3DataType: AdditionalS3DataSourceDataType? = nil, s3Uri: String? = nil) {
             self.compressionType = compressionType
             self.s3DataType = s3DataType
@@ -3540,6 +3549,7 @@ extension SageMaker {
         /// Version of the agent.
         public let version: String?
 
+        @inlinable
         public init(agentCount: Int64? = nil, version: String? = nil) {
             self.agentCount = agentCount
             self.version = version
@@ -3555,6 +3565,7 @@ extension SageMaker {
         /// The name of a CloudWatch alarm in your account.
         public let alarmName: String?
 
+        @inlinable
         public init(alarmName: String? = nil) {
             self.alarmName = alarmName
         }
@@ -3587,6 +3598,7 @@ extension SageMaker {
         public let trainingImageConfig: TrainingImageConfig?
         public let trainingInputMode: TrainingInputMode?
 
+        @inlinable
         public init(algorithmName: String? = nil, containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, enableSageMakerMetricsTimeSeries: Bool? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingImageConfig: TrainingImageConfig? = nil, trainingInputMode: TrainingInputMode? = nil) {
             self.algorithmName = algorithmName
             self.containerArguments = containerArguments
@@ -3641,6 +3653,7 @@ extension SageMaker {
         /// The status of algorithm validation.
         public let validationStatuses: [AlgorithmStatusItem]?
 
+        @inlinable
         public init(imageScanStatuses: [AlgorithmStatusItem]? = nil, validationStatuses: [AlgorithmStatusItem]? = nil) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
@@ -3660,6 +3673,7 @@ extension SageMaker {
         /// The current status.
         public let status: DetailedAlgorithmStatus?
 
+        @inlinable
         public init(failureReason: String? = nil, name: String? = nil, status: DetailedAlgorithmStatus? = nil) {
             self.failureReason = failureReason
             self.name = name
@@ -3685,6 +3699,7 @@ extension SageMaker {
         /// A timestamp that shows when the algorithm was created.
         public let creationTime: Date?
 
+        @inlinable
         public init(algorithmArn: String? = nil, algorithmDescription: String? = nil, algorithmName: String? = nil, algorithmStatus: AlgorithmStatus? = nil, creationTime: Date? = nil) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
@@ -3710,6 +3725,7 @@ extension SageMaker {
         /// The TransformJobDefinition object that describes the transform job that SageMaker runs to validate your algorithm.
         public let transformJobDefinition: TransformJobDefinition?
 
+        @inlinable
         public init(profileName: String? = nil, trainingJobDefinition: TrainingJobDefinition? = nil, transformJobDefinition: TransformJobDefinition? = nil) {
             self.profileName = profileName
             self.trainingJobDefinition = trainingJobDefinition
@@ -3737,6 +3753,7 @@ extension SageMaker {
         /// The IAM roles that SageMaker uses to run the training jobs.
         public let validationRole: String?
 
+        @inlinable
         public init(validationProfiles: [AlgorithmValidationProfile]? = nil, validationRole: String? = nil) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
@@ -3765,6 +3782,7 @@ extension SageMaker {
         /// Whether Amazon Q has been enabled within the domain.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(qProfileArn: String? = nil, status: FeatureStatus? = nil) {
             self.qProfileArn = qProfileArn
             self.status = status
@@ -3784,6 +3802,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for annotation consolidation and to process output data. This parameter is required for all labeling jobs. For built-in task types, use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see Post-annotation Lambda.   Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.    arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-BoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-BoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-BoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-BoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-BoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-BoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-BoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-BoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-BoundingBox     Image classification - Uses a variant of the Expectation Maximization approach to estimate the true class of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClass     Multi-label image classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of an image based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-ImageMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-ImageMultiClassMultiLabel     Semantic segmentation - Treats each pixel in an image as a multi-class classification and treats pixel annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-SemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-SemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-SemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-SemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-SemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-SemanticSegmentation     Text classification - Uses a variant of the Expectation Maximization approach to estimate the true class of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClass     Multi-label text classification - Uses a variant of the Expectation Maximization approach to estimate the true classes of text based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-east-2:266458841044:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:us-west-2:081040173940:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-1:568282634449:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-south-1:565803892007:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-central-1:203001061592:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:eu-west-2:487402164563:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-TextMultiClassMultiLabel     arn:aws:lambda:ca-central-1:918755190332:function:ACS-TextMultiClassMultiLabel     Named entity recognition - Groups similar selections and calculates aggregate boundaries, resolving to most-assigned label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-east-2:266458841044:function:ACS-NamedEntityRecognition     arn:aws:lambda:us-west-2:081040173940:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-1:568282634449:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-south-1:565803892007:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-central-1:203001061592:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-NamedEntityRecognition     arn:aws:lambda:eu-west-2:487402164563:function:ACS-NamedEntityRecognition     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-NamedEntityRecognition     arn:aws:lambda:ca-central-1:918755190332:function:ACS-NamedEntityRecognition     Video Classification - Use this task type when you need workers to classify videos using predefined labels that you specify. Workers are shown videos and are asked to choose one label for each video.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoMultiClass     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoMultiClass     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoMultiClass     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoMultiClass     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoMultiClass     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoMultiClass     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoMultiClass     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoMultiClass     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoMultiClass     Video Frame Object Detection - Use this task type to have workers identify and locate objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to identify and localize various objects in a series of video frames, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectDetection     Video Frame Object Tracking - Use this task type to have workers track the movement of objects in a sequence of video frames (images extracted from a video) using bounding boxes. For example, you can use this task to ask workers to track the movement of objects, such as cars, bikes, and pedestrians.     arn:aws:lambda:us-east-1:432418664414:function:ACS-VideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-VideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VideoObjectTracking     3D Point Cloud Object Detection - Use this task type when you want workers to classify objects in a 3D point cloud by drawing 3D cuboids around objects. For example, you can use this task type to ask workers to identify different types of objects in a point cloud, such as cars, bikes, and pedestrians.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectDetection     3D Point Cloud Object Tracking - Use this task type when you want workers to draw 3D cuboids around objects that appear in a sequence of 3D point cloud frames. For example, you can use this task type to ask workers to track the movement of vehicles across multiple point cloud frames.     arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation - Use this task type when you want workers to create a point-level semantic segmentation masks by painting objects in a 3D point cloud using different colors where each color is assigned to one of the classes you specify.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-3DPointCloudSemanticSegmentation     Use the following ARNs for Label Verification and Adjustment Jobs  Use label verification and adjustment jobs to review and adjust labels. To learn more, see Verify and Adjust Labels .  Semantic Segmentation Adjustment - Treats each pixel in an image as a multi-class classification and treats pixel adjusted annotations from workers as "votes" for the correct label.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentSemanticSegmentation     Semantic Segmentation Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgment for semantic segmentation labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationSemanticSegmentation     Bounding Box Adjustment - Finds the most similar boxes from different workers based on the Jaccard index of the adjusted annotations.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentBoundingBox     Bounding Box Verification - Uses a variant of the Expectation Maximization approach to estimate the true class of verification judgement for bounding box labels based on annotations from individual workers.    arn:aws:lambda:us-east-1:432418664414:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-east-2:266458841044:function:ACS-VerificationBoundingBox     arn:aws:lambda:us-west-2:081040173940:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-1:568282634449:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-south-1:565803892007:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-central-1:203001061592:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-VerificationBoundingBox     arn:aws:lambda:eu-west-2:487402164563:function:ACS-VerificationBoundingBox     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-VerificationBoundingBox     arn:aws:lambda:ca-central-1:918755190332:function:ACS-VerificationBoundingBox     Video Frame Object Detection Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to classify and localize objects in a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectDetection     Video Frame Object Tracking Adjustment -  Use this task type when you want workers to adjust bounding boxes that workers have added  to video frames to track object movement across a sequence of video frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-AdjustmentVideoObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-AdjustmentVideoObjectTracking     3D Point Cloud Object Detection Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects in a 3D point cloud.     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectDetection     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectDetection     3D Point Cloud Object Tracking Adjustment - Use this task type when you want workers to adjust 3D cuboids around objects that appear in a sequence of 3D point cloud frames.    arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudObjectTracking     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudObjectTracking     3D Point Cloud Semantic Segmentation Adjustment - Use this task type when you want workers to adjust a point-level semantic segmentation masks using a paint tool.    arn:aws:lambda:us-east-1:432418664414:function:ACS-3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-1:432418664414:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-east-2:266458841044:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:us-west-2:081040173940:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-1:568282634449:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-south-1:565803892007:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-central-1:203001061592:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:eu-west-2:487402164563:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation     arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
         public let annotationConsolidationLambdaArn: String?
 
+        @inlinable
         public init(annotationConsolidationLambdaArn: String? = nil) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
         }
@@ -3815,6 +3834,7 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
+        @inlinable
         public init(appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
@@ -3854,6 +3874,7 @@ extension SageMaker {
         /// When the AppImageConfig was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(appImageConfigArn: String? = nil, appImageConfigName: String? = nil, codeEditorAppImageConfig: CodeEditorAppImageConfig? = nil, creationTime: Date? = nil, jupyterLabAppImageConfig: JupyterLabAppImageConfig? = nil, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil, lastModifiedTime: Date? = nil) {
             self.appImageConfigArn = appImageConfigArn
             self.appImageConfigName = appImageConfigName
@@ -3879,6 +3900,7 @@ extension SageMaker {
         /// Settings related to idle shutdown of Studio applications.
         public let idleSettings: IdleSettings?
 
+        @inlinable
         public init(idleSettings: IdleSettings? = nil) {
             self.idleSettings = idleSettings
         }
@@ -3900,6 +3922,7 @@ extension SageMaker {
         /// The container image to be run by the processing job.
         public let imageUri: String?
 
+        @inlinable
         public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, imageUri: String? = nil) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -3936,6 +3959,7 @@ extension SageMaker {
         /// The URI of the source.
         public let sourceUri: String?
 
+        @inlinable
         public init(sourceTypes: [ArtifactSourceType]? = nil, sourceUri: String? = nil) {
             self.sourceTypes = sourceTypes
             self.sourceUri = sourceUri
@@ -3962,6 +3986,7 @@ extension SageMaker {
         /// The ID.
         public let value: String?
 
+        @inlinable
         public init(sourceIdType: ArtifactSourceIdType? = nil, value: String? = nil) {
             self.sourceIdType = sourceIdType
             self.value = value
@@ -3991,6 +4016,7 @@ extension SageMaker {
         /// The source of the artifact.
         public let source: ArtifactSource?
 
+        @inlinable
         public init(artifactArn: String? = nil, artifactName: String? = nil, artifactType: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, source: ArtifactSource? = nil) {
             self.artifactArn = artifactArn
             self.artifactName = artifactName
@@ -4016,6 +4042,7 @@ extension SageMaker {
         /// The name of the trial to associate with.
         public let trialName: String?
 
+        @inlinable
         public init(trialComponentName: String? = nil, trialName: String? = nil) {
             self.trialComponentName = trialComponentName
             self.trialName = trialName
@@ -4042,6 +4069,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
 
+        @inlinable
         public init(trialArn: String? = nil, trialComponentArn: String? = nil) {
             self.trialArn = trialArn
             self.trialComponentArn = trialComponentArn
@@ -4072,6 +4100,7 @@ extension SageMaker {
         /// The source type.
         public let sourceType: String?
 
+        @inlinable
         public init(associationType: AssociationEdgeType? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, destinationArn: String? = nil, destinationName: String? = nil, destinationType: String? = nil, sourceArn: String? = nil, sourceName: String? = nil, sourceType: String? = nil) {
             self.associationType = associationType
             self.createdBy = createdBy
@@ -4101,6 +4130,7 @@ extension SageMaker {
         /// The maximum number of concurrent requests sent by the SageMaker client to the model container. If no value is provided, SageMaker chooses an optimal value.
         public let maxConcurrentInvocationsPerInstance: Int?
 
+        @inlinable
         public init(maxConcurrentInvocationsPerInstance: Int? = nil) {
             self.maxConcurrentInvocationsPerInstance = maxConcurrentInvocationsPerInstance
         }
@@ -4121,6 +4151,7 @@ extension SageMaker {
         /// Specifies the configuration for asynchronous inference invocation outputs.
         public let outputConfig: AsyncInferenceOutputConfig?
 
+        @inlinable
         public init(clientConfig: AsyncInferenceClientConfig? = nil, outputConfig: AsyncInferenceOutputConfig? = nil) {
             self.clientConfig = clientConfig
             self.outputConfig = outputConfig
@@ -4145,6 +4176,7 @@ extension SageMaker {
         /// Amazon SNS topic to post a notification to when inference completes successfully. If no topic is provided, no notification is sent on success.
         public let successTopic: String?
 
+        @inlinable
         public init(errorTopic: String? = nil, includeInferenceResponseIn: [AsyncNotificationTopicTypes]? = nil, successTopic: String? = nil) {
             self.errorTopic = errorTopic
             self.includeInferenceResponseIn = includeInferenceResponseIn
@@ -4176,6 +4208,7 @@ extension SageMaker {
         /// The Amazon S3 location to upload inference responses to.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, notificationConfig: AsyncInferenceNotificationConfig? = nil, s3FailurePath: String? = nil, s3OutputPath: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.notificationConfig = notificationConfig
@@ -4213,6 +4246,7 @@ extension SageMaker {
         public let queryString: String?
         public let workGroup: String?
 
+        @inlinable
         public init(catalog: String? = nil, database: String? = nil, kmsKeyId: String? = nil, outputCompression: AthenaResultCompressionType? = nil, outputFormat: AthenaResultFormat? = nil, outputS3Uri: String? = nil, queryString: String? = nil, workGroup: String? = nil) {
             self.catalog = catalog
             self.database = database
@@ -4259,6 +4293,7 @@ extension SageMaker {
         /// The selection of algorithms trained on your dataset to generate the model candidates for an Autopilot job.    For the tabular problem type TabularJobConfig:   Selected algorithms must belong to the list corresponding to the training mode set in AutoMLJobConfig.Mode (ENSEMBLING or HYPERPARAMETER_TUNING). Choose a minimum of 1 algorithm.    In ENSEMBLING mode:   "catboost"   "extra-trees"   "fastai"   "lightgbm"   "linear-learner"   "nn-torch"   "randomforest"   "xgboost"     In HYPERPARAMETER_TUNING mode:   "linear-learner"   "mlp"   "xgboost"        For the time-series forecasting problem type TimeSeriesForecastingJobConfig:    Choose your algorithms from this list.   "cnn-qr"   "deepar"   "prophet"   "arima"   "npts"   "ets"
         public let autoMLAlgorithms: [AutoMLAlgorithm]?
 
+        @inlinable
         public init(autoMLAlgorithms: [AutoMLAlgorithm]? = nil) {
             self.autoMLAlgorithms = autoMLAlgorithms
         }
@@ -4297,6 +4332,7 @@ extension SageMaker {
         /// The objective's status.
         public let objectiveStatus: ObjectiveStatus?
 
+        @inlinable
         public init(candidateName: String? = nil, candidateProperties: CandidateProperties? = nil, candidateStatus: CandidateStatus? = nil, candidateSteps: [AutoMLCandidateStep]? = nil, creationTime: Date? = nil, endTime: Date? = nil, failureReason: String? = nil, finalAutoMLJobObjectiveMetric: FinalAutoMLJobObjectiveMetric? = nil, inferenceContainerDefinitions: [AutoMLProcessingUnit: [AutoMLContainerDefinition]]? = nil, inferenceContainers: [AutoMLContainerDefinition]? = nil, lastModifiedTime: Date? = nil, objectiveStatus: ObjectiveStatus? = nil) {
             self.candidateName = candidateName
             self.candidateProperties = candidateProperties
@@ -4334,6 +4370,7 @@ extension SageMaker {
         /// A URL to the Amazon S3 data source containing selected features from the input data source to run an Autopilot job. You can input FeatureAttributeNames (optional) in JSON format as shown below:   { "FeatureAttributeNames":["col1", "col2", ...] }. You can also specify the data type of the feature (optional) in the format shown below:  { "FeatureDataTypes":{"col1":"numeric", "col2":"categorical" ... } }   These column keys may not include the target column.  In ensembling mode, Autopilot only supports the following data types: numeric, categorical, text, and datetime. In HPO mode, Autopilot can support numeric, categorical, text, datetime, and sequence. If only FeatureDataTypes is provided, the column keys (col1, col2,..) should be a subset of the column names in the input data.  If both FeatureDataTypes and FeatureAttributeNames are provided, then the column keys should be a subset of the column names provided in FeatureAttributeNames.  The key name FeatureAttributeNames is fixed. The values listed in ["col1", "col2", ...] are case sensitive and should be a list of strings containing unique values that are a subset of the column names in the input data. The list of columns provided must not include the target column.
         public let featureSpecificationS3Uri: String?
 
+        @inlinable
         public init(algorithmsConfig: [AutoMLAlgorithmConfig]? = nil, featureSpecificationS3Uri: String? = nil) {
             self.algorithmsConfig = algorithmsConfig
             self.featureSpecificationS3Uri = featureSpecificationS3Uri
@@ -4362,6 +4399,7 @@ extension SageMaker {
         /// Whether the candidate is at the transform, training, or processing step.
         public let candidateStepType: CandidateStepType?
 
+        @inlinable
         public init(candidateStepArn: String? = nil, candidateStepName: String? = nil, candidateStepType: CandidateStepType? = nil) {
             self.candidateStepArn = candidateStepArn
             self.candidateStepName = candidateStepName
@@ -4389,6 +4427,7 @@ extension SageMaker {
         /// The name of the target variable in supervised learning, usually represented by 'y'.
         public let targetAttributeName: String?
 
+        @inlinable
         public init(channelType: AutoMLChannelType? = nil, compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: AutoMLDataSource? = nil, sampleWeightAttributeName: String? = nil, targetAttributeName: String? = nil) {
             self.channelType = channelType
             self.compressionType = compressionType
@@ -4422,6 +4461,7 @@ extension SageMaker {
         /// The configuration for using  EMR Serverless to run the AutoML job V2. To allow your AutoML job V2 to automatically initiate a remote job on EMR Serverless when additional compute resources are needed to process large datasets, you need to provide an EmrServerlessComputeConfig object, which includes an ExecutionRoleARN attribute, to the AutoMLComputeConfig of the AutoML job V2 input request. By seamlessly transitioning to EMR Serverless when required, the AutoML job can handle datasets that would otherwise exceed the initially provisioned resources, without any manual intervention from you.  EMR Serverless is available for the tabular and time series problem types. We recommend setting up this option for tabular datasets larger than 5 GB and time series datasets larger than 30 GB.
         public let emrServerlessComputeConfig: EmrServerlessComputeConfig?
 
+        @inlinable
         public init(emrServerlessComputeConfig: EmrServerlessComputeConfig? = nil) {
             self.emrServerlessComputeConfig = emrServerlessComputeConfig
         }
@@ -4443,6 +4483,7 @@ extension SageMaker {
         /// The location of the model artifacts. For more information, see  ContainerDefinition.
         public let modelDataUrl: String?
 
+        @inlinable
         public init(environment: [String: String]? = nil, image: String? = nil, modelDataUrl: String? = nil) {
             self.environment = environment
             self.image = image
@@ -4460,6 +4501,7 @@ extension SageMaker {
         /// The Amazon S3 location of the input data.
         public let s3DataSource: AutoMLS3DataSource?
 
+        @inlinable
         public init(s3DataSource: AutoMLS3DataSource? = nil) {
             self.s3DataSource = s3DataSource
         }
@@ -4477,6 +4519,7 @@ extension SageMaker {
         /// The validation fraction (optional) is a float that specifies the portion of the training dataset to be used for validation. The default value is 0.2, and values must be greater than 0 and less than 1. We recommend setting this value to be less than 0.5.
         public let validationFraction: Float?
 
+        @inlinable
         public init(validationFraction: Float? = nil) {
             self.validationFraction = validationFraction
         }
@@ -4497,6 +4540,7 @@ extension SageMaker {
         /// The URL of the notebook location.
         public let dataExplorationNotebookLocation: String?
 
+        @inlinable
         public init(candidateDefinitionNotebookLocation: String? = nil, dataExplorationNotebookLocation: String? = nil) {
             self.candidateDefinitionNotebookLocation = candidateDefinitionNotebookLocation
             self.dataExplorationNotebookLocation = dataExplorationNotebookLocation
@@ -4518,6 +4562,7 @@ extension SageMaker {
         /// The data source for an AutoML channel (Required).
         public let dataSource: AutoMLDataSource?
 
+        @inlinable
         public init(channelType: AutoMLChannelType? = nil, compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: AutoMLDataSource? = nil) {
             self.channelType = channelType
             self.compressionType = compressionType
@@ -4547,6 +4592,7 @@ extension SageMaker {
         /// The maximum time, in seconds, that each training job executed inside hyperparameter tuning is allowed to run as part of a hyperparameter tuning job. For more information, see the StoppingCondition used by the CreateHyperParameterTuningJob action. For job V2s (jobs created by calling CreateAutoMLJobV2), this field controls the runtime of the job candidate. For TextGenerationJobConfig problem types, the maximum time defaults to 72 hours (259200 seconds).
         public let maxRuntimePerTrainingJobInSeconds: Int?
 
+        @inlinable
         public init(maxAutoMLJobRuntimeInSeconds: Int? = nil, maxCandidates: Int? = nil, maxRuntimePerTrainingJobInSeconds: Int? = nil) {
             self.maxAutoMLJobRuntimeInSeconds = maxAutoMLJobRuntimeInSeconds
             self.maxCandidates = maxCandidates
@@ -4579,6 +4625,7 @@ extension SageMaker {
         /// The security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
 
+        @inlinable
         public init(candidateGenerationConfig: AutoMLCandidateGenerationConfig? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, mode: AutoMLMode? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
@@ -4607,6 +4654,7 @@ extension SageMaker {
         /// The name of the objective metric used to measure the predictive quality of a machine learning system. During training, the model's parameters are updated iteratively to optimize its performance based on the feedback provided by the objective metric when evaluating the model on the validation dataset. The list of available metrics supported by Autopilot and the default metric applied when you do not specify a metric name explicitly depend on the problem type.   For tabular problem types:   List of available metrics:    Regression: MAE, MSE, R2, RMSE    Binary classification: Accuracy, AUC, BalancedAccuracy, F1, Precision, Recall    Multiclass classification: Accuracy, BalancedAccuracy, F1macro, PrecisionMacro, RecallMacro    For a description of each metric, see Autopilot metrics for classification and regression.   Default objective metrics:   Regression: MSE.   Binary classification: F1.   Multiclass classification: Accuracy.       For image or text classification problem types:   List of available metrics: Accuracy  For a description of each metric, see Autopilot metrics for text and image classification.   Default objective metrics: Accuracy      For time-series forecasting problem types:   List of available metrics: RMSE, wQL, Average wQL, MASE, MAPE, WAPE  For a description of each metric, see Autopilot metrics for time-series forecasting.   Default objective metrics: AverageWeightedQuantileLoss      For text generation problem types (LLMs fine-tuning):  Fine-tuning language models in Autopilot does not require setting the AutoMLJobObjective field. Autopilot fine-tunes LLMs without requiring multiple candidates to be trained and evaluated.                    Instead, using your dataset, Autopilot directly fine-tunes your target model to enhance a default objective metric, the cross-entropy loss. After fine-tuning a language model, you can evaluate the quality of its generated text using different metrics.                 For a list of the available metrics, see Metrics for fine-tuning LLMs in Autopilot.
         public let metricName: AutoMLMetricEnum?
 
+        @inlinable
         public init(metricName: AutoMLMetricEnum? = nil) {
             self.metricName = metricName
         }
@@ -4620,6 +4668,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the AutoML job.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -4649,6 +4698,7 @@ extension SageMaker {
         /// The list of reasons for partial failures within an AutoML job.
         public let partialFailureReasons: [AutoMLPartialFailureReason]?
 
+        @inlinable
         public init(autoMLJobArn: String? = nil, autoMLJobName: String? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus? = nil, autoMLJobStatus: AutoMLJobStatus? = nil, creationTime: Date? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, partialFailureReasons: [AutoMLPartialFailureReason]? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobName = autoMLJobName
@@ -4680,6 +4730,7 @@ extension SageMaker {
         /// The Amazon S3 output path. Must be 512 characters or less.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3OutputPath: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -4702,6 +4753,7 @@ extension SageMaker {
         /// The message containing the reason for a partial failure of an AutoML job.
         public let partialFailureMessage: String?
 
+        @inlinable
         public init(partialFailureMessage: String? = nil) {
             self.partialFailureMessage = partialFailureMessage
         }
@@ -4717,6 +4769,7 @@ extension SageMaker {
         public let autoMLProblemTypeResolvedAttributes: AutoMLProblemTypeResolvedAttributes?
         public let completionCriteria: AutoMLJobCompletionCriteria?
 
+        @inlinable
         public init(autoMLJobObjective: AutoMLJobObjective? = nil, autoMLProblemTypeResolvedAttributes: AutoMLProblemTypeResolvedAttributes? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil) {
             self.autoMLJobObjective = autoMLJobObjective
             self.autoMLProblemTypeResolvedAttributes = autoMLProblemTypeResolvedAttributes
@@ -4736,6 +4789,7 @@ extension SageMaker {
         /// The URL to the Amazon S3 data source. The Uri refers to the Amazon S3 prefix or ManifestFile depending on the data type.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3DataType: AutoMLS3DataType? = nil, s3Uri: String? = nil) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -4760,6 +4814,7 @@ extension SageMaker {
         /// The VPC configuration.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(enableInterContainerTrafficEncryption: Bool? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.volumeKmsKeyId = volumeKmsKeyId
@@ -4785,6 +4840,7 @@ extension SageMaker {
         /// An example value of the hyperparameter to optimize using Autotune.
         public let valueHint: String?
 
+        @inlinable
         public init(name: String? = nil, valueHint: String? = nil) {
             self.name = name
             self.valueHint = valueHint
@@ -4807,6 +4863,7 @@ extension SageMaker {
         /// List of CloudWatch alarms in your account that are configured to monitor metrics on an endpoint. If any alarms are tripped during a deployment, SageMaker rolls back the deployment.
         public let alarms: [Alarm]?
 
+        @inlinable
         public init(alarms: [Alarm]? = nil) {
             self.alarms = alarms
         }
@@ -4828,6 +4885,7 @@ extension SageMaker {
         /// Set Mode to Enabled if you want to use Autotune.
         public let mode: AutotuneMode?
 
+        @inlinable
         public init(mode: AutotuneMode? = nil) {
             self.mode = mode
         }
@@ -4845,6 +4903,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the batch transform job. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
 
+        @inlinable
         public init(destinationS3Uri: String? = nil, generateInferenceId: Bool? = nil, kmsKeyId: String? = nil) {
             self.destinationS3Uri = destinationS3Uri
             self.generateInferenceId = generateInferenceId
@@ -4869,6 +4928,7 @@ extension SageMaker {
         public let errorCode: String?
         public let errorResponse: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorResponse: String? = nil) {
             self.errorCode = errorCode
             self.errorResponse = errorResponse
@@ -4884,6 +4944,7 @@ extension SageMaker {
         /// The list of Amazon Resource Name (ARN) of the model package groups.
         public let modelPackageArnList: [String]?
 
+        @inlinable
         public init(modelPackageArnList: [String]? = nil) {
             self.modelPackageArnList = modelPackageArnList
         }
@@ -4909,6 +4970,7 @@ extension SageMaker {
         /// The summaries for the model package versions
         public let modelPackageSummaries: [String: BatchDescribeModelPackageSummary]?
 
+        @inlinable
         public init(batchDescribeModelPackageErrorMap: [String: BatchDescribeModelPackageError]? = nil, modelPackageSummaries: [String: BatchDescribeModelPackageSummary]? = nil) {
             self.batchDescribeModelPackageErrorMap = batchDescribeModelPackageErrorMap
             self.modelPackageSummaries = modelPackageSummaries
@@ -4937,6 +4999,7 @@ extension SageMaker {
         /// The version number of a versioned model.
         public let modelPackageVersion: Int?
 
+        @inlinable
         public init(creationTime: Date? = nil, inferenceSpecification: InferenceSpecification? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
             self.creationTime = creationTime
             self.inferenceSpecification = inferenceSpecification
@@ -4986,6 +5049,7 @@ extension SageMaker {
         /// If specified, monitoring jobs substract this time from the start time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
         public let startTimeOffset: String?
 
+        @inlinable
         public init(dataCapturedDestinationS3Uri: String? = nil, datasetFormat: MonitoringDatasetFormat? = nil, endTimeOffset: String? = nil, excludeFeaturesAttribute: String? = nil, featuresAttribute: String? = nil, inferenceAttribute: String? = nil, localPath: String? = nil, probabilityAttribute: String? = nil, probabilityThresholdAttribute: Double? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3InputMode: ProcessingS3InputMode? = nil, startTimeOffset: String? = nil) {
             self.dataCapturedDestinationS3Uri = dataCapturedDestinationS3Uri
             self.datasetFormat = datasetFormat
@@ -5035,6 +5099,7 @@ extension SageMaker {
         /// The number of training jobs that have failed to improve model performance by 1% or greater over prior training jobs as evaluated against an objective function.
         public let maxNumberOfTrainingJobsNotImproving: Int?
 
+        @inlinable
         public init(maxNumberOfTrainingJobsNotImproving: Int? = nil) {
             self.maxNumberOfTrainingJobsNotImproving = maxNumberOfTrainingJobsNotImproving
         }
@@ -5056,6 +5121,7 @@ extension SageMaker {
         /// The bias report for a model
         public let report: MetricsSource?
 
+        @inlinable
         public init(postTrainingReport: MetricsSource? = nil, preTrainingReport: MetricsSource? = nil, report: MetricsSource? = nil) {
             self.postTrainingReport = postTrainingReport
             self.preTrainingReport = preTrainingReport
@@ -5083,6 +5149,7 @@ extension SageMaker {
         /// Defines the traffic routing strategy to shift traffic from the old fleet to the new fleet during an endpoint deployment.
         public let trafficRoutingConfiguration: TrafficRoutingConfig?
 
+        @inlinable
         public init(maximumExecutionTimeoutInSeconds: Int? = nil, terminationWaitInSeconds: Int? = nil, trafficRoutingConfiguration: TrafficRoutingConfig? = nil) {
             self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
             self.terminationWaitInSeconds = terminationWaitInSeconds
@@ -5108,6 +5175,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let sourcePipelineExecutionArn: String?
 
+        @inlinable
         public init(sourcePipelineExecutionArn: String? = nil) {
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
@@ -5125,6 +5193,7 @@ extension SageMaker {
         /// The URL of the Amazon Simple Queue Service (Amazon SQS) queue used by the callback step.
         public let sqsQueueUrl: String?
 
+        @inlinable
         public init(callbackToken: String? = nil, outputParameters: [OutputParameter]? = nil, sqsQueueUrl: String? = nil) {
             self.callbackToken = callbackToken
             self.outputParameters = outputParameters
@@ -5146,6 +5215,7 @@ extension SageMaker {
         /// The Amazon S3 prefix to the model insight artifacts generated for the AutoML candidate.
         public let modelInsights: String?
 
+        @inlinable
         public init(backtestResults: String? = nil, explainability: String? = nil, modelInsights: String? = nil) {
             self.backtestResults = backtestResults
             self.explainability = explainability
@@ -5163,6 +5233,7 @@ extension SageMaker {
         /// Your Autopilot job trains a default set of algorithms on your dataset. For tabular and time-series data, you can customize the algorithm list by selecting a subset of algorithms for your problem type.  AlgorithmsConfig stores the customized selection of algorithms to train on your data.    For the tabular problem type TabularJobConfig, the list of available algorithms to choose from depends on the training mode set in  AutoMLJobConfig.Mode .    AlgorithmsConfig should not be set when the training mode AutoMLJobConfig.Mode is set to AUTO.   When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, CandidateGenerationConfig uses the full set of algorithms for the given training mode.   When AlgorithmsConfig is not provided, CandidateGenerationConfig uses the full set of algorithms for the given training mode.   For the list of all algorithms per training mode, see  AlgorithmConfig. For more information on each algorithm, see the Algorithm support section in the Autopilot developer guide.    For the time-series forecasting problem type TimeSeriesForecastingJobConfig, choose your algorithms from the list provided in  AlgorithmConfig. For more information on each algorithm, see the Algorithms support for time-series forecasting section in the Autopilot developer guide.   When AlgorithmsConfig is provided, one AutoMLAlgorithms attribute must be set and one only. If the list of algorithms provided as values for AutoMLAlgorithms is empty, CandidateGenerationConfig uses the full set of algorithms for time-series forecasting.   When AlgorithmsConfig is not provided, CandidateGenerationConfig uses the full set of algorithms for time-series forecasting.
         public let algorithmsConfig: [AutoMLAlgorithmConfig]?
 
+        @inlinable
         public init(algorithmsConfig: [AutoMLAlgorithmConfig]? = nil) {
             self.algorithmsConfig = algorithmsConfig
         }
@@ -5185,6 +5256,7 @@ extension SageMaker {
         /// Information about the candidate metrics for an AutoML job.
         public let candidateMetrics: [MetricDatum]?
 
+        @inlinable
         public init(candidateArtifactLocations: CandidateArtifactLocations? = nil, candidateMetrics: [MetricDatum]? = nil) {
             self.candidateArtifactLocations = candidateArtifactLocations
             self.candidateMetrics = candidateMetrics
@@ -5214,6 +5286,7 @@ extension SageMaker {
         /// The workspace settings for the SageMaker Canvas application.
         public let workspaceSettings: WorkspaceSettings?
 
+        @inlinable
         public init(directDeploySettings: DirectDeploySettings? = nil, emrServerlessSettings: EmrServerlessSettings? = nil, generativeAiSettings: GenerativeAiSettings? = nil, identityProviderOAuthSettings: [IdentityProviderOAuthSetting]? = nil, kendraSettings: KendraSettings? = nil, modelRegisterSettings: ModelRegisterSettings? = nil, timeSeriesForecastingSettings: TimeSeriesForecastingSettings? = nil, workspaceSettings: WorkspaceSettings? = nil) {
             self.directDeploySettings = directDeploySettings
             self.emrServerlessSettings = emrServerlessSettings
@@ -5255,6 +5328,7 @@ extension SageMaker {
         /// Defines the capacity size, either as a number of instances or a capacity percentage.
         public let value: Int?
 
+        @inlinable
         public init(type: CapacitySizeType? = nil, value: Int? = nil) {
             self.type = type
             self.value = value
@@ -5276,6 +5350,7 @@ extension SageMaker {
         /// The list of all content type headers that SageMaker will treat as JSON and capture accordingly.
         public let jsonContentTypes: [String]?
 
+        @inlinable
         public init(csvContentTypes: [String]? = nil, jsonContentTypes: [String]? = nil) {
             self.csvContentTypes = csvContentTypes
             self.jsonContentTypes = jsonContentTypes
@@ -5308,6 +5383,7 @@ extension SageMaker {
         /// Specify the boundary of data to capture.
         public let captureMode: CaptureMode?
 
+        @inlinable
         public init(captureMode: CaptureMode? = nil) {
             self.captureMode = captureMode
         }
@@ -5323,6 +5399,7 @@ extension SageMaker {
         /// The list of values you can pass.
         public let value: [String]?
 
+        @inlinable
         public init(name: String? = nil, value: [String]? = nil) {
             self.name = name
             self.value = value
@@ -5349,6 +5426,7 @@ extension SageMaker {
         /// A list of the categories for the hyperparameter.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -5375,6 +5453,7 @@ extension SageMaker {
         /// The allowed categories for the hyperparameter.
         public let values: [String]?
 
+        @inlinable
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -5409,6 +5488,7 @@ extension SageMaker {
         /// A configuration for a shuffle option for input data in a channel. If you use S3Prefix for S3DataType, this shuffles the results of the S3 key prefix matches. If you use ManifestFile, the order of the S3 object references in the ManifestFile is shuffled. If you use AugmentedManifestFile, the order of the JSON lines in the AugmentedManifestFile is shuffled. The shuffling order is determined using the Seed value. For Pipe input mode, shuffling is done at the start of every epoch. With large datasets this ensures that the order of the training data is different for each epoch, it helps reduce bias and possible overfitting. In a multi-node training job when ShuffleConfig is combined with S3DataDistributionType of ShardedByS3Key, the data is shuffled across nodes so that the content sent to a particular node on the first epoch might be sent to a different node on the second epoch.
         public let shuffleConfig: ShuffleConfig?
 
+        @inlinable
         public init(channelName: String? = nil, compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: DataSource? = nil, inputMode: TrainingInputMode? = nil, recordWrapperType: RecordWrapper? = nil, shuffleConfig: ShuffleConfig? = nil) {
             self.channelName = channelName
             self.compressionType = compressionType
@@ -5453,6 +5533,7 @@ extension SageMaker {
         /// The allowed input mode, either FILE or PIPE. In FILE mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used input mode. In PIPE mode, Amazon SageMaker streams input data from the source directly to your algorithm without using the EBS volume.
         public let supportedInputModes: [TrainingInputMode]?
 
+        @inlinable
         public init(description: String? = nil, isRequired: Bool? = nil, name: String? = nil, supportedCompressionTypes: [CompressionType]? = nil, supportedContentTypes: [String]? = nil, supportedInputModes: [TrainingInputMode]? = nil) {
             self.description = description
             self.isRequired = isRequired
@@ -5491,6 +5572,7 @@ extension SageMaker {
         /// Identifies the S3 path where you want SageMaker to store checkpoints. For example, s3://bucket-name/key-name-prefix.
         public let s3Uri: String?
 
+        @inlinable
         public init(localPath: String? = nil, s3Uri: String? = nil) {
             self.localPath = localPath
             self.s3Uri = s3Uri
@@ -5527,6 +5609,7 @@ extension SageMaker {
         /// The Amazon S3 URI of the violation report if violations are detected.
         public let violationReport: String?
 
+        @inlinable
         public init(baselineUsedForDriftCheckConstraints: String? = nil, calculatedBaselineConstraints: String? = nil, checkJobArn: String? = nil, checkType: String? = nil, modelPackageGroupName: String? = nil, registerNewBaseline: Bool? = nil, skipCheck: Bool? = nil, violationReport: String? = nil) {
             self.baselineUsedForDriftCheckConstraints = baselineUsedForDriftCheckConstraints
             self.calculatedBaselineConstraints = calculatedBaselineConstraints
@@ -5558,6 +5641,7 @@ extension SageMaker {
         /// The configuration for SHAP analysis.
         public let shapConfig: ClarifyShapConfig?
 
+        @inlinable
         public init(enableExplanations: String? = nil, inferenceConfig: ClarifyInferenceConfig? = nil, shapConfig: ClarifyShapConfig? = nil) {
             self.enableExplanations = enableExplanations
             self.inferenceConfig = inferenceConfig
@@ -5603,6 +5687,7 @@ extension SageMaker {
         /// A zero-based index used to extract a probability value (score) or list from model container output in CSV format. If this value is not provided, the entire model container output will be treated as a probability value (score) or list.  Example for a single class model: If the model container output consists of a string-formatted prediction label followed by its probability: '1,0.6', set ProbabilityIndex to 1 to select the probability value 0.6.  Example for a multiclass model: If the model container output consists of a string-formatted prediction label followed by its probability: '"[\'cat\',\'dog\',\'fish\']","[0.1,0.6,0.3]"', set ProbabilityIndex to 1 to select the probability values [0.1,0.6,0.3].
         public let probabilityIndex: Int?
 
+        @inlinable
         public init(contentTemplate: String? = nil, featureHeaders: [String]? = nil, featuresAttribute: String? = nil, featureTypes: [ClarifyFeatureType]? = nil, labelAttribute: String? = nil, labelHeaders: [String]? = nil, labelIndex: Int? = nil, maxPayloadInMB: Int? = nil, maxRecordCount: Int? = nil, probabilityAttribute: String? = nil, probabilityIndex: Int? = nil) {
             self.contentTemplate = contentTemplate
             self.featureHeaders = featureHeaders
@@ -5676,6 +5761,7 @@ extension SageMaker {
         /// The uniform resource identifier (URI) of the S3 bucket where the SHAP baseline file is stored. The format of the SHAP baseline file should be the same format as the format of the training dataset. For example, if the training dataset is in CSV format, and each record in the training dataset has four features, and all features are numerical, then the baseline file should also have this same format. Each record should contain only the features. If you are using a virtual private cloud (VPC), the ShapBaselineUri should be accessible to the VPC. For more information about setting up endpoints with Amazon Virtual Private Cloud, see Give SageMaker access to Resources in your Amazon Virtual Private Cloud.
         public let shapBaselineUri: String?
 
+        @inlinable
         public init(mimeType: String? = nil, shapBaseline: String? = nil, shapBaselineUri: String? = nil) {
             self.mimeType = mimeType
             self.shapBaseline = shapBaseline
@@ -5711,6 +5797,7 @@ extension SageMaker {
         /// A Boolean toggle to indicate if you want to use the logit function (true) or log-odds units (false) for model predictions. Defaults to false.
         public let useLogit: Bool?
 
+        @inlinable
         public init(numberOfSamples: Int? = nil, seed: Int? = nil, shapBaselineConfig: ClarifyShapBaselineConfig? = nil, textConfig: ClarifyTextConfig? = nil, useLogit: Bool? = nil) {
             self.numberOfSamples = numberOfSamples
             self.seed = seed
@@ -5739,6 +5826,7 @@ extension SageMaker {
         /// Specifies the language of the text features in ISO 639-1 or ISO 639-3 code of a supported language.   For a mix of multiple languages, use code 'xx'.
         public let language: ClarifyTextLanguage?
 
+        @inlinable
         public init(granularity: ClarifyTextGranularity? = nil, language: ClarifyTextLanguage? = nil) {
             self.granularity = granularity
             self.language = language
@@ -5754,6 +5842,7 @@ extension SageMaker {
         /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(volumeSizeInGB: Int? = nil) {
             self.volumeSizeInGB = volumeSizeInGB
         }
@@ -5788,6 +5877,7 @@ extension SageMaker {
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.currentCount = currentCount
             self.executionRole = executionRole
@@ -5831,6 +5921,7 @@ extension SageMaker {
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, threadsPerCore: Int? = nil) {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
@@ -5879,6 +5970,7 @@ extension SageMaker {
         /// The unique identifier (ID) of the Availability Zone where the node in the SageMaker HyperPod cluster is launched.
         public let availabilityZoneId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -5896,6 +5988,7 @@ extension SageMaker {
         /// The status of an instance in a SageMaker HyperPod cluster.
         public let status: ClusterInstanceStatus?
 
+        @inlinable
         public init(message: String? = nil, status: ClusterInstanceStatus? = nil) {
             self.message = message
             self.status = status
@@ -5913,6 +6006,7 @@ extension SageMaker {
         /// An Amazon S3 bucket path where your lifecycle scripts are stored.  Make sure that the S3 bucket path starts with s3://sagemaker-. The IAM role for SageMaker HyperPod has the managed  AmazonSageMakerClusterInstanceRolePolicy attached, which allows access to S3 buckets with the specific prefix sagemaker-.
         public let sourceS3Uri: String?
 
+        @inlinable
         public init(onCreate: String? = nil, sourceS3Uri: String? = nil) {
             self.onCreate = onCreate
             self.sourceS3Uri = sourceS3Uri
@@ -5956,6 +6050,7 @@ extension SageMaker {
         /// The number of threads per CPU core you specified under CreateCluster.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, threadsPerCore: Int? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -5997,6 +6092,7 @@ extension SageMaker {
         /// The time when the instance is launched.
         public let launchTime: Date?
 
+        @inlinable
         public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -6018,6 +6114,7 @@ extension SageMaker {
         /// The Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.
         public let eks: ClusterOrchestratorEksConfig?
 
+        @inlinable
         public init(eks: ClusterOrchestratorEksConfig? = nil) {
             self.eks = eks
         }
@@ -6035,6 +6132,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Amazon EKS cluster associated with the SageMaker HyperPod cluster.
         public let clusterArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
         }
@@ -6060,6 +6158,7 @@ extension SageMaker {
         /// The time when the SageMaker HyperPod cluster is created.
         public let creationTime: Date?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterName: String? = nil, clusterStatus: ClusterStatus? = nil, creationTime: Date? = nil) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -6079,6 +6178,7 @@ extension SageMaker {
         public let containerConfig: ContainerConfig?
         public let fileSystemConfig: FileSystemConfig?
 
+        @inlinable
         public init(containerConfig: ContainerConfig? = nil, fileSystemConfig: FileSystemConfig? = nil) {
             self.containerConfig = containerConfig
             self.fileSystemConfig = fileSystemConfig
@@ -6104,6 +6204,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Code Editor application  lifecycle configuration.
         public let lifecycleConfigArns: [String]?
 
+        @inlinable
         public init(appLifecycleManagement: AppLifecycleManagement? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
             self.appLifecycleManagement = appLifecycleManagement
             self.customImages = customImages
@@ -6136,6 +6237,7 @@ extension SageMaker {
         /// The URL of the Git repository.
         public let repositoryUrl: String?
 
+        @inlinable
         public init(repositoryUrl: String? = nil) {
             self.repositoryUrl = repositoryUrl
         }
@@ -6162,6 +6264,7 @@ extension SageMaker {
         /// The date and time that the Git repository was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(codeRepositoryArn: String? = nil, codeRepositoryName: String? = nil, creationTime: Date? = nil, gitConfig: GitConfig? = nil, lastModifiedTime: Date? = nil) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
@@ -6185,6 +6288,7 @@ extension SageMaker {
         /// A  user pool is a user directory in Amazon Cognito.  With a user pool, your users can sign in to your web or mobile app through Amazon Cognito.  Your users can also sign in through social identity providers like  Google, Facebook, Amazon, or Apple, and through SAML identity providers.
         public let userPool: String?
 
+        @inlinable
         public init(clientId: String? = nil, userPool: String? = nil) {
             self.clientId = clientId
             self.userPool = userPool
@@ -6213,6 +6317,7 @@ extension SageMaker {
         /// An identifier for a user pool. The user pool must be in the same region as the service that you are calling.
         public let userPool: String?
 
+        @inlinable
         public init(clientId: String? = nil, userGroup: String? = nil, userPool: String? = nil) {
             self.clientId = clientId
             self.userGroup = userGroup
@@ -6244,6 +6349,7 @@ extension SageMaker {
         /// Parameter values for the tensor collection. The allowed parameters are "name", "include_regex", "reduction_config", "save_config", "tensor_names", and "save_histogram".
         public let collectionParameters: [String: String]?
 
+        @inlinable
         public init(collectionName: String? = nil, collectionParameters: [String: String]? = nil) {
             self.collectionName = collectionName
             self.collectionParameters = collectionParameters
@@ -6293,6 +6399,7 @@ extension SageMaker {
         /// The time when the model compilation job was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(compilationEndTime: Date? = nil, compilationJobArn: String? = nil, compilationJobName: String? = nil, compilationJobStatus: CompilationJobStatus? = nil, compilationStartTime: Date? = nil, compilationTargetDevice: TargetDevice? = nil, compilationTargetPlatformAccelerator: TargetPlatformAccelerator? = nil, compilationTargetPlatformArch: TargetPlatformArch? = nil, compilationTargetPlatformOs: TargetPlatformOs? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
@@ -6326,6 +6433,7 @@ extension SageMaker {
         /// The outcome of the Condition step evaluation.
         public let outcome: ConditionOutcome?
 
+        @inlinable
         public init(outcome: ConditionOutcome? = nil) {
             self.outcome = outcome
         }
@@ -6343,6 +6451,7 @@ extension SageMaker {
         /// The environment variables to set in the container
         public let containerEnvironmentVariables: [String: String]?
 
+        @inlinable
         public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, containerEnvironmentVariables: [String: String]? = nil) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -6399,6 +6508,7 @@ extension SageMaker {
         /// Specifies additional configuration for multi-model endpoints.
         public let multiModelConfig: MultiModelConfig?
 
+        @inlinable
         public init(additionalModelDataSources: [AdditionalModelDataSource]? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, image: String? = nil, imageConfig: ImageConfig? = nil, inferenceSpecificationName: String? = nil, mode: ContainerMode? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelPackageName: String? = nil, multiModelConfig: MultiModelConfig? = nil) {
             self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
@@ -6464,6 +6574,7 @@ extension SageMaker {
         /// The URI of the source.
         public let sourceUri: String?
 
+        @inlinable
         public init(sourceId: String? = nil, sourceType: String? = nil, sourceUri: String? = nil) {
             self.sourceId = sourceId
             self.sourceType = sourceType
@@ -6499,6 +6610,7 @@ extension SageMaker {
         /// The source of the context.
         public let source: ContextSource?
 
+        @inlinable
         public init(contextArn: String? = nil, contextName: String? = nil, contextType: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, source: ContextSource? = nil) {
             self.contextArn = contextArn
             self.contextName = contextName
@@ -6528,6 +6640,7 @@ extension SageMaker {
         /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.  ReverseLogarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a reverse logarithmic scale. Reverse logarithmic scaling works only for ranges that are entirely within the range 0
         public let scalingType: HyperParameterScalingType?
 
+        @inlinable
         public init(maxValue: String? = nil, minValue: String? = nil, name: String? = nil, scalingType: HyperParameterScalingType? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -6558,6 +6671,7 @@ extension SageMaker {
         /// The minimum floating-point value allowed.
         public let minValue: String?
 
+        @inlinable
         public init(maxValue: String? = nil, minValue: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -6580,6 +6694,7 @@ extension SageMaker {
         /// A flag to stop a tuning job once AMT has detected that the job has converged.
         public let completeOnConvergence: CompleteOnConvergence?
 
+        @inlinable
         public init(completeOnConvergence: CompleteOnConvergence? = nil) {
             self.completeOnConvergence = completeOnConvergence
         }
@@ -6606,6 +6721,7 @@ extension SageMaker {
         /// A list of tags to apply to the action.
         public let tags: [Tag]?
 
+        @inlinable
         public init(actionName: String? = nil, actionType: String? = nil, description: String? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ActionSource? = nil, status: ActionStatus? = nil, tags: [Tag]? = nil) {
             self.actionName = actionName
             self.actionType = actionType
@@ -6655,6 +6771,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the action.
         public let actionArn: String?
 
+        @inlinable
         public init(actionArn: String? = nil) {
             self.actionArn = actionArn
         }
@@ -6680,6 +6797,7 @@ extension SageMaker {
         /// Specifies configurations for one or more training jobs and that SageMaker runs to test the algorithm's training code and, optionally, one or more batch transform jobs that SageMaker runs to test the algorithm's inference code.
         public let validationSpecification: AlgorithmValidationSpecification?
 
+        @inlinable
         public init(algorithmDescription: String? = nil, algorithmName: String? = nil, certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, tags: [Tag]? = nil, trainingSpecification: TrainingSpecification? = nil, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmDescription = algorithmDescription
             self.algorithmName = algorithmName
@@ -6720,6 +6838,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the new algorithm.
         public let algorithmArn: String?
 
+        @inlinable
         public init(algorithmArn: String? = nil) {
             self.algorithmArn = algorithmArn
         }
@@ -6741,6 +6860,7 @@ extension SageMaker {
         /// A list of tags to apply to the AppImageConfig.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appImageConfigName: String? = nil, codeEditorAppImageConfig: CodeEditorAppImageConfig? = nil, jupyterLabAppImageConfig: JupyterLabAppImageConfig? = nil, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil, tags: [Tag]? = nil) {
             self.appImageConfigName = appImageConfigName
             self.codeEditorAppImageConfig = codeEditorAppImageConfig
@@ -6774,6 +6894,7 @@ extension SageMaker {
         /// The ARN of the AppImageConfig.
         public let appImageConfigArn: String?
 
+        @inlinable
         public init(appImageConfigArn: String? = nil) {
             self.appImageConfigArn = appImageConfigArn
         }
@@ -6799,6 +6920,7 @@ extension SageMaker {
         /// The user profile name. If this value is not set, then SpaceName must be set.
         public let userProfileName: String?
 
+        @inlinable
         public init(appName: String? = nil, appType: AppType? = nil, domainId: String? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, tags: [Tag]? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
@@ -6840,6 +6962,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the app.
         public let appArn: String?
 
+        @inlinable
         public init(appArn: String? = nil) {
             self.appArn = appArn
         }
@@ -6862,6 +6985,7 @@ extension SageMaker {
         /// A list of tags to apply to the artifact.
         public let tags: [Tag]?
 
+        @inlinable
         public init(artifactName: String? = nil, artifactType: String? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ArtifactSource? = nil, tags: [Tag]? = nil) {
             self.artifactName = artifactName
             self.artifactType = artifactType
@@ -6905,6 +7029,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the artifact.
         public let artifactArn: String?
 
+        @inlinable
         public init(artifactArn: String? = nil) {
             self.artifactArn = artifactArn
         }
@@ -6936,6 +7061,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel]? = nil, modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, problemType: ProblemType? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.autoMLJobConfig = autoMLJobConfig
             self.autoMLJobName = autoMLJobName
@@ -6988,6 +7114,7 @@ extension SageMaker {
         /// The unique ARN assigned to the AutoML job when it is created.
         public let autoMLJobArn: String?
 
+        @inlinable
         public init(autoMLJobArn: String? = nil) {
             self.autoMLJobArn = autoMLJobArn
         }
@@ -7021,6 +7148,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, such as by purpose, owner, or environment. For more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(autoMLComputeConfig: AutoMLComputeConfig? = nil, autoMLJobInputDataConfig: [AutoMLJobChannel]? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, modelDeployConfig: ModelDeployConfig? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, roleArn: String? = nil, securityConfig: AutoMLSecurityConfig? = nil, tags: [Tag]? = nil) {
             self.autoMLComputeConfig = autoMLComputeConfig
             self.autoMLJobInputDataConfig = autoMLJobInputDataConfig
@@ -7078,6 +7206,7 @@ extension SageMaker {
         /// The unique ARN assigned to the AutoMLJob when it is created.
         public let autoMLJobArn: String?
 
+        @inlinable
         public init(autoMLJobArn: String? = nil) {
             self.autoMLJobArn = autoMLJobArn
         }
@@ -7100,6 +7229,7 @@ extension SageMaker {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.clusterName = clusterName
             self.instanceGroups = instanceGroups
@@ -7140,6 +7270,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
         }
@@ -7157,6 +7288,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(codeRepositoryName: String? = nil, gitConfig: GitConfig? = nil, tags: [Tag]? = nil) {
             self.codeRepositoryName = codeRepositoryName
             self.gitConfig = gitConfig
@@ -7185,6 +7317,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the new repository.
         public let codeRepositoryArn: String?
 
+        @inlinable
         public init(codeRepositoryArn: String? = nil) {
             self.codeRepositoryArn = codeRepositoryArn
         }
@@ -7212,6 +7345,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: NeoVpcConfig?
 
+        @inlinable
         public init(compilationJobName: String? = nil, inputConfig: InputConfig? = nil, modelPackageVersionArn: String? = nil, outputConfig: OutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, vpcConfig: NeoVpcConfig? = nil) {
             self.compilationJobName = compilationJobName
             self.inputConfig = inputConfig
@@ -7259,6 +7393,7 @@ extension SageMaker {
         /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:    CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.
         public let compilationJobArn: String?
 
+        @inlinable
         public init(compilationJobArn: String? = nil) {
             self.compilationJobArn = compilationJobArn
         }
@@ -7282,6 +7417,7 @@ extension SageMaker {
         /// A list of tags to apply to the context.
         public let tags: [Tag]?
 
+        @inlinable
         public init(contextName: String? = nil, contextType: String? = nil, description: String? = nil, properties: [String: String]? = nil, source: ContextSource? = nil, tags: [Tag]? = nil) {
             self.contextName = contextName
             self.contextType = contextType
@@ -7326,6 +7462,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the context.
         public let contextArn: String?
 
+        @inlinable
         public init(contextArn: String? = nil) {
             self.contextArn = contextArn
         }
@@ -7354,6 +7491,7 @@ extension SageMaker {
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(dataQualityAppSpecification: DataQualityAppSpecification? = nil, dataQualityBaselineConfig: DataQualityBaselineConfig? = nil, dataQualityJobInput: DataQualityJobInput? = nil, dataQualityJobOutputConfig: MonitoringOutputConfig? = nil, jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
             self.dataQualityAppSpecification = dataQualityAppSpecification
             self.dataQualityBaselineConfig = dataQualityBaselineConfig
@@ -7405,6 +7543,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the job definition.
         public let jobDefinitionArn: String?
 
+        @inlinable
         public init(jobDefinitionArn: String? = nil) {
             self.jobDefinitionArn = jobDefinitionArn
         }
@@ -7428,6 +7567,7 @@ extension SageMaker {
         /// Creates tags for the specified fleet.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, deviceFleetName: String? = nil, enableIotRoleAlias: Bool? = nil, outputConfig: EdgeOutputConfig? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.deviceFleetName = deviceFleetName
@@ -7490,6 +7630,7 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
         public let vpcId: String?
 
+        @inlinable
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, kmsKeyId: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -7506,6 +7647,7 @@ extension SageMaker {
         }
 
         @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
+        @inlinable
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -7567,6 +7709,7 @@ extension SageMaker {
         /// The URL to the created domain.
         public let url: String?
 
+        @inlinable
         public init(domainArn: String? = nil, url: String? = nil) {
             self.domainArn = domainArn
             self.url = url
@@ -7590,6 +7733,7 @@ extension SageMaker {
         /// List of tags with which to tag the edge deployment plan.
         public let tags: [Tag]?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, edgeDeploymentPlanName: String? = nil, modelConfigs: [EdgeDeploymentModelConfig]? = nil, stages: [DeploymentStage]? = nil, tags: [Tag]? = nil) {
             self.deviceFleetName = deviceFleetName
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
@@ -7630,6 +7774,7 @@ extension SageMaker {
         /// The ARN of the edge deployment plan.
         public let edgeDeploymentPlanArn: String?
 
+        @inlinable
         public init(edgeDeploymentPlanArn: String? = nil) {
             self.edgeDeploymentPlanArn = edgeDeploymentPlanArn
         }
@@ -7645,6 +7790,7 @@ extension SageMaker {
         /// List of stages to be added to the edge deployment plan.
         public let stages: [DeploymentStage]?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil, stages: [DeploymentStage]? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.stages = stages
@@ -7683,6 +7829,7 @@ extension SageMaker {
         /// Creates tags for the packaging job.
         public let tags: [Tag]?
 
+        @inlinable
         public init(compilationJobName: String? = nil, edgePackagingJobName: String? = nil, modelName: String? = nil, modelVersion: String? = nil, outputConfig: EdgeOutputConfig? = nil, resourceKey: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.compilationJobName = compilationJobName
             self.edgePackagingJobName = edgePackagingJobName
@@ -7753,6 +7900,7 @@ extension SageMaker {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, dataCaptureConfig: DataCaptureConfig? = nil, enableNetworkIsolation: Bool? = nil, endpointConfigName: String? = nil, executionRoleArn: String? = nil, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]? = nil, shadowProductionVariants: [ProductionVariant]? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.dataCaptureConfig = dataCaptureConfig
@@ -7814,6 +7962,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the endpoint configuration.
         public let endpointConfigArn: String?
 
+        @inlinable
         public init(endpointConfigArn: String? = nil) {
             self.endpointConfigArn = endpointConfigArn
         }
@@ -7832,6 +7981,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String? = nil, endpointName: String? = nil, tags: [Tag]? = nil) {
             self.deploymentConfig = deploymentConfig
             self.endpointConfigName = endpointConfigName
@@ -7863,6 +8013,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String?
 
+        @inlinable
         public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
         }
@@ -7882,6 +8033,7 @@ extension SageMaker {
         /// A list of tags to associate with the experiment. You can use Search API to search on the tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, experimentName: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.displayName = displayName
@@ -7916,6 +8068,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the experiment.
         public let experimentArn: String?
 
+        @inlinable
         public init(experimentArn: String? = nil) {
             self.experimentArn = experimentArn
         }
@@ -7946,6 +8099,7 @@ extension SageMaker {
         public let tags: [Tag]?
         public let throughputConfig: ThroughputConfig?
 
+        @inlinable
         public init(description: String? = nil, eventTimeFeatureName: String? = nil, featureDefinitions: [FeatureDefinition]? = nil, featureGroupName: String? = nil, offlineStoreConfig: OfflineStoreConfig? = nil, onlineStoreConfig: OnlineStoreConfig? = nil, recordIdentifierFeatureName: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil, throughputConfig: ThroughputConfig? = nil) {
             self.description = description
             self.eventTimeFeatureName = eventTimeFeatureName
@@ -8005,6 +8159,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the FeatureGroup. This is a unique identifier for the feature group.
         public let featureGroupArn: String?
 
+        @inlinable
         public init(featureGroupArn: String? = nil) {
             self.featureGroupArn = featureGroupArn
         }
@@ -8030,6 +8185,7 @@ extension SageMaker {
         /// An array of key-value pairs that contain metadata to help you categorize and organize a flow definition. Each tag consists of a key and a value, both of which you define.
         public let tags: [Tag]?
 
+        @inlinable
         public init(flowDefinitionName: String? = nil, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig? = nil, humanLoopRequestSource: HumanLoopRequestSource? = nil, outputConfig: FlowDefinitionOutputConfig? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.flowDefinitionName = flowDefinitionName
             self.humanLoopActivationConfig = humanLoopActivationConfig
@@ -8071,6 +8227,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the flow definition you create.
         public let flowDefinitionArn: String?
 
+        @inlinable
         public init(flowDefinitionArn: String? = nil) {
             self.flowDefinitionArn = flowDefinitionArn
         }
@@ -8092,6 +8249,7 @@ extension SageMaker {
         /// Any tags associated with the hub content to reference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(hubContentName: String? = nil, hubName: String? = nil, minVersion: String? = nil, sageMakerPublicHubContentArn: String? = nil, tags: [Tag]? = nil) {
             self.hubContentName = hubContentName
             self.hubName = hubName
@@ -8130,6 +8288,7 @@ extension SageMaker {
         /// The ARN of the hub content.
         public let hubContentArn: String?
 
+        @inlinable
         public init(hubArn: String? = nil, hubContentArn: String? = nil) {
             self.hubArn = hubArn
             self.hubContentArn = hubContentArn
@@ -8155,6 +8314,7 @@ extension SageMaker {
         /// Any tags to associate with the hub.
         public let tags: [Tag]?
 
+        @inlinable
         public init(hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String? = nil, hubSearchKeywords: [String]? = nil, s3StorageConfig: HubS3StorageConfig? = nil, tags: [Tag]? = nil) {
             self.hubDescription = hubDescription
             self.hubDisplayName = hubDisplayName
@@ -8197,6 +8357,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the hub.
         public let hubArn: String?
 
+        @inlinable
         public init(hubArn: String? = nil) {
             self.hubArn = hubArn
         }
@@ -8213,6 +8374,7 @@ extension SageMaker {
         public let tags: [Tag]?
         public let uiTemplate: UiTemplate?
 
+        @inlinable
         public init(humanTaskUiName: String? = nil, tags: [Tag]? = nil, uiTemplate: UiTemplate? = nil) {
             self.humanTaskUiName = humanTaskUiName
             self.tags = tags
@@ -8241,6 +8403,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the human review workflow user interface you create.
         public let humanTaskUiArn: String?
 
+        @inlinable
         public init(humanTaskUiArn: String? = nil) {
             self.humanTaskUiArn = humanTaskUiArn
         }
@@ -8266,6 +8429,7 @@ extension SageMaker {
         /// Specifies the configuration for starting the hyperparameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job. All training jobs launched by the new hyperparameter tuning job are evaluated by using the objective metric. If you specify IDENTICAL_DATA_AND_ALGORITHM as the WarmStartType value for the warm start configuration, the training job that performs the best in the new tuning job is compared to the best training jobs from the parent tuning jobs. From these, the training job that performs the best as measured by the objective metric is returned as the overall best training job.  All training jobs launched by parent hyperparameter tuning jobs and the new hyperparameter tuning jobs count against the limit of training jobs for the tuning job.
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
+        @inlinable
         public init(autotune: Autotune? = nil, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig? = nil, hyperParameterTuningJobName: String? = nil, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.autotune = autotune
             self.hyperParameterTuningJobConfig = hyperParameterTuningJobConfig
@@ -8309,6 +8473,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job. SageMaker assigns an ARN to a hyperparameter tuning job when you create it.
         public let hyperParameterTuningJobArn: String?
 
+        @inlinable
         public init(hyperParameterTuningJobArn: String? = nil) {
             self.hyperParameterTuningJobArn = hyperParameterTuningJobArn
         }
@@ -8330,6 +8495,7 @@ extension SageMaker {
         /// A list of tags to apply to the image.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, imageName: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.displayName = displayName
@@ -8370,6 +8536,7 @@ extension SageMaker {
         /// The ARN of the image.
         public let imageArn: String?
 
+        @inlinable
         public init(imageArn: String? = nil) {
             self.imageArn = imageArn
         }
@@ -8403,6 +8570,7 @@ extension SageMaker {
         /// The stability of the image version, specified by the maintainer.    NOT_PROVIDED: The maintainers did not provide a status for image version stability.    STABLE: The image version is stable.    TO_BE_ARCHIVED: The image version is set to be archived. Custom image versions that are set to be archived are automatically archived after three months.    ARCHIVED: The image version is archived. Archived image versions are not searchable and are no longer actively supported.
         public let vendorGuidance: VendorGuidance?
 
+        @inlinable
         public init(aliases: [String]? = nil, baseImage: String? = nil, clientToken: String? = nil, horovod: Bool? = nil, imageName: String? = nil, jobType: JobType? = nil, mlFramework: String? = nil, processor: Processor? = nil, programmingLang: String? = nil, releaseNotes: String? = nil, vendorGuidance: VendorGuidance? = nil) {
             self.aliases = aliases
             self.baseImage = baseImage
@@ -8462,6 +8630,7 @@ extension SageMaker {
         /// The ARN of the image version.
         public let imageVersionArn: String?
 
+        @inlinable
         public init(imageVersionArn: String? = nil) {
             self.imageVersionArn = imageVersionArn
         }
@@ -8485,6 +8654,7 @@ extension SageMaker {
         /// The name of an existing production variant where you host the inference component.
         public let variantName: String?
 
+        @inlinable
         public init(endpointName: String? = nil, inferenceComponentName: String? = nil, runtimeConfig: InferenceComponentRuntimeConfig? = nil, specification: InferenceComponentSpecification? = nil, tags: [Tag]? = nil, variantName: String? = nil) {
             self.endpointName = endpointName
             self.inferenceComponentName = inferenceComponentName
@@ -8523,6 +8693,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the inference component.
         public let inferenceComponentArn: String?
 
+        @inlinable
         public init(inferenceComponentArn: String? = nil) {
             self.inferenceComponentArn = inferenceComponentArn
         }
@@ -8556,6 +8727,7 @@ extension SageMaker {
         ///  The type of the inference experiment that you want to run. The following types of experiments are possible:     ShadowMode: You can use this type to validate a shadow variant. For more information, see Shadow tests.
         public let type: InferenceExperimentType?
 
+        @inlinable
         public init(dataStorageConfig: InferenceExperimentDataStorageConfig? = nil, description: String? = nil, endpointName: String? = nil, kmsKey: String? = nil, modelVariants: [ModelVariantConfig]? = nil, name: String? = nil, roleArn: String? = nil, schedule: InferenceExperimentSchedule? = nil, shadowModeConfig: ShadowModeConfig? = nil, tags: [Tag]? = nil, type: InferenceExperimentType? = nil) {
             self.dataStorageConfig = dataStorageConfig
             self.description = description
@@ -8615,6 +8787,7 @@ extension SageMaker {
         /// The ARN for your inference experiment.
         public let inferenceExperimentArn: String?
 
+        @inlinable
         public init(inferenceExperimentArn: String? = nil) {
             self.inferenceExperimentArn = inferenceExperimentArn
         }
@@ -8642,6 +8815,7 @@ extension SageMaker {
         /// The metadata that you apply to Amazon Web Services resources to help you  categorize and organize them. Each tag consists of a key and a value, both of  which you define. For more information, see  Tagging Amazon Web Services Resources  in the Amazon Web Services General Reference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(inputConfig: RecommendationJobInputConfig? = nil, jobDescription: String? = nil, jobName: String? = nil, jobType: RecommendationJobType? = nil, outputConfig: RecommendationJobOutputConfig? = nil, roleArn: String? = nil, stoppingConditions: RecommendationJobStoppingConditions? = nil, tags: [Tag]? = nil) {
             self.inputConfig = inputConfig
             self.jobDescription = jobDescription
@@ -8686,6 +8860,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the recommendation job.
         public let jobArn: String?
 
+        @inlinable
         public init(jobArn: String? = nil) {
             self.jobArn = jobArn
         }
@@ -8717,6 +8892,7 @@ extension SageMaker {
         /// An array of key/value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(humanTaskConfig: HumanTaskConfig? = nil, inputConfig: LabelingJobInputConfig? = nil, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobName: String? = nil, outputConfig: LabelingJobOutputConfig? = nil, roleArn: String? = nil, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
             self.humanTaskConfig = humanTaskConfig
             self.inputConfig = inputConfig
@@ -8771,6 +8947,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the labeling job. You use this ARN to identify the labeling job.
         public let labelingJobArn: String?
 
+        @inlinable
         public init(labelingJobArn: String? = nil) {
             self.labelingJobArn = labelingJobArn
         }
@@ -8798,6 +8975,7 @@ extension SageMaker {
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
         public let weeklyMaintenanceWindowStart: String?
 
+        @inlinable
         public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
@@ -8844,6 +9022,7 @@ extension SageMaker {
         /// The ARN of the tracking server.
         public let trackingServerArn: String?
 
+        @inlinable
         public init(trackingServerArn: String? = nil) {
             self.trackingServerArn = trackingServerArn
         }
@@ -8872,6 +9051,7 @@ extension SageMaker {
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, modelBiasAppSpecification: ModelBiasAppSpecification? = nil, modelBiasBaselineConfig: ModelBiasBaselineConfig? = nil, modelBiasJobInput: ModelBiasJobInput? = nil, modelBiasJobOutputConfig: MonitoringOutputConfig? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
             self.jobDefinitionName = jobDefinitionName
             self.jobResources = jobResources
@@ -8923,6 +9103,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model bias job.
         public let jobDefinitionArn: String?
 
+        @inlinable
         public init(jobDefinitionArn: String? = nil) {
             self.jobDefinitionArn = jobDefinitionArn
         }
@@ -8942,6 +9123,7 @@ extension SageMaker {
         /// The model card output configuration that specifies the Amazon S3 path for exporting.
         public let outputConfig: ModelCardExportOutputConfig?
 
+        @inlinable
         public init(modelCardExportJobName: String? = nil, modelCardName: String? = nil, modelCardVersion: Int? = nil, outputConfig: ModelCardExportOutputConfig? = nil) {
             self.modelCardExportJobName = modelCardExportJobName
             self.modelCardName = modelCardName
@@ -8971,6 +9153,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model card export job.
         public let modelCardExportJobArn: String?
 
+        @inlinable
         public init(modelCardExportJobArn: String? = nil) {
             self.modelCardExportJobArn = modelCardExportJobArn
         }
@@ -8992,6 +9175,7 @@ extension SageMaker {
         /// Key-value pairs used to manage metadata for model cards.
         public let tags: [Tag]?
 
+        @inlinable
         public init(content: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, securityConfig: ModelCardSecurityConfig? = nil, tags: [Tag]? = nil) {
             self.content = content
             self.modelCardName = modelCardName
@@ -9026,6 +9210,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the successfully created model card.
         public let modelCardArn: String?
 
+        @inlinable
         public init(modelCardArn: String? = nil) {
             self.modelCardArn = modelCardArn
         }
@@ -9054,6 +9239,7 @@ extension SageMaker {
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification? = nil, modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig? = nil, modelExplainabilityJobInput: ModelExplainabilityJobInput? = nil, modelExplainabilityJobOutputConfig: MonitoringOutputConfig? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
             self.jobDefinitionName = jobDefinitionName
             self.jobResources = jobResources
@@ -9105,6 +9291,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model explainability job.
         public let jobDefinitionArn: String?
 
+        @inlinable
         public init(jobDefinitionArn: String? = nil) {
             self.jobDefinitionArn = jobDefinitionArn
         }
@@ -9132,6 +9319,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. VpcConfig is used in hosting services and in batch transform. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(containers: [ContainerDefinition]? = nil, enableNetworkIsolation: Bool? = nil, executionRoleArn: String? = nil, inferenceExecutionConfig: InferenceExecutionConfig? = nil, modelName: String? = nil, primaryContainer: ContainerDefinition? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.enableNetworkIsolation = enableNetworkIsolation
@@ -9177,6 +9365,7 @@ extension SageMaker {
         /// The ARN of the model created in SageMaker.
         public let modelArn: String?
 
+        @inlinable
         public init(modelArn: String? = nil) {
             self.modelArn = modelArn
         }
@@ -9194,6 +9383,7 @@ extension SageMaker {
         /// A list of key value pairs associated with the model group. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(modelPackageGroupDescription: String? = nil, modelPackageGroupName: String? = nil, tags: [Tag]? = nil) {
             self.modelPackageGroupDescription = modelPackageGroupDescription
             self.modelPackageGroupName = modelPackageGroupName
@@ -9223,6 +9413,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model group.
         public let modelPackageGroupArn: String?
 
+        @inlinable
         public init(modelPackageGroupArn: String? = nil) {
             self.modelPackageGroupArn = modelPackageGroupArn
         }
@@ -9279,6 +9470,7 @@ extension SageMaker {
         /// Specifies configurations for one or more transform jobs that SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
+        @inlinable
         public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.certifyForMarketplace = certifyForMarketplace
@@ -9379,6 +9571,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the new model package.
         public let modelPackageArn: String?
 
+        @inlinable
         public init(modelPackageArn: String? = nil) {
             self.modelPackageArn = modelPackageArn
         }
@@ -9407,6 +9600,7 @@ extension SageMaker {
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, modelQualityAppSpecification: ModelQualityAppSpecification? = nil, modelQualityBaselineConfig: ModelQualityBaselineConfig? = nil, modelQualityJobInput: ModelQualityJobInput? = nil, modelQualityJobOutputConfig: MonitoringOutputConfig? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil, tags: [Tag]? = nil) {
             self.jobDefinitionName = jobDefinitionName
             self.jobResources = jobResources
@@ -9458,6 +9652,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model quality monitoring job.
         public let jobDefinitionArn: String?
 
+        @inlinable
         public init(jobDefinitionArn: String? = nil) {
             self.jobDefinitionArn = jobDefinitionArn
         }
@@ -9475,6 +9670,7 @@ extension SageMaker {
         /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, tags: [Tag]? = nil) {
             self.monitoringScheduleConfig = monitoringScheduleConfig
             self.monitoringScheduleName = monitoringScheduleName
@@ -9503,6 +9699,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String?
 
+        @inlinable
         public init(monitoringScheduleArn: String? = nil) {
             self.monitoringScheduleArn = monitoringScheduleArn
         }
@@ -9546,6 +9743,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -9630,6 +9828,7 @@ extension SageMaker {
         /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
         public let onStart: [NotebookInstanceLifecycleHook]?
 
+        @inlinable
         public init(notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.onCreate = onCreate
@@ -9660,6 +9859,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigArn: String?
 
+        @inlinable
         public init(notebookInstanceLifecycleConfigArn: String? = nil) {
             self.notebookInstanceLifecycleConfigArn = notebookInstanceLifecycleConfigArn
         }
@@ -9673,6 +9873,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the notebook instance.
         public let notebookInstanceArn: String?
 
+        @inlinable
         public init(notebookInstanceArn: String? = nil) {
             self.notebookInstanceArn = notebookInstanceArn
         }
@@ -9703,6 +9904,7 @@ extension SageMaker {
         /// A VPC in Amazon VPC that your optimized model has access to.
         public let vpcConfig: OptimizationVpcConfig?
 
+        @inlinable
         public init(deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobName: String? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
             self.deploymentInstanceType = deploymentInstanceType
             self.modelSource = modelSource
@@ -9761,6 +9963,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the optimization job.
         public let optimizationJobArn: String?
 
+        @inlinable
         public init(optimizationJobArn: String? = nil) {
             self.optimizationJobArn = optimizationJobArn
         }
@@ -9790,6 +9993,7 @@ extension SageMaker {
         /// A list of tags to apply to the created pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineDefinition: String? = nil, pipelineDefinitionS3Location: PipelineDefinitionS3Location? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.parallelismConfiguration = parallelismConfiguration
@@ -9844,6 +10048,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the created pipeline.
         public let pipelineArn: String?
 
+        @inlinable
         public init(pipelineArn: String? = nil) {
             self.pipelineArn = pipelineArn
         }
@@ -9867,6 +10072,7 @@ extension SageMaker {
         /// The name of the UserProfile to sign-in as.
         public let userProfileName: String?
 
+        @inlinable
         public init(domainId: String? = nil, expiresInSeconds: Int? = nil, landingUri: String? = nil, sessionExpirationDurationInSeconds: Int? = nil, spaceName: String? = nil, userProfileName: String? = nil) {
             self.domainId = domainId
             self.expiresInSeconds = expiresInSeconds
@@ -9904,6 +10110,7 @@ extension SageMaker {
         /// The presigned URL.
         public let authorizedUrl: String?
 
+        @inlinable
         public init(authorizedUrl: String? = nil) {
             self.authorizedUrl = authorizedUrl
         }
@@ -9921,6 +10128,7 @@ extension SageMaker {
         /// The name of the tracking server to connect to your MLflow UI.
         public let trackingServerName: String?
 
+        @inlinable
         public init(expiresInSeconds: Int? = nil, sessionExpirationDurationInSeconds: Int? = nil, trackingServerName: String? = nil) {
             self.expiresInSeconds = expiresInSeconds
             self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
@@ -9948,6 +10156,7 @@ extension SageMaker {
         /// A presigned URL with an authorization token.
         public let authorizedUrl: String?
 
+        @inlinable
         public init(authorizedUrl: String? = nil) {
             self.authorizedUrl = authorizedUrl
         }
@@ -9963,6 +10172,7 @@ extension SageMaker {
         /// The duration of the session, in seconds. The default is 12 hours.
         public let sessionExpirationDurationInSeconds: Int?
 
+        @inlinable
         public init(notebookInstanceName: String? = nil, sessionExpirationDurationInSeconds: Int? = nil) {
             self.notebookInstanceName = notebookInstanceName
             self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
@@ -9985,6 +10195,7 @@ extension SageMaker {
         /// A JSON object that contains the URL string.
         public let authorizedUrl: String?
 
+        @inlinable
         public init(authorizedUrl: String? = nil) {
             self.authorizedUrl = authorizedUrl
         }
@@ -10017,6 +10228,7 @@ extension SageMaker {
         /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appSpecification: AppSpecification? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, networkConfig: NetworkConfig? = nil, processingInputs: [ProcessingInput]? = nil, processingJobName: String? = nil, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil) {
             self.appSpecification = appSpecification
             self.environment = environment
@@ -10080,6 +10292,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the processing job.
         public let processingJobArn: String?
 
+        @inlinable
         public init(processingJobArn: String? = nil) {
             self.processingJobArn = processingJobArn
         }
@@ -10099,6 +10312,7 @@ extension SageMaker {
         /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(projectDescription: String? = nil, projectName: String? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
             self.projectDescription = projectDescription
             self.projectName = projectName
@@ -10133,6 +10347,7 @@ extension SageMaker {
         /// The ID of the new project.
         public let projectId: String?
 
+        @inlinable
         public init(projectArn: String? = nil, projectId: String? = nil) {
             self.projectArn = projectArn
             self.projectId = projectId
@@ -10160,6 +10375,7 @@ extension SageMaker {
         /// Tags to associated with the space. Each tag consists of a key and an optional value. Tag keys must be unique for each resource. Tags are searchable using the Search API.
         public let tags: [Tag]?
 
+        @inlinable
         public init(domainId: String? = nil, ownershipSettings: OwnershipSettings? = nil, spaceDisplayName: String? = nil, spaceName: String? = nil, spaceSettings: SpaceSettings? = nil, spaceSharingSettings: SpaceSharingSettings? = nil, tags: [Tag]? = nil) {
             self.domainId = domainId
             self.ownershipSettings = ownershipSettings
@@ -10200,6 +10416,7 @@ extension SageMaker {
         /// The space's Amazon Resource Name (ARN).
         public let spaceArn: String?
 
+        @inlinable
         public init(spaceArn: String? = nil) {
             self.spaceArn = spaceArn
         }
@@ -10219,6 +10436,7 @@ extension SageMaker {
         /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
         public let tags: [Tag]?
 
+        @inlinable
         public init(studioLifecycleConfigAppType: StudioLifecycleConfigAppType? = nil, studioLifecycleConfigContent: String? = nil, studioLifecycleConfigName: String? = nil, tags: [Tag]? = nil) {
             self.studioLifecycleConfigAppType = studioLifecycleConfigAppType
             self.studioLifecycleConfigContent = studioLifecycleConfigContent
@@ -10250,6 +10468,7 @@ extension SageMaker {
         /// The ARN of your created Lifecycle Configuration.
         public let studioLifecycleConfigArn: String?
 
+        @inlinable
         public init(studioLifecycleConfigArn: String? = nil) {
             self.studioLifecycleConfigArn = studioLifecycleConfigArn
         }
@@ -10307,6 +10526,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(algorithmSpecification: AlgorithmSpecification? = nil, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, sessionChainingConfig: SessionChainingConfig? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
@@ -10419,6 +10639,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String?
 
+        @inlinable
         public init(trainingJobArn: String? = nil) {
             self.trainingJobArn = trainingJobArn
         }
@@ -10457,6 +10678,7 @@ extension SageMaker {
         /// Describes the resources, including ML instance types and ML instance count, to use for the transform job.
         public let transformResources: TransformResources?
 
+        @inlinable
         public init(batchStrategy: BatchStrategy? = nil, dataCaptureConfig: BatchDataCaptureConfig? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String? = nil, tags: [Tag]? = nil, transformInput: TransformInput? = nil, transformJobName: String? = nil, transformOutput: TransformOutput? = nil, transformResources: TransformResources? = nil) {
             self.batchStrategy = batchStrategy
             self.dataCaptureConfig = dataCaptureConfig
@@ -10524,6 +10746,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the transform job.
         public let transformJobArn: String?
 
+        @inlinable
         public init(transformJobArn: String? = nil) {
             self.transformJobArn = transformJobArn
         }
@@ -10554,6 +10777,7 @@ extension SageMaker {
         /// The name of the component. The name must be unique in your Amazon Web Services account and is not case-sensitive.
         public let trialComponentName: String?
 
+        @inlinable
         public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, metadataProperties: MetadataProperties? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentName: String? = nil) {
             self.displayName = displayName
             self.endTime = endTime
@@ -10618,6 +10842,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
 
+        @inlinable
         public init(trialComponentArn: String? = nil) {
             self.trialComponentArn = trialComponentArn
         }
@@ -10638,6 +10863,7 @@ extension SageMaker {
         /// The name of the trial. The name must be unique in your Amazon Web Services account and is not case-sensitive.
         public let trialName: String?
 
+        @inlinable
         public init(displayName: String? = nil, experimentName: String? = nil, metadataProperties: MetadataProperties? = nil, tags: [Tag]? = nil, trialName: String? = nil) {
             self.displayName = displayName
             self.experimentName = experimentName
@@ -10676,6 +10902,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
 
+        @inlinable
         public init(trialArn: String? = nil) {
             self.trialArn = trialArn
         }
@@ -10699,6 +10926,7 @@ extension SageMaker {
         /// A collection of settings.
         public let userSettings: UserSettings?
 
+        @inlinable
         public init(domainId: String? = nil, singleSignOnUserIdentifier: String? = nil, singleSignOnUserValue: String? = nil, tags: [Tag]? = nil, userProfileName: String? = nil, userSettings: UserSettings? = nil) {
             self.domainId = domainId
             self.singleSignOnUserIdentifier = singleSignOnUserIdentifier
@@ -10736,6 +10964,7 @@ extension SageMaker {
         /// The user profile Amazon Resource Name (ARN).
         public let userProfileArn: String?
 
+        @inlinable
         public init(userProfileArn: String? = nil) {
             self.userProfileArn = userProfileArn
         }
@@ -10758,6 +10987,7 @@ extension SageMaker {
         /// Use this parameter to configure a workforce using VPC.
         public let workforceVpcConfig: WorkforceVpcConfigRequest?
 
+        @inlinable
         public init(cognitoConfig: CognitoConfig? = nil, oidcConfig: OidcConfig? = nil, sourceIpConfig: SourceIpConfig? = nil, tags: [Tag]? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigRequest? = nil) {
             self.cognitoConfig = cognitoConfig
             self.oidcConfig = oidcConfig
@@ -10795,6 +11025,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the workforce.
         public let workforceArn: String?
 
+        @inlinable
         public init(workforceArn: String? = nil) {
             self.workforceArn = workforceArn
         }
@@ -10820,6 +11051,7 @@ extension SageMaker {
         /// The name of the work team. Use this name to identify the work team.
         public let workteamName: String?
 
+        @inlinable
         public init(description: String? = nil, memberDefinitions: [MemberDefinition]? = nil, notificationConfiguration: NotificationConfiguration? = nil, tags: [Tag]? = nil, workerAccessConfiguration: WorkerAccessConfiguration? = nil, workforceName: String? = nil, workteamName: String? = nil) {
             self.description = description
             self.memberDefinitions = memberDefinitions
@@ -10867,6 +11099,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team. You can use this ARN to identify the work team.
         public let workteamArn: String?
 
+        @inlinable
         public init(workteamArn: String? = nil) {
             self.workteamArn = workteamArn
         }
@@ -10884,6 +11117,7 @@ extension SageMaker {
         /// The version number of the CustomImage.
         public let imageVersionNumber: Int?
 
+        @inlinable
         public init(appImageConfigName: String? = nil, imageName: String? = nil, imageVersionNumber: Int? = nil) {
             self.appImageConfigName = appImageConfigName
             self.imageName = imageName
@@ -10912,6 +11146,7 @@ extension SageMaker {
         /// The POSIX user ID.
         public let uid: Int64?
 
+        @inlinable
         public init(gid: Int64? = nil, uid: Int64? = nil) {
             self.gid = gid
             self.uid = uid
@@ -10938,6 +11173,7 @@ extension SageMaker {
         /// The statistic of the customized metric.
         public let statistic: Statistic?
 
+        @inlinable
         public init(metricName: String? = nil, namespace: String? = nil, statistic: Statistic? = nil) {
             self.metricName = metricName
             self.namespace = namespace
@@ -10965,6 +11201,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
 
+        @inlinable
         public init(captureContentTypeHeader: CaptureContentTypeHeader? = nil, captureOptions: [CaptureOption]? = nil, destinationS3Uri: String? = nil, enableCapture: Bool? = nil, initialSamplingPercentage: Int? = nil, kmsKeyId: String? = nil) {
             self.captureContentTypeHeader = captureContentTypeHeader
             self.captureOptions = captureOptions
@@ -11008,6 +11245,7 @@ extension SageMaker {
         /// The KMS key being used to encrypt the data in Amazon S3.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(captureStatus: CaptureStatus? = nil, currentSamplingPercentage: Int? = nil, destinationS3Uri: String? = nil, enableCapture: Bool? = nil, kmsKeyId: String? = nil) {
             self.captureStatus = captureStatus
             self.currentSamplingPercentage = currentSamplingPercentage
@@ -11033,6 +11271,7 @@ extension SageMaker {
         /// The name of the Glue table.
         public let tableName: String?
 
+        @inlinable
         public init(catalog: String? = nil, database: String? = nil, tableName: String? = nil) {
             self.catalog = catalog
             self.database = database
@@ -11066,6 +11305,7 @@ extension SageMaker {
         /// A JSONPath expression used to select a portion of the joined dataset to save in the output file for a batch transform job. If you want SageMaker to store the entire input dataset in the output file, leave the default value, $. If you specify indexes that aren't within the dimension size of the joined dataset, you get an error. Examples: "$", "$[0,5:]", "$['id','SageMakerOutput']"
         public let outputFilter: String?
 
+        @inlinable
         public init(inputFilter: String? = nil, joinSource: JoinSource? = nil, outputFilter: String? = nil) {
             self.inputFilter = inputFilter
             self.joinSource = joinSource
@@ -11098,6 +11338,7 @@ extension SageMaker {
         /// An Amazon S3 URI to a script that is called per row prior to running analysis. It can  base64 decode the payload and convert it into a flattened JSON so that the built-in container can use  the converted data. Applicable only for the built-in (first party) containers.
         public let recordPreprocessorSourceUri: String?
 
+        @inlinable
         public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, environment: [String: String]? = nil, imageUri: String? = nil, postAnalyticsProcessorSourceUri: String? = nil, recordPreprocessorSourceUri: String? = nil) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -11151,6 +11392,7 @@ extension SageMaker {
         public let constraintsResource: MonitoringConstraintsResource?
         public let statisticsResource: MonitoringStatisticsResource?
 
+        @inlinable
         public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil, statisticsResource: MonitoringStatisticsResource? = nil) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
@@ -11177,6 +11419,7 @@ extension SageMaker {
         public let batchTransformInput: BatchTransformInput?
         public let endpointInput: EndpointInput?
 
+        @inlinable
         public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
@@ -11199,6 +11442,7 @@ extension SageMaker {
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: S3DataSource?
 
+        @inlinable
         public init(fileSystemDataSource: FileSystemDataSource? = nil, s3DataSource: S3DataSource? = nil) {
             self.fileSystemDataSource = fileSystemDataSource
             self.s3DataSource = s3DataSource
@@ -11225,6 +11469,7 @@ extension SageMaker {
         public let localPath: String?
         public let redshiftDatasetDefinition: RedshiftDatasetDefinition?
 
+        @inlinable
         public init(athenaDatasetDefinition: AthenaDatasetDefinition? = nil, dataDistributionType: DataDistributionType? = nil, inputMode: InputMode? = nil, localPath: String? = nil, redshiftDatasetDefinition: RedshiftDatasetDefinition? = nil) {
             self.athenaDatasetDefinition = athenaDatasetDefinition
             self.dataDistributionType = dataDistributionType
@@ -11259,6 +11504,7 @@ extension SageMaker {
         /// Path to Amazon S3 storage location for metrics and tensors.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(collectionConfigurations: [CollectionConfiguration]? = nil, hookParameters: [String: String]? = nil, localPath: String? = nil, s3OutputPath: String? = nil) {
             self.collectionConfigurations = collectionConfigurations
             self.hookParameters = hookParameters
@@ -11309,6 +11555,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to the processing instance.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(instanceType: ProcessingInstanceType? = nil, localPath: String? = nil, ruleConfigurationName: String? = nil, ruleEvaluatorImage: String? = nil, ruleParameters: [String: String]? = nil, s3OutputPath: String? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceType = instanceType
             self.localPath = localPath
@@ -11363,6 +11610,7 @@ extension SageMaker {
         /// Details from the rule evaluation.
         public let statusDetails: String?
 
+        @inlinable
         public init(lastModifiedTime: Date? = nil, ruleConfigurationName: String? = nil, ruleEvaluationJobArn: String? = nil, ruleEvaluationStatus: RuleEvaluationStatus? = nil, statusDetails: String? = nil) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
@@ -11386,6 +11634,7 @@ extension SageMaker {
         /// The maximum size of the EBS storage volume for a space.
         public let maximumEbsVolumeSizeInGb: Int?
 
+        @inlinable
         public init(defaultEbsVolumeSizeInGb: Int? = nil, maximumEbsVolumeSizeInGb: Int? = nil) {
             self.defaultEbsVolumeSizeInGb = defaultEbsVolumeSizeInGb
             self.maximumEbsVolumeSizeInGb = maximumEbsVolumeSizeInGb
@@ -11417,6 +11666,7 @@ extension SageMaker {
         public let securityGroups: [String]?
         public let spaceStorageSettings: DefaultSpaceStorageSettings?
 
+        @inlinable
         public init(customFileSystemConfigs: [CustomFileSystemConfig]? = nil, customPosixUserConfig: CustomPosixUserConfig? = nil, executionRole: String? = nil, jupyterLabAppSettings: JupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, securityGroups: [String]? = nil, spaceStorageSettings: DefaultSpaceStorageSettings? = nil) {
             self.customFileSystemConfigs = customFileSystemConfigs
             self.customPosixUserConfig = customPosixUserConfig
@@ -11464,6 +11714,7 @@ extension SageMaker {
         /// The default EBS storage settings for a space.
         public let defaultEbsStorageSettings: DefaultEbsStorageSettings?
 
+        @inlinable
         public init(defaultEbsStorageSettings: DefaultEbsStorageSettings? = nil) {
             self.defaultEbsStorageSettings = defaultEbsStorageSettings
         }
@@ -11481,6 +11732,7 @@ extension SageMaker {
         /// The name of the action to delete.
         public let actionName: String?
 
+        @inlinable
         public init(actionName: String? = nil) {
             self.actionName = actionName
         }
@@ -11500,6 +11752,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the action.
         public let actionArn: String?
 
+        @inlinable
         public init(actionArn: String? = nil) {
             self.actionArn = actionArn
         }
@@ -11513,6 +11766,7 @@ extension SageMaker {
         /// The name of the algorithm to delete.
         public let algorithmName: String?
 
+        @inlinable
         public init(algorithmName: String? = nil) {
             self.algorithmName = algorithmName
         }
@@ -11532,6 +11786,7 @@ extension SageMaker {
         /// The name of the AppImageConfig to delete.
         public let appImageConfigName: String?
 
+        @inlinable
         public init(appImageConfigName: String? = nil) {
             self.appImageConfigName = appImageConfigName
         }
@@ -11558,6 +11813,7 @@ extension SageMaker {
         /// The user profile name. If this value is not set, then SpaceName must be set.
         public let userProfileName: String?
 
+        @inlinable
         public init(appName: String? = nil, appType: AppType? = nil, domainId: String? = nil, spaceName: String? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
@@ -11592,6 +11848,7 @@ extension SageMaker {
         /// The URI of the source.
         public let source: ArtifactSource?
 
+        @inlinable
         public init(artifactArn: String? = nil, source: ArtifactSource? = nil) {
             self.artifactArn = artifactArn
             self.source = source
@@ -11613,6 +11870,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the artifact.
         public let artifactArn: String?
 
+        @inlinable
         public init(artifactArn: String? = nil) {
             self.artifactArn = artifactArn
         }
@@ -11628,6 +11886,7 @@ extension SageMaker {
         /// The ARN of the source.
         public let sourceArn: String?
 
+        @inlinable
         public init(destinationArn: String? = nil, sourceArn: String? = nil) {
             self.destinationArn = destinationArn
             self.sourceArn = sourceArn
@@ -11652,6 +11911,7 @@ extension SageMaker {
         /// The ARN of the source.
         public let sourceArn: String?
 
+        @inlinable
         public init(destinationArn: String? = nil, sourceArn: String? = nil) {
             self.destinationArn = destinationArn
             self.sourceArn = sourceArn
@@ -11667,6 +11927,7 @@ extension SageMaker {
         /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete.
         public let clusterName: String?
 
+        @inlinable
         public init(clusterName: String? = nil) {
             self.clusterName = clusterName
         }
@@ -11685,6 +11946,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster to delete.
         public let clusterArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
         }
@@ -11698,6 +11960,7 @@ extension SageMaker {
         /// The name of the Git repository to delete.
         public let codeRepositoryName: String?
 
+        @inlinable
         public init(codeRepositoryName: String? = nil) {
             self.codeRepositoryName = codeRepositoryName
         }
@@ -11717,6 +11980,7 @@ extension SageMaker {
         /// The name of the compilation job to delete.
         public let compilationJobName: String?
 
+        @inlinable
         public init(compilationJobName: String? = nil) {
             self.compilationJobName = compilationJobName
         }
@@ -11736,6 +12000,7 @@ extension SageMaker {
         /// The name of the context to delete.
         public let contextName: String?
 
+        @inlinable
         public init(contextName: String? = nil) {
             self.contextName = contextName
         }
@@ -11755,6 +12020,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the context.
         public let contextArn: String?
 
+        @inlinable
         public init(contextArn: String? = nil) {
             self.contextArn = contextArn
         }
@@ -11768,6 +12034,7 @@ extension SageMaker {
         /// The name of the data quality monitoring job definition to delete.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -11787,6 +12054,7 @@ extension SageMaker {
         /// The name of the fleet to delete.
         public let deviceFleetName: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil) {
             self.deviceFleetName = deviceFleetName
         }
@@ -11808,6 +12076,7 @@ extension SageMaker {
         /// The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted).
         public let retentionPolicy: RetentionPolicy?
 
+        @inlinable
         public init(domainId: String? = nil, retentionPolicy: RetentionPolicy? = nil) {
             self.domainId = domainId
             self.retentionPolicy = retentionPolicy
@@ -11828,6 +12097,7 @@ extension SageMaker {
         /// The name of the edge deployment plan to delete.
         public let edgeDeploymentPlanName: String?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
         }
@@ -11849,6 +12119,7 @@ extension SageMaker {
         /// The name of the stage.
         public let stageName: String?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil, stageName: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.stageName = stageName
@@ -11873,6 +12144,7 @@ extension SageMaker {
         /// The name of the endpoint configuration that you want to delete.
         public let endpointConfigName: String?
 
+        @inlinable
         public init(endpointConfigName: String? = nil) {
             self.endpointConfigName = endpointConfigName
         }
@@ -11891,6 +12163,7 @@ extension SageMaker {
         /// The name of the endpoint that you want to delete.
         public let endpointName: String?
 
+        @inlinable
         public init(endpointName: String? = nil) {
             self.endpointName = endpointName
         }
@@ -11909,6 +12182,7 @@ extension SageMaker {
         /// The name of the experiment to delete.
         public let experimentName: String?
 
+        @inlinable
         public init(experimentName: String? = nil) {
             self.experimentName = experimentName
         }
@@ -11928,6 +12202,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the experiment that is being deleted.
         public let experimentArn: String?
 
+        @inlinable
         public init(experimentArn: String? = nil) {
             self.experimentArn = experimentArn
         }
@@ -11941,6 +12216,7 @@ extension SageMaker {
         /// The name of the FeatureGroup you want to delete. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.
         public let featureGroupName: String?
 
+        @inlinable
         public init(featureGroupName: String? = nil) {
             self.featureGroupName = featureGroupName
         }
@@ -11960,6 +12236,7 @@ extension SageMaker {
         /// The name of the flow definition you are deleting.
         public let flowDefinitionName: String?
 
+        @inlinable
         public init(flowDefinitionName: String? = nil) {
             self.flowDefinitionName = flowDefinitionName
         }
@@ -11987,6 +12264,7 @@ extension SageMaker {
         /// The name of the hub to delete the hub content reference from.
         public let hubName: String?
 
+        @inlinable
         public init(hubContentName: String? = nil, hubContentType: HubContentType? = nil, hubName: String? = nil) {
             self.hubContentName = hubContentName
             self.hubContentType = hubContentType
@@ -12016,6 +12294,7 @@ extension SageMaker {
         /// The name of the hub that you want to delete content in.
         public let hubName: String?
 
+        @inlinable
         public init(hubContentName: String? = nil, hubContentType: HubContentType? = nil, hubContentVersion: String? = nil, hubName: String? = nil) {
             self.hubContentName = hubContentName
             self.hubContentType = hubContentType
@@ -12044,6 +12323,7 @@ extension SageMaker {
         /// The name of the hub to delete.
         public let hubName: String?
 
+        @inlinable
         public init(hubName: String? = nil) {
             self.hubName = hubName
         }
@@ -12061,6 +12341,7 @@ extension SageMaker {
         /// The name of the human task user interface (work task template) you want to delete.
         public let humanTaskUiName: String?
 
+        @inlinable
         public init(humanTaskUiName: String? = nil) {
             self.humanTaskUiName = humanTaskUiName
         }
@@ -12084,6 +12365,7 @@ extension SageMaker {
         /// The name of the hyperparameter tuning job that you want to delete.
         public let hyperParameterTuningJobName: String?
 
+        @inlinable
         public init(hyperParameterTuningJobName: String? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -12103,6 +12385,7 @@ extension SageMaker {
         /// The name of the image to delete.
         public let imageName: String?
 
+        @inlinable
         public init(imageName: String? = nil) {
             self.imageName = imageName
         }
@@ -12130,6 +12413,7 @@ extension SageMaker {
         /// The version to delete.
         public let version: Int?
 
+        @inlinable
         public init(alias: String? = nil, imageName: String? = nil, version: Int? = nil) {
             self.alias = alias
             self.imageName = imageName
@@ -12161,6 +12445,7 @@ extension SageMaker {
         /// The name of the inference component to delete.
         public let inferenceComponentName: String?
 
+        @inlinable
         public init(inferenceComponentName: String? = nil) {
             self.inferenceComponentName = inferenceComponentName
         }
@@ -12179,6 +12464,7 @@ extension SageMaker {
         /// The name of the inference experiment you want to delete.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -12198,6 +12484,7 @@ extension SageMaker {
         /// The ARN of the deleted inference experiment.
         public let inferenceExperimentArn: String?
 
+        @inlinable
         public init(inferenceExperimentArn: String? = nil) {
             self.inferenceExperimentArn = inferenceExperimentArn
         }
@@ -12211,6 +12498,7 @@ extension SageMaker {
         /// The name of the the tracking server to delete.
         public let trackingServerName: String?
 
+        @inlinable
         public init(trackingServerName: String? = nil) {
             self.trackingServerName = trackingServerName
         }
@@ -12230,6 +12518,7 @@ extension SageMaker {
         /// A TrackingServerArn object, the ARN of the tracking server that is deleted if successfully found.
         public let trackingServerArn: String?
 
+        @inlinable
         public init(trackingServerArn: String? = nil) {
             self.trackingServerArn = trackingServerArn
         }
@@ -12243,6 +12532,7 @@ extension SageMaker {
         /// The name of the model bias job definition to delete.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -12262,6 +12552,7 @@ extension SageMaker {
         /// The name of the model card to delete.
         public let modelCardName: String?
 
+        @inlinable
         public init(modelCardName: String? = nil) {
             self.modelCardName = modelCardName
         }
@@ -12281,6 +12572,7 @@ extension SageMaker {
         /// The name of the model explainability job definition to delete.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -12300,6 +12592,7 @@ extension SageMaker {
         /// The name of the model to delete.
         public let modelName: String?
 
+        @inlinable
         public init(modelName: String? = nil) {
             self.modelName = modelName
         }
@@ -12318,6 +12611,7 @@ extension SageMaker {
         /// The name of the model group to delete.
         public let modelPackageGroupName: String?
 
+        @inlinable
         public init(modelPackageGroupName: String? = nil) {
             self.modelPackageGroupName = modelPackageGroupName
         }
@@ -12337,6 +12631,7 @@ extension SageMaker {
         /// The name of the model group for which to delete the policy.
         public let modelPackageGroupName: String?
 
+        @inlinable
         public init(modelPackageGroupName: String? = nil) {
             self.modelPackageGroupName = modelPackageGroupName
         }
@@ -12356,6 +12651,7 @@ extension SageMaker {
         /// The name or Amazon Resource Name (ARN) of the model package to delete. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String?
 
+        @inlinable
         public init(modelPackageName: String? = nil) {
             self.modelPackageName = modelPackageName
         }
@@ -12375,6 +12671,7 @@ extension SageMaker {
         /// The name of the model quality monitoring job definition to delete.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -12394,6 +12691,7 @@ extension SageMaker {
         /// The name of the monitoring schedule to delete.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(monitoringScheduleName: String? = nil) {
             self.monitoringScheduleName = monitoringScheduleName
         }
@@ -12413,6 +12711,7 @@ extension SageMaker {
         /// The name of the SageMaker notebook instance to delete.
         public let notebookInstanceName: String?
 
+        @inlinable
         public init(notebookInstanceName: String? = nil) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -12431,6 +12730,7 @@ extension SageMaker {
         /// The name of the lifecycle configuration to delete.
         public let notebookInstanceLifecycleConfigName: String?
 
+        @inlinable
         public init(notebookInstanceLifecycleConfigName: String? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         }
@@ -12449,6 +12749,7 @@ extension SageMaker {
         /// The name that you assigned to the optimization job.
         public let optimizationJobName: String?
 
+        @inlinable
         public init(optimizationJobName: String? = nil) {
             self.optimizationJobName = optimizationJobName
         }
@@ -12470,6 +12771,7 @@ extension SageMaker {
         /// The name of the pipeline to delete.
         public let pipelineName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, pipelineName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.pipelineName = pipelineName
@@ -12493,6 +12795,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline to delete.
         public let pipelineArn: String?
 
+        @inlinable
         public init(pipelineArn: String? = nil) {
             self.pipelineArn = pipelineArn
         }
@@ -12506,6 +12809,7 @@ extension SageMaker {
         /// The name of the project to delete.
         public let projectName: String?
 
+        @inlinable
         public init(projectName: String? = nil) {
             self.projectName = projectName
         }
@@ -12527,6 +12831,7 @@ extension SageMaker {
         /// The name of the space.
         public let spaceName: String?
 
+        @inlinable
         public init(domainId: String? = nil, spaceName: String? = nil) {
             self.domainId = domainId
             self.spaceName = spaceName
@@ -12549,6 +12854,7 @@ extension SageMaker {
         /// The name of the Amazon SageMaker Studio Lifecycle Configuration to delete.
         public let studioLifecycleConfigName: String?
 
+        @inlinable
         public init(studioLifecycleConfigName: String? = nil) {
             self.studioLifecycleConfigName = studioLifecycleConfigName
         }
@@ -12569,6 +12875,7 @@ extension SageMaker {
         /// An array or one or more tag keys to delete.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String? = nil, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -12600,6 +12907,7 @@ extension SageMaker {
         /// The name of the component to delete.
         public let trialComponentName: String?
 
+        @inlinable
         public init(trialComponentName: String? = nil) {
             self.trialComponentName = trialComponentName
         }
@@ -12619,6 +12927,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the component is being deleted.
         public let trialComponentArn: String?
 
+        @inlinable
         public init(trialComponentArn: String? = nil) {
             self.trialComponentArn = trialComponentArn
         }
@@ -12632,6 +12941,7 @@ extension SageMaker {
         /// The name of the trial to delete.
         public let trialName: String?
 
+        @inlinable
         public init(trialName: String? = nil) {
             self.trialName = trialName
         }
@@ -12651,6 +12961,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial that is being deleted.
         public let trialArn: String?
 
+        @inlinable
         public init(trialArn: String? = nil) {
             self.trialArn = trialArn
         }
@@ -12666,6 +12977,7 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
+        @inlinable
         public init(domainId: String? = nil, userProfileName: String? = nil) {
             self.domainId = domainId
             self.userProfileName = userProfileName
@@ -12688,6 +13000,7 @@ extension SageMaker {
         /// The name of the workforce.
         public let workforceName: String?
 
+        @inlinable
         public init(workforceName: String? = nil) {
             self.workforceName = workforceName
         }
@@ -12711,6 +13024,7 @@ extension SageMaker {
         /// The name of the work team to delete.
         public let workteamName: String?
 
+        @inlinable
         public init(workteamName: String? = nil) {
             self.workteamName = workteamName
         }
@@ -12730,6 +13044,7 @@ extension SageMaker {
         /// Returns true if the work team was successfully deleted; otherwise, returns false.
         public let success: Bool?
 
+        @inlinable
         public init(success: Bool? = nil) {
             self.success = success
         }
@@ -12747,6 +13062,7 @@ extension SageMaker {
         /// The image path you specified when you created the model.
         public let specifiedImage: String?
 
+        @inlinable
         public init(resolutionTime: Date? = nil, resolvedImage: String? = nil, specifiedImage: String? = nil) {
             self.resolutionTime = resolutionTime
             self.resolvedImage = resolvedImage
@@ -12768,6 +13084,7 @@ extension SageMaker {
         /// Specifies a rolling deployment strategy for updating a SageMaker endpoint.
         public let rollingUpdatePolicy: RollingUpdatePolicy?
 
+        @inlinable
         public init(autoRollbackConfiguration: AutoRollbackConfig? = nil, blueGreenUpdatePolicy: BlueGreenUpdatePolicy? = nil, rollingUpdatePolicy: RollingUpdatePolicy? = nil) {
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.blueGreenUpdatePolicy = blueGreenUpdatePolicy
@@ -12793,6 +13110,7 @@ extension SageMaker {
         /// Status of the deployment recommendation. The status NOT_APPLICABLE means that SageMaker is unable to provide a default recommendation for the model using the information provided. If the deployment status is IN_PROGRESS, retry your API call after a few seconds to get a COMPLETED deployment recommendation.
         public let recommendationStatus: RecommendationStatus?
 
+        @inlinable
         public init(realTimeInferenceRecommendations: [RealTimeInferenceRecommendation]? = nil, recommendationStatus: RecommendationStatus? = nil) {
             self.realTimeInferenceRecommendations = realTimeInferenceRecommendations
             self.recommendationStatus = recommendationStatus
@@ -12812,6 +13130,7 @@ extension SageMaker {
         /// The name of the stage.
         public let stageName: String?
 
+        @inlinable
         public init(deploymentConfig: EdgeDeploymentConfig? = nil, deviceSelectionConfig: DeviceSelectionConfig? = nil, stageName: String? = nil) {
             self.deploymentConfig = deploymentConfig
             self.deviceSelectionConfig = deviceSelectionConfig
@@ -12842,6 +13161,7 @@ extension SageMaker {
         /// The name of the stage.
         public let stageName: String?
 
+        @inlinable
         public init(deploymentConfig: EdgeDeploymentConfig? = nil, deploymentStatus: EdgeDeploymentStatus? = nil, deviceSelectionConfig: DeviceSelectionConfig? = nil, stageName: String? = nil) {
             self.deploymentConfig = deploymentConfig
             self.deploymentStatus = deploymentStatus
@@ -12863,6 +13183,7 @@ extension SageMaker {
         /// The unique IDs of the devices.
         public let deviceNames: [String]?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, deviceNames: [String]? = nil) {
             self.deviceFleetName = deviceFleetName
             self.deviceNames = deviceNames
@@ -12889,6 +13210,7 @@ extension SageMaker {
         /// The data input configuration that SageMaker Neo automatically derived for the model. When SageMaker Neo derives this information, you don't need to specify the data input configuration when you create a compilation job.
         public let derivedDataInputConfig: String?
 
+        @inlinable
         public init(derivedDataInputConfig: String? = nil) {
             self.derivedDataInputConfig = derivedDataInputConfig
         }
@@ -12902,6 +13224,7 @@ extension SageMaker {
         /// The name of the action to describe.
         public let actionName: String?
 
+        @inlinable
         public init(actionName: String? = nil) {
             self.actionName = actionName
         }
@@ -12942,6 +13265,7 @@ extension SageMaker {
         /// The status of the action.
         public let status: ActionStatus?
 
+        @inlinable
         public init(actionArn: String? = nil, actionName: String? = nil, actionType: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ActionSource? = nil, status: ActionStatus? = nil) {
             self.actionArn = actionArn
             self.actionName = actionName
@@ -12979,6 +13303,7 @@ extension SageMaker {
         /// The name of the algorithm to describe.
         public let algorithmName: String?
 
+        @inlinable
         public init(algorithmName: String? = nil) {
             self.algorithmName = algorithmName
         }
@@ -13018,6 +13343,7 @@ extension SageMaker {
         /// Details about configurations for one or more training jobs that SageMaker runs to test the algorithm.
         public let validationSpecification: AlgorithmValidationSpecification?
 
+        @inlinable
         public init(algorithmArn: String? = nil, algorithmDescription: String? = nil, algorithmName: String? = nil, algorithmStatus: AlgorithmStatus? = nil, algorithmStatusDetails: AlgorithmStatusDetails? = nil, certifyForMarketplace: Bool? = nil, creationTime: Date? = nil, inferenceSpecification: InferenceSpecification? = nil, productId: String? = nil, trainingSpecification: TrainingSpecification? = nil, validationSpecification: AlgorithmValidationSpecification? = nil) {
             self.algorithmArn = algorithmArn
             self.algorithmDescription = algorithmDescription
@@ -13051,6 +13377,7 @@ extension SageMaker {
         /// The name of the AppImageConfig to describe.
         public let appImageConfigName: String?
 
+        @inlinable
         public init(appImageConfigName: String? = nil) {
             self.appImageConfigName = appImageConfigName
         }
@@ -13081,6 +13408,7 @@ extension SageMaker {
         /// When the AppImageConfig was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(appImageConfigArn: String? = nil, appImageConfigName: String? = nil, codeEditorAppImageConfig: CodeEditorAppImageConfig? = nil, creationTime: Date? = nil, jupyterLabAppImageConfig: JupyterLabAppImageConfig? = nil, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil, lastModifiedTime: Date? = nil) {
             self.appImageConfigArn = appImageConfigArn
             self.appImageConfigName = appImageConfigName
@@ -13114,6 +13442,7 @@ extension SageMaker {
         /// The user profile name. If this value is not set, then SpaceName must be set.
         public let userProfileName: String?
 
+        @inlinable
         public init(appName: String? = nil, appType: AppType? = nil, domainId: String? = nil, spaceName: String? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
@@ -13168,6 +13497,7 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
+        @inlinable
         public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appArn = appArn
             self.appName = appName
@@ -13203,6 +13533,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the artifact to describe.
         public let artifactArn: String?
 
+        @inlinable
         public init(artifactArn: String? = nil) {
             self.artifactArn = artifactArn
         }
@@ -13238,6 +13569,7 @@ extension SageMaker {
         /// The source of the artifact.
         public let source: ArtifactSource?
 
+        @inlinable
         public init(artifactArn: String? = nil, artifactName: String? = nil, artifactType: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, properties: [String: String]? = nil, source: ArtifactSource? = nil) {
             self.artifactArn = artifactArn
             self.artifactName = artifactName
@@ -13271,6 +13603,7 @@ extension SageMaker {
         /// Requests information about an AutoML job using its unique name.
         public let autoMLJobName: String?
 
+        @inlinable
         public init(autoMLJobName: String? = nil) {
             self.autoMLJobName = autoMLJobName
         }
@@ -13330,6 +13663,7 @@ extension SageMaker {
         /// The ARN of the IAM role that has read permission to the input data location and write permission to the output data location in Amazon S3.
         public let roleArn: String?
 
+        @inlinable
         public init(autoMLJobArn: String? = nil, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobConfig: AutoMLJobConfig? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus? = nil, autoMLJobStatus: AutoMLJobStatus? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date? = nil, endTime: Date? = nil, failureReason: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, inputDataConfig: [AutoMLChannel]? = nil, lastModifiedTime: Date? = nil, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, problemType: ProblemType? = nil, resolvedAttributes: ResolvedAttributes? = nil, roleArn: String? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.autoMLJobArtifacts = autoMLJobArtifacts
@@ -13383,6 +13717,7 @@ extension SageMaker {
         /// Requests information about an AutoML job V2 using its unique name.
         public let autoMLJobName: String?
 
+        @inlinable
         public init(autoMLJobName: String? = nil) {
             self.autoMLJobName = autoMLJobName
         }
@@ -13445,6 +13780,7 @@ extension SageMaker {
         /// Returns the security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
 
+        @inlinable
         public init(autoMLComputeConfig: AutoMLComputeConfig? = nil, autoMLJobArn: String? = nil, autoMLJobArtifacts: AutoMLJobArtifacts? = nil, autoMLJobInputDataConfig: [AutoMLJobChannel]? = nil, autoMLJobName: String? = nil, autoMLJobObjective: AutoMLJobObjective? = nil, autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus? = nil, autoMLJobStatus: AutoMLJobStatus? = nil, autoMLProblemTypeConfig: AutoMLProblemTypeConfig? = nil, autoMLProblemTypeConfigName: AutoMLProblemTypeConfigName? = nil, bestCandidate: AutoMLCandidate? = nil, creationTime: Date? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, endTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, modelDeployConfig: ModelDeployConfig? = nil, modelDeployResult: ModelDeployResult? = nil, outputDataConfig: AutoMLOutputDataConfig? = nil, partialFailureReasons: [AutoMLPartialFailureReason]? = nil, resolvedAttributes: AutoMLResolvedAttributes? = nil, roleArn: String? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
             self.autoMLComputeConfig = autoMLComputeConfig
             self.autoMLJobArn = autoMLJobArn
@@ -13504,6 +13840,7 @@ extension SageMaker {
         /// The ID of the SageMaker HyperPod cluster node.
         public let nodeId: String?
 
+        @inlinable
         public init(clusterName: String? = nil, nodeId: String? = nil) {
             self.clusterName = clusterName
             self.nodeId = nodeId
@@ -13527,6 +13864,7 @@ extension SageMaker {
         /// The details of the SageMaker HyperPod cluster node.
         public let nodeDetails: ClusterNodeDetails?
 
+        @inlinable
         public init(nodeDetails: ClusterNodeDetails? = nil) {
             self.nodeDetails = nodeDetails
         }
@@ -13540,6 +13878,7 @@ extension SageMaker {
         /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
         public let clusterName: String?
 
+        @inlinable
         public init(clusterName: String? = nil) {
             self.clusterName = clusterName
         }
@@ -13573,6 +13912,7 @@ extension SageMaker {
         public let orchestrator: ClusterOrchestrator?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clusterArn: String? = nil, clusterName: String? = nil, clusterStatus: ClusterStatus? = nil, creationTime: Date? = nil, failureMessage: String? = nil, instanceGroups: [ClusterInstanceGroupDetails]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, vpcConfig: VpcConfig? = nil) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
@@ -13602,6 +13942,7 @@ extension SageMaker {
         /// The name of the Git repository to describe.
         public let codeRepositoryName: String?
 
+        @inlinable
         public init(codeRepositoryName: String? = nil) {
             self.codeRepositoryName = codeRepositoryName
         }
@@ -13629,6 +13970,7 @@ extension SageMaker {
         /// The date and time that the repository was last changed.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(codeRepositoryArn: String? = nil, codeRepositoryName: String? = nil, creationTime: Date? = nil, gitConfig: GitConfig? = nil, lastModifiedTime: Date? = nil) {
             self.codeRepositoryArn = codeRepositoryArn
             self.codeRepositoryName = codeRepositoryName
@@ -13650,6 +13992,7 @@ extension SageMaker {
         /// The name of the model compilation job that you want information about.
         public let compilationJobName: String?
 
+        @inlinable
         public init(compilationJobName: String? = nil) {
             self.compilationJobName = compilationJobName
         }
@@ -13703,6 +14046,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: NeoVpcConfig?
 
+        @inlinable
         public init(compilationEndTime: Date? = nil, compilationJobArn: String? = nil, compilationJobName: String? = nil, compilationJobStatus: CompilationJobStatus? = nil, compilationStartTime: Date? = nil, creationTime: Date? = nil, derivedInformation: DerivedInformation? = nil, failureReason: String? = nil, inferenceImage: String? = nil, inputConfig: InputConfig? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, modelDigests: ModelDigests? = nil, modelPackageVersionArn: String? = nil, outputConfig: OutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, vpcConfig: NeoVpcConfig? = nil) {
             self.compilationEndTime = compilationEndTime
             self.compilationJobArn = compilationJobArn
@@ -13750,6 +14094,7 @@ extension SageMaker {
         /// The name of the context to describe.
         public let contextName: String?
 
+        @inlinable
         public init(contextName: String? = nil) {
             self.contextName = contextName
         }
@@ -13787,6 +14132,7 @@ extension SageMaker {
         /// The source of the context.
         public let source: ContextSource?
 
+        @inlinable
         public init(contextArn: String? = nil, contextName: String? = nil, contextType: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, properties: [String: String]? = nil, source: ContextSource? = nil) {
             self.contextArn = contextArn
             self.contextName = contextName
@@ -13820,6 +14166,7 @@ extension SageMaker {
         /// The name of the data quality monitoring job definition to describe.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -13856,6 +14203,7 @@ extension SageMaker {
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataQualityAppSpecification: DataQualityAppSpecification? = nil, dataQualityBaselineConfig: DataQualityBaselineConfig? = nil, dataQualityJobInput: DataQualityJobInput? = nil, dataQualityJobOutputConfig: MonitoringOutputConfig? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil) {
             self.creationTime = creationTime
             self.dataQualityAppSpecification = dataQualityAppSpecification
@@ -13889,6 +14237,7 @@ extension SageMaker {
         /// The name of the fleet.
         public let deviceFleetName: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil) {
             self.deviceFleetName = deviceFleetName
         }
@@ -13922,6 +14271,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) that has access to Amazon Web Services Internet of Things (IoT).
         public let roleArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, deviceFleetArn: String? = nil, deviceFleetName: String? = nil, iotRoleAlias: String? = nil, lastModifiedTime: Date? = nil, outputConfig: EdgeOutputConfig? = nil, roleArn: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -13953,6 +14303,7 @@ extension SageMaker {
         /// Next token of device description.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, deviceName: String? = nil, nextToken: String? = nil) {
             self.deviceFleetName = deviceFleetName
             self.deviceName = deviceName
@@ -14001,6 +14352,7 @@ extension SageMaker {
         /// The timestamp of the last registration or de-reregistration.
         public let registrationTime: Date?
 
+        @inlinable
         public init(agentVersion: String? = nil, description: String? = nil, deviceArn: String? = nil, deviceFleetName: String? = nil, deviceName: String? = nil, iotThingName: String? = nil, latestHeartbeat: Date? = nil, maxModels: Int? = nil, models: [EdgeModel]? = nil, nextToken: String? = nil, registrationTime: Date? = nil) {
             self.agentVersion = agentVersion
             self.description = description
@@ -14034,6 +14386,7 @@ extension SageMaker {
         /// The domain ID.
         public let domainId: String?
 
+        @inlinable
         public init(domainId: String? = nil) {
             self.domainId = domainId
         }
@@ -14094,6 +14447,7 @@ extension SageMaker {
         /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
         public let vpcId: String?
 
+        @inlinable
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnApplicationArn: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -14120,6 +14474,7 @@ extension SageMaker {
         }
 
         @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
+        @inlinable
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnApplicationArn: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -14179,6 +14534,7 @@ extension SageMaker {
         /// If the edge deployment plan has enough stages to require tokening, then this is the response from the last list of stages returned.
         public let nextToken: String?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.maxResults = maxResults
@@ -14225,6 +14581,7 @@ extension SageMaker {
         /// List of stages in the edge deployment plan.
         public let stages: [DeploymentStageStatusSummary]?
 
+        @inlinable
         public init(creationTime: Date? = nil, deviceFleetName: String? = nil, edgeDeploymentFailed: Int? = nil, edgeDeploymentPending: Int? = nil, edgeDeploymentPlanArn: String? = nil, edgeDeploymentPlanName: String? = nil, edgeDeploymentSuccess: Int? = nil, lastModifiedTime: Date? = nil, modelConfigs: [EdgeDeploymentModelConfig]? = nil, nextToken: String? = nil, stages: [DeploymentStageStatusSummary]? = nil) {
             self.creationTime = creationTime
             self.deviceFleetName = deviceFleetName
@@ -14258,6 +14615,7 @@ extension SageMaker {
         /// The name of the edge packaging job.
         public let edgePackagingJobName: String?
 
+        @inlinable
         public init(edgePackagingJobName: String? = nil) {
             self.edgePackagingJobName = edgePackagingJobName
         }
@@ -14305,6 +14663,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to  download and upload the model, and to contact Neo.
         public let roleArn: String?
 
+        @inlinable
         public init(compilationJobName: String? = nil, creationTime: Date? = nil, edgePackagingJobArn: String? = nil, edgePackagingJobName: String? = nil, edgePackagingJobStatus: EdgePackagingJobStatus? = nil, edgePackagingJobStatusMessage: String? = nil, lastModifiedTime: Date? = nil, modelArtifact: String? = nil, modelName: String? = nil, modelSignature: String? = nil, modelVersion: String? = nil, outputConfig: EdgeOutputConfig? = nil, presetDeploymentOutput: EdgePresetDeploymentOutput? = nil, resourceKey: String? = nil, roleArn: String? = nil) {
             self.compilationJobName = compilationJobName
             self.creationTime = creationTime
@@ -14346,6 +14705,7 @@ extension SageMaker {
         /// The name of the endpoint configuration.
         public let endpointConfigName: String?
 
+        @inlinable
         public init(endpointConfigName: String? = nil) {
             self.endpointConfigName = endpointConfigName
         }
@@ -14384,6 +14744,7 @@ extension SageMaker {
         public let shadowProductionVariants: [ProductionVariant]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfig? = nil, enableNetworkIsolation: Bool? = nil, endpointConfigArn: String? = nil, endpointConfigName: String? = nil, executionRoleArn: String? = nil, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]? = nil, shadowProductionVariants: [ProductionVariant]? = nil, vpcConfig: VpcConfig? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
@@ -14419,6 +14780,7 @@ extension SageMaker {
         /// The name of the endpoint.
         public let endpointName: String?
 
+        @inlinable
         public init(endpointName: String? = nil) {
             self.endpointName = endpointName
         }
@@ -14462,6 +14824,7 @@ extension SageMaker {
         /// An array of ProductionVariantSummary objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants.
         public let shadowProductionVariants: [ProductionVariantSummary]?
 
+        @inlinable
         public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String? = nil, endpointConfigName: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, explainerConfig: ExplainerConfig? = nil, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date? = nil, pendingDeploymentSummary: PendingDeploymentSummary? = nil, productionVariants: [ProductionVariantSummary]? = nil, shadowProductionVariants: [ProductionVariantSummary]? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
@@ -14501,6 +14864,7 @@ extension SageMaker {
         /// The name of the experiment to describe.
         public let experimentName: String?
 
+        @inlinable
         public init(experimentName: String? = nil) {
             self.experimentName = experimentName
         }
@@ -14536,6 +14900,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the source and, optionally, the type.
         public let source: ExperimentSource?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: ExperimentSource? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -14567,6 +14932,7 @@ extension SageMaker {
         /// A token to resume pagination of the list of Features (FeatureDefinitions). 2,500 Features are returned by default.
         public let nextToken: String?
 
+        @inlinable
         public init(featureGroupName: String? = nil, nextToken: String? = nil) {
             self.featureGroupName = featureGroupName
             self.nextToken = nextToken
@@ -14623,6 +14989,7 @@ extension SageMaker {
         public let roleArn: String?
         public let throughputConfig: ThroughputConfigDescription?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, eventTimeFeatureName: String? = nil, failureReason: String? = nil, featureDefinitions: [FeatureDefinition]? = nil, featureGroupArn: String? = nil, featureGroupName: String? = nil, featureGroupStatus: FeatureGroupStatus? = nil, lastModifiedTime: Date? = nil, lastUpdateStatus: LastUpdateStatus? = nil, nextToken: String? = nil, offlineStoreConfig: OfflineStoreConfig? = nil, offlineStoreStatus: OfflineStoreStatus? = nil, onlineStoreConfig: OnlineStoreConfig? = nil, onlineStoreTotalSizeBytes: Int64? = nil, recordIdentifierFeatureName: String? = nil, roleArn: String? = nil, throughputConfig: ThroughputConfigDescription? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -14672,6 +15039,7 @@ extension SageMaker {
         /// The name of the feature.
         public let featureName: String?
 
+        @inlinable
         public init(featureGroupName: String? = nil, featureName: String? = nil) {
             self.featureGroupName = featureGroupName
             self.featureName = featureName
@@ -14710,6 +15078,7 @@ extension SageMaker {
         /// The key-value pairs that you added to describe the feature.
         public let parameters: [FeatureParameter]?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, featureGroupArn: String? = nil, featureGroupName: String? = nil, featureName: String? = nil, featureType: FeatureType? = nil, lastModifiedTime: Date? = nil, parameters: [FeatureParameter]? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -14737,6 +15106,7 @@ extension SageMaker {
         /// The name of the flow definition.
         public let flowDefinitionName: String?
 
+        @inlinable
         public init(flowDefinitionName: String? = nil) {
             self.flowDefinitionName = flowDefinitionName
         }
@@ -14774,6 +15144,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) execution role for the flow definition.
         public let roleArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, flowDefinitionName: String? = nil, flowDefinitionStatus: FlowDefinitionStatus? = nil, humanLoopActivationConfig: HumanLoopActivationConfig? = nil, humanLoopConfig: HumanLoopConfig? = nil, humanLoopRequestSource: HumanLoopRequestSource? = nil, outputConfig: FlowDefinitionOutputConfig? = nil, roleArn: String? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -14811,6 +15182,7 @@ extension SageMaker {
         /// The name of the hub that contains the content to describe.
         public let hubName: String?
 
+        @inlinable
         public init(hubContentName: String? = nil, hubContentType: HubContentType? = nil, hubContentVersion: String? = nil, hubName: String? = nil) {
             self.hubContentName = hubContentName
             self.hubContentType = hubContentType
@@ -14875,6 +15247,7 @@ extension SageMaker {
         /// The support status of the hub content.
         public let supportStatus: HubContentSupportStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, documentSchemaVersion: String? = nil, failureReason: String? = nil, hubArn: String? = nil, hubContentArn: String? = nil, hubContentDependencies: [HubContentDependency]? = nil, hubContentDescription: String? = nil, hubContentDisplayName: String? = nil, hubContentDocument: String? = nil, hubContentMarkdown: String? = nil, hubContentName: String? = nil, hubContentSearchKeywords: [String]? = nil, hubContentStatus: HubContentStatus? = nil, hubContentType: HubContentType? = nil, hubContentVersion: String? = nil, hubName: String? = nil, referenceMinVersion: String? = nil, sageMakerPublicHubContentArn: String? = nil, supportStatus: HubContentSupportStatus? = nil) {
             self.creationTime = creationTime
             self.documentSchemaVersion = documentSchemaVersion
@@ -14924,6 +15297,7 @@ extension SageMaker {
         /// The name of the hub to describe.
         public let hubName: String?
 
+        @inlinable
         public init(hubName: String? = nil) {
             self.hubName = hubName
         }
@@ -14959,6 +15333,7 @@ extension SageMaker {
         /// The Amazon S3 storage configuration for the hub.
         public let s3StorageConfig: HubS3StorageConfig?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, hubArn: String? = nil, hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String? = nil, hubSearchKeywords: [String]? = nil, hubStatus: HubStatus? = nil, lastModifiedTime: Date? = nil, s3StorageConfig: HubS3StorageConfig? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -14990,6 +15365,7 @@ extension SageMaker {
         /// The name of the human task user interface  (worker task template) you want information about.
         public let humanTaskUiName: String?
 
+        @inlinable
         public init(humanTaskUiName: String? = nil) {
             self.humanTaskUiName = humanTaskUiName
         }
@@ -15016,6 +15392,7 @@ extension SageMaker {
         public let humanTaskUiStatus: HumanTaskUiStatus?
         public let uiTemplate: UiTemplateInfo?
 
+        @inlinable
         public init(creationTime: Date? = nil, humanTaskUiArn: String? = nil, humanTaskUiName: String? = nil, humanTaskUiStatus: HumanTaskUiStatus? = nil, uiTemplate: UiTemplateInfo? = nil) {
             self.creationTime = creationTime
             self.humanTaskUiArn = humanTaskUiArn
@@ -15037,6 +15414,7 @@ extension SageMaker {
         /// The name of the tuning job.
         public let hyperParameterTuningJobName: String?
 
+        @inlinable
         public init(hyperParameterTuningJobName: String? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -15089,6 +15467,7 @@ extension SageMaker {
         /// The configuration for starting the hyperparameter parameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job.
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
+        @inlinable
         public init(autotune: Autotune? = nil, bestTrainingJob: HyperParameterTrainingJobSummary? = nil, consumedResources: HyperParameterTuningJobConsumedResources? = nil, creationTime: Date? = nil, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String? = nil, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig? = nil, hyperParameterTuningJobName: String? = nil, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus? = nil, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters? = nil, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters? = nil, tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.autotune = autotune
             self.bestTrainingJob = bestTrainingJob
@@ -15136,6 +15515,7 @@ extension SageMaker {
         /// The name of the image to describe.
         public let imageName: String?
 
+        @inlinable
         public init(imageName: String? = nil) {
             self.imageName = imageName
         }
@@ -15171,6 +15551,7 @@ extension SageMaker {
         /// The ARN of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
         public let roleArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, failureReason: String? = nil, imageArn: String? = nil, imageName: String? = nil, imageStatus: ImageStatus? = nil, lastModifiedTime: Date? = nil, roleArn: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -15204,6 +15585,7 @@ extension SageMaker {
         /// The version of the image. If not specified, the latest version is described.
         public let version: Int?
 
+        @inlinable
         public init(alias: String? = nil, imageName: String? = nil, version: Int? = nil) {
             self.alias = alias
             self.imageName = imageName
@@ -15261,6 +15643,7 @@ extension SageMaker {
         /// The version number.
         public let version: Int?
 
+        @inlinable
         public init(baseImage: String? = nil, containerImage: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, horovod: Bool? = nil, imageArn: String? = nil, imageVersionArn: String? = nil, imageVersionStatus: ImageVersionStatus? = nil, jobType: JobType? = nil, lastModifiedTime: Date? = nil, mlFramework: String? = nil, processor: Processor? = nil, programmingLang: String? = nil, releaseNotes: String? = nil, vendorGuidance: VendorGuidance? = nil, version: Int? = nil) {
             self.baseImage = baseImage
             self.containerImage = containerImage
@@ -15304,6 +15687,7 @@ extension SageMaker {
         /// The name of the inference component.
         public let inferenceComponentName: String?
 
+        @inlinable
         public init(inferenceComponentName: String? = nil) {
             self.inferenceComponentName = inferenceComponentName
         }
@@ -15342,6 +15726,7 @@ extension SageMaker {
         /// The name of the production variant that hosts the inference component.
         public let variantName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointArn: String? = nil, endpointName: String? = nil, failureReason: String? = nil, inferenceComponentArn: String? = nil, inferenceComponentName: String? = nil, inferenceComponentStatus: InferenceComponentStatus? = nil, lastModifiedTime: Date? = nil, runtimeConfig: InferenceComponentRuntimeConfigSummary? = nil, specification: InferenceComponentSpecificationSummary? = nil, variantName: String? = nil) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
@@ -15375,6 +15760,7 @@ extension SageMaker {
         /// The name of the inference experiment to describe.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -15424,6 +15810,7 @@ extension SageMaker {
         /// The type of the inference experiment.
         public let type: InferenceExperimentType?
 
+        @inlinable
         public init(arn: String? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataStorageConfig: InferenceExperimentDataStorageConfig? = nil, description: String? = nil, endpointMetadata: EndpointMetadata? = nil, kmsKey: String? = nil, lastModifiedTime: Date? = nil, modelVariants: [ModelVariantConfigSummary]? = nil, name: String? = nil, roleArn: String? = nil, schedule: InferenceExperimentSchedule? = nil, shadowModeConfig: ShadowModeConfig? = nil, status: InferenceExperimentStatus? = nil, statusReason: String? = nil, type: InferenceExperimentType? = nil) {
             self.arn = arn
             self.completionTime = completionTime
@@ -15467,6 +15854,7 @@ extension SageMaker {
         /// The name of the job. The name must be unique within an  Amazon Web Services Region in the Amazon Web Services account.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -15512,6 +15900,7 @@ extension SageMaker {
         /// The stopping conditions that you provided when you initiated the job.
         public let stoppingConditions: RecommendationJobStoppingConditions?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date? = nil, endpointPerformances: [EndpointPerformance]? = nil, failureReason: String? = nil, inferenceRecommendations: [InferenceRecommendation]? = nil, inputConfig: RecommendationJobInputConfig? = nil, jobArn: String? = nil, jobDescription: String? = nil, jobName: String? = nil, jobType: RecommendationJobType? = nil, lastModifiedTime: Date? = nil, roleArn: String? = nil, status: RecommendationJobStatus? = nil, stoppingConditions: RecommendationJobStoppingConditions? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -15551,6 +15940,7 @@ extension SageMaker {
         /// The name of the labeling job to return information for.
         public let labelingJobName: String?
 
+        @inlinable
         public init(labelingJobName: String? = nil) {
             self.labelingJobName = labelingJobName
         }
@@ -15604,6 +15994,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, humanTaskConfig: HumanTaskConfig? = nil, inputConfig: LabelingJobInputConfig? = nil, jobReferenceCode: String? = nil, labelAttributeName: String? = nil, labelCategoryConfigS3Uri: String? = nil, labelCounters: LabelCounters? = nil, labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig? = nil, labelingJobArn: String? = nil, labelingJobName: String? = nil, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus? = nil, lastModifiedTime: Date? = nil, outputConfig: LabelingJobOutputConfig? = nil, roleArn: String? = nil, stoppingConditions: LabelingJobStoppingConditions? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -15651,6 +16042,7 @@ extension SageMaker {
         /// The name of the lineage group.
         public let lineageGroupName: String?
 
+        @inlinable
         public init(lineageGroupName: String? = nil) {
             self.lineageGroupName = lineageGroupName
         }
@@ -15682,6 +16074,7 @@ extension SageMaker {
         /// The name of the lineage group.
         public let lineageGroupName: String?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, lineageGroupName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -15709,6 +16102,7 @@ extension SageMaker {
         /// The name of the MLflow Tracking Server to describe.
         public let trackingServerName: String?
 
+        @inlinable
         public init(trackingServerName: String? = nil) {
             self.trackingServerName = trackingServerName
         }
@@ -15754,6 +16148,7 @@ extension SageMaker {
         /// The day and time of the week when weekly maintenance occurs on the described tracking server.
         public let weeklyMaintenanceWindowStart: String?
 
+        @inlinable
         public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, roleArn: String? = nil, trackingServerArn: String? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, trackingServerStatus: TrackingServerStatus? = nil, trackingServerUrl: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
@@ -15795,6 +16190,7 @@ extension SageMaker {
         /// The name of the model bias job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -15831,6 +16227,7 @@ extension SageMaker {
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
 
+        @inlinable
         public init(creationTime: Date? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, modelBiasAppSpecification: ModelBiasAppSpecification? = nil, modelBiasBaselineConfig: ModelBiasBaselineConfig? = nil, modelBiasJobInput: ModelBiasJobInput? = nil, modelBiasJobOutputConfig: MonitoringOutputConfig? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil) {
             self.creationTime = creationTime
             self.jobDefinitionArn = jobDefinitionArn
@@ -15864,6 +16261,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model card export job to describe.
         public let modelCardExportJobArn: String?
 
+        @inlinable
         public init(modelCardExportJobArn: String? = nil) {
             self.modelCardExportJobArn = modelCardExportJobArn
         }
@@ -15900,6 +16298,7 @@ extension SageMaker {
         /// The completion status of the model card export job.    InProgress: The model card export job is in progress.    Completed: The model card export job is complete.    Failed: The model card export job failed. To see the reason for the failure, see the FailureReason field in the response to a DescribeModelCardExportJob call.
         public let status: ModelCardExportJobStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, exportArtifacts: ModelCardExportArtifacts? = nil, failureReason: String? = nil, lastModifiedAt: Date? = nil, modelCardExportJobArn: String? = nil, modelCardExportJobName: String? = nil, modelCardName: String? = nil, modelCardVersion: Int? = nil, outputConfig: ModelCardExportOutputConfig? = nil, status: ModelCardExportJobStatus? = nil) {
             self.createdAt = createdAt
             self.exportArtifacts = exportArtifacts
@@ -15933,6 +16332,7 @@ extension SageMaker {
         /// The version of the model card to describe. If a version is not provided, then the latest version of the model card is described.
         public let modelCardVersion: Int?
 
+        @inlinable
         public init(modelCardName: String? = nil, modelCardVersion: Int? = nil) {
             self.modelCardName = modelCardName
             self.modelCardVersion = modelCardVersion
@@ -15972,6 +16372,7 @@ extension SageMaker {
         /// The security configuration used to protect model card content.
         public let securityConfig: ModelCardSecurityConfig?
 
+        @inlinable
         public init(content: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardProcessingStatus: ModelCardProcessingStatus? = nil, modelCardStatus: ModelCardStatus? = nil, modelCardVersion: Int? = nil, securityConfig: ModelCardSecurityConfig? = nil) {
             self.content = content
             self.createdBy = createdBy
@@ -16005,6 +16406,7 @@ extension SageMaker {
         /// The name of the model explainability job definition. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -16041,6 +16443,7 @@ extension SageMaker {
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
 
+        @inlinable
         public init(creationTime: Date? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, modelExplainabilityAppSpecification: ModelExplainabilityAppSpecification? = nil, modelExplainabilityBaselineConfig: ModelExplainabilityBaselineConfig? = nil, modelExplainabilityJobInput: ModelExplainabilityJobInput? = nil, modelExplainabilityJobOutputConfig: MonitoringOutputConfig? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil) {
             self.creationTime = creationTime
             self.jobDefinitionArn = jobDefinitionArn
@@ -16074,6 +16477,7 @@ extension SageMaker {
         /// The name of the model.
         public let modelName: String?
 
+        @inlinable
         public init(modelName: String? = nil) {
             self.modelName = modelName
         }
@@ -16110,6 +16514,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this model has access to. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(containers: [ContainerDefinition]? = nil, creationTime: Date? = nil, deploymentRecommendation: DeploymentRecommendation? = nil, enableNetworkIsolation: Bool? = nil, executionRoleArn: String? = nil, inferenceExecutionConfig: InferenceExecutionConfig? = nil, modelArn: String? = nil, modelName: String? = nil, primaryContainer: ContainerDefinition? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.creationTime = creationTime
@@ -16141,6 +16546,7 @@ extension SageMaker {
         /// The name of the model group to describe.
         public let modelPackageGroupName: String?
 
+        @inlinable
         public init(modelPackageGroupName: String? = nil) {
             self.modelPackageGroupName = modelPackageGroupName
         }
@@ -16169,6 +16575,7 @@ extension SageMaker {
         /// The status of the model group.
         public let modelPackageGroupStatus: ModelPackageGroupStatus?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, modelPackageGroupArn: String? = nil, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageGroupStatus: ModelPackageGroupStatus? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -16192,6 +16599,7 @@ extension SageMaker {
         /// The name or Amazon Resource Name (ARN) of the model package to describe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
         public let modelPackageName: String?
 
+        @inlinable
         public init(modelPackageName: String? = nil) {
             self.modelPackageName = modelPackageName
         }
@@ -16264,6 +16672,7 @@ extension SageMaker {
         /// Configurations for one or more transform jobs that SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
+        @inlinable
         public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.approvalDescription = approvalDescription
@@ -16333,6 +16742,7 @@ extension SageMaker {
         /// The name of the model quality job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let jobDefinitionName: String?
 
+        @inlinable
         public init(jobDefinitionName: String? = nil) {
             self.jobDefinitionName = jobDefinitionName
         }
@@ -16369,6 +16779,7 @@ extension SageMaker {
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
 
+        @inlinable
         public init(creationTime: Date? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, jobResources: MonitoringResources? = nil, modelQualityAppSpecification: ModelQualityAppSpecification? = nil, modelQualityBaselineConfig: ModelQualityBaselineConfig? = nil, modelQualityJobInput: ModelQualityJobInput? = nil, modelQualityJobOutputConfig: MonitoringOutputConfig? = nil, networkConfig: MonitoringNetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil) {
             self.creationTime = creationTime
             self.jobDefinitionArn = jobDefinitionArn
@@ -16402,6 +16813,7 @@ extension SageMaker {
         /// Name of a previously created monitoring schedule.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(monitoringScheduleName: String? = nil) {
             self.monitoringScheduleName = monitoringScheduleName
         }
@@ -16439,6 +16851,7 @@ extension SageMaker {
         /// The type of the monitoring job that this schedule runs. This is one of the following values.    DATA_QUALITY - The schedule is for a data quality monitoring job.    MODEL_QUALITY - The schedule is for a model quality monitoring job.    MODEL_BIAS - The schedule is for a bias monitoring job.    MODEL_EXPLAINABILITY - The schedule is for an explainability monitoring job.
         public let monitoringType: MonitoringType?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -16470,6 +16883,7 @@ extension SageMaker {
         /// The name of the notebook instance that you want information about.
         public let notebookInstanceName: String?
 
+        @inlinable
         public init(notebookInstanceName: String? = nil) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -16488,6 +16902,7 @@ extension SageMaker {
         /// The name of the lifecycle configuration to describe.
         public let notebookInstanceLifecycleConfigName: String?
 
+        @inlinable
         public init(notebookInstanceLifecycleConfigName: String? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         }
@@ -16516,6 +16931,7 @@ extension SageMaker {
         /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance.
         public let onStart: [NotebookInstanceLifecycleHook]?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, notebookInstanceLifecycleConfigArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -16581,6 +16997,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to the notebook instance.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -16636,6 +17053,7 @@ extension SageMaker {
         /// The name that you assigned to the optimization job.
         public let optimizationJobName: String?
 
+        @inlinable
         public init(optimizationJobName: String? = nil) {
             self.optimizationJobName = optimizationJobName
         }
@@ -16686,6 +17104,7 @@ extension SageMaker {
         /// A VPC in Amazon VPC that your optimized model has access to.
         public let vpcConfig: OptimizationVpcConfig?
 
+        @inlinable
         public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEndTime: Date? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationOutput: OptimizationOutput? = nil, optimizationStartTime: Date? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
             self.creationTime = creationTime
             self.deploymentInstanceType = deploymentInstanceType
@@ -16731,6 +17150,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -16751,6 +17171,7 @@ extension SageMaker {
         /// The JSON pipeline definition.
         public let pipelineDefinition: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, pipelineDefinition: String? = nil) {
             self.creationTime = creationTime
             self.pipelineDefinition = pipelineDefinition
@@ -16766,6 +17187,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -16805,6 +17227,7 @@ extension SageMaker {
         /// The selective execution configuration applied to the pipeline run.
         public let selectiveExecutionConfig: SelectiveExecutionConfig?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -16842,6 +17265,7 @@ extension SageMaker {
         /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
         public let pipelineName: String?
 
+        @inlinable
         public init(pipelineName: String? = nil) {
             self.pipelineName = pipelineName
         }
@@ -16883,6 +17307,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
         public let roleArn: String?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineDefinition: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -16920,6 +17345,7 @@ extension SageMaker {
         /// The name of the processing job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let processingJobName: String?
 
+        @inlinable
         public init(processingJobName: String? = nil) {
             self.processingJobName = processingJobName
         }
@@ -16979,6 +17405,7 @@ extension SageMaker {
         /// The ARN of a training job associated with this processing job.
         public let trainingJobArn: String?
 
+        @inlinable
         public init(appSpecification: AppSpecification? = nil, autoMLJobArn: String? = nil, creationTime: Date? = nil, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: Date? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String? = nil, processingJobName: String? = nil, processingJobStatus: ProcessingJobStatus? = nil, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources? = nil, processingStartTime: Date? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, trainingJobArn: String? = nil) {
             self.appSpecification = appSpecification
             self.autoMLJobArn = autoMLJobArn
@@ -17032,6 +17459,7 @@ extension SageMaker {
         /// The name of the project to describe.
         public let projectName: String?
 
+        @inlinable
         public init(projectName: String? = nil) {
             self.projectName = projectName
         }
@@ -17069,6 +17497,7 @@ extension SageMaker {
         /// Information used to provision a service catalog product. For information, see What is Amazon Web Services Service Catalog.
         public let serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -17104,6 +17533,7 @@ extension SageMaker {
         /// The name of the space.
         public let spaceName: String?
 
+        @inlinable
         public init(domainId: String? = nil, spaceName: String? = nil) {
             self.domainId = domainId
             self.spaceName = spaceName
@@ -17150,6 +17580,7 @@ extension SageMaker {
         /// Returns the URL of the space. If the space is created with Amazon Web Services IAM Identity Center (Successor to Amazon Web Services Single Sign-On) authentication, users can navigate to the URL after appending the respective redirect parameter for the application type to be federated through Amazon Web Services IAM Identity Center. The following application types are supported:   Studio Classic: &redirect=JupyterServer    JupyterLab: &redirect=JupyterLab    Code Editor, based on Code-OSS, Visual Studio Code - Open Source: &redirect=CodeEditor
         public let url: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, homeEfsFileSystemUid: String? = nil, lastModifiedTime: Date? = nil, ownershipSettings: OwnershipSettings? = nil, spaceArn: String? = nil, spaceDisplayName: String? = nil, spaceName: String? = nil, spaceSettings: SpaceSettings? = nil, spaceSharingSettings: SpaceSharingSettings? = nil, status: SpaceStatus? = nil, url: String? = nil) {
             self.creationTime = creationTime
             self.domainId = domainId
@@ -17187,6 +17618,7 @@ extension SageMaker {
         /// The name of the Amazon SageMaker Studio Lifecycle Configuration to describe.
         public let studioLifecycleConfigName: String?
 
+        @inlinable
         public init(studioLifecycleConfigName: String? = nil) {
             self.studioLifecycleConfigName = studioLifecycleConfigName
         }
@@ -17215,6 +17647,7 @@ extension SageMaker {
         /// The name of the Amazon SageMaker Studio Lifecycle Configuration that is described.
         public let studioLifecycleConfigName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, studioLifecycleConfigAppType: StudioLifecycleConfigAppType? = nil, studioLifecycleConfigArn: String? = nil, studioLifecycleConfigContent: String? = nil, studioLifecycleConfigName: String? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -17238,6 +17671,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the subscribed work team to describe.
         public let workteamArn: String?
 
+        @inlinable
         public init(workteamArn: String? = nil) {
             self.workteamArn = workteamArn
         }
@@ -17256,6 +17690,7 @@ extension SageMaker {
         /// A Workteam instance that contains information about the work team.
         public let subscribedWorkteam: SubscribedWorkteam?
 
+        @inlinable
         public init(subscribedWorkteam: SubscribedWorkteam? = nil) {
             self.subscribedWorkteam = subscribedWorkteam
         }
@@ -17269,6 +17704,7 @@ extension SageMaker {
         /// The name of the training job.
         public let trainingJobName: String?
 
+        @inlinable
         public init(trainingJobName: String? = nil) {
             self.trainingJobName = trainingJobName
         }
@@ -17367,6 +17803,7 @@ extension SageMaker {
         /// The status of the warm pool associated with the training job.
         public let warmPoolStatus: WarmPoolStatus?
 
+        @inlinable
         public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil, warmPoolStatus: WarmPoolStatus? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
@@ -17464,6 +17901,7 @@ extension SageMaker {
         /// The name of the transform job that you want to view details of.
         public let transformJobName: String?
 
+        @inlinable
         public init(transformJobName: String? = nil) {
             self.transformJobName = transformJobName
         }
@@ -17521,6 +17959,7 @@ extension SageMaker {
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
         public let transformStartTime: Date?
 
+        @inlinable
         public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: Date? = nil, dataCaptureConfig: BatchDataCaptureConfig? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String? = nil, transformEndTime: Date? = nil, transformInput: TransformInput? = nil, transformJobArn: String? = nil, transformJobName: String? = nil, transformJobStatus: TransformJobStatus? = nil, transformOutput: TransformOutput? = nil, transformResources: TransformResources? = nil, transformStartTime: Date? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
@@ -17574,6 +18013,7 @@ extension SageMaker {
         /// The name of the trial component to describe.
         public let trialComponentName: String?
 
+        @inlinable
         public init(trialComponentName: String? = nil) {
             self.trialComponentName = trialComponentName
         }
@@ -17626,6 +18066,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, source: TrialComponentSource? = nil, sources: [TrialComponentSource]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -17673,6 +18114,7 @@ extension SageMaker {
         /// The name of the trial to describe.
         public let trialName: String?
 
+        @inlinable
         public init(trialName: String? = nil) {
             self.trialName = trialName
         }
@@ -17709,6 +18151,7 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, source: TrialSource? = nil, trialArn: String? = nil, trialName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -17742,6 +18185,7 @@ extension SageMaker {
         /// The user profile name. This value is not case sensitive.
         public let userProfileName: String?
 
+        @inlinable
         public init(domainId: String? = nil, userProfileName: String? = nil) {
             self.domainId = domainId
             self.userProfileName = userProfileName
@@ -17784,6 +18228,7 @@ extension SageMaker {
         /// A collection of settings.
         public let userSettings: UserSettings?
 
+        @inlinable
         public init(creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, homeEfsFileSystemUid: String? = nil, lastModifiedTime: Date? = nil, singleSignOnUserIdentifier: String? = nil, singleSignOnUserValue: String? = nil, status: UserProfileStatus? = nil, userProfileArn: String? = nil, userProfileName: String? = nil, userSettings: UserSettings? = nil) {
             self.creationTime = creationTime
             self.domainId = domainId
@@ -17817,6 +18262,7 @@ extension SageMaker {
         /// The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified.
         public let workforceName: String?
 
+        @inlinable
         public init(workforceName: String? = nil) {
             self.workforceName = workforceName
         }
@@ -17836,6 +18282,7 @@ extension SageMaker {
         /// A single private workforce, which is automatically created when you create your first private work team. You can create one private work force in each Amazon Web Services Region. By default, any workforce-related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
         public let workforce: Workforce?
 
+        @inlinable
         public init(workforce: Workforce? = nil) {
             self.workforce = workforce
         }
@@ -17849,6 +18296,7 @@ extension SageMaker {
         /// The name of the work team to return a description of.
         public let workteamName: String?
 
+        @inlinable
         public init(workteamName: String? = nil) {
             self.workteamName = workteamName
         }
@@ -17868,6 +18316,7 @@ extension SageMaker {
         /// A Workteam instance that contains information about the work team.
         public let workteam: Workteam?
 
+        @inlinable
         public init(workteam: Workteam? = nil) {
             self.workteam = workteam
         }
@@ -17887,6 +18336,7 @@ extension SageMaker {
         /// The name of the variant to update.
         public let variantName: String?
 
+        @inlinable
         public init(desiredInstanceCount: Int? = nil, desiredWeight: Float? = nil, serverlessUpdateConfig: ProductionVariantServerlessUpdateConfig? = nil, variantName: String? = nil) {
             self.desiredInstanceCount = desiredInstanceCount
             self.desiredWeight = desiredWeight
@@ -17918,6 +18368,7 @@ extension SageMaker {
         /// Amazon Web Services Internet of Things (IoT) object name.
         public let iotThingName: String?
 
+        @inlinable
         public init(description: String? = nil, deviceName: String? = nil, iotThingName: String? = nil) {
             self.description = description
             self.deviceName = deviceName
@@ -17966,6 +18417,7 @@ extension SageMaker {
         /// The name of the stage in the edge deployment plan.
         public let stageName: String?
 
+        @inlinable
         public init(deployedStageName: String? = nil, deploymentStartTime: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceDeploymentStatus: DeviceDeploymentStatus? = nil, deviceDeploymentStatusMessage: String? = nil, deviceFleetName: String? = nil, deviceName: String? = nil, edgeDeploymentPlanArn: String? = nil, edgeDeploymentPlanName: String? = nil, stageName: String? = nil) {
             self.deployedStageName = deployedStageName
             self.deploymentStartTime = deploymentStartTime
@@ -18005,6 +18457,7 @@ extension SageMaker {
         /// Timestamp of when the device fleet was last updated.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, deviceFleetArn: String? = nil, deviceFleetName: String? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.deviceFleetArn = deviceFleetArn
@@ -18030,6 +18483,7 @@ extension SageMaker {
         /// Percentage of devices in the fleet to deploy to the current stage.
         public let percentage: Int?
 
+        @inlinable
         public init(deviceNameContains: String? = nil, deviceNames: [String]? = nil, deviceSubsetType: DeviceSubsetType? = nil, percentage: Int? = nil) {
             self.deviceNameContains = deviceNameContains
             self.deviceNames = deviceNames
@@ -18063,6 +18517,7 @@ extension SageMaker {
         /// The number of registered devices.
         public let registeredDeviceCount: Int64?
 
+        @inlinable
         public init(connectedDeviceCount: Int64? = nil, registeredDeviceCount: Int64? = nil) {
             self.connectedDeviceCount = connectedDeviceCount
             self.registeredDeviceCount = registeredDeviceCount
@@ -18094,6 +18549,7 @@ extension SageMaker {
         /// The timestamp of the last registration or de-reregistration.
         public let registrationTime: Date?
 
+        @inlinable
         public init(agentVersion: String? = nil, description: String? = nil, deviceArn: String? = nil, deviceFleetName: String? = nil, deviceName: String? = nil, iotThingName: String? = nil, latestHeartbeat: Date? = nil, models: [EdgeModelSummary]? = nil, registrationTime: Date? = nil) {
             self.agentVersion = agentVersion
             self.description = description
@@ -18123,6 +18579,7 @@ extension SageMaker {
         /// Describes whether model deployment permissions are enabled or disabled in the Canvas application.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(status: FeatureStatus? = nil) {
             self.status = status
         }
@@ -18146,6 +18603,7 @@ extension SageMaker {
         /// The name of the trial to disassociate from.
         public let trialName: String?
 
+        @inlinable
         public init(trialComponentName: String? = nil, trialName: String? = nil) {
             self.trialComponentName = trialComponentName
             self.trialName = trialName
@@ -18172,6 +18630,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
 
+        @inlinable
         public init(trialArn: String? = nil, trialComponentArn: String? = nil) {
             self.trialArn = trialArn
             self.trialComponentArn = trialComponentArn
@@ -18189,6 +18648,7 @@ extension SageMaker {
         /// The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.
         public let vpcOnlyTrustedAccounts: [String]?
 
+        @inlinable
         public init(enableDockerAccess: FeatureStatus? = nil, vpcOnlyTrustedAccounts: [String]? = nil) {
             self.enableDockerAccess = enableDockerAccess
             self.vpcOnlyTrustedAccounts = vpcOnlyTrustedAccounts
@@ -18225,6 +18685,7 @@ extension SageMaker {
         /// The domain's URL.
         public let url: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, lastModifiedTime: Date? = nil, status: DomainStatus? = nil, url: String? = nil) {
             self.creationTime = creationTime
             self.domainArn = domainArn
@@ -18258,6 +18719,7 @@ extension SageMaker {
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public let securityGroupIds: [String]?
 
+        @inlinable
         public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettings: RStudioServerProDomainSettings? = nil, securityGroupIds: [String]? = nil) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
@@ -18298,6 +18760,7 @@ extension SageMaker {
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public let securityGroupIds: [String]?
 
+        @inlinable
         public init(amazonQSettings: AmazonQSettings? = nil, dockerSettings: DockerSettings? = nil, executionRoleIdentityConfig: ExecutionRoleIdentityConfig? = nil, rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate? = nil, securityGroupIds: [String]? = nil) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
@@ -18336,6 +18799,7 @@ extension SageMaker {
         /// Represents the drift check model quality baselines that can be used when the model monitor is set using  the model package.
         public let modelQuality: DriftCheckModelQuality?
 
+        @inlinable
         public init(bias: DriftCheckBias? = nil, explainability: DriftCheckExplainability? = nil, modelDataQuality: DriftCheckModelDataQuality? = nil, modelQuality: DriftCheckModelQuality? = nil) {
             self.bias = bias
             self.explainability = explainability
@@ -18366,6 +18830,7 @@ extension SageMaker {
         /// The pre-training constraints.
         public let preTrainingConstraints: MetricsSource?
 
+        @inlinable
         public init(configFile: FileSource? = nil, postTrainingConstraints: MetricsSource? = nil, preTrainingConstraints: MetricsSource? = nil) {
             self.configFile = configFile
             self.postTrainingConstraints = postTrainingConstraints
@@ -18391,6 +18856,7 @@ extension SageMaker {
         /// The drift check explainability constraints.
         public let constraints: MetricsSource?
 
+        @inlinable
         public init(configFile: FileSource? = nil, constraints: MetricsSource? = nil) {
             self.configFile = configFile
             self.constraints = constraints
@@ -18413,6 +18879,7 @@ extension SageMaker {
         /// The drift check model data quality statistics.
         public let statistics: MetricsSource?
 
+        @inlinable
         public init(constraints: MetricsSource? = nil, statistics: MetricsSource? = nil) {
             self.constraints = constraints
             self.statistics = statistics
@@ -18435,6 +18902,7 @@ extension SageMaker {
         /// The drift check model quality statistics.
         public let statistics: MetricsSource?
 
+        @inlinable
         public init(constraints: MetricsSource? = nil, statistics: MetricsSource? = nil) {
             self.constraints = constraints
             self.statistics = statistics
@@ -18463,6 +18931,7 @@ extension SageMaker {
         /// An object of the scaling policies for each metric.
         public let scalingPolicies: [ScalingPolicy]?
 
+        @inlinable
         public init(maxCapacity: Int? = nil, minCapacity: Int? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -18484,6 +18953,7 @@ extension SageMaker {
         /// The ID of your Amazon EFS file system.
         public let fileSystemId: String?
 
+        @inlinable
         public init(fileSystemId: String? = nil) {
             self.fileSystemId = fileSystemId
         }
@@ -18505,6 +18975,7 @@ extension SageMaker {
         /// The path to the file system directory that is accessible in Amazon SageMaker Studio. Permitted users can access only this directory and below.
         public let fileSystemPath: String?
 
+        @inlinable
         public init(fileSystemId: String? = nil, fileSystemPath: String? = nil) {
             self.fileSystemId = fileSystemId
             self.fileSystemPath = fileSystemPath
@@ -18535,6 +19006,7 @@ extension SageMaker {
         /// The name of the EMR cluster step.
         public let stepName: String?
 
+        @inlinable
         public init(clusterId: String? = nil, logFilePath: String? = nil, stepId: String? = nil, stepName: String? = nil) {
             self.clusterId = clusterId
             self.logFilePath = logFilePath
@@ -18554,6 +19026,7 @@ extension SageMaker {
         /// The size of an EBS storage volume for a space.
         public let ebsVolumeSizeInGb: Int?
 
+        @inlinable
         public init(ebsVolumeSizeInGb: Int? = nil) {
             self.ebsVolumeSizeInGb = ebsVolumeSizeInGb
         }
@@ -18576,6 +19049,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the source lineage entity of the directed edge.
         public let sourceArn: String?
 
+        @inlinable
         public init(associationType: AssociationEdgeType? = nil, destinationArn: String? = nil, sourceArn: String? = nil) {
             self.associationType = associationType
             self.destinationArn = destinationArn
@@ -18593,6 +19067,7 @@ extension SageMaker {
         /// Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself.
         public let failureHandlingPolicy: FailureHandlingPolicy?
 
+        @inlinable
         public init(failureHandlingPolicy: FailureHandlingPolicy? = nil) {
             self.failureHandlingPolicy = failureHandlingPolicy
         }
@@ -18608,6 +19083,7 @@ extension SageMaker {
         /// The name the device application uses to reference this model.
         public let modelHandle: String?
 
+        @inlinable
         public init(edgePackagingJobName: String? = nil, modelHandle: String? = nil) {
             self.edgePackagingJobName = edgePackagingJobName
             self.modelHandle = modelHandle
@@ -18646,6 +19122,7 @@ extension SageMaker {
         /// The time when the edge deployment plan was last updated.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, deviceFleetName: String? = nil, edgeDeploymentFailed: Int? = nil, edgeDeploymentPending: Int? = nil, edgeDeploymentPlanArn: String? = nil, edgeDeploymentPlanName: String? = nil, edgeDeploymentSuccess: Int? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.deviceFleetName = deviceFleetName
@@ -18683,6 +19160,7 @@ extension SageMaker {
         /// The general status of the current stage.
         public let stageStatus: StageStatus?
 
+        @inlinable
         public init(edgeDeploymentFailedInStage: Int? = nil, edgeDeploymentPendingInStage: Int? = nil, edgeDeploymentStageStartTime: Date? = nil, edgeDeploymentStatusMessage: String? = nil, edgeDeploymentSuccessInStage: Int? = nil, stageStatus: StageStatus? = nil) {
             self.edgeDeploymentFailedInStage = edgeDeploymentFailedInStage
             self.edgeDeploymentPendingInStage = edgeDeploymentPendingInStage
@@ -18712,6 +19190,7 @@ extension SageMaker {
         /// The model version.
         public let modelVersion: String?
 
+        @inlinable
         public init(latestInference: Date? = nil, latestSampleTime: Date? = nil, modelName: String? = nil, modelVersion: String? = nil) {
             self.latestInference = latestInference
             self.latestSampleTime = latestSampleTime
@@ -18741,6 +19220,7 @@ extension SageMaker {
         /// The number of devices with this model version and are producing sample data.
         public let samplingDeviceCount: Int64?
 
+        @inlinable
         public init(activeDeviceCount: Int64? = nil, connectedDeviceCount: Int64? = nil, modelName: String? = nil, modelVersion: String? = nil, offlineDeviceCount: Int64? = nil, samplingDeviceCount: Int64? = nil) {
             self.activeDeviceCount = activeDeviceCount
             self.connectedDeviceCount = connectedDeviceCount
@@ -18766,6 +19246,7 @@ extension SageMaker {
         /// The version model.
         public let modelVersion: String?
 
+        @inlinable
         public init(modelName: String? = nil, modelVersion: String? = nil) {
             self.modelName = modelName
             self.modelVersion = modelVersion
@@ -18787,6 +19268,7 @@ extension SageMaker {
         /// The Amazon Simple Storage (S3) bucker URI.
         public let s3OutputLocation: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, presetDeploymentConfig: String? = nil, presetDeploymentType: EdgePresetDeploymentType? = nil, s3OutputLocation: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.presetDeploymentConfig = presetDeploymentConfig
@@ -18827,6 +19309,7 @@ extension SageMaker {
         /// The version of the model.
         public let modelVersion: String?
 
+        @inlinable
         public init(compilationJobName: String? = nil, creationTime: Date? = nil, edgePackagingJobArn: String? = nil, edgePackagingJobName: String? = nil, edgePackagingJobStatus: EdgePackagingJobStatus? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelVersion: String? = nil) {
             self.compilationJobName = compilationJobName
             self.creationTime = creationTime
@@ -18860,6 +19343,7 @@ extension SageMaker {
         /// The deployment type created by SageMaker Edge Manager. Currently only  supports Amazon Web Services IoT Greengrass Version 2 components.
         public let type: EdgePresetDeploymentType?
 
+        @inlinable
         public init(artifact: String? = nil, status: EdgePresetDeploymentStatus? = nil, statusMessage: String? = nil, type: EdgePresetDeploymentType? = nil) {
             self.artifact = artifact
             self.status = status
@@ -18879,6 +19363,7 @@ extension SageMaker {
         /// The ARN of the IAM role granting the AutoML job V2 the necessary permissions access policies to list, connect to, or manage EMR Serverless jobs. For detailed information about the required permissions of this role, see "How to configure AutoML to initiate a remote job on EMR Serverless for large datasets" in Create a regression or classification job for tabular data using the AutoML API or Create an AutoML job for time-series forecasting using the API.
         public let executionRoleARN: String?
 
+        @inlinable
         public init(executionRoleARN: String? = nil) {
             self.executionRoleARN = executionRoleARN
         }
@@ -18900,6 +19385,7 @@ extension SageMaker {
         /// Describes whether Amazon EMR Serverless job capabilities are enabled or disabled in the SageMaker Canvas application.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(executionRoleArn: String? = nil, status: FeatureStatus? = nil) {
             self.executionRoleArn = executionRoleArn
             self.status = status
@@ -18923,6 +19409,7 @@ extension SageMaker {
         /// An array of Amazon Resource Names (ARNs) of the IAM roles used by the Amazon EMR cluster instances or job execution environments to access other Amazon Web Services services and resources needed during the  runtime of your Amazon EMR or Amazon EMR Serverless workloads, such as Amazon S3 for data access, Amazon CloudWatch for logging, or other Amazon Web Services services based on the particular workload requirements.
         public let executionRoleArns: [String]?
 
+        @inlinable
         public init(assumableRoleArns: [String]? = nil, executionRoleArns: [String]? = nil) {
             self.assumableRoleArns = assumableRoleArns
             self.executionRoleArns = executionRoleArns
@@ -18982,6 +19469,7 @@ extension SageMaker {
         /// A list of the tags associated with the endpoint. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String? = nil, endpointConfigName: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, monitoringSchedules: [MonitoringSchedule]? = nil, productionVariants: [ProductionVariantSummary]? = nil, shadowProductionVariants: [ProductionVariantSummary]? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
@@ -19017,6 +19505,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the endpoint configuration used in the step.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -19034,6 +19523,7 @@ extension SageMaker {
         /// The name of the endpoint configuration.
         public let endpointConfigName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointConfigArn: String? = nil, endpointConfigName: String? = nil) {
             self.creationTime = creationTime
             self.endpointConfigArn = endpointConfigArn
@@ -19051,6 +19541,7 @@ extension SageMaker {
         /// The name of a customer's endpoint.
         public let endpointName: String?
 
+        @inlinable
         public init(endpointName: String? = nil) {
             self.endpointName = endpointName
         }
@@ -19089,6 +19580,7 @@ extension SageMaker {
         /// If specified, monitoring jobs substract this time from the start time. For information about using offsets for scheduling monitoring jobs, see Schedule Model Quality Monitoring Jobs.
         public let startTimeOffset: String?
 
+        @inlinable
         public init(endpointName: String? = nil, endTimeOffset: String? = nil, excludeFeaturesAttribute: String? = nil, featuresAttribute: String? = nil, inferenceAttribute: String? = nil, localPath: String? = nil, probabilityAttribute: String? = nil, probabilityThresholdAttribute: Double? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3InputMode: ProcessingS3InputMode? = nil, startTimeOffset: String? = nil) {
             self.endpointName = endpointName
             self.endTimeOffset = endTimeOffset
@@ -19141,6 +19633,7 @@ extension SageMaker {
         public let instanceType: ProductionVariantInstanceType?
         public let serverlessConfig: ProductionVariantServerlessConfig?
 
+        @inlinable
         public init(environmentParameterRanges: EnvironmentParameterRanges? = nil, inferenceSpecificationName: String? = nil, instanceType: ProductionVariantInstanceType? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil) {
             self.environmentParameterRanges = environmentParameterRanges
             self.inferenceSpecificationName = inferenceSpecificationName
@@ -19174,6 +19667,7 @@ extension SageMaker {
         ///  If the status of the endpoint is Failed, or the status is InService but update operation fails, this provides the reason why it failed.
         public let failureReason: String?
 
+        @inlinable
         public init(endpointConfigName: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, failureReason: String? = nil) {
             self.endpointConfigName = endpointConfigName
             self.endpointName = endpointName
@@ -19200,6 +19694,7 @@ extension SageMaker {
         /// The name of the production variant (deployed model) made during a recommendation job.
         public let variantName: String?
 
+        @inlinable
         public init(endpointName: String? = nil, initialInstanceCount: Int? = nil, instanceType: ProductionVariantInstanceType? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String? = nil) {
             self.endpointName = endpointName
             self.initialInstanceCount = initialInstanceCount
@@ -19222,6 +19717,7 @@ extension SageMaker {
         /// The metrics for an existing endpoint.
         public let metrics: InferenceMetrics?
 
+        @inlinable
         public init(endpointInfo: EndpointInfo? = nil, metrics: InferenceMetrics? = nil) {
             self.endpointInfo = endpointInfo
             self.metrics = metrics
@@ -19237,6 +19733,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the endpoint in the step.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -19258,6 +19755,7 @@ extension SageMaker {
         /// A timestamp that shows when the endpoint was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointArn: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
@@ -19283,6 +19781,7 @@ extension SageMaker {
         /// The value type suggested by the Amazon SageMaker Inference Recommender.
         public let valueType: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil, valueType: String? = nil) {
             self.key = key
             self.value = value
@@ -19300,6 +19799,7 @@ extension SageMaker {
         /// Specified a list of parameters for each category.
         public let categoricalParameterRanges: [CategoricalParameter]?
 
+        @inlinable
         public init(categoricalParameterRanges: [CategoricalParameter]? = nil) {
             self.categoricalParameterRanges = categoricalParameterRanges
         }
@@ -19337,6 +19837,7 @@ extension SageMaker {
         /// The list of tags that are associated with the experiment. You can use Search API to search on the tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, source: ExperimentSource? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -19374,6 +19875,7 @@ extension SageMaker {
         /// The name of an existing trial to associate the trial component with. If not specified, a new trial is created.
         public let trialName: String?
 
+        @inlinable
         public init(experimentName: String? = nil, runName: String? = nil, trialComponentDisplayName: String? = nil, trialName: String? = nil) {
             self.experimentName = experimentName
             self.runName = runName
@@ -19410,6 +19912,7 @@ extension SageMaker {
         /// The source type.
         public let sourceType: String?
 
+        @inlinable
         public init(sourceArn: String? = nil, sourceType: String? = nil) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
@@ -19434,6 +19937,7 @@ extension SageMaker {
         /// When the experiment was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, displayName: String? = nil, experimentArn: String? = nil, experimentName: String? = nil, experimentSource: ExperimentSource? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.displayName = displayName
@@ -19457,6 +19961,7 @@ extension SageMaker {
         /// The explainability report for a model.
         public let report: MetricsSource?
 
+        @inlinable
         public init(report: MetricsSource? = nil) {
             self.report = report
         }
@@ -19474,6 +19979,7 @@ extension SageMaker {
         /// A member of ExplainerConfig that contains configuration parameters for the SageMaker Clarify explainer.
         public let clarifyExplainerConfig: ClarifyExplainerConfig?
 
+        @inlinable
         public init(clarifyExplainerConfig: ClarifyExplainerConfig? = nil) {
             self.clarifyExplainerConfig = clarifyExplainerConfig
         }
@@ -19491,6 +19997,7 @@ extension SageMaker {
         /// A message that you define and then is processed and rendered by  the Fail step when the error occurs.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorMessage: String? = nil) {
             self.errorMessage = errorMessage
         }
@@ -19510,6 +20017,7 @@ extension SageMaker {
         /// The value type of a feature. Valid values are Integral, Fractional, or String.
         public let featureType: FeatureType?
 
+        @inlinable
         public init(collectionConfig: CollectionConfig? = nil, collectionType: CollectionType? = nil, featureName: String? = nil, featureType: FeatureType? = nil) {
             self.collectionConfig = collectionConfig
             self.collectionType = collectionType
@@ -19563,6 +20071,7 @@ extension SageMaker {
         /// Tags used to define a FeatureGroup.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, eventTimeFeatureName: String? = nil, failureReason: String? = nil, featureDefinitions: [FeatureDefinition]? = nil, featureGroupArn: String? = nil, featureGroupName: String? = nil, featureGroupStatus: FeatureGroupStatus? = nil, lastModifiedTime: Date? = nil, lastUpdateStatus: LastUpdateStatus? = nil, offlineStoreConfig: OfflineStoreConfig? = nil, offlineStoreStatus: OfflineStoreStatus? = nil, onlineStoreConfig: OnlineStoreConfig? = nil, recordIdentifierFeatureName: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -19614,6 +20123,7 @@ extension SageMaker {
         /// Notifies you if replicating data into the OfflineStore has failed. Returns either: Active or Blocked.
         public let offlineStoreStatus: OfflineStoreStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, featureGroupArn: String? = nil, featureGroupName: String? = nil, featureGroupStatus: FeatureGroupStatus? = nil, offlineStoreStatus: OfflineStoreStatus? = nil) {
             self.creationTime = creationTime
             self.featureGroupArn = featureGroupArn
@@ -19649,6 +20159,7 @@ extension SageMaker {
         /// Optional key-value pairs that you specify to better describe the feature.
         public let parameters: [FeatureParameter]?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, featureGroupArn: String? = nil, featureGroupName: String? = nil, featureName: String? = nil, featureType: FeatureType? = nil, lastModifiedTime: Date? = nil, parameters: [FeatureParameter]? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -19678,6 +20189,7 @@ extension SageMaker {
         /// The value that belongs to a key.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -19706,6 +20218,7 @@ extension SageMaker {
         /// The Amazon S3 URI for the file source.
         public let s3Uri: String?
 
+        @inlinable
         public init(contentDigest: String? = nil, contentType: String? = nil, s3Uri: String? = nil) {
             self.contentDigest = contentDigest
             self.contentType = contentType
@@ -19736,6 +20249,7 @@ extension SageMaker {
         /// The path within the image to mount the user's EFS home directory. The directory should be empty. If not specified, defaults to /home/sagemaker-user.
         public let mountPath: String?
 
+        @inlinable
         public init(defaultGid: Int? = nil, defaultUid: Int? = nil, mountPath: String? = nil) {
             self.defaultGid = defaultGid
             self.defaultUid = defaultUid
@@ -19768,6 +20282,7 @@ extension SageMaker {
         /// The file system type.
         public let fileSystemType: FileSystemType?
 
+        @inlinable
         public init(directoryPath: String? = nil, fileSystemAccessMode: FileSystemAccessMode? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil) {
             self.directoryPath = directoryPath
             self.fileSystemAccessMode = fileSystemAccessMode
@@ -19799,6 +20314,7 @@ extension SageMaker {
         /// A value used with Name and Operator to determine which resources satisfy the filter's condition. For numerical properties, Value must be an integer or floating-point decimal. For timestamp properties, Value must be an ISO 8601 date-time string of the following format: YYYY-mm-dd'T'HH:MM:SS.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, operator: Operator? = nil, value: String? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -19831,6 +20347,7 @@ extension SageMaker {
         /// The value of the metric with the best result.
         public let value: Float?
 
+        @inlinable
         public init(metricName: AutoMLMetricEnum? = nil, standardMetricName: AutoMLMetricEnum? = nil, type: AutoMLJobObjectiveType? = nil, value: Float? = nil) {
             self.metricName = metricName
             self.standardMetricName = standardMetricName
@@ -19854,6 +20371,7 @@ extension SageMaker {
         /// The value of the objective metric.
         public let value: Float?
 
+        @inlinable
         public init(metricName: String? = nil, type: HyperParameterTuningJobObjectiveType? = nil, value: Float? = nil) {
             self.metricName = metricName
             self.type = type
@@ -19873,6 +20391,7 @@ extension SageMaker {
         /// The Amazon S3 path where the object containing human output will be made available. To learn more about the format of Amazon A2I output data, see Amazon A2I Output Data.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3OutputPath: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -19903,6 +20422,7 @@ extension SageMaker {
         /// The status of the flow definition. Valid values:
         public let flowDefinitionStatus: FlowDefinitionStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, flowDefinitionArn: String? = nil, flowDefinitionName: String? = nil, flowDefinitionStatus: FlowDefinitionStatus? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -19924,6 +20444,7 @@ extension SageMaker {
         /// The ARN of an Amazon Web Services IAM role that allows fine-tuning of large language models (LLMs) in Amazon Bedrock. The IAM role should have Amazon S3 read and write permissions, as well as a trust relationship that establishes bedrock.amazonaws.com as a service principal.
         public let amazonBedrockRoleArn: String?
 
+        @inlinable
         public init(amazonBedrockRoleArn: String? = nil) {
             self.amazonBedrockRoleArn = amazonBedrockRoleArn
         }
@@ -19943,6 +20464,7 @@ extension SageMaker {
         /// The name of the fleet.
         public let deviceFleetName: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil) {
             self.deviceFleetName = deviceFleetName
         }
@@ -19976,6 +20498,7 @@ extension SageMaker {
         /// Timestamp of when the report was generated.
         public let reportGenerated: Date?
 
+        @inlinable
         public init(agentVersions: [AgentVersion]? = nil, description: String? = nil, deviceFleetArn: String? = nil, deviceFleetName: String? = nil, deviceStats: DeviceStats? = nil, modelStats: [EdgeModelStat]? = nil, outputConfig: EdgeOutputConfig? = nil, reportGenerated: Date? = nil) {
             self.agentVersions = agentVersions
             self.description = description
@@ -20003,6 +20526,7 @@ extension SageMaker {
         /// The name or Amazon Resource Name (ARN) of the lineage group.
         public let lineageGroupName: String?
 
+        @inlinable
         public init(lineageGroupName: String? = nil) {
             self.lineageGroupName = lineageGroupName
         }
@@ -20024,6 +20548,7 @@ extension SageMaker {
         /// The resource policy that gives access to the lineage group in another account.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(lineageGroupArn: String? = nil, resourcePolicy: String? = nil) {
             self.lineageGroupArn = lineageGroupArn
             self.resourcePolicy = resourcePolicy
@@ -20039,6 +20564,7 @@ extension SageMaker {
         /// The name of the model group for which to get the resource policy.
         public let modelPackageGroupName: String?
 
+        @inlinable
         public init(modelPackageGroupName: String? = nil) {
             self.modelPackageGroupName = modelPackageGroupName
         }
@@ -20058,6 +20584,7 @@ extension SageMaker {
         /// The resource policy for the model group.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(resourcePolicy: String? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -20075,6 +20602,7 @@ extension SageMaker {
         /// Whether Service Catalog is enabled or disabled in SageMaker.
         public let status: SagemakerServicecatalogStatus?
 
+        @inlinable
         public init(status: SagemakerServicecatalogStatus? = nil) {
             self.status = status
         }
@@ -20096,6 +20624,7 @@ extension SageMaker {
         /// The percentage of how much utilization you want an instance to use before autoscaling. The default value is 50%.
         public let targetCpuUtilizationPerCore: Int?
 
+        @inlinable
         public init(endpointName: String? = nil, inferenceRecommendationsJobName: String? = nil, recommendationId: String? = nil, scalingPolicyObjective: ScalingPolicyObjective? = nil, targetCpuUtilizationPerCore: Int? = nil) {
             self.endpointName = endpointName
             self.inferenceRecommendationsJobName = inferenceRecommendationsJobName
@@ -20139,6 +20668,7 @@ extension SageMaker {
         /// The percentage of how much utilization you want an instance to use before autoscaling, which you specified in the request. The default value is 50%.
         public let targetCpuUtilizationPerCore: Int?
 
+        @inlinable
         public init(dynamicScalingConfiguration: DynamicScalingConfiguration? = nil, endpointName: String? = nil, inferenceRecommendationsJobName: String? = nil, metric: ScalingPolicyMetric? = nil, recommendationId: String? = nil, scalingPolicyObjective: ScalingPolicyObjective? = nil, targetCpuUtilizationPerCore: Int? = nil) {
             self.dynamicScalingConfiguration = dynamicScalingConfiguration
             self.endpointName = endpointName
@@ -20166,6 +20696,7 @@ extension SageMaker {
         /// Limits the property names that are included in the response.
         public let suggestionQuery: SuggestionQuery?
 
+        @inlinable
         public init(resource: ResourceType? = nil, suggestionQuery: SuggestionQuery? = nil) {
             self.resource = resource
             self.suggestionQuery = suggestionQuery
@@ -20185,6 +20716,7 @@ extension SageMaker {
         /// A list of property names for a Resource that match a SuggestionQuery.
         public let propertyNameSuggestions: [PropertyNameSuggestion]?
 
+        @inlinable
         public init(propertyNameSuggestions: [PropertyNameSuggestion]? = nil) {
             self.propertyNameSuggestions = propertyNameSuggestions
         }
@@ -20202,6 +20734,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
         public let secretArn: String?
 
+        @inlinable
         public init(branch: String? = nil, repositoryUrl: String? = nil, secretArn: String? = nil) {
             self.branch = branch
             self.repositoryUrl = repositoryUrl
@@ -20231,6 +20764,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
         public let secretArn: String?
 
+        @inlinable
         public init(secretArn: String? = nil) {
             self.secretArn = secretArn
         }
@@ -20250,6 +20784,7 @@ extension SageMaker {
         /// The country code for the holiday calendar. For the list of public holiday calendars supported by AutoML job V2, see Country Codes. Use the country code corresponding to the country of your choice.
         public let countryCode: String?
 
+        @inlinable
         public init(countryCode: String? = nil) {
             self.countryCode = countryCode
         }
@@ -20271,6 +20806,7 @@ extension SageMaker {
         /// The hub content dependency origin path.
         public let dependencyOriginPath: String?
 
+        @inlinable
         public init(dependencyCopyPath: String? = nil, dependencyOriginPath: String? = nil) {
             self.dependencyCopyPath = dependencyCopyPath
             self.dependencyOriginPath = dependencyOriginPath
@@ -20310,6 +20846,7 @@ extension SageMaker {
         /// The support status of the hub content.
         public let supportStatus: HubContentSupportStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, documentSchemaVersion: String? = nil, hubContentArn: String? = nil, hubContentDescription: String? = nil, hubContentDisplayName: String? = nil, hubContentName: String? = nil, hubContentSearchKeywords: [String]? = nil, hubContentStatus: HubContentStatus? = nil, hubContentType: HubContentType? = nil, hubContentVersion: String? = nil, originalCreationTime: Date? = nil, sageMakerPublicHubContentArn: String? = nil, supportStatus: HubContentSupportStatus? = nil) {
             self.creationTime = creationTime
             self.documentSchemaVersion = documentSchemaVersion
@@ -20361,6 +20898,7 @@ extension SageMaker {
         /// The date and time that the hub was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, hubArn: String? = nil, hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String? = nil, hubSearchKeywords: [String]? = nil, hubStatus: HubStatus? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.hubArn = hubArn
@@ -20388,6 +20926,7 @@ extension SageMaker {
         /// The Amazon S3 bucket prefix for hosting hub content.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(s3OutputPath: String? = nil) {
             self.s3OutputPath = s3OutputPath
         }
@@ -20406,6 +20945,7 @@ extension SageMaker {
         /// JSON expressing use-case specific conditions declaratively. If any condition is matched, atomic tasks are created against the configured work team.  The set of conditions is different for Rekognition and Textract. For more information about how to structure the JSON, see  JSON Schema for Human Loop Activation Conditions in Amazon Augmented AI  in the Amazon SageMaker Developer Guide.
         public let humanLoopActivationConditions: String?
 
+        @inlinable
         public init(humanLoopActivationConditions: String? = nil) {
             self.humanLoopActivationConditions = humanLoopActivationConditions
         }
@@ -20423,6 +20963,7 @@ extension SageMaker {
         /// Container structure for defining under what conditions SageMaker creates a human loop.
         public let humanLoopActivationConditionsConfig: HumanLoopActivationConditionsConfig?
 
+        @inlinable
         public init(humanLoopActivationConditionsConfig: HumanLoopActivationConditionsConfig? = nil) {
             self.humanLoopActivationConditionsConfig = humanLoopActivationConditionsConfig
         }
@@ -20455,6 +20996,7 @@ extension SageMaker {
         /// Amazon Resource Name (ARN) of a team of workers. To learn more about the types of workforces and work teams you can create and use with Amazon A2I, see Create and Manage Workforces.
         public let workteamArn: String?
 
+        @inlinable
         public init(humanTaskUiArn: String? = nil, publicWorkforceTaskPrice: PublicWorkforceTaskPrice? = nil, taskAvailabilityLifetimeInSeconds: Int? = nil, taskCount: Int? = nil, taskDescription: String? = nil, taskKeywords: [String]? = nil, taskTimeLimitInSeconds: Int? = nil, taskTitle: String? = nil, workteamArn: String? = nil) {
             self.humanTaskUiArn = humanTaskUiArn
             self.publicWorkforceTaskPrice = publicWorkforceTaskPrice
@@ -20509,6 +21051,7 @@ extension SageMaker {
         /// Specifies whether Amazon Rekognition or Amazon Textract are used as the integration source.  The default field settings and JSON parsing rules are different based on the integration source. Valid values:
         public let awsManagedHumanLoopRequestSource: AwsManagedHumanLoopRequestSource?
 
+        @inlinable
         public init(awsManagedHumanLoopRequestSource: AwsManagedHumanLoopRequestSource? = nil) {
             self.awsManagedHumanLoopRequestSource = awsManagedHumanLoopRequestSource
         }
@@ -20544,6 +21087,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team assigned to complete the tasks.
         public let workteamArn: String?
 
+        @inlinable
         public init(annotationConsolidationConfig: AnnotationConsolidationConfig? = nil, maxConcurrentTaskCount: Int? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, preHumanTaskLambdaArn: String? = nil, publicWorkforceTaskPrice: PublicWorkforceTaskPrice? = nil, taskAvailabilityLifetimeInSeconds: Int? = nil, taskDescription: String? = nil, taskKeywords: [String]? = nil, taskTimeLimitInSeconds: Int? = nil, taskTitle: String? = nil, uiConfig: UiConfig? = nil, workteamArn: String? = nil) {
             self.annotationConsolidationConfig = annotationConsolidationConfig
             self.maxConcurrentTaskCount = maxConcurrentTaskCount
@@ -20612,6 +21156,7 @@ extension SageMaker {
         /// The name of the human task user interface.
         public let humanTaskUiName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, humanTaskUiArn: String? = nil, humanTaskUiName: String? = nil) {
             self.creationTime = creationTime
             self.humanTaskUiArn = humanTaskUiArn
@@ -20634,6 +21179,7 @@ extension SageMaker {
         public let trainingImage: String?
         public let trainingInputMode: TrainingInputMode?
 
+        @inlinable
         public init(algorithmName: String? = nil, metricDefinitions: [MetricDefinition]? = nil, trainingImage: String? = nil, trainingInputMode: TrainingInputMode? = nil) {
             self.algorithmName = algorithmName
             self.metricDefinitions = metricDefinitions
@@ -20677,6 +21223,7 @@ extension SageMaker {
         /// The type of this hyperparameter. The valid types are Integer, Continuous, Categorical, and FreeText.
         public let type: ParameterType?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, isRequired: Bool? = nil, isTunable: Bool? = nil, name: String? = nil, range: ParameterRange? = nil, type: ParameterType? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -20743,6 +21290,7 @@ extension SageMaker {
         /// The VpcConfig object that specifies the VPC that you want the training jobs that this hyperparameter tuning job launches to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(algorithmSpecification: HyperParameterAlgorithmSpecification? = nil, checkpointConfig: CheckpointConfig? = nil, definitionName: String? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, hyperParameterRanges: ParameterRanges? = nil, hyperParameterTuningResourceConfig: HyperParameterTuningResourceConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, staticHyperParameters: [String: String]? = nil, stoppingCondition: StoppingCondition? = nil, tuningObjective: HyperParameterTuningJobObjective? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
@@ -20850,6 +21398,7 @@ extension SageMaker {
         /// The HyperParameter tuning job that launched the training job.
         public let tuningJobName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, finalHyperParameterTuningJobObjectiveMetric: FinalHyperParameterTuningJobObjectiveMetric? = nil, objectiveStatus: ObjectiveStatus? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobDefinitionName: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, tunedHyperParameters: [String: String]? = nil, tuningJobName: String? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -20889,6 +21438,7 @@ extension SageMaker {
         /// The volume size in GB of the data to be processed for hyperparameter optimization (optional).
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceType: TrainingInstanceType? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -20913,6 +21463,7 @@ extension SageMaker {
         /// The number of training jobs launched by a tuning job that are not improving (1% or less) as measured by model performance evaluated against an objective function.
         public let numberOfTrainingJobsObjectiveNotImproving: Int?
 
+        @inlinable
         public init(convergenceDetectedTime: Date? = nil, numberOfTrainingJobsObjectiveNotImproving: Int? = nil) {
             self.convergenceDetectedTime = convergenceDetectedTime
             self.numberOfTrainingJobsObjectiveNotImproving = numberOfTrainingJobsObjectiveNotImproving
@@ -20942,6 +21493,7 @@ extension SageMaker {
         /// The tuning job's completion criteria.
         public let tuningJobCompletionCriteria: TuningJobCompletionCriteria?
 
+        @inlinable
         public init(hyperParameterTuningJobObjective: HyperParameterTuningJobObjective? = nil, parameterRanges: ParameterRanges? = nil, randomSeed: Int? = nil, resourceLimits: ResourceLimits? = nil, strategy: HyperParameterTuningJobStrategyType? = nil, strategyConfig: HyperParameterTuningJobStrategyConfig? = nil, trainingJobEarlyStoppingType: TrainingJobEarlyStoppingType? = nil, tuningJobCompletionCriteria: TuningJobCompletionCriteria? = nil) {
             self.hyperParameterTuningJobObjective = hyperParameterTuningJobObjective
             self.parameterRanges = parameterRanges
@@ -20978,6 +21530,7 @@ extension SageMaker {
         /// The wall clock runtime in seconds used by your hyperparameter tuning job.
         public let runtimeInSeconds: Int?
 
+        @inlinable
         public init(runtimeInSeconds: Int? = nil) {
             self.runtimeInSeconds = runtimeInSeconds
         }
@@ -20993,6 +21546,7 @@ extension SageMaker {
         /// Whether to minimize or maximize the objective metric.
         public let type: HyperParameterTuningJobObjectiveType?
 
+        @inlinable
         public init(metricName: String? = nil, type: HyperParameterTuningJobObjectiveType? = nil) {
             self.metricName = metricName
             self.type = type
@@ -21041,6 +21595,7 @@ extension SageMaker {
         public let tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails?
         public let warmStartConfig: HyperParameterTuningJobWarmStartConfig?
 
+        @inlinable
         public init(bestTrainingJob: HyperParameterTrainingJobSummary? = nil, consumedResources: HyperParameterTuningJobConsumedResources? = nil, creationTime: Date? = nil, failureReason: String? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String? = nil, hyperParameterTuningJobConfig: HyperParameterTuningJobConfig? = nil, hyperParameterTuningJobName: String? = nil, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus? = nil, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters? = nil, overallBestTrainingJob: HyperParameterTrainingJobSummary? = nil, tags: [Tag]? = nil, trainingJobDefinition: HyperParameterTrainingJobDefinition? = nil, trainingJobDefinitions: [HyperParameterTrainingJobDefinition]? = nil, trainingJobStatusCounters: TrainingJobStatusCounters? = nil, tuningJobCompletionDetails: HyperParameterTuningJobCompletionDetails? = nil, warmStartConfig: HyperParameterTuningJobWarmStartConfig? = nil) {
             self.bestTrainingJob = bestTrainingJob
             self.consumedResources = consumedResources
@@ -21088,6 +21643,7 @@ extension SageMaker {
         /// The configuration for the object that specifies the Hyperband strategy. This parameter is only supported for the Hyperband selection for Strategy within the HyperParameterTuningJobConfig API.
         public let hyperbandStrategyConfig: HyperbandStrategyConfig?
 
+        @inlinable
         public init(hyperbandStrategyConfig: HyperbandStrategyConfig? = nil) {
             self.hyperbandStrategyConfig = hyperbandStrategyConfig
         }
@@ -21123,6 +21679,7 @@ extension SageMaker {
         /// The TrainingJobStatusCounters object that specifies the numbers of training jobs, categorized by status, that this tuning job launched.
         public let trainingJobStatusCounters: TrainingJobStatusCounters?
 
+        @inlinable
         public init(creationTime: Date? = nil, hyperParameterTuningEndTime: Date? = nil, hyperParameterTuningJobArn: String? = nil, hyperParameterTuningJobName: String? = nil, hyperParameterTuningJobStatus: HyperParameterTuningJobStatus? = nil, lastModifiedTime: Date? = nil, objectiveStatusCounters: ObjectiveStatusCounters? = nil, resourceLimits: ResourceLimits? = nil, strategy: HyperParameterTuningJobStrategyType? = nil, trainingJobStatusCounters: TrainingJobStatusCounters? = nil) {
             self.creationTime = creationTime
             self.hyperParameterTuningEndTime = hyperParameterTuningEndTime
@@ -21156,6 +21713,7 @@ extension SageMaker {
         /// Specifies one of the following:  IDENTICAL_DATA_AND_ALGORITHM  The new hyperparameter tuning job uses the same input data and training image as the parent tuning jobs. You can change the hyperparameter ranges to search and the maximum number of training jobs that the hyperparameter tuning job launches. You cannot use a new version of the training algorithm, unless the changes in the new version do not affect the algorithm itself. For example, changes that improve logging or adding support for a different data format are allowed. You can also change hyperparameters from tunable to static, and from static to tunable, but the total number of static plus tunable hyperparameters must remain the same as it is in all parent jobs. The objective metric for the new tuning job must be the same as for all parent jobs.  TRANSFER_LEARNING  The new hyperparameter tuning job can include input data, hyperparameter ranges, maximum number of concurrent training jobs, and maximum number of training jobs that are different than those of its parent hyperparameter tuning jobs. The training image can also be a different version from the version used in the parent hyperparameter tuning job. You can also change hyperparameters from tunable to static, and from static to tunable, but the total number of static plus tunable hyperparameters must remain the same as it is in all parent jobs. The objective metric for the new tuning job must be the same as for all parent jobs.
         public let warmStartType: HyperParameterTuningJobWarmStartType?
 
+        @inlinable
         public init(parentHyperParameterTuningJobs: [ParentHyperParameterTuningJob]? = nil, warmStartType: HyperParameterTuningJobWarmStartType? = nil) {
             self.parentHyperParameterTuningJobs = parentHyperParameterTuningJobs
             self.warmStartType = warmStartType
@@ -21189,6 +21747,7 @@ extension SageMaker {
         /// The volume size in GB for the storage volume to be used in processing hyperparameter optimization jobs (optional). These volumes store model artifacts, incremental states and optionally, scratch space for training algorithms. Do not provide a value for this parameter if a value for InstanceConfigs is also specified. Some instance types have a fixed total local storage size. If you select one of these instances for training, VolumeSizeInGB cannot be greater than this total size. For a list of instance types with local instance storage and their sizes, see instance store volumes.  SageMaker supports only the General Purpose SSD (gp2) storage volume type.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(allocationStrategy: HyperParameterTuningAllocationStrategy? = nil, instanceConfigs: [HyperParameterTuningInstanceConfig]? = nil, instanceCount: Int? = nil, instanceType: TrainingInstanceType? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
             self.allocationStrategy = allocationStrategy
             self.instanceConfigs = instanceConfigs
@@ -21226,6 +21785,7 @@ extension SageMaker {
         /// The minimum number of resources (such as epochs) that can be used by a training job launched by a hyperparameter tuning job. If the value for MinResource has not been reached, the training job is not stopped by Hyperband.
         public let minResource: Int?
 
+        @inlinable
         public init(maxResource: Int? = nil, minResource: Int? = nil) {
             self.maxResource = maxResource
             self.minResource = minResource
@@ -21250,6 +21810,7 @@ extension SageMaker {
         /// The person or application which assumes the IAM identity.
         public let sourceIdentity: String?
 
+        @inlinable
         public init(arn: String? = nil, principalId: String? = nil, sourceIdentity: String? = nil) {
             self.arn = arn
             self.principalId = principalId
@@ -21269,6 +21830,7 @@ extension SageMaker {
         /// When VpcSourceIp is Enabled the worker's IP address when a task is rendered in private worker portal inside the VPC is added to the IAM policy as a Condition used to generate the Amazon S3 presigned URL. To render the task successfully Amazon S3 checks that the presigned URL is being accessed over an Amazon S3 VPC Endpoint, and that the worker's IP address matches the IP address in the IAM policy. To learn more about configuring private worker portal, see Use Amazon VPC mode from a private worker portal.
         public let vpcSourceIp: EnabledOrDisabled?
 
+        @inlinable
         public init(sourceIp: EnabledOrDisabled? = nil, vpcSourceIp: EnabledOrDisabled? = nil) {
             self.sourceIp = sourceIp
             self.vpcSourceIp = vpcSourceIp
@@ -21288,6 +21850,7 @@ extension SageMaker {
         /// Describes whether OAuth for a data source is enabled or disabled in the Canvas application.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(dataSourceName: DataSourceName? = nil, secretArn: String? = nil, status: FeatureStatus? = nil) {
             self.dataSourceName = dataSourceName
             self.secretArn = secretArn
@@ -21317,6 +21880,7 @@ extension SageMaker {
         /// The minimum value in minutes that custom idle shutdown can be set to by the user.
         public let minIdleTimeoutInMinutes: Int?
 
+        @inlinable
         public init(idleTimeoutInMinutes: Int? = nil, lifecycleManagement: LifecycleManagement? = nil, maxIdleTimeoutInMinutes: Int? = nil, minIdleTimeoutInMinutes: Int? = nil) {
             self.idleTimeoutInMinutes = idleTimeoutInMinutes
             self.lifecycleManagement = lifecycleManagement
@@ -21359,6 +21923,7 @@ extension SageMaker {
         /// When the image was last modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, displayName: String? = nil, failureReason: String? = nil, imageArn: String? = nil, imageName: String? = nil, imageStatus: ImageStatus? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -21386,6 +21951,7 @@ extension SageMaker {
         /// How long a job is allowed to run, or how many candidates a job is allowed to generate.
         public let completionCriteria: AutoMLJobCompletionCriteria?
 
+        @inlinable
         public init(completionCriteria: AutoMLJobCompletionCriteria? = nil) {
             self.completionCriteria = completionCriteria
         }
@@ -21405,6 +21971,7 @@ extension SageMaker {
         /// (Optional) Specifies an authentication configuration for the private docker registry where your model image is hosted. Specify a value for this property only if you specified Vpc as the value for the RepositoryAccessMode field, and the private Docker registry where the model image is hosted requires authentication.
         public let repositoryAuthConfig: RepositoryAuthConfig?
 
+        @inlinable
         public init(repositoryAccessMode: RepositoryAccessMode? = nil, repositoryAuthConfig: RepositoryAuthConfig? = nil) {
             self.repositoryAccessMode = repositoryAccessMode
             self.repositoryAuthConfig = repositoryAuthConfig
@@ -21436,6 +22003,7 @@ extension SageMaker {
         /// The version number.
         public let version: Int?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, imageArn: String? = nil, imageVersionArn: String? = nil, imageVersionStatus: ImageVersionStatus? = nil, lastModifiedTime: Date? = nil, version: Int? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -21481,6 +22049,7 @@ extension SageMaker {
         /// Any tags associated with the hub content.
         public let tags: [Tag]?
 
+        @inlinable
         public init(documentSchemaVersion: String? = nil, hubContentDescription: String? = nil, hubContentDisplayName: String? = nil, hubContentDocument: String? = nil, hubContentMarkdown: String? = nil, hubContentName: String? = nil, hubContentSearchKeywords: [String]? = nil, hubContentType: HubContentType? = nil, hubContentVersion: String? = nil, hubName: String? = nil, tags: [Tag]? = nil) {
             self.documentSchemaVersion = documentSchemaVersion
             self.hubContentDescription = hubContentDescription
@@ -21544,6 +22113,7 @@ extension SageMaker {
         /// The ARN of the hub content that was imported.
         public let hubContentArn: String?
 
+        @inlinable
         public init(hubArn: String? = nil, hubContentArn: String? = nil) {
             self.hubArn = hubArn
             self.hubContentArn = hubContentArn
@@ -21565,6 +22135,7 @@ extension SageMaker {
         /// The number of CPU cores to allocate to run a model that you assign to an inference component.
         public let numberOfCpuCoresRequired: Float?
 
+        @inlinable
         public init(maxMemoryRequiredInMb: Int? = nil, minMemoryRequiredInMb: Int? = nil, numberOfAcceleratorDevicesRequired: Float? = nil, numberOfCpuCoresRequired: Float? = nil) {
             self.maxMemoryRequiredInMb = maxMemoryRequiredInMb
             self.minMemoryRequiredInMb = minMemoryRequiredInMb
@@ -21595,6 +22166,7 @@ extension SageMaker {
         /// The Amazon Elastic Container Registry (Amazon ECR) path where the Docker image for the model is stored.
         public let image: String?
 
+        @inlinable
         public init(artifactUrl: String? = nil, environment: [String: String]? = nil, image: String? = nil) {
             self.artifactUrl = artifactUrl
             self.environment = environment
@@ -21629,6 +22201,7 @@ extension SageMaker {
         /// The environment variables to set in the Docker container.
         public let environment: [String: String]?
 
+        @inlinable
         public init(artifactUrl: String? = nil, deployedImage: DeployedImage? = nil, environment: [String: String]? = nil) {
             self.artifactUrl = artifactUrl
             self.deployedImage = deployedImage
@@ -21646,6 +22219,7 @@ extension SageMaker {
         /// The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference requests.
         public let copyCount: Int?
 
+        @inlinable
         public init(copyCount: Int? = nil) {
             self.copyCount = copyCount
         }
@@ -21665,6 +22239,7 @@ extension SageMaker {
         /// The number of runtime copies of the model container that you requested to deploy with the inference component.
         public let desiredCopyCount: Int?
 
+        @inlinable
         public init(currentCopyCount: Int? = nil, desiredCopyCount: Int? = nil) {
             self.currentCopyCount = currentCopyCount
             self.desiredCopyCount = desiredCopyCount
@@ -21686,6 +22261,7 @@ extension SageMaker {
         /// Settings that take effect while the model container starts up.
         public let startupParameters: InferenceComponentStartupParameters?
 
+        @inlinable
         public init(computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecification? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
@@ -21719,6 +22295,7 @@ extension SageMaker {
         /// Settings that take effect while the model container starts up.
         public let startupParameters: InferenceComponentStartupParameters?
 
+        @inlinable
         public init(computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecificationSummary? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
@@ -21740,6 +22317,7 @@ extension SageMaker {
         /// The timeout value, in seconds, to download and extract the model that you want to host from Amazon S3 to the individual inference instance associated with this inference component.
         public let modelDataDownloadTimeoutInSeconds: Int?
 
+        @inlinable
         public init(containerStartupHealthCheckTimeoutInSeconds: Int? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil) {
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.modelDataDownloadTimeoutInSeconds = modelDataDownloadTimeoutInSeconds
@@ -21776,6 +22354,7 @@ extension SageMaker {
         /// The name of the production variant that hosts the inference component.
         public let variantName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointArn: String? = nil, endpointName: String? = nil, inferenceComponentArn: String? = nil, inferenceComponentName: String? = nil, inferenceComponentStatus: InferenceComponentStatus? = nil, lastModifiedTime: Date? = nil, variantName: String? = nil) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
@@ -21803,6 +22382,7 @@ extension SageMaker {
         /// How containers in a multi-container are run. The following values are valid.    SERIAL - Containers run as a serial pipeline.    DIRECT - Only the individual container that you specify is run.
         public let mode: InferenceExecutionMode?
 
+        @inlinable
         public init(mode: InferenceExecutionMode? = nil) {
             self.mode = mode
         }
@@ -21819,6 +22399,7 @@ extension SageMaker {
         ///  The Amazon Web Services Key Management Service key that Amazon SageMaker uses to encrypt captured data at rest using Amazon S3 server-side encryption.
         public let kmsKey: String?
 
+        @inlinable
         public init(contentType: CaptureContentTypeHeader? = nil, destination: String? = nil, kmsKey: String? = nil) {
             self.contentType = contentType
             self.destination = destination
@@ -21846,6 +22427,7 @@ extension SageMaker {
         /// The timestamp at which the inference experiment started or will start.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -21879,6 +22461,7 @@ extension SageMaker {
         /// The type of the inference experiment.
         public let type: InferenceExperimentType?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, roleArn: String? = nil, schedule: InferenceExperimentSchedule? = nil, status: InferenceExperimentStatus? = nil, statusReason: String? = nil, type: InferenceExperimentType? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -21910,6 +22493,7 @@ extension SageMaker {
         /// The ARN of the hub content for which deployment access is allowed.
         public let hubContentArn: String?
 
+        @inlinable
         public init(hubContentArn: String? = nil) {
             self.hubContentArn = hubContentArn
         }
@@ -21930,6 +22514,7 @@ extension SageMaker {
         /// The expected model latency at maximum invocations per minute for the instance.
         public let modelLatency: Int?
 
+        @inlinable
         public init(maxInvocations: Int? = nil, modelLatency: Int? = nil) {
             self.maxInvocations = maxInvocations
             self.modelLatency = modelLatency
@@ -21955,6 +22540,7 @@ extension SageMaker {
         /// The recommendation ID which uniquely identifies each recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(endpointConfiguration: EndpointOutputConfiguration? = nil, invocationEndTime: Date? = nil, invocationStartTime: Date? = nil, metrics: RecommendationMetrics? = nil, modelConfiguration: ModelConfiguration? = nil, recommendationId: String? = nil) {
             self.endpointConfiguration = endpointConfiguration
             self.invocationEndTime = invocationEndTime
@@ -22002,6 +22588,7 @@ extension SageMaker {
         /// The status of the job.
         public let status: RecommendationJobStatus?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, jobDescription: String? = nil, jobName: String? = nil, jobType: RecommendationJobType? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelPackageVersionArn: String? = nil, roleArn: String? = nil, samplePayloadUrl: String? = nil, status: RecommendationJobStatus? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -22045,6 +22632,7 @@ extension SageMaker {
         /// The type of the subtask.  BENCHMARK: Evaluate the performance of your model on different instance types.
         public let stepType: RecommendationStepType?
 
+        @inlinable
         public init(inferenceBenchmark: RecommendationJobInferenceBenchmark? = nil, jobName: String? = nil, status: RecommendationJobStatus? = nil, stepType: RecommendationStepType? = nil) {
             self.inferenceBenchmark = inferenceBenchmark
             self.jobName = jobName
@@ -22072,6 +22660,7 @@ extension SageMaker {
         /// A list of the instance types on which a transformation job can be run or on which an endpoint can be deployed. This parameter is required for unversioned models, and optional for versioned models.
         public let supportedTransformInstanceTypes: [TransformInstanceType]?
 
+        @inlinable
         public init(containers: [ModelPackageContainerDefinition]? = nil, supportedContentTypes: [String]? = nil, supportedRealtimeInferenceInstanceTypes: [ProductionVariantInstanceType]? = nil, supportedResponseMIMETypes: [String]? = nil, supportedTransformInstanceTypes: [TransformInstanceType]? = nil) {
             self.containers = containers
             self.supportedContentTypes = supportedContentTypes
@@ -22110,6 +22699,7 @@ extension SageMaker {
         /// Enables an infrastructure health check.
         public let enableInfraCheck: Bool?
 
+        @inlinable
         public init(enableInfraCheck: Bool? = nil) {
             self.enableInfraCheck = enableInfraCheck
         }
@@ -22129,6 +22719,7 @@ extension SageMaker {
         /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public let s3Uri: String?
 
+        @inlinable
         public init(dataInputConfig: String? = nil, framework: Framework? = nil, frameworkVersion: String? = nil, s3Uri: String? = nil) {
             self.dataInputConfig = dataInputConfig
             self.framework = framework
@@ -22163,6 +22754,7 @@ extension SageMaker {
         /// Specifies the instance type of the instance group.
         public let instanceType: TrainingInstanceType?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceType: TrainingInstanceType? = nil) {
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
@@ -22187,6 +22779,7 @@ extension SageMaker {
         /// Indicates the minimum IMDS version that the notebook instance supports. When passed as part of CreateNotebookInstance, if no value is selected, then it defaults to IMDSv1. This means that both IMDSv1 and IMDSv2 are supported. If passed as part of UpdateNotebookInstance, there is no default.
         public let minimumInstanceMetadataServiceVersion: String?
 
+        @inlinable
         public init(minimumInstanceMetadataServiceVersion: String? = nil) {
             self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
         }
@@ -22211,6 +22804,7 @@ extension SageMaker {
         /// The scale that hyperparameter tuning uses to search the hyperparameter range. For information about choosing a hyperparameter scale, see Hyperparameter Scaling. One of the following values:  Auto  SageMaker hyperparameter tuning chooses the best scale for the hyperparameter.  Linear  Hyperparameter tuning searches the values in the hyperparameter range by using a linear scale.  Logarithmic  Hyperparameter tuning searches the values in the hyperparameter range by using a logarithmic scale. Logarithmic scaling works only for ranges that have only values greater than 0.
         public let scalingType: HyperParameterScalingType?
 
+        @inlinable
         public init(maxValue: String? = nil, minValue: String? = nil, name: String? = nil, scalingType: HyperParameterScalingType? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -22241,6 +22835,7 @@ extension SageMaker {
         /// The minimum integer value allowed.
         public let minValue: String?
 
+        @inlinable
         public init(maxValue: String? = nil, minValue: String? = nil) {
             self.maxValue = maxValue
             self.minValue = minValue
@@ -22263,6 +22858,7 @@ extension SageMaker {
         public let containerConfig: ContainerConfig?
         public let fileSystemConfig: FileSystemConfig?
 
+        @inlinable
         public init(containerConfig: ContainerConfig? = nil, fileSystemConfig: FileSystemConfig? = nil) {
             self.containerConfig = containerConfig
             self.fileSystemConfig = fileSystemConfig
@@ -22292,6 +22888,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to the user profile or domain. To remove a lifecycle config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
+        @inlinable
         public init(appLifecycleManagement: AppLifecycleManagement? = nil, codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, emrSettings: EmrSettings? = nil, lifecycleConfigArns: [String]? = nil) {
             self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
@@ -22337,6 +22934,7 @@ extension SageMaker {
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the DefaultResourceSpec parameter is also required.  To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
+        @inlinable
         public init(codeRepositories: [CodeRepository]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
             self.codeRepositories = codeRepositories
             self.defaultResourceSpec = defaultResourceSpec
@@ -22366,6 +22964,7 @@ extension SageMaker {
         /// Describes whether the document querying feature is enabled or disabled in the Canvas application.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(status: FeatureStatus? = nil) {
             self.status = status
         }
@@ -22383,6 +22982,7 @@ extension SageMaker {
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain.  To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
+        @inlinable
         public init(customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
@@ -22414,6 +23014,7 @@ extension SageMaker {
         /// The specification of the Jupyter kernels in the image.
         public let kernelSpecs: [KernelSpec]?
 
+        @inlinable
         public init(fileSystemConfig: FileSystemConfig? = nil, kernelSpecs: [KernelSpec]? = nil) {
             self.fileSystemConfig = fileSystemConfig
             self.kernelSpecs = kernelSpecs
@@ -22440,6 +23041,7 @@ extension SageMaker {
         /// The name of the Jupyter kernel in the image. This value is case sensitive.
         public let name: String?
 
+        @inlinable
         public init(displayName: String? = nil, name: String? = nil) {
             self.displayName = displayName
             self.name = name
@@ -22468,6 +23070,7 @@ extension SageMaker {
         /// The total number of objects not yet labeled.
         public let unlabeled: Int?
 
+        @inlinable
         public init(failedNonRetryableError: Int? = nil, humanLabeled: Int? = nil, machineLabeled: Int? = nil, totalLabeled: Int? = nil, unlabeled: Int? = nil) {
             self.failedNonRetryableError = failedNonRetryableError
             self.humanLabeled = humanLabeled
@@ -22493,6 +23096,7 @@ extension SageMaker {
         /// The total number of tasks in the labeling job.
         public let total: Int?
 
+        @inlinable
         public init(humanLabeled: Int? = nil, pendingHuman: Int? = nil, total: Int? = nil) {
             self.humanLabeled = humanLabeled
             self.pendingHuman = pendingHuman
@@ -22514,6 +23118,7 @@ extension SageMaker {
         /// Provides configuration information for a labeling job.
         public let labelingJobResourceConfig: LabelingJobResourceConfig?
 
+        @inlinable
         public init(initialActiveLearningModelArn: String? = nil, labelingJobAlgorithmSpecificationArn: String? = nil, labelingJobResourceConfig: LabelingJobResourceConfig? = nil) {
             self.initialActiveLearningModelArn = initialActiveLearningModelArn
             self.labelingJobAlgorithmSpecificationArn = labelingJobAlgorithmSpecificationArn
@@ -22540,6 +23145,7 @@ extension SageMaker {
         /// Declares that your content is free of personally identifiable information or adult content. SageMaker may restrict the Amazon Mechanical Turk workers that can view your task based on this information.
         public let contentClassifiers: [ContentClassifier]?
 
+        @inlinable
         public init(contentClassifiers: [ContentClassifier]? = nil) {
             self.contentClassifiers = contentClassifiers
         }
@@ -22559,6 +23165,7 @@ extension SageMaker {
         /// An Amazon SNS data source used for streaming labeling jobs. To learn more, see Send Data to a Streaming Labeling Job.
         public let snsDataSource: LabelingJobSnsDataSource?
 
+        @inlinable
         public init(s3DataSource: LabelingJobS3DataSource? = nil, snsDataSource: LabelingJobSnsDataSource? = nil) {
             self.s3DataSource = s3DataSource
             self.snsDataSource = snsDataSource
@@ -22589,6 +23196,7 @@ extension SageMaker {
         /// The Amazon Web Services account ID of the account used to start the labeling job.
         public let workRequesterAccountId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, jobReferenceCode: String? = nil, labelCounters: LabelCountersForWorkteam? = nil, labelingJobName: String? = nil, numberOfHumanWorkersPerDataObject: Int? = nil, workRequesterAccountId: String? = nil) {
             self.creationTime = creationTime
             self.jobReferenceCode = jobReferenceCode
@@ -22614,6 +23222,7 @@ extension SageMaker {
         /// The location of the input data.
         public let dataSource: LabelingJobDataSource?
 
+        @inlinable
         public init(dataAttributes: LabelingJobDataAttributes? = nil, dataSource: LabelingJobDataSource? = nil) {
             self.dataAttributes = dataAttributes
             self.dataSource = dataSource
@@ -22636,6 +23245,7 @@ extension SageMaker {
         /// The Amazon S3 bucket location of the manifest file for labeled data.
         public let outputDatasetS3Uri: String?
 
+        @inlinable
         public init(finalActiveLearningModelArn: String? = nil, outputDatasetS3Uri: String? = nil) {
             self.finalActiveLearningModelArn = finalActiveLearningModelArn
             self.outputDatasetS3Uri = outputDatasetS3Uri
@@ -22655,6 +23265,7 @@ extension SageMaker {
         /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. Provide a SnsTopicArn if you want to do real time chaining to another streaming job and receive an Amazon SNS notifications each time a data object is submitted by a worker. If you provide an SnsTopicArn in OutputConfig, when workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here.  To learn more, see Receive Output Data from a Streaming Labeling Job.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3OutputPath: String? = nil, snsTopicArn: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
@@ -22682,6 +23293,7 @@ extension SageMaker {
         public let volumeKmsKeyId: String?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.volumeKmsKeyId = volumeKmsKeyId
             self.vpcConfig = vpcConfig
@@ -22703,6 +23315,7 @@ extension SageMaker {
         /// The Amazon S3 location of the manifest file that describes the input data objects.  The input manifest file referenced in ManifestS3Uri must contain one of the following keys: source-ref or source. The value of the keys are interpreted as follows:    source-ref: The source of the object is the Amazon S3 object specified in the value. Use this value when the object is a binary object, such as an image.    source: The source of the object is the value. Use this value when the object is a text value.   If you are a new user of Ground Truth, it is recommended you review Use an Input Manifest File  in the Amazon SageMaker Developer Guide to learn how to create an input manifest file.
         public let manifestS3Uri: String?
 
+        @inlinable
         public init(manifestS3Uri: String? = nil) {
             self.manifestS3Uri = manifestS3Uri
         }
@@ -22721,6 +23334,7 @@ extension SageMaker {
         /// The Amazon SNS input topic Amazon Resource Name (ARN). Specify the ARN of the input topic you will use to send new data objects to a streaming labeling job.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(snsTopicArn: String? = nil) {
             self.snsTopicArn = snsTopicArn
         }
@@ -22741,6 +23355,7 @@ extension SageMaker {
         /// The maximum number of input data objects that should be labeled.
         public let maxPercentageOfInputDatasetLabeled: Int?
 
+        @inlinable
         public init(maxHumanLabeledObjectCount: Int? = nil, maxPercentageOfInputDatasetLabeled: Int? = nil) {
             self.maxHumanLabeledObjectCount = maxHumanLabeledObjectCount
             self.maxPercentageOfInputDatasetLabeled = maxPercentageOfInputDatasetLabeled
@@ -22784,6 +23399,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team assigned to the job.
         public let workteamArn: String?
 
+        @inlinable
         public init(annotationConsolidationLambdaArn: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, inputConfig: LabelingJobInputConfig? = nil, labelCounters: LabelCounters? = nil, labelingJobArn: String? = nil, labelingJobName: String? = nil, labelingJobOutput: LabelingJobOutput? = nil, labelingJobStatus: LabelingJobStatus? = nil, lastModifiedTime: Date? = nil, preHumanTaskLambdaArn: String? = nil, workteamArn: String? = nil) {
             self.annotationConsolidationLambdaArn = annotationConsolidationLambdaArn
             self.creationTime = creationTime
@@ -22821,6 +23437,7 @@ extension SageMaker {
         /// A list of the output parameters of the Lambda step.
         public let outputParameters: [OutputParameter]?
 
+        @inlinable
         public init(arn: String? = nil, outputParameters: [OutputParameter]? = nil) {
             self.arn = arn
             self.outputParameters = outputParameters
@@ -22838,6 +23455,7 @@ extension SageMaker {
         /// A value that indicates whether the update was made successful.
         public let status: LastUpdateStatusValue?
 
+        @inlinable
         public init(failureReason: String? = nil, status: LastUpdateStatusValue? = nil) {
             self.failureReason = failureReason
             self.status = status
@@ -22861,6 +23479,7 @@ extension SageMaker {
         /// The name or Amazon Resource Name (ARN) of the lineage group.
         public let lineageGroupName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, displayName: String? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, lineageGroupName: String? = nil) {
             self.creationTime = creationTime
             self.displayName = displayName
@@ -22896,6 +23515,7 @@ extension SageMaker {
         /// A filter that returns only actions with the specified source URI.
         public let sourceUri: String?
 
+        @inlinable
         public init(actionType: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortActionsBy? = nil, sortOrder: SortOrder? = nil, sourceUri: String? = nil) {
             self.actionType = actionType
             self.createdAfter = createdAfter
@@ -22936,6 +23556,7 @@ extension SageMaker {
         /// A token for getting the next set of actions, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(actionSummaries: [ActionSummary]? = nil, nextToken: String? = nil) {
             self.actionSummaries = actionSummaries
             self.nextToken = nextToken
@@ -22963,6 +23584,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AlgorithmSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -22999,6 +23621,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of algorithms, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(algorithmSummaryList: [AlgorithmSummary]? = nil, nextToken: String? = nil) {
             self.algorithmSummaryList = algorithmSummaryList
             self.nextToken = nextToken
@@ -23022,6 +23645,7 @@ extension SageMaker {
         /// The version of the image. If image version is not specified, the aliases of all versions of the image are listed.
         public let version: Int?
 
+        @inlinable
         public init(alias: String? = nil, imageName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, version: Int? = nil) {
             self.alias = alias
             self.imageName = imageName
@@ -23059,6 +23683,7 @@ extension SageMaker {
         /// A list of SageMaker image version aliases.
         public let sageMakerImageVersionAliases: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, sageMakerImageVersionAliases: [String]? = nil) {
             self.nextToken = nextToken
             self.sageMakerImageVersionAliases = sageMakerImageVersionAliases
@@ -23090,6 +23715,7 @@ extension SageMaker {
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modifiedTimeAfter: Date? = nil, modifiedTimeBefore: Date? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AppImageConfigSortKey? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23130,6 +23756,7 @@ extension SageMaker {
         /// A token for getting the next set of AppImageConfigs, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(appImageConfigs: [AppImageConfigDetails]? = nil, nextToken: String? = nil) {
             self.appImageConfigs = appImageConfigs
             self.nextToken = nextToken
@@ -23157,6 +23784,7 @@ extension SageMaker {
         /// A parameter to search by user profile name. If SpaceNameEquals is set, then this value cannot be set.
         public let userProfileNameEquals: String?
 
+        @inlinable
         public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: AppSortKey? = nil, sortOrder: SortOrder? = nil, spaceNameEquals: String? = nil, userProfileNameEquals: String? = nil) {
             self.domainIdEquals = domainIdEquals
             self.maxResults = maxResults
@@ -23197,6 +23825,7 @@ extension SageMaker {
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(apps: [AppDetails]? = nil, nextToken: String? = nil) {
             self.apps = apps
             self.nextToken = nextToken
@@ -23226,6 +23855,7 @@ extension SageMaker {
         /// A filter that returns only artifacts with the specified source URI.
         public let sourceUri: String?
 
+        @inlinable
         public init(artifactType: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortArtifactsBy? = nil, sortOrder: SortOrder? = nil, sourceUri: String? = nil) {
             self.artifactType = artifactType
             self.createdAfter = createdAfter
@@ -23266,6 +23896,7 @@ extension SageMaker {
         /// A token for getting the next set of artifacts, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(artifactSummaries: [ArtifactSummary]? = nil, nextToken: String? = nil) {
             self.artifactSummaries = artifactSummaries
             self.nextToken = nextToken
@@ -23301,6 +23932,7 @@ extension SageMaker {
         /// A filter that returns only associations with the specified source type.
         public let sourceType: String?
 
+        @inlinable
         public init(associationType: AssociationEdgeType? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, destinationArn: String? = nil, destinationType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortAssociationsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, sourceType: String? = nil) {
             self.associationType = associationType
             self.createdAfter = createdAfter
@@ -23349,6 +23981,7 @@ extension SageMaker {
         /// A token for getting the next set of associations, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(associationSummaries: [AssociationSummary]? = nil, nextToken: String? = nil) {
             self.associationSummaries = associationSummaries
             self.nextToken = nextToken
@@ -23382,6 +24015,7 @@ extension SageMaker {
         /// Request a list of jobs, using a filter for status.
         public let statusEquals: AutoMLJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AutoMLSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: AutoMLJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23424,6 +24058,7 @@ extension SageMaker {
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(autoMLJobSummaries: [AutoMLJobSummary]? = nil, nextToken: String? = nil) {
             self.autoMLJobSummaries = autoMLJobSummaries
             self.nextToken = nextToken
@@ -23451,6 +24086,7 @@ extension SageMaker {
         /// List the candidates for the job and filter by status.
         public let statusEquals: CandidateStatus?
 
+        @inlinable
         public init(autoMLJobName: String? = nil, candidateNameEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: CandidateSortBy? = nil, sortOrder: AutoMLSortOrder? = nil, statusEquals: CandidateStatus? = nil) {
             self.autoMLJobName = autoMLJobName
             self.candidateNameEquals = candidateNameEquals
@@ -23490,6 +24126,7 @@ extension SageMaker {
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(candidates: [AutoMLCandidate]? = nil, nextToken: String? = nil) {
             self.candidates = candidates
             self.nextToken = nextToken
@@ -23519,6 +24156,7 @@ extension SageMaker {
         /// The sort order for results. The default value is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(clusterName: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, instanceGroupNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ClusterSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.clusterName = clusterName
             self.creationTimeAfter = creationTimeAfter
@@ -23560,6 +24198,7 @@ extension SageMaker {
         /// The next token specified for listing instances in a SageMaker HyperPod cluster.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterNodeSummaries: [ClusterNodeSummary]? = nil, nextToken: String? = nil) {
             self.clusterNodeSummaries = clusterNodeSummaries
             self.nextToken = nextToken
@@ -23587,6 +24226,7 @@ extension SageMaker {
         /// The sort order for results. The default value is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ClusterSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23623,6 +24263,7 @@ extension SageMaker {
         /// If the result of the previous ListClusters request was truncated, the response includes a NextToken. To retrieve the next set of clusters, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterSummaries: [ClusterSummary]? = nil, nextToken: String? = nil) {
             self.clusterSummaries = clusterSummaries
             self.nextToken = nextToken
@@ -23654,6 +24295,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: CodeRepositorySortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: CodeRepositorySortBy? = nil, sortOrder: CodeRepositorySortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23694,6 +24336,7 @@ extension SageMaker {
         /// If the result of a ListCodeRepositoriesOutput request was truncated, the response includes a NextToken. To get the next set of Git repositories, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(codeRepositorySummaryList: [CodeRepositorySummary]? = nil, nextToken: String? = nil) {
             self.codeRepositorySummaryList = codeRepositorySummaryList
             self.nextToken = nextToken
@@ -23727,6 +24370,7 @@ extension SageMaker {
         /// A filter that retrieves model compilation jobs with a specific CompilationJobStatus status.
         public let statusEquals: CompilationJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListCompilationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: CompilationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23769,6 +24413,7 @@ extension SageMaker {
         /// If the response is truncated, Amazon SageMaker returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(compilationJobSummaries: [CompilationJobSummary]? = nil, nextToken: String? = nil) {
             self.compilationJobSummaries = compilationJobSummaries
             self.nextToken = nextToken
@@ -23798,6 +24443,7 @@ extension SageMaker {
         /// A filter that returns only contexts with the specified source URI.
         public let sourceUri: String?
 
+        @inlinable
         public init(contextType: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortContextsBy? = nil, sortOrder: SortOrder? = nil, sourceUri: String? = nil) {
             self.contextType = contextType
             self.createdAfter = createdAfter
@@ -23838,6 +24484,7 @@ extension SageMaker {
         /// A token for getting the next set of contexts, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(contextSummaries: [ContextSummary]? = nil, nextToken: String? = nil) {
             self.contextSummaries = contextSummaries
             self.nextToken = nextToken
@@ -23867,6 +24514,7 @@ extension SageMaker {
         /// Whether to sort the results in Ascending or Descending order.  The default is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23907,6 +24555,7 @@ extension SageMaker {
         /// If the result of the previous ListDataQualityJobDefinitions request was truncated, the response includes a NextToken. To retrieve the next set of data quality monitoring job definitions, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary]? = nil, nextToken: String? = nil) {
             self.jobDefinitionSummaries = jobDefinitionSummaries
             self.nextToken = nextToken
@@ -23938,6 +24587,7 @@ extension SageMaker {
         /// What direction to sort in.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListDeviceFleetsSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -23977,6 +24627,7 @@ extension SageMaker {
         /// The response from the last list when returning a list large enough to need tokening.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceFleetSummaries: [DeviceFleetSummary]? = nil, nextToken: String? = nil) {
             self.deviceFleetSummaries = deviceFleetSummaries
             self.nextToken = nextToken
@@ -24000,6 +24651,7 @@ extension SageMaker {
         /// The response from the last list when returning a list large enough to need tokening.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, latestHeartbeatAfter: Date? = nil, maxResults: Int? = nil, modelName: String? = nil, nextToken: String? = nil) {
             self.deviceFleetName = deviceFleetName
             self.latestHeartbeatAfter = latestHeartbeatAfter
@@ -24035,6 +24687,7 @@ extension SageMaker {
         /// The response from the last list when returning a list large enough to need tokening.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceSummaries: [DeviceSummary]? = nil, nextToken: String? = nil) {
             self.deviceSummaries = deviceSummaries
             self.nextToken = nextToken
@@ -24052,6 +24705,7 @@ extension SageMaker {
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -24076,6 +24730,7 @@ extension SageMaker {
         /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(domains: [DomainDetails]? = nil, nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -24109,6 +24764,7 @@ extension SageMaker {
         /// The direction of the sorting (ascending or descending).
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, deviceFleetNameContains: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListEdgeDeploymentPlansSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24152,6 +24808,7 @@ extension SageMaker {
         /// The token to use when calling the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(edgeDeploymentPlanSummaries: [EdgeDeploymentPlanSummary]? = nil, nextToken: String? = nil) {
             self.edgeDeploymentPlanSummaries = edgeDeploymentPlanSummaries
             self.nextToken = nextToken
@@ -24187,6 +24844,7 @@ extension SageMaker {
         /// The job status to filter for.
         public let statusEquals: EdgePackagingJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, modelNameContains: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListEdgePackagingJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: EdgePackagingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24232,6 +24890,7 @@ extension SageMaker {
         /// Token to use when calling the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(edgePackagingJobSummaries: [EdgePackagingJobSummary]? = nil, nextToken: String? = nil) {
             self.edgePackagingJobSummaries = edgePackagingJobSummaries
             self.nextToken = nextToken
@@ -24259,6 +24918,7 @@ extension SageMaker {
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointConfigSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24295,6 +24955,7 @@ extension SageMaker {
         ///  If the response is truncated, SageMaker returns this token. To retrieve the next set of endpoint configurations, use it in the subsequent request
         public let nextToken: String?
 
+        @inlinable
         public init(endpointConfigs: [EndpointConfigSummary]? = nil, nextToken: String? = nil) {
             self.endpointConfigs = endpointConfigs
             self.nextToken = nextToken
@@ -24328,6 +24989,7 @@ extension SageMaker {
         ///  A filter that returns only endpoints with the specified status.
         public let statusEquals: EndpointStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: EndpointSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: EndpointStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24370,6 +25032,7 @@ extension SageMaker {
         ///  If the response is truncated, SageMaker returns this token. To retrieve the next set of training jobs, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(endpoints: [EndpointSummary]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -24395,6 +25058,7 @@ extension SageMaker {
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortExperimentsBy? = nil, sortOrder: SortOrder? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -24427,6 +25091,7 @@ extension SageMaker {
         /// A token for getting the next set of experiments, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(experimentSummaries: [ExperimentSummary]? = nil, nextToken: String? = nil) {
             self.experimentSummaries = experimentSummaries
             self.nextToken = nextToken
@@ -24458,6 +25123,7 @@ extension SageMaker {
         /// The order in which feature groups are listed.
         public let sortOrder: FeatureGroupSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, featureGroupStatusEquals: FeatureGroupStatus? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, offlineStoreStatusEquals: OfflineStoreStatusValue? = nil, sortBy: FeatureGroupSortBy? = nil, sortOrder: FeatureGroupSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24498,6 +25164,7 @@ extension SageMaker {
         /// A token to resume pagination of ListFeatureGroups results.
         public let nextToken: String?
 
+        @inlinable
         public init(featureGroupSummaries: [FeatureGroupSummary]? = nil, nextToken: String? = nil) {
             self.featureGroupSummaries = featureGroupSummaries
             self.nextToken = nextToken
@@ -24521,6 +25188,7 @@ extension SageMaker {
         /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24551,6 +25219,7 @@ extension SageMaker {
         /// A token to resume pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(flowDefinitionSummaries: [FlowDefinitionSummary]? = nil, nextToken: String? = nil) {
             self.flowDefinitionSummaries = flowDefinitionSummaries
             self.nextToken = nextToken
@@ -24586,6 +25255,7 @@ extension SageMaker {
         /// Sort hub content versions by ascending or descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, hubContentName: String? = nil, hubContentType: HubContentType? = nil, hubName: String? = nil, maxResults: Int? = nil, maxSchemaVersion: String? = nil, minVersion: String? = nil, nextToken: String? = nil, sortBy: HubContentSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24637,6 +25307,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of hub content versions, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(hubContentSummaries: [HubContentInfo]? = nil, nextToken: String? = nil) {
             self.hubContentSummaries = hubContentSummaries
             self.nextToken = nextToken
@@ -24670,6 +25341,7 @@ extension SageMaker {
         /// Sort hubs by ascending or descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, hubContentType: HubContentType? = nil, hubName: String? = nil, maxResults: Int? = nil, maxSchemaVersion: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HubContentSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24716,6 +25388,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of hub content, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(hubContentSummaries: [HubContentInfo]? = nil, nextToken: String? = nil) {
             self.hubContentSummaries = hubContentSummaries
             self.nextToken = nextToken
@@ -24747,6 +25420,7 @@ extension SageMaker {
         /// Sort hubs by ascending or descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HubSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24787,6 +25461,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of hubs, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(hubSummaries: [HubInfo]? = nil, nextToken: String? = nil) {
             self.hubSummaries = hubSummaries
             self.nextToken = nextToken
@@ -24810,6 +25485,7 @@ extension SageMaker {
         /// An optional value that specifies whether you want the results sorted in Ascending or Descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24840,6 +25516,7 @@ extension SageMaker {
         /// A token to resume pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(humanTaskUiSummaries: [HumanTaskUiSummary]? = nil, nextToken: String? = nil) {
             self.humanTaskUiSummaries = humanTaskUiSummaries
             self.nextToken = nextToken
@@ -24873,6 +25550,7 @@ extension SageMaker {
         /// A filter that returns only tuning jobs with the specified status.
         public let statusEquals: HyperParameterTuningJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: HyperParameterTuningJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: HyperParameterTuningJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24915,6 +25593,7 @@ extension SageMaker {
         /// If the result of this ListHyperParameterTuningJobs request was truncated, the response includes a NextToken. To retrieve the next set of tuning jobs, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(hyperParameterTuningJobSummaries: [HyperParameterTuningJobSummary]? = nil, nextToken: String? = nil) {
             self.hyperParameterTuningJobSummaries = hyperParameterTuningJobSummaries
             self.nextToken = nextToken
@@ -24946,6 +25625,7 @@ extension SageMaker {
         /// The sort order. The default value is DESCENDING.
         public let sortOrder: ImageVersionSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, imageName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ImageVersionSortBy? = nil, sortOrder: ImageVersionSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -24987,6 +25667,7 @@ extension SageMaker {
         /// A token for getting the next set of versions, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(imageVersions: [ImageVersion]? = nil, nextToken: String? = nil) {
             self.imageVersions = imageVersions
             self.nextToken = nextToken
@@ -25018,6 +25699,7 @@ extension SageMaker {
         /// The sort order. The default value is DESCENDING.
         public let sortOrder: ImageSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ImageSortBy? = nil, sortOrder: ImageSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25058,6 +25740,7 @@ extension SageMaker {
         /// A token for getting the next set of images, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(images: [Image]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -25095,6 +25778,7 @@ extension SageMaker {
         /// A production variant name to filter the listed inference components. The response includes only those inference components that are hosted at the specified variant.
         public let variantNameEquals: String?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointNameEquals: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: InferenceComponentSortKey? = nil, sortOrder: OrderKey? = nil, statusEquals: InferenceComponentStatus? = nil, variantNameEquals: String? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25145,6 +25829,7 @@ extension SageMaker {
         /// The token to use in a subsequent request to get the next set of results following a truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceComponents: [InferenceComponentSummary]? = nil, nextToken: String? = nil) {
             self.inferenceComponents = inferenceComponents
             self.nextToken = nextToken
@@ -25180,6 +25865,7 @@ extension SageMaker {
         ///  Selects inference experiments of this type. For the possible types of inference experiments, see CreateInferenceExperiment.
         public let type: InferenceExperimentType?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortInferenceExperimentsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: InferenceExperimentStatus? = nil, type: InferenceExperimentType? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25224,6 +25910,7 @@ extension SageMaker {
         /// The token to use when calling the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceExperiments: [InferenceExperimentSummary]? = nil, nextToken: String? = nil) {
             self.inferenceExperiments = inferenceExperiments
             self.nextToken = nextToken
@@ -25247,6 +25934,7 @@ extension SageMaker {
         /// A filter to return details about the specified type of subtask.  BENCHMARK: Evaluate the performance of your model on different instance types.
         public let stepType: RecommendationStepType?
 
+        @inlinable
         public init(jobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: RecommendationJobStatus? = nil, stepType: RecommendationStepType? = nil) {
             self.jobName = jobName
             self.maxResults = maxResults
@@ -25280,6 +25968,7 @@ extension SageMaker {
         /// A list of all subtask details in Inference Recommender.
         public let steps: [InferenceRecommendationsJobStep]?
 
+        @inlinable
         public init(nextToken: String? = nil, steps: [InferenceRecommendationsJobStep]? = nil) {
             self.nextToken = nextToken
             self.steps = steps
@@ -25317,6 +26006,7 @@ extension SageMaker {
         /// A filter that retrieves only inference recommendations jobs with a specific status.
         public let statusEquals: RecommendationJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, modelNameEquals: String? = nil, modelPackageVersionArnEquals: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListInferenceRecommendationsJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: RecommendationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25368,6 +26058,7 @@ extension SageMaker {
         /// A token for getting the next set of recommendations, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceRecommendationsJobs: [InferenceRecommendationsJob]? = nil, nextToken: String? = nil) {
             self.inferenceRecommendationsJobs = inferenceRecommendationsJobs
             self.nextToken = nextToken
@@ -25397,6 +26088,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the work team for which you want to see labeling jobs for.
         public let workteamArn: String?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, jobReferenceCodeContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ListLabelingJobsForWorkteamSortByOptions? = nil, sortOrder: SortOrder? = nil, workteamArn: String? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25438,6 +26130,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of labeling jobs, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(labelingJobSummaryList: [LabelingJobForWorkteamSummary]? = nil, nextToken: String? = nil) {
             self.labelingJobSummaryList = labelingJobSummaryList
             self.nextToken = nextToken
@@ -25471,6 +26164,7 @@ extension SageMaker {
         /// A filter that retrieves only labeling jobs with a specific status.
         public let statusEquals: LabelingJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: LabelingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25513,6 +26207,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of labeling jobs, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(labelingJobSummaryList: [LabelingJobSummary]? = nil, nextToken: String? = nil) {
             self.labelingJobSummaryList = labelingJobSummaryList
             self.nextToken = nextToken
@@ -25538,6 +26233,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortLineageGroupsBy? = nil, sortOrder: SortOrder? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -25570,6 +26266,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of algorithms, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(lineageGroupSummaries: [LineageGroupSummary]? = nil, nextToken: String? = nil) {
             self.lineageGroupSummaries = lineageGroupSummaries
             self.nextToken = nextToken
@@ -25599,6 +26296,7 @@ extension SageMaker {
         /// Filter for tracking servers with a specified creation status.
         public let trackingServerStatus: TrackingServerStatus?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, mlflowVersion: String? = nil, nextToken: String? = nil, sortBy: SortTrackingServerBy? = nil, sortOrder: SortOrder? = nil, trackingServerStatus: TrackingServerStatus? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -25637,6 +26335,7 @@ extension SageMaker {
         /// A list of tracking servers according to chosen filters.
         public let trackingServerSummaries: [TrackingServerSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trackingServerSummaries: [TrackingServerSummary]? = nil) {
             self.nextToken = nextToken
             self.trackingServerSummaries = trackingServerSummaries
@@ -25666,6 +26365,7 @@ extension SageMaker {
         /// Whether to sort the results in Ascending or Descending order.  The default is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25706,6 +26406,7 @@ extension SageMaker {
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use  it in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary]? = nil, nextToken: String? = nil) {
             self.jobDefinitionSummaries = jobDefinitionSummaries
             self.nextToken = nextToken
@@ -25739,6 +26440,7 @@ extension SageMaker {
         /// Only list model card export jobs with the specified status.
         public let statusEquals: ModelCardExportJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelCardExportJobNameContains: String? = nil, modelCardName: String? = nil, modelCardVersion: Int? = nil, nextToken: String? = nil, sortBy: ModelCardExportJobSortBy? = nil, sortOrder: ModelCardExportJobSortOrder? = nil, statusEquals: ModelCardExportJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25785,6 +26487,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model card export jobs, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(modelCardExportJobSummaries: [ModelCardExportJobSummary]? = nil, nextToken: String? = nil) {
             self.modelCardExportJobSummaries = modelCardExportJobSummaries
             self.nextToken = nextToken
@@ -25814,6 +26517,7 @@ extension SageMaker {
         /// Sort model card versions by ascending or descending order.
         public let sortOrder: ModelCardSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, nextToken: String? = nil, sortBy: ModelCardVersionSortBy? = nil, sortOrder: ModelCardSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25853,6 +26557,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model card versions, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(modelCardVersionSummaryList: [ModelCardVersionSummary]? = nil, nextToken: String? = nil) {
             self.modelCardVersionSummaryList = modelCardVersionSummaryList
             self.nextToken = nextToken
@@ -25882,6 +26587,7 @@ extension SageMaker {
         /// Sort model cards by ascending or descending order.
         public let sortOrder: ModelCardSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelCardStatus: ModelCardStatus? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelCardSortBy? = nil, sortOrder: ModelCardSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25921,6 +26627,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model cards, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(modelCardSummaries: [ModelCardSummary]? = nil, nextToken: String? = nil) {
             self.modelCardSummaries = modelCardSummaries
             self.nextToken = nextToken
@@ -25950,6 +26657,7 @@ extension SageMaker {
         /// Whether to sort the results in Ascending or Descending order.  The default is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -25990,6 +26698,7 @@ extension SageMaker {
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use  it in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary]? = nil, nextToken: String? = nil) {
             self.jobDefinitionSummaries = jobDefinitionSummaries
             self.nextToken = nextToken
@@ -26009,6 +26718,7 @@ extension SageMaker {
         /// One or more filters that searches for the specified resource or resources  in a search. All resource objects that satisfy the expression's condition are  included in the search results. Specify the  Framework, FrameworkVersion, Domain  or Task to filter supported. Filter names and values are case-sensitive.
         public let searchExpression: ModelMetadataSearchExpression?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, searchExpression: ModelMetadataSearchExpression? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -26036,6 +26746,7 @@ extension SageMaker {
         /// A token for getting the next set of recommendations, if there are any.
         public let nextToken: String?
 
+        @inlinable
         public init(modelMetadataSummaries: [ModelMetadataSummary]? = nil, nextToken: String? = nil) {
             self.modelMetadataSummaries = modelMetadataSummaries
             self.nextToken = nextToken
@@ -26067,6 +26778,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, crossAccountFilterOption: CrossAccountFilterOption? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageGroupSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26105,6 +26817,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model groups, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(modelPackageGroupSummaryList: [ModelPackageGroupSummary]? = nil, nextToken: String? = nil) {
             self.modelPackageGroupSummaryList = modelPackageGroupSummaryList
             self.nextToken = nextToken
@@ -26138,6 +26851,7 @@ extension SageMaker {
         /// The sort order for the results. The default is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageGroupName: String? = nil, modelPackageType: ModelPackageType? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelPackageSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26183,6 +26897,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of model packages, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(modelPackageSummaryList: [ModelPackageSummary]? = nil, nextToken: String? = nil) {
             self.modelPackageSummaryList = modelPackageSummaryList
             self.nextToken = nextToken
@@ -26212,6 +26927,7 @@ extension SageMaker {
         /// Whether to sort the results in Ascending or Descending order.  The default is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringJobDefinitionSortKey? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26252,6 +26968,7 @@ extension SageMaker {
         /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(jobDefinitionSummaries: [MonitoringJobDefinitionSummary]? = nil, nextToken: String? = nil) {
             self.jobDefinitionSummaries = jobDefinitionSummaries
             self.nextToken = nextToken
@@ -26279,6 +26996,7 @@ extension SageMaker {
         /// The sort order for results. The default is Descending.
         public let sortOrder: OrderKey?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ModelSortKey? = nil, sortOrder: OrderKey? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26315,6 +27033,7 @@ extension SageMaker {
         ///  If the response is truncated, SageMaker returns this token. To retrieve the next set of models, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(models: [ModelSummary]? = nil, nextToken: String? = nil) {
             self.models = models
             self.nextToken = nextToken
@@ -26346,6 +27065,7 @@ extension SageMaker {
         /// A filter that retrieves only alerts with a specific status.
         public let statusEquals: MonitoringAlertStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringAlertName: String? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil, sortBy: MonitoringAlertHistorySortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: MonitoringAlertStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26390,6 +27110,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of alerts, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(monitoringAlertHistory: [MonitoringAlertHistorySummary]? = nil, nextToken: String? = nil) {
             self.monitoringAlertHistory = monitoringAlertHistory
             self.nextToken = nextToken
@@ -26409,6 +27130,7 @@ extension SageMaker {
         /// If the result of the previous ListMonitoringAlerts request was truncated, the response includes a NextToken. To retrieve the next set of alerts in the history, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, monitoringScheduleName: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.monitoringScheduleName = monitoringScheduleName
@@ -26438,6 +27160,7 @@ extension SageMaker {
         /// If the response is truncated, SageMaker returns this token. To retrieve the next set of alerts, use it in the subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(monitoringAlertSummaries: [MonitoringAlertSummary]? = nil, nextToken: String? = nil) {
             self.monitoringAlertSummaries = monitoringAlertSummaries
             self.nextToken = nextToken
@@ -26481,6 +27204,7 @@ extension SageMaker {
         /// A filter that retrieves only jobs with a specific status.
         public let statusEquals: ExecutionStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringJobDefinitionName: String? = nil, monitoringScheduleName: String? = nil, monitoringTypeEquals: MonitoringType? = nil, nextToken: String? = nil, scheduledTimeAfter: Date? = nil, scheduledTimeBefore: Date? = nil, sortBy: MonitoringExecutionSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ExecutionStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26539,6 +27263,7 @@ extension SageMaker {
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use  it in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(monitoringExecutionSummaries: [MonitoringExecutionSummary]? = nil, nextToken: String? = nil) {
             self.monitoringExecutionSummaries = monitoringExecutionSummaries
             self.nextToken = nextToken
@@ -26578,6 +27303,7 @@ extension SageMaker {
         /// A filter that returns only monitoring schedules modified before a specified time.
         public let statusEquals: ScheduleStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, endpointName: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, monitoringJobDefinitionName: String? = nil, monitoringTypeEquals: MonitoringType? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: MonitoringScheduleSortKey? = nil, sortOrder: SortOrder? = nil, statusEquals: ScheduleStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26631,6 +27357,7 @@ extension SageMaker {
         /// The token returned if the response is truncated. To retrieve the next set of job executions, use  it in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(monitoringScheduleSummaries: [MonitoringScheduleSummary]? = nil, nextToken: String? = nil) {
             self.monitoringScheduleSummaries = monitoringScheduleSummaries
             self.nextToken = nextToken
@@ -26662,6 +27389,7 @@ extension SageMaker {
         /// The sort order for results.
         public let sortOrder: NotebookInstanceLifecycleConfigSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: NotebookInstanceLifecycleConfigSortKey? = nil, sortOrder: NotebookInstanceLifecycleConfigSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26702,6 +27430,7 @@ extension SageMaker {
         /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
         public let notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]? = nil) {
             self.nextToken = nextToken
             self.notebookInstanceLifecycleConfigs = notebookInstanceLifecycleConfigs
@@ -26741,6 +27470,7 @@ extension SageMaker {
         /// A filter that returns only notebook instances with the specified status.
         public let statusEquals: NotebookInstanceStatus?
 
+        @inlinable
         public init(additionalCodeRepositoryEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, defaultCodeRepositoryContains: String? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, notebookInstanceLifecycleConfigNameContains: String? = nil, sortBy: NotebookInstanceSortKey? = nil, sortOrder: NotebookInstanceSortOrder? = nil, statusEquals: NotebookInstanceStatus? = nil) {
             self.additionalCodeRepositoryEquals = additionalCodeRepositoryEquals
             self.creationTimeAfter = creationTimeAfter
@@ -26796,6 +27526,7 @@ extension SageMaker {
         /// An array of NotebookInstanceSummary objects, one for each notebook instance.
         public let notebookInstances: [NotebookInstanceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, notebookInstances: [NotebookInstanceSummary]? = nil) {
             self.nextToken = nextToken
             self.notebookInstances = notebookInstances
@@ -26831,6 +27562,7 @@ extension SageMaker {
         /// Filters the results to only those optimization jobs with the specified status.
         public let statusEquals: OptimizationJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, optimizationContains: String? = nil, sortBy: ListOptimizationJobsSortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: OptimizationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -26877,6 +27609,7 @@ extension SageMaker {
         /// A list of optimization jobs and their properties that matches any of the filters you specified in the request.
         public let optimizationJobSummaries: [OptimizationJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, optimizationJobSummaries: [OptimizationJobSummary]? = nil) {
             self.nextToken = nextToken
             self.optimizationJobSummaries = optimizationJobSummaries
@@ -26898,6 +27631,7 @@ extension SageMaker {
         /// The field by which to sort results. The default is CreatedTime.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineExecutionArn: String? = nil, sortOrder: SortOrder? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -26928,6 +27662,7 @@ extension SageMaker {
         /// A list of PipeLineExecutionStep objects. Each PipeLineExecutionStep consists of StepName, StartTime, EndTime, StepStatus, and Metadata. Metadata is an object with properties for each job that contains relevant information about the job created by the step.
         public let pipelineExecutionSteps: [PipelineExecutionStep]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelineExecutionSteps: [PipelineExecutionStep]? = nil) {
             self.nextToken = nextToken
             self.pipelineExecutionSteps = pipelineExecutionSteps
@@ -26955,6 +27690,7 @@ extension SageMaker {
         /// The sort order for results.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineName: String? = nil, sortBy: SortPipelineExecutionsBy? = nil, sortOrder: SortOrder? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -26992,6 +27728,7 @@ extension SageMaker {
         /// Contains a sorted list of pipeline execution summary objects matching the specified filters. Each run summary includes the Amazon Resource Name (ARN) of the pipeline execution, the run date, and the status. This list can be empty.
         public let pipelineExecutionSummaries: [PipelineExecutionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelineExecutionSummaries: [PipelineExecutionSummary]? = nil) {
             self.nextToken = nextToken
             self.pipelineExecutionSummaries = pipelineExecutionSummaries
@@ -27011,6 +27748,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, pipelineExecutionArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -27039,6 +27777,7 @@ extension SageMaker {
         /// Contains a list of pipeline parameters. This list can be empty.
         public let pipelineParameters: [Parameter]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelineParameters: [Parameter]? = nil) {
             self.nextToken = nextToken
             self.pipelineParameters = pipelineParameters
@@ -27066,6 +27805,7 @@ extension SageMaker {
         /// The sort order for results.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, pipelineNamePrefix: String? = nil, sortBy: SortPipelinesBy? = nil, sortOrder: SortOrder? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -27103,6 +27843,7 @@ extension SageMaker {
         /// Contains a sorted list of PipelineSummary objects matching the specified filters. Each PipelineSummary consists of PipelineArn, PipelineName, ExperimentName, PipelineDescription, CreationTime, LastModifiedTime, LastRunTime, and RoleArn. This list can be empty.
         public let pipelineSummaries: [PipelineSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelineSummaries: [PipelineSummary]? = nil) {
             self.nextToken = nextToken
             self.pipelineSummaries = pipelineSummaries
@@ -27136,6 +27877,7 @@ extension SageMaker {
         /// A filter that retrieves only processing jobs with a specific status.
         public let statusEquals: ProcessingJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ProcessingJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -27176,6 +27918,7 @@ extension SageMaker {
         /// An array of ProcessingJobSummary objects, each listing a processing job.
         public let processingJobSummaries: [ProcessingJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, processingJobSummaries: [ProcessingJobSummary]? = nil) {
             self.nextToken = nextToken
             self.processingJobSummaries = processingJobSummaries
@@ -27203,6 +27946,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: ProjectSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ProjectSortBy? = nil, sortOrder: ProjectSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -27240,6 +27984,7 @@ extension SageMaker {
         /// A list of summaries of projects.
         public let projectSummaryList: [ProjectSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, projectSummaryList: [ProjectSummary]? = nil) {
             self.nextToken = nextToken
             self.projectSummaryList = projectSummaryList
@@ -27267,6 +28012,7 @@ extension SageMaker {
         ///  The order in which the resource catalogs are listed.
         public let sortOrder: ResourceCatalogSortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ResourceCatalogSortBy? = nil, sortOrder: ResourceCatalogSortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -27303,6 +28049,7 @@ extension SageMaker {
         ///  A list of the requested ResourceCatalogs.
         public let resourceCatalogs: [ResourceCatalog]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceCatalogs: [ResourceCatalog]? = nil) {
             self.nextToken = nextToken
             self.resourceCatalogs = resourceCatalogs
@@ -27328,6 +28075,7 @@ extension SageMaker {
         /// A parameter by which to filter the results.
         public let spaceNameContains: String?
 
+        @inlinable
         public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SpaceSortKey? = nil, sortOrder: SortOrder? = nil, spaceNameContains: String? = nil) {
             self.domainIdEquals = domainIdEquals
             self.maxResults = maxResults
@@ -27364,6 +28112,7 @@ extension SageMaker {
         /// The list of spaces.
         public let spaces: [SpaceDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, spaces: [SpaceDetails]? = nil) {
             self.nextToken = nextToken
             self.spaces = spaces
@@ -27387,6 +28136,7 @@ extension SageMaker {
         /// The name of the stage in the deployment.
         public let stageName: String?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil, excludeDevicesDeployedInOtherStage: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, stageName: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.excludeDevicesDeployedInOtherStage = excludeDevicesDeployedInOtherStage
@@ -27422,6 +28172,7 @@ extension SageMaker {
         /// The token to use when calling the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceDeploymentSummaries: [DeviceDeploymentSummary]? = nil, nextToken: String? = nil) {
             self.deviceDeploymentSummaries = deviceDeploymentSummaries
             self.nextToken = nextToken
@@ -27455,6 +28206,7 @@ extension SageMaker {
         /// The sort order. The default value is Descending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(appTypeEquals: StudioLifecycleConfigAppType? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modifiedTimeAfter: Date? = nil, modifiedTimeBefore: Date? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: StudioLifecycleConfigSortKey? = nil, sortOrder: SortOrder? = nil) {
             self.appTypeEquals = appTypeEquals
             self.creationTimeAfter = creationTimeAfter
@@ -27497,6 +28249,7 @@ extension SageMaker {
         /// A list of Lifecycle Configurations and their properties.
         public let studioLifecycleConfigs: [StudioLifecycleConfigDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, studioLifecycleConfigs: [StudioLifecycleConfigDetails]? = nil) {
             self.nextToken = nextToken
             self.studioLifecycleConfigs = studioLifecycleConfigs
@@ -27516,6 +28269,7 @@ extension SageMaker {
         /// If the result of the previous ListSubscribedWorkteams request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -27545,6 +28299,7 @@ extension SageMaker {
         /// An array of Workteam objects, each describing a work team.
         public let subscribedWorkteams: [SubscribedWorkteam]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscribedWorkteams: [SubscribedWorkteam]? = nil) {
             self.nextToken = nextToken
             self.subscribedWorkteams = subscribedWorkteams
@@ -27564,6 +28319,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -27591,6 +28347,7 @@ extension SageMaker {
         /// An array of Tag objects, each with a tag key and a value.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -27616,6 +28373,7 @@ extension SageMaker {
         /// A filter that returns only training jobs with the specified status.
         public let statusEquals: TrainingJobStatus?
 
+        @inlinable
         public init(hyperParameterTuningJobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: TrainingJobSortByOptions? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
             self.maxResults = maxResults
@@ -27651,6 +28409,7 @@ extension SageMaker {
         /// A list of TrainingJobSummary objects that describe the training jobs that the ListTrainingJobsForHyperParameterTuningJob request returned.
         public let trainingJobSummaries: [HyperParameterTrainingJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trainingJobSummaries: [HyperParameterTrainingJobSummary]? = nil) {
             self.nextToken = nextToken
             self.trainingJobSummaries = trainingJobSummaries
@@ -27686,6 +28445,7 @@ extension SageMaker {
         /// A filter that retrieves only training jobs with a specific warm pool status.
         public let warmPoolStatusEquals: WarmPoolResourceStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TrainingJobStatus? = nil, warmPoolStatusEquals: WarmPoolResourceStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -27730,6 +28490,7 @@ extension SageMaker {
         /// An array of TrainingJobSummary objects, each listing a training job.
         public let trainingJobSummaries: [TrainingJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trainingJobSummaries: [TrainingJobSummary]? = nil) {
             self.nextToken = nextToken
             self.trainingJobSummaries = trainingJobSummaries
@@ -27763,6 +28524,7 @@ extension SageMaker {
         /// A filter that retrieves only transform jobs with a specific status.
         public let statusEquals: TransformJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, lastModifiedTimeAfter: Date? = nil, lastModifiedTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil, statusEquals: TransformJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -27805,6 +28567,7 @@ extension SageMaker {
         /// An array of TransformJobSummary objects.
         public let transformJobSummaries: [TransformJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, transformJobSummaries: [TransformJobSummary]? = nil) {
             self.nextToken = nextToken
             self.transformJobSummaries = transformJobSummaries
@@ -27836,6 +28599,7 @@ extension SageMaker {
         /// A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
         public let trialName: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialComponentsBy? = nil, sortOrder: SortOrder? = nil, sourceArn: String? = nil, trialName: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -27881,6 +28645,7 @@ extension SageMaker {
         /// A list of the summaries of your trial components.
         public let trialComponentSummaries: [TrialComponentSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trialComponentSummaries: [TrialComponentSummary]? = nil) {
             self.nextToken = nextToken
             self.trialComponentSummaries = trialComponentSummaries
@@ -27910,6 +28675,7 @@ extension SageMaker {
         /// A filter that returns only trials that are associated with the specified trial component.
         public let trialComponentName: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, experimentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortTrialsBy? = nil, sortOrder: SortOrder? = nil, trialComponentName: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -27952,6 +28718,7 @@ extension SageMaker {
         /// A list of the summaries of your trials.
         public let trialSummaries: [TrialSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trialSummaries: [TrialSummary]? = nil) {
             self.nextToken = nextToken
             self.trialSummaries = trialSummaries
@@ -27977,6 +28744,7 @@ extension SageMaker {
         /// A parameter by which to filter the results.
         public let userProfileNameContains: String?
 
+        @inlinable
         public init(domainIdEquals: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: UserProfileSortKey? = nil, sortOrder: SortOrder? = nil, userProfileNameContains: String? = nil) {
             self.domainIdEquals = domainIdEquals
             self.maxResults = maxResults
@@ -28013,6 +28781,7 @@ extension SageMaker {
         /// The list of user profiles.
         public let userProfiles: [UserProfileDetails]?
 
+        @inlinable
         public init(nextToken: String? = nil, userProfiles: [UserProfileDetails]? = nil) {
             self.nextToken = nextToken
             self.userProfiles = userProfiles
@@ -28036,6 +28805,7 @@ extension SageMaker {
         /// Sort workforces in ascending or descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListWorkforcesSortByOptions? = nil, sortOrder: SortOrder? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -28069,6 +28839,7 @@ extension SageMaker {
         /// A list containing information about your workforce.
         public let workforces: [Workforce]?
 
+        @inlinable
         public init(nextToken: String? = nil, workforces: [Workforce]? = nil) {
             self.nextToken = nextToken
             self.workforces = workforces
@@ -28092,6 +28863,7 @@ extension SageMaker {
         /// The sort order for results. The default is Ascending.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ListWorkteamsSortByOptions? = nil, sortOrder: SortOrder? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -28125,6 +28897,7 @@ extension SageMaker {
         /// An array of Workteam objects, each describing a work team.
         public let workteams: [Workteam]?
 
+        @inlinable
         public init(nextToken: String? = nil, workteams: [Workteam]? = nil) {
             self.nextToken = nextToken
             self.workteams = workteams
@@ -28142,6 +28915,7 @@ extension SageMaker {
         /// A list user groups that exist in your OIDC Identity Provider (IdP).  One to ten groups can be used to create a single private work team.  When you add a user group to the list of Groups, you can add that user group to one or more private work teams. If you add a user group to a private work team, all workers in that user group  are added to the work team.
         public let oidcMemberDefinition: OidcMemberDefinition?
 
+        @inlinable
         public init(cognitoMemberDefinition: CognitoMemberDefinition? = nil, oidcMemberDefinition: OidcMemberDefinition? = nil) {
             self.cognitoMemberDefinition = cognitoMemberDefinition
             self.oidcMemberDefinition = oidcMemberDefinition
@@ -28168,6 +28942,7 @@ extension SageMaker {
         /// The repository.
         public let repository: String?
 
+        @inlinable
         public init(commitId: String? = nil, generatedBy: String? = nil, projectId: String? = nil, repository: String? = nil) {
             self.commitId = commitId
             self.generatedBy = generatedBy
@@ -28202,6 +28977,7 @@ extension SageMaker {
         /// The value of the metric.
         public let value: Float?
 
+        @inlinable
         public init(metricName: String? = nil, timestamp: Date? = nil, value: Float? = nil) {
             self.metricName = metricName
             self.timestamp = timestamp
@@ -28225,6 +29001,7 @@ extension SageMaker {
         /// The value of the metric.
         public let value: Float?
 
+        @inlinable
         public init(metricName: AutoMLMetricEnum? = nil, set: MetricSetSource? = nil, standardMetricName: AutoMLMetricExtendedEnum? = nil, value: Float? = nil) {
             self.metricName = metricName
             self.set = set
@@ -28246,6 +29023,7 @@ extension SageMaker {
         /// A regular expression that searches the output of a training job and gets the value of the metric. For more information about using regular expressions to define metrics, see Defining metrics and environment variables.
         public let regex: String?
 
+        @inlinable
         public init(name: String? = nil, regex: String? = nil) {
             self.name = name
             self.regex = regex
@@ -28274,6 +29052,7 @@ extension SageMaker {
         /// The S3 URI for the metrics source.
         public let s3Uri: String?
 
+        @inlinable
         public init(contentDigest: String? = nil, contentType: String? = nil, s3Uri: String? = nil) {
             self.contentDigest = contentDigest
             self.contentType = contentType
@@ -28317,6 +29096,7 @@ extension SageMaker {
         public let tags: [Tag]?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(containers: [ContainerDefinition]? = nil, creationTime: Date? = nil, deploymentRecommendation: DeploymentRecommendation? = nil, enableNetworkIsolation: Bool? = nil, executionRoleArn: String? = nil, inferenceExecutionConfig: InferenceExecutionConfig? = nil, modelArn: String? = nil, modelName: String? = nil, primaryContainer: ContainerDefinition? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.containers = containers
             self.creationTime = creationTime
@@ -28350,6 +29130,7 @@ extension SageMaker {
         /// Specifies agreement to the model end-user license agreement (EULA). The AcceptEula value must be explicitly defined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
         public let acceptEula: Bool?
 
+        @inlinable
         public init(acceptEula: Bool? = nil) {
             self.acceptEula = acceptEula
         }
@@ -28363,6 +29144,7 @@ extension SageMaker {
         /// The path of the S3 object that contains the model artifacts. For example, s3://bucket-name/keynameprefix/model.tar.gz.
         public let s3ModelArtifacts: String?
 
+        @inlinable
         public init(s3ModelArtifacts: String? = nil) {
             self.s3ModelArtifacts = s3ModelArtifacts
         }
@@ -28380,6 +29162,7 @@ extension SageMaker {
         /// The container image to be run by the model bias job.
         public let imageUri: String?
 
+        @inlinable
         public init(configUri: String? = nil, environment: [String: String]? = nil, imageUri: String? = nil) {
             self.configUri = configUri
             self.environment = environment
@@ -28412,6 +29195,7 @@ extension SageMaker {
         public let baseliningJobName: String?
         public let constraintsResource: MonitoringConstraintsResource?
 
+        @inlinable
         public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
@@ -28437,6 +29221,7 @@ extension SageMaker {
         /// Location of ground truth labels to use in model bias job.
         public let groundTruthS3Input: MonitoringGroundTruthS3Input?
 
+        @inlinable
         public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil, groundTruthS3Input: MonitoringGroundTruthS3Input? = nil) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
@@ -28484,6 +29269,7 @@ extension SageMaker {
         /// Key-value pairs used to manage metadata for the model card.
         public let tags: [Tag]?
 
+        @inlinable
         public init(content: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, modelCardVersion: Int? = nil, modelId: String? = nil, modelPackageGroupName: String? = nil, riskRating: String? = nil, securityConfig: ModelCardSecurityConfig? = nil, tags: [Tag]? = nil) {
             self.content = content
             self.createdBy = createdBy
@@ -28523,6 +29309,7 @@ extension SageMaker {
         /// The Amazon S3 URI of the exported model artifacts.
         public let s3ExportArtifacts: String?
 
+        @inlinable
         public init(s3ExportArtifacts: String? = nil) {
             self.s3ExportArtifacts = s3ExportArtifacts
         }
@@ -28548,6 +29335,7 @@ extension SageMaker {
         /// The completion status of the model card export job.
         public let status: ModelCardExportJobStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, lastModifiedAt: Date? = nil, modelCardExportJobArn: String? = nil, modelCardExportJobName: String? = nil, modelCardName: String? = nil, modelCardVersion: Int? = nil, status: ModelCardExportJobStatus? = nil) {
             self.createdAt = createdAt
             self.lastModifiedAt = lastModifiedAt
@@ -28573,6 +29361,7 @@ extension SageMaker {
         /// The Amazon S3 output path to export your model card PDF.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(s3OutputPath: String? = nil) {
             self.s3OutputPath = s3OutputPath
         }
@@ -28591,6 +29380,7 @@ extension SageMaker {
         /// A Key Management Service key ID to use for encrypting a model card.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -28617,6 +29407,7 @@ extension SageMaker {
         /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
         public let modelCardStatus: ModelCardStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -28648,6 +29439,7 @@ extension SageMaker {
         /// A version of the model card.
         public let modelCardVersion: Int?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, modelCardVersion: Int? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -28673,6 +29465,7 @@ extension SageMaker {
         /// The timeout value in seconds for an invocation request. The default value is 600.
         public let invocationsTimeoutInSeconds: Int?
 
+        @inlinable
         public init(invocationsMaxRetries: Int? = nil, invocationsTimeoutInSeconds: Int? = nil) {
             self.invocationsMaxRetries = invocationsMaxRetries
             self.invocationsTimeoutInSeconds = invocationsTimeoutInSeconds
@@ -28697,6 +29490,7 @@ extension SageMaker {
         /// Environment variables that override the default ones in the model container.
         public let overrideEnvironment: [String: String]?
 
+        @inlinable
         public init(image: String? = nil, overrideEnvironment: [String: String]? = nil) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
@@ -28727,6 +29521,7 @@ extension SageMaker {
         /// The inference specification name in the model package version.
         public let inferenceSpecificationName: String?
 
+        @inlinable
         public init(compilationJobName: String? = nil, environmentParameters: [EnvironmentParameter]? = nil, inferenceSpecificationName: String? = nil) {
             self.compilationJobName = compilationJobName
             self.environmentParameters = environmentParameters
@@ -28752,6 +29547,7 @@ extension SageMaker {
         /// The last time the endpoint was modified.
         public let lastModifiedTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointArn: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, lastModifiedTime: Date? = nil) {
             self.creationTime = creationTime
             self.endpointArn = endpointArn
@@ -28773,6 +29569,7 @@ extension SageMaker {
         /// Indicates whether the alert action is turned on.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -28793,6 +29590,7 @@ extension SageMaker {
         /// The monitoring schedules for a model.
         public let monitoringSchedules: [ModelDashboardMonitoringSchedule]?
 
+        @inlinable
         public init(endpoints: [ModelDashboardEndpoint]? = nil, lastBatchTransformJob: TransformJob? = nil, model: Model? = nil, modelCard: ModelDashboardModelCard? = nil, monitoringSchedules: [ModelDashboardMonitoringSchedule]? = nil) {
             self.endpoints = endpoints
             self.lastBatchTransformJob = lastBatchTransformJob
@@ -28834,6 +29632,7 @@ extension SageMaker {
         /// The tags associated with a model card.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, modelCardArn: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil, modelCardVersion: Int? = nil, modelId: String? = nil, riskRating: String? = nil, securityConfig: ModelCardSecurityConfig? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -28888,6 +29687,7 @@ extension SageMaker {
         /// The monitor type of a model monitor.
         public let monitoringType: MonitoringType?
 
+        @inlinable
         public init(batchTransformInput: BatchTransformInput? = nil, creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringAlertSummaries: [MonitoringAlertSummary]? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil) {
             self.batchTransformInput = batchTransformInput
             self.creationTime = creationTime
@@ -28925,6 +29725,7 @@ extension SageMaker {
         /// Data quality statistics for a model.
         public let statistics: MetricsSource?
 
+        @inlinable
         public init(constraints: MetricsSource? = nil, statistics: MetricsSource? = nil) {
             self.constraints = constraints
             self.statistics = statistics
@@ -28945,6 +29746,7 @@ extension SageMaker {
         /// Specifies the S3 location of ML model data to deploy.
         public let s3DataSource: S3ModelDataSource?
 
+        @inlinable
         public init(s3DataSource: S3ModelDataSource? = nil) {
             self.s3DataSource = s3DataSource
         }
@@ -28964,6 +29766,7 @@ extension SageMaker {
         /// Specifies the endpoint name to use for a one-click Autopilot model deployment if the endpoint name is not generated automatically.  Specify the EndpointName if and only if you set AutoGenerateEndpointName to False; otherwise a 400 error is thrown.
         public let endpointName: String?
 
+        @inlinable
         public init(autoGenerateEndpointName: Bool? = nil, endpointName: String? = nil) {
             self.autoGenerateEndpointName = autoGenerateEndpointName
             self.endpointName = endpointName
@@ -28984,6 +29787,7 @@ extension SageMaker {
         /// The name of the endpoint to which the model has been deployed.  If model deployment fails, this field is omitted from the response.
         public let endpointName: String?
 
+        @inlinable
         public init(endpointName: String? = nil) {
             self.endpointName = endpointName
         }
@@ -28997,6 +29801,7 @@ extension SageMaker {
         /// Provides a hash value that uniquely identifies the stored model artifacts.
         public let artifactDigest: String?
 
+        @inlinable
         public init(artifactDigest: String? = nil) {
             self.artifactDigest = artifactDigest
         }
@@ -29014,6 +29819,7 @@ extension SageMaker {
         /// The container image to be run by the model explainability job.
         public let imageUri: String?
 
+        @inlinable
         public init(configUri: String? = nil, environment: [String: String]? = nil, imageUri: String? = nil) {
             self.configUri = configUri
             self.environment = environment
@@ -29046,6 +29852,7 @@ extension SageMaker {
         public let baseliningJobName: String?
         public let constraintsResource: MonitoringConstraintsResource?
 
+        @inlinable
         public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
@@ -29069,6 +29876,7 @@ extension SageMaker {
         public let batchTransformInput: BatchTransformInput?
         public let endpointInput: EndpointInput?
 
+        @inlinable
         public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
@@ -29091,6 +29899,7 @@ extension SageMaker {
         /// The infrastructure configuration for deploying the model to real-time inference.
         public let realTimeInferenceConfig: RealTimeInferenceConfig?
 
+        @inlinable
         public init(infrastructureType: ModelInfrastructureType? = nil, realTimeInferenceConfig: RealTimeInferenceConfig? = nil) {
             self.infrastructureType = infrastructureType
             self.realTimeInferenceConfig = realTimeInferenceConfig
@@ -29110,6 +29919,7 @@ extension SageMaker {
         /// The input configuration object for the model.
         public let dataInputConfig: String?
 
+        @inlinable
         public init(dataInputConfig: String? = nil) {
             self.dataInputConfig = dataInputConfig
         }
@@ -29131,6 +29941,7 @@ extension SageMaker {
         /// The model latency percentile value in milliseconds.
         public let valueInMilliseconds: Int?
 
+        @inlinable
         public init(percentile: String? = nil, valueInMilliseconds: Int? = nil) {
             self.percentile = percentile
             self.valueInMilliseconds = valueInMilliseconds
@@ -29152,6 +29963,7 @@ extension SageMaker {
         /// The value to filter the model metadata.
         public let value: String?
 
+        @inlinable
         public init(name: ModelMetadataFilterType? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -29171,6 +29983,7 @@ extension SageMaker {
         /// A list of filter objects.
         public let filters: [ModelMetadataFilter]?
 
+        @inlinable
         public init(filters: [ModelMetadataFilter]? = nil) {
             self.filters = filters
         }
@@ -29200,6 +30013,7 @@ extension SageMaker {
         /// The machine learning task of the model.
         public let task: String?
 
+        @inlinable
         public init(domain: String? = nil, framework: String? = nil, frameworkVersion: String? = nil, model: String? = nil, task: String? = nil) {
             self.domain = domain
             self.framework = framework
@@ -29227,6 +30041,7 @@ extension SageMaker {
         /// Metrics that measure the quality of a model.
         public let modelQuality: ModelQuality?
 
+        @inlinable
         public init(bias: Bias? = nil, explainability: Explainability? = nil, modelDataQuality: ModelDataQuality? = nil, modelQuality: ModelQuality? = nil) {
             self.bias = bias
             self.explainability = explainability
@@ -29309,6 +30124,7 @@ extension SageMaker {
         /// Specifies batch transform jobs that SageMaker runs to validate your model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
+        @inlinable
         public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.approvalDescription = approvalDescription
@@ -29402,6 +30218,7 @@ extension SageMaker {
         /// The Amazon Web Services Marketplace product ID of the model package.
         public let productId: String?
 
+        @inlinable
         public init(additionalS3DataSource: AdditionalS3DataSource? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, framework: String? = nil, frameworkVersion: String? = nil, image: String? = nil, imageDigest: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelInput: ModelInput? = nil, nearestModelName: String? = nil, productId: String? = nil) {
             self.additionalS3DataSource = additionalS3DataSource
             self.containerHostname = containerHostname
@@ -29474,6 +30291,7 @@ extension SageMaker {
         /// A list of the tags associated with the model group. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, modelPackageGroupArn: String? = nil, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageGroupStatus: ModelPackageGroupStatus? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -29507,6 +30325,7 @@ extension SageMaker {
         /// The status of the model group.
         public let modelPackageGroupStatus: ModelPackageGroupStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, modelPackageGroupArn: String? = nil, modelPackageGroupDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageGroupStatus: ModelPackageGroupStatus? = nil) {
             self.creationTime = creationTime
             self.modelPackageGroupArn = modelPackageGroupArn
@@ -29530,6 +30349,7 @@ extension SageMaker {
         /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates can be made to the model card content. If you try to update the model card content, you will receive the message Model Card 	       is in Archived state.
         public let modelCardStatus: ModelCardStatus?
 
+        @inlinable
         public init(modelCardContent: String? = nil, modelCardStatus: ModelCardStatus? = nil) {
             self.modelCardContent = modelCardContent
             self.modelCardStatus = modelCardStatus
@@ -29550,6 +30370,7 @@ extension SageMaker {
         /// The KMS Key ID (KMSKeyId) used for encryption of model package information.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -29570,6 +30391,7 @@ extension SageMaker {
         /// The validation status of the model package.
         public let validationStatuses: [ModelPackageStatusItem]?
 
+        @inlinable
         public init(imageScanStatuses: [ModelPackageStatusItem]? = nil, validationStatuses: [ModelPackageStatusItem]? = nil) {
             self.imageScanStatuses = imageScanStatuses
             self.validationStatuses = validationStatuses
@@ -29589,6 +30411,7 @@ extension SageMaker {
         /// The current status.
         public let status: DetailedModelPackageStatus?
 
+        @inlinable
         public init(failureReason: String? = nil, name: String? = nil, status: DetailedModelPackageStatus? = nil) {
             self.failureReason = failureReason
             self.name = name
@@ -29620,6 +30443,7 @@ extension SageMaker {
         /// If the model package is a versioned model, the version of the model.
         public let modelPackageVersion: Int?
 
+        @inlinable
         public init(creationTime: Date? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
             self.creationTime = creationTime
             self.modelApprovalStatus = modelApprovalStatus
@@ -29649,6 +30473,7 @@ extension SageMaker {
         /// The TransformJobDefinition object that describes the transform job used for the validation of the model package.
         public let transformJobDefinition: TransformJobDefinition?
 
+        @inlinable
         public init(profileName: String? = nil, transformJobDefinition: TransformJobDefinition? = nil) {
             self.profileName = profileName
             self.transformJobDefinition = transformJobDefinition
@@ -29673,6 +30498,7 @@ extension SageMaker {
         /// The IAM roles to be used for the validation of the model package.
         public let validationRole: String?
 
+        @inlinable
         public init(validationProfiles: [ModelPackageValidationProfile]? = nil, validationRole: String? = nil) {
             self.validationProfiles = validationProfiles
             self.validationRole = validationRole
@@ -29700,6 +30526,7 @@ extension SageMaker {
         /// Model quality statistics.
         public let statistics: MetricsSource?
 
+        @inlinable
         public init(constraints: MetricsSource? = nil, statistics: MetricsSource? = nil) {
             self.constraints = constraints
             self.statistics = statistics
@@ -29732,6 +30559,7 @@ extension SageMaker {
         /// An Amazon S3 URI to a script that is called per row prior to running analysis. It can  base64 decode the payload and convert it into a flattened JSON so that the built-in container can use  the converted data. Applicable only for the built-in (first party) containers.
         public let recordPreprocessorSourceUri: String?
 
+        @inlinable
         public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, environment: [String: String]? = nil, imageUri: String? = nil, postAnalyticsProcessorSourceUri: String? = nil, problemType: MonitoringProblemType? = nil, recordPreprocessorSourceUri: String? = nil) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -29786,6 +30614,7 @@ extension SageMaker {
         public let baseliningJobName: String?
         public let constraintsResource: MonitoringConstraintsResource?
 
+        @inlinable
         public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
@@ -29811,6 +30640,7 @@ extension SageMaker {
         /// The ground truth label provided for the model.
         public let groundTruthS3Input: MonitoringGroundTruthS3Input?
 
+        @inlinable
         public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil, groundTruthS3Input: MonitoringGroundTruthS3Input? = nil) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
@@ -29836,6 +30666,7 @@ extension SageMaker {
         /// Environment variables that override the default ones in the model container.
         public let overrideEnvironment: [String: String]?
 
+        @inlinable
         public init(image: String? = nil, overrideEnvironment: [String: String]? = nil) {
             self.image = image
             self.overrideEnvironment = overrideEnvironment
@@ -29864,6 +30695,7 @@ extension SageMaker {
         /// Describes whether the integration to the model registry is enabled or disabled in the Canvas application.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(crossAccountModelRegisterRoleArn: String? = nil, status: FeatureStatus? = nil) {
             self.crossAccountModelRegisterRoleArn = crossAccountModelRegisterRoleArn
             self.status = status
@@ -29885,6 +30717,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the created model.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -29902,6 +30735,7 @@ extension SageMaker {
         /// The name of the model that you want a summary for.
         public let modelName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, modelArn: String? = nil, modelName: String? = nil) {
             self.creationTime = creationTime
             self.modelArn = modelArn
@@ -29923,6 +30757,7 @@ extension SageMaker {
         /// The name of the variant.
         public let variantName: String?
 
+        @inlinable
         public init(infrastructureConfig: ModelInfrastructureConfig? = nil, modelName: String? = nil, variantName: String? = nil) {
             self.infrastructureConfig = infrastructureConfig
             self.modelName = modelName
@@ -29954,6 +30789,7 @@ extension SageMaker {
         /// The name of the variant.
         public let variantName: String?
 
+        @inlinable
         public init(infrastructureConfig: ModelInfrastructureConfig? = nil, modelName: String? = nil, status: ModelVariantStatus? = nil, variantName: String? = nil) {
             self.infrastructureConfig = infrastructureConfig
             self.modelName = modelName
@@ -29973,6 +30809,7 @@ extension SageMaker {
         /// An alert action taken to light up an icon on the Model Dashboard when an alert goes into InAlert status.
         public let modelDashboardIndicator: ModelDashboardIndicatorAction?
 
+        @inlinable
         public init(modelDashboardIndicator: ModelDashboardIndicatorAction? = nil) {
             self.modelDashboardIndicator = modelDashboardIndicator
         }
@@ -29992,6 +30829,7 @@ extension SageMaker {
         /// The name of a monitoring schedule.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(alertStatus: MonitoringAlertStatus? = nil, creationTime: Date? = nil, monitoringAlertName: String? = nil, monitoringScheduleName: String? = nil) {
             self.alertStatus = alertStatus
             self.creationTime = creationTime
@@ -30023,6 +30861,7 @@ extension SageMaker {
         /// The name of a monitoring alert.
         public let monitoringAlertName: String?
 
+        @inlinable
         public init(actions: MonitoringAlertActions? = nil, alertStatus: MonitoringAlertStatus? = nil, creationTime: Date? = nil, datapointsToAlert: Int? = nil, evaluationPeriod: Int? = nil, lastModifiedTime: Date? = nil, monitoringAlertName: String? = nil) {
             self.actions = actions
             self.alertStatus = alertStatus
@@ -30056,6 +30895,7 @@ extension SageMaker {
         /// An Amazon S3 URI to a script that is called per row prior to running analysis. It can  base64 decode the payload and convert it into a flattened JSON so that the built-in container can use  the converted data. Applicable only for the built-in (first party) containers.
         public let recordPreprocessorSourceUri: String?
 
+        @inlinable
         public init(containerArguments: [String]? = nil, containerEntrypoint: [String]? = nil, imageUri: String? = nil, postAnalyticsProcessorSourceUri: String? = nil, recordPreprocessorSourceUri: String? = nil) {
             self.containerArguments = containerArguments
             self.containerEntrypoint = containerEntrypoint
@@ -30102,6 +30942,7 @@ extension SageMaker {
         /// The baseline statistics file in Amazon S3 that the current monitoring job should be validated against.
         public let statisticsResource: MonitoringStatisticsResource?
 
+        @inlinable
         public init(baseliningJobName: String? = nil, constraintsResource: MonitoringConstraintsResource? = nil, statisticsResource: MonitoringStatisticsResource? = nil) {
             self.baseliningJobName = baseliningJobName
             self.constraintsResource = constraintsResource
@@ -30133,6 +30974,7 @@ extension SageMaker {
         /// The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceType: ProcessingInstanceType? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -30161,6 +31003,7 @@ extension SageMaker {
         /// The Amazon S3 URI for the constraints resource.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Uri: String? = nil) {
             self.s3Uri = s3Uri
         }
@@ -30179,6 +31022,7 @@ extension SageMaker {
         /// Indicates if the CSV data has a header.
         public let header: Bool?
 
+        @inlinable
         public init(header: Bool? = nil) {
             self.header = header
         }
@@ -30196,6 +31040,7 @@ extension SageMaker {
         /// The Parquet dataset used in the monitoring job
         public let parquet: MonitoringParquetDatasetFormat?
 
+        @inlinable
         public init(csv: MonitoringCsvDatasetFormat? = nil, json: MonitoringJsonDatasetFormat? = nil, parquet: MonitoringParquetDatasetFormat? = nil) {
             self.csv = csv
             self.json = json
@@ -30231,6 +31076,7 @@ extension SageMaker {
         /// The time the monitoring job was scheduled.
         public let scheduledTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, monitoringExecutionStatus: ExecutionStatus? = nil, monitoringJobDefinitionName: String? = nil, monitoringScheduleName: String? = nil, monitoringType: MonitoringType? = nil, processingJobArn: String? = nil, scheduledTime: Date? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -30262,6 +31108,7 @@ extension SageMaker {
         /// The address of the Amazon S3 location of the ground truth labels.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Uri: String? = nil) {
             self.s3Uri = s3Uri
         }
@@ -30282,6 +31129,7 @@ extension SageMaker {
         /// The endpoint for a monitoring job.
         public let endpointInput: EndpointInput?
 
+        @inlinable
         public init(batchTransformInput: BatchTransformInput? = nil, endpointInput: EndpointInput? = nil) {
             self.batchTransformInput = batchTransformInput
             self.endpointInput = endpointInput
@@ -30318,6 +31166,7 @@ extension SageMaker {
         /// Specifies a time limit for how long the monitoring job is allowed to run.
         public let stoppingCondition: MonitoringStoppingCondition?
 
+        @inlinable
         public init(baselineConfig: MonitoringBaselineConfig? = nil, environment: [String: String]? = nil, monitoringAppSpecification: MonitoringAppSpecification? = nil, monitoringInputs: [MonitoringInput]? = nil, monitoringOutputConfig: MonitoringOutputConfig? = nil, monitoringResources: MonitoringResources? = nil, networkConfig: NetworkConfig? = nil, roleArn: String? = nil, stoppingCondition: MonitoringStoppingCondition? = nil) {
             self.baselineConfig = baselineConfig
             self.environment = environment
@@ -30377,6 +31226,7 @@ extension SageMaker {
         /// The name of the monitoring job.
         public let monitoringJobDefinitionName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointName: String? = nil, monitoringJobDefinitionArn: String? = nil, monitoringJobDefinitionName: String? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -30396,6 +31246,7 @@ extension SageMaker {
         /// Indicates if the file should be read as a JSON object per line.
         public let line: Bool?
 
+        @inlinable
         public init(line: Bool? = nil) {
             self.line = line
         }
@@ -30412,6 +31263,7 @@ extension SageMaker {
         public let enableNetworkIsolation: Bool?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, vpcConfig: VpcConfig? = nil) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
@@ -30433,6 +31285,7 @@ extension SageMaker {
         /// The Amazon S3 storage location where the results of a monitoring job are saved.
         public let s3Output: MonitoringS3Output?
 
+        @inlinable
         public init(s3Output: MonitoringS3Output? = nil) {
             self.s3Output = s3Output
         }
@@ -30452,6 +31305,7 @@ extension SageMaker {
         /// Monitoring outputs for monitoring jobs. This is where the output of the periodic monitoring jobs is uploaded.
         public let monitoringOutputs: [MonitoringOutput]?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, monitoringOutputs: [MonitoringOutput]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.monitoringOutputs = monitoringOutputs
@@ -30481,6 +31335,7 @@ extension SageMaker {
         /// The configuration for the cluster resources used to run the processing job.
         public let clusterConfig: MonitoringClusterConfig?
 
+        @inlinable
         public init(clusterConfig: MonitoringClusterConfig? = nil) {
             self.clusterConfig = clusterConfig
         }
@@ -30502,6 +31357,7 @@ extension SageMaker {
         /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job.
         public let s3Uri: String?
 
+        @inlinable
         public init(localPath: String? = nil, s3UploadMode: ProcessingS3UploadMode? = nil, s3Uri: String? = nil) {
             self.localPath = localPath
             self.s3UploadMode = s3UploadMode
@@ -30544,6 +31400,7 @@ extension SageMaker {
         /// A list of the tags associated with the monitoring schedlue. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointName: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, lastMonitoringExecutionSummary: MonitoringExecutionSummary? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil, tags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -30583,6 +31440,7 @@ extension SageMaker {
         /// Configures the monitoring schedule.
         public let scheduleConfig: ScheduleConfig?
 
+        @inlinable
         public init(monitoringJobDefinition: MonitoringJobDefinition? = nil, monitoringJobDefinitionName: String? = nil, monitoringType: MonitoringType? = nil, scheduleConfig: ScheduleConfig? = nil) {
             self.monitoringJobDefinition = monitoringJobDefinition
             self.monitoringJobDefinitionName = monitoringJobDefinitionName
@@ -30624,6 +31482,7 @@ extension SageMaker {
         /// The type of the monitoring job definition that the schedule is for.
         public let monitoringType: MonitoringType?
 
+        @inlinable
         public init(creationTime: Date? = nil, endpointName: String? = nil, lastModifiedTime: Date? = nil, monitoringJobDefinitionName: String? = nil, monitoringScheduleArn: String? = nil, monitoringScheduleName: String? = nil, monitoringScheduleStatus: ScheduleStatus? = nil, monitoringType: MonitoringType? = nil) {
             self.creationTime = creationTime
             self.endpointName = endpointName
@@ -30651,6 +31510,7 @@ extension SageMaker {
         /// The Amazon S3 URI for the statistics resource.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Uri: String? = nil) {
             self.s3Uri = s3Uri
         }
@@ -30669,6 +31529,7 @@ extension SageMaker {
         /// The maximum runtime allowed in seconds.  The MaxRuntimeInSeconds cannot exceed the frequency of the job. For data quality and model explainability, this can be up to 3600 seconds for an hourly schedule. For model bias and model quality hourly schedules, this can be up to 1800 seconds.
         public let maxRuntimeInSeconds: Int?
 
+        @inlinable
         public init(maxRuntimeInSeconds: Int? = nil) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
@@ -30687,6 +31548,7 @@ extension SageMaker {
         /// Whether to cache models for a multi-model endpoint. By default, multi-model endpoints cache models so that a model does not have to be loaded into memory each time it is invoked. Some use cases do not benefit from model caching. For example, if an endpoint hosts a large number of models that are each invoked infrequently, the endpoint might perform better if you disable model caching. To disable model caching, set the value of this parameter to Disabled.
         public let modelCacheSetting: ModelCacheSetting?
 
+        @inlinable
         public init(modelCacheSetting: ModelCacheSetting? = nil) {
             self.modelCacheSetting = modelCacheSetting
         }
@@ -30702,6 +31564,7 @@ extension SageMaker {
         /// The ID of the subnets in the VPC that you want to connect the compilation job to for accessing the model in Amazon S3.
         public let subnets: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -30734,6 +31597,7 @@ extension SageMaker {
         /// The name of the property to use in the nested filters. The value must match a listed property name, such as InputDataConfig.
         public let nestedPropertyName: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, nestedPropertyName: String? = nil) {
             self.filters = filters
             self.nestedPropertyName = nestedPropertyName
@@ -30763,6 +31627,7 @@ extension SageMaker {
         public let enableNetworkIsolation: Bool?
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(enableInterContainerTrafficEncryption: Bool? = nil, enableNetworkIsolation: Bool? = nil, vpcConfig: VpcConfig? = nil) {
             self.enableInterContainerTrafficEncryption = enableInterContainerTrafficEncryption
             self.enableNetworkIsolation = enableNetworkIsolation
@@ -30790,6 +31655,7 @@ extension SageMaker {
         /// The name of the lifecycle configuration.
         public let notebookInstanceLifecycleConfigName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, notebookInstanceLifecycleConfigArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -30809,6 +31675,7 @@ extension SageMaker {
         /// A base64-encoded string that contains a shell script for a notebook instance lifecycle configuration.
         public let content: String?
 
+        @inlinable
         public init(content: String? = nil) {
             self.content = content
         }
@@ -30846,6 +31713,7 @@ extension SageMaker {
         /// The URL that you use to connect to the Jupyter notebook running in your notebook instance.
         public let url: String?
 
+        @inlinable
         public init(additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, instanceType: InstanceType? = nil, lastModifiedTime: Date? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, url: String? = nil) {
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
@@ -30877,6 +31745,7 @@ extension SageMaker {
         /// The ARN for the Amazon SNS topic to which notifications should be published.
         public let notificationTopicArn: String?
 
+        @inlinable
         public init(notificationTopicArn: String? = nil) {
             self.notificationTopicArn = notificationTopicArn
         }
@@ -30898,6 +31767,7 @@ extension SageMaker {
         /// The number of training jobs whose final objective metric was evaluated by the hyperparameter tuning job and used in the hyperparameter tuning process.
         public let succeeded: Int?
 
+        @inlinable
         public init(failed: Int? = nil, pending: Int? = nil, succeeded: Int? = nil) {
             self.failed = failed
             self.pending = pending
@@ -30921,6 +31791,7 @@ extension SageMaker {
         /// Format for the offline store table. Supported formats are Glue (Default) and Apache Iceberg.
         public let tableFormat: TableFormat?
 
+        @inlinable
         public init(dataCatalogConfig: DataCatalogConfig? = nil, disableGlueTableCreation: Bool? = nil, s3StorageConfig: S3StorageConfig? = nil, tableFormat: TableFormat? = nil) {
             self.dataCatalogConfig = dataCatalogConfig
             self.disableGlueTableCreation = disableGlueTableCreation
@@ -30947,6 +31818,7 @@ extension SageMaker {
         /// An OfflineStore status.
         public let status: OfflineStoreStatusValue?
 
+        @inlinable
         public init(blockedReason: String? = nil, status: OfflineStoreStatusValue? = nil) {
             self.blockedReason = blockedReason
             self.status = status
@@ -30980,6 +31852,7 @@ extension SageMaker {
         /// The OIDC IdP user information endpoint used to configure your private workforce.
         public let userInfoEndpoint: String?
 
+        @inlinable
         public init(authenticationRequestExtraParams: [String: String]? = nil, authorizationEndpoint: String? = nil, clientId: String? = nil, clientSecret: String? = nil, issuer: String? = nil, jwksUri: String? = nil, logoutEndpoint: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, userInfoEndpoint: String? = nil) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
@@ -31057,6 +31930,7 @@ extension SageMaker {
         /// The OIDC IdP user information endpoint used to configure your private workforce.
         public let userInfoEndpoint: String?
 
+        @inlinable
         public init(authenticationRequestExtraParams: [String: String]? = nil, authorizationEndpoint: String? = nil, clientId: String? = nil, issuer: String? = nil, jwksUri: String? = nil, logoutEndpoint: String? = nil, scope: String? = nil, tokenEndpoint: String? = nil, userInfoEndpoint: String? = nil) {
             self.authenticationRequestExtraParams = authenticationRequestExtraParams
             self.authorizationEndpoint = authorizationEndpoint
@@ -31086,6 +31960,7 @@ extension SageMaker {
         /// A list of comma seperated strings that identifies user groups in your OIDC IdP. Each user group is made up of a group of private workers.
         public let groups: [String]?
 
+        @inlinable
         public init(groups: [String]? = nil) {
             self.groups = groups
         }
@@ -31115,6 +31990,7 @@ extension SageMaker {
         /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
         public let ttlDuration: TtlDuration?
 
+        @inlinable
         public init(enableOnlineStore: Bool? = nil, securityConfig: OnlineStoreSecurityConfig? = nil, storageType: StorageType? = nil, ttlDuration: TtlDuration? = nil) {
             self.enableOnlineStore = enableOnlineStore
             self.securityConfig = securityConfig
@@ -31139,6 +32015,7 @@ extension SageMaker {
         /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
         public let ttlDuration: TtlDuration?
 
+        @inlinable
         public init(ttlDuration: TtlDuration? = nil) {
             self.ttlDuration = ttlDuration
         }
@@ -31156,6 +32033,7 @@ extension SageMaker {
         /// The Amazon Web Services Key Management Service (KMS) key ARN that SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest using Amazon S3 server-side encryption. The caller (either user or IAM role) of CreateFeatureGroup must have below permissions to the OnlineStore KmsKeyId:    "kms:Encrypt"     "kms:Decrypt"     "kms:DescribeKey"     "kms:CreateGrant"     "kms:RetireGrant"     "kms:ReEncryptFrom"     "kms:ReEncryptTo"     "kms:GenerateDataKey"     "kms:ListAliases"     "kms:ListGrants"     "kms:RevokeGrant"    The caller (either user or IAM role) to all DataPlane operations (PutRecord, GetRecord, DeleteRecord) must have the following permissions to the KmsKeyId:    "kms:Decrypt"
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -31174,6 +32052,7 @@ extension SageMaker {
         /// The Amazon S3 location of a source model to optimize with an optimization job.
         public let s3: OptimizationJobModelSourceS3?
 
+        @inlinable
         public init(s3: OptimizationJobModelSourceS3? = nil) {
             self.s3 = s3
         }
@@ -31193,6 +32072,7 @@ extension SageMaker {
         /// An Amazon S3 URI that locates a source model to optimize with an optimization job.
         public let s3Uri: String?
 
+        @inlinable
         public init(modelAccessConfig: OptimizationModelAccessConfig? = nil, s3Uri: String? = nil) {
             self.modelAccessConfig = modelAccessConfig
             self.s3Uri = s3Uri
@@ -31215,6 +32095,7 @@ extension SageMaker {
         /// The Amazon S3 URI for where to store the optimized model that you create with an optimization job.
         public let s3OutputLocation: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3OutputLocation: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
@@ -31253,6 +32134,7 @@ extension SageMaker {
         /// The optimization techniques that are applied by the optimization job.
         public let optimizationTypes: [String]?
 
+        @inlinable
         public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, lastModifiedTime: Date? = nil, optimizationEndTime: Date? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationStartTime: Date? = nil, optimizationTypes: [String]? = nil) {
             self.creationTime = creationTime
             self.deploymentInstanceType = deploymentInstanceType
@@ -31282,6 +32164,7 @@ extension SageMaker {
         /// Specifies agreement to the model end-user license agreement (EULA). The AcceptEula value must be explicitly defined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
         public let acceptEula: Bool?
 
+        @inlinable
         public init(acceptEula: Bool? = nil) {
             self.acceptEula = acceptEula
         }
@@ -31295,6 +32178,7 @@ extension SageMaker {
         /// The image that SageMaker recommends that you use to host the optimized model that you created with an optimization job.
         public let recommendedInferenceImage: String?
 
+        @inlinable
         public init(recommendedInferenceImage: String? = nil) {
             self.recommendedInferenceImage = recommendedInferenceImage
         }
@@ -31310,6 +32194,7 @@ extension SageMaker {
         /// The ID of the subnets in the VPC to which you want to connect your optimized model.
         public let subnets: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -31348,6 +32233,7 @@ extension SageMaker {
         /// Contains information about a target platform that you want your model to run on, such as OS, architecture, and accelerators. It is an alternative of TargetDevice. The following examples show how to configure the TargetPlatform and CompilerOptions JSON strings for popular target platforms:    Raspberry Pi 3 Model B+  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM_EABIHF"},   "CompilerOptions": {'mattr': ['+neon']}    Jetson TX2  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM64", "Accelerator": "NVIDIA"},   "CompilerOptions": {'gpu-code': 'sm_62', 'trt-ver': '6.0.1', 'cuda-ver': '10.0'}    EC2 m5.2xlarge instance OS  "TargetPlatform": {"Os": "LINUX", "Arch": "X86_64", "Accelerator": "NVIDIA"},   "CompilerOptions": {'mcpu': 'skylake-avx512'}    RK3399  "TargetPlatform": {"Os": "LINUX", "Arch": "ARM64", "Accelerator": "MALI"}    ARMv7 phone (CPU)  "TargetPlatform": {"Os": "ANDROID", "Arch": "ARM_EABI"},   "CompilerOptions": {'ANDROID_PLATFORM': 25, 'mattr': ['+neon']}    ARMv8 phone (CPU)  "TargetPlatform": {"Os": "ANDROID", "Arch": "ARM64"},   "CompilerOptions": {'ANDROID_PLATFORM': 29}
         public let targetPlatform: TargetPlatform?
 
+        @inlinable
         public init(compilerOptions: String? = nil, kmsKeyId: String? = nil, s3OutputLocation: String? = nil, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
             self.compilerOptions = compilerOptions
             self.kmsKeyId = kmsKeyId
@@ -31383,6 +32269,7 @@ extension SageMaker {
         /// Identifies the S3 path where you want SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(compressionType: OutputCompressionType? = nil, kmsKeyId: String? = nil, s3OutputPath: String? = nil) {
             self.compressionType = compressionType
             self.kmsKeyId = kmsKeyId
@@ -31409,6 +32296,7 @@ extension SageMaker {
         /// The value of the output parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -31429,6 +32317,7 @@ extension SageMaker {
         /// The user profile who is the owner of the space.
         public let ownerUserProfileName: String?
 
+        @inlinable
         public init(ownerUserProfileName: String? = nil) {
             self.ownerUserProfileName = ownerUserProfileName
         }
@@ -31447,6 +32336,7 @@ extension SageMaker {
         /// The user profile who is the owner of the space.
         public let ownerUserProfileName: String?
 
+        @inlinable
         public init(ownerUserProfileName: String? = nil) {
             self.ownerUserProfileName = ownerUserProfileName
         }
@@ -31460,6 +32350,7 @@ extension SageMaker {
         /// The max number of steps that can be executed in parallel.
         public let maxParallelExecutionSteps: Int?
 
+        @inlinable
         public init(maxParallelExecutionSteps: Int? = nil) {
             self.maxParallelExecutionSteps = maxParallelExecutionSteps
         }
@@ -31479,6 +32370,7 @@ extension SageMaker {
         /// The literal value for the parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -31505,6 +32397,7 @@ extension SageMaker {
         /// A IntegerParameterRangeSpecification object that defines the possible values for an integer hyperparameter.
         public let integerParameterRangeSpecification: IntegerParameterRangeSpecification?
 
+        @inlinable
         public init(categoricalParameterRangeSpecification: CategoricalParameterRangeSpecification? = nil, continuousParameterRangeSpecification: ContinuousParameterRangeSpecification? = nil, integerParameterRangeSpecification: IntegerParameterRangeSpecification? = nil) {
             self.categoricalParameterRangeSpecification = categoricalParameterRangeSpecification
             self.continuousParameterRangeSpecification = continuousParameterRangeSpecification
@@ -31534,6 +32427,7 @@ extension SageMaker {
         /// The array of IntegerParameterRange objects that specify ranges of integer hyperparameters that a hyperparameter tuning job searches.
         public let integerParameterRanges: [IntegerParameterRange]?
 
+        @inlinable
         public init(autoParameters: [AutoParameter]? = nil, categoricalParameterRanges: [CategoricalParameterRange]? = nil, continuousParameterRanges: [ContinuousParameterRange]? = nil, integerParameterRanges: [IntegerParameterRange]? = nil) {
             self.autoParameters = autoParameters
             self.categoricalParameterRanges = categoricalParameterRanges
@@ -31574,6 +32468,7 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
+        @inlinable
         public init(experimentName: String? = nil, trialName: String? = nil) {
             self.experimentName = experimentName
             self.trialName = trialName
@@ -31589,6 +32484,7 @@ extension SageMaker {
         /// The name of the hyperparameter tuning job to be used as a starting point for a new hyperparameter tuning job.
         public let hyperParameterTuningJobName: String?
 
+        @inlinable
         public init(hyperParameterTuningJobName: String? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -31614,6 +32510,7 @@ extension SageMaker {
         /// The start time of the deployment.
         public let startTime: Date?
 
+        @inlinable
         public init(endpointConfigName: String? = nil, productionVariants: [PendingProductionVariantSummary]? = nil, shadowProductionVariants: [PendingProductionVariantSummary]? = nil, startTime: Date? = nil) {
             self.endpointConfigName = endpointConfigName
             self.productionVariants = productionVariants
@@ -31657,6 +32554,7 @@ extension SageMaker {
         /// The endpoint variant status which describes the current deployment stage status or operational status.
         public let variantStatus: [ProductionVariantStatus]?
 
+        @inlinable
         public init(acceleratorType: ProductionVariantAcceleratorType? = nil, currentInstanceCount: Int? = nil, currentServerlessConfig: ProductionVariantServerlessConfig? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredServerlessConfig: ProductionVariantServerlessConfig? = nil, desiredWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, variantName: String? = nil, variantStatus: [ProductionVariantStatus]? = nil) {
             self.acceleratorType = acceleratorType
             self.currentInstanceCount = currentInstanceCount
@@ -31698,6 +32596,7 @@ extension SageMaker {
         /// Specified how many new users to spawn in a minute.
         public let spawnRate: Int?
 
+        @inlinable
         public init(durationInSeconds: Int? = nil, initialNumberOfUsers: Int? = nil, spawnRate: Int? = nil) {
             self.durationInSeconds = durationInSeconds
             self.initialNumberOfUsers = initialNumberOfUsers
@@ -31743,6 +32642,7 @@ extension SageMaker {
         /// A list of tags that apply to the pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -31784,6 +32684,7 @@ extension SageMaker {
         /// Version Id of the pipeline definition file. If not specified, Amazon SageMaker  will retrieve the latest version.
         public let versionId: String?
 
+        @inlinable
         public init(bucket: String? = nil, objectKey: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.objectKey = objectKey
@@ -31836,6 +32737,7 @@ extension SageMaker {
         /// The selective execution configuration applied to the pipeline run.
         public let selectiveExecutionConfig: SelectiveExecutionConfig?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, pipelineParameters: [Parameter]? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -31895,6 +32797,7 @@ extension SageMaker {
         /// The status of the step execution.
         public let stepStatus: StepStatus?
 
+        @inlinable
         public init(attemptCount: Int? = nil, cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, selectiveExecutionResult: SelectiveExecutionResult? = nil, startTime: Date? = nil, stepDescription: String? = nil, stepDisplayName: String? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
             self.attemptCount = attemptCount
             self.cacheHitResult = cacheHitResult
@@ -31958,6 +32861,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
         public let tuningJob: TuningJobStepMetaData?
 
+        @inlinable
         public init(autoMLJob: AutoMLJobStepMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, endpoint: EndpointStepMetadata? = nil, endpointConfig: EndpointConfigStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
             self.autoMLJob = autoMLJob
             self.callback = callback
@@ -32011,6 +32915,7 @@ extension SageMaker {
         /// The start time of the pipeline execution.
         public let startTime: Date?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionFailureReason: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, startTime: Date? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -32036,6 +32941,7 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
+        @inlinable
         public init(experimentName: String? = nil, trialName: String? = nil) {
             self.experimentName = experimentName
             self.trialName = trialName
@@ -32065,6 +32971,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) that the pipeline used to execute.
         public let roleArn: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastExecutionTime: Date? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, roleArn: String? = nil) {
             self.creationTime = creationTime
             self.lastExecutionTime = lastExecutionTime
@@ -32092,6 +32999,7 @@ extension SageMaker {
         /// The metric type. You can only apply SageMaker metric types to SageMaker endpoints.
         public let predefinedMetricType: String?
 
+        @inlinable
         public init(predefinedMetricType: String? = nil) {
             self.predefinedMetricType = predefinedMetricType
         }
@@ -32111,6 +33019,7 @@ extension SageMaker {
         /// The size of the ML storage volume in gigabytes that you want to provision. You must specify sufficient ML storage for your scenario.  Certain Nitro-based instances include local storage with a fixed total size, dependent on the instance type. When using these instances for processing, Amazon SageMaker mounts the local instance storage instead of Amazon EBS gp2 storage. You can't request a VolumeSizeInGB greater than the total size of the local instance storage. For a list of instance types that support local instance storage, including the total size per instance type, see Instance Store Volumes.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceType: ProcessingInstanceType? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -32139,6 +33048,7 @@ extension SageMaker {
         /// The name of the Amazon SageMaker FeatureGroup to use as the destination for processing job output. Note that your  processing script is responsible for putting records into your Feature Store.
         public let featureGroupName: String?
 
+        @inlinable
         public init(featureGroupName: String? = nil) {
             self.featureGroupName = featureGroupName
         }
@@ -32164,6 +33074,7 @@ extension SageMaker {
         /// Configuration for downloading input data from Amazon S3 into the processing container.
         public let s3Input: ProcessingS3Input?
 
+        @inlinable
         public init(appManaged: Bool? = nil, datasetDefinition: DatasetDefinition? = nil, inputName: String? = nil, s3Input: ProcessingS3Input? = nil) {
             self.appManaged = appManaged
             self.datasetDefinition = datasetDefinition
@@ -32224,6 +33135,7 @@ extension SageMaker {
         /// The ARN of the training job associated with this processing job.
         public let trainingJobArn: String?
 
+        @inlinable
         public init(appSpecification: AppSpecification? = nil, autoMLJobArn: String? = nil, creationTime: Date? = nil, environment: [String: String]? = nil, exitMessage: String? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, monitoringScheduleArn: String? = nil, networkConfig: NetworkConfig? = nil, processingEndTime: Date? = nil, processingInputs: [ProcessingInput]? = nil, processingJobArn: String? = nil, processingJobName: String? = nil, processingJobStatus: ProcessingJobStatus? = nil, processingOutputConfig: ProcessingOutputConfig? = nil, processingResources: ProcessingResources? = nil, processingStartTime: Date? = nil, roleArn: String? = nil, stoppingCondition: ProcessingStoppingCondition? = nil, tags: [Tag]? = nil, trainingJobArn: String? = nil) {
             self.appSpecification = appSpecification
             self.autoMLJobArn = autoMLJobArn
@@ -32279,6 +33191,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the processing job.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -32306,6 +33219,7 @@ extension SageMaker {
         /// The status of the processing job.
         public let processingJobStatus: ProcessingJobStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, exitMessage: String? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, processingEndTime: Date? = nil, processingJobArn: String? = nil, processingJobName: String? = nil, processingJobStatus: ProcessingJobStatus? = nil) {
             self.creationTime = creationTime
             self.exitMessage = exitMessage
@@ -32339,6 +33253,7 @@ extension SageMaker {
         /// Configuration for processing job outputs in Amazon S3.
         public let s3Output: ProcessingS3Output?
 
+        @inlinable
         public init(appManaged: Bool? = nil, featureStoreOutput: ProcessingFeatureStoreOutput? = nil, outputName: String? = nil, s3Output: ProcessingS3Output? = nil) {
             self.appManaged = appManaged
             self.featureStoreOutput = featureStoreOutput
@@ -32365,6 +33280,7 @@ extension SageMaker {
         /// An array of outputs configuring the data to upload from the processing container.
         public let outputs: [ProcessingOutput]?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, outputs: [ProcessingOutput]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.outputs = outputs
@@ -32389,6 +33305,7 @@ extension SageMaker {
         /// The configuration for the resources in a cluster used to run the processing job.
         public let clusterConfig: ProcessingClusterConfig?
 
+        @inlinable
         public init(clusterConfig: ProcessingClusterConfig? = nil) {
             self.clusterConfig = clusterConfig
         }
@@ -32416,6 +33333,7 @@ extension SageMaker {
         /// The URI of the Amazon S3 prefix Amazon SageMaker downloads data required to run a processing job.
         public let s3Uri: String?
 
+        @inlinable
         public init(localPath: String? = nil, s3CompressionType: ProcessingS3CompressionType? = nil, s3DataDistributionType: ProcessingS3DataDistributionType? = nil, s3DataType: ProcessingS3DataType? = nil, s3InputMode: ProcessingS3InputMode? = nil, s3Uri: String? = nil) {
             self.localPath = localPath
             self.s3CompressionType = s3CompressionType
@@ -32450,6 +33368,7 @@ extension SageMaker {
         /// A URI that identifies the Amazon S3 bucket where you want Amazon SageMaker to save the results of a processing job.
         public let s3Uri: String?
 
+        @inlinable
         public init(localPath: String? = nil, s3UploadMode: ProcessingS3UploadMode? = nil, s3Uri: String? = nil) {
             self.localPath = localPath
             self.s3UploadMode = s3UploadMode
@@ -32474,6 +33393,7 @@ extension SageMaker {
         /// Specifies the maximum runtime in seconds.
         public let maxRuntimeInSeconds: Int?
 
+        @inlinable
         public init(maxRuntimeInSeconds: Int? = nil) {
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
         }
@@ -32520,6 +33440,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to individual inference instance associated with the production variant. Currently only Amazon EBS gp2 storage volumes are supported.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(acceleratorType: ProductionVariantAcceleratorType? = nil, containerStartupHealthCheckTimeoutInSeconds: Int? = nil, coreDumpConfig: ProductionVariantCoreDumpConfig? = nil, enableSSMAccess: Bool? = nil, inferenceAmiVersion: ProductionVariantInferenceAmiVersion? = nil, initialInstanceCount: Int? = nil, initialVariantWeight: Float? = nil, instanceType: ProductionVariantInstanceType? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, modelDataDownloadTimeoutInSeconds: Int? = nil, modelName: String? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, serverlessConfig: ProductionVariantServerlessConfig? = nil, variantName: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorType = acceleratorType
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
@@ -32581,6 +33502,7 @@ extension SageMaker {
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that SageMaker uses to encrypt the core dump data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"    If you use a KMS key ID or an alias of your KMS key, the SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, SageMaker uses the default KMS key for Amazon S3 for your role's account. SageMaker uses server-side encryption with KMS-managed keys for OutputDataConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint and UpdateEndpoint requests. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(destinationS3Uri: String? = nil, kmsKeyId: String? = nil) {
             self.destinationS3Uri = destinationS3Uri
             self.kmsKeyId = kmsKeyId
@@ -32607,6 +33529,7 @@ extension SageMaker {
         /// Indicates whether managed instance scaling is enabled.
         public let status: ManagedInstanceScalingStatus?
 
+        @inlinable
         public init(maxInstanceCount: Int? = nil, minInstanceCount: Int? = nil, status: ManagedInstanceScalingStatus? = nil) {
             self.maxInstanceCount = maxInstanceCount
             self.minInstanceCount = minInstanceCount
@@ -32629,6 +33552,7 @@ extension SageMaker {
         /// Sets how the endpoint routes incoming traffic:    LEAST_OUTSTANDING_REQUESTS: The endpoint routes requests to the specific instances that have more capacity to process them.    RANDOM: The endpoint routes each request to a randomly chosen instance.
         public let routingStrategy: RoutingStrategy?
 
+        @inlinable
         public init(routingStrategy: RoutingStrategy? = nil) {
             self.routingStrategy = routingStrategy
         }
@@ -32646,6 +33570,7 @@ extension SageMaker {
         /// The amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency.  This field is not supported for serverless endpoint recommendations for Inference Recommender jobs. For more information about creating an Inference Recommender job, see CreateInferenceRecommendationsJobs.
         public let provisionedConcurrency: Int?
 
+        @inlinable
         public init(maxConcurrency: Int? = nil, memorySizeInMB: Int? = nil, provisionedConcurrency: Int? = nil) {
             self.maxConcurrency = maxConcurrency
             self.memorySizeInMB = memorySizeInMB
@@ -32674,6 +33599,7 @@ extension SageMaker {
         /// The updated amount of provisioned concurrency to allocate for the serverless endpoint. Should be less than or equal to MaxConcurrency.
         public let provisionedConcurrency: Int?
 
+        @inlinable
         public init(maxConcurrency: Int? = nil, provisionedConcurrency: Int? = nil) {
             self.maxConcurrency = maxConcurrency
             self.provisionedConcurrency = provisionedConcurrency
@@ -32700,6 +33626,7 @@ extension SageMaker {
         /// A message that describes the status of the production variant.
         public let statusMessage: String?
 
+        @inlinable
         public init(startTime: Date? = nil, status: VariantStatus? = nil, statusMessage: String? = nil) {
             self.startTime = startTime
             self.status = status
@@ -32737,6 +33664,7 @@ extension SageMaker {
         /// The endpoint variant status which describes the current deployment stage status or operational status.
         public let variantStatus: [ProductionVariantStatus]?
 
+        @inlinable
         public init(currentInstanceCount: Int? = nil, currentServerlessConfig: ProductionVariantServerlessConfig? = nil, currentWeight: Float? = nil, deployedImages: [DeployedImage]? = nil, desiredInstanceCount: Int? = nil, desiredServerlessConfig: ProductionVariantServerlessConfig? = nil, desiredWeight: Float? = nil, managedInstanceScaling: ProductionVariantManagedInstanceScaling? = nil, routingConfig: ProductionVariantRoutingConfig? = nil, variantName: String? = nil, variantStatus: [ProductionVariantStatus]? = nil) {
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
@@ -32776,6 +33704,7 @@ extension SageMaker {
         /// Path to Amazon S3 storage location for system and framework metrics.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(disableProfiler: Bool? = nil, profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String? = nil) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
@@ -32814,6 +33743,7 @@ extension SageMaker {
         /// Path to Amazon S3 storage location for system and framework metrics.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(disableProfiler: Bool? = nil, profilingIntervalInMilliseconds: Int64? = nil, profilingParameters: [String: String]? = nil, s3OutputPath: String? = nil) {
             self.disableProfiler = disableProfiler
             self.profilingIntervalInMilliseconds = profilingIntervalInMilliseconds
@@ -32858,6 +33788,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to the processing instance.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(instanceType: ProcessingInstanceType? = nil, localPath: String? = nil, ruleConfigurationName: String? = nil, ruleEvaluatorImage: String? = nil, ruleParameters: [String: String]? = nil, s3OutputPath: String? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceType = instanceType
             self.localPath = localPath
@@ -32912,6 +33843,7 @@ extension SageMaker {
         /// Details from the rule evaluation.
         public let statusDetails: String?
 
+        @inlinable
         public init(lastModifiedTime: Date? = nil, ruleConfigurationName: String? = nil, ruleEvaluationJobArn: String? = nil, ruleEvaluationStatus: RuleEvaluationStatus? = nil, statusDetails: String? = nil) {
             self.lastModifiedTime = lastModifiedTime
             self.ruleConfigurationName = ruleConfigurationName
@@ -32952,6 +33884,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil, serviceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails? = nil, serviceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -32997,6 +33930,7 @@ extension SageMaker {
         /// The status of the project.
         public let projectStatus: ProjectStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, projectArn: String? = nil, projectDescription: String? = nil, projectId: String? = nil, projectName: String? = nil, projectStatus: ProjectStatus? = nil) {
             self.creationTime = creationTime
             self.projectArn = projectArn
@@ -33020,6 +33954,7 @@ extension SageMaker {
         /// Text that begins a property's name.
         public let propertyNameHint: String?
 
+        @inlinable
         public init(propertyNameHint: String? = nil) {
             self.propertyNameHint = propertyNameHint
         }
@@ -33038,6 +33973,7 @@ extension SageMaker {
         /// A suggested property name based on what you entered in the search textbox in the SageMaker console.
         public let propertyName: String?
 
+        @inlinable
         public init(propertyName: String? = nil) {
             self.propertyName = propertyName
         }
@@ -33053,6 +33989,7 @@ extension SageMaker {
         /// The value of the provisioning parameter.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -33076,6 +34013,7 @@ extension SageMaker {
         /// Defines the amount of money paid to an Amazon Mechanical Turk worker in United States dollars.
         public let amountInUsd: USD?
 
+        @inlinable
         public init(amountInUsd: USD? = nil) {
             self.amountInUsd = amountInUsd
         }
@@ -33095,6 +34033,7 @@ extension SageMaker {
         /// The resource policy for the model group.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(modelPackageGroupName: String? = nil, resourcePolicy: String? = nil) {
             self.modelPackageGroupName = modelPackageGroupName
             self.resourcePolicy = resourcePolicy
@@ -33119,6 +34058,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model package group.
         public let modelPackageGroupArn: String?
 
+        @inlinable
         public init(modelPackageGroupArn: String? = nil) {
             self.modelPackageGroupArn = modelPackageGroupArn
         }
@@ -33150,6 +34090,7 @@ extension SageMaker {
         /// The Amazon S3 URI of violation report if violations are detected.
         public let violationReport: String?
 
+        @inlinable
         public init(baselineUsedForDriftCheckConstraints: String? = nil, baselineUsedForDriftCheckStatistics: String? = nil, calculatedBaselineConstraints: String? = nil, calculatedBaselineStatistics: String? = nil, checkJobArn: String? = nil, checkType: String? = nil, modelPackageGroupName: String? = nil, registerNewBaseline: Bool? = nil, skipCheck: Bool? = nil, violationReport: String? = nil) {
             self.baselineUsedForDriftCheckConstraints = baselineUsedForDriftCheckConstraints
             self.baselineUsedForDriftCheckStatistics = baselineUsedForDriftCheckStatistics
@@ -33193,6 +34134,7 @@ extension SageMaker {
         /// Filter the lineage entities connected to the StartArn by type. For example: DataSet,  Model, Endpoint, or ModelDeployment.
         public let types: [String]?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, lineageTypes: [LineageType]? = nil, modifiedAfter: Date? = nil, modifiedBefore: Date? = nil, properties: [String: String]? = nil, types: [String]? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -33243,6 +34185,7 @@ extension SageMaker {
         /// A list of resource Amazon Resource Name (ARN) that represent the starting point for your lineage query.
         public let startArns: [String]?
 
+        @inlinable
         public init(direction: Direction? = nil, filters: QueryFilters? = nil, includeEdges: Bool? = nil, maxDepth: Int? = nil, maxResults: Int? = nil, nextToken: String? = nil, startArns: [String]? = nil) {
             self.direction = direction
             self.filters = filters
@@ -33284,6 +34227,7 @@ extension SageMaker {
         /// A list of vertices connected to the start entity(ies) in the lineage graph.
         public let vertices: [Vertex]?
 
+        @inlinable
         public init(edges: [Edge]? = nil, nextToken: String? = nil, vertices: [Vertex]? = nil) {
             self.edges = edges
             self.nextToken = nextToken
@@ -33302,6 +34246,7 @@ extension SageMaker {
         public let customImages: [CustomImage]?
         public let defaultResourceSpec: ResourceSpec?
 
+        @inlinable
         public init(customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil) {
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
@@ -33327,6 +34272,7 @@ extension SageMaker {
         /// The level of permissions that the user has within the RStudioServerPro app. This value defaults to `User`. The `Admin` value allows the user access to the RStudio Administrative Dashboard.
         public let userGroup: RStudioServerProUserGroup?
 
+        @inlinable
         public init(accessStatus: RStudioServerProAccessStatus? = nil, userGroup: RStudioServerProUserGroup? = nil) {
             self.accessStatus = accessStatus
             self.userGroup = userGroup
@@ -33347,6 +34293,7 @@ extension SageMaker {
         /// A URL pointing to an RStudio Package Manager server.
         public let rStudioPackageManagerUrl: String?
 
+        @inlinable
         public init(defaultResourceSpec: ResourceSpec? = nil, domainExecutionRoleArn: String? = nil, rStudioConnectUrl: String? = nil, rStudioPackageManagerUrl: String? = nil) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
@@ -33378,6 +34325,7 @@ extension SageMaker {
         /// A URL pointing to an RStudio Package Manager server.
         public let rStudioPackageManagerUrl: String?
 
+        @inlinable
         public init(defaultResourceSpec: ResourceSpec? = nil, domainExecutionRoleArn: String? = nil, rStudioConnectUrl: String? = nil, rStudioPackageManagerUrl: String? = nil) {
             self.defaultResourceSpec = defaultResourceSpec
             self.domainExecutionRoleArn = domainExecutionRoleArn
@@ -33406,6 +34354,7 @@ extension SageMaker {
         /// The instance type the model is deployed to.
         public let instanceType: InstanceType?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceType: InstanceType? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -33429,6 +34378,7 @@ extension SageMaker {
         /// The recommendation ID which uniquely identifies each recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(environment: [String: String]? = nil, instanceType: ProductionVariantInstanceType? = nil, recommendationId: String? = nil) {
             self.environment = environment
             self.instanceType = instanceType
@@ -33446,6 +34396,7 @@ extension SageMaker {
         /// Identifies the Amazon S3 bucket where you want SageMaker to store the  compiled model artifacts.
         public let s3OutputUri: String?
 
+        @inlinable
         public init(s3OutputUri: String? = nil) {
             self.s3OutputUri = s3OutputUri
         }
@@ -33482,6 +34433,7 @@ extension SageMaker {
         /// The machine learning task that the model accomplishes. Valid Values: IMAGE_CLASSIFICATION | OBJECT_DETECTION | TEXT_GENERATION | IMAGE_SEGMENTATION | FILL_MASK | CLASSIFICATION | REGRESSION | OTHER
         public let task: String?
 
+        @inlinable
         public init(dataInputConfig: String? = nil, domain: String? = nil, framework: String? = nil, frameworkVersion: String? = nil, nearestModelName: String? = nil, payloadConfig: RecommendationJobPayloadConfig? = nil, supportedEndpointType: RecommendationJobSupportedEndpointType? = nil, supportedInstanceTypes: [String]? = nil, supportedResponseMIMETypes: [String]? = nil, task: String? = nil) {
             self.dataInputConfig = dataInputConfig
             self.domain = domain
@@ -33535,6 +34487,7 @@ extension SageMaker {
         public let metrics: RecommendationMetrics?
         public let modelConfiguration: ModelConfiguration?
 
+        @inlinable
         public init(endpointConfiguration: EndpointOutputConfiguration? = nil, endpointMetrics: InferenceMetrics? = nil, failureReason: String? = nil, invocationEndTime: Date? = nil, invocationStartTime: Date? = nil, metrics: RecommendationMetrics? = nil, modelConfiguration: ModelConfiguration? = nil) {
             self.endpointConfiguration = endpointConfiguration
             self.endpointMetrics = endpointMetrics
@@ -33578,6 +34531,7 @@ extension SageMaker {
         /// Inference Recommender provisions SageMaker endpoints with access to VPC in the inference recommendation job.
         public let vpcConfig: RecommendationJobVpcConfig?
 
+        @inlinable
         public init(containerConfig: RecommendationJobContainerConfig? = nil, endpointConfigurations: [EndpointInputConfiguration]? = nil, endpoints: [EndpointInfo]? = nil, jobDurationInSeconds: Int? = nil, modelName: String? = nil, modelPackageVersionArn: String? = nil, resourceLimit: RecommendationJobResourceLimit? = nil, trafficPattern: TrafficPattern? = nil, volumeKmsKeyId: String? = nil, vpcConfig: RecommendationJobVpcConfig? = nil) {
             self.containerConfig = containerConfig
             self.endpointConfigurations = endpointConfigurations
@@ -33635,6 +34589,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service (Amazon Web Services KMS) key  that Amazon SageMaker uses to encrypt your output artifacts with Amazon S3 server-side encryption.  The SageMaker execution role must have kms:GenerateDataKey permission. The KmsKeyId can be any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:::key/"    // KMS Key Alias  "alias/ExampleAlias"    // Amazon Resource Name (ARN) of a KMS Key Alias  "arn:aws:kms:::alias/"    For more information about key identifiers, see  Key identifiers (KeyID) in the  Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(compiledOutputConfig: RecommendationJobCompiledOutputConfig? = nil, kmsKeyId: String? = nil) {
             self.compiledOutputConfig = compiledOutputConfig
             self.kmsKeyId = kmsKeyId
@@ -33658,6 +34613,7 @@ extension SageMaker {
         /// The supported MIME types for the input data.
         public let supportedContentTypes: [String]?
 
+        @inlinable
         public init(samplePayloadUrl: String? = nil, supportedContentTypes: [String]? = nil) {
             self.samplePayloadUrl = samplePayloadUrl
             self.supportedContentTypes = supportedContentTypes
@@ -33684,6 +34640,7 @@ extension SageMaker {
         /// Defines the maximum number of parallel load tests.
         public let maxParallelOfTests: Int?
 
+        @inlinable
         public init(maxNumberOfTests: Int? = nil, maxParallelOfTests: Int? = nil) {
             self.maxNumberOfTests = maxNumberOfTests
             self.maxParallelOfTests = maxParallelOfTests
@@ -33708,6 +34665,7 @@ extension SageMaker {
         /// The interval of time taken by a model to respond as viewed from SageMaker.  The interval includes the local communication time taken to send the request  and to fetch the response from the container of a model and the time taken to  complete the inference in the container.
         public let modelLatencyThresholds: [ModelLatencyThreshold]?
 
+        @inlinable
         public init(flatInvocations: FlatInvocations? = nil, maxInvocations: Int? = nil, modelLatencyThresholds: [ModelLatencyThreshold]? = nil) {
             self.flatInvocations = flatInvocations
             self.maxInvocations = maxInvocations
@@ -33735,6 +34693,7 @@ extension SageMaker {
         /// The ID of the subnets in the VPC to which you want to connect your model.
         public let subnets: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -33777,6 +34736,7 @@ extension SageMaker {
         /// The time it takes to launch new compute resources for a serverless endpoint. The time can vary depending on the model size, how long it takes to download the model, and the start-up time of the container.  NaN indicates that the value is not available.
         public let modelSetupTime: Int?
 
+        @inlinable
         public init(costPerHour: Float? = nil, costPerInference: Float? = nil, cpuUtilization: Float? = nil, maxInvocations: Int? = nil, memoryUtilization: Float? = nil, modelLatency: Int? = nil, modelSetupTime: Int? = nil) {
             self.costPerHour = costPerHour
             self.costPerInference = costPerInference
@@ -33812,6 +34772,7 @@ extension SageMaker {
         public let outputS3Uri: String?
         public let queryString: String?
 
+        @inlinable
         public init(clusterId: String? = nil, clusterRoleArn: String? = nil, database: String? = nil, dbUser: String? = nil, kmsKeyId: String? = nil, outputCompression: RedshiftResultCompressionType? = nil, outputFormat: RedshiftResultFormat? = nil, outputS3Uri: String? = nil, queryString: String? = nil) {
             self.clusterId = clusterId
             self.clusterRoleArn = clusterRoleArn
@@ -33867,6 +34828,7 @@ extension SageMaker {
         /// The tags associated with devices.
         public let tags: [Tag]?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, devices: [Device]? = nil, tags: [Tag]? = nil) {
             self.deviceFleetName = deviceFleetName
             self.devices = devices
@@ -33897,6 +34859,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model package.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -33910,6 +34873,7 @@ extension SageMaker {
         /// If set to True, enables remote debugging.
         public let enableRemoteDebug: Bool?
 
+        @inlinable
         public init(enableRemoteDebug: Bool? = nil) {
             self.enableRemoteDebug = enableRemoteDebug
         }
@@ -33923,6 +34887,7 @@ extension SageMaker {
         /// If set to True, enables remote debugging.
         public let enableRemoteDebug: Bool?
 
+        @inlinable
         public init(enableRemoteDebug: Bool? = nil) {
             self.enableRemoteDebug = enableRemoteDebug
         }
@@ -33942,6 +34907,7 @@ extension SageMaker {
         /// A Template object containing the worker UI template to render.
         public let uiTemplate: UiTemplate?
 
+        @inlinable
         public init(humanTaskUiArn: String? = nil, roleArn: String? = nil, task: RenderableTask? = nil, uiTemplate: UiTemplate? = nil) {
             self.humanTaskUiArn = humanTaskUiArn
             self.roleArn = roleArn
@@ -33973,6 +34939,7 @@ extension SageMaker {
         /// A Liquid template that renders the HTML for the worker UI.
         public let renderedContent: String?
 
+        @inlinable
         public init(errors: [RenderingError]? = nil, renderedContent: String? = nil) {
             self.errors = errors
             self.renderedContent = renderedContent
@@ -33988,6 +34955,7 @@ extension SageMaker {
         /// A JSON object that contains values for the variables defined in the template. It is made available to the template under the substitution variable task.input. For example, if you define a variable task.input.text in your template, you can supply the variable in the JSON object as "text": "sample text".
         public let input: String?
 
+        @inlinable
         public init(input: String? = nil) {
             self.input = input
         }
@@ -34009,6 +34977,7 @@ extension SageMaker {
         /// A human-readable message describing the error.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -34024,6 +34993,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services Lambda function that provides credentials to authenticate to the private Docker registry where your model image is hosted. For information about how to create an Amazon Web Services Lambda function, see Create a Lambda function with the console in the Amazon Web Services Lambda Developer Guide.
         public let repositoryCredentialsProviderArn: String?
 
+        @inlinable
         public init(repositoryCredentialsProviderArn: String? = nil) {
             self.repositoryCredentialsProviderArn = repositoryCredentialsProviderArn
         }
@@ -34045,6 +35015,7 @@ extension SageMaker {
         /// The problem type.
         public let problemType: ProblemType?
 
+        @inlinable
         public init(autoMLJobObjective: AutoMLJobObjective? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, problemType: ProblemType? = nil) {
             self.autoMLJobObjective = autoMLJobObjective
             self.completionCriteria = completionCriteria
@@ -34068,6 +35039,7 @@ extension SageMaker {
         ///  The name of the ResourceCatalog.
         public let resourceCatalogName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, resourceCatalogArn: String? = nil, resourceCatalogName: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -34097,6 +35069,7 @@ extension SageMaker {
         /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  When using an ML instance with NVMe SSD volumes, SageMaker doesn't provision Amazon EBS General Purpose SSD (gp2) storage. Available storage is fixed to the NVMe-type instance's storage capacity. SageMaker configures storage paths for training datasets, checkpoints, model artifacts, and outputs to use the entire capacity of the instance storage. For example, ML instance families with the NVMe-type instance storage include ml.p4d, ml.g4dn, and ml.g5.  When using an ML instance with the EBS-only storage option and without instance storage, you must define the size of EBS volume through VolumeSizeInGB in the ResourceConfig API. For example, ML instance families that use EBS volumes include ml.c5 and ml.p2.  To look up instance types and their instance storage types and volumes, see Amazon EC2 Instance Types. To find the default local paths defined by the SageMaker training platform, see Amazon SageMaker Training Storage Folders for Training Datasets, Checkpoints, Model Artifacts, and Outputs.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceGroups: [InstanceGroup]? = nil, instanceType: TrainingInstanceType? = nil, keepAlivePeriodInSeconds: Int? = nil, volumeKmsKeyId: String? = nil, volumeSizeInGB: Int? = nil) {
             self.instanceCount = instanceCount
             self.instanceGroups = instanceGroups
@@ -34133,6 +35106,7 @@ extension SageMaker {
         /// The KeepAlivePeriodInSeconds value specified in the ResourceConfig to update.
         public let keepAlivePeriodInSeconds: Int?
 
+        @inlinable
         public init(keepAlivePeriodInSeconds: Int? = nil) {
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
         }
@@ -34155,6 +35129,7 @@ extension SageMaker {
         /// The maximum time in seconds that a hyperparameter tuning job can run.
         public let maxRuntimeInSeconds: Int?
 
+        @inlinable
         public init(maxNumberOfTrainingJobs: Int? = nil, maxParallelTrainingJobs: Int? = nil, maxRuntimeInSeconds: Int? = nil) {
             self.maxNumberOfTrainingJobs = maxNumberOfTrainingJobs
             self.maxParallelTrainingJobs = maxParallelTrainingJobs
@@ -34187,6 +35162,7 @@ extension SageMaker {
         /// The ARN of the image version created on the instance.
         public let sageMakerImageVersionArn: String?
 
+        @inlinable
         public init(instanceType: AppInstanceType? = nil, lifecycleConfigArn: String? = nil, sageMakerImageArn: String? = nil, sageMakerImageVersionAlias: String? = nil, sageMakerImageVersionArn: String? = nil) {
             self.instanceType = instanceType
             self.lifecycleConfigArn = lifecycleConfigArn
@@ -34220,6 +35196,7 @@ extension SageMaker {
         /// The default is Retain, which specifies to keep the data stored on the Amazon EFS volume. Specify Delete to delete the data stored on the Amazon EFS volume.
         public let homeEfsFileSystem: RetentionType?
 
+        @inlinable
         public init(homeEfsFileSystem: RetentionType? = nil) {
             self.homeEfsFileSystem = homeEfsFileSystem
         }
@@ -34237,6 +35214,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionArn: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.parallelismConfiguration = parallelismConfiguration
@@ -34262,6 +35240,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -34275,6 +35254,7 @@ extension SageMaker {
         /// The number of times to retry the job. When the job is retried, it's SecondaryStatus is changed to STARTING.
         public let maximumRetryAttempts: Int?
 
+        @inlinable
         public init(maximumRetryAttempts: Int? = nil) {
             self.maximumRetryAttempts = maximumRetryAttempts
         }
@@ -34299,6 +35279,7 @@ extension SageMaker {
         /// The length of the baking period, during which SageMaker monitors alarms for each batch on the new fleet.
         public let waitIntervalInSeconds: Int?
 
+        @inlinable
         public init(maximumBatchSize: CapacitySize? = nil, maximumExecutionTimeoutInSeconds: Int? = nil, rollbackMaximumBatchSize: CapacitySize? = nil, waitIntervalInSeconds: Int? = nil) {
             self.maximumBatchSize = maximumBatchSize
             self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
@@ -34335,6 +35316,7 @@ extension SageMaker {
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:    A key name prefix might look like this: s3://bucketname/exampleprefix/    A manifest might look like this: s3://bucketname/example.manifest  A manifest is an S3 object which is a JSON file consisting of an array of elements. The first element is a prefix which is followed by one or more suffixes. SageMaker appends the suffix elements to the prefix to get a full set of S3Uri. Note that the prefix must be a valid non-empty S3Uri that precludes users from specifying a manifest whose individual S3Uri is sourced from different S3 buckets. The following code example shows a valid manifest format:   [ {"prefix": "s3://customer_bucket/some/prefix/"},   "relative/path/to/custdata-1",   "relative/path/custdata-2",   ...   "relative/path/custdata-N"   ]  This JSON is equivalent to the following S3Uri list:  s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...   s3://customer_bucket/some/prefix/relative/path/custdata-N  The complete set of S3Uri in this manifest is the input data for the channel for this data source. The object that each S3Uri points to must be readable by the IAM role that SageMaker uses to perform tasks on your behalf.    Your input bucket must be located in same Amazon Web Services region as your training job.
         public let s3Uri: String?
 
+        @inlinable
         public init(attributeNames: [String]? = nil, instanceGroupNames: [String]? = nil, s3DataDistributionType: S3DataDistribution? = nil, s3DataType: S3DataType? = nil, s3Uri: String? = nil) {
             self.attributeNames = attributeNames
             self.instanceGroupNames = instanceGroupNames
@@ -34381,6 +35363,7 @@ extension SageMaker {
         /// Specifies the S3 path of ML model data to deploy.
         public let s3Uri: String?
 
+        @inlinable
         public init(compressionType: ModelCompressionType? = nil, hubAccessConfig: InferenceHubAccessConfig? = nil, modelAccessConfig: ModelAccessConfig? = nil, s3DataType: S3ModelDataType? = nil, s3Uri: String? = nil) {
             self.compressionType = compressionType
             self.hubAccessConfig = hubAccessConfig
@@ -34408,6 +35391,7 @@ extension SageMaker {
         /// Use this parameter to specify the allowed request source. Possible sources are either SourceIp or VpcSourceIp.
         public let iamPolicyConstraints: IamPolicyConstraints?
 
+        @inlinable
         public init(iamPolicyConstraints: IamPolicyConstraints? = nil) {
             self.iamPolicyConstraints = iamPolicyConstraints
         }
@@ -34425,6 +35409,7 @@ extension SageMaker {
         /// The S3 URI, or location in Amazon S3, of OfflineStore. S3 URIs have a format similar to the following: s3://example-bucket/prefix/.
         public let s3Uri: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, resolvedOutputS3Uri: String? = nil, s3Uri: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.resolvedOutputS3Uri = resolvedOutputS3Uri
@@ -34453,6 +35438,7 @@ extension SageMaker {
         /// The interval of time taken by a model to respond as viewed from SageMaker. This interval includes the local communication times taken to send the request and to fetch the response from the container of a model and the time taken to complete the inference in the container.
         public let modelLatency: Int?
 
+        @inlinable
         public init(invocationsPerInstance: Int? = nil, modelLatency: Int? = nil) {
             self.invocationsPerInstance = invocationsPerInstance
             self.modelLatency = modelLatency
@@ -34470,6 +35456,7 @@ extension SageMaker {
         /// The minimum number of expected requests to your endpoint per minute.
         public let minInvocationsPerMinute: Int?
 
+        @inlinable
         public init(maxInvocationsPerMinute: Int? = nil, minInvocationsPerMinute: Int? = nil) {
             self.maxInvocationsPerMinute = maxInvocationsPerMinute
             self.minInvocationsPerMinute = minInvocationsPerMinute
@@ -34489,6 +35476,7 @@ extension SageMaker {
         /// A cron expression that describes details about the monitoring schedule. The supported cron expressions are:   If you want to set the job to start every hour, use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    If you want to run the job one time, immediately, use the following keyword:  NOW    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.    You can also specify the keyword NOW to run the monitoring job immediately, one time, without recurring.
         public let scheduleExpression: String?
 
+        @inlinable
         public init(dataAnalysisEndTime: String? = nil, dataAnalysisStartTime: String? = nil, scheduleExpression: String? = nil) {
             self.dataAnalysisEndTime = dataAnalysisEndTime
             self.dataAnalysisStartTime = dataAnalysisStartTime
@@ -34517,6 +35505,7 @@ extension SageMaker {
         /// A list of search expression objects.
         public let subExpressions: [SearchExpression]?
 
+        @inlinable
         public init(filters: [Filter]? = nil, nestedFilters: [NestedFilters]? = nil, operator: BooleanOperator? = nil, subExpressions: [SearchExpression]? = nil) {
             self.filters = filters
             self.nestedFilters = nestedFilters
@@ -34575,6 +35564,7 @@ extension SageMaker {
         /// The properties of a trial component.
         public let trialComponent: TrialComponent?
 
+        @inlinable
         public init(endpoint: Endpoint? = nil, experiment: Experiment? = nil, featureGroup: FeatureGroup? = nil, featureMetadata: FeatureMetadata? = nil, hyperParameterTuningJob: HyperParameterTuningJobSearchEntity? = nil, model: ModelDashboardModel? = nil, modelCard: ModelCard? = nil, modelPackage: ModelPackage? = nil, modelPackageGroup: ModelPackageGroup? = nil, pipeline: Pipeline? = nil, pipelineExecution: PipelineExecution? = nil, project: Project? = nil, trainingJob: TrainingJob? = nil, trial: Trial? = nil, trialComponent: TrialComponent? = nil) {
             self.endpoint = endpoint
             self.experiment = experiment
@@ -34630,6 +35620,7 @@ extension SageMaker {
         ///  Limits the results of your search request to the resources that you can access.
         public let visibilityConditions: [VisibilityConditions]?
 
+        @inlinable
         public init(crossAccountFilterOption: CrossAccountFilterOption? = nil, maxResults: Int? = nil, nextToken: String? = nil, resource: ResourceType? = nil, searchExpression: SearchExpression? = nil, sortBy: String? = nil, sortOrder: SearchSortOrder? = nil, visibilityConditions: [VisibilityConditions]? = nil) {
             self.crossAccountFilterOption = crossAccountFilterOption
             self.maxResults = maxResults
@@ -34675,6 +35666,7 @@ extension SageMaker {
         /// A list of SearchRecord objects.
         public let results: [SearchRecord]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [SearchRecord]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -34696,6 +35688,7 @@ extension SageMaker {
         /// A detailed description of the progress within a secondary status.  SageMaker provides secondary statuses and status messages that apply to each of them:  Starting    Starting the training job.   Launching requested ML instances.   Insufficient capacity error from EC2 while launching instances, retrying!   Launched instance was unhealthy, replacing it!   Preparing the instances for training.    Training    Training image download completed. Training in progress.      Status messages are subject to change. Therefore, we recommend not including them in code that programmatically initiates actions. For examples, don't use status messages in if statements.  To have an overview of your training job's progress, view TrainingJobStatus and SecondaryStatus in DescribeTrainingJob, and StatusMessage together. For example, at the start of a training job, you might see the following:    TrainingJobStatus - InProgress    SecondaryStatus - Training    StatusMessage - Downloading the training image
         public let statusMessage: String?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil, status: SecondaryStatus? = nil, statusMessage: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -34715,6 +35708,7 @@ extension SageMaker {
         /// The name of the pipeline step.
         public let stepName: String?
 
+        @inlinable
         public init(stepName: String? = nil) {
             self.stepName = stepName
         }
@@ -34734,6 +35728,7 @@ extension SageMaker {
         /// The ARN from a reference execution of the current pipeline.  Used to copy input collaterals needed for the selected steps to run. The execution status of the pipeline can be either Failed or Success. This field is required if the steps you specify for SelectedSteps depend on output collaterals from any non-specified pipeline steps. For more information, see Selective Execution for Pipeline Steps.
         public let sourcePipelineExecutionArn: String?
 
+        @inlinable
         public init(selectedSteps: [SelectedStep]? = nil, sourcePipelineExecutionArn: String? = nil) {
             self.selectedSteps = selectedSteps
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
@@ -34759,6 +35754,7 @@ extension SageMaker {
         /// The ARN from an execution of the current pipeline.
         public let sourcePipelineExecutionArn: String?
 
+        @inlinable
         public init(sourcePipelineExecutionArn: String? = nil) {
             self.sourcePipelineExecutionArn = sourcePipelineExecutionArn
         }
@@ -34776,6 +35772,7 @@ extension SageMaker {
         /// A message describing why the step failed.
         public let failureReason: String?
 
+        @inlinable
         public init(callbackToken: String? = nil, clientRequestToken: String? = SendPipelineExecutionStepFailureRequest.idempotencyToken(), failureReason: String? = nil) {
             self.callbackToken = callbackToken
             self.clientRequestToken = clientRequestToken
@@ -34802,6 +35799,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -34819,6 +35817,7 @@ extension SageMaker {
         /// A list of the output parameters of the callback step.
         public let outputParameters: [OutputParameter]?
 
+        @inlinable
         public init(callbackToken: String? = nil, clientRequestToken: String? = SendPipelineExecutionStepSuccessRequest.idempotencyToken(), outputParameters: [OutputParameter]? = nil) {
             self.callbackToken = callbackToken
             self.clientRequestToken = clientRequestToken
@@ -34848,6 +35847,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -34863,6 +35863,7 @@ extension SageMaker {
         /// The current status of the product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.
         public let provisionedProductStatusMessage: String?
 
+        @inlinable
         public init(provisionedProductId: String? = nil, provisionedProductStatusMessage: String? = nil) {
             self.provisionedProductId = provisionedProductId
             self.provisionedProductStatusMessage = provisionedProductStatusMessage
@@ -34884,6 +35885,7 @@ extension SageMaker {
         /// A list of key value pairs that you specify when you provision a product.
         public let provisioningParameters: [ProvisioningParameter]?
 
+        @inlinable
         public init(pathId: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil) {
             self.pathId = pathId
             self.productId = productId
@@ -34920,6 +35922,7 @@ extension SageMaker {
         /// A list of key value pairs that you specify when you provision a product.
         public let provisioningParameters: [ProvisioningParameter]?
 
+        @inlinable
         public init(provisioningArtifactId: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil) {
             self.provisioningArtifactId = provisioningArtifactId
             self.provisioningParameters = provisioningParameters
@@ -34944,6 +35947,7 @@ extension SageMaker {
         /// Set to True to allow SageMaker to extract session tags from a training job creation role and reuse these tags when assuming the training job execution role.
         public let enableSessionTagChaining: Bool?
 
+        @inlinable
         public init(enableSessionTagChaining: Bool? = nil) {
             self.enableSessionTagChaining = enableSessionTagChaining
         }
@@ -34959,6 +35963,7 @@ extension SageMaker {
         ///  The name of the production variant, which takes all the inference requests.
         public let sourceModelVariantName: String?
 
+        @inlinable
         public init(shadowModelVariants: [ShadowModelVariantConfig]? = nil, sourceModelVariantName: String? = nil) {
             self.shadowModelVariants = shadowModelVariants
             self.sourceModelVariantName = sourceModelVariantName
@@ -34986,6 +35991,7 @@ extension SageMaker {
         /// The name of the shadow variant.
         public let shadowModelVariantName: String?
 
+        @inlinable
         public init(samplingPercentage: Int? = nil, shadowModelVariantName: String? = nil) {
             self.samplingPercentage = samplingPercentage
             self.shadowModelVariantName = shadowModelVariantName
@@ -35011,6 +36017,7 @@ extension SageMaker {
         /// When NotebookOutputOption is Allowed, the Amazon S3 bucket used to store the shared notebook snapshots.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(notebookOutputOption: NotebookOutputOption? = nil, s3KmsKeyId: String? = nil, s3OutputPath: String? = nil) {
             self.notebookOutputOption = notebookOutputOption
             self.s3KmsKeyId = s3KmsKeyId
@@ -35035,6 +36042,7 @@ extension SageMaker {
         /// Determines the shuffling order in ShuffleConfig value.
         public let seed: Int64?
 
+        @inlinable
         public init(seed: Int64? = nil) {
             self.seed = seed
         }
@@ -35052,6 +36060,7 @@ extension SageMaker {
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same Amazon Web Services region as the algorithm.
         public let modelDataUrl: String?
 
+        @inlinable
         public init(algorithmName: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil) {
             self.algorithmName = algorithmName
             self.modelDataSource = modelDataSource
@@ -35078,6 +36087,7 @@ extension SageMaker {
         /// A list of the algorithms that were used to create a model package.
         public let sourceAlgorithms: [SourceAlgorithm]?
 
+        @inlinable
         public init(sourceAlgorithms: [SourceAlgorithm]? = nil) {
             self.sourceAlgorithms = sourceAlgorithms
         }
@@ -35099,6 +36109,7 @@ extension SageMaker {
         /// A list of one to ten Classless Inter-Domain Routing (CIDR) values. Maximum: Ten CIDR values  The following Length Constraints apply to individual CIDR values in the CIDR value list.
         public let cidrs: [String]?
 
+        @inlinable
         public init(cidrs: [String]? = nil) {
             self.cidrs = cidrs
         }
@@ -35120,6 +36131,7 @@ extension SageMaker {
         /// Settings related to idle shutdown of Studio applications.
         public let idleSettings: SpaceIdleSettings?
 
+        @inlinable
         public init(idleSettings: SpaceIdleSettings? = nil) {
             self.idleSettings = idleSettings
         }
@@ -35138,6 +36150,7 @@ extension SageMaker {
         public let appLifecycleManagement: SpaceAppLifecycleManagement?
         public let defaultResourceSpec: ResourceSpec?
 
+        @inlinable
         public init(appLifecycleManagement: SpaceAppLifecycleManagement? = nil, defaultResourceSpec: ResourceSpec? = nil) {
             self.appLifecycleManagement = appLifecycleManagement
             self.defaultResourceSpec = defaultResourceSpec
@@ -35174,6 +36187,7 @@ extension SageMaker {
         /// The status.
         public let status: SpaceStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, domainId: String? = nil, lastModifiedTime: Date? = nil, ownershipSettingsSummary: OwnershipSettingsSummary? = nil, spaceDisplayName: String? = nil, spaceName: String? = nil, spaceSettingsSummary: SpaceSettingsSummary? = nil, spaceSharingSettingsSummary: SpaceSharingSettingsSummary? = nil, status: SpaceStatus? = nil) {
             self.creationTime = creationTime
             self.domainId = domainId
@@ -35203,6 +36217,7 @@ extension SageMaker {
         /// The time that SageMaker waits after the application becomes idle before shutting it down.
         public let idleTimeoutInMinutes: Int?
 
+        @inlinable
         public init(idleTimeoutInMinutes: Int? = nil) {
             self.idleTimeoutInMinutes = idleTimeoutInMinutes
         }
@@ -35224,6 +36239,7 @@ extension SageMaker {
         public let codeRepositories: [CodeRepository]?
         public let defaultResourceSpec: ResourceSpec?
 
+        @inlinable
         public init(appLifecycleManagement: SpaceAppLifecycleManagement? = nil, codeRepositories: [CodeRepository]? = nil, defaultResourceSpec: ResourceSpec? = nil) {
             self.appLifecycleManagement = appLifecycleManagement
             self.codeRepositories = codeRepositories
@@ -35260,6 +36276,7 @@ extension SageMaker {
         /// The storage settings for a space.
         public let spaceStorageSettings: SpaceStorageSettings?
 
+        @inlinable
         public init(appType: AppType? = nil, codeEditorAppSettings: SpaceCodeEditorAppSettings? = nil, customFileSystems: [CustomFileSystem]? = nil, jupyterLabAppSettings: SpaceJupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
             self.appType = appType
             self.codeEditorAppSettings = codeEditorAppSettings
@@ -35299,6 +36316,7 @@ extension SageMaker {
         /// The storage settings for a space.
         public let spaceStorageSettings: SpaceStorageSettings?
 
+        @inlinable
         public init(appType: AppType? = nil, spaceStorageSettings: SpaceStorageSettings? = nil) {
             self.appType = appType
             self.spaceStorageSettings = spaceStorageSettings
@@ -35314,6 +36332,7 @@ extension SageMaker {
         /// Specifies the sharing type of the space.
         public let sharingType: SharingType?
 
+        @inlinable
         public init(sharingType: SharingType? = nil) {
             self.sharingType = sharingType
         }
@@ -35327,6 +36346,7 @@ extension SageMaker {
         /// Specifies the sharing type of the space.
         public let sharingType: SharingType?
 
+        @inlinable
         public init(sharingType: SharingType? = nil) {
             self.sharingType = sharingType
         }
@@ -35340,6 +36360,7 @@ extension SageMaker {
         /// A collection of EBS storage settings for a space.
         public let ebsStorageSettings: EbsStorageSettings?
 
+        @inlinable
         public init(ebsStorageSettings: EbsStorageSettings? = nil) {
             self.ebsStorageSettings = ebsStorageSettings
         }
@@ -35361,6 +36382,7 @@ extension SageMaker {
         /// Specifies how many new users to spawn in each step.
         public let usersPerStep: Int?
 
+        @inlinable
         public init(durationInSeconds: Int? = nil, numberOfSteps: Int? = nil, usersPerStep: Int? = nil) {
             self.durationInSeconds = durationInSeconds
             self.numberOfSteps = numberOfSteps
@@ -35387,6 +36409,7 @@ extension SageMaker {
         /// The name of the stage to start.
         public let stageName: String?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil, stageName: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.stageName = stageName
@@ -35411,6 +36434,7 @@ extension SageMaker {
         /// The name of the inference experiment to start.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -35430,6 +36454,7 @@ extension SageMaker {
         /// The ARN of the started inference experiment to start.
         public let inferenceExperimentArn: String?
 
+        @inlinable
         public init(inferenceExperimentArn: String? = nil) {
             self.inferenceExperimentArn = inferenceExperimentArn
         }
@@ -35443,6 +36468,7 @@ extension SageMaker {
         /// The name of the tracking server to start.
         public let trackingServerName: String?
 
+        @inlinable
         public init(trackingServerName: String? = nil) {
             self.trackingServerName = trackingServerName
         }
@@ -35462,6 +36488,7 @@ extension SageMaker {
         /// The ARN of the started tracking server.
         public let trackingServerArn: String?
 
+        @inlinable
         public init(trackingServerArn: String? = nil) {
             self.trackingServerArn = trackingServerArn
         }
@@ -35475,6 +36502,7 @@ extension SageMaker {
         /// The name of the schedule to start.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(monitoringScheduleName: String? = nil) {
             self.monitoringScheduleName = monitoringScheduleName
         }
@@ -35494,6 +36522,7 @@ extension SageMaker {
         /// The name of the notebook instance to start.
         public let notebookInstanceName: String?
 
+        @inlinable
         public init(notebookInstanceName: String? = nil) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -35524,6 +36553,7 @@ extension SageMaker {
         /// The selective execution configuration applied to the pipeline run.
         public let selectiveExecutionConfig: SelectiveExecutionConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineName: String? = nil, pipelineParameters: [Parameter]? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.parallelismConfiguration = parallelismConfiguration
@@ -35568,6 +36598,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -35581,6 +36612,7 @@ extension SageMaker {
         /// The name of the object you are requesting.
         public let autoMLJobName: String?
 
+        @inlinable
         public init(autoMLJobName: String? = nil) {
             self.autoMLJobName = autoMLJobName
         }
@@ -35600,6 +36632,7 @@ extension SageMaker {
         /// The name of the model compilation job to stop.
         public let compilationJobName: String?
 
+        @inlinable
         public init(compilationJobName: String? = nil) {
             self.compilationJobName = compilationJobName
         }
@@ -35621,6 +36654,7 @@ extension SageMaker {
         /// The name of the stage to stop.
         public let stageName: String?
 
+        @inlinable
         public init(edgeDeploymentPlanName: String? = nil, stageName: String? = nil) {
             self.edgeDeploymentPlanName = edgeDeploymentPlanName
             self.stageName = stageName
@@ -35645,6 +36679,7 @@ extension SageMaker {
         /// The name of the edge packaging job.
         public let edgePackagingJobName: String?
 
+        @inlinable
         public init(edgePackagingJobName: String? = nil) {
             self.edgePackagingJobName = edgePackagingJobName
         }
@@ -35664,6 +36699,7 @@ extension SageMaker {
         /// The name of the tuning job to stop.
         public let hyperParameterTuningJobName: String?
 
+        @inlinable
         public init(hyperParameterTuningJobName: String? = nil) {
             self.hyperParameterTuningJobName = hyperParameterTuningJobName
         }
@@ -35691,6 +36727,7 @@ extension SageMaker {
         /// The reason for stopping the experiment.
         public let reason: String?
 
+        @inlinable
         public init(desiredModelVariants: [ModelVariantConfig]? = nil, desiredState: InferenceExperimentStopDesiredState? = nil, modelVariantActions: [String: ModelVariantAction]? = nil, name: String? = nil, reason: String? = nil) {
             self.desiredModelVariants = desiredModelVariants
             self.desiredState = desiredState
@@ -35731,6 +36768,7 @@ extension SageMaker {
         /// The ARN of the stopped inference experiment.
         public let inferenceExperimentArn: String?
 
+        @inlinable
         public init(inferenceExperimentArn: String? = nil) {
             self.inferenceExperimentArn = inferenceExperimentArn
         }
@@ -35744,6 +36782,7 @@ extension SageMaker {
         /// The name of the job you want to stop.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -35763,6 +36802,7 @@ extension SageMaker {
         /// The name of the labeling job to stop.
         public let labelingJobName: String?
 
+        @inlinable
         public init(labelingJobName: String? = nil) {
             self.labelingJobName = labelingJobName
         }
@@ -35782,6 +36822,7 @@ extension SageMaker {
         /// The name of the tracking server to stop.
         public let trackingServerName: String?
 
+        @inlinable
         public init(trackingServerName: String? = nil) {
             self.trackingServerName = trackingServerName
         }
@@ -35801,6 +36842,7 @@ extension SageMaker {
         /// The ARN of the stopped tracking server.
         public let trackingServerArn: String?
 
+        @inlinable
         public init(trackingServerArn: String? = nil) {
             self.trackingServerArn = trackingServerArn
         }
@@ -35814,6 +36856,7 @@ extension SageMaker {
         /// The name of the schedule to stop.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(monitoringScheduleName: String? = nil) {
             self.monitoringScheduleName = monitoringScheduleName
         }
@@ -35833,6 +36876,7 @@ extension SageMaker {
         /// The name of the notebook instance to terminate.
         public let notebookInstanceName: String?
 
+        @inlinable
         public init(notebookInstanceName: String? = nil) {
             self.notebookInstanceName = notebookInstanceName
         }
@@ -35851,6 +36895,7 @@ extension SageMaker {
         /// The name that you assigned to the optimization job.
         public let optimizationJobName: String?
 
+        @inlinable
         public init(optimizationJobName: String? = nil) {
             self.optimizationJobName = optimizationJobName
         }
@@ -35872,6 +36917,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, pipelineExecutionArn: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.pipelineExecutionArn = pipelineExecutionArn
@@ -35894,6 +36940,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -35907,6 +36954,7 @@ extension SageMaker {
         /// The name of the processing job to stop.
         public let processingJobName: String?
 
+        @inlinable
         public init(processingJobName: String? = nil) {
             self.processingJobName = processingJobName
         }
@@ -35926,6 +36974,7 @@ extension SageMaker {
         /// The name of the training job to stop.
         public let trainingJobName: String?
 
+        @inlinable
         public init(trainingJobName: String? = nil) {
             self.trainingJobName = trainingJobName
         }
@@ -35945,6 +36994,7 @@ extension SageMaker {
         /// The name of the batch transform job to stop.
         public let transformJobName: String?
 
+        @inlinable
         public init(transformJobName: String? = nil) {
             self.transformJobName = transformJobName
         }
@@ -35968,6 +37018,7 @@ extension SageMaker {
         /// The maximum length of time, in seconds, that a managed Spot training job has to complete. It is the amount of time spent waiting for Spot capacity plus the amount of time the job can run. It must be equal to or greater than MaxRuntimeInSeconds. If the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxWaitTimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt.
         public let maxWaitTimeInSeconds: Int?
 
+        @inlinable
         public init(maxPendingTimeInSeconds: Int? = nil, maxRuntimeInSeconds: Int? = nil, maxWaitTimeInSeconds: Int? = nil) {
             self.maxPendingTimeInSeconds = maxPendingTimeInSeconds
             self.maxRuntimeInSeconds = maxRuntimeInSeconds
@@ -36000,6 +37051,7 @@ extension SageMaker {
         /// The name of the Amazon SageMaker Studio Lifecycle Configuration.
         public let studioLifecycleConfigName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, studioLifecycleConfigAppType: StudioLifecycleConfigAppType? = nil, studioLifecycleConfigArn: String? = nil, studioLifecycleConfigName: String? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -36023,6 +37075,7 @@ extension SageMaker {
         /// The machine learning tools that are hidden from the Studio left navigation pane.
         public let hiddenMlTools: [MlTools]?
 
+        @inlinable
         public init(hiddenAppTypes: [AppType]? = nil, hiddenMlTools: [MlTools]? = nil) {
             self.hiddenAppTypes = hiddenAppTypes
             self.hiddenMlTools = hiddenMlTools
@@ -36046,6 +37099,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the vendor that you have subscribed.
         public let workteamArn: String?
 
+        @inlinable
         public init(listingId: String? = nil, marketplaceDescription: String? = nil, marketplaceTitle: String? = nil, sellerName: String? = nil, workteamArn: String? = nil) {
             self.listingId = listingId
             self.marketplaceDescription = marketplaceDescription
@@ -36067,6 +37121,7 @@ extension SageMaker {
         /// Defines a property name hint. Only property names that begin with the specified hint are included in the response.
         public let propertyNameQuery: PropertyNameQuery?
 
+        @inlinable
         public init(propertyNameQuery: PropertyNameQuery? = nil) {
             self.propertyNameQuery = propertyNameQuery
         }
@@ -36097,6 +37152,7 @@ extension SageMaker {
         /// The name of the target variable in supervised learning, usually represented by 'y'.
         public let targetAttributeName: String?
 
+        @inlinable
         public init(candidateGenerationConfig: CandidateGenerationConfig? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, featureSpecificationS3Uri: String? = nil, generateCandidateDefinitionsOnly: Bool? = nil, mode: AutoMLMode? = nil, problemType: ProblemType? = nil, sampleWeightAttributeName: String? = nil, targetAttributeName: String? = nil) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
@@ -36135,6 +37191,7 @@ extension SageMaker {
         /// The type of supervised learning problem available for the model candidates of the AutoML job V2 (Binary Classification, Multiclass Classification, Regression). For more information, see  SageMaker Autopilot problem types.
         public let problemType: ProblemType?
 
+        @inlinable
         public init(problemType: ProblemType? = nil) {
             self.problemType = problemType
         }
@@ -36150,6 +37207,7 @@ extension SageMaker {
         /// The tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -36177,6 +37235,7 @@ extension SageMaker {
         /// Specifies a target platform OS.    LINUX: Linux-based operating systems.    ANDROID: Android operating systems. Android API level can be specified using the ANDROID_PLATFORM compiler option. For example, "CompilerOptions": {'ANDROID_PLATFORM': 28}
         public let os: TargetPlatformOs?
 
+        @inlinable
         public init(accelerator: TargetPlatformAccelerator? = nil, arch: TargetPlatformArch? = nil, os: TargetPlatformOs? = nil) {
             self.accelerator = accelerator
             self.arch = arch
@@ -36196,6 +37255,7 @@ extension SageMaker {
         /// The recommended target value to specify for the metric when creating a scaling policy.
         public let targetValue: Double?
 
+        @inlinable
         public init(metricSpecification: MetricSpecification? = nil, targetValue: Double? = nil) {
             self.metricSpecification = metricSpecification
             self.targetValue = targetValue
@@ -36211,6 +37271,7 @@ extension SageMaker {
         /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
         public let defaultResourceSpec: ResourceSpec?
 
+        @inlinable
         public init(defaultResourceSpec: ResourceSpec? = nil) {
             self.defaultResourceSpec = defaultResourceSpec
         }
@@ -36230,6 +37291,7 @@ extension SageMaker {
         /// Path to Amazon S3 storage location for TensorBoard output.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(localPath: String? = nil, s3OutputPath: String? = nil) {
             self.localPath = localPath
             self.s3OutputPath = s3OutputPath
@@ -36256,6 +37318,7 @@ extension SageMaker {
         /// The name of the column used to provide the class labels. It should not be same as the content column.
         public let targetLabelColumn: String?
 
+        @inlinable
         public init(completionCriteria: AutoMLJobCompletionCriteria? = nil, contentColumn: String? = nil, targetLabelColumn: String? = nil) {
             self.completionCriteria = completionCriteria
             self.contentColumn = contentColumn
@@ -36286,6 +37349,7 @@ extension SageMaker {
         /// The hyperparameters used to configure and optimize the learning process of the base model. You can set any combination of the following hyperparameters for all base models. For more information on each supported hyperparameter, see Optimize the learning process of your text generation models with hyperparameters.    "epochCount": The number of times the model goes through the entire training dataset. Its value should be a string containing an integer value within the range of "1" to "10".    "batchSize": The number of data samples used in each iteration of training. Its value should be a string containing an integer value within the range of "1" to "64".    "learningRate": The step size at which a model's parameters are updated during training. Its value should be a string containing a floating-point value within the range of "0" to "1".    "learningRateWarmupSteps": The number of training steps during which the learning rate gradually increases before reaching its target or maximum value. Its value should be a string containing an integer value within the range of "0" to "250".   Here is an example where all four hyperparameters are configured.  { "epochCount":"5", "learningRate":"0.5", "batchSize": "32", "learningRateWarmupSteps": "10" }
         public let textGenerationHyperParameters: [String: String]?
 
+        @inlinable
         public init(baseModelName: String? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, modelAccessConfig: ModelAccessConfig? = nil, textGenerationHyperParameters: [String: String]? = nil) {
             self.baseModelName = baseModelName
             self.completionCriteria = completionCriteria
@@ -36319,6 +37383,7 @@ extension SageMaker {
         /// The name of the base model to fine-tune.
         public let baseModelName: String?
 
+        @inlinable
         public init(baseModelName: String? = nil) {
             self.baseModelName = baseModelName
         }
@@ -36336,6 +37401,7 @@ extension SageMaker {
         /// The mode used for your feature group throughput: ON_DEMAND or PROVISIONED.
         public let throughputMode: ThroughputMode?
 
+        @inlinable
         public init(provisionedReadCapacityUnits: Int? = nil, provisionedWriteCapacityUnits: Int? = nil, throughputMode: ThroughputMode? = nil) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
@@ -36364,6 +37430,7 @@ extension SageMaker {
         /// The mode used for your feature group throughput: ON_DEMAND or PROVISIONED.
         public let throughputMode: ThroughputMode?
 
+        @inlinable
         public init(provisionedReadCapacityUnits: Int? = nil, provisionedWriteCapacityUnits: Int? = nil, throughputMode: ThroughputMode? = nil) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
@@ -36385,6 +37452,7 @@ extension SageMaker {
         /// Target throughput mode of the feature group. Throughput update is an asynchronous operation, and the outcome should be monitored by polling LastUpdateStatus field in DescribeFeatureGroup response. You cannot update a feature group's throughput while another update is in progress.
         public let throughputMode: ThroughputMode?
 
+        @inlinable
         public init(provisionedReadCapacityUnits: Int? = nil, provisionedWriteCapacityUnits: Int? = nil, throughputMode: ThroughputMode? = nil) {
             self.provisionedReadCapacityUnits = provisionedReadCapacityUnits
             self.provisionedWriteCapacityUnits = provisionedWriteCapacityUnits
@@ -36415,6 +37483,7 @@ extension SageMaker {
         /// The name of the column indicating a point in time at which the target value of a given item is recorded.
         public let timestampAttributeName: String?
 
+        @inlinable
         public init(groupingAttributeNames: [String]? = nil, itemIdentifierAttributeName: String? = nil, targetAttributeName: String? = nil, timestampAttributeName: String? = nil) {
             self.groupingAttributeNames = groupingAttributeNames
             self.itemIdentifierAttributeName = itemIdentifierAttributeName
@@ -36462,6 +37531,7 @@ extension SageMaker {
         /// The transformations modifying specific attributes of the time-series, such as filling strategies for missing values.
         public let transformations: TimeSeriesTransformations?
 
+        @inlinable
         public init(candidateGenerationConfig: CandidateGenerationConfig? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, featureSpecificationS3Uri: String? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastQuantiles: [String]? = nil, holidayConfig: [HolidayConfigAttributes]? = nil, timeSeriesConfig: TimeSeriesConfig? = nil, transformations: TimeSeriesTransformations? = nil) {
             self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
@@ -36518,6 +37588,7 @@ extension SageMaker {
         /// Describes whether time series forecasting is enabled or disabled in the Canvas application.
         public let status: FeatureStatus?
 
+        @inlinable
         public init(amazonForecastRoleArn: String? = nil, status: FeatureStatus? = nil) {
             self.amazonForecastRoleArn = amazonForecastRoleArn
             self.status = status
@@ -36541,6 +37612,7 @@ extension SageMaker {
         /// A key value pair defining the filling method for a column, where the key is the column name and the value is an object which defines the filling logic. You can specify multiple filling methods for a single column. The supported filling methods and their corresponding options are:    frontfill: none (Supported only for target column)    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max    To set a filling method to a specific value, set the fill parameter to the chosen filling method value (for example "backfill" : "value"), and define the filling value in an additional parameter prefixed with "_value". For example, to set backfill to a value of 2, you must include two parameters: "backfill": "value" and "backfill_value":"2".
         public let filling: [String: [FillingType: String]]?
 
+        @inlinable
         public init(aggregation: [String: AggregationTransformationValue]? = nil, filling: [String: [FillingType: String]]? = nil) {
             self.aggregation = aggregation
             self.filling = filling
@@ -36585,6 +37657,7 @@ extension SageMaker {
         /// The creation status of a listed tracking server.
         public let trackingServerStatus: TrackingServerStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, isActive: IsTrackingServerActive? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, trackingServerArn: String? = nil, trackingServerName: String? = nil, trackingServerStatus: TrackingServerStatus? = nil) {
             self.creationTime = creationTime
             self.isActive = isActive
@@ -36614,6 +37687,7 @@ extension SageMaker {
         /// Defines the traffic patterns. Choose either PHASES or STAIRS.
         public let trafficType: TrafficType?
 
+        @inlinable
         public init(phases: [Phase]? = nil, stairs: Stairs? = nil, trafficType: TrafficType? = nil) {
             self.phases = phases
             self.stairs = stairs
@@ -36645,6 +37719,7 @@ extension SageMaker {
         /// The waiting time (in seconds) between incremental steps to turn on traffic on the new endpoint fleet.
         public let waitIntervalInSeconds: Int?
 
+        @inlinable
         public init(canarySize: CapacitySize? = nil, linearStepSize: CapacitySize? = nil, type: TrafficRoutingConfigType? = nil, waitIntervalInSeconds: Int? = nil) {
             self.canarySize = canarySize
             self.linearStepSize = linearStepSize
@@ -36673,6 +37748,7 @@ extension SageMaker {
         /// An object containing authentication information for a private Docker registry containing your training images.
         public let trainingRepositoryAuthConfig: TrainingRepositoryAuthConfig?
 
+        @inlinable
         public init(trainingRepositoryAccessMode: TrainingRepositoryAccessMode? = nil, trainingRepositoryAuthConfig: TrainingRepositoryAuthConfig? = nil) {
             self.trainingRepositoryAccessMode = trainingRepositoryAccessMode
             self.trainingRepositoryAuthConfig = trainingRepositoryAuthConfig
@@ -36761,6 +37837,7 @@ extension SageMaker {
         /// A VpcConfig object that specifies the VPC that this training job has access to. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
@@ -36857,6 +37934,7 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition?
         public let trainingInputMode: TrainingInputMode?
 
+        @inlinable
         public init(hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig? = nil, resourceConfig: ResourceConfig? = nil, stoppingCondition: StoppingCondition? = nil, trainingInputMode: TrainingInputMode? = nil) {
             self.hyperParameters = hyperParameters
             self.inputDataConfig = inputDataConfig
@@ -36906,6 +37984,7 @@ extension SageMaker {
         /// The number of training jobs launched by a hyperparameter tuning job that were manually stopped.
         public let stopped: Int?
 
+        @inlinable
         public init(completed: Int? = nil, inProgress: Int? = nil, nonRetryableError: Int? = nil, retryableError: Int? = nil, stopped: Int? = nil) {
             self.completed = completed
             self.inProgress = inProgress
@@ -36927,6 +38006,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the training job that was run by this step execution.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -36952,6 +38032,7 @@ extension SageMaker {
         /// The status of the warm pool associated with the training job.
         public let warmPoolStatus: WarmPoolStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, warmPoolStatus: WarmPoolStatus? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -36977,6 +38058,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services Lambda function used to give SageMaker access credentials to your private Docker registry.
         public let trainingRepositoryCredentialsProviderArn: String?
 
+        @inlinable
         public init(trainingRepositoryCredentialsProviderArn: String? = nil) {
             self.trainingRepositoryCredentialsProviderArn = trainingRepositoryCredentialsProviderArn
         }
@@ -37012,6 +38094,7 @@ extension SageMaker {
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let trainingImageDigest: String?
 
+        @inlinable
         public init(additionalS3DataSource: AdditionalS3DataSource? = nil, metricDefinitions: [MetricDefinition]? = nil, supportedHyperParameters: [HyperParameterSpecification]? = nil, supportedTrainingInstanceTypes: [TrainingInstanceType]? = nil, supportedTuningJobObjectiveMetrics: [HyperParameterTuningJobObjective]? = nil, supportsDistributedTraining: Bool? = nil, trainingChannels: [ChannelSpecification]? = nil, trainingImage: String? = nil, trainingImageDigest: String? = nil) {
             self.additionalS3DataSource = additionalS3DataSource
             self.metricDefinitions = metricDefinitions
@@ -37065,6 +38148,7 @@ extension SageMaker {
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: TransformS3DataSource?
 
+        @inlinable
         public init(s3DataSource: TransformS3DataSource? = nil) {
             self.s3DataSource = s3DataSource
         }
@@ -37088,6 +38172,7 @@ extension SageMaker {
         /// The method to use to split the transform job's data files into smaller batches. Splitting is necessary when the total size of each object is too large to fit in a single request. You can also use data splitting to improve performance by processing multiple concurrent mini-batches. The default value for SplitType is None, which indicates that input data files are not split, and request payloads contain the entire contents of an input object. Set the value of this parameter to Line to split records on a newline character boundary. SplitType also supports a number of record-oriented binary data formats. Currently, the supported record formats are:   RecordIO   TFRecord   When splitting is enabled, the size of a mini-batch depends on the values of the BatchStrategy and MaxPayloadInMB parameters. When the value of BatchStrategy is MultiRecord, Amazon SageMaker sends the maximum number of records in each request, up to the MaxPayloadInMB limit. If the value of BatchStrategy is SingleRecord, Amazon SageMaker sends individual records in each request.  Some data formats represent a record as a binary payload wrapped with extra padding bytes. When splitting is applied to a binary data format, padding is removed if the value of BatchStrategy is set to SingleRecord. Padding is not removed if the value of BatchStrategy is set to MultiRecord. For more information about RecordIO, see Create a Dataset Using RecordIO in the MXNet documentation. For more information about TFRecord, see Consuming TFRecord data in the TensorFlow documentation.
         public let splitType: SplitType?
 
+        @inlinable
         public init(compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: TransformDataSource? = nil, splitType: SplitType? = nil) {
             self.compressionType = compressionType
             self.contentType = contentType
@@ -37148,6 +38233,7 @@ extension SageMaker {
         /// Indicates when the transform job starts on ML instances. You are billed for the time interval between this time and the value of TransformEndTime.
         public let transformStartTime: Date?
 
+        @inlinable
         public init(autoMLJobArn: String? = nil, batchStrategy: BatchStrategy? = nil, creationTime: Date? = nil, dataCaptureConfig: BatchDataCaptureConfig? = nil, dataProcessing: DataProcessing? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, labelingJobArn: String? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, modelClientConfig: ModelClientConfig? = nil, modelName: String? = nil, tags: [Tag]? = nil, transformEndTime: Date? = nil, transformInput: TransformInput? = nil, transformJobArn: String? = nil, transformJobName: String? = nil, transformJobStatus: TransformJobStatus? = nil, transformOutput: TransformOutput? = nil, transformResources: TransformResources? = nil, transformStartTime: Date? = nil) {
             self.autoMLJobArn = autoMLJobArn
             self.batchStrategy = batchStrategy
@@ -37215,6 +38301,7 @@ extension SageMaker {
         /// Identifies the ML compute instances for the transform job.
         public let transformResources: TransformResources?
 
+        @inlinable
         public init(batchStrategy: BatchStrategy? = nil, environment: [String: String]? = nil, maxConcurrentTransforms: Int? = nil, maxPayloadInMB: Int? = nil, transformInput: TransformInput? = nil, transformOutput: TransformOutput? = nil, transformResources: TransformResources? = nil) {
             self.batchStrategy = batchStrategy
             self.environment = environment
@@ -37255,6 +38342,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the transform job that was run by this step execution.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -37280,6 +38368,7 @@ extension SageMaker {
         /// The status of the transform job.
         public let transformJobStatus: TransformJobStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, transformEndTime: Date? = nil, transformJobArn: String? = nil, transformJobName: String? = nil, transformJobStatus: TransformJobStatus? = nil) {
             self.creationTime = creationTime
             self.failureReason = failureReason
@@ -37313,6 +38402,7 @@ extension SageMaker {
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String?
 
+        @inlinable
         public init(accept: String? = nil, assembleWith: AssemblyType? = nil, kmsKeyId: String? = nil, s3OutputPath: String? = nil) {
             self.accept = accept
             self.assembleWith = assembleWith
@@ -37345,6 +38435,7 @@ extension SageMaker {
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.   The VolumeKmsKeyId can be any of the following formats:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let volumeKmsKeyId: String?
 
+        @inlinable
         public init(instanceCount: Int? = nil, instanceType: TransformInstanceType? = nil, volumeKmsKeyId: String? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
@@ -37371,6 +38462,7 @@ extension SageMaker {
         /// 		s3://bucketname/exampleprefix/.    A manifest might look like this: s3://bucketname/example.manifest  The manifest is an S3 object which is a JSON file with the following format:   [ {"prefix": "s3://customer_bucket/some/prefix/"},   "relative/path/to/custdata-1",   "relative/path/custdata-2",   ...   "relative/path/custdata-N"   ]  The preceding JSON matches the following S3Uris:   s3://customer_bucket/some/prefix/relative/path/to/custdata-1   s3://customer_bucket/some/prefix/relative/path/custdata-2   ...   s3://customer_bucket/some/prefix/relative/path/custdata-N  The complete set of S3Uris in this manifest constitutes the input data for the channel for this datasource. The object that each S3Uris points to must be readable by the IAM role that Amazon SageMaker uses to perform tasks on your behalf.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3DataType: S3DataType? = nil, s3Uri: String? = nil) {
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -37410,6 +38502,7 @@ extension SageMaker {
         /// The name of the trial.
         public let trialName: String?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, experimentName: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, source: TrialSource? = nil, tags: [Tag]? = nil, trialArn: String? = nil, trialComponentSummaries: [TrialComponentSimpleSummary]? = nil, trialName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -37482,6 +38575,7 @@ extension SageMaker {
         /// The name of the trial component.
         public let trialComponentName: String?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lineageGroupArn: String? = nil, metadataProperties: MetadataProperties? = nil, metrics: [TrialComponentMetricSummary]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parents: [Parent]? = nil, runName: String? = nil, source: TrialComponentSource? = nil, sourceDetail: TrialComponentSourceDetail? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, tags: [Tag]? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -37537,6 +38631,7 @@ extension SageMaker {
         /// The location of the artifact.
         public let value: String?
 
+        @inlinable
         public init(mediaType: String? = nil, value: String? = nil) {
             self.mediaType = mediaType
             self.value = value
@@ -37575,6 +38670,7 @@ extension SageMaker {
         /// When the metric was last updated.
         public let timeStamp: Date?
 
+        @inlinable
         public init(avg: Double? = nil, count: Int? = nil, last: Double? = nil, max: Double? = nil, metricName: String? = nil, min: Double? = nil, sourceArn: String? = nil, stdDev: Double? = nil, timeStamp: Date? = nil) {
             self.avg = avg
             self.count = count
@@ -37610,6 +38706,7 @@ extension SageMaker {
         public let trialComponentName: String?
         public let trialComponentSource: TrialComponentSource?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -37633,6 +38730,7 @@ extension SageMaker {
         /// The source job type.
         public let sourceType: String?
 
+        @inlinable
         public init(sourceArn: String? = nil, sourceType: String? = nil) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
@@ -37654,6 +38752,7 @@ extension SageMaker {
         /// Information about a transform job that's the source of a trial component.
         public let transformJob: TransformJob?
 
+        @inlinable
         public init(processingJob: ProcessingJob? = nil, sourceArn: String? = nil, trainingJob: TrainingJob? = nil, transformJob: TransformJob? = nil) {
             self.processingJob = processingJob
             self.sourceArn = sourceArn
@@ -37675,6 +38774,7 @@ extension SageMaker {
         /// The status of the trial component.
         public let primaryStatus: TrialComponentPrimaryStatus?
 
+        @inlinable
         public init(message: String? = nil, primaryStatus: TrialComponentPrimaryStatus? = nil) {
             self.message = message
             self.primaryStatus = primaryStatus
@@ -37714,6 +38814,7 @@ extension SageMaker {
         public let trialComponentName: String?
         public let trialComponentSource: TrialComponentSource?
 
+        @inlinable
         public init(createdBy: UserContext? = nil, creationTime: Date? = nil, displayName: String? = nil, endTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentArn: String? = nil, trialComponentName: String? = nil, trialComponentSource: TrialComponentSource? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -37749,6 +38850,7 @@ extension SageMaker {
         /// The source job type.
         public let sourceType: String?
 
+        @inlinable
         public init(sourceArn: String? = nil, sourceType: String? = nil) {
             self.sourceArn = sourceArn
             self.sourceType = sourceType
@@ -37773,6 +38875,7 @@ extension SageMaker {
         public let trialName: String?
         public let trialSource: TrialSource?
 
+        @inlinable
         public init(creationTime: Date? = nil, displayName: String? = nil, lastModifiedTime: Date? = nil, trialArn: String? = nil, trialName: String? = nil, trialSource: TrialSource? = nil) {
             self.creationTime = creationTime
             self.displayName = displayName
@@ -37798,6 +38901,7 @@ extension SageMaker {
         ///  TtlDuration time value.
         public let value: Int?
 
+        @inlinable
         public init(unit: TtlDurationUnit? = nil, value: Int? = nil) {
             self.unit = unit
             self.value = value
@@ -37821,6 +38925,7 @@ extension SageMaker {
         /// The value of the objective metric.
         public let targetObjectiveMetricValue: Float?
 
+        @inlinable
         public init(bestObjectiveNotImproving: BestObjectiveNotImproving? = nil, convergenceDetected: ConvergenceDetected? = nil, targetObjectiveMetricValue: Float? = nil) {
             self.bestObjectiveNotImproving = bestObjectiveNotImproving
             self.convergenceDetected = convergenceDetected
@@ -37842,6 +38947,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -37859,6 +38965,7 @@ extension SageMaker {
         /// Fractions of a cent, in tenths.
         public let tenthFractionsOfACent: Int?
 
+        @inlinable
         public init(cents: Int? = nil, dollars: Int? = nil, tenthFractionsOfACent: Int? = nil) {
             self.cents = cents
             self.dollars = dollars
@@ -37887,6 +38994,7 @@ extension SageMaker {
         /// The Amazon S3 bucket location of the UI template, or worker task template. This is the template used to render the worker UI and tools for labeling job tasks. For more information about the contents of a UI template, see  Creating Your Custom Labeling Task Template.
         public let uiTemplateS3Uri: String?
 
+        @inlinable
         public init(humanTaskUiArn: String? = nil, uiTemplateS3Uri: String? = nil) {
             self.humanTaskUiArn = humanTaskUiArn
             self.uiTemplateS3Uri = uiTemplateS3Uri
@@ -37909,6 +39017,7 @@ extension SageMaker {
         /// The content of the Liquid template for the worker user interface.
         public let content: String?
 
+        @inlinable
         public init(content: String? = nil) {
             self.content = content
         }
@@ -37930,6 +39039,7 @@ extension SageMaker {
         /// The URL for the user interface template.
         public let url: String?
 
+        @inlinable
         public init(contentSha256: String? = nil, url: String? = nil) {
             self.contentSha256 = contentSha256
             self.url = url
@@ -37953,6 +39063,7 @@ extension SageMaker {
         /// The new status for the action.
         public let status: ActionStatus?
 
+        @inlinable
         public init(actionName: String? = nil, description: String? = nil, properties: [String: String]? = nil, propertiesToRemove: [String]? = nil, status: ActionStatus? = nil) {
             self.actionName = actionName
             self.description = description
@@ -37993,6 +39104,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the action.
         public let actionArn: String?
 
+        @inlinable
         public init(actionArn: String? = nil) {
             self.actionArn = actionArn
         }
@@ -38012,6 +39124,7 @@ extension SageMaker {
         /// The new KernelGateway app to run on the image.
         public let kernelGatewayImageConfig: KernelGatewayImageConfig?
 
+        @inlinable
         public init(appImageConfigName: String? = nil, codeEditorAppImageConfig: CodeEditorAppImageConfig? = nil, jupyterLabAppImageConfig: JupyterLabAppImageConfig? = nil, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil) {
             self.appImageConfigName = appImageConfigName
             self.codeEditorAppImageConfig = codeEditorAppImageConfig
@@ -38039,6 +39152,7 @@ extension SageMaker {
         /// The ARN for the AppImageConfig.
         public let appImageConfigArn: String?
 
+        @inlinable
         public init(appImageConfigArn: String? = nil) {
             self.appImageConfigArn = appImageConfigArn
         }
@@ -38058,6 +39172,7 @@ extension SageMaker {
         /// A list of properties to remove.
         public let propertiesToRemove: [String]?
 
+        @inlinable
         public init(artifactArn: String? = nil, artifactName: String? = nil, properties: [String: String]? = nil, propertiesToRemove: [String]? = nil) {
             self.artifactArn = artifactArn
             self.artifactName = artifactName
@@ -38096,6 +39211,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the artifact.
         public let artifactArn: String?
 
+        @inlinable
         public init(artifactArn: String? = nil) {
             self.artifactArn = artifactArn
         }
@@ -38113,6 +39229,7 @@ extension SageMaker {
         /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
         public let nodeRecovery: ClusterNodeRecovery?
 
+        @inlinable
         public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeRecovery: ClusterNodeRecovery? = nil) {
             self.clusterName = clusterName
             self.instanceGroups = instanceGroups
@@ -38140,6 +39257,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the updated SageMaker HyperPod cluster.
         public let clusterArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
         }
@@ -38153,6 +39271,7 @@ extension SageMaker {
         /// Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching.
         public let clusterName: String?
 
+        @inlinable
         public init(clusterName: String? = nil) {
             self.clusterName = clusterName
         }
@@ -38171,6 +39290,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster being updated for security patching.
         public let clusterArn: String?
 
+        @inlinable
         public init(clusterArn: String? = nil) {
             self.clusterArn = clusterArn
         }
@@ -38186,6 +39306,7 @@ extension SageMaker {
         /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {"username": UserName, "password": Password}
         public let gitConfig: GitConfigForUpdate?
 
+        @inlinable
         public init(codeRepositoryName: String? = nil, gitConfig: GitConfigForUpdate? = nil) {
             self.codeRepositoryName = codeRepositoryName
             self.gitConfig = gitConfig
@@ -38208,6 +39329,7 @@ extension SageMaker {
         /// The ARN of the Git repository.
         public let codeRepositoryArn: String?
 
+        @inlinable
         public init(codeRepositoryArn: String? = nil) {
             self.codeRepositoryArn = codeRepositoryArn
         }
@@ -38227,6 +39349,7 @@ extension SageMaker {
         /// A list of properties to remove.
         public let propertiesToRemove: [String]?
 
+        @inlinable
         public init(contextName: String? = nil, description: String? = nil, properties: [String: String]? = nil, propertiesToRemove: [String]? = nil) {
             self.contextName = contextName
             self.description = description
@@ -38265,6 +39388,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the context.
         public let contextArn: String?
 
+        @inlinable
         public init(contextArn: String? = nil) {
             self.contextArn = contextArn
         }
@@ -38286,6 +39410,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the device.
         public let roleArn: String?
 
+        @inlinable
         public init(description: String? = nil, deviceFleetName: String? = nil, enableIotRoleAlias: Bool? = nil, outputConfig: EdgeOutputConfig? = nil, roleArn: String? = nil) {
             self.description = description
             self.deviceFleetName = deviceFleetName
@@ -38322,6 +39447,7 @@ extension SageMaker {
         /// List of devices to register with Edge Manager agent.
         public let devices: [Device]?
 
+        @inlinable
         public init(deviceFleetName: String? = nil, devices: [Device]? = nil) {
             self.deviceFleetName = deviceFleetName
             self.devices = devices
@@ -38358,6 +39484,7 @@ extension SageMaker {
         /// The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainId: String? = nil, domainSettingsForUpdate: DomainSettingsForUpdate? = nil, subnetIds: [String]? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -38397,6 +39524,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the domain.
         public let domainArn: String?
 
+        @inlinable
         public init(domainArn: String? = nil) {
             self.domainArn = domainArn
         }
@@ -38420,6 +39548,7 @@ extension SageMaker {
         /// Specifies whether to reuse the last deployment configuration. The default value is false (the configuration is not reused).
         public let retainDeploymentConfig: Bool?
 
+        @inlinable
         public init(deploymentConfig: DeploymentConfig? = nil, endpointConfigName: String? = nil, endpointName: String? = nil, excludeRetainedVariantProperties: [VariantProperty]? = nil, retainAllVariantProperties: Bool? = nil, retainDeploymentConfig: Bool? = nil) {
             self.deploymentConfig = deploymentConfig
             self.endpointConfigName = endpointConfigName
@@ -38452,6 +39581,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String?
 
+        @inlinable
         public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
         }
@@ -38467,6 +39597,7 @@ extension SageMaker {
         /// The name of an existing SageMaker endpoint.
         public let endpointName: String?
 
+        @inlinable
         public init(desiredWeightsAndCapacities: [DesiredWeightAndCapacity]? = nil, endpointName: String? = nil) {
             self.desiredWeightsAndCapacities = desiredWeightsAndCapacities
             self.endpointName = endpointName
@@ -38491,6 +39622,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the updated endpoint.
         public let endpointArn: String?
 
+        @inlinable
         public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
         }
@@ -38508,6 +39640,7 @@ extension SageMaker {
         /// The name of the experiment to update.
         public let experimentName: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, experimentName: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -38536,6 +39669,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the experiment.
         public let experimentArn: String?
 
+        @inlinable
         public init(experimentArn: String? = nil) {
             self.experimentArn = experimentArn
         }
@@ -38554,6 +39688,7 @@ extension SageMaker {
         public let onlineStoreConfig: OnlineStoreConfigUpdate?
         public let throughputConfig: ThroughputConfigUpdate?
 
+        @inlinable
         public init(featureAdditions: [FeatureDefinition]? = nil, featureGroupName: String? = nil, onlineStoreConfig: OnlineStoreConfigUpdate? = nil, throughputConfig: ThroughputConfigUpdate? = nil) {
             self.featureAdditions = featureAdditions
             self.featureGroupName = featureGroupName
@@ -38586,6 +39721,7 @@ extension SageMaker {
         /// The Amazon Resource Number (ARN) of the feature group that you're updating.
         public let featureGroupArn: String?
 
+        @inlinable
         public init(featureGroupArn: String? = nil) {
             self.featureGroupArn = featureGroupArn
         }
@@ -38607,6 +39743,7 @@ extension SageMaker {
         /// A list of parameter keys that you can specify to remove parameters that describe your feature.
         public let parameterRemovals: [String]?
 
+        @inlinable
         public init(description: String? = nil, featureGroupName: String? = nil, featureName: String? = nil, parameterAdditions: [FeatureParameter]? = nil, parameterRemovals: [String]? = nil) {
             self.description = description
             self.featureGroupName = featureGroupName
@@ -38655,6 +39792,7 @@ extension SageMaker {
         /// The searchable keywords for the hub.
         public let hubSearchKeywords: [String]?
 
+        @inlinable
         public init(hubDescription: String? = nil, hubDisplayName: String? = nil, hubName: String? = nil, hubSearchKeywords: [String]? = nil) {
             self.hubDescription = hubDescription
             self.hubDisplayName = hubDisplayName
@@ -38687,6 +39825,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the updated hub.
         public let hubArn: String?
 
+        @inlinable
         public init(hubArn: String? = nil) {
             self.hubArn = hubArn
         }
@@ -38708,6 +39847,7 @@ extension SageMaker {
         /// The new ARN for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
         public let roleArn: String?
 
+        @inlinable
         public init(deleteProperties: [String]? = nil, description: String? = nil, displayName: String? = nil, imageName: String? = nil, roleArn: String? = nil) {
             self.deleteProperties = deleteProperties
             self.description = description
@@ -38750,6 +39890,7 @@ extension SageMaker {
         /// The ARN of the image.
         public let imageArn: String?
 
+        @inlinable
         public init(imageArn: String? = nil) {
             self.imageArn = imageArn
         }
@@ -38785,6 +39926,7 @@ extension SageMaker {
         /// The version of the image.
         public let version: Int?
 
+        @inlinable
         public init(alias: String? = nil, aliasesToAdd: [String]? = nil, aliasesToDelete: [String]? = nil, horovod: Bool? = nil, imageName: String? = nil, jobType: JobType? = nil, mlFramework: String? = nil, processor: Processor? = nil, programmingLang: String? = nil, releaseNotes: String? = nil, vendorGuidance: VendorGuidance? = nil, version: Int? = nil) {
             self.alias = alias
             self.aliasesToAdd = aliasesToAdd
@@ -38849,6 +39991,7 @@ extension SageMaker {
         /// The ARN of the image version.
         public let imageVersionArn: String?
 
+        @inlinable
         public init(imageVersionArn: String? = nil) {
             self.imageVersionArn = imageVersionArn
         }
@@ -38866,6 +40009,7 @@ extension SageMaker {
         /// Details about the resources to deploy with this inference component, including the model, container, and compute resources.
         public let specification: InferenceComponentSpecification?
 
+        @inlinable
         public init(inferenceComponentName: String? = nil, runtimeConfig: InferenceComponentRuntimeConfig? = nil, specification: InferenceComponentSpecification? = nil) {
             self.inferenceComponentName = inferenceComponentName
             self.runtimeConfig = runtimeConfig
@@ -38890,6 +40034,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the inference component.
         public let inferenceComponentArn: String?
 
+        @inlinable
         public init(inferenceComponentArn: String? = nil) {
             self.inferenceComponentArn = inferenceComponentArn
         }
@@ -38905,6 +40050,7 @@ extension SageMaker {
         /// The name of the inference component to update.
         public let inferenceComponentName: String?
 
+        @inlinable
         public init(desiredRuntimeConfig: InferenceComponentRuntimeConfig? = nil, inferenceComponentName: String? = nil) {
             self.desiredRuntimeConfig = desiredRuntimeConfig
             self.inferenceComponentName = inferenceComponentName
@@ -38926,6 +40072,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the inference component.
         public let inferenceComponentArn: String?
 
+        @inlinable
         public init(inferenceComponentArn: String? = nil) {
             self.inferenceComponentArn = inferenceComponentArn
         }
@@ -38949,6 +40096,7 @@ extension SageMaker {
         ///  The configuration of ShadowMode inference experiment type. Use this field to specify a production variant which takes all the inference requests, and a shadow variant to which Amazon SageMaker replicates a percentage of the inference requests. For the shadow variant also specify the percentage of requests that Amazon SageMaker replicates.
         public let shadowModeConfig: ShadowModeConfig?
 
+        @inlinable
         public init(dataStorageConfig: InferenceExperimentDataStorageConfig? = nil, description: String? = nil, modelVariants: [ModelVariantConfig]? = nil, name: String? = nil, schedule: InferenceExperimentSchedule? = nil, shadowModeConfig: ShadowModeConfig? = nil) {
             self.dataStorageConfig = dataStorageConfig
             self.description = description
@@ -38987,6 +40135,7 @@ extension SageMaker {
         /// The ARN of the updated inference experiment.
         public let inferenceExperimentArn: String?
 
+        @inlinable
         public init(inferenceExperimentArn: String? = nil) {
             self.inferenceExperimentArn = inferenceExperimentArn
         }
@@ -39008,6 +40157,7 @@ extension SageMaker {
         /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be  in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30.
         public let weeklyMaintenanceWindowStart: String?
 
+        @inlinable
         public init(artifactStoreUri: String? = nil, automaticModelRegistration: Bool? = nil, trackingServerName: String? = nil, trackingServerSize: TrackingServerSize? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.artifactStoreUri = artifactStoreUri
             self.automaticModelRegistration = automaticModelRegistration
@@ -39039,6 +40189,7 @@ extension SageMaker {
         /// The ARN of the updated MLflow Tracking Server.
         public let trackingServerArn: String?
 
+        @inlinable
         public init(trackingServerArn: String? = nil) {
             self.trackingServerArn = trackingServerArn
         }
@@ -39056,6 +40207,7 @@ extension SageMaker {
         /// The approval status of the model card within your organization. Different organizations might have different criteria for model card review and approval.    Draft: The model card is a work in progress.    PendingReview: The model card is pending review.    Approved: The model card is approved.    Archived: The model card is archived. No more updates should be made to the model card, but it can still be exported.
         public let modelCardStatus: ModelCardStatus?
 
+        @inlinable
         public init(content: String? = nil, modelCardName: String? = nil, modelCardStatus: ModelCardStatus? = nil) {
             self.content = content
             self.modelCardName = modelCardName
@@ -39081,6 +40233,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the updated model card.
         public let modelCardArn: String?
 
+        @inlinable
         public init(modelCardArn: String? = nil) {
             self.modelCardArn = modelCardArn
         }
@@ -39110,6 +40263,7 @@ extension SageMaker {
         /// The URI of the source for the model package.
         public let sourceUri: String?
 
+        @inlinable
         public init(additionalInferenceSpecificationsToAdd: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, customerMetadataProperties: [String: String]? = nil, customerMetadataPropertiesToRemove: [String]? = nil, inferenceSpecification: InferenceSpecification? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelPackageArn: String? = nil, sourceUri: String? = nil) {
             self.additionalInferenceSpecificationsToAdd = additionalInferenceSpecificationsToAdd
             self.approvalDescription = approvalDescription
@@ -39171,6 +40325,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the model.
         public let modelPackageArn: String?
 
+        @inlinable
         public init(modelPackageArn: String? = nil) {
             self.modelPackageArn = modelPackageArn
         }
@@ -39190,6 +40345,7 @@ extension SageMaker {
         /// The name of a monitoring schedule.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(datapointsToAlert: Int? = nil, evaluationPeriod: Int? = nil, monitoringAlertName: String? = nil, monitoringScheduleName: String? = nil) {
             self.datapointsToAlert = datapointsToAlert
             self.evaluationPeriod = evaluationPeriod
@@ -39224,6 +40380,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String?
 
+        @inlinable
         public init(monitoringAlertName: String? = nil, monitoringScheduleArn: String? = nil) {
             self.monitoringAlertName = monitoringAlertName
             self.monitoringScheduleArn = monitoringScheduleArn
@@ -39241,6 +40398,7 @@ extension SageMaker {
         /// The name of the monitoring schedule. The name must be unique within an Amazon Web Services  Region within an Amazon Web Services account.
         public let monitoringScheduleName: String?
 
+        @inlinable
         public init(monitoringScheduleConfig: MonitoringScheduleConfig? = nil, monitoringScheduleName: String? = nil) {
             self.monitoringScheduleConfig = monitoringScheduleConfig
             self.monitoringScheduleName = monitoringScheduleName
@@ -39263,6 +40421,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the monitoring schedule.
         public let monitoringScheduleArn: String?
 
+        @inlinable
         public init(monitoringScheduleArn: String? = nil) {
             self.monitoringScheduleArn = monitoringScheduleArn
         }
@@ -39302,6 +40461,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -39367,6 +40527,7 @@ extension SageMaker {
         /// The shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
         public let onStart: [NotebookInstanceLifecycleHook]?
 
+        @inlinable
         public init(notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.onCreate = onCreate
@@ -39411,6 +40572,7 @@ extension SageMaker {
         /// The display name of the pipeline execution.
         public let pipelineExecutionDisplayName: String?
 
+        @inlinable
         public init(parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil) {
             self.parallelismConfiguration = parallelismConfiguration
             self.pipelineExecutionArn = pipelineExecutionArn
@@ -39441,6 +40603,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the updated pipeline execution.
         public let pipelineExecutionArn: String?
 
+        @inlinable
         public init(pipelineExecutionArn: String? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
         }
@@ -39466,6 +40629,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
         public let roleArn: String?
 
+        @inlinable
         public init(parallelismConfiguration: ParallelismConfiguration? = nil, pipelineDefinition: String? = nil, pipelineDefinitionS3Location: PipelineDefinitionS3Location? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, roleArn: String? = nil) {
             self.parallelismConfiguration = parallelismConfiguration
             self.pipelineDefinition = pipelineDefinition
@@ -39510,6 +40674,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the updated pipeline.
         public let pipelineArn: String?
 
+        @inlinable
         public init(pipelineArn: String? = nil) {
             self.pipelineArn = pipelineArn
         }
@@ -39529,6 +40694,7 @@ extension SageMaker {
         /// An array of key-value pairs. You can use tags to categorize your  Amazon Web Services resources in different ways, for example, by purpose, owner, or  environment. For more information, see Tagging Amazon Web Services Resources. In addition, the project must have tag update constraints set in order to include this  parameter in the request.  For more information, see Amazon Web Services Service  Catalog Tag Update Constraints.
         public let tags: [Tag]?
 
+        @inlinable
         public init(projectDescription: String? = nil, projectName: String? = nil, serviceCatalogProvisioningUpdateDetails: ServiceCatalogProvisioningUpdateDetails? = nil, tags: [Tag]? = nil) {
             self.projectDescription = projectDescription
             self.projectName = projectName
@@ -39561,6 +40727,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String?
 
+        @inlinable
         public init(projectArn: String? = nil) {
             self.projectArn = projectArn
         }
@@ -39580,6 +40747,7 @@ extension SageMaker {
         /// A collection of space settings.
         public let spaceSettings: SpaceSettings?
 
+        @inlinable
         public init(domainId: String? = nil, spaceDisplayName: String? = nil, spaceName: String? = nil, spaceSettings: SpaceSettings? = nil) {
             self.domainId = domainId
             self.spaceDisplayName = spaceDisplayName
@@ -39609,6 +40777,7 @@ extension SageMaker {
         /// The space's Amazon Resource Name (ARN).
         public let spaceArn: String?
 
+        @inlinable
         public init(spaceArn: String? = nil) {
             self.spaceArn = spaceArn
         }
@@ -39630,6 +40799,7 @@ extension SageMaker {
         /// The name of a training job to update the Debugger profiling configuration.
         public let trainingJobName: String?
 
+        @inlinable
         public init(profilerConfig: ProfilerConfigForUpdate? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, remoteDebugConfig: RemoteDebugConfigForUpdate? = nil, resourceConfig: ResourceConfigForUpdate? = nil, trainingJobName: String? = nil) {
             self.profilerConfig = profilerConfig
             self.profilerRuleConfigurations = profilerRuleConfigurations
@@ -39663,6 +40833,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the training job.
         public let trainingJobArn: String?
 
+        @inlinable
         public init(trainingJobArn: String? = nil) {
             self.trainingJobArn = trainingJobArn
         }
@@ -39696,6 +40867,7 @@ extension SageMaker {
         /// The name of the component to update.
         public let trialComponentName: String?
 
+        @inlinable
         public init(displayName: String? = nil, endTime: Date? = nil, inputArtifacts: [String: TrialComponentArtifact]? = nil, inputArtifactsToRemove: [String]? = nil, outputArtifacts: [String: TrialComponentArtifact]? = nil, outputArtifactsToRemove: [String]? = nil, parameters: [String: TrialComponentParameterValue]? = nil, parametersToRemove: [String]? = nil, startTime: Date? = nil, status: TrialComponentStatus? = nil, trialComponentName: String? = nil) {
             self.displayName = displayName
             self.endTime = endTime
@@ -39769,6 +40941,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial component.
         public let trialComponentArn: String?
 
+        @inlinable
         public init(trialComponentArn: String? = nil) {
             self.trialComponentArn = trialComponentArn
         }
@@ -39784,6 +40957,7 @@ extension SageMaker {
         /// The name of the trial to update.
         public let trialName: String?
 
+        @inlinable
         public init(displayName: String? = nil, trialName: String? = nil) {
             self.displayName = displayName
             self.trialName = trialName
@@ -39808,6 +40982,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the trial.
         public let trialArn: String?
 
+        @inlinable
         public init(trialArn: String? = nil) {
             self.trialArn = trialArn
         }
@@ -39825,6 +41000,7 @@ extension SageMaker {
         /// A collection of settings.
         public let userSettings: UserSettings?
 
+        @inlinable
         public init(domainId: String? = nil, userProfileName: String? = nil, userSettings: UserSettings? = nil) {
             self.domainId = domainId
             self.userProfileName = userProfileName
@@ -39850,6 +41026,7 @@ extension SageMaker {
         /// The user profile Amazon Resource Name (ARN).
         public let userProfileArn: String?
 
+        @inlinable
         public init(userProfileArn: String? = nil) {
             self.userProfileArn = userProfileArn
         }
@@ -39869,6 +41046,7 @@ extension SageMaker {
         /// Use this parameter to update your VPC configuration for a workforce.
         public let workforceVpcConfig: WorkforceVpcConfigRequest?
 
+        @inlinable
         public init(oidcConfig: OidcConfig? = nil, sourceIpConfig: SourceIpConfig? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigRequest? = nil) {
             self.oidcConfig = oidcConfig
             self.sourceIpConfig = sourceIpConfig
@@ -39897,6 +41075,7 @@ extension SageMaker {
         /// A single private workforce. You can create one private work force in each Amazon Web Services Region. By default, any workforce-related API operation used in a specific region will apply to the workforce created in that region. To learn how to create a private workforce, see Create a Private Workforce.
         public let workforce: Workforce?
 
+        @inlinable
         public init(workforce: Workforce? = nil) {
             self.workforce = workforce
         }
@@ -39918,6 +41097,7 @@ extension SageMaker {
         /// The name of the work team to update.
         public let workteamName: String?
 
+        @inlinable
         public init(description: String? = nil, memberDefinitions: [MemberDefinition]? = nil, notificationConfiguration: NotificationConfiguration? = nil, workerAccessConfiguration: WorkerAccessConfiguration? = nil, workteamName: String? = nil) {
             self.description = description
             self.memberDefinitions = memberDefinitions
@@ -39954,6 +41134,7 @@ extension SageMaker {
         /// A Workteam object that describes the updated work team.
         public let workteam: Workteam?
 
+        @inlinable
         public init(workteam: Workteam? = nil) {
             self.workteam = workteam
         }
@@ -39973,6 +41154,7 @@ extension SageMaker {
         /// The name of the user's profile.
         public let userProfileName: String?
 
+        @inlinable
         public init(domainId: String? = nil, iamIdentity: IamIdentity? = nil, userProfileArn: String? = nil, userProfileName: String? = nil) {
             self.domainId = domainId
             self.iamIdentity = iamIdentity
@@ -40000,6 +41182,7 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, domainId: String? = nil, lastModifiedTime: Date? = nil, status: UserProfileStatus? = nil, userProfileName: String? = nil) {
             self.creationTime = creationTime
             self.domainId = domainId
@@ -40055,6 +41238,7 @@ extension SageMaker {
         /// The TensorBoard app settings.
         public let tensorBoardAppSettings: TensorBoardAppSettings?
 
+        @inlinable
         public init(autoMountHomeEFS: AutoMountHomeEFS? = nil, canvasAppSettings: CanvasAppSettings? = nil, codeEditorAppSettings: CodeEditorAppSettings? = nil, customFileSystemConfigs: [CustomFileSystemConfig]? = nil, customPosixUserConfig: CustomPosixUserConfig? = nil, defaultLandingUri: String? = nil, executionRole: String? = nil, jupyterLabAppSettings: JupyterLabAppSettings? = nil, jupyterServerAppSettings: JupyterServerAppSettings? = nil, kernelGatewayAppSettings: KernelGatewayAppSettings? = nil, rSessionAppSettings: RSessionAppSettings? = nil, rStudioServerProAppSettings: RStudioServerProAppSettings? = nil, securityGroups: [String]? = nil, sharingSettings: SharingSettings? = nil, spaceStorageSettings: DefaultSpaceStorageSettings? = nil, studioWebPortal: StudioWebPortal? = nil, studioWebPortalSettings: StudioWebPortalSettings? = nil, tensorBoardAppSettings: TensorBoardAppSettings? = nil) {
             self.autoMountHomeEFS = autoMountHomeEFS
             self.canvasAppSettings = canvasAppSettings
@@ -40128,6 +41312,7 @@ extension SageMaker {
         /// The type of variant property. The supported values are:    DesiredInstanceCount: Overrides the existing variant instance counts using the InitialInstanceCount values in the ProductionVariants of CreateEndpointConfig.    DesiredWeight: Overrides the existing variant weights using the InitialVariantWeight values in the ProductionVariants of CreateEndpointConfig.    DataCaptureConfig: (Not currently supported.)
         public let variantPropertyType: VariantPropertyType?
 
+        @inlinable
         public init(variantPropertyType: VariantPropertyType? = nil) {
             self.variantPropertyType = variantPropertyType
         }
@@ -40141,6 +41326,7 @@ extension SageMaker {
         /// The number of elements in your vector.
         public let dimension: Int?
 
+        @inlinable
         public init(dimension: Int? = nil) {
             self.dimension = dimension
         }
@@ -40163,6 +41349,7 @@ extension SageMaker {
         /// The type of the lineage entity resource. For example: DataSet, Model, Endpoint,  etc...
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, lineageType: LineageType? = nil, type: String? = nil) {
             self.arn = arn
             self.lineageType = lineageType
@@ -40182,6 +41369,7 @@ extension SageMaker {
         /// The value for the tag that you're using to filter the search results.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -40207,6 +41395,7 @@ extension SageMaker {
         /// The ID of the subnets in the VPC to which you want to connect your training job or model. For information about the availability of specific instance types, see Supported Instance Types and Availability Zones.
         public let subnets: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -40241,6 +41430,7 @@ extension SageMaker {
         /// The status of the warm pool.    InUse: The warm pool is in use for the training job.    Available: The warm pool is available to reuse for a matching training job.    Reused: The warm pool moved to a matching training job for reuse.    Terminated: The warm pool is no longer available. Warm pools are unavailable if they are terminated by a user, terminated for a patch update, or terminated for exceeding the specified KeepAlivePeriodInSeconds.
         public let status: WarmPoolResourceStatus?
 
+        @inlinable
         public init(resourceRetainedBillableTimeInSeconds: Int? = nil, reusedByJob: String? = nil, status: WarmPoolResourceStatus? = nil) {
             self.resourceRetainedBillableTimeInSeconds = resourceRetainedBillableTimeInSeconds
             self.reusedByJob = reusedByJob
@@ -40258,6 +41448,7 @@ extension SageMaker {
         /// Defines any Amazon S3 resource constraints.
         public let s3Presign: S3Presign?
 
+        @inlinable
         public init(s3Presign: S3Presign? = nil) {
             self.s3Presign = s3Presign
         }
@@ -40291,6 +41482,7 @@ extension SageMaker {
         /// The configuration of a VPC workforce.
         public let workforceVpcConfig: WorkforceVpcConfigResponse?
 
+        @inlinable
         public init(cognitoConfig: CognitoConfig? = nil, createDate: Date? = nil, failureReason: String? = nil, lastUpdatedDate: Date? = nil, oidcConfig: OidcConfigForResponse? = nil, sourceIpConfig: SourceIpConfig? = nil, status: WorkforceStatus? = nil, subDomain: String? = nil, workforceArn: String? = nil, workforceName: String? = nil, workforceVpcConfig: WorkforceVpcConfigResponse? = nil) {
             self.cognitoConfig = cognitoConfig
             self.createDate = createDate
@@ -40328,6 +41520,7 @@ extension SageMaker {
         /// The ID of the VPC that the workforce uses for communication.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -40368,6 +41561,7 @@ extension SageMaker {
         /// The ID of the VPC that the workforce uses for communication.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -40389,6 +41583,7 @@ extension SageMaker {
         /// The Amazon Web Services Key Management Service (KMS) encryption key ID that is used to encrypt artifacts generated by Canvas in the Amazon S3 bucket.
         public let s3KmsKeyId: String?
 
+        @inlinable
         public init(s3ArtifactPath: String? = nil, s3KmsKeyId: String? = nil) {
             self.s3ArtifactPath = s3ArtifactPath
             self.s3KmsKeyId = s3KmsKeyId
@@ -40431,6 +41626,7 @@ extension SageMaker {
         /// The name of the work team.
         public let workteamName: String?
 
+        @inlinable
         public init(createDate: Date? = nil, description: String? = nil, lastUpdatedDate: Date? = nil, memberDefinitions: [MemberDefinition]? = nil, notificationConfiguration: NotificationConfiguration? = nil, productListingIds: [String]? = nil, subDomain: String? = nil, workerAccessConfiguration: WorkerAccessConfiguration? = nil, workforceArn: String? = nil, workteamArn: String? = nil, workteamName: String? = nil) {
             self.createDate = createDate
             self.description = description
@@ -40464,6 +41660,7 @@ extension SageMaker {
         /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         public let ebsVolumeConfig: ClusterEbsVolumeConfig?
 
+        @inlinable
         public init(ebsVolumeConfig: ClusterEbsVolumeConfig? = nil) {
             self.ebsVolumeConfig = ebsVolumeConfig
         }
@@ -40481,6 +41678,7 @@ extension SageMaker {
         /// Configuration for your vector collection type.    Dimension: The number of elements in your vector.
         public let vectorConfig: VectorConfig?
 
+        @inlinable
         public init(vectorConfig: VectorConfig? = nil) {
             self.vectorConfig = vectorConfig
         }
@@ -40498,6 +41696,7 @@ extension SageMaker {
         /// A custom file system in Amazon EFS.
         public let efsFileSystem: EFSFileSystem?
 
+        @inlinable
         public init(efsFileSystem: EFSFileSystem? = nil) {
             self.efsFileSystem = efsFileSystem
         }
@@ -40515,6 +41714,7 @@ extension SageMaker {
         /// The settings for a custom Amazon EFS file system.
         public let efsFileSystemConfig: EFSFileSystemConfig?
 
+        @inlinable
         public init(efsFileSystemConfig: EFSFileSystemConfig? = nil) {
             self.efsFileSystemConfig = efsFileSystemConfig
         }
@@ -40532,6 +41732,7 @@ extension SageMaker {
         /// A target tracking scaling policy. Includes support for predefined or customized metrics.
         public let targetTracking: TargetTrackingScalingPolicyConfiguration?
 
+        @inlinable
         public init(targetTracking: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.targetTracking = targetTracking
         }

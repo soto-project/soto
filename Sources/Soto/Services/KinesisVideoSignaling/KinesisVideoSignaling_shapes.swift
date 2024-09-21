@@ -43,6 +43,7 @@ extension KinesisVideoSignaling {
         /// An optional user ID to be associated with the credentials.
         public let username: String?
 
+        @inlinable
         public init(channelARN: String? = nil, clientId: String? = nil, service: Service? = nil, username: String? = nil) {
             self.channelARN = channelARN
             self.clientId = clientId
@@ -74,6 +75,7 @@ extension KinesisVideoSignaling {
         /// The list of ICE server information objects.
         public let iceServerList: [IceServer]?
 
+        @inlinable
         public init(iceServerList: [IceServer]? = nil) {
             self.iceServerList = iceServerList
         }
@@ -93,6 +95,7 @@ extension KinesisVideoSignaling {
         /// A username to login to the ICE server.
         public let username: String?
 
+        @inlinable
         public init(password: String? = nil, ttl: Int? = nil, uris: [String]? = nil, username: String? = nil) {
             self.password = password
             self.ttl = ttl
@@ -116,6 +119,7 @@ extension KinesisVideoSignaling {
         /// The unique identifier for the sender client.
         public let senderClientId: String?
 
+        @inlinable
         public init(channelARN: String? = nil, messagePayload: String? = nil, senderClientId: String? = nil) {
             self.channelARN = channelARN
             self.messagePayload = messagePayload
@@ -145,6 +149,7 @@ extension KinesisVideoSignaling {
         /// The base64-encoded SDP answer content.
         public let answer: String?
 
+        @inlinable
         public init(answer: String? = nil) {
             self.answer = answer
         }

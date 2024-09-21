@@ -2280,6 +2280,7 @@ extension QuickSight {
         /// The default theme for this Amazon QuickSight subscription.
         public let defaultTheme: String?
 
+        @inlinable
         public init(defaultEmailCustomizationTemplate: String? = nil, defaultTheme: String? = nil) {
             self.defaultEmailCustomizationTemplate = defaultEmailCustomizationTemplate
             self.defaultTheme = defaultTheme
@@ -2305,6 +2306,7 @@ extension QuickSight {
         /// The email address that will be used for Amazon QuickSight to send notifications regarding your Amazon Web Services account or Amazon QuickSight subscription.
         public let notificationEmail: String?
 
+        @inlinable
         public init(accountName: String? = nil, accountSubscriptionStatus: String? = nil, authenticationType: String? = nil, edition: Edition? = nil, iamIdentityCenterInstanceArn: String? = nil, notificationEmail: String? = nil) {
             self.accountName = accountName
             self.accountSubscriptionStatus = accountSubscriptionStatus
@@ -2338,6 +2340,7 @@ extension QuickSight {
         /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
         public let terminationProtectionEnabled: Bool?
 
+        @inlinable
         public init(accountName: String? = nil, defaultNamespace: String? = nil, edition: Edition? = nil, notificationEmail: String? = nil, publicSharingEnabled: Bool? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.accountName = accountName
             self.defaultNamespace = defaultNamespace
@@ -2363,6 +2366,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let policyArn: String?
 
+        @inlinable
         public init(assignmentName: String? = nil, policyArn: String? = nil) {
             self.assignmentName = assignmentName
             self.policyArn = policyArn
@@ -2378,6 +2382,7 @@ extension QuickSight {
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -2397,6 +2402,7 @@ extension QuickSight {
         /// The period field for an Agg function.
         public let periodField: String?
 
+        @inlinable
         public init(aggregation: AggType? = nil, aggregationFunctionParameters: [String: String]? = nil, period: TopicTimeGranularity? = nil, periodField: String? = nil) {
             self.aggregation = aggregation
             self.aggregationFunctionParameters = aggregationFunctionParameters
@@ -2431,6 +2437,7 @@ extension QuickSight {
         /// Aggregation for numerical values.
         public let numericalAggregationFunction: NumericalAggregationFunction?
 
+        @inlinable
         public init(attributeAggregationFunction: AttributeAggregationFunction? = nil, categoricalAggregationFunction: CategoricalAggregationFunction? = nil, dateAggregationFunction: DateAggregationFunction? = nil, numericalAggregationFunction: NumericalAggregationFunction? = nil) {
             self.attributeAggregationFunction = attributeAggregationFunction
             self.categoricalAggregationFunction = categoricalAggregationFunction
@@ -2456,6 +2463,7 @@ extension QuickSight {
         /// The TimeGranularity for an AggregationPartitionBy.
         public let timeGranularity: TimeGranularity?
 
+        @inlinable
         public init(fieldName: String? = nil, timeGranularity: TimeGranularity? = nil) {
             self.fieldName = fieldName
             self.timeGranularity = timeGranularity
@@ -2479,6 +2487,7 @@ extension QuickSight {
         /// The sort direction of values.    ASC: Sort in ascending order.    DESC: Sort in descending order.
         public let sortDirection: SortDirection
 
+        @inlinable
         public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, sortDirection: SortDirection) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -2505,6 +2514,7 @@ extension QuickSight {
         /// The OpenSearch domain.
         public let domain: String
 
+        @inlinable
         public init(domain: String) {
             self.domain = domain
         }
@@ -2523,6 +2533,7 @@ extension QuickSight {
         /// The OpenSearch domain.
         public let domain: String
 
+        @inlinable
         public init(domain: String) {
             self.domain = domain
         }
@@ -2559,6 +2570,7 @@ extension QuickSight {
         /// The ARN of the theme of the analysis.
         public let themeArn: String?
 
+        @inlinable
         public init(analysisId: String? = nil, arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, sheets: [Sheet]? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.arn = arn
@@ -2590,6 +2602,7 @@ extension QuickSight {
         /// The configuration for default new sheet settings.
         public let defaultNewSheetConfiguration: DefaultNewSheetConfiguration
 
+        @inlinable
         public init(defaultNewSheetConfiguration: DefaultNewSheetConfiguration) {
             self.defaultNewSheetConfiguration = defaultNewSheetConfiguration
         }
@@ -2617,6 +2630,7 @@ extension QuickSight {
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
         public let sheets: [SheetDefinition]?
 
+        @inlinable
         public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -2678,6 +2692,7 @@ extension QuickSight {
         /// Lists the violated entities that caused the analysis error
         public let violatedEntities: [Entity]?
 
+        @inlinable
         public init(message: String? = nil, type: AnalysisErrorType? = nil, violatedEntities: [Entity]? = nil) {
             self.message = message
             self.type = type
@@ -2699,6 +2714,7 @@ extension QuickSight {
         /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter, for example "Value". An example is "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
         public let value: String?
 
+        @inlinable
         public init(name: AnalysisFilterAttribute? = nil, operator: FilterOperator? = nil, value: String? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -2716,6 +2732,7 @@ extension QuickSight {
         /// The source template for the source entity of the analysis.
         public let sourceTemplate: AnalysisSourceTemplate?
 
+        @inlinable
         public init(sourceTemplate: AnalysisSourceTemplate? = nil) {
             self.sourceTemplate = sourceTemplate
         }
@@ -2735,6 +2752,7 @@ extension QuickSight {
         /// The dataset references of the source template of an analysis.
         public let dataSetReferences: [DataSetReference]
 
+        @inlinable
         public init(arn: String, dataSetReferences: [DataSetReference]) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
@@ -2767,6 +2785,7 @@ extension QuickSight {
         /// The last known status for the analysis.
         public let status: ResourceStatus?
 
+        @inlinable
         public init(analysisId: String? = nil, arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, status: ResourceStatus? = nil) {
             self.analysisId = analysisId
             self.arn = arn
@@ -2794,6 +2813,7 @@ extension QuickSight {
         /// The TimeGranularity of the Anchor.
         public let timeGranularity: TimeGranularity?
 
+        @inlinable
         public init(anchorType: AnchorType? = nil, offset: Int? = nil, timeGranularity: TimeGranularity? = nil) {
             self.anchorType = anchorType
             self.offset = offset
@@ -2813,6 +2833,7 @@ extension QuickSight {
         /// The name of the parameter that is used for the anchor date configuration.
         public let parameterName: String?
 
+        @inlinable
         public init(anchorOption: AnchorOption? = nil, parameterName: String? = nil) {
             self.anchorOption = anchorOption
             self.parameterName = parameterName
@@ -2840,6 +2861,7 @@ extension QuickSight {
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardId: String
 
+        @inlinable
         public init(disabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationDisabledFeature]? = nil, enabledFeatures: [AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]? = nil, featureConfigurations: AnonymousUserDashboardFeatureConfigurations? = nil, initialDashboardId: String) {
             self.disabledFeatures = disabledFeatures
             self.enabledFeatures = enabledFeatures
@@ -2865,6 +2887,7 @@ extension QuickSight {
         /// The shared view settings of an embedded dashboard.
         public let sharedView: SharedViewConfigurations?
 
+        @inlinable
         public init(sharedView: SharedViewConfigurations? = nil) {
             self.sharedView = sharedView
         }
@@ -2878,6 +2901,7 @@ extension QuickSight {
         /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardVisualId: DashboardVisualId
 
+        @inlinable
         public init(initialDashboardVisualId: DashboardVisualId) {
             self.initialDashboardVisualId = initialDashboardVisualId
         }
@@ -2901,6 +2925,7 @@ extension QuickSight {
         /// The Q search bar that you want to use for anonymous user embedding.
         public let qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration?
 
+        @inlinable
         public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: AnonymousUserDashboardVisualEmbeddingConfiguration? = nil, generativeQnA: AnonymousUserGenerativeQnAEmbeddingConfiguration? = nil, qSearchBar: AnonymousUserQSearchBarEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
@@ -2927,6 +2952,7 @@ extension QuickSight {
         /// The Amazon QuickSight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         public let initialTopicId: String
 
+        @inlinable
         public init(initialTopicId: String) {
             self.initialTopicId = initialTopicId
         }
@@ -2946,6 +2972,7 @@ extension QuickSight {
         /// The Amazon QuickSight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         public let initialTopicId: String
 
+        @inlinable
         public init(initialTopicId: String) {
             self.initialTopicId = initialTopicId
         }
@@ -2965,6 +2992,7 @@ extension QuickSight {
         /// A list of SnapshotJobResultFileGroup objects that contain information on the files that are requested during a StartDashboardSnapshotJob API call. If the job succeeds, these objects contain the location where the snapshot artifacts are stored. If the job fails, the objects contain information about the error that caused the job to fail.
         public let fileGroups: [SnapshotJobResultFileGroup]?
 
+        @inlinable
         public init(fileGroups: [SnapshotJobResultFileGroup]? = nil) {
             self.fileGroups = fileGroups
         }
@@ -2980,6 +3008,7 @@ extension QuickSight {
         /// The reserved range of the arc axis.
         public let reserveRange: Int?
 
+        @inlinable
         public init(range: ArcAxisDisplayRange? = nil, reserveRange: Int? = nil) {
             self.range = range
             self.reserveRange = reserveRange
@@ -2997,6 +3026,7 @@ extension QuickSight {
         /// The minimum value of the arc axis range.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -3014,6 +3044,7 @@ extension QuickSight {
         /// The options that determine the arc thickness of a GaugeChartVisual.
         public let arcThickness: ArcThicknessOptions?
 
+        @inlinable
         public init(arcAngle: Double? = nil, arcThickness: ArcThicknessOptions? = nil) {
             self.arcAngle = arcAngle
             self.arcThickness = arcThickness
@@ -3029,6 +3060,7 @@ extension QuickSight {
         /// The arc thickness of a GaugeChartVisual.
         public let arcThickness: ArcThickness?
 
+        @inlinable
         public init(arcThickness: ArcThickness? = nil) {
             self.arcThickness = arcThickness
         }
@@ -3056,6 +3088,7 @@ extension QuickSight {
         /// An optional list of structures that control how VPCConnection resources are parameterized in the returned CloudFormation template.
         public let vpcConnections: [AssetBundleExportJobVPCConnectionOverrideProperties]?
 
+        @inlinable
         public init(analyses: [AssetBundleExportJobAnalysisOverrideProperties]? = nil, dashboards: [AssetBundleExportJobDashboardOverrideProperties]? = nil, dataSets: [AssetBundleExportJobDataSetOverrideProperties]? = nil, dataSources: [AssetBundleExportJobDataSourceOverrideProperties]? = nil, refreshSchedules: [AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil, resourceIdOverrideConfiguration: AssetBundleExportJobResourceIdOverrideConfiguration? = nil, themes: [AssetBundleExportJobThemeOverrideProperties]? = nil, vpcConnections: [AssetBundleExportJobVPCConnectionOverrideProperties]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
@@ -3123,6 +3156,7 @@ extension QuickSight {
         /// A list of Analysis resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobAnalysisPropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobAnalysisPropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3145,6 +3179,7 @@ extension QuickSight {
         /// A list of Dashboard resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobDashboardPropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobDashboardPropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3167,6 +3202,7 @@ extension QuickSight {
         /// A list of DataSet resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobDataSetPropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobDataSetPropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3189,6 +3225,7 @@ extension QuickSight {
         /// A list of DataSource resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobDataSourcePropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobDataSourcePropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3213,6 +3250,7 @@ extension QuickSight {
         /// The specific error type of the error that occurred.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, message: String? = nil, type: String? = nil) {
             self.arn = arn
             self.message = message
@@ -3232,6 +3270,7 @@ extension QuickSight {
         /// A list of RefreshSchedule resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobRefreshSchedulePropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobRefreshSchedulePropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3252,6 +3291,7 @@ extension QuickSight {
         /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
         public let prefixForAllResources: Bool?
 
+        @inlinable
         public init(prefixForAllResources: Bool? = nil) {
             self.prefixForAllResources = prefixForAllResources
         }
@@ -3279,6 +3319,7 @@ extension QuickSight {
         /// The current status of the export job.
         public let jobStatus: AssetBundleExportJobStatus?
 
+        @inlinable
         public init(arn: String? = nil, assetBundleExportJobId: String? = nil, createdTime: Date? = nil, exportFormat: AssetBundleExportFormat? = nil, includeAllDependencies: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, jobStatus: AssetBundleExportJobStatus? = nil) {
             self.arn = arn
             self.assetBundleExportJobId = assetBundleExportJobId
@@ -3308,6 +3349,7 @@ extension QuickSight {
         /// A list of Theme resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobThemePropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobThemePropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3330,6 +3372,7 @@ extension QuickSight {
         /// A list of VPCConnection resource properties to generate variables for in the returned CloudFormation template.
         public let properties: [AssetBundleExportJobVPCConnectionPropertyToOverride]
 
+        @inlinable
         public init(arn: String, properties: [AssetBundleExportJobVPCConnectionPropertyToOverride]) {
             self.arn = arn
             self.properties = properties
@@ -3350,6 +3393,7 @@ extension QuickSight {
         /// A Boolean value that indicates whether to export resources under strict or lenient mode.
         public let strictModeForAllResources: Bool?
 
+        @inlinable
         public init(strictModeForAllResources: Bool? = nil) {
             self.strictModeForAllResources = strictModeForAllResources
         }
@@ -3365,6 +3409,7 @@ extension QuickSight {
         /// A description of the warning.
         public let message: String?
 
+        @inlinable
         public init(arn: String? = nil, message: String? = nil) {
             self.arn = arn
             self.message = message
@@ -3382,6 +3427,7 @@ extension QuickSight {
         /// A new name for the analysis.
         public let name: String?
 
+        @inlinable
         public init(analysisId: String, name: String? = nil) {
             self.analysisId = analysisId
             self.name = name
@@ -3404,6 +3450,7 @@ extension QuickSight {
         /// A list of permissions for the analyses that you want to apply overrides to.
         public let permissions: AssetBundleResourcePermissions
 
+        @inlinable
         public init(analysisIds: [String], permissions: AssetBundleResourcePermissions) {
             self.analysisIds = analysisIds
             self.permissions = permissions
@@ -3430,6 +3477,7 @@ extension QuickSight {
         /// A list of tags for the analyses that you want to apply overrides to.
         public let tags: [Tag]
 
+        @inlinable
         public init(analysisIds: [String], tags: [Tag]) {
             self.analysisIds = analysisIds
             self.tags = tags
@@ -3460,6 +3508,7 @@ extension QuickSight {
         /// A new name for the dashboard.
         public let name: String?
 
+        @inlinable
         public init(dashboardId: String, name: String? = nil) {
             self.dashboardId = dashboardId
             self.name = name
@@ -3484,6 +3533,7 @@ extension QuickSight {
         /// A list of permissions for the dashboards that you want to apply overrides to.
         public let permissions: AssetBundleResourcePermissions?
 
+        @inlinable
         public init(dashboardIds: [String], linkSharingConfiguration: AssetBundleResourceLinkSharingConfiguration? = nil, permissions: AssetBundleResourcePermissions? = nil) {
             self.dashboardIds = dashboardIds
             self.linkSharingConfiguration = linkSharingConfiguration
@@ -3513,6 +3563,7 @@ extension QuickSight {
         /// A list of tags for the dashboards that you want to apply overrides to.
         public let tags: [Tag]
 
+        @inlinable
         public init(dashboardIds: [String], tags: [Tag]) {
             self.dashboardIds = dashboardIds
             self.tags = tags
@@ -3543,6 +3594,7 @@ extension QuickSight {
         /// A new name for the dataset.
         public let name: String?
 
+        @inlinable
         public init(dataSetId: String, name: String? = nil) {
             self.dataSetId = dataSetId
             self.name = name
@@ -3565,6 +3617,7 @@ extension QuickSight {
         /// A list of permissions for the datasets that you want to apply overrides to.
         public let permissions: AssetBundleResourcePermissions
 
+        @inlinable
         public init(dataSetIds: [String], permissions: AssetBundleResourcePermissions) {
             self.dataSetIds = dataSetIds
             self.permissions = permissions
@@ -3591,6 +3644,7 @@ extension QuickSight {
         /// A list of tags for the datasets that you want to apply overrides to.
         public let tags: [Tag]
 
+        @inlinable
         public init(dataSetIds: [String], tags: [Tag]) {
             self.dataSetIds = dataSetIds
             self.tags = tags
@@ -3621,6 +3675,7 @@ extension QuickSight {
         /// The username for the data source connection.
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -3645,6 +3700,7 @@ extension QuickSight {
         /// The ARN of the Secrets Manager secret that's used to create the imported data source. Keep this field blank, unless you are using a secret in place of a credential pair.
         public let secretArn: String?
 
+        @inlinable
         public init(credentialPair: AssetBundleImportJobDataSourceCredentialPair? = nil, secretArn: String? = nil) {
             self.credentialPair = credentialPair
             self.secretArn = secretArn
@@ -3674,6 +3730,7 @@ extension QuickSight {
         public let sslProperties: SslProperties?
         public let vpcConnectionProperties: VpcConnectionProperties?
 
+        @inlinable
         public init(credentials: AssetBundleImportJobDataSourceCredentials? = nil, dataSourceId: String, dataSourceParameters: DataSourceParameters? = nil, name: String? = nil, sslProperties: SslProperties? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.credentials = credentials
             self.dataSourceId = dataSourceId
@@ -3706,6 +3763,7 @@ extension QuickSight {
         /// A list of permissions for the data source that you want to apply overrides to.
         public let permissions: AssetBundleResourcePermissions
 
+        @inlinable
         public init(dataSourceIds: [String], permissions: AssetBundleResourcePermissions) {
             self.dataSourceIds = dataSourceIds
             self.permissions = permissions
@@ -3732,6 +3790,7 @@ extension QuickSight {
         /// A list of tags for the data source that you want to apply overrides to.
         public let tags: [Tag]
 
+        @inlinable
         public init(dataSourceIds: [String], tags: [Tag]) {
             self.dataSourceIds = dataSourceIds
             self.tags = tags
@@ -3764,6 +3823,7 @@ extension QuickSight {
         /// The specific error type or the error that occurred.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, message: String? = nil, type: String? = nil) {
             self.arn = arn
             self.message = message
@@ -3795,6 +3855,7 @@ extension QuickSight {
         /// A list of overrides for any VPCConnection resources that are present in the asset bundle that is imported.
         public let vpcConnections: [AssetBundleImportJobVPCConnectionOverrideParameters]?
 
+        @inlinable
         public init(analyses: [AssetBundleImportJobAnalysisOverrideParameters]? = nil, dashboards: [AssetBundleImportJobDashboardOverrideParameters]? = nil, dataSets: [AssetBundleImportJobDataSetOverrideParameters]? = nil, dataSources: [AssetBundleImportJobDataSourceOverrideParameters]? = nil, refreshSchedules: [AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil, resourceIdOverrideConfiguration: AssetBundleImportJobResourceIdOverrideConfiguration? = nil, themes: [AssetBundleImportJobThemeOverrideParameters]? = nil, vpcConnections: [AssetBundleImportJobVPCConnectionOverrideParameters]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
@@ -3865,6 +3926,7 @@ extension QuickSight {
         /// A list of permissions overrides for any Theme resources that are present in the asset bundle that is imported.
         public let themes: [AssetBundleImportJobThemeOverridePermissions]?
 
+        @inlinable
         public init(analyses: [AssetBundleImportJobAnalysisOverridePermissions]? = nil, dashboards: [AssetBundleImportJobDashboardOverridePermissions]? = nil, dataSets: [AssetBundleImportJobDataSetOverridePermissions]? = nil, dataSources: [AssetBundleImportJobDataSourceOverridePermissions]? = nil, themes: [AssetBundleImportJobThemeOverridePermissions]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
@@ -3924,6 +3986,7 @@ extension QuickSight {
         /// A list of tag overrides for any VPCConnection resources that are present in the asset bundle that is imported.
         public let vpcConnections: [AssetBundleImportJobVPCConnectionOverrideTags]?
 
+        @inlinable
         public init(analyses: [AssetBundleImportJobAnalysisOverrideTags]? = nil, dashboards: [AssetBundleImportJobDashboardOverrideTags]? = nil, dataSets: [AssetBundleImportJobDataSetOverrideTags]? = nil, dataSources: [AssetBundleImportJobDataSourceOverrideTags]? = nil, themes: [AssetBundleImportJobThemeOverrideTags]? = nil, vpcConnections: [AssetBundleImportJobVPCConnectionOverrideTags]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
@@ -3980,6 +4043,7 @@ extension QuickSight {
         /// A Boolean value that indicates whether to import all analyses and dashboards under strict or lenient mode.
         public let strictModeForAllResources: Bool?
 
+        @inlinable
         public init(strictModeForAllResources: Bool? = nil) {
             self.strictModeForAllResources = strictModeForAllResources
         }
@@ -3997,6 +4061,7 @@ extension QuickSight {
         /// An override for the StartAfterDateTime of a RefreshSchedule. Make sure that the StartAfterDateTime is set to a time that takes place in the future.
         public let startAfterDateTime: Date?
 
+        @inlinable
         public init(dataSetId: String, scheduleId: String, startAfterDateTime: Date? = nil) {
             self.dataSetId = dataSetId
             self.scheduleId = scheduleId
@@ -4014,6 +4079,7 @@ extension QuickSight {
         /// An option to request a CloudFormation variable for a prefix to be prepended to each resource's ID before import. The prefix is only added to the asset IDs and does not change the name of the asset.
         public let prefixForAllResources: String?
 
+        @inlinable
         public init(prefixForAllResources: String? = nil) {
             self.prefixForAllResources = prefixForAllResources
         }
@@ -4035,6 +4101,7 @@ extension QuickSight {
         /// The current status of the import job.
         public let jobStatus: AssetBundleImportJobStatus?
 
+        @inlinable
         public init(arn: String? = nil, assetBundleImportJobId: String? = nil, createdTime: Date? = nil, failureAction: AssetBundleImportFailureAction? = nil, jobStatus: AssetBundleImportJobStatus? = nil) {
             self.arn = arn
             self.assetBundleImportJobId = assetBundleImportJobId
@@ -4058,6 +4125,7 @@ extension QuickSight {
         /// The ID of the theme to apply overrides to.
         public let themeId: String
 
+        @inlinable
         public init(name: String? = nil, themeId: String) {
             self.name = name
             self.themeId = themeId
@@ -4080,6 +4148,7 @@ extension QuickSight {
         /// A list of theme IDs that you want to apply overrides to. You can use * to override all themes in this asset bundle.
         public let themeIds: [String]
 
+        @inlinable
         public init(permissions: AssetBundleResourcePermissions, themeIds: [String]) {
             self.permissions = permissions
             self.themeIds = themeIds
@@ -4106,6 +4175,7 @@ extension QuickSight {
         /// A list of theme IDs that you want to apply overrides to. You can use * to override all themes in this asset bundle.
         public let themeIds: [String]
 
+        @inlinable
         public init(tags: [Tag], themeIds: [String]) {
             self.tags = tags
             self.themeIds = themeIds
@@ -4144,6 +4214,7 @@ extension QuickSight {
         /// The ID of the VPC Connection to apply overrides to.
         public let vpcConnectionId: String
 
+        @inlinable
         public init(dnsResolvers: [String]? = nil, name: String? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcConnectionId: String) {
             self.dnsResolvers = dnsResolvers
             self.name = name
@@ -4197,6 +4268,7 @@ extension QuickSight {
         /// A list of VPC connection IDs that you want to apply overrides to. You can use * to override all VPC connections in this asset bundle.
         public let vpcConnectionIds: [String]
 
+        @inlinable
         public init(tags: [Tag], vpcConnectionIds: [String]) {
             self.tags = tags
             self.vpcConnectionIds = vpcConnectionIds
@@ -4227,6 +4299,7 @@ extension QuickSight {
         /// A description of the warning that occurred during an Asset Bundle import job.
         public let message: String?
 
+        @inlinable
         public init(arn: String? = nil, message: String? = nil) {
             self.arn = arn
             self.message = message
@@ -4244,6 +4317,7 @@ extension QuickSight {
         /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20 MB.
         public let s3Uri: String?
 
+        @inlinable
         public init(body: AWSBase64Data? = nil, s3Uri: String? = nil) {
             self.body = body
             self.s3Uri = s3Uri
@@ -4266,6 +4340,7 @@ extension QuickSight {
         /// The Amazon S3 URI that you provided at the start of the import job.
         public let s3Uri: String?
 
+        @inlinable
         public init(body: String? = nil, s3Uri: String? = nil) {
             self.body = body
             self.s3Uri = s3Uri
@@ -4281,6 +4356,7 @@ extension QuickSight {
         /// A list of link sharing permissions for the dashboards that you want to apply overrides to.
         public let permissions: AssetBundleResourcePermissions?
 
+        @inlinable
         public init(permissions: AssetBundleResourcePermissions? = nil) {
             self.permissions = permissions
         }
@@ -4300,6 +4376,7 @@ extension QuickSight {
         /// A list of principals to grant permissions on.
         public let principals: [String]
 
+        @inlinable
         public init(actions: [String], principals: [String]) {
             self.actions = actions
             self.principals = principals
@@ -4328,6 +4405,7 @@ extension QuickSight {
         /// Determines the week start day for an analysis.
         public let weekStart: DayOfTheWeek?
 
+        @inlinable
         public init(timezone: String? = nil, weekStart: DayOfTheWeek? = nil) {
             self.timezone = timezone
             self.weekStart = weekStart
@@ -4345,6 +4423,7 @@ extension QuickSight {
         /// The workgroup that Amazon Athena uses.
         public let workGroup: String?
 
+        @inlinable
         public init(roleArn: String? = nil, workGroup: String? = nil) {
             self.roleArn = roleArn
             self.workGroup = workGroup
@@ -4369,6 +4448,7 @@ extension QuickSight {
         /// Used by the UNIQUE_VALUE aggregation function. If there are multiple values for the field used by the aggregation, the value for this property will be returned instead. Defaults to '*'.
         public let valueForMultipleValues: String?
 
+        @inlinable
         public init(simpleAttributeAggregation: SimpleAttributeAggregationFunction? = nil, valueForMultipleValues: String? = nil) {
             self.simpleAttributeAggregation = simpleAttributeAggregation
             self.valueForMultipleValues = valueForMultipleValues
@@ -4388,6 +4468,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -4418,6 +4499,7 @@ extension QuickSight {
         /// The port that Amazon Aurora PostgreSQL is listening on.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -4446,6 +4528,7 @@ extension QuickSight {
         /// The name of the Amazon Web Services service.
         public let service: ServiceType?
 
+        @inlinable
         public init(authorizedTargets: [String]? = nil, service: ServiceType? = nil) {
             self.authorizedTargets = authorizedTargets
             self.service = service
@@ -4461,6 +4544,7 @@ extension QuickSight {
         /// Dataset name.
         public let dataSetName: String
 
+        @inlinable
         public init(dataSetName: String) {
             self.dataSetName = dataSetName
         }
@@ -4481,6 +4565,7 @@ extension QuickSight {
         /// The options for an axis with a numeric field.
         public let numericAxisOptions: NumericAxisOptions?
 
+        @inlinable
         public init(dateAxisOptions: DateAxisOptions? = nil, numericAxisOptions: NumericAxisOptions? = nil) {
             self.dateAxisOptions = dateAxisOptions
             self.numericAxisOptions = numericAxisOptions
@@ -4502,6 +4587,7 @@ extension QuickSight {
         /// The minimum setup for an axis display range.
         public let minimum: Double?
 
+        @inlinable
         public init(maximum: Double? = nil, minimum: Double? = nil) {
             self.maximum = maximum
             self.minimum = minimum
@@ -4527,6 +4613,7 @@ extension QuickSight {
         /// The tick label options of an axis.
         public let tickLabelOptions: AxisTickLabelOptions?
 
+        @inlinable
         public init(axisLineVisibility: Visibility? = nil, axisOffset: String? = nil, dataOptions: AxisDataOptions? = nil, gridLineVisibility: Visibility? = nil, scrollbarOptions: ScrollBarOptions? = nil, tickLabelOptions: AxisTickLabelOptions? = nil) {
             self.axisLineVisibility = axisLineVisibility
             self.axisOffset = axisOffset
@@ -4557,6 +4644,7 @@ extension QuickSight {
         /// The minimum and maximum setup of an axis display range.
         public let minMax: AxisDisplayMinMaxRange?
 
+        @inlinable
         public init(dataDriven: AxisDisplayDataDrivenRange? = nil, minMax: AxisDisplayMinMaxRange? = nil) {
             self.dataDriven = dataDriven
             self.minMax = minMax
@@ -4576,6 +4664,7 @@ extension QuickSight {
         /// The font configuration of the axis label.
         public let fontConfiguration: FontConfiguration?
 
+        @inlinable
         public init(applyTo: AxisLabelReferenceOptions? = nil, customLabel: String? = nil, fontConfiguration: FontConfiguration? = nil) {
             self.applyTo = applyTo
             self.customLabel = customLabel
@@ -4600,6 +4689,7 @@ extension QuickSight {
         /// The field that the axis label is targeted to.
         public let fieldId: String
 
+        @inlinable
         public init(column: ColumnIdentifier, fieldId: String) {
             self.column = column
             self.fieldId = fieldId
@@ -4623,6 +4713,7 @@ extension QuickSight {
         /// The step size setup of a linear axis.
         public let stepSize: Double?
 
+        @inlinable
         public init(stepCount: Int? = nil, stepSize: Double? = nil) {
             self.stepCount = stepCount
             self.stepSize = stepSize
@@ -4638,6 +4729,7 @@ extension QuickSight {
         /// The base setup of a logarithmic axis scale.
         public let base: Double?
 
+        @inlinable
         public init(base: Double? = nil) {
             self.base = base
         }
@@ -4653,6 +4745,7 @@ extension QuickSight {
         /// The logarithmic axis scale setup.
         public let logarithmic: AxisLogarithmicScale?
 
+        @inlinable
         public init(linear: AxisLinearScale? = nil, logarithmic: AxisLogarithmicScale? = nil) {
             self.linear = linear
             self.logarithmic = logarithmic
@@ -4670,6 +4763,7 @@ extension QuickSight {
         /// The rotation angle of the axis tick labels.
         public let rotationAngle: Double?
 
+        @inlinable
         public init(labelOptions: LabelOptions? = nil, rotationAngle: Double? = nil) {
             self.labelOptions = labelOptions
             self.rotationAngle = rotationAngle
@@ -4695,6 +4789,7 @@ extension QuickSight {
         /// The value field wells of a bar chart. Values are aggregated by category.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, colors: [DimensionField]? = nil, smallMultiples: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.category = category
             self.colors = colors
@@ -4765,6 +4860,7 @@ extension QuickSight {
         /// The palette (chart color) display setup of the visual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(barsArrangement: BarsArrangement? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, contributionAnalysisDefaults: [ContributionAnalysisDefault]? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: BarChartFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, orientation: BarChartOrientation? = nil, referenceLines: [ReferenceLine]? = nil, smallMultiplesOptions: SmallMultiplesOptions? = nil, sortConfiguration: BarChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, valueAxis: AxisDisplayOptions? = nil, valueLabelOptions: ChartAxisLabelOptions? = nil, visualPalette: VisualPalette? = nil) {
             self.barsArrangement = barsArrangement
             self.categoryAxis = categoryAxis
@@ -4834,6 +4930,7 @@ extension QuickSight {
         /// The aggregated field wells of a bar chart.
         public let barChartAggregatedFieldWells: BarChartAggregatedFieldWells?
 
+        @inlinable
         public init(barChartAggregatedFieldWells: BarChartAggregatedFieldWells? = nil) {
             self.barChartAggregatedFieldWells = barChartAggregatedFieldWells
         }
@@ -4861,6 +4958,7 @@ extension QuickSight {
         /// The sort configuration of the small multiples field.
         public let smallMultiplesSort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimit: ItemsLimitConfiguration? = nil, colorSort: [FieldSortOptions]? = nil, smallMultiplesLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesSort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
@@ -4909,6 +5007,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -4953,6 +5052,7 @@ extension QuickSight {
         /// The ID for the topic reviewed answer that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(answers: [CreateTopicReviewedAnswer], awsAccountId: String, topicId: String) {
             self.answers = answers
             self.awsAccountId = awsAccountId
@@ -4998,6 +5098,7 @@ extension QuickSight {
         /// The ID for the topic reviewed answer that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(invalidAnswers: [InvalidTopicReviewedAnswer]? = nil, requestId: String? = nil, status: Int? = nil, succeededAnswers: [SucceededTopicReviewedAnswer]? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.invalidAnswers = invalidAnswers
             self.requestId = requestId
@@ -5035,6 +5136,7 @@ extension QuickSight {
         /// The ID for the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(answerIds: [String]? = nil, awsAccountId: String, topicId: String) {
             self.answerIds = answerIds
             self.awsAccountId = awsAccountId
@@ -5080,6 +5182,7 @@ extension QuickSight {
         /// The ID of the topic reviewed answer that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(invalidAnswers: [InvalidTopicReviewedAnswer]? = nil, requestId: String? = nil, status: Int? = nil, succeededAnswers: [SucceededTopicReviewedAnswer]? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.invalidAnswers = invalidAnswers
             self.requestId = requestId
@@ -5115,6 +5218,7 @@ extension QuickSight {
         /// The Google Cloud Platform project ID where your datasource was created.
         public let projectId: String
 
+        @inlinable
         public init(dataSetRegion: String? = nil, projectId: String) {
             self.dataSetRegion = dataSetRegion
             self.projectId = projectId
@@ -5137,6 +5241,7 @@ extension QuickSight {
         /// The options that determine the bin count value.
         public let value: Int?
 
+        @inlinable
         public init(value: Int? = nil) {
             self.value = value
         }
@@ -5156,6 +5261,7 @@ extension QuickSight {
         /// The options that determine the bin width value.
         public let value: Double?
 
+        @inlinable
         public init(binCountLimit: Int64? = nil, value: Double? = nil) {
             self.binCountLimit = binCountLimit
             self.value = value
@@ -5185,6 +5291,7 @@ extension QuickSight {
         /// The style options of a body section.
         public let style: SectionStyle?
 
+        @inlinable
         public init(content: BodySectionContent, pageBreakConfiguration: SectionPageBreakConfiguration? = nil, repeatConfiguration: BodySectionRepeatConfiguration? = nil, sectionId: String, style: SectionStyle? = nil) {
             self.content = content
             self.pageBreakConfiguration = pageBreakConfiguration
@@ -5214,6 +5321,7 @@ extension QuickSight {
         /// The layout configuration of a body section.
         public let layout: SectionLayoutConfiguration?
 
+        @inlinable
         public init(layout: SectionLayoutConfiguration? = nil) {
             self.layout = layout
         }
@@ -5234,6 +5342,7 @@ extension QuickSight {
         /// Sort criteria on the column values that you use for repetition.
         public let sortByMetrics: [ColumnSort]?
 
+        @inlinable
         public init(column: ColumnIdentifier, limit: Int? = nil, sortByMetrics: [ColumnSort]? = nil) {
             self.column = column
             self.limit = limit
@@ -5264,6 +5373,7 @@ extension QuickSight {
         /// Sort criteria on the column values that you use for repetition.
         public let sortByMetrics: [ColumnSort]?
 
+        @inlinable
         public init(column: ColumnIdentifier, limit: Int? = nil, sortByMetrics: [ColumnSort]? = nil) {
             self.column = column
             self.limit = limit
@@ -5295,6 +5405,7 @@ extension QuickSight {
         /// Page break configuration to apply for each repeating instance.
         public let pageBreakConfiguration: BodySectionRepeatPageBreakConfiguration?
 
+        @inlinable
         public init(dimensionConfigurations: [BodySectionRepeatDimensionConfiguration]? = nil, nonRepeatingVisuals: [String]? = nil, pageBreakConfiguration: BodySectionRepeatPageBreakConfiguration? = nil) {
             self.dimensionConfigurations = dimensionConfigurations
             self.nonRepeatingVisuals = nonRepeatingVisuals
@@ -5327,6 +5438,7 @@ extension QuickSight {
         /// Describes the Numeric dataset column and constraints around the dynamic values used to repeat the  contents of a section.
         public let dynamicNumericDimensionConfiguration: BodySectionDynamicNumericDimensionConfiguration?
 
+        @inlinable
         public init(dynamicCategoryDimensionConfiguration: BodySectionDynamicCategoryDimensionConfiguration? = nil, dynamicNumericDimensionConfiguration: BodySectionDynamicNumericDimensionConfiguration? = nil) {
             self.dynamicCategoryDimensionConfiguration = dynamicCategoryDimensionConfiguration
             self.dynamicNumericDimensionConfiguration = dynamicNumericDimensionConfiguration
@@ -5346,6 +5458,7 @@ extension QuickSight {
     public struct BodySectionRepeatPageBreakConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let after: SectionAfterPageBreak?
 
+        @inlinable
         public init(after: SectionAfterPageBreak? = nil) {
             self.after = after
         }
@@ -5359,6 +5472,7 @@ extension QuickSight {
         /// A Boolean value that determines whether a user can bookmark an embedded dashboard.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool = false) {
             self.enabled = enabled
         }
@@ -5372,6 +5486,7 @@ extension QuickSight {
         /// The option to enable display of borders for visuals.
         public let show: Bool?
 
+        @inlinable
         public init(show: Bool? = nil) {
             self.show = show
         }
@@ -5387,6 +5502,7 @@ extension QuickSight {
         /// The value field well of a box plot chart. Values are aggregated based on group by fields.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(groupBy: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.groupBy = groupBy
             self.values = values
@@ -5434,6 +5550,7 @@ extension QuickSight {
         /// The palette (chart color) display setup of the visual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(boxPlotOptions: BoxPlotOptions? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: BoxPlotFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, primaryYAxisDisplayOptions: AxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, referenceLines: [ReferenceLine]? = nil, sortConfiguration: BoxPlotSortConfiguration? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
             self.boxPlotOptions = boxPlotOptions
             self.categoryAxis = categoryAxis
@@ -5485,6 +5602,7 @@ extension QuickSight {
         /// The aggregated field wells of a box plot.
         public let boxPlotAggregatedFieldWells: BoxPlotAggregatedFieldWells?
 
+        @inlinable
         public init(boxPlotAggregatedFieldWells: BoxPlotAggregatedFieldWells? = nil) {
             self.boxPlotAggregatedFieldWells = boxPlotAggregatedFieldWells
         }
@@ -5506,6 +5624,7 @@ extension QuickSight {
         /// The style options of the box plot.
         public let styleOptions: BoxPlotStyleOptions?
 
+        @inlinable
         public init(allDataPointsVisibility: Visibility? = nil, outlierVisibility: Visibility? = nil, styleOptions: BoxPlotStyleOptions? = nil) {
             self.allDataPointsVisibility = allDataPointsVisibility
             self.outlierVisibility = outlierVisibility
@@ -5525,6 +5644,7 @@ extension QuickSight {
         /// The pagination configuration of a table visual or box plot.
         public let paginationConfiguration: PaginationConfiguration?
 
+        @inlinable
         public init(categorySort: [FieldSortOptions]? = nil, paginationConfiguration: PaginationConfiguration? = nil) {
             self.categorySort = categorySort
             self.paginationConfiguration = paginationConfiguration
@@ -5548,6 +5668,7 @@ extension QuickSight {
         /// The fill styles (solid, transparent) of the box plot.
         public let fillStyle: BoxPlotFillStyle?
 
+        @inlinable
         public init(fillStyle: BoxPlotFillStyle? = nil) {
             self.fillStyle = fillStyle
         }
@@ -5571,6 +5692,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: BoxPlotChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -5615,6 +5737,7 @@ extension QuickSight {
         /// An expression that defines the calculated column.
         public let expression: String
 
+        @inlinable
         public init(columnId: String, columnName: String, expression: String) {
             self.columnId = columnId
             self.columnName = columnName
@@ -5645,6 +5768,7 @@ extension QuickSight {
         /// The name of the calculated field.
         public let name: String
 
+        @inlinable
         public init(dataSetIdentifier: String, expression: String, name: String) {
             self.dataSetIdentifier = dataSetIdentifier
             self.expression = expression
@@ -5673,6 +5797,7 @@ extension QuickSight {
         /// The custom field ID.
         public let fieldId: String
 
+        @inlinable
         public init(expression: String, fieldId: String) {
             self.expression = expression
             self.fieldId = fieldId
@@ -5699,6 +5824,7 @@ extension QuickSight {
         /// An ID for the ingestion.
         public let ingestionId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, ingestionId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -5735,6 +5861,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, ingestionId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.ingestionId = ingestionId
@@ -5762,6 +5889,7 @@ extension QuickSight {
         /// A list of source controls that determine the values that are used in the current control.
         public let sourceControls: [CascadingControlSource]?
 
+        @inlinable
         public init(sourceControls: [CascadingControlSource]? = nil) {
             self.sourceControls = sourceControls
         }
@@ -5784,6 +5912,7 @@ extension QuickSight {
         /// The source sheet control ID of a CascadingControlSource.
         public let sourceSheetControlId: String?
 
+        @inlinable
         public init(columnToMatch: ColumnIdentifier? = nil, sourceSheetControlId: String? = nil) {
             self.columnToMatch = columnToMatch
             self.sourceSheetControlId = sourceSheetControlId
@@ -5809,6 +5938,7 @@ extension QuickSight {
         /// The sub data type of the new column. Sub types are only available for decimal columns that are part of a SPICE dataset.
         public let subType: ColumnDataSubType?
 
+        @inlinable
         public init(columnName: String, format: String? = nil, newColumnType: ColumnDataType, subType: ColumnDataSubType? = nil) {
             self.columnName = columnName
             self.format = format
@@ -5840,6 +5970,7 @@ extension QuickSight {
         /// The custom hierarchy ID.
         public let hierarchyId: String?
 
+        @inlinable
         public init(column: ColumnIdentifier, fieldId: String, formatConfiguration: StringFormatConfiguration? = nil, hierarchyId: String? = nil) {
             self.column = column
             self.fieldId = fieldId
@@ -5874,6 +6005,7 @@ extension QuickSight {
         /// The format configuration of the field.
         public let formatConfiguration: StringFormatConfiguration?
 
+        @inlinable
         public init(aggregationFunction: CategoricalAggregationFunction? = nil, column: ColumnIdentifier, fieldId: String, formatConfiguration: StringFormatConfiguration? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -5902,6 +6034,7 @@ extension QuickSight {
         /// The column that the filter is applied to.
         public let column: ColumnIdentifier
 
+        @inlinable
         public init(categoryValues: [String], column: ColumnIdentifier) {
             self.categoryValues = categoryValues
             self.column = column
@@ -5931,6 +6064,7 @@ extension QuickSight {
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         public let filterId: String
 
+        @inlinable
         public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String) {
             self.column = column
             self.configuration = configuration
@@ -5963,6 +6097,7 @@ extension QuickSight {
         /// A list of filter configurations. In the Amazon QuickSight console, this filter type is called a filter list.
         public let filterListConfiguration: FilterListConfiguration?
 
+        @inlinable
         public init(customFilterConfiguration: CustomFilterConfiguration? = nil, customFilterListConfiguration: CustomFilterListConfiguration? = nil, filterListConfiguration: FilterListConfiguration? = nil) {
             self.customFilterConfiguration = customFilterConfiguration
             self.customFilterListConfiguration = customFilterListConfiguration
@@ -5987,6 +6122,7 @@ extension QuickSight {
         public let configuration: CategoryFilterConfiguration
         public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
 
+        @inlinable
         public init(column: ColumnIdentifier, configuration: CategoryFilterConfiguration, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil) {
             self.column = column
             self.configuration = configuration
@@ -6012,6 +6148,7 @@ extension QuickSight {
         /// Other names or aliases for the cell value.
         public let synonyms: [String]?
 
+        @inlinable
         public init(cellValue: String? = nil, synonyms: [String]? = nil) {
             self.cellValue = cellValue
             self.synonyms = synonyms
@@ -6035,6 +6172,7 @@ extension QuickSight {
         /// The visibility of an axis label on a chart. Choose one of the following options:    VISIBLE: Shows the axis.    HIDDEN: Hides the axis.
         public let visibility: Visibility?
 
+        @inlinable
         public init(axisLabelOptions: [AxisLabelOptions]? = nil, sortIconVisibility: Visibility? = nil, visibility: Visibility? = nil) {
             self.axisLabelOptions = axisLabelOptions
             self.sortIconVisibility = sortIconVisibility
@@ -6059,6 +6197,7 @@ extension QuickSight {
         /// The simple cluster marker of the cluster marker.
         public let simpleClusterMarker: SimpleClusterMarker?
 
+        @inlinable
         public init(simpleClusterMarker: SimpleClusterMarker? = nil) {
             self.simpleClusterMarker = simpleClusterMarker
         }
@@ -6076,6 +6215,7 @@ extension QuickSight {
         /// The cluster marker that is a part of the cluster marker configuration.
         public let clusterMarker: ClusterMarker?
 
+        @inlinable
         public init(clusterMarker: ClusterMarker? = nil) {
             self.clusterMarker = clusterMarker
         }
@@ -6093,6 +6233,7 @@ extension QuickSight {
         /// A list of values for the collective constant.
         public let valueList: [String]?
 
+        @inlinable
         public init(valueList: [String]? = nil) {
             self.valueList = valueList
         }
@@ -6108,6 +6249,7 @@ extension QuickSight {
         /// The value of a CollectiveConstantEntry.
         public let value: String?
 
+        @inlinable
         public init(constantType: ConstantType? = nil, value: String? = nil) {
             self.constantType = constantType
             self.value = value
@@ -6131,6 +6273,7 @@ extension QuickSight {
         /// Determines the color that is applied to null values.
         public let nullValueColor: DataColor?
 
+        @inlinable
         public init(colorFillType: ColorFillType, colors: [DataColor], nullValueColor: DataColor? = nil) {
             self.colorFillType = colorFillType
             self.colors = colors
@@ -6157,6 +6300,7 @@ extension QuickSight {
         /// A list of up to 50 custom colors.
         public let customColors: [CustomColor]?
 
+        @inlinable
         public init(customColors: [CustomColor]? = nil) {
             self.customColors = customColors
         }
@@ -6183,6 +6327,7 @@ extension QuickSight {
         /// The role of the column.
         public let role: ColumnRole?
 
+        @inlinable
         public init(colorsConfiguration: ColorsConfiguration? = nil, column: ColumnIdentifier, formatConfiguration: FormatConfiguration? = nil, role: ColumnRole? = nil) {
             self.colorsConfiguration = colorsConfiguration
             self.column = column
@@ -6208,6 +6353,7 @@ extension QuickSight {
         /// The text of a description for a column.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -6225,6 +6371,7 @@ extension QuickSight {
         /// Geospatial column group that denotes a hierarchy.
         public let geoSpatialColumnGroup: GeoSpatialColumnGroup?
 
+        @inlinable
         public init(geoSpatialColumnGroup: GeoSpatialColumnGroup? = nil) {
             self.geoSpatialColumnGroup = geoSpatialColumnGroup
         }
@@ -6242,6 +6389,7 @@ extension QuickSight {
         /// The name of the column group's column schema.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -6257,6 +6405,7 @@ extension QuickSight {
         /// The name of the column group schema.
         public let name: String?
 
+        @inlinable
         public init(columnGroupColumnSchemaList: [ColumnGroupColumnSchema]? = nil, name: String? = nil) {
             self.columnGroupColumnSchemaList = columnGroupColumnSchemaList
             self.name = name
@@ -6280,6 +6429,7 @@ extension QuickSight {
         /// The option that determines the hierarchy of the fields that are defined during data preparation. These fields are available to use in any analysis that uses the data source.
         public let predefinedHierarchy: PredefinedHierarchy?
 
+        @inlinable
         public init(dateTimeHierarchy: DateTimeHierarchy? = nil, explicitHierarchy: ExplicitHierarchy? = nil, predefinedHierarchy: PredefinedHierarchy? = nil) {
             self.dateTimeHierarchy = dateTimeHierarchy
             self.explicitHierarchy = explicitHierarchy
@@ -6305,6 +6455,7 @@ extension QuickSight {
         /// The data set that the column belongs to.
         public let dataSetIdentifier: String
 
+        @inlinable
         public init(columnName: String, dataSetIdentifier: String) {
             self.columnName = columnName
             self.dataSetIdentifier = dataSetIdentifier
@@ -6329,6 +6480,7 @@ extension QuickSight {
         /// An array of Amazon Resource Names (ARNs) for Amazon QuickSight users or groups.
         public let principals: [String]?
 
+        @inlinable
         public init(columnNames: [String]? = nil, principals: [String]? = nil) {
             self.columnNames = columnNames
             self.principals = principals
@@ -6354,6 +6506,7 @@ extension QuickSight {
         /// The name of the column schema.
         public let name: String?
 
+        @inlinable
         public init(dataType: String? = nil, geographicRole: String? = nil, name: String? = nil) {
             self.dataType = dataType
             self.geographicRole = geographicRole
@@ -6374,6 +6527,7 @@ extension QuickSight {
         public let direction: SortDirection
         public let sortBy: ColumnIdentifier
 
+        @inlinable
         public init(aggregationFunction: AggregationFunction? = nil, direction: SortDirection, sortBy: ColumnIdentifier) {
             self.aggregationFunction = aggregationFunction
             self.direction = direction
@@ -6398,6 +6552,7 @@ extension QuickSight {
         /// A geospatial role for a column.
         public let columnGeographicRole: GeoSpatialDataRole?
 
+        @inlinable
         public init(columnDescription: ColumnDescription? = nil, columnGeographicRole: GeoSpatialDataRole? = nil) {
             self.columnDescription = columnDescription
             self.columnGeographicRole = columnGeographicRole
@@ -6425,6 +6580,7 @@ extension QuickSight {
         /// The visibility of the tooltip item.
         public let visibility: Visibility?
 
+        @inlinable
         public init(aggregation: AggregationFunction? = nil, column: ColumnIdentifier, label: String? = nil, tooltipTarget: TooltipTarget? = nil, visibility: Visibility? = nil) {
             self.aggregation = aggregation
             self.column = column
@@ -6457,6 +6613,7 @@ extension QuickSight {
         /// The aggregated LineValues field well of a combo chart.
         public let lineValues: [MeasureField]?
 
+        @inlinable
         public init(barValues: [MeasureField]? = nil, category: [DimensionField]? = nil, colors: [DimensionField]? = nil, lineValues: [MeasureField]? = nil) {
             self.barValues = barValues
             self.category = category
@@ -6528,6 +6685,7 @@ extension QuickSight {
         /// The palette (chart color) display setup of the visual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(barDataLabels: DataLabelOptions? = nil, barsArrangement: BarsArrangement? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: ComboChartFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, lineDataLabels: DataLabelOptions? = nil, primaryYAxisDisplayOptions: AxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, referenceLines: [ReferenceLine]? = nil, secondaryYAxisDisplayOptions: AxisDisplayOptions? = nil, secondaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, singleAxisOptions: SingleAxisOptions? = nil, sortConfiguration: ComboChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
             self.barDataLabels = barDataLabels
             self.barsArrangement = barsArrangement
@@ -6596,6 +6754,7 @@ extension QuickSight {
         /// The aggregated field wells of a combo chart. Combo charts only have aggregated field wells. Columns in a combo chart are aggregated by category.
         public let comboChartAggregatedFieldWells: ComboChartAggregatedFieldWells?
 
+        @inlinable
         public init(comboChartAggregatedFieldWells: ComboChartAggregatedFieldWells? = nil) {
             self.comboChartAggregatedFieldWells = comboChartAggregatedFieldWells
         }
@@ -6619,6 +6778,7 @@ extension QuickSight {
         /// The sort configuration of the color field well in a combo chart.
         public let colorSort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimit: ItemsLimitConfiguration? = nil, colorSort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
@@ -6659,6 +6819,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ComboChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -6703,6 +6864,7 @@ extension QuickSight {
         /// The ordering type for a column. Valid values for this structure are GREATER_IS_BETTER, LESSER_IS_BETTER and SPECIFIED.
         public let useOrdering: ColumnOrderingType?
 
+        @inlinable
         public init(specifedOrder: [String]? = nil, treatUndefinedSpecifiedValues: UndefinedSpecifiedValueType? = nil, useOrdering: ColumnOrderingType? = nil) {
             self.specifedOrder = specifedOrder
             self.treatUndefinedSpecifiedValues = treatUndefinedSpecifiedValues
@@ -6722,6 +6884,7 @@ extension QuickSight {
         /// The method of the comparison. Choose from the following options:    DIFFERENCE     PERCENT_DIFFERENCE     PERCENT
         public let comparisonMethod: ComparisonMethod?
 
+        @inlinable
         public init(comparisonFormat: ComparisonFormatConfiguration? = nil, comparisonMethod: ComparisonMethod? = nil) {
             self.comparisonFormat = comparisonFormat
             self.comparisonMethod = comparisonMethod
@@ -6743,6 +6906,7 @@ extension QuickSight {
         /// The percentage display format.
         public let percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration?
 
+        @inlinable
         public init(numberDisplayFormatConfiguration: NumberDisplayFormatConfiguration? = nil, percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration? = nil) {
             self.numberDisplayFormatConfiguration = numberDisplayFormatConfiguration
             self.percentageDisplayFormatConfiguration = percentageDisplayFormatConfiguration
@@ -6781,6 +6945,7 @@ extension QuickSight {
         /// The unique values computation configuration.
         public let uniqueValues: UniqueValuesComputation?
 
+        @inlinable
         public init(forecast: ForecastComputation? = nil, growthRate: GrowthRateComputation? = nil, maximumMinimum: MaximumMinimumComputation? = nil, metricComparison: MetricComparisonComputation? = nil, periodOverPeriod: PeriodOverPeriodComputation? = nil, periodToDate: PeriodToDateComputation? = nil, topBottomMovers: TopBottomMoversComputation? = nil, topBottomRanked: TopBottomRankedComputation? = nil, totalAggregation: TotalAggregationComputation? = nil, uniqueValues: UniqueValuesComputation? = nil) {
             self.forecast = forecast
             self.growthRate = growthRate
@@ -6827,6 +6992,7 @@ extension QuickSight {
         /// Formatting configuration for solid color.
         public let solid: ConditionalFormattingSolidColor?
 
+        @inlinable
         public init(gradient: ConditionalFormattingGradientColor? = nil, solid: ConditionalFormattingSolidColor? = nil) {
             self.gradient = gradient
             self.solid = solid
@@ -6853,6 +7019,7 @@ extension QuickSight {
         /// Custom icon options for an icon set.
         public let iconOptions: ConditionalFormattingCustomIconOptions
 
+        @inlinable
         public init(color: String? = nil, displayConfiguration: ConditionalFormattingIconDisplayConfiguration? = nil, expression: String, iconOptions: ConditionalFormattingCustomIconOptions) {
             self.color = color
             self.displayConfiguration = displayConfiguration
@@ -6881,6 +7048,7 @@ extension QuickSight {
         /// Determines the Unicode icon type.
         public let unicodeIcon: String?
 
+        @inlinable
         public init(icon: Icon? = nil, unicodeIcon: String? = nil) {
             self.icon = icon
             self.unicodeIcon = unicodeIcon
@@ -6902,6 +7070,7 @@ extension QuickSight {
         /// The expression that determines the formatting configuration for gradient color.
         public let expression: String
 
+        @inlinable
         public init(color: GradientColor, expression: String) {
             self.color = color
             self.expression = expression
@@ -6925,6 +7094,7 @@ extension QuickSight {
         /// Formatting configuration for icon set.
         public let iconSet: ConditionalFormattingIconSet?
 
+        @inlinable
         public init(customCondition: ConditionalFormattingCustomIconCondition? = nil, iconSet: ConditionalFormattingIconSet? = nil) {
             self.customCondition = customCondition
             self.iconSet = iconSet
@@ -6945,6 +7115,7 @@ extension QuickSight {
         /// Determines the icon display configuration.
         public let iconDisplayOption: ConditionalFormattingIconDisplayOption?
 
+        @inlinable
         public init(iconDisplayOption: ConditionalFormattingIconDisplayOption? = nil) {
             self.iconDisplayOption = iconDisplayOption
         }
@@ -6960,6 +7131,7 @@ extension QuickSight {
         /// Determines the icon set type.
         public let iconSetType: ConditionalFormattingIconSetType?
 
+        @inlinable
         public init(expression: String, iconSetType: ConditionalFormattingIconSetType? = nil) {
             self.expression = expression
             self.iconSetType = iconSetType
@@ -6982,6 +7154,7 @@ extension QuickSight {
         /// The expression that determines the formatting configuration for solid color.
         public let expression: String
 
+        @inlinable
         public init(color: String? = nil, expression: String) {
             self.color = color
             self.expression = expression
@@ -7003,6 +7176,7 @@ extension QuickSight {
         /// The availability status of the context menu options. If the value of this property is set to ENABLED, dashboard readers can interact with the context menu.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -7018,6 +7192,7 @@ extension QuickSight {
         /// The measure field that is used in the contribution analysis.
         public let measureFieldId: String
 
+        @inlinable
         public init(contributorDimensions: [ColumnIdentifier], measureFieldId: String) {
             self.contributorDimensions = contributorDimensions
             self.measureFieldId = measureFieldId
@@ -7043,6 +7218,7 @@ extension QuickSight {
         /// The field name of the ContributionAnalysisFactor.
         public let fieldName: String?
 
+        @inlinable
         public init(fieldName: String? = nil) {
             self.fieldName = fieldName
         }
@@ -7062,6 +7238,7 @@ extension QuickSight {
         /// The start range for the ContributionAnalysisTimeRanges.
         public let startRange: TopicIRFilterOption?
 
+        @inlinable
         public init(endRange: TopicIRFilterOption? = nil, startRange: TopicIRFilterOption? = nil) {
             self.endRange = endRange
             self.startRange = startRange
@@ -7088,6 +7265,7 @@ extension QuickSight {
         /// A list of the tags that you want to attach to this resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountCustomization: AccountCustomization, awsAccountId: String, namespace: String? = nil, tags: [Tag]? = nil) {
             self.accountCustomization = accountCustomization
             self.awsAccountId = awsAccountId
@@ -7137,6 +7315,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(accountCustomization: AccountCustomization? = nil, arn: String? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountCustomization = accountCustomization
             self.arn = arn
@@ -7206,6 +7385,7 @@ extension QuickSight {
         /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
         public let realm: String?
 
+        @inlinable
         public init(accountName: String, activeDirectoryName: String? = nil, adminGroup: [String]? = nil, adminProGroup: [String]? = nil, authenticationMethod: AuthenticationMethodOption, authorGroup: [String]? = nil, authorProGroup: [String]? = nil, awsAccountId: String, contactNumber: String? = nil, directoryId: String? = nil, edition: Edition? = nil, emailAddress: String? = nil, firstName: String? = nil, iamIdentityCenterInstanceArn: String? = nil, lastName: String? = nil, notificationEmail: String, readerGroup: [String]? = nil, readerProGroup: [String]? = nil, realm: String? = nil) {
             self.accountName = accountName
             self.activeDirectoryName = activeDirectoryName
@@ -7291,6 +7471,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, signupResponse: SignupResponse? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.signupResponse = signupResponse
@@ -7335,6 +7516,7 @@ extension QuickSight {
         /// The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
         public let validationStrategy: ValidationStrategy?
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String, definition: AnalysisDefinition? = nil, folderArns: [String]? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: AnalysisSourceEntity? = nil, tags: [Tag]? = nil, themeArn: String? = nil, validationStrategy: ValidationStrategy? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -7415,6 +7597,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisId: String? = nil, arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisId = analysisId
             self.arn = arn
@@ -7445,6 +7628,7 @@ extension QuickSight {
         /// Calculated columns to create.
         public let columns: [CalculatedColumn]
 
+        @inlinable
         public init(columns: [CalculatedColumn]) {
             self.columns = columns
         }
@@ -7494,6 +7678,7 @@ extension QuickSight {
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, definition: DashboardVersionDefinition? = nil, folderArns: [String]? = nil, linkEntities: [String]? = nil, linkSharingConfiguration: LinkSharingConfiguration? = nil, name: String, parameters: Parameters? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: DashboardSourceEntity? = nil, tags: [Tag]? = nil, themeArn: String? = nil, validationStrategy: ValidationStrategy? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -7597,6 +7782,7 @@ extension QuickSight {
         /// The ARN of the dashboard, including the version number of the first version that is created.
         public let versionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -7659,6 +7845,7 @@ extension QuickSight {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
         public let tags: [Tag]?
 
+        @inlinable
         public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, folderArns: [String]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
@@ -7789,6 +7976,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, dataSetId: String? = nil, ingestionArn: String? = nil, ingestionId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.dataSetId = dataSetId
@@ -7845,6 +8033,7 @@ extension QuickSight {
         /// 			your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
+        @inlinable
         public init(awsAccountId: String, credentials: DataSourceCredentials? = nil, dataSourceId: String, dataSourceParameters: DataSourceParameters? = nil, folderArns: [String]? = nil, name: String, permissions: [ResourcePermission]? = nil, sslProperties: SslProperties? = nil, tags: [Tag]? = nil, type: DataSourceType, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.awsAccountId = awsAccountId
             self.credentials = credentials
@@ -7922,6 +8111,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -7958,6 +8148,7 @@ extension QuickSight {
         /// The member type of the asset that you want to add to a folder.
         public let memberType: MemberType
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, memberId: String, memberType: MemberType) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -7997,6 +8188,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(folderMember: FolderMember? = nil, requestId: String? = nil, status: Int? = nil) {
             self.folderMember = folderMember
             self.requestId = requestId
@@ -8028,6 +8220,7 @@ extension QuickSight {
         /// Tags for the folder.
         public let tags: [Tag]?
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, folderType: FolderType? = nil, name: String? = nil, parentFolderArn: String? = nil, permissions: [ResourcePermission]? = nil, sharingModel: SharingModel? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -8093,6 +8286,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.folderId = folderId
@@ -8127,6 +8321,7 @@ extension QuickSight {
         /// The namespace that you want the user to be a part of.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, groupName: String, memberName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
@@ -8167,6 +8362,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(groupMember: GroupMember? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupMember = groupMember
             self.requestId = requestId
@@ -8198,6 +8394,7 @@ extension QuickSight {
         /// The namespace that you want the group to be a part of.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, description: String? = nil, groupName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.description = description
@@ -8240,6 +8437,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
             self.group = group
             self.requestId = requestId
@@ -8283,6 +8481,7 @@ extension QuickSight {
         /// 			groups specified in this assignment.
         public let policyArn: String?
 
+        @inlinable
         public init(assignmentName: String, assignmentStatus: AssignmentStatus, awsAccountId: String, identities: [String: [String]]? = nil, namespace: String, policyArn: String? = nil) {
             self.assignmentName = assignmentName
             self.assignmentStatus = assignmentStatus
@@ -8344,6 +8543,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.assignmentId = assignmentId
             self.assignmentName = assignmentName
@@ -8386,6 +8586,7 @@ extension QuickSight {
         /// The type of ingestion that you want to create.
         public let ingestionType: IngestionType?
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, ingestionId: String, ingestionType: IngestionType? = nil) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -8428,6 +8629,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, ingestionId: String? = nil, ingestionStatus: IngestionStatus? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.ingestionId = ingestionId
@@ -8464,6 +8666,7 @@ extension QuickSight {
         /// The tags that you want to associate with the namespace that you're creating.
         public let tags: [Tag]?
 
+        @inlinable
         public init(awsAccountId: String, identityStore: IdentityStore, namespace: String, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.identityStore = identityStore
@@ -8516,6 +8719,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, capacityRegion: String? = nil, creationStatus: NamespaceStatus? = nil, identityStore: IdentityStore? = nil, name: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.capacityRegion = capacityRegion
@@ -8556,6 +8760,7 @@ extension QuickSight {
         /// The refresh schedule.
         public let schedule: RefreshSchedule
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, schedule: RefreshSchedule) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -8592,6 +8797,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, scheduleId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -8625,6 +8831,7 @@ extension QuickSight {
         /// The role that you want to add a group to.
         public let role: Role
 
+        @inlinable
         public init(awsAccountId: String, memberName: String, namespace: String, role: Role) {
             self.awsAccountId = awsAccountId
             self.memberName = memberName
@@ -8660,6 +8867,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -8689,6 +8897,7 @@ extension QuickSight {
         /// The version number of the template.
         public let templateVersionNumber: Int64
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, templateId: String, templateVersionNumber: Int64) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -8731,6 +8940,7 @@ extension QuickSight {
         /// Information about the template alias.
         public let templateAlias: TemplateAlias?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, templateAlias: TemplateAlias? = nil) {
             self.requestId = requestId
             self.status = status
@@ -8785,6 +8995,7 @@ extension QuickSight {
         /// 			in the VersionDescription field.
         public let versionDescription: String?
 
+        @inlinable
         public init(awsAccountId: String, definition: TemplateVersionDefinition? = nil, name: String? = nil, permissions: [ResourcePermission]? = nil, sourceEntity: TemplateSourceEntity? = nil, tags: [Tag]? = nil, templateId: String, validationStrategy: ValidationStrategy? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.definition = definition
@@ -8862,6 +9073,7 @@ extension QuickSight {
         /// 			the first version.
         public let versionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -8903,6 +9115,7 @@ extension QuickSight {
         /// The version number of the theme.
         public let themeVersionNumber: Int64
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, themeId: String, themeVersionNumber: Int64) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -8945,6 +9158,7 @@ extension QuickSight {
         /// Information about the theme alias.
         public let themeAlias: ThemeAlias?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, themeAlias: ThemeAlias? = nil) {
             self.requestId = requestId
             self.status = status
@@ -8992,6 +9206,7 @@ extension QuickSight {
         /// 			field.
         public let versionDescription: String?
 
+        @inlinable
         public init(awsAccountId: String, baseThemeId: String, configuration: ThemeConfiguration, name: String, permissions: [ResourcePermission]? = nil, tags: [Tag]? = nil, themeId: String, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.baseThemeId = baseThemeId
@@ -9067,6 +9282,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) for the new theme.
         public let versionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -9108,6 +9324,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, datasetArn: String, datasetName: String? = nil, refreshSchedule: TopicRefreshSchedule, topicId: String) {
             self.awsAccountId = awsAccountId
             self.datasetArn = datasetArn
@@ -9154,6 +9371,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(datasetArn: String? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.datasetArn = datasetArn
             self.requestId = requestId
@@ -9190,6 +9408,7 @@ extension QuickSight {
         /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, tags: [Tag]? = nil, topic: TopicDetails, topicId: String) {
             self.awsAccountId = awsAccountId
             self.tags = tags
@@ -9239,6 +9458,7 @@ extension QuickSight {
         /// The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(arn: String? = nil, refreshArn: String? = nil, requestId: String? = nil, status: Int? = nil, topicId: String? = nil) {
             self.arn = arn
             self.refreshArn = refreshArn
@@ -9279,6 +9499,7 @@ extension QuickSight {
         /// The template for the CreateTopicReviewedAnswer.
         public let template: TopicTemplate?
 
+        @inlinable
         public init(answerId: String, datasetArn: String, mir: TopicIR? = nil, primaryVisual: TopicVisual? = nil, question: String, template: TopicTemplate? = nil) {
             self.answerId = answerId
             self.datasetArn = datasetArn
@@ -9329,6 +9550,7 @@ extension QuickSight {
         /// 				Amazon Web Services account.
         public let vpcConnectionId: String
 
+        @inlinable
         public init(awsAccountId: String, dnsResolvers: [String]? = nil, name: String, roleArn: String, securityGroupIds: [String], subnetIds: [String], tags: [Tag]? = nil, vpcConnectionId: String) {
             self.awsAccountId = awsAccountId
             self.dnsResolvers = dnsResolvers
@@ -9417,6 +9639,7 @@ extension QuickSight {
         /// 			account.
         public let vpcConnectionId: String?
 
+        @inlinable
         public init(arn: String? = nil, availabilityStatus: VPCConnectionAvailabilityStatus? = nil, creationStatus: VPCConnectionResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, vpcConnectionId: String? = nil) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
@@ -9454,6 +9677,7 @@ extension QuickSight {
         /// User name.
         public let username: String
 
+        @inlinable
         public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, password: String, username: String) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.password = password
@@ -9497,6 +9721,7 @@ extension QuickSight {
         /// Determines the symbol for the currency format.
         public let symbol: String?
 
+        @inlinable
         public init(decimalPlacesConfiguration: DecimalPlacesConfiguration? = nil, negativeValueConfiguration: NegativeValueConfiguration? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numberScale: NumberScale? = nil, prefix: String? = nil, separatorConfiguration: NumericSeparatorConfiguration? = nil, suffix: String? = nil, symbol: String? = nil) {
             self.decimalPlacesConfiguration = decimalPlacesConfiguration
             self.negativeValueConfiguration = negativeValueConfiguration
@@ -9536,6 +9761,7 @@ extension QuickSight {
         /// The configuration that chooses the target visuals to be filtered.
         public let targetVisualsConfiguration: FilterOperationTargetVisualsConfiguration
 
+        @inlinable
         public init(selectedFieldsConfiguration: FilterOperationSelectedFieldsConfiguration, targetVisualsConfiguration: FilterOperationTargetVisualsConfiguration) {
             self.selectedFieldsConfiguration = selectedFieldsConfiguration
             self.targetVisualsConfiguration = targetVisualsConfiguration
@@ -9556,6 +9782,7 @@ extension QuickSight {
         /// The configuration that chooses the navigation target.
         public let localNavigationConfiguration: LocalNavigationConfiguration?
 
+        @inlinable
         public init(localNavigationConfiguration: LocalNavigationConfiguration? = nil) {
             self.localNavigationConfiguration = localNavigationConfiguration
         }
@@ -9573,6 +9800,7 @@ extension QuickSight {
         /// The parameter that determines the value configuration.
         public let parameterValueConfigurations: [SetParameterValueConfiguration]
 
+        @inlinable
         public init(parameterValueConfigurations: [SetParameterValueConfiguration]) {
             self.parameterValueConfigurations = parameterValueConfigurations
         }
@@ -9596,6 +9824,7 @@ extension QuickSight {
         /// THe URL link of the CustomActionURLOperation.
         public let urlTemplate: String
 
+        @inlinable
         public init(urlTarget: URLTargetConfiguration, urlTemplate: String) {
             self.urlTarget = urlTarget
             self.urlTemplate = urlTemplate
@@ -9620,6 +9849,7 @@ extension QuickSight {
         /// The value of a special data value.
         public let specialValue: SpecialValue?
 
+        @inlinable
         public init(color: String, fieldValue: String? = nil, specialValue: SpecialValue? = nil) {
             self.color = color
             self.fieldValue = fieldValue
@@ -9648,6 +9878,7 @@ extension QuickSight {
         /// The general visual interactions setup for a visual.
         public let interactions: VisualInteractionOptions?
 
+        @inlinable
         public init(contentType: CustomContentType? = nil, contentUrl: String? = nil, imageScaling: CustomContentImageScalingConfiguration? = nil, interactions: VisualInteractionOptions? = nil) {
             self.contentType = contentType
             self.contentUrl = contentUrl
@@ -9682,6 +9913,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: CustomContentConfiguration? = nil, dataSetIdentifier: String, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -9728,6 +9960,7 @@ extension QuickSight {
         /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
         public let selectAllOptions: CategoryFilterSelectAllOptions?
 
+        @inlinable
         public init(categoryValue: String? = nil, matchOperator: CategoryFilterMatchOperator, nullOption: FilterNullOption, parameterName: String? = nil, selectAllOptions: CategoryFilterSelectAllOptions? = nil) {
             self.categoryValue = categoryValue
             self.matchOperator = matchOperator
@@ -9762,6 +9995,7 @@ extension QuickSight {
         /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
         public let selectAllOptions: CategoryFilterSelectAllOptions?
 
+        @inlinable
         public init(categoryValues: [String]? = nil, matchOperator: CategoryFilterMatchOperator, nullOption: FilterNullOption, selectAllOptions: CategoryFilterSelectAllOptions? = nil) {
             self.categoryValues = categoryValues
             self.matchOperator = matchOperator
@@ -9788,6 +10022,7 @@ extension QuickSight {
         /// The string input of custom narrative.
         public let narrative: String
 
+        @inlinable
         public init(narrative: String) {
             self.narrative = narrative
         }
@@ -9811,6 +10046,7 @@ extension QuickSight {
         /// A list of string-type parameter values.
         public let stringValues: [String]?
 
+        @inlinable
         public init(dateTimeValues: [Date]? = nil, decimalValues: [Double]? = nil, integerValues: [Int64]? = nil, stringValues: [String]? = nil) {
             self.dateTimeValues = dateTimeValues
             self.decimalValues = decimalValues
@@ -9843,6 +10079,7 @@ extension QuickSight {
         /// The SQL query.
         public let sqlQuery: String
 
+        @inlinable
         public init(columns: [InputColumn]? = nil, dataSourceArn: String, name: String, sqlQuery: String) {
             self.columns = columns
             self.dataSourceArn = dataSourceArn
@@ -9875,6 +10112,7 @@ extension QuickSight {
         /// Includes the null value in custom action parameter values.
         public let includeNullValue: Bool?
 
+        @inlinable
         public init(customValues: CustomParameterValues, includeNullValue: Bool? = nil) {
             self.customValues = customValues
             self.includeNullValue = includeNullValue
@@ -9908,6 +10146,7 @@ extension QuickSight {
         /// Version.
         public let version: DashboardVersion?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, dashboardId: String? = nil, lastPublishedTime: Date? = nil, lastUpdatedTime: Date? = nil, linkEntities: [String]? = nil, name: String? = nil, version: DashboardVersion? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -9939,6 +10178,7 @@ extension QuickSight {
         /// Lists the violated entities that caused the dashboard error.
         public let violatedEntities: [Entity]?
 
+        @inlinable
         public init(message: String? = nil, type: DashboardErrorType? = nil, violatedEntities: [Entity]? = nil) {
             self.message = message
             self.type = type
@@ -9976,6 +10216,7 @@ extension QuickSight {
         /// The visual publish options of a visual in a dashboard.
         public let visualPublishOptions: DashboardVisualPublishOptions?
 
+        @inlinable
         public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
@@ -9991,6 +10232,7 @@ extension QuickSight {
         }
 
         @available(*, deprecated, message: "Members visualPublishOptions have been deprecated")
+        @inlinable
         public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
@@ -10028,6 +10270,7 @@ extension QuickSight {
         /// The value of the named item, in this case QUICKSIGHT_USER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
         public let value: String?
 
+        @inlinable
         public init(name: DashboardFilterAttribute? = nil, operator: FilterOperator, value: String? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -10045,6 +10288,7 @@ extension QuickSight {
         /// Source template.
         public let sourceTemplate: DashboardSourceTemplate?
 
+        @inlinable
         public init(sourceTemplate: DashboardSourceTemplate? = nil) {
             self.sourceTemplate = sourceTemplate
         }
@@ -10064,6 +10308,7 @@ extension QuickSight {
         /// Dataset references.
         public let dataSetReferences: [DataSetReference]
 
+        @inlinable
         public init(arn: String, dataSetReferences: [DataSetReference]) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
@@ -10098,6 +10343,7 @@ extension QuickSight {
         /// Published version number.
         public let publishedVersionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, dashboardId: String? = nil, lastPublishedTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, publishedVersionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -10141,6 +10387,7 @@ extension QuickSight {
         /// Version number for this version of the dashboard.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sheets: [Sheet]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -10185,6 +10432,7 @@ extension QuickSight {
         /// An array of sheet definitions for a dashboard.
         public let sheets: [SheetDefinition]?
 
+        @inlinable
         public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -10250,6 +10498,7 @@ extension QuickSight {
         /// Version number.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -10277,6 +10526,7 @@ extension QuickSight {
         /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
         public let visualId: String
 
+        @inlinable
         public init(dashboardId: String, sheetId: String, visualId: String) {
             self.dashboardId = dashboardId
             self.sheetId = sheetId
@@ -10306,6 +10556,7 @@ extension QuickSight {
         /// Determines if hidden fields are included in an exported dashboard.
         public let exportHiddenFieldsOption: ExportHiddenFieldsOption?
 
+        @inlinable
         public init(exportHiddenFieldsOption: ExportHiddenFieldsOption? = nil) {
             self.exportHiddenFieldsOption = exportHiddenFieldsOption
         }
@@ -10321,6 +10572,7 @@ extension QuickSight {
         /// The column name for the default date.
         public let defaultDateColumnName: String?
 
+        @inlinable
         public init(datasetRowDateGranularity: TopicTimeGranularity? = nil, defaultDateColumnName: String? = nil) {
             self.datasetRowDateGranularity = datasetRowDateGranularity
             self.defaultDateColumnName = defaultDateColumnName
@@ -10344,6 +10596,7 @@ extension QuickSight {
         /// The color of the positive data bar.
         public let positiveColor: String?
 
+        @inlinable
         public init(fieldId: String, negativeColor: String? = nil, positiveColor: String? = nil) {
             self.fieldId = fieldId
             self.negativeColor = negativeColor
@@ -10370,6 +10623,7 @@ extension QuickSight {
         /// The data value that the color is applied to.
         public let dataValue: Double?
 
+        @inlinable
         public init(color: String? = nil, dataValue: Double? = nil) {
             self.color = color
             self.dataValue = dataValue
@@ -10393,6 +10647,7 @@ extension QuickSight {
         /// The minimum and maximum hexadecimal codes that describe a color gradient.
         public let minMaxGradient: [String]?
 
+        @inlinable
         public init(colors: [String]? = nil, emptyFillColor: String? = nil, minMaxGradient: [String]? = nil) {
             self.colors = colors
             self.emptyFillColor = emptyFillColor
@@ -10428,6 +10683,7 @@ extension QuickSight {
         /// The options that determine the presentation of line series associated to the field.
         public let settings: LineChartSeriesSettings?
 
+        @inlinable
         public init(axisBinding: AxisBinding, fieldId: String, fieldValue: String? = nil, settings: LineChartSeriesSettings? = nil) {
             self.axisBinding = axisBinding
             self.fieldId = fieldId
@@ -10471,6 +10727,7 @@ extension QuickSight {
         /// Determines the visibility of the data labels.
         public let visibility: Visibility?
 
+        @inlinable
         public init(categoryLabelVisibility: Visibility? = nil, dataLabelTypes: [DataLabelType]? = nil, labelColor: String? = nil, labelContent: DataLabelContent? = nil, labelFontConfiguration: FontConfiguration? = nil, measureLabelVisibility: Visibility? = nil, overlap: DataLabelOverlap? = nil, position: DataLabelPosition? = nil, totalsVisibility: Visibility? = nil, visibility: Visibility? = nil) {
             self.categoryLabelVisibility = categoryLabelVisibility
             self.dataLabelTypes = dataLabelTypes
@@ -10519,6 +10776,7 @@ extension QuickSight {
         /// Determines the label configuration for range end value in a visual.
         public let rangeEndsLabelType: RangeEndsLabelType?
 
+        @inlinable
         public init(dataPathLabelType: DataPathLabelType? = nil, fieldLabelType: FieldLabelType? = nil, maximumLabelType: MaximumLabelType? = nil, minimumLabelType: MinimumLabelType? = nil, rangeEndsLabelType: RangeEndsLabelType? = nil) {
             self.dataPathLabelType = dataPathLabelType
             self.fieldLabelType = fieldLabelType
@@ -10549,6 +10807,7 @@ extension QuickSight {
         /// The time granularity of the field that the color needs to be applied to.
         public let timeGranularity: TimeGranularity?
 
+        @inlinable
         public init(color: String, element: DataPathValue, timeGranularity: TimeGranularity? = nil) {
             self.color = color
             self.element = element
@@ -10575,6 +10834,7 @@ extension QuickSight {
         /// The visibility of the data label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(fieldId: String? = nil, fieldValue: String? = nil, visibility: Visibility? = nil) {
             self.fieldId = fieldId
             self.fieldValue = fieldValue
@@ -10600,6 +10860,7 @@ extension QuickSight {
         /// The list of data paths that need to be sorted.
         public let sortPaths: [DataPathValue]
 
+        @inlinable
         public init(direction: SortDirection, sortPaths: [DataPathValue]) {
             self.direction = direction
             self.sortPaths = sortPaths
@@ -10622,6 +10883,7 @@ extension QuickSight {
         /// The type of data path value utilized in a pivot table. Choose one of the following options:    HIERARCHY_ROWS_LAYOUT_COLUMN - The type of data path for the rows layout column, when RowsLayout is set to HIERARCHY.    MULTIPLE_ROW_METRICS_COLUMN - The type of data path for the metric column when the row is set to Metric Placement.    EMPTY_COLUMN_HEADER - The type of data path for the column with empty column header, when there is no field in ColumnsFieldWell and the row is set to Metric Placement.    COUNT_METRIC_COLUMN - The type of data path for the column with COUNT as the metric, when there is no field in the ValuesFieldWell.
         public let pivotTableDataPathType: PivotTableDataPathType?
 
+        @inlinable
         public init(pivotTableDataPathType: PivotTableDataPathType? = nil) {
             self.pivotTableDataPathType = pivotTableDataPathType
         }
@@ -10639,6 +10901,7 @@ extension QuickSight {
         /// The actual value of the field that needs to be sorted.
         public let fieldValue: String?
 
+        @inlinable
         public init(dataPathType: DataPathType? = nil, fieldId: String? = nil, fieldValue: String? = nil) {
             self.dataPathType = dataPathType
             self.fieldId = fieldId
@@ -10662,6 +10925,7 @@ extension QuickSight {
         /// The status of the drill down options of data points.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -10675,6 +10939,7 @@ extension QuickSight {
         /// The status of the data point menu options.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -10688,6 +10953,7 @@ extension QuickSight {
         /// The status of the data point tool tip options.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -10733,6 +10999,7 @@ extension QuickSight {
         /// The element you can use to define tags for row-level security.
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
+        @inlinable
         public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
@@ -10782,6 +11049,7 @@ extension QuickSight {
         /// Placeholder.
         public let placeholder: String?
 
+        @inlinable
         public init(columnGroupSchemaList: [ColumnGroupSchema]? = nil, dataSetSchema: DataSetSchema? = nil, placeholder: String? = nil) {
             self.columnGroupSchemaList = columnGroupSchemaList
             self.dataSetSchema = dataSetSchema
@@ -10809,6 +11077,7 @@ extension QuickSight {
         /// The identifier of the data set, typically the data set's name.
         public let identifier: String
 
+        @inlinable
         public init(dataSetArn: String, identifier: String) {
             self.dataSetArn = dataSetArn
             self.identifier = identifier
@@ -10831,6 +11100,7 @@ extension QuickSight {
         /// Dataset placeholder.
         public let dataSetPlaceholder: String
 
+        @inlinable
         public init(dataSetArn: String, dataSetPlaceholder: String) {
             self.dataSetArn = dataSetArn
             self.dataSetPlaceholder = dataSetPlaceholder
@@ -10850,6 +11120,7 @@ extension QuickSight {
         /// The refresh configuration for a dataset.
         public let refreshConfiguration: RefreshConfiguration
 
+        @inlinable
         public init(refreshConfiguration: RefreshConfiguration) {
             self.refreshConfiguration = refreshConfiguration
         }
@@ -10867,6 +11138,7 @@ extension QuickSight {
         /// A structure containing the list of column schemas.
         public let columnSchemaList: [ColumnSchema]?
 
+        @inlinable
         public init(columnSchemaList: [ColumnSchema]? = nil) {
             self.columnSchemaList = columnSchemaList
         }
@@ -10888,6 +11160,7 @@ extension QuickSight {
         /// The value of the named item, in this case QUICKSIGHT_OWNER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
         public let value: String
 
+        @inlinable
         public init(name: DataSetFilterAttribute, operator: FilterOperator, value: String) {
             self.name = name
             self.`operator` = `operator`
@@ -10921,6 +11194,7 @@ extension QuickSight {
         /// Whether or not the row level permission tags are applied.
         public let rowLevelPermissionTagConfigurationApplied: Bool?
 
+        @inlinable
         public init(arn: String? = nil, columnLevelPermissionRulesApplied: Bool? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfigurationApplied: Bool? = nil) {
             self.arn = arn
             self.columnLevelPermissionRulesApplied = columnLevelPermissionRulesApplied
@@ -10952,6 +11226,7 @@ extension QuickSight {
         /// An option that controls whether a child dataset that's stored in QuickSight can use this dataset as a source.
         public let disableUseAsImportedSource: Bool?
 
+        @inlinable
         public init(disableUseAsDirectQuerySource: Bool? = nil, disableUseAsImportedSource: Bool? = nil) {
             self.disableUseAsDirectQuerySource = disableUseAsDirectQuerySource
             self.disableUseAsImportedSource = disableUseAsImportedSource
@@ -10991,6 +11266,7 @@ extension QuickSight {
         /// The VPC connection information. You need to use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
+        @inlinable
         public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
@@ -11032,6 +11308,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public let secretArn: String?
 
+        @inlinable
         public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil, secretArn: String? = nil) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
@@ -11059,6 +11336,7 @@ extension QuickSight {
         /// Error type.
         public let type: DataSourceErrorInfoType?
 
+        @inlinable
         public init(message: String? = nil, type: DataSourceErrorInfoType? = nil) {
             self.message = message
             self.type = type
@@ -11078,6 +11356,7 @@ extension QuickSight {
         /// The value of the named item, for example DIRECT_QUICKSIGHT_OWNER, that you want to use as a filter, for example, "Value": "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
         public let value: String
 
+        @inlinable
         public init(name: DataSourceFilterAttribute, operator: FilterOperator, value: String) {
             self.name = name
             self.`operator` = `operator`
@@ -11105,6 +11384,7 @@ extension QuickSight {
         /// The type of the data source.
         public let type: DataSourceType?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, type: DataSourceType? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -11132,6 +11412,7 @@ extension QuickSight {
         /// The HTTP path of the Databricks data source.
         public let sqlEndpointPath: String
 
+        @inlinable
         public init(host: String, port: Int, sqlEndpointPath: String) {
             self.host = host
             self.port = port
@@ -11172,6 +11453,7 @@ extension QuickSight {
         /// The list of named entities definitions.
         public let namedEntities: [TopicNamedEntity]?
 
+        @inlinable
         public init(calculatedFields: [TopicCalculatedField]? = nil, columns: [TopicColumn]? = nil, dataAggregation: DataAggregation? = nil, datasetArn: String, datasetDescription: String? = nil, datasetName: String? = nil, filters: [TopicFilter]? = nil, namedEntities: [TopicNamedEntity]? = nil) {
             self.calculatedFields = calculatedFields
             self.columns = columns
@@ -11223,6 +11505,7 @@ extension QuickSight {
         /// A string parameter that is created in the dataset.
         public let stringDatasetParameter: StringDatasetParameter?
 
+        @inlinable
         public init(dateTimeDatasetParameter: DateTimeDatasetParameter? = nil, decimalDatasetParameter: DecimalDatasetParameter? = nil, integerDatasetParameter: IntegerDatasetParameter? = nil, stringDatasetParameter: StringDatasetParameter? = nil) {
             self.dateTimeDatasetParameter = dateTimeDatasetParameter
             self.decimalDatasetParameter = decimalDatasetParameter
@@ -11249,6 +11532,7 @@ extension QuickSight {
         /// Determines whether or not missing dates are displayed.
         public let missingDateVisibility: Visibility?
 
+        @inlinable
         public init(missingDateVisibility: Visibility? = nil) {
             self.missingDateVisibility = missingDateVisibility
         }
@@ -11270,6 +11554,7 @@ extension QuickSight {
         /// The custom hierarchy ID.
         public let hierarchyId: String?
 
+        @inlinable
         public init(column: ColumnIdentifier, dateGranularity: TimeGranularity? = nil, fieldId: String, formatConfiguration: DateTimeFormatConfiguration? = nil, hierarchyId: String? = nil) {
             self.column = column
             self.dateGranularity = dateGranularity
@@ -11306,6 +11591,7 @@ extension QuickSight {
         /// The format configuration of the field.
         public let formatConfiguration: DateTimeFormatConfiguration?
 
+        @inlinable
         public init(aggregationFunction: DateAggregationFunction? = nil, column: ColumnIdentifier, fieldId: String, formatConfiguration: DateTimeFormatConfiguration? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -11340,6 +11626,7 @@ extension QuickSight {
         /// The value type of the dataset parameter. Valid values are single value or multi value.
         public let valueType: DatasetParameterValueType
 
+        @inlinable
         public init(defaultValues: DateTimeDatasetParameterDefaultValues? = nil, id: String, name: String, timeGranularity: TimeGranularity? = nil, valueType: DatasetParameterValueType) {
             self.defaultValues = defaultValues
             self.id = id
@@ -11371,6 +11658,7 @@ extension QuickSight {
         /// A list of static default values for a given date time parameter.
         public let staticValues: [Date]?
 
+        @inlinable
         public init(staticValues: [Date]? = nil) {
             self.staticValues = staticValues
         }
@@ -11393,6 +11681,7 @@ extension QuickSight {
         /// The static values of the DataTimeDefaultValues.
         public let staticValues: [Date]?
 
+        @inlinable
         public init(dynamicValue: DynamicDefaultValue? = nil, rollingDate: RollingDateConfiguration? = nil, staticValues: [Date]? = nil) {
             self.dynamicValue = dynamicValue
             self.rollingDate = rollingDate
@@ -11420,6 +11709,7 @@ extension QuickSight {
         /// The formatting configuration for numeric DateTime fields.
         public let numericFormatConfiguration: NumericFormatConfiguration?
 
+        @inlinable
         public init(dateTimeFormat: String? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numericFormatConfiguration: NumericFormatConfiguration? = nil) {
             self.dateTimeFormat = dateTimeFormat
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
@@ -11446,6 +11736,7 @@ extension QuickSight {
         /// The hierarchy ID of the DateTime hierarchy.
         public let hierarchyId: String
 
+        @inlinable
         public init(drillDownFilters: [DrillDownFilter]? = nil, hierarchyId: String) {
             self.drillDownFilters = drillDownFilters
             self.hierarchyId = hierarchyId
@@ -11472,6 +11763,7 @@ extension QuickSight {
         /// The values for the date-time parameter.
         public let values: [Date]
 
+        @inlinable
         public init(name: String, values: [Date]) {
             self.name = name
             self.values = values
@@ -11498,6 +11790,7 @@ extension QuickSight {
         /// The configuration that defines the default value of a DateTime parameter when a value has not been set.
         public let valueWhenUnset: DateTimeValueWhenUnsetConfiguration?
 
+        @inlinable
         public init(defaultValues: DateTimeDefaultValues? = nil, mappedDataSetParameters: [MappedDataSetParameter]? = nil, name: String, timeGranularity: TimeGranularity? = nil, valueWhenUnset: DateTimeValueWhenUnsetConfiguration? = nil) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
@@ -11538,6 +11831,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(dateIconVisibility: Visibility? = nil, dateTimeFormat: String? = nil, helperTextVisibility: Visibility? = nil, infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.dateIconVisibility = dateIconVisibility
             self.dateTimeFormat = dateTimeFormat
@@ -11568,6 +11862,7 @@ extension QuickSight {
         /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
         public let valueWhenUnsetOption: ValueWhenUnsetOption?
 
+        @inlinable
         public init(customValue: Date? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
@@ -11589,6 +11884,7 @@ extension QuickSight {
         /// The value type of the dataset parameter. Valid values are single value or multi value.
         public let valueType: DatasetParameterValueType
 
+        @inlinable
         public init(defaultValues: DecimalDatasetParameterDefaultValues? = nil, id: String, name: String, valueType: DatasetParameterValueType) {
             self.defaultValues = defaultValues
             self.id = id
@@ -11618,6 +11914,7 @@ extension QuickSight {
         /// A list of static default values for a given decimal parameter.
         public let staticValues: [Double]?
 
+        @inlinable
         public init(staticValues: [Double]? = nil) {
             self.staticValues = staticValues
         }
@@ -11638,6 +11935,7 @@ extension QuickSight {
         /// The static values of the DecimalDefaultValues.
         public let staticValues: [Double]?
 
+        @inlinable
         public init(dynamicValue: DynamicDefaultValue? = nil, staticValues: [Double]? = nil) {
             self.dynamicValue = dynamicValue
             self.staticValues = staticValues
@@ -11660,6 +11958,7 @@ extension QuickSight {
         /// The values for the decimal parameter.
         public let values: [Double]
 
+        @inlinable
         public init(name: String, values: [Double]) {
             self.name = name
             self.values = values
@@ -11686,6 +11985,7 @@ extension QuickSight {
         /// The configuration that defines the default value of a Decimal parameter when a value has not been set.
         public let valueWhenUnset: DecimalValueWhenUnsetConfiguration?
 
+        @inlinable
         public init(defaultValues: DecimalDefaultValues? = nil, mappedDataSetParameters: [MappedDataSetParameter]? = nil, name: String, parameterValueType: ParameterValueType, valueWhenUnset: DecimalValueWhenUnsetConfiguration? = nil) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
@@ -11718,6 +12018,7 @@ extension QuickSight {
         /// The values of the decimal places.
         public let decimalPlaces: Int64
 
+        @inlinable
         public init(decimalPlaces: Int64) {
             self.decimalPlaces = decimalPlaces
         }
@@ -11738,6 +12039,7 @@ extension QuickSight {
         /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
         public let valueWhenUnsetOption: ValueWhenUnsetOption?
 
+        @inlinable
         public init(customValue: Double? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
@@ -11755,6 +12057,7 @@ extension QuickSight {
         /// The date time picker type of the DefaultDateTimePickerControlOptions. Choose one of the following options:    SINGLE_VALUED: The filter condition is a fixed date.    DATE_RANGE: The filter condition is a date time range.
         public let type: SheetControlDateTimePickerType?
 
+        @inlinable
         public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, type: SheetControlDateTimePickerType? = nil) {
             self.displayOptions = displayOptions
             self.type = type
@@ -11776,6 +12079,7 @@ extension QuickSight {
         /// The title of the DefaultFilterControlConfiguration. This title is shared by all controls that are tied to this filter.
         public let title: String
 
+        @inlinable
         public init(controlOptions: DefaultFilterControlOptions, title: String) {
             self.controlOptions = controlOptions
             self.title = title
@@ -11809,6 +12113,7 @@ extension QuickSight {
         /// The default options that correspond to the TextField filter control type.
         public let defaultTextFieldOptions: DefaultTextFieldControlOptions?
 
+        @inlinable
         public init(defaultDateTimePickerOptions: DefaultDateTimePickerControlOptions? = nil, defaultDropdownOptions: DefaultFilterDropDownControlOptions? = nil, defaultListOptions: DefaultFilterListControlOptions? = nil, defaultRelativeDateTimeOptions: DefaultRelativeDateTimeControlOptions? = nil, defaultSliderOptions: DefaultSliderControlOptions? = nil, defaultTextAreaOptions: DefaultTextAreaControlOptions? = nil, defaultTextFieldOptions: DefaultTextFieldControlOptions? = nil) {
             self.defaultDateTimePickerOptions = defaultDateTimePickerOptions
             self.defaultDropdownOptions = defaultDropdownOptions
@@ -11848,6 +12153,7 @@ extension QuickSight {
         /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public let type: SheetControlListType?
 
+        @inlinable
         public init(displayOptions: DropDownControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
@@ -11874,6 +12180,7 @@ extension QuickSight {
         /// The type of the DefaultFilterListControlOptions. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
         public let type: SheetControlListType?
 
+        @inlinable
         public init(displayOptions: ListControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
@@ -11898,6 +12205,7 @@ extension QuickSight {
         /// The additional options for display formatting.
         public let displayFormatOptions: DisplayFormatOptions?
 
+        @inlinable
         public init(displayFormat: DisplayFormat? = nil, displayFormatOptions: DisplayFormatOptions? = nil) {
             self.displayFormat = displayFormat
             self.displayFormatOptions = displayFormatOptions
@@ -11917,6 +12225,7 @@ extension QuickSight {
         /// Determines the screen canvas size options for a free-form layout.
         public let canvasSizeOptions: FreeFormLayoutCanvasSizeOptions
 
+        @inlinable
         public init(canvasSizeOptions: FreeFormLayoutCanvasSizeOptions) {
             self.canvasSizeOptions = canvasSizeOptions
         }
@@ -11930,6 +12239,7 @@ extension QuickSight {
         /// Determines the screen canvas size options for a grid layout.
         public let canvasSizeOptions: GridLayoutCanvasSizeOptions
 
+        @inlinable
         public init(canvasSizeOptions: GridLayoutCanvasSizeOptions) {
             self.canvasSizeOptions = canvasSizeOptions
         }
@@ -11945,6 +12255,7 @@ extension QuickSight {
         /// The options that determine the default settings for a grid layout configuration.
         public let grid: DefaultGridLayoutConfiguration?
 
+        @inlinable
         public init(freeForm: DefaultFreeFormLayoutConfiguration? = nil, grid: DefaultGridLayoutConfiguration? = nil) {
             self.freeForm = freeForm
             self.grid = grid
@@ -11964,6 +12275,7 @@ extension QuickSight {
         /// The option that determines the sheet content type.
         public let sheetContentType: SheetContentType?
 
+        @inlinable
         public init(interactiveLayoutConfiguration: DefaultInteractiveLayoutConfiguration? = nil, paginatedLayoutConfiguration: DefaultPaginatedLayoutConfiguration? = nil, sheetContentType: SheetContentType? = nil) {
             self.interactiveLayoutConfiguration = interactiveLayoutConfiguration
             self.paginatedLayoutConfiguration = paginatedLayoutConfiguration
@@ -11981,6 +12293,7 @@ extension QuickSight {
         /// The options that determine the default settings for a section-based layout configuration.
         public let sectionBased: DefaultSectionBasedLayoutConfiguration?
 
+        @inlinable
         public init(sectionBased: DefaultSectionBasedLayoutConfiguration? = nil) {
             self.sectionBased = sectionBased
         }
@@ -11994,6 +12307,7 @@ extension QuickSight {
         /// The display options of a control.
         public let displayOptions: RelativeDateTimeControlDisplayOptions?
 
+        @inlinable
         public init(displayOptions: RelativeDateTimeControlDisplayOptions? = nil) {
             self.displayOptions = displayOptions
         }
@@ -12011,6 +12325,7 @@ extension QuickSight {
         /// Determines the screen canvas size options for a section-based layout.
         public let canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions
 
+        @inlinable
         public init(canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions) {
             self.canvasSizeOptions = canvasSizeOptions
         }
@@ -12032,6 +12347,7 @@ extension QuickSight {
         /// The type of the DefaultSliderControlOptions. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
         public let type: SheetControlSliderType?
 
+        @inlinable
         public init(displayOptions: SliderControlDisplayOptions? = nil, maximumValue: Double, minimumValue: Double, stepSize: Double, type: SheetControlSliderType? = nil) {
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
@@ -12059,6 +12375,7 @@ extension QuickSight {
         /// The display options of a control.
         public let displayOptions: TextAreaControlDisplayOptions?
 
+        @inlinable
         public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil) {
             self.delimiter = delimiter
             self.displayOptions = displayOptions
@@ -12080,6 +12397,7 @@ extension QuickSight {
         /// The display options of a control.
         public let displayOptions: TextFieldControlDisplayOptions?
 
+        @inlinable
         public init(displayOptions: TextFieldControlDisplayOptions? = nil) {
             self.displayOptions = displayOptions
         }
@@ -12099,6 +12417,7 @@ extension QuickSight {
         /// The Amazon QuickSight namespace that you're deleting the customizations from.
         public let namespace: String?
 
+        @inlinable
         public init(awsAccountId: String, namespace: String? = nil) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -12128,6 +12447,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12149,6 +12469,7 @@ extension QuickSight {
         /// The Amazon Web Services account ID of the account that you want to delete.
         public let awsAccountId: String
 
+        @inlinable
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
         }
@@ -12174,6 +12495,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12201,6 +12523,7 @@ extension QuickSight {
         /// A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
         public let recoveryWindowInDays: Int64?
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String, forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -12243,6 +12566,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisId: String? = nil, arn: String? = nil, deletionTime: Date? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisId = analysisId
             self.arn = arn
@@ -12277,6 +12601,7 @@ extension QuickSight {
         /// The version number of the dashboard. If the version number property is provided, only the specified version of the dashboard is deleted.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, versionNumber: Int64? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -12314,6 +12639,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.dashboardId = dashboardId
@@ -12343,6 +12669,7 @@ extension QuickSight {
         /// The ID of the dataset.
         public let dataSetId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -12370,6 +12697,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12393,6 +12721,7 @@ extension QuickSight {
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -12424,6 +12753,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, dataSetId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.dataSetId = dataSetId
@@ -12453,6 +12783,7 @@ extension QuickSight {
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSourceId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSourceId: String) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
@@ -12484,6 +12815,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.dataSourceId = dataSourceId
@@ -12517,6 +12849,7 @@ extension QuickSight {
         /// The member type of the asset that you want to delete from a folder.
         public let memberType: MemberType
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, memberId: String, memberType: MemberType) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -12554,6 +12887,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12571,6 +12905,7 @@ extension QuickSight {
         /// The ID of the folder.
         public let folderId: String
 
+        @inlinable
         public init(awsAccountId: String, folderId: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -12605,6 +12940,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.folderId = folderId
@@ -12639,6 +12975,7 @@ extension QuickSight {
         /// The namespace of the group that you want to remove a user from.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, groupName: String, memberName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
@@ -12677,6 +13014,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12703,6 +13041,7 @@ extension QuickSight {
         /// The namespace of the group that you want to delete.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, groupName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
@@ -12736,6 +13075,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12762,6 +13102,7 @@ extension QuickSight {
         /// The namespace that contains the assignment.
         public let namespace: String
 
+        @inlinable
         public init(assignmentName: String, awsAccountId: String, namespace: String) {
             self.assignmentName = assignmentName
             self.awsAccountId = awsAccountId
@@ -12797,6 +13138,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(assignmentName: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.assignmentName = assignmentName
             self.requestId = requestId
@@ -12823,6 +13165,7 @@ extension QuickSight {
         /// The name of the Amazon Web Services service that you want to delete the associated access scopes and authorized targets from.
         public let service: ServiceType
 
+        @inlinable
         public init(awsAccountId: String, service: ServiceType) {
             self.awsAccountId = awsAccountId
             self.service = service
@@ -12850,6 +13193,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12873,6 +13217,7 @@ extension QuickSight {
         /// The namespace that you want to delete.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -12902,6 +13247,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -12927,6 +13273,7 @@ extension QuickSight {
         /// The ID of the refresh schedule.
         public let scheduleId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, scheduleId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -12960,6 +13307,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, scheduleId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -12991,6 +13339,7 @@ extension QuickSight {
         /// The role that you want to remove permissions from.
         public let role: Role
 
+        @inlinable
         public init(awsAccountId: String, namespace: String, role: Role) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -13022,6 +13371,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -13043,6 +13393,7 @@ extension QuickSight {
         /// The role that you want to remove permissions from.
         public let role: Role
 
+        @inlinable
         public init(awsAccountId: String, memberName: String, namespace: String, role: Role) {
             self.awsAccountId = awsAccountId
             self.memberName = memberName
@@ -13078,6 +13429,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -13106,6 +13458,7 @@ extension QuickSight {
         /// The ID for the template that the specified alias is for.
         public let templateId: String
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, templateId: String) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -13147,6 +13500,7 @@ extension QuickSight {
         /// An ID for the template associated with the deletion.
         public let templateId: String?
 
+        @inlinable
         public init(aliasName: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil) {
             self.aliasName = aliasName
             self.arn = arn
@@ -13183,6 +13537,7 @@ extension QuickSight {
         ///
         public let versionNumber: Int64?
 
+        @inlinable
         public init(awsAccountId: String, templateId: String, versionNumber: Int64? = nil) {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
@@ -13220,6 +13575,7 @@ extension QuickSight {
         /// An ID for the template.
         public let templateId: String?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -13251,6 +13607,7 @@ extension QuickSight {
         /// The ID for the theme that the specified alias is for.
         public let themeId: String
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, themeId: String) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -13292,6 +13649,7 @@ extension QuickSight {
         /// An ID for the theme associated with the deletion.
         public let themeId: String?
 
+        @inlinable
         public init(aliasName: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil) {
             self.aliasName = aliasName
             self.arn = arn
@@ -13327,6 +13685,7 @@ extension QuickSight {
         /// 			using this call to DeleteTheme to delete all versions of the theme.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(awsAccountId: String, themeId: String, versionNumber: Int64? = nil) {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
@@ -13364,6 +13723,7 @@ extension QuickSight {
         /// An ID for the theme.
         public let themeId: String?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -13395,6 +13755,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, datasetId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.datasetId = datasetId
@@ -13432,6 +13793,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(datasetArn: String? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.datasetArn = datasetArn
             self.requestId = requestId
@@ -13464,6 +13826,7 @@ extension QuickSight {
         /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
@@ -13497,6 +13860,7 @@ extension QuickSight {
         /// The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, topicId: String? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -13529,6 +13893,7 @@ extension QuickSight {
         /// The principal ID of the user.
         public let principalId: String
 
+        @inlinable
         public init(awsAccountId: String, namespace: String, principalId: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -13560,6 +13925,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -13586,6 +13952,7 @@ extension QuickSight {
         /// The name of the user that you want to delete.
         public let userName: String
 
+        @inlinable
         public init(awsAccountId: String, namespace: String, userName: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -13619,6 +13986,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -13644,6 +14012,7 @@ extension QuickSight {
         /// 				Amazon Web Services account.
         public let vpcConnectionId: String
 
+        @inlinable
         public init(awsAccountId: String, vpcConnectionId: String) {
             self.awsAccountId = awsAccountId
             self.vpcConnectionId = vpcConnectionId
@@ -13683,6 +14052,7 @@ extension QuickSight {
         /// 				Amazon Web Services account.
         public let vpcConnectionId: String?
 
+        @inlinable
         public init(arn: String? = nil, availabilityStatus: VPCConnectionAvailabilityStatus? = nil, deletionStatus: VPCConnectionResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, vpcConnectionId: String? = nil) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
@@ -13720,6 +14090,7 @@ extension QuickSight {
         /// The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
         public let resolved: Bool?
 
+        @inlinable
         public init(awsAccountId: String, namespace: String? = nil, resolved: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -13759,6 +14130,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(accountCustomization: AccountCustomization? = nil, arn: String? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountCustomization = accountCustomization
             self.arn = arn
@@ -13792,6 +14164,7 @@ extension QuickSight {
         /// The ID for the Amazon Web Services account that contains the settings that you want to list.
         public let awsAccountId: String
 
+        @inlinable
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
         }
@@ -13819,6 +14192,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountSettings = accountSettings
             self.requestId = requestId
@@ -13843,6 +14217,7 @@ extension QuickSight {
         /// The Amazon Web Services account ID associated with your Amazon QuickSight account.
         public let awsAccountId: String
 
+        @inlinable
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
         }
@@ -13870,6 +14245,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(accountInfo: AccountInfo? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountInfo = accountInfo
             self.requestId = requestId
@@ -13896,6 +14272,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account that contains the analysis. You must be using the Amazon Web Services account that the analysis is in.
         public let awsAccountId: String
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -13938,6 +14315,7 @@ extension QuickSight {
         /// The ARN of the theme of the analysis.
         public let themeArn: String?
 
+        @inlinable
         public init(analysisId: String? = nil, definition: AnalysisDefinition? = nil, errors: [AnalysisError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.definition = definition
@@ -13979,6 +14357,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account that contains the analysis whose permissions you're describing. You must be using the Amazon Web Services account that the analysis is in.
         public let awsAccountId: String
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -14015,6 +14394,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisArn: String? = nil, analysisId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisArn = analysisArn
             self.analysisId = analysisId
@@ -14047,6 +14427,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account that contains the analysis. You must be using the  Amazon Web Services account that the analysis is in.
         public let awsAccountId: String
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -14079,6 +14460,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysis: Analysis? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysis = analysis
             self.requestId = requestId
@@ -14105,6 +14487,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account the export job is executed in.
         public let awsAccountId: String
 
+        @inlinable
         public init(assetBundleExportJobId: String, awsAccountId: String) {
             self.assetBundleExportJobId = assetBundleExportJobId
             self.awsAccountId = awsAccountId
@@ -14165,6 +14548,7 @@ extension QuickSight {
         /// An array of warning records that describe the analysis or dashboard that is exported. This array includes UI errors that can be skipped during the validation process. This property only appears if StrictModeForAllResources in ValidationStrategy is set to FALSE.
         public let warnings: [AssetBundleExportJobWarning]?
 
+        @inlinable
         public init(arn: String? = nil, assetBundleExportJobId: String? = nil, awsAccountId: String? = nil, cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil, createdTime: Date? = nil, downloadUrl: String? = nil, errors: [AssetBundleExportJobError]? = nil, exportFormat: AssetBundleExportFormat? = nil, includeAllDependencies: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, jobStatus: AssetBundleExportJobStatus? = nil, requestId: String? = nil, resourceArns: [String]? = nil, status: Int? = nil, validationStrategy: AssetBundleExportJobValidationStrategy? = nil, warnings: [AssetBundleExportJobWarning]? = nil) {
             self.arn = arn
             self.assetBundleExportJobId = assetBundleExportJobId
@@ -14233,6 +14617,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account the import job was executed in.
         public let awsAccountId: String
 
+        @inlinable
         public init(assetBundleImportJobId: String, awsAccountId: String) {
             self.assetBundleImportJobId = assetBundleImportJobId
             self.awsAccountId = awsAccountId
@@ -14291,6 +14676,7 @@ extension QuickSight {
         /// An array of warning records that describe all permitted errors that are encountered during the import job.
         public let warnings: [AssetBundleImportJobWarning]?
 
+        @inlinable
         public init(arn: String? = nil, assetBundleImportJobId: String? = nil, assetBundleImportSource: AssetBundleImportSourceDescription? = nil, awsAccountId: String? = nil, createdTime: Date? = nil, errors: [AssetBundleImportJobError]? = nil, failureAction: AssetBundleImportFailureAction? = nil, jobStatus: AssetBundleImportJobStatus? = nil, overrideParameters: AssetBundleImportJobOverrideParameters? = nil, overridePermissions: AssetBundleImportJobOverridePermissions? = nil, overrideTags: AssetBundleImportJobOverrideTags? = nil, overrideValidationStrategy: AssetBundleImportJobOverrideValidationStrategy? = nil, requestId: String? = nil, rollbackErrors: [AssetBundleImportJobError]? = nil, status: Int? = nil, warnings: [AssetBundleImportJobWarning]? = nil) {
             self.arn = arn
             self.assetBundleImportJobId = assetBundleImportJobId
@@ -14360,6 +14746,7 @@ extension QuickSight {
         /// The version number for the dashboard. If a version number isn't passed, the latest published dashboard version is described.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, awsAccountId: String, dashboardId: String, versionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -14412,6 +14799,7 @@ extension QuickSight {
         /// The ARN of the theme of the dashboard.
         public let themeArn: String?
 
+        @inlinable
         public init(dashboardId: String? = nil, dashboardPublishOptions: DashboardPublishOptions? = nil, definition: DashboardVersionDefinition? = nil, errors: [DashboardError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, themeArn: String? = nil) {
             self.dashboardId = dashboardId
             self.dashboardPublishOptions = dashboardPublishOptions
@@ -14456,6 +14844,7 @@ extension QuickSight {
         /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -14494,6 +14883,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardArn: String? = nil, dashboardId: String? = nil, linkSharingConfiguration: LinkSharingConfiguration? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardId = dashboardId
@@ -14533,6 +14923,7 @@ extension QuickSight {
         /// The version number for the dashboard. If a version number isn't passed, the latest published dashboard version is described.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, awsAccountId: String, dashboardId: String, versionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -14573,6 +14964,7 @@ extension QuickSight {
         /// The HTTP status of this request.
         public let status: Int?
 
+        @inlinable
         public init(dashboard: Dashboard? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboard = dashboard
             self.requestId = requestId
@@ -14601,6 +14993,7 @@ extension QuickSight {
         /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call.
         public let snapshotJobId: String
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, snapshotJobId: String) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -14654,6 +15047,7 @@ extension QuickSight {
         /// The user configuration for the snapshot job. This information is provided when you make a StartDashboardSnapshotJob API call.
         public let userConfiguration: SnapshotUserConfigurationRedacted?
 
+        @inlinable
         public init(arn: String? = nil, awsAccountId: String? = nil, createdTime: Date? = nil, dashboardId: String? = nil, jobStatus: SnapshotJobStatus? = nil, lastUpdatedTime: Date? = nil, requestId: String? = nil, snapshotConfiguration: SnapshotConfiguration? = nil, snapshotJobId: String? = nil, status: Int? = nil, userConfiguration: SnapshotUserConfigurationRedacted? = nil) {
             self.arn = arn
             self.awsAccountId = awsAccountId
@@ -14691,6 +15085,7 @@ extension QuickSight {
         /// The ID of the job to be described. The job ID is set when you start a new job with a StartDashboardSnapshotJob API call.
         public let snapshotJobId: String
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, snapshotJobId: String) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -14738,6 +15133,7 @@ extension QuickSight {
         /// The HTTP status of the request
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, errorInfo: SnapshotJobErrorInfo? = nil, jobStatus: SnapshotJobStatus? = nil, lastUpdatedTime: Date? = nil, requestId: String? = nil, result: SnapshotJobResult? = nil, status: Int? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -14779,6 +15175,7 @@ extension QuickSight {
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -14812,6 +15209,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSetArn: String? = nil, dataSetId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSetArn = dataSetArn
             self.dataSetId = dataSetId
@@ -14844,6 +15242,7 @@ extension QuickSight {
         /// The ID of the dataset.
         public let dataSetId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -14873,6 +15272,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSetRefreshProperties: DataSetRefreshProperties? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSetRefreshProperties = dataSetRefreshProperties
             self.requestId = requestId
@@ -14899,6 +15299,7 @@ extension QuickSight {
         /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSetId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -14928,6 +15329,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSet: DataSet? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSet = dataSet
             self.requestId = requestId
@@ -14954,6 +15356,7 @@ extension QuickSight {
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSourceId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSourceId: String) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
@@ -14987,6 +15390,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSourceArn: String? = nil, dataSourceId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSourceArn = dataSourceArn
             self.dataSourceId = dataSourceId
@@ -15019,6 +15423,7 @@ extension QuickSight {
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSourceId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSourceId: String) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
@@ -15048,6 +15453,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSource: DataSource? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSource = dataSource
             self.requestId = requestId
@@ -15080,6 +15486,7 @@ extension QuickSight {
         /// A pagination token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -15128,6 +15535,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, folderId: String? = nil, nextToken: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.folderId = folderId
@@ -15163,6 +15571,7 @@ extension QuickSight {
         /// The ID of the folder.
         public let folderId: String
 
+        @inlinable
         public init(awsAccountId: String, folderId: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -15199,6 +15608,7 @@ extension QuickSight {
         /// A pagination token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -15247,6 +15657,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, folderId: String? = nil, nextToken: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.folderId = folderId
@@ -15284,6 +15695,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(folder: Folder? = nil, requestId: String? = nil, status: Int? = nil) {
             self.folder = folder
             self.requestId = requestId
@@ -15314,6 +15726,7 @@ extension QuickSight {
         /// The namespace that includes the group you are searching within.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, groupName: String, memberName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
@@ -15353,6 +15766,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(groupMember: GroupMember? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupMember = groupMember
             self.requestId = requestId
@@ -15382,6 +15796,7 @@ extension QuickSight {
         /// The namespace of the group that you want described.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, groupName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
@@ -15417,6 +15832,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
             self.group = group
             self.requestId = requestId
@@ -15446,6 +15862,7 @@ extension QuickSight {
         /// The namespace that contains the assignment.
         public let namespace: String
 
+        @inlinable
         public init(assignmentName: String, awsAccountId: String, namespace: String) {
             self.assignmentName = assignmentName
             self.awsAccountId = awsAccountId
@@ -15481,6 +15898,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(iamPolicyAssignment: IAMPolicyAssignment? = nil, requestId: String? = nil, status: Int? = nil) {
             self.iamPolicyAssignment = iamPolicyAssignment
             self.requestId = requestId
@@ -15509,6 +15927,7 @@ extension QuickSight {
         /// An ID for the ingestion.
         public let ingestionId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, ingestionId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -15543,6 +15962,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(ingestion: Ingestion? = nil, requestId: String? = nil, status: Int? = nil) {
             self.ingestion = ingestion
             self.requestId = requestId
@@ -15567,6 +15987,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String
 
+        @inlinable
         public init(awsAccountId: String) {
             self.awsAccountId = awsAccountId
         }
@@ -15603,6 +16024,7 @@ extension QuickSight {
         /// A map of allowed VPC IDs and their rule descriptions.
         public let vpcIdRestrictionRuleMap: [String: String]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, enabled: Bool? = nil, ipRestrictionRuleMap: [String: String]? = nil, requestId: String? = nil, status: Int? = nil, vpcEndpointIdRestrictionRuleMap: [String: String]? = nil, vpcIdRestrictionRuleMap: [String: String]? = nil) {
             self.awsAccountId = awsAccountId
             self.enabled = enabled
@@ -15641,6 +16063,7 @@ extension QuickSight {
         /// Determines whether the request returns the default key only.
         public let defaultKeyOnly: Bool?
 
+        @inlinable
         public init(awsAccountId: String, defaultKeyOnly: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.defaultKeyOnly = defaultKeyOnly
@@ -15672,6 +16095,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(awsAccountId: String? = nil, keyRegistration: [RegisteredCustomerManagedKey]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.awsAccountId = awsAccountId
             self.keyRegistration = keyRegistration
@@ -15693,6 +16117,7 @@ extension QuickSight {
         /// The namespace that you want to describe.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -15724,6 +16149,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(namespace: NamespaceInfoV2? = nil, requestId: String? = nil, status: Int? = nil) {
             self.namespace = namespace
             self.requestId = requestId
@@ -15752,6 +16178,7 @@ extension QuickSight {
         /// The ID of the refresh schedule.
         public let scheduleId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, scheduleId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -15785,6 +16212,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, refreshSchedule: RefreshSchedule? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.refreshSchedule = refreshSchedule
@@ -15816,6 +16244,7 @@ extension QuickSight {
         /// The name of the role whose permissions you want described.
         public let role: Role
 
+        @inlinable
         public init(awsAccountId: String, namespace: String, role: Role) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -15849,6 +16278,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(customPermissionsName: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.customPermissionsName = customPermissionsName
             self.requestId = requestId
@@ -15874,6 +16304,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, templateId: String) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -15911,6 +16342,7 @@ extension QuickSight {
         /// Information about the template alias.
         public let templateAlias: TemplateAlias?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, templateAlias: TemplateAlias? = nil) {
             self.requestId = requestId
             self.status = status
@@ -15945,6 +16377,7 @@ extension QuickSight {
         /// The version number of the template.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, awsAccountId: String, templateId: String, versionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -15995,6 +16428,7 @@ extension QuickSight {
         /// The ARN of the theme of the template.
         public let themeArn: String?
 
+        @inlinable
         public init(definition: TemplateVersionDefinition? = nil, errors: [TemplateError]? = nil, name: String? = nil, requestId: String? = nil, resourceStatus: ResourceStatus? = nil, status: Int? = nil, templateId: String? = nil, themeArn: String? = nil) {
             self.definition = definition
             self.errors = errors
@@ -16036,6 +16470,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String
 
+        @inlinable
         public init(awsAccountId: String, templateId: String) {
             self.awsAccountId = awsAccountId
             self.templateId = templateId
@@ -16072,6 +16507,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, templateArn: String? = nil, templateId: String? = nil) {
             self.permissions = permissions
             self.requestId = requestId
@@ -16112,6 +16548,7 @@ extension QuickSight {
         /// 			value isn't provided, the latest version of the template is described.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, awsAccountId: String, templateId: String, versionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -16152,6 +16589,7 @@ extension QuickSight {
         /// The template structure for the object you want to describe.
         public let template: Template?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, template: Template? = nil) {
             self.requestId = requestId
             self.status = status
@@ -16181,6 +16619,7 @@ extension QuickSight {
         /// The ID for the theme.
         public let themeId: String
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, themeId: String) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -16218,6 +16657,7 @@ extension QuickSight {
         /// Information about the theme alias.
         public let themeAlias: ThemeAlias?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, themeAlias: ThemeAlias? = nil) {
             self.requestId = requestId
             self.status = status
@@ -16244,6 +16684,7 @@ extension QuickSight {
         /// The ID for the theme that you want to describe permissions for.
         public let themeId: String
 
+        @inlinable
         public init(awsAccountId: String, themeId: String) {
             self.awsAccountId = awsAccountId
             self.themeId = themeId
@@ -16280,6 +16721,7 @@ extension QuickSight {
         /// The ID for the theme.
         public let themeId: String?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, themeArn: String? = nil, themeId: String? = nil) {
             self.permissions = permissions
             self.requestId = requestId
@@ -16320,6 +16762,7 @@ extension QuickSight {
         /// 			value isn't provided, the latest version of the theme is described.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, awsAccountId: String, themeId: String, versionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -16358,6 +16801,7 @@ extension QuickSight {
         /// The information about the theme that you are describing.
         public let theme: Theme?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, theme: Theme? = nil) {
             self.requestId = requestId
             self.status = status
@@ -16384,6 +16828,7 @@ extension QuickSight {
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
@@ -16419,6 +16864,7 @@ extension QuickSight {
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.permissions = permissions
             self.requestId = requestId
@@ -16453,6 +16899,7 @@ extension QuickSight {
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, refreshId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.refreshId = refreshId
@@ -16486,6 +16933,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(refreshDetails: TopicRefreshDetails? = nil, requestId: String? = nil, status: Int? = nil) {
             self.refreshDetails = refreshDetails
             self.requestId = requestId
@@ -16514,6 +16962,7 @@ extension QuickSight {
         /// The ID of the topic that contains the refresh schedule that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, datasetId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.datasetId = datasetId
@@ -16553,6 +17002,7 @@ extension QuickSight {
         /// The ID of the topic that contains the refresh schedule that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(datasetArn: String? = nil, refreshSchedule: TopicRefreshSchedule? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.datasetArn = datasetArn
             self.refreshSchedule = refreshSchedule
@@ -16588,6 +17038,7 @@ extension QuickSight {
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
@@ -16623,6 +17074,7 @@ extension QuickSight {
         /// The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, status: Int? = nil, topic: TopicDetails? = nil, topicId: String? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -16658,6 +17110,7 @@ extension QuickSight {
         /// The name of the user that you want to describe.
         public let userName: String
 
+        @inlinable
         public init(awsAccountId: String, namespace: String, userName: String) {
             self.awsAccountId = awsAccountId
             self.namespace = namespace
@@ -16693,6 +17146,7 @@ extension QuickSight {
         /// The user name.
         public let user: User?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, user: User? = nil) {
             self.requestId = requestId
             self.status = status
@@ -16721,6 +17175,7 @@ extension QuickSight {
         /// 			you're creating. This ID is a unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
         public let vpcConnectionId: String
 
+        @inlinable
         public init(awsAccountId: String, vpcConnectionId: String) {
             self.awsAccountId = awsAccountId
             self.vpcConnectionId = vpcConnectionId
@@ -16752,6 +17207,7 @@ extension QuickSight {
         /// A response object that provides information for the specified VPC connection.
         public let vpcConnection: VPCConnection?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, vpcConnection: VPCConnection? = nil) {
             self.requestId = requestId
             self.status = status
@@ -16776,6 +17232,7 @@ extension QuickSight {
         /// The source parameter name of the destination parameter.
         public let sourceParameterName: String?
 
+        @inlinable
         public init(customValuesConfiguration: CustomValuesConfiguration? = nil, selectAllValueOptions: SelectAllValueOptions? = nil, sourceColumn: ColumnIdentifier? = nil, sourceField: String? = nil, sourceParameterName: String? = nil) {
             self.customValuesConfiguration = customValuesConfiguration
             self.selectAllValueOptions = selectAllValueOptions
@@ -16808,6 +17265,7 @@ extension QuickSight {
         /// The dimension type field with numerical type columns.
         public let numericalDimensionField: NumericalDimensionField?
 
+        @inlinable
         public init(categoricalDimensionField: CategoricalDimensionField? = nil, dateDimensionField: DateDimensionField? = nil, numericalDimensionField: NumericalDimensionField? = nil) {
             self.categoricalDimensionField = categoricalDimensionField
             self.dateDimensionField = dateDimensionField
@@ -16853,6 +17311,7 @@ extension QuickSight {
         /// A Boolean value that indicates whether to use grouping.
         public let useGrouping: Bool?
 
+        @inlinable
         public init(blankCellFormat: String? = nil, currencySymbol: String? = nil, dateFormat: String? = nil, decimalSeparator: TopicNumericSeparatorSymbol? = nil, fractionDigits: Int? = nil, groupingSeparator: String? = nil, negativeFormat: NegativeFormat? = nil, prefix: String? = nil, suffix: String? = nil, unitScaler: NumberScale? = nil, useBlankCellFormat: Bool? = nil, useGrouping: Bool? = nil) {
             self.blankCellFormat = blankCellFormat
             self.currencySymbol = currencySymbol
@@ -16898,6 +17357,7 @@ extension QuickSight {
         /// Determines the visibility of the label in a donut chart. In the Amazon QuickSight console, this option is called 'Show total'.
         public let labelVisibility: Visibility?
 
+        @inlinable
         public init(labelVisibility: Visibility? = nil) {
             self.labelVisibility = labelVisibility
         }
@@ -16913,6 +17373,7 @@ extension QuickSight {
         /// The label options of the label that is displayed in the center of a donut chart. This option isn't available for pie charts.
         public let donutCenterOptions: DonutCenterOptions?
 
+        @inlinable
         public init(arcOptions: ArcOptions? = nil, donutCenterOptions: DonutCenterOptions? = nil) {
             self.arcOptions = arcOptions
             self.donutCenterOptions = donutCenterOptions
@@ -16932,6 +17393,7 @@ extension QuickSight {
         /// The time range drill down filter. This filter is used for date time columns.
         public let timeRangeFilter: TimeRangeDrillDownFilter?
 
+        @inlinable
         public init(categoryFilter: CategoryDrillDownFilter? = nil, numericEqualityFilter: NumericEqualityDrillDownFilter? = nil, timeRangeFilter: TimeRangeDrillDownFilter? = nil) {
             self.categoryFilter = categoryFilter
             self.numericEqualityFilter = numericEqualityFilter
@@ -16959,6 +17421,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, selectAllOptions: ListControlSelectAllOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.selectAllOptions = selectAllOptions
@@ -16985,6 +17448,7 @@ extension QuickSight {
         /// The column that contains the username.
         public let userNameColumn: ColumnIdentifier?
 
+        @inlinable
         public init(defaultValueColumn: ColumnIdentifier, groupNameColumn: ColumnIdentifier? = nil, userNameColumn: ColumnIdentifier? = nil) {
             self.defaultValueColumn = defaultValueColumn
             self.groupNameColumn = groupNameColumn
@@ -17012,6 +17476,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, dataSetIdentifier: String, visualId: String) {
             self.actions = actions
             self.dataSetIdentifier = dataSetIdentifier
@@ -17041,6 +17506,7 @@ extension QuickSight {
         /// The hierarchical path of the entity within the analysis, template, or dashboard definition tree.
         public let path: String?
 
+        @inlinable
         public init(path: String? = nil) {
             self.path = path
         }
@@ -17056,6 +17522,7 @@ extension QuickSight {
         /// Error type.
         public let type: IngestionErrorType?
 
+        @inlinable
         public init(message: String? = nil, type: IngestionErrorType? = nil) {
             self.message = message
             self.type = type
@@ -17073,6 +17540,7 @@ extension QuickSight {
         /// The port for the Exasol data source.
         public let port: Int
 
+        @inlinable
         public init(host: String, port: Int) {
             self.host = host
             self.port = port
@@ -17099,6 +17567,7 @@ extension QuickSight {
         /// The status of the exclude period. Choose from the following options:    ENABLED     DISABLED
         public let status: WidgetStatus?
 
+        @inlinable
         public init(amount: Int, granularity: TimeGranularity, status: WidgetStatus? = nil) {
             self.amount = amount
             self.granularity = granularity
@@ -17120,6 +17589,7 @@ extension QuickSight {
         /// The hierarchy ID of the explicit hierarchy.
         public let hierarchyId: String
 
+        @inlinable
         public init(columns: [ColumnIdentifier], drillDownFilters: [DrillDownFilter]? = nil, hierarchyId: String) {
             self.columns = columns
             self.drillDownFilters = drillDownFilters
@@ -17151,6 +17621,7 @@ extension QuickSight {
         /// The status of the export hidden fields options of a dashbaord.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -17164,6 +17635,7 @@ extension QuickSight {
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -17177,6 +17649,7 @@ extension QuickSight {
         /// The status of the export with hidden fields options.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -17196,6 +17669,7 @@ extension QuickSight {
         /// The HTTP status of a FailedKeyRegistrationEntry error.
         public let statusCode: Int
 
+        @inlinable
         public init(keyArn: String? = nil, message: String, senderFault: Bool, statusCode: Int) {
             self.keyArn = keyArn
             self.message = message
@@ -17219,6 +17693,7 @@ extension QuickSight {
         /// The type for the >tooltip title. Choose one of the following options:    NONE: Doesn't use the primary value as the title.    PRIMARY_VALUE: Uses primary value as the title.
         public let tooltipTitleType: TooltipTitleType?
 
+        @inlinable
         public init(aggregationVisibility: Visibility? = nil, tooltipFields: [TooltipItem]? = nil, tooltipTitleType: TooltipTitleType? = nil) {
             self.aggregationVisibility = aggregationVisibility
             self.tooltipFields = tooltipFields
@@ -17245,6 +17720,7 @@ extension QuickSight {
         /// The description for a field folder.
         public let description: String?
 
+        @inlinable
         public init(columns: [String]? = nil, description: String? = nil) {
             self.columns = columns
             self.description = description
@@ -17267,6 +17743,7 @@ extension QuickSight {
         /// The visibility of the field label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(fieldId: String? = nil, visibility: Visibility? = nil) {
             self.fieldId = fieldId
             self.visibility = visibility
@@ -17291,6 +17768,7 @@ extension QuickSight {
         /// The options that determine the presentation of line series associated to the field.
         public let settings: LineChartSeriesSettings?
 
+        @inlinable
         public init(axisBinding: AxisBinding, fieldId: String, settings: LineChartSeriesSettings? = nil) {
             self.axisBinding = axisBinding
             self.fieldId = fieldId
@@ -17316,6 +17794,7 @@ extension QuickSight {
         /// The sort configuration target field.
         public let fieldId: String
 
+        @inlinable
         public init(direction: SortDirection, fieldId: String) {
             self.direction = direction
             self.fieldId = fieldId
@@ -17338,6 +17817,7 @@ extension QuickSight {
         /// The sort configuration for a field in a field well.
         public let fieldSort: FieldSort?
 
+        @inlinable
         public init(columnSort: ColumnSort? = nil, fieldSort: FieldSort? = nil) {
             self.columnSort = columnSort
             self.fieldSort = fieldSort
@@ -17364,6 +17844,7 @@ extension QuickSight {
         /// The visibility of the tooltip item.
         public let visibility: Visibility?
 
+        @inlinable
         public init(fieldId: String, label: String? = nil, tooltipTarget: TooltipTarget? = nil, visibility: Visibility? = nil) {
             self.fieldId = fieldId
             self.label = label
@@ -17390,6 +17871,7 @@ extension QuickSight {
         /// The aggregated color field well of a filled map. Values are aggregated based on location fields.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(geospatial: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.geospatial = geospatial
             self.values = values
@@ -17416,6 +17898,7 @@ extension QuickSight {
         /// Conditional formatting options of a FilledMapVisual.
         public let conditionalFormattingOptions: [FilledMapConditionalFormattingOption]
 
+        @inlinable
         public init(conditionalFormattingOptions: [FilledMapConditionalFormattingOption]) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
@@ -17436,6 +17919,7 @@ extension QuickSight {
         /// The conditional formatting that determines the shape of the filled map.
         public let shape: FilledMapShapeConditionalFormatting
 
+        @inlinable
         public init(shape: FilledMapShapeConditionalFormatting) {
             self.shape = shape
         }
@@ -17465,6 +17949,7 @@ extension QuickSight {
         /// The window options of the filled map visual.
         public let windowOptions: GeospatialWindowOptions?
 
+        @inlinable
         public init(fieldWells: FilledMapFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, mapStyleOptions: GeospatialMapStyleOptions? = nil, sortConfiguration: FilledMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil, windowOptions: GeospatialWindowOptions? = nil) {
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -17498,6 +17983,7 @@ extension QuickSight {
         /// The aggregated field well of the filled map.
         public let filledMapAggregatedFieldWells: FilledMapAggregatedFieldWells?
 
+        @inlinable
         public init(filledMapAggregatedFieldWells: FilledMapAggregatedFieldWells? = nil) {
             self.filledMapAggregatedFieldWells = filledMapAggregatedFieldWells
         }
@@ -17517,6 +18003,7 @@ extension QuickSight {
         /// The conditional formatting that determines the background color of a filled map's shape.
         public let format: ShapeConditionalFormat?
 
+        @inlinable
         public init(fieldId: String, format: ShapeConditionalFormat? = nil) {
             self.fieldId = fieldId
             self.format = format
@@ -17538,6 +18025,7 @@ extension QuickSight {
         /// The sort configuration of the location fields.
         public let categorySort: [FieldSortOptions]?
 
+        @inlinable
         public init(categorySort: [FieldSortOptions]? = nil) {
             self.categorySort = categorySort
         }
@@ -17570,6 +18058,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FilledMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: FilledMapConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -17627,6 +18116,7 @@ extension QuickSight {
         /// A TopBottomFilter filters data to the top or bottom values for a given column.
         public let topBottomFilter: TopBottomFilter?
 
+        @inlinable
         public init(categoryFilter: CategoryFilter? = nil, nestedFilter: NestedFilter? = nil, numericEqualityFilter: NumericEqualityFilter? = nil, numericRangeFilter: NumericRangeFilter? = nil, relativeDatesFilter: RelativeDatesFilter? = nil, timeEqualityFilter: TimeEqualityFilter? = nil, timeRangeFilter: TimeRangeFilter? = nil, topBottomFilter: TopBottomFilter? = nil) {
             self.categoryFilter = categoryFilter
             self.nestedFilter = nestedFilter
@@ -17669,6 +18159,7 @@ extension QuickSight {
         /// The sort direction for FilterAggMetrics.
         public let sortDirection: TopicSortDirection?
 
+        @inlinable
         public init(function: AggType? = nil, metricOperand: Identifier? = nil, sortDirection: TopicSortDirection? = nil) {
             self.function = function
             self.metricOperand = metricOperand
@@ -17704,6 +18195,7 @@ extension QuickSight {
         /// A control to display a text box that is used to enter a single entry.
         public let textField: FilterTextFieldControl?
 
+        @inlinable
         public init(crossSheet: FilterCrossSheetControl? = nil, dateTimePicker: FilterDateTimePickerControl? = nil, dropdown: FilterDropDownControl? = nil, list: FilterListControl? = nil, relativeDateTime: FilterRelativeDateTimeControl? = nil, slider: FilterSliderControl? = nil, textArea: FilterTextAreaControl? = nil, textField: FilterTextFieldControl? = nil) {
             self.crossSheet = crossSheet
             self.dateTimePicker = dateTimePicker
@@ -17746,6 +18238,7 @@ extension QuickSight {
         /// The source filter ID of the FilterCrossSheetControl.
         public let sourceFilterId: String
 
+        @inlinable
         public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, filterControlId: String, sourceFilterId: String) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.filterControlId = filterControlId
@@ -17781,6 +18274,7 @@ extension QuickSight {
         /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public let type: SheetControlDateTimePickerType?
 
+        @inlinable
         public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String, type: SheetControlDateTimePickerType? = nil) {
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -17826,6 +18320,7 @@ extension QuickSight {
         /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public let type: SheetControlListType?
 
+        @inlinable
         public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: DropDownControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.displayOptions = displayOptions
@@ -17873,6 +18368,7 @@ extension QuickSight {
         /// The status of the FilterGroup.
         public let status: WidgetStatus?
 
+        @inlinable
         public init(crossDataset: CrossDatasetTypes, filterGroupId: String, filters: [Filter], scopeConfiguration: FilterScopeConfiguration, status: WidgetStatus? = nil) {
             self.crossDataset = crossDataset
             self.filterGroupId = filterGroupId
@@ -17911,6 +18407,7 @@ extension QuickSight {
         /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
         public let selectAllOptions: CategoryFilterSelectAllOptions?
 
+        @inlinable
         public init(categoryValues: [String]? = nil, matchOperator: CategoryFilterMatchOperator, nullOption: FilterNullOption? = nil, selectAllOptions: CategoryFilterSelectAllOptions? = nil) {
             self.categoryValues = categoryValues
             self.matchOperator = matchOperator
@@ -17949,6 +18446,7 @@ extension QuickSight {
         /// The type of the FilterListControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
         public let type: SheetControlListType?
 
+        @inlinable
         public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.displayOptions = displayOptions
@@ -17988,6 +18486,7 @@ extension QuickSight {
         /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
         public let conditionExpression: String
 
+        @inlinable
         public init(conditionExpression: String) {
             self.conditionExpression = conditionExpression
         }
@@ -18010,6 +18509,7 @@ extension QuickSight {
         /// Chooses the fields that are filtered in CustomActionFilterOperation.
         public let selectedFields: [String]?
 
+        @inlinable
         public init(selectedColumns: [ColumnIdentifier]? = nil, selectedFieldOptions: SelectedFieldOptions? = nil, selectedFields: [String]? = nil) {
             self.selectedColumns = selectedColumns
             self.selectedFieldOptions = selectedFieldOptions
@@ -18040,6 +18540,7 @@ extension QuickSight {
         /// The configuration of the same-sheet target visuals that you want to be filtered.
         public let sameSheetTargetVisualConfiguration: SameSheetTargetVisualConfiguration?
 
+        @inlinable
         public init(sameSheetTargetVisualConfiguration: SameSheetTargetVisualConfiguration? = nil) {
             self.sameSheetTargetVisualConfiguration = sameSheetTargetVisualConfiguration
         }
@@ -18063,6 +18564,7 @@ extension QuickSight {
         /// The title of the FilterTextAreaControl.
         public let title: String
 
+        @inlinable
         public init(displayOptions: RelativeDateTimeControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -18096,6 +18598,7 @@ extension QuickSight {
         /// The configuration for applying a filter to specific sheets.
         public let selectedSheets: SelectedSheetsFilterScopeConfiguration?
 
+        @inlinable
         public init(allSheets: AllSheetsFilterScopeConfiguration? = nil, selectedSheets: SelectedSheetsFilterScopeConfiguration? = nil) {
             self.allSheets = allSheets
             self.selectedSheets = selectedSheets
@@ -18115,6 +18618,7 @@ extension QuickSight {
         /// The values that are used in the FilterSelectableValues.
         public let values: [String]?
 
+        @inlinable
         public init(values: [String]? = nil) {
             self.values = values
         }
@@ -18146,6 +18650,7 @@ extension QuickSight {
         /// The type of the FilterSliderControl. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
         public let type: SheetControlSliderType?
 
+        @inlinable
         public init(displayOptions: SliderControlDisplayOptions? = nil, filterControlId: String, maximumValue: Double, minimumValue: Double, sourceFilterId: String, stepSize: Double, title: String, type: SheetControlSliderType? = nil) {
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -18193,6 +18698,7 @@ extension QuickSight {
         /// The title of the FilterTextAreaControl.
         public let title: String
 
+        @inlinable
         public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
             self.delimiter = delimiter
             self.displayOptions = displayOptions
@@ -18234,6 +18740,7 @@ extension QuickSight {
         /// The title of the FilterTextFieldControl.
         public let title: String
 
+        @inlinable
         public init(displayOptions: TextFieldControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -18279,6 +18786,7 @@ extension QuickSight {
         /// The sharing scope of the folder.
         public let sharingModel: SharingModel?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, folderId: String? = nil, folderPath: [String]? = nil, folderType: FolderType? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, sharingModel: SharingModel? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -18308,6 +18816,7 @@ extension QuickSight {
         /// The type of asset that it is.
         public let memberType: MemberType?
 
+        @inlinable
         public init(memberId: String? = nil, memberType: MemberType? = nil) {
             self.memberId = memberId
             self.memberType = memberType
@@ -18327,6 +18836,7 @@ extension QuickSight {
         /// The value of the named item (in this example, PARENT_FOLDER_ARN), that you want to use as a filter. For example, "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId".
         public let value: String?
 
+        @inlinable
         public init(name: FolderFilterAttribute? = nil, operator: FilterOperator? = nil, value: String? = nil) {
             self.name = name
             self.`operator` = `operator`
@@ -18356,6 +18866,7 @@ extension QuickSight {
         /// The sharing scope of the folder.
         public let sharingModel: SharingModel?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, folderId: String? = nil, folderType: FolderType? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, sharingModel: SharingModel? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -18381,6 +18892,7 @@ extension QuickSight {
         /// Determines the font family settings.
         public let fontFamily: String?
 
+        @inlinable
         public init(fontFamily: String? = nil) {
             self.fontFamily = fontFamily
         }
@@ -18402,6 +18914,7 @@ extension QuickSight {
         /// The option that determines the text display weight, or boldness.
         public let fontWeight: FontWeight?
 
+        @inlinable
         public init(fontColor: String? = nil, fontDecoration: FontDecoration? = nil, fontSize: FontSize? = nil, fontStyle: FontStyle? = nil, fontWeight: FontWeight? = nil) {
             self.fontColor = fontColor
             self.fontDecoration = fontDecoration
@@ -18427,6 +18940,7 @@ extension QuickSight {
         /// The lexical name for the text size, proportional to its surrounding context.
         public let relative: RelativeFontSize?
 
+        @inlinable
         public init(relative: RelativeFontSize? = nil) {
             self.relative = relative
         }
@@ -18440,6 +18954,7 @@ extension QuickSight {
         /// The lexical name for the level of boldness of the text display.
         public let name: FontWeightName?
 
+        @inlinable
         public init(name: FontWeightName? = nil) {
             self.name = name
         }
@@ -18473,6 +18988,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(computationId: String, customSeasonalityValue: Int? = nil, lowerBoundary: Double? = nil, name: String? = nil, periodsBackward: Int? = nil, periodsForward: Int? = nil, predictionInterval: Int? = nil, seasonality: ForecastComputationSeasonality? = nil, time: DimensionField? = nil, upperBoundary: Double? = nil, value: MeasureField? = nil) {
             self.computationId = computationId
             self.customSeasonalityValue = customSeasonalityValue
@@ -18524,6 +19040,7 @@ extension QuickSight {
         /// The forecast scenario of a forecast in the line chart.
         public let scenario: ForecastScenario?
 
+        @inlinable
         public init(forecastProperties: TimeBasedForecastProperties? = nil, scenario: ForecastScenario? = nil) {
             self.forecastProperties = forecastProperties
             self.scenario = scenario
@@ -18545,6 +19062,7 @@ extension QuickSight {
         /// The what-if analysis forecast setup with the date range.
         public let whatIfRangeScenario: WhatIfRangeScenario?
 
+        @inlinable
         public init(whatIfPointScenario: WhatIfPointScenario? = nil, whatIfRangeScenario: WhatIfRangeScenario? = nil) {
             self.whatIfPointScenario = whatIfPointScenario
             self.whatIfRangeScenario = whatIfRangeScenario
@@ -18564,6 +19082,7 @@ extension QuickSight {
         /// Formatting configuration for string fields.
         public let stringFormatConfiguration: StringFormatConfiguration?
 
+        @inlinable
         public init(dateTimeFormatConfiguration: DateTimeFormatConfiguration? = nil, numberFormatConfiguration: NumberFormatConfiguration? = nil, stringFormatConfiguration: StringFormatConfiguration? = nil) {
             self.dateTimeFormatConfiguration = dateTimeFormatConfiguration
             self.numberFormatConfiguration = numberFormatConfiguration
@@ -18587,6 +19106,7 @@ extension QuickSight {
         /// The options that determine the sizing of the canvas used in a free-form layout.
         public let screenCanvasSizeOptions: FreeFormLayoutScreenCanvasSizeOptions?
 
+        @inlinable
         public init(screenCanvasSizeOptions: FreeFormLayoutScreenCanvasSizeOptions? = nil) {
             self.screenCanvasSizeOptions = screenCanvasSizeOptions
         }
@@ -18601,6 +19121,7 @@ extension QuickSight {
         /// The elements that are included in a free-form layout.
         public let elements: [FreeFormLayoutElement]
 
+        @inlinable
         public init(canvasSizeOptions: FreeFormLayoutCanvasSizeOptions? = nil, elements: [FreeFormLayoutElement]) {
             self.canvasSizeOptions = canvasSizeOptions
             self.elements = elements
@@ -18645,6 +19166,7 @@ extension QuickSight {
         /// The y-axis coordinate of the element.
         public let yAxisLocation: String
 
+        @inlinable
         public init(backgroundStyle: FreeFormLayoutElementBackgroundStyle? = nil, borderStyle: FreeFormLayoutElementBorderStyle? = nil, elementId: String, elementType: LayoutElementType, height: String, loadingAnimation: LoadingAnimation? = nil, renderingRules: [SheetElementRenderingRule]? = nil, selectedBorderStyle: FreeFormLayoutElementBorderStyle? = nil, visibility: Visibility? = nil, width: String, xAxisLocation: String, yAxisLocation: String) {
             self.backgroundStyle = backgroundStyle
             self.borderStyle = borderStyle
@@ -18695,6 +19217,7 @@ extension QuickSight {
         /// The background visibility of a free-form layout element.
         public let visibility: Visibility?
 
+        @inlinable
         public init(color: String? = nil, visibility: Visibility? = nil) {
             self.color = color
             self.visibility = visibility
@@ -18716,6 +19239,7 @@ extension QuickSight {
         /// The border visibility of a free-form layout element.
         public let visibility: Visibility?
 
+        @inlinable
         public init(color: String? = nil, visibility: Visibility? = nil) {
             self.color = color
             self.visibility = visibility
@@ -18735,6 +19259,7 @@ extension QuickSight {
         /// The width that the view port will be optimized for when the layout renders.
         public let optimizedViewPortWidth: String
 
+        @inlinable
         public init(optimizedViewPortWidth: String) {
             self.optimizedViewPortWidth = optimizedViewPortWidth
         }
@@ -18748,6 +19273,7 @@ extension QuickSight {
         /// The elements that are included in the free-form layout.
         public let elements: [FreeFormLayoutElement]
 
+        @inlinable
         public init(elements: [FreeFormLayoutElement]) {
             self.elements = elements
         }
@@ -18770,6 +19296,7 @@ extension QuickSight {
         /// The value field wells of a funnel chart. Values are aggregated based on categories.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.category = category
             self.values = values
@@ -18810,6 +19337,7 @@ extension QuickSight {
         /// The visual palette configuration of a FunnelChartVisual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(categoryLabelOptions: ChartAxisLabelOptions? = nil, dataLabelOptions: FunnelChartDataLabelOptions? = nil, fieldWells: FunnelChartFieldWells? = nil, interactions: VisualInteractionOptions? = nil, sortConfiguration: FunnelChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, valueLabelOptions: ChartAxisLabelOptions? = nil, visualPalette: VisualPalette? = nil) {
             self.categoryLabelOptions = categoryLabelOptions
             self.dataLabelOptions = dataLabelOptions
@@ -18859,6 +19387,7 @@ extension QuickSight {
         /// The visibility option that determines if data labels are displayed.
         public let visibility: Visibility?
 
+        @inlinable
         public init(categoryLabelVisibility: Visibility? = nil, labelColor: String? = nil, labelFontConfiguration: FontConfiguration? = nil, measureDataLabelStyle: FunnelChartMeasureDataLabelStyle? = nil, measureLabelVisibility: Visibility? = nil, position: DataLabelPosition? = nil, visibility: Visibility? = nil) {
             self.categoryLabelVisibility = categoryLabelVisibility
             self.labelColor = labelColor
@@ -18889,6 +19418,7 @@ extension QuickSight {
         /// The field well configuration of a FunnelChartVisual.
         public let funnelChartAggregatedFieldWells: FunnelChartAggregatedFieldWells?
 
+        @inlinable
         public init(funnelChartAggregatedFieldWells: FunnelChartAggregatedFieldWells? = nil) {
             self.funnelChartAggregatedFieldWells = funnelChartAggregatedFieldWells
         }
@@ -18908,6 +19438,7 @@ extension QuickSight {
         /// The sort configuration of the category fields.
         public let categorySort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
@@ -18940,6 +19471,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: FunnelChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -18980,6 +19512,7 @@ extension QuickSight {
         /// The conditional formatting of the arc foreground color.
         public let foregroundColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(foregroundColor: ConditionalFormattingColor? = nil) {
             self.foregroundColor = foregroundColor
         }
@@ -18999,6 +19532,7 @@ extension QuickSight {
         /// The foreground color configuration of a GaugeChartVisual.
         public let foregroundColor: String?
 
+        @inlinable
         public init(backgroundColor: String? = nil, foregroundColor: String? = nil) {
             self.backgroundColor = backgroundColor
             self.foregroundColor = foregroundColor
@@ -19019,6 +19553,7 @@ extension QuickSight {
         /// Conditional formatting options of a GaugeChartVisual.
         public let conditionalFormattingOptions: [GaugeChartConditionalFormattingOption]?
 
+        @inlinable
         public init(conditionalFormattingOptions: [GaugeChartConditionalFormattingOption]? = nil) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
@@ -19041,6 +19576,7 @@ extension QuickSight {
         /// The conditional formatting for the primary value of a GaugeChartVisual.
         public let primaryValue: GaugeChartPrimaryValueConditionalFormatting?
 
+        @inlinable
         public init(arc: GaugeChartArcConditionalFormatting? = nil, primaryValue: GaugeChartPrimaryValueConditionalFormatting? = nil) {
             self.arc = arc
             self.primaryValue = primaryValue
@@ -19073,6 +19609,7 @@ extension QuickSight {
         /// The visual palette configuration of a GaugeChartVisual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(colorConfiguration: GaugeChartColorConfiguration? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: GaugeChartFieldWells? = nil, gaugeChartOptions: GaugeChartOptions? = nil, interactions: VisualInteractionOptions? = nil, tooltipOptions: TooltipOptions? = nil, visualPalette: VisualPalette? = nil) {
             self.colorConfiguration = colorConfiguration
             self.dataLabels = dataLabels
@@ -19109,6 +19646,7 @@ extension QuickSight {
         /// The value field wells of a GaugeChartVisual.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(targetValues: [MeasureField]? = nil, values: [MeasureField]? = nil) {
             self.targetValues = targetValues
             self.values = values
@@ -19143,6 +19681,7 @@ extension QuickSight {
         /// The options that determine the primary value font configuration.
         public let primaryValueFontConfiguration: FontConfiguration?
 
+        @inlinable
         public init(arc: ArcConfiguration? = nil, arcAxis: ArcAxisConfiguration? = nil, comparison: ComparisonConfiguration? = nil, primaryValueDisplayType: PrimaryValueDisplayType? = nil, primaryValueFontConfiguration: FontConfiguration? = nil) {
             self.arc = arc
             self.arcAxis = arcAxis
@@ -19171,6 +19710,7 @@ extension QuickSight {
         /// The conditional formatting of the primary value text color.
         public let textColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
             self.icon = icon
             self.textColor = textColor
@@ -19201,6 +19741,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GaugeChartConfiguration? = nil, conditionalFormatting: GaugeChartConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -19250,6 +19791,7 @@ extension QuickSight {
         /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
         public let sessionTags: [SessionTag]?
 
+        @inlinable
         public init(allowedDomains: [String]? = nil, authorizedResourceArns: [String], awsAccountId: String, experienceConfiguration: AnonymousUserEmbeddingExperienceConfiguration, namespace: String, sessionLifetimeInMinutes: Int64? = nil, sessionTags: [SessionTag]? = nil) {
             self.allowedDomains = allowedDomains
             self.authorizedResourceArns = authorizedResourceArns
@@ -19308,6 +19850,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int
 
+        @inlinable
         public init(anonymousUserArn: String, embedUrl: String, requestId: String, status: Int) {
             self.anonymousUserArn = anonymousUserArn
             self.embedUrl = embedUrl
@@ -19343,6 +19886,7 @@ extension QuickSight {
         /// The Amazon Resource Name for the registered user.
         public let userArn: String
 
+        @inlinable
         public init(allowedDomains: [String]? = nil, awsAccountId: String, experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration, sessionLifetimeInMinutes: Int64? = nil, userArn: String) {
             self.allowedDomains = allowedDomains
             self.awsAccountId = awsAccountId
@@ -19386,6 +19930,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int
 
+        @inlinable
         public init(embedUrl: String, requestId: String, status: Int) {
             self.embedUrl = embedUrl
             self.requestId = requestId
@@ -19414,6 +19959,7 @@ extension QuickSight {
         /// A display name for the hierarchy.
         public let name: String
 
+        @inlinable
         public init(columns: [String], countryCode: GeoSpatialCountryCode? = nil, name: String) {
             self.columns = columns
             self.countryCode = countryCode
@@ -19448,6 +19994,7 @@ extension QuickSight {
         /// The longitude of the west bound of the geospatial coordinate bounds.
         public let west: Double
 
+        @inlinable
         public init(east: Double, north: Double, south: Double, west: Double) {
             self.east = east
             self.north = north
@@ -19478,6 +20025,7 @@ extension QuickSight {
         /// The list of colors to be used in heatmap point style.
         public let colors: [GeospatialHeatmapDataColor]?
 
+        @inlinable
         public init(colors: [GeospatialHeatmapDataColor]? = nil) {
             self.colors = colors
         }
@@ -19499,6 +20047,7 @@ extension QuickSight {
         /// The color scale specification for the heatmap point style.
         public let heatmapColor: GeospatialHeatmapColorScale?
 
+        @inlinable
         public init(heatmapColor: GeospatialHeatmapColorScale? = nil) {
             self.heatmapColor = heatmapColor
         }
@@ -19516,6 +20065,7 @@ extension QuickSight {
         /// The hex color to be used in the heatmap point style.
         public let color: String
 
+        @inlinable
         public init(color: String) {
             self.color = color
         }
@@ -19537,6 +20087,7 @@ extension QuickSight {
         /// The size field wells of a geospatial map. Values are aggregated based on geospatial fields.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(colors: [DimensionField]? = nil, geospatial: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.colors = colors
             self.geospatial = geospatial
@@ -19582,6 +20133,7 @@ extension QuickSight {
         /// The window options of the geospatial map.
         public let windowOptions: GeospatialWindowOptions?
 
+        @inlinable
         public init(fieldWells: GeospatialMapFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, mapStyleOptions: GeospatialMapStyleOptions? = nil, pointStyleOptions: GeospatialPointStyleOptions? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil, windowOptions: GeospatialWindowOptions? = nil) {
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -19618,6 +20170,7 @@ extension QuickSight {
         /// The aggregated field well for a geospatial map.
         public let geospatialMapAggregatedFieldWells: GeospatialMapAggregatedFieldWells?
 
+        @inlinable
         public init(geospatialMapAggregatedFieldWells: GeospatialMapAggregatedFieldWells? = nil) {
             self.geospatialMapAggregatedFieldWells = geospatialMapAggregatedFieldWells
         }
@@ -19635,6 +20188,7 @@ extension QuickSight {
         /// The base map style of the geospatial map.
         public let baseMapStyle: BaseMapStyleType?
 
+        @inlinable
         public init(baseMapStyle: BaseMapStyleType? = nil) {
             self.baseMapStyle = baseMapStyle
         }
@@ -19658,6 +20212,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: GeospatialMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -19702,6 +20257,7 @@ extension QuickSight {
         /// The selected point styles (point, cluster) of the geospatial map.
         public let selectedPointStyle: GeospatialSelectedPointStyle?
 
+        @inlinable
         public init(clusterMarkerConfiguration: ClusterMarkerConfiguration? = nil, heatmapConfiguration: GeospatialHeatmapConfiguration? = nil, selectedPointStyle: GeospatialSelectedPointStyle? = nil) {
             self.clusterMarkerConfiguration = clusterMarkerConfiguration
             self.heatmapConfiguration = heatmapConfiguration
@@ -19726,6 +20282,7 @@ extension QuickSight {
         /// The map zoom modes (manual, auto) of the geospatial window options.
         public let mapZoomMode: MapZoomMode?
 
+        @inlinable
         public init(bounds: GeospatialCoordinateBounds? = nil, mapZoomMode: MapZoomMode? = nil) {
             self.bounds = bounds
             self.mapZoomMode = mapZoomMode
@@ -19768,6 +20325,7 @@ extension QuickSight {
         /// 					SAML, OpenID Connect, or IAM federation.   Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
+        @inlinable
         public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
             self.additionalDashboardIds = additionalDashboardIds
             self.awsAccountId = awsAccountId
@@ -19830,6 +20388,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(embedUrl: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.embedUrl = embedUrl
             self.requestId = requestId
@@ -19862,6 +20421,7 @@ extension QuickSight {
         /// 			admins). They need to be authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation   Omit this parameter for users in the third group, IAM users and IAM role-based sessions.
         public let userArn: String?
 
+        @inlinable
         public init(awsAccountId: String, entryPoint: String? = nil, sessionLifetimeInMinutes: Int64? = nil, userArn: String? = nil) {
             self.awsAccountId = awsAccountId
             self.entryPoint = entryPoint
@@ -19902,6 +20462,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(embedUrl: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.embedUrl = embedUrl
             self.requestId = requestId
@@ -19928,6 +20489,7 @@ extension QuickSight {
         /// Determines the options for uniform border.
         public let uniformBorder: TableBorderOptions?
 
+        @inlinable
         public init(sideSpecificBorder: TableSideBorderOptions? = nil, uniformBorder: TableBorderOptions? = nil) {
             self.sideSpecificBorder = sideSpecificBorder
             self.uniformBorder = uniformBorder
@@ -19948,6 +20510,7 @@ extension QuickSight {
         /// The list of gradient color stops.
         public let stops: [GradientStop]?
 
+        @inlinable
         public init(stops: [GradientStop]? = nil) {
             self.stops = stops
         }
@@ -19972,6 +20535,7 @@ extension QuickSight {
         /// Determines gradient offset value.
         public let gradientOffset: Double
 
+        @inlinable
         public init(color: String? = nil, dataValue: Double? = nil, gradientOffset: Double) {
             self.color = color
             self.dataValue = dataValue
@@ -19993,6 +20557,7 @@ extension QuickSight {
         /// The options that determine the sizing of the canvas used in a grid layout.
         public let screenCanvasSizeOptions: GridLayoutScreenCanvasSizeOptions?
 
+        @inlinable
         public init(screenCanvasSizeOptions: GridLayoutScreenCanvasSizeOptions? = nil) {
             self.screenCanvasSizeOptions = screenCanvasSizeOptions
         }
@@ -20007,6 +20572,7 @@ extension QuickSight {
         /// The elements that are included in a grid layout.
         public let elements: [GridLayoutElement]
 
+        @inlinable
         public init(canvasSizeOptions: GridLayoutCanvasSizeOptions? = nil, elements: [GridLayoutElement]) {
             self.canvasSizeOptions = canvasSizeOptions
             self.elements = elements
@@ -20039,6 +20605,7 @@ extension QuickSight {
         /// The height of a grid element expressed as a number of grid rows.
         public let rowSpan: Int
 
+        @inlinable
         public init(columnIndex: Int? = nil, columnSpan: Int, elementId: String, elementType: LayoutElementType, rowIndex: Int? = nil, rowSpan: Int) {
             self.columnIndex = columnIndex
             self.columnSpan = columnSpan
@@ -20078,6 +20645,7 @@ extension QuickSight {
         /// This value determines the layout behavior when the viewport is resized.    FIXED: A fixed width will be used when optimizing the layout. In the Amazon QuickSight console, this option is called Classic.    RESPONSIVE: The width of the canvas will be responsive and optimized to the view port. In the Amazon QuickSight console, this option is called Tiled.
         public let resizeOption: ResizeOption
 
+        @inlinable
         public init(optimizedViewPortWidth: String? = nil, resizeOption: ResizeOption) {
             self.optimizedViewPortWidth = optimizedViewPortWidth
             self.resizeOption = resizeOption
@@ -20099,6 +20667,7 @@ extension QuickSight {
         /// The principal ID of the group.
         public let principalId: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, groupName: String? = nil, principalId: String? = nil) {
             self.arn = arn
             self.description = description
@@ -20120,6 +20689,7 @@ extension QuickSight {
         /// The name of the group member (user).
         public let memberName: String?
 
+        @inlinable
         public init(arn: String? = nil, memberName: String? = nil) {
             self.arn = arn
             self.memberName = memberName
@@ -20139,6 +20709,7 @@ extension QuickSight {
         /// The value of the named item, in this case GROUP_NAME, that you want to use as a filter.
         public let value: String
 
+        @inlinable
         public init(name: GroupFilterAttribute, operator: GroupFilterOperator, value: String) {
             self.name = name
             self.`operator` = `operator`
@@ -20164,6 +20735,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(computationId: String, name: String? = nil, periodSize: Int? = nil, time: DimensionField? = nil, value: MeasureField? = nil) {
             self.computationId = computationId
             self.name = name
@@ -20195,6 +20767,7 @@ extension QuickSight {
         /// This Boolean value controls whether to display a gutter space between sheet tiles.
         public let show: Bool?
 
+        @inlinable
         public init(show: Bool? = nil) {
             self.show = show
         }
@@ -20212,6 +20785,7 @@ extension QuickSight {
         /// The style options of a header or footer section.
         public let style: SectionStyle?
 
+        @inlinable
         public init(layout: SectionLayoutConfiguration, sectionId: String, style: SectionStyle? = nil) {
             self.layout = layout
             self.sectionId = sectionId
@@ -20240,6 +20814,7 @@ extension QuickSight {
         /// The values field well of a heat map.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(columns: [DimensionField]? = nil, rows: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.columns = columns
             self.rows = rows
@@ -20288,6 +20863,7 @@ extension QuickSight {
         /// The tooltip display setup of the visual.
         public let tooltip: TooltipOptions?
 
+        @inlinable
         public init(colorScale: ColorScale? = nil, columnLabelOptions: ChartAxisLabelOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: HeatMapFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, rowLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: HeatMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil) {
             self.colorScale = colorScale
             self.columnLabelOptions = columnLabelOptions
@@ -20328,6 +20904,7 @@ extension QuickSight {
         /// The aggregated field wells of a heat map.
         public let heatMapAggregatedFieldWells: HeatMapAggregatedFieldWells?
 
+        @inlinable
         public init(heatMapAggregatedFieldWells: HeatMapAggregatedFieldWells? = nil) {
             self.heatMapAggregatedFieldWells = heatMapAggregatedFieldWells
         }
@@ -20351,6 +20928,7 @@ extension QuickSight {
         /// The field sort configuration of the rows fields.
         public let heatMapRowSort: [FieldSortOptions]?
 
+        @inlinable
         public init(heatMapColumnItemsLimitConfiguration: ItemsLimitConfiguration? = nil, heatMapColumnSort: [FieldSortOptions]? = nil, heatMapRowItemsLimitConfiguration: ItemsLimitConfiguration? = nil, heatMapRowSort: [FieldSortOptions]? = nil) {
             self.heatMapColumnItemsLimitConfiguration = heatMapColumnItemsLimitConfiguration
             self.heatMapColumnSort = heatMapColumnSort
@@ -20391,6 +20969,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HeatMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -20431,6 +21010,7 @@ extension QuickSight {
         /// The value field wells of a histogram. Values are aggregated by COUNT or DISTINCT_COUNT.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(values: [MeasureField]? = nil) {
             self.values = values
         }
@@ -20457,6 +21037,7 @@ extension QuickSight {
         /// The options that determine the bin start value.
         public let startValue: Double?
 
+        @inlinable
         public init(binCount: BinCountOptions? = nil, binWidth: BinWidthOptions? = nil, selectedBinType: HistogramBinType? = nil, startValue: Double? = nil) {
             self.binCount = binCount
             self.binWidth = binWidth
@@ -20497,6 +21078,7 @@ extension QuickSight {
         /// The options that determine the presentation of the y-axis.
         public let yAxisDisplayOptions: AxisDisplayOptions?
 
+        @inlinable
         public init(binOptions: HistogramBinOptions? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: HistogramFieldWells? = nil, interactions: VisualInteractionOptions? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil, xAxisDisplayOptions: AxisDisplayOptions? = nil, xAxisLabelOptions: ChartAxisLabelOptions? = nil, yAxisDisplayOptions: AxisDisplayOptions? = nil) {
             self.binOptions = binOptions
             self.dataLabels = dataLabels
@@ -20537,6 +21119,7 @@ extension QuickSight {
         /// The field well configuration of a histogram.
         public let histogramAggregatedFieldWells: HistogramAggregatedFieldWells?
 
+        @inlinable
         public init(histogramAggregatedFieldWells: HistogramAggregatedFieldWells? = nil) {
             self.histogramAggregatedFieldWells = histogramAggregatedFieldWells
         }
@@ -20562,6 +21145,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: HistogramConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -20606,6 +21190,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) for the IAM policy.
         public let policyArn: String?
 
+        @inlinable
         public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, awsAccountId: String? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil) {
             self.assignmentId = assignmentId
             self.assignmentName = assignmentName
@@ -20631,6 +21216,7 @@ extension QuickSight {
         /// Assignment status.
         public let assignmentStatus: AssignmentStatus?
 
+        @inlinable
         public init(assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil) {
             self.assignmentName = assignmentName
             self.assignmentStatus = assignmentStatus
@@ -20646,6 +21232,7 @@ extension QuickSight {
         /// The identity of the identifier.
         public let identity: String
 
+        @inlinable
         public init(identity: String) {
             self.identity = identity
         }
@@ -20663,6 +21250,7 @@ extension QuickSight {
         /// A Boolean option that controls whether Trusted Identity Propagation should be used.
         public let enableIdentityPropagation: Bool?
 
+        @inlinable
         public init(enableIdentityPropagation: Bool? = nil) {
             self.enableIdentityPropagation = enableIdentityPropagation
         }
@@ -20676,6 +21264,7 @@ extension QuickSight {
         /// The lookback window setup for an incremental refresh configuration.
         public let lookbackWindow: LookbackWindow
 
+        @inlinable
         public init(lookbackWindow: LookbackWindow) {
             self.lookbackWindow = lookbackWindow
         }
@@ -20711,6 +21300,7 @@ extension QuickSight {
         public let requestType: IngestionRequestType?
         public let rowInfo: RowInfo?
 
+        @inlinable
         public init(arn: String, createdTime: Date, errorInfo: ErrorInfo? = nil, ingestionId: String? = nil, ingestionSizeInBytes: Int64? = nil, ingestionStatus: IngestionStatus, ingestionTimeInSeconds: Int64? = nil, queueInfo: QueueInfo? = nil, requestSource: IngestionRequestSource? = nil, requestType: IngestionRequestType? = nil, rowInfo: RowInfo? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -20744,6 +21334,7 @@ extension QuickSight {
         /// A CategoryInnerFilter filters text values for the NestedFilter.
         public let categoryInnerFilter: CategoryInnerFilter?
 
+        @inlinable
         public init(categoryInnerFilter: CategoryInnerFilter? = nil) {
             self.categoryInnerFilter = categoryInnerFilter
         }
@@ -20765,6 +21356,7 @@ extension QuickSight {
         /// The data type of the column.
         public let type: InputColumnDataType
 
+        @inlinable
         public init(name: String, subType: ColumnDataSubType? = nil, type: InputColumnDataType) {
             self.name = name
             self.subType = subType
@@ -20791,6 +21383,7 @@ extension QuickSight {
         /// The general visual interactions setup for a visual.
         public let interactions: VisualInteractionOptions?
 
+        @inlinable
         public init(computations: [Computation]? = nil, customNarrative: CustomNarrativeOptions? = nil, interactions: VisualInteractionOptions? = nil) {
             self.computations = computations
             self.customNarrative = customNarrative
@@ -20826,6 +21419,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, dataSetIdentifier: String, insightConfiguration: InsightConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.dataSetIdentifier = dataSetIdentifier
@@ -20870,6 +21464,7 @@ extension QuickSight {
         /// The value type of the dataset parameter. Valid values are single value or multi value.
         public let valueType: DatasetParameterValueType
 
+        @inlinable
         public init(defaultValues: IntegerDatasetParameterDefaultValues? = nil, id: String, name: String, valueType: DatasetParameterValueType) {
             self.defaultValues = defaultValues
             self.id = id
@@ -20899,6 +21494,7 @@ extension QuickSight {
         /// A list of static default values for a given integer parameter.
         public let staticValues: [Int64]?
 
+        @inlinable
         public init(staticValues: [Int64]? = nil) {
             self.staticValues = staticValues
         }
@@ -20919,6 +21515,7 @@ extension QuickSight {
         /// The static values of the IntegerDefaultValues.
         public let staticValues: [Int64]?
 
+        @inlinable
         public init(dynamicValue: DynamicDefaultValue? = nil, staticValues: [Int64]? = nil) {
             self.dynamicValue = dynamicValue
             self.staticValues = staticValues
@@ -20941,6 +21538,7 @@ extension QuickSight {
         /// The values for the integer parameter.
         public let values: [Int64]
 
+        @inlinable
         public init(name: String, values: [Int64]) {
             self.name = name
             self.values = values
@@ -20967,6 +21565,7 @@ extension QuickSight {
         /// A parameter declaration for the Integer data type.
         public let valueWhenUnset: IntegerValueWhenUnsetConfiguration?
 
+        @inlinable
         public init(defaultValues: IntegerDefaultValues? = nil, mappedDataSetParameters: [MappedDataSetParameter]? = nil, name: String, parameterValueType: ParameterValueType, valueWhenUnset: IntegerValueWhenUnsetConfiguration? = nil) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
@@ -21001,6 +21600,7 @@ extension QuickSight {
         /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
         public let valueWhenUnsetOption: ValueWhenUnsetOption?
 
+        @inlinable
         public init(customValue: Int64? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
@@ -21018,6 +21618,7 @@ extension QuickSight {
         /// The error that is returned for the InvalidTopicReviewedAnswer.
         public let error: ReviewedAnswerErrorCode?
 
+        @inlinable
         public init(answerId: String? = nil, error: ReviewedAnswerErrorCode? = nil) {
             self.answerId = answerId
             self.error = error
@@ -21035,6 +21636,7 @@ extension QuickSight {
         /// The Show other of an axis in the chart. Choose one of the following options:    INCLUDE     EXCLUDE
         public let otherCategories: OtherCategories?
 
+        @inlinable
         public init(itemsLimit: Int64? = nil, otherCategories: OtherCategories? = nil) {
             self.itemsLimit = itemsLimit
             self.otherCategories = otherCategories
@@ -21050,6 +21652,7 @@ extension QuickSight {
         /// The base URL of the Jira site.
         public let siteBaseUrl: String
 
+        @inlinable
         public init(siteBaseUrl: String) {
             self.siteBaseUrl = siteBaseUrl
         }
@@ -21078,6 +21681,7 @@ extension QuickSight {
         /// The type of join that it is.
         public let type: JoinType
 
+        @inlinable
         public init(leftJoinKeyProperties: JoinKeyProperties? = nil, leftOperand: String, onClause: String, rightJoinKeyProperties: JoinKeyProperties? = nil, rightOperand: String, type: JoinType) {
             self.leftJoinKeyProperties = leftJoinKeyProperties
             self.leftOperand = leftOperand
@@ -21112,6 +21716,7 @@ extension QuickSight {
         /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by Amazon QuickSight to optimize query performance.
         public let uniqueKey: Bool?
 
+        @inlinable
         public init(uniqueKey: Bool? = nil) {
             self.uniqueKey = uniqueKey
         }
@@ -21127,6 +21732,7 @@ extension QuickSight {
         /// The conditional formatting of the actual value's text color.
         public let textColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
             self.icon = icon
             self.textColor = textColor
@@ -21149,6 +21755,7 @@ extension QuickSight {
         /// The conditional formatting of the comparison value's text color.
         public let textColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
             self.icon = icon
             self.textColor = textColor
@@ -21169,6 +21776,7 @@ extension QuickSight {
         /// The conditional formatting options of a KPI visual.
         public let conditionalFormattingOptions: [KPIConditionalFormattingOption]?
 
+        @inlinable
         public init(conditionalFormattingOptions: [KPIConditionalFormattingOption]? = nil) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
@@ -21195,6 +21803,7 @@ extension QuickSight {
         /// The conditional formatting for the progress bar of a KPI visual.
         public let progressBar: KPIProgressBarConditionalFormatting?
 
+        @inlinable
         public init(actualValue: KPIActualValueConditionalFormatting? = nil, comparisonValue: KPIComparisonValueConditionalFormatting? = nil, primaryValue: KPIPrimaryValueConditionalFormatting? = nil, progressBar: KPIProgressBarConditionalFormatting? = nil) {
             self.actualValue = actualValue
             self.comparisonValue = comparisonValue
@@ -21227,6 +21836,7 @@ extension QuickSight {
         /// The sort configuration of a KPI visual.
         public let sortConfiguration: KPISortConfiguration?
 
+        @inlinable
         public init(fieldWells: KPIFieldWells? = nil, interactions: VisualInteractionOptions? = nil, kpiOptions: KPIOptions? = nil, sortConfiguration: KPISortConfiguration? = nil) {
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -21256,6 +21866,7 @@ extension QuickSight {
         /// The value field wells of a KPI visual.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(targetValues: [MeasureField]? = nil, trendGroups: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.targetValues = targetValues
             self.trendGroups = trendGroups
@@ -21304,6 +21915,7 @@ extension QuickSight {
         /// The options that determine the layout a KPI visual.
         public let visualLayoutOptions: KPIVisualLayoutOptions?
 
+        @inlinable
         public init(comparison: ComparisonConfiguration? = nil, primaryValueDisplayType: PrimaryValueDisplayType? = nil, primaryValueFontConfiguration: FontConfiguration? = nil, progressBar: ProgressBarOptions? = nil, secondaryValue: SecondaryValueOptions? = nil, secondaryValueFontConfiguration: FontConfiguration? = nil, sparkline: KPISparklineOptions? = nil, trendArrows: TrendArrowOptions? = nil, visualLayoutOptions: KPIVisualLayoutOptions? = nil) {
             self.comparison = comparison
             self.primaryValueDisplayType = primaryValueDisplayType
@@ -21342,6 +21954,7 @@ extension QuickSight {
         /// The conditional formatting of the  primary value's text color.
         public let textColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
             self.icon = icon
             self.textColor = textColor
@@ -21362,6 +21975,7 @@ extension QuickSight {
         /// The conditional formatting of the progress bar's foreground color.
         public let foregroundColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(foregroundColor: ConditionalFormattingColor? = nil) {
             self.foregroundColor = foregroundColor
         }
@@ -21379,6 +21993,7 @@ extension QuickSight {
         /// The sort configuration of the trend group fields.
         public let trendGroupSort: [FieldSortOptions]?
 
+        @inlinable
         public init(trendGroupSort: [FieldSortOptions]? = nil) {
             self.trendGroupSort = trendGroupSort
         }
@@ -21405,6 +22020,7 @@ extension QuickSight {
         /// The visibility of the sparkline.
         public let visibility: Visibility?
 
+        @inlinable
         public init(color: String? = nil, tooltipVisibility: Visibility? = nil, type: KPISparklineType, visibility: Visibility? = nil) {
             self.color = color
             self.tooltipVisibility = tooltipVisibility
@@ -21440,6 +22056,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: KPIConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, conditionalFormatting: KPIConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -21483,6 +22100,7 @@ extension QuickSight {
         /// The standard layout of the KPI visual.
         public let standardLayout: KPIVisualStandardLayout?
 
+        @inlinable
         public init(standardLayout: KPIVisualStandardLayout? = nil) {
             self.standardLayout = standardLayout
         }
@@ -21496,6 +22114,7 @@ extension QuickSight {
         /// The standard layout type.
         public let type: KPIVisualStandardLayoutType
 
+        @inlinable
         public init(type: KPIVisualStandardLayoutType) {
             self.type = type
         }
@@ -21513,6 +22132,7 @@ extension QuickSight {
         /// Determines whether or not the label is visible.
         public let visibility: Visibility?
 
+        @inlinable
         public init(customLabel: String? = nil, fontConfiguration: FontConfiguration? = nil, visibility: Visibility? = nil) {
             self.customLabel = customLabel
             self.fontConfiguration = fontConfiguration
@@ -21534,6 +22154,7 @@ extension QuickSight {
         /// The configuration that determines what the type of layout for a sheet.
         public let configuration: LayoutConfiguration
 
+        @inlinable
         public init(configuration: LayoutConfiguration) {
             self.configuration = configuration
         }
@@ -21555,6 +22176,7 @@ extension QuickSight {
         /// A section based layout organizes visuals into multiple sections and has customized header, footer and page break.
         public let sectionBasedLayout: SectionBasedLayoutConfiguration?
 
+        @inlinable
         public init(freeFormLayout: FreeFormLayoutConfiguration? = nil, gridLayout: GridLayoutConfiguration? = nil, sectionBasedLayout: SectionBasedLayoutConfiguration? = nil) {
             self.freeFormLayout = freeFormLayout
             self.gridLayout = gridLayout
@@ -21586,6 +22208,7 @@ extension QuickSight {
         /// The width of the legend. If this value is omitted, a default width is used when rendering.
         public let width: String?
 
+        @inlinable
         public init(height: String? = nil, position: LegendPosition? = nil, title: LabelOptions? = nil, visibility: Visibility? = nil, width: String? = nil) {
             self.height = height
             self.position = position
@@ -21617,6 +22240,7 @@ extension QuickSight {
         /// The value field wells of a line chart. Values are aggregated based on categories.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, colors: [DimensionField]? = nil, smallMultiples: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.category = category
             self.colors = colors
@@ -21694,6 +22318,7 @@ extension QuickSight {
         /// The options that determine the presentation of the x-axis label.
         public let xAxisLabelOptions: ChartAxisLabelOptions?
 
+        @inlinable
         public init(contributionAnalysisDefaults: [ContributionAnalysisDefault]? = nil, dataLabels: DataLabelOptions? = nil, defaultSeriesSettings: LineChartDefaultSeriesSettings? = nil, fieldWells: LineChartFieldWells? = nil, forecastConfigurations: [ForecastConfiguration]? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, primaryYAxisDisplayOptions: LineSeriesAxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, referenceLines: [ReferenceLine]? = nil, secondaryYAxisDisplayOptions: LineSeriesAxisDisplayOptions? = nil, secondaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, series: [SeriesItem]? = nil, singleAxisOptions: SingleAxisOptions? = nil, smallMultiplesOptions: SmallMultiplesOptions? = nil, sortConfiguration: LineChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, type: LineChartType? = nil, visualPalette: VisualPalette? = nil, xAxisDisplayOptions: AxisDisplayOptions? = nil, xAxisLabelOptions: ChartAxisLabelOptions? = nil) {
             self.contributionAnalysisDefaults = contributionAnalysisDefaults
             self.dataLabels = dataLabels
@@ -21785,6 +22410,7 @@ extension QuickSight {
         /// Marker styles options for all line series in the visual.
         public let markerStyleSettings: LineChartMarkerStyleSettings?
 
+        @inlinable
         public init(axisBinding: AxisBinding? = nil, lineStyleSettings: LineChartLineStyleSettings? = nil, markerStyleSettings: LineChartMarkerStyleSettings? = nil) {
             self.axisBinding = axisBinding
             self.lineStyleSettings = lineStyleSettings
@@ -21806,6 +22432,7 @@ extension QuickSight {
         /// The field well configuration of a line chart.
         public let lineChartAggregatedFieldWells: LineChartAggregatedFieldWells?
 
+        @inlinable
         public init(lineChartAggregatedFieldWells: LineChartAggregatedFieldWells? = nil) {
             self.lineChartAggregatedFieldWells = lineChartAggregatedFieldWells
         }
@@ -21829,6 +22456,7 @@ extension QuickSight {
         /// Width that determines the line thickness.
         public let lineWidth: String?
 
+        @inlinable
         public init(lineInterpolation: LineInterpolation? = nil, lineStyle: LineChartLineStyle? = nil, lineVisibility: Visibility? = nil, lineWidth: String? = nil) {
             self.lineInterpolation = lineInterpolation
             self.lineStyle = lineStyle
@@ -21854,6 +22482,7 @@ extension QuickSight {
         /// Configuration option that determines whether to show the markers in the series.
         public let markerVisibility: Visibility?
 
+        @inlinable
         public init(markerColor: String? = nil, markerShape: LineChartMarkerShape? = nil, markerSize: String? = nil, markerVisibility: Visibility? = nil) {
             self.markerColor = markerColor
             self.markerShape = markerShape
@@ -21879,6 +22508,7 @@ extension QuickSight {
         /// Marker styles options for a line series in LineChartVisual.
         public let markerStyleSettings: LineChartMarkerStyleSettings?
 
+        @inlinable
         public init(lineStyleSettings: LineChartLineStyleSettings? = nil, markerStyleSettings: LineChartMarkerStyleSettings? = nil) {
             self.lineStyleSettings = lineStyleSettings
             self.markerStyleSettings = markerStyleSettings
@@ -21906,6 +22536,7 @@ extension QuickSight {
         /// The sort configuration of the small multiples field.
         public let smallMultiplesSort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimitConfiguration: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesSort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimitConfiguration = categoryItemsLimitConfiguration
             self.categorySort = categorySort
@@ -21948,6 +22579,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: LineChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -21990,6 +22622,7 @@ extension QuickSight {
         /// The configuration options that determine how missing data is treated during the rendering of a line chart.
         public let missingDataConfigurations: [MissingDataConfiguration]?
 
+        @inlinable
         public init(axisOptions: AxisDisplayOptions? = nil, missingDataConfigurations: [MissingDataConfiguration]? = nil) {
             self.axisOptions = axisOptions
             self.missingDataConfigurations = missingDataConfigurations
@@ -22010,6 +22643,7 @@ extension QuickSight {
         /// A structure that contains the permissions of a shareable link.
         public let permissions: [ResourcePermission]?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil) {
             self.permissions = permissions
         }
@@ -22035,6 +22669,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22070,6 +22705,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisSummaryList: [AnalysisSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisSummaryList = analysisSummaryList
             self.nextToken = nextToken
@@ -22101,6 +22737,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22136,6 +22773,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(assetBundleExportJobSummaryList: [AssetBundleExportJobSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.assetBundleExportJobSummaryList = assetBundleExportJobSummaryList
             self.nextToken = nextToken
@@ -22167,6 +22805,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22202,6 +22841,7 @@ extension QuickSight {
         /// The HTTP status of the response.
         public let status: Int?
 
+        @inlinable
         public init(assetBundleImportJobSummaryList: [AssetBundleImportJobSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.assetBundleImportJobSummaryList = assetBundleImportJobSummaryList
             self.nextToken = nextToken
@@ -22235,6 +22875,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, searchOptions: ListControlSearchOptions? = nil, selectAllOptions: ListControlSelectAllOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.searchOptions = searchOptions
@@ -22259,6 +22900,7 @@ extension QuickSight {
         /// The visibility configuration of the search options in a list control.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -22272,6 +22914,7 @@ extension QuickSight {
         /// The visibility configuration of the Select all options in a list control.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -22291,6 +22934,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -22331,6 +22975,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardVersionSummaryList: [DashboardVersionSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardVersionSummaryList = dashboardVersionSummaryList
             self.nextToken = nextToken
@@ -22362,6 +23007,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22397,6 +23043,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardSummaryList: [DashboardSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardSummaryList = dashboardSummaryList
             self.nextToken = nextToken
@@ -22428,6 +23075,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22463,6 +23111,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSetSummaries: [DataSetSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSetSummaries = dataSetSummaries
             self.nextToken = nextToken
@@ -22494,6 +23143,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22529,6 +23179,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSources: [DataSource]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSources = dataSources
             self.nextToken = nextToken
@@ -22562,6 +23213,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -22602,6 +23254,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(folderMemberList: [MemberIdArnPair]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.folderMemberList = folderMemberList
             self.nextToken = nextToken
@@ -22633,6 +23286,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22668,6 +23322,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(folderSummaryList: [FolderSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.folderSummaryList = folderSummaryList
             self.nextToken = nextToken
@@ -22704,6 +23359,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, groupName: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.groupName = groupName
@@ -22747,6 +23403,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(groupMemberList: [GroupMember]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupMemberList = groupMemberList
             self.nextToken = nextToken
@@ -22781,6 +23438,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22820,6 +23478,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupList = groupList
             self.nextToken = nextToken
@@ -22855,6 +23514,7 @@ extension QuickSight {
         /// The name of the user.
         public let userName: String
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil, userName: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -22898,6 +23558,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(activeAssignments: [ActiveIAMPolicyAssignment]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.activeAssignments = activeAssignments
             self.nextToken = nextToken
@@ -22934,6 +23595,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(assignmentStatus: AssignmentStatus? = nil, awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.assignmentStatus = assignmentStatus
             self.awsAccountId = awsAccountId
@@ -22975,6 +23637,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(iamPolicyAssignments: [IAMPolicyAssignmentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.iamPolicyAssignments = iamPolicyAssignments
             self.nextToken = nextToken
@@ -23006,6 +23669,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23041,6 +23705,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, services: [AuthorizedTargetsByService]? = nil, status: Int? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23074,6 +23739,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -23111,6 +23777,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(ingestions: [Ingestion]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.ingestions = ingestions
             self.nextToken = nextToken
@@ -23142,6 +23809,7 @@ extension QuickSight {
         /// A unique pagination token that can be used in a subsequent request. You will receive a pagination token in the response body of a previous ListNameSpaces API call if there is more data that can be returned. To receive the data, make another ListNamespaces API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a ListNamespaces API call with an expired token, you will receive a HTTP 400 InvalidNextTokenException error.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23177,6 +23845,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(namespaces: [NamespaceInfoV2]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.namespaces = namespaces
             self.nextToken = nextToken
@@ -23206,6 +23875,7 @@ extension QuickSight {
         /// The ID of the dataset.
         public let dataSetId: String
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -23235,6 +23905,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(refreshSchedules: [RefreshSchedule]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.refreshSchedules = refreshSchedules
             self.requestId = requestId
@@ -23267,6 +23938,7 @@ extension QuickSight {
         /// The name of the role.
         public let role: Role
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil, role: Role) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23308,6 +23980,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(membersList: [String]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.membersList = membersList
             self.nextToken = nextToken
@@ -23335,6 +24008,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource that you want a list of tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -23357,6 +24031,7 @@ extension QuickSight {
         /// 			resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, tags: [Tag]? = nil) {
             self.requestId = requestId
             self.status = status
@@ -23387,6 +24062,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, templateId: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23427,6 +24103,7 @@ extension QuickSight {
         /// A structure containing the list of the template's aliases.
         public let templateAliasList: [TemplateAlias]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, templateAliasList: [TemplateAlias]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23460,6 +24137,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, templateId: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23500,6 +24178,7 @@ extension QuickSight {
         /// A structure containing a list of all the versions of the specified template.
         public let templateVersionSummaryList: [TemplateVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, templateVersionSummaryList: [TemplateVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23531,6 +24210,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23566,6 +24246,7 @@ extension QuickSight {
         /// A structure containing information about the templates in the list.
         public let templateSummaryList: [TemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, templateSummaryList: [TemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23599,6 +24280,7 @@ extension QuickSight {
         /// The ID for the theme.
         public let themeId: String
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, themeId: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23639,6 +24321,7 @@ extension QuickSight {
         /// A structure containing the list of the theme's aliases.
         public let themeAliasList: [ThemeAlias]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, themeAliasList: [ThemeAlias]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23672,6 +24355,7 @@ extension QuickSight {
         /// The ID for the theme.
         public let themeId: String
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, themeId: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23712,6 +24396,7 @@ extension QuickSight {
         /// A structure containing a list of all the versions of the specified theme.
         public let themeVersionSummaryList: [ThemeVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, themeVersionSummaryList: [ThemeVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23745,6 +24430,7 @@ extension QuickSight {
         /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
         public let type: ThemeType?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, type: ThemeType? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23782,6 +24468,7 @@ extension QuickSight {
         /// Information about the themes in the list.
         public let themeSummaryList: [ThemeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, themeSummaryList: [ThemeSummary]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -23811,6 +24498,7 @@ extension QuickSight {
         /// The ID for the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
@@ -23846,6 +24534,7 @@ extension QuickSight {
         /// The ID for the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(refreshSchedules: [TopicRefreshScheduleSummary]? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.refreshSchedules = refreshSchedules
             self.requestId = requestId
@@ -23878,6 +24567,7 @@ extension QuickSight {
         /// The ID for the topic that contains the reviewed answer that you want to list. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topicId = topicId
@@ -23913,6 +24603,7 @@ extension QuickSight {
         /// The ID for the topic that contains the reviewed answer that you want to list. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(answers: [TopicReviewedAnswer]? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.answers = answers
             self.requestId = requestId
@@ -23947,6 +24638,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -23982,6 +24674,7 @@ extension QuickSight {
         /// A list of topic summaries.
         public let topicsSummaries: [TopicSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, topicsSummaries: [TopicSummary]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -24018,6 +24711,7 @@ extension QuickSight {
         /// The Amazon QuickSight user name that you want to list group memberships for.
         public let userName: String
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil, userName: String) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -24061,6 +24755,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupList = groupList
             self.nextToken = nextToken
@@ -24095,6 +24790,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -24134,6 +24830,7 @@ extension QuickSight {
         /// The list of users.
         public let userList: [User]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, userList: [User]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -24166,6 +24863,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
@@ -24203,6 +24901,7 @@ extension QuickSight {
         /// 			objects.
         public let vpcConnectionSummaries: [VPCConnectionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, requestId: String? = nil, status: Int? = nil, vpcConnectionSummaries: [VPCConnectionSummary]? = nil) {
             self.nextToken = nextToken
             self.requestId = requestId
@@ -24230,6 +24929,7 @@ extension QuickSight {
         /// The visibility configuration of LoadingAnimation.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -24243,6 +24943,7 @@ extension QuickSight {
         /// The sheet that is targeted for navigation in the same analysis.
         public let targetSheetId: String
 
+        @inlinable
         public init(targetSheetId: String) {
             self.targetSheetId = targetSheetId
         }
@@ -24266,6 +24967,7 @@ extension QuickSight {
         /// Source of this logical table.
         public let source: LogicalTableSource
 
+        @inlinable
         public init(alias: String, dataTransforms: [TransformOperation]? = nil, source: LogicalTableSource) {
             self.alias = alias
             self.dataTransforms = dataTransforms
@@ -24298,6 +25000,7 @@ extension QuickSight {
         /// Physical table ID.
         public let physicalTableId: String?
 
+        @inlinable
         public init(dataSetArn: String? = nil, joinInstruction: JoinInstruction? = nil, physicalTableId: String? = nil) {
             self.dataSetArn = dataSetArn
             self.joinInstruction = joinInstruction
@@ -24324,6 +25027,7 @@ extension QuickSight {
         /// Rich text. Examples of rich text include bold, underline, and italics.
         public let richText: String?
 
+        @inlinable
         public init(plainText: String? = nil, richText: String? = nil) {
             self.plainText = plainText
             self.richText = richText
@@ -24350,6 +25054,7 @@ extension QuickSight {
         /// The size unit that is used for the lookback window column. Valid values for this structure are HOUR, DAY, and WEEK.
         public let sizeUnit: LookbackWindowSizeUnit
 
+        @inlinable
         public init(columnName: String, size: Int64, sizeUnit: LookbackWindowSizeUnit) {
             self.columnName = columnName
             self.size = size
@@ -24373,6 +25078,7 @@ extension QuickSight {
         /// Amazon S3 key that identifies an object.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -24397,6 +25103,7 @@ extension QuickSight {
         /// The name of the dataset parameter.
         public let dataSetParameterName: String
 
+        @inlinable
         public init(dataSetIdentifier: String, dataSetParameterName: String) {
             self.dataSetIdentifier = dataSetIdentifier
             self.dataSetParameterName = dataSetParameterName
@@ -24420,6 +25127,7 @@ extension QuickSight {
         /// This Boolean value controls whether to display sheet margins.
         public let show: Bool?
 
+        @inlinable
         public init(show: Bool? = nil) {
             self.show = show
         }
@@ -24437,6 +25145,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -24463,6 +25172,7 @@ extension QuickSight {
         /// The visibility of the maximum label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -24484,6 +25194,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(computationId: String, name: String? = nil, time: DimensionField? = nil, type: MaximumMinimumComputationType, value: MeasureField? = nil) {
             self.computationId = computationId
             self.name = name
@@ -24519,6 +25230,7 @@ extension QuickSight {
         /// The measure type field with numerical type columns.
         public let numericalMeasureField: NumericalMeasureField?
 
+        @inlinable
         public init(calculatedMeasureField: CalculatedMeasureField? = nil, categoricalMeasureField: CategoricalMeasureField? = nil, dateMeasureField: DateMeasureField? = nil, numericalMeasureField: NumericalMeasureField? = nil) {
             self.calculatedMeasureField = calculatedMeasureField
             self.categoricalMeasureField = categoricalMeasureField
@@ -24547,6 +25259,7 @@ extension QuickSight {
         /// The ID of the member.
         public let memberId: String?
 
+        @inlinable
         public init(memberArn: String? = nil, memberId: String? = nil) {
             self.memberArn = memberArn
             self.memberId = memberId
@@ -24570,6 +25283,7 @@ extension QuickSight {
         /// The time field that is used in a computation.
         public let time: DimensionField?
 
+        @inlinable
         public init(computationId: String, fromValue: MeasureField? = nil, name: String? = nil, targetValue: MeasureField? = nil, time: DimensionField? = nil) {
             self.computationId = computationId
             self.fromValue = fromValue
@@ -24600,6 +25314,7 @@ extension QuickSight {
         /// The visibility of the minimum label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -24613,6 +25328,7 @@ extension QuickSight {
         /// The treatment option that determines how missing data should be rendered. Choose from the following options:    INTERPOLATE: Interpolate missing values between the prior and the next known value.    SHOW_AS_ZERO: Show missing values as the value 0.    SHOW_AS_BLANK: Display a blank space when rendering missing data.
         public let treatmentOption: MissingDataTreatmentOption?
 
+        @inlinable
         public init(treatmentOption: MissingDataTreatmentOption? = nil) {
             self.treatmentOption = treatmentOption
         }
@@ -24630,6 +25346,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -24664,6 +25381,7 @@ extension QuickSight {
         /// The property usage. Valid values for this structure are INHERIT, DIMENSION, and MEASURE.
         public let propertyUsage: PropertyUsage?
 
+        @inlinable
         public init(fieldName: String? = nil, metric: NamedEntityDefinitionMetric? = nil, propertyName: String? = nil, propertyRole: PropertyRole? = nil, propertyUsage: PropertyUsage? = nil) {
             self.fieldName = fieldName
             self.metric = metric
@@ -24693,6 +25411,7 @@ extension QuickSight {
         /// The additional parameters for an aggregation function.
         public let aggregationFunctionParameters: [String: String]?
 
+        @inlinable
         public init(aggregation: NamedEntityAggType? = nil, aggregationFunctionParameters: [String: String]? = nil) {
             self.aggregation = aggregation
             self.aggregationFunctionParameters = aggregationFunctionParameters
@@ -24715,6 +25434,7 @@ extension QuickSight {
         /// The NamedEntityName for the NamedEntityRef.
         public let namedEntityName: String?
 
+        @inlinable
         public init(namedEntityName: String? = nil) {
             self.namedEntityName = namedEntityName
         }
@@ -24734,6 +25454,7 @@ extension QuickSight {
         /// The error type.
         public let type: NamespaceErrorType?
 
+        @inlinable
         public init(message: String? = nil, type: NamespaceErrorType? = nil) {
             self.message = message
             self.type = type
@@ -24759,6 +25480,7 @@ extension QuickSight {
         /// An error that occurred when the namespace was created.
         public let namespaceError: NamespaceError?
 
+        @inlinable
         public init(arn: String? = nil, capacityRegion: String? = nil, creationStatus: NamespaceStatus? = nil, identityStore: IdentityStore? = nil, name: String? = nil, namespaceError: NamespaceError? = nil) {
             self.arn = arn
             self.capacityRegion = capacityRegion
@@ -24784,6 +25506,7 @@ extension QuickSight {
         /// The suffix for a negative format.
         public let suffix: String?
 
+        @inlinable
         public init(prefix: String? = nil, suffix: String? = nil) {
             self.prefix = prefix
             self.suffix = suffix
@@ -24804,6 +25527,7 @@ extension QuickSight {
         /// Determines the display mode of the negative value configuration.
         public let displayMode: NegativeValueDisplayMode
 
+        @inlinable
         public init(displayMode: NegativeValueDisplayMode) {
             self.displayMode = displayMode
         }
@@ -24823,6 +25547,7 @@ extension QuickSight {
         /// The InnerFilter defines the subset of data to be used with the NestedFilter.
         public let innerFilter: InnerFilter
 
+        @inlinable
         public init(column: ColumnIdentifier, filterId: String, includeInnerSet: Bool, innerFilter: InnerFilter) {
             self.column = column
             self.filterId = filterId
@@ -24858,6 +25583,7 @@ extension QuickSight {
         /// The subnet ID associated with the network interface.
         public let subnetId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, errorMessage: String? = nil, networkInterfaceId: String? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.errorMessage = errorMessage
@@ -24885,6 +25611,7 @@ extension QuickSight {
         /// A list of static default values for a given string parameter.
         public let stringStaticValues: [String]?
 
+        @inlinable
         public init(dateTimeStaticValues: [Date]? = nil, decimalStaticValues: [Double]? = nil, integerStaticValues: [Int64]? = nil, stringStaticValues: [String]? = nil) {
             self.dateTimeStaticValues = dateTimeStaticValues
             self.decimalStaticValues = decimalStaticValues
@@ -24918,6 +25645,7 @@ extension QuickSight {
         /// Determines the null string of null values.
         public let nullString: String
 
+        @inlinable
         public init(nullString: String) {
             self.nullString = nullString
         }
@@ -24948,6 +25676,7 @@ extension QuickSight {
         /// Determines the suffix value of the number format.
         public let suffix: String?
 
+        @inlinable
         public init(decimalPlacesConfiguration: DecimalPlacesConfiguration? = nil, negativeValueConfiguration: NegativeValueConfiguration? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numberScale: NumberScale? = nil, prefix: String? = nil, separatorConfiguration: NumericSeparatorConfiguration? = nil, suffix: String? = nil) {
             self.decimalPlacesConfiguration = decimalPlacesConfiguration
             self.negativeValueConfiguration = negativeValueConfiguration
@@ -24982,6 +25711,7 @@ extension QuickSight {
         /// The options that determine the numeric format configuration.
         public let formatConfiguration: NumericFormatConfiguration?
 
+        @inlinable
         public init(formatConfiguration: NumericFormatConfiguration? = nil) {
             self.formatConfiguration = formatConfiguration
         }
@@ -25001,6 +25731,7 @@ extension QuickSight {
         /// The scale setup of a numeric axis.
         public let scale: AxisScale?
 
+        @inlinable
         public init(range: AxisDisplayRange? = nil, scale: AxisScale? = nil) {
             self.range = range
             self.scale = scale
@@ -25018,6 +25749,7 @@ extension QuickSight {
         /// The value of the double input numeric drill down filter.
         public let value: Double
 
+        @inlinable
         public init(column: ColumnIdentifier, value: Double) {
             self.column = column
             self.value = value
@@ -25053,6 +25785,7 @@ extension QuickSight {
         /// The input value.
         public let value: Double?
 
+        @inlinable
         public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, matchOperator: NumericEqualityMatchOperator, nullOption: FilterNullOption, parameterName: String? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil, value: Double? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -25098,6 +25831,7 @@ extension QuickSight {
         /// The options that determine the percentage display format configuration.
         public let percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration?
 
+        @inlinable
         public init(currencyDisplayFormatConfiguration: CurrencyDisplayFormatConfiguration? = nil, numberDisplayFormatConfiguration: NumberDisplayFormatConfiguration? = nil, percentageDisplayFormatConfiguration: PercentageDisplayFormatConfiguration? = nil) {
             self.currencyDisplayFormatConfiguration = currencyDisplayFormatConfiguration
             self.numberDisplayFormatConfiguration = numberDisplayFormatConfiguration
@@ -25139,6 +25873,7 @@ extension QuickSight {
         /// Select all of the values. Null is not the assigned value of select all.    FILTER_ALL_VALUES
         public let selectAllOptions: NumericFilterSelectAllOptions?
 
+        @inlinable
         public init(aggregationFunction: AggregationFunction? = nil, column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximum: NumericRangeFilterValue? = nil, rangeMinimum: NumericRangeFilterValue? = nil, selectAllOptions: NumericFilterSelectAllOptions? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -25183,6 +25918,7 @@ extension QuickSight {
         /// The static value of the numeric range filter.
         public let staticValue: Double?
 
+        @inlinable
         public init(parameter: String? = nil, staticValue: Double? = nil) {
             self.parameter = parameter
             self.staticValue = staticValue
@@ -25206,6 +25942,7 @@ extension QuickSight {
         /// The options that determine the thousands separator configuration.
         public let thousandsSeparator: ThousandSeparatorOptions?
 
+        @inlinable
         public init(decimalSeparator: NumericSeparatorSymbol? = nil, thousandsSeparator: ThousandSeparatorOptions? = nil) {
             self.decimalSeparator = decimalSeparator
             self.thousandsSeparator = thousandsSeparator
@@ -25223,6 +25960,7 @@ extension QuickSight {
         /// Built-in aggregation functions for numerical values.    SUM: The sum of a dimension or measure.     AVERAGE: The average of a dimension or measure.    MIN: The minimum value of a dimension or measure.    MAX: The maximum value of a dimension or measure.    COUNT: The count of a dimension or measure.    DISTINCT_COUNT: The count of distinct values in a dimension or measure.    VAR: The variance of a dimension or measure.    VARP: The partitioned variance of a dimension or measure.    STDEV: The standard deviation of a dimension or measure.    STDEVP: The partitioned standard deviation of a dimension or measure.    MEDIAN: The median value of a dimension or measure.
         public let simpleNumericalAggregation: SimpleNumericalAggregationFunction?
 
+        @inlinable
         public init(percentileAggregation: PercentileAggregation? = nil, simpleNumericalAggregation: SimpleNumericalAggregationFunction? = nil) {
             self.percentileAggregation = percentileAggregation
             self.simpleNumericalAggregation = simpleNumericalAggregation
@@ -25248,6 +25986,7 @@ extension QuickSight {
         /// The custom hierarchy ID.
         public let hierarchyId: String?
 
+        @inlinable
         public init(column: ColumnIdentifier, fieldId: String, formatConfiguration: NumberFormatConfiguration? = nil, hierarchyId: String? = nil) {
             self.column = column
             self.fieldId = fieldId
@@ -25282,6 +26021,7 @@ extension QuickSight {
         /// The format configuration of the field.
         public let formatConfiguration: NumberFormatConfiguration?
 
+        @inlinable
         public init(aggregationFunction: NumericalAggregationFunction? = nil, column: ColumnIdentifier, fieldId: String, formatConfiguration: NumberFormatConfiguration? = nil) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -25313,6 +26053,7 @@ extension QuickSight {
         /// The port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -25345,6 +26086,7 @@ extension QuickSight {
         /// The data type of the column.
         public let type: ColumnDataType?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, subType: ColumnDataSubType? = nil, type: ColumnDataType? = nil) {
             self.description = description
             self.name = name
@@ -25368,6 +26110,7 @@ extension QuickSight {
         /// The name of the parameter to be overridden with different values.
         public let parameterName: String
 
+        @inlinable
         public init(newDefaultValues: NewDefaultValues? = nil, newParameterName: String? = nil, parameterName: String) {
             self.newDefaultValues = newDefaultValues
             self.newParameterName = newParameterName
@@ -25397,6 +26140,7 @@ extension QuickSight {
         /// Indicates how many items render in one page.
         public let pageSize: Int64
 
+        @inlinable
         public init(pageNumber: Int64, pageSize: Int64) {
             self.pageNumber = pageNumber
             self.pageSize = pageSize
@@ -25432,6 +26176,7 @@ extension QuickSight {
         /// Configures the title display within each small multiples panel.
         public let title: PanelTitleOptions?
 
+        @inlinable
         public init(backgroundColor: String? = nil, backgroundVisibility: Visibility? = nil, borderColor: String? = nil, borderStyle: PanelBorderStyle? = nil, borderThickness: String? = nil, borderVisibility: Visibility? = nil, gutterSpacing: String? = nil, gutterVisibility: Visibility? = nil, title: PanelTitleOptions? = nil) {
             self.backgroundColor = backgroundColor
             self.backgroundVisibility = backgroundVisibility
@@ -25470,6 +26215,7 @@ extension QuickSight {
         /// Determines whether or not panel titles are displayed.
         public let visibility: Visibility?
 
+        @inlinable
         public init(fontConfiguration: FontConfiguration? = nil, horizontalTextAlignment: HorizontalTextAlignment? = nil, visibility: Visibility? = nil) {
             self.fontConfiguration = fontConfiguration
             self.horizontalTextAlignment = horizontalTextAlignment
@@ -25501,6 +26247,7 @@ extension QuickSight {
         /// A control to display a text box that is used to enter a single entry.
         public let textField: ParameterTextFieldControl?
 
+        @inlinable
         public init(dateTimePicker: ParameterDateTimePickerControl? = nil, dropdown: ParameterDropDownControl? = nil, list: ParameterListControl? = nil, slider: ParameterSliderControl? = nil, textArea: ParameterTextAreaControl? = nil, textField: ParameterTextFieldControl? = nil) {
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
@@ -25539,6 +26286,7 @@ extension QuickSight {
         /// The title of the ParameterDateTimePickerControl.
         public let title: String
 
+        @inlinable
         public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -25576,6 +26324,7 @@ extension QuickSight {
         /// A parameter declaration for the String data type.
         public let stringParameterDeclaration: StringParameterDeclaration?
 
+        @inlinable
         public init(dateTimeParameterDeclaration: DateTimeParameterDeclaration? = nil, decimalParameterDeclaration: DecimalParameterDeclaration? = nil, integerParameterDeclaration: IntegerParameterDeclaration? = nil, stringParameterDeclaration: StringParameterDeclaration? = nil) {
             self.dateTimeParameterDeclaration = dateTimeParameterDeclaration
             self.decimalParameterDeclaration = decimalParameterDeclaration
@@ -25614,6 +26363,7 @@ extension QuickSight {
         /// The type parameter name of the ParameterDropDownControl.
         public let type: SheetControlListType?
 
+        @inlinable
         public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: DropDownControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.displayOptions = displayOptions
@@ -25665,6 +26415,7 @@ extension QuickSight {
         /// The type of ParameterListControl.
         public let type: SheetControlListType?
 
+        @inlinable
         public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.displayOptions = displayOptions
@@ -25706,6 +26457,7 @@ extension QuickSight {
         /// The values that are used in ParameterSelectableValues.
         public let values: [String]?
 
+        @inlinable
         public init(linkToDataSetColumn: ColumnIdentifier? = nil, values: [String]? = nil) {
             self.linkToDataSetColumn = linkToDataSetColumn
             self.values = values
@@ -25738,6 +26490,7 @@ extension QuickSight {
         /// The title of the ParameterSliderControl.
         public let title: String
 
+        @inlinable
         public init(displayOptions: SliderControlDisplayOptions? = nil, maximumValue: Double, minimumValue: Double, parameterControlId: String, sourceParameterName: String, stepSize: Double, title: String) {
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
@@ -25783,6 +26536,7 @@ extension QuickSight {
         /// The title of the ParameterTextAreaControl.
         public let title: String
 
+        @inlinable
         public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
             self.delimiter = delimiter
             self.displayOptions = displayOptions
@@ -25824,6 +26578,7 @@ extension QuickSight {
         /// The title of the ParameterTextFieldControl.
         public let title: String
 
+        @inlinable
         public init(displayOptions: TextFieldControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -25861,6 +26616,7 @@ extension QuickSight {
         /// The parameters that have a data type of string.
         public let stringParameters: [StringParameter]?
 
+        @inlinable
         public init(dateTimeParameters: [DateTimeParameter]? = nil, decimalParameters: [DecimalParameter]? = nil, integerParameters: [IntegerParameter]? = nil, stringParameters: [StringParameter]? = nil) {
             self.dateTimeParameters = dateTimeParameters
             self.decimalParameters = decimalParameters
@@ -25901,6 +26657,7 @@ extension QuickSight {
         /// The top bound of the range.
         public let to: Double?
 
+        @inlinable
         public init(from: Double? = nil, to: Double? = nil) {
             self.from = from
             self.to = to
@@ -25933,6 +26690,7 @@ extension QuickSight {
         /// Determines the suffix value of the percentage format.
         public let suffix: String?
 
+        @inlinable
         public init(decimalPlacesConfiguration: DecimalPlacesConfiguration? = nil, negativeValueConfiguration: NegativeValueConfiguration? = nil, nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, prefix: String? = nil, separatorConfiguration: NumericSeparatorConfiguration? = nil, suffix: String? = nil) {
             self.decimalPlacesConfiguration = decimalPlacesConfiguration
             self.negativeValueConfiguration = negativeValueConfiguration
@@ -25965,6 +26723,7 @@ extension QuickSight {
         /// The percentile value. This value can be any numeric constant 0–100. A percentile value of 50 computes the median value of the measure.
         public let percentileValue: Double?
 
+        @inlinable
         public init(percentileValue: Double? = nil) {
             self.percentileValue = percentileValue
         }
@@ -25989,6 +26748,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(computationId: String, name: String? = nil, time: DimensionField? = nil, value: MeasureField? = nil) {
             self.computationId = computationId
             self.name = name
@@ -26024,6 +26784,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(computationId: String, name: String? = nil, periodTimeGranularity: TimeGranularity? = nil, time: DimensionField? = nil, value: MeasureField? = nil) {
             self.computationId = computationId
             self.name = name
@@ -26057,6 +26818,7 @@ extension QuickSight {
         /// The value field wells of a pie chart. Values are aggregated based on categories.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, smallMultiples: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.category = category
             self.smallMultiples = smallMultiples
@@ -26111,6 +26873,7 @@ extension QuickSight {
         /// The palette (chart color) display setup of the visual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(categoryLabelOptions: ChartAxisLabelOptions? = nil, contributionAnalysisDefaults: [ContributionAnalysisDefault]? = nil, dataLabels: DataLabelOptions? = nil, donutOptions: DonutOptions? = nil, fieldWells: PieChartFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, smallMultiplesOptions: SmallMultiplesOptions? = nil, sortConfiguration: PieChartSortConfiguration? = nil, tooltip: TooltipOptions? = nil, valueLabelOptions: ChartAxisLabelOptions? = nil, visualPalette: VisualPalette? = nil) {
             self.categoryLabelOptions = categoryLabelOptions
             self.contributionAnalysisDefaults = contributionAnalysisDefaults
@@ -26163,6 +26926,7 @@ extension QuickSight {
         /// The field well configuration of a pie chart.
         public let pieChartAggregatedFieldWells: PieChartAggregatedFieldWells?
 
+        @inlinable
         public init(pieChartAggregatedFieldWells: PieChartAggregatedFieldWells? = nil) {
             self.pieChartAggregatedFieldWells = pieChartAggregatedFieldWells
         }
@@ -26186,6 +26950,7 @@ extension QuickSight {
         /// The sort configuration of the small multiples field.
         public let smallMultiplesSort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, smallMultiplesLimitConfiguration: ItemsLimitConfiguration? = nil, smallMultiplesSort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
@@ -26226,6 +26991,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PieChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -26268,6 +27034,7 @@ extension QuickSight {
         /// The sort by field for the field sort options.
         public let sortBy: PivotTableSortBy
 
+        @inlinable
         public init(fieldId: String, sortBy: PivotTableSortBy) {
             self.fieldId = fieldId
             self.sortBy = sortBy
@@ -26293,6 +27060,7 @@ extension QuickSight {
         /// The values field well for a pivot table. Values are aggregated based on rows and columns fields.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(columns: [DimensionField]? = nil, rows: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.columns = columns
             self.rows = rows
@@ -26331,6 +27099,7 @@ extension QuickSight {
         /// The text format of the cell for conditional formatting.
         public let textFormat: TextConditionalFormat?
 
+        @inlinable
         public init(fieldId: String, scope: PivotTableConditionalFormattingScope? = nil, scopes: [PivotTableConditionalFormattingScope]? = nil, textFormat: TextConditionalFormat? = nil) {
             self.fieldId = fieldId
             self.scope = scope
@@ -26357,6 +27126,7 @@ extension QuickSight {
         /// Conditional formatting options for a PivotTableVisual.
         public let conditionalFormattingOptions: [PivotTableConditionalFormattingOption]?
 
+        @inlinable
         public init(conditionalFormattingOptions: [PivotTableConditionalFormattingOption]? = nil) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
@@ -26377,6 +27147,7 @@ extension QuickSight {
         /// The cell conditional formatting option for a pivot table.
         public let cell: PivotTableCellConditionalFormatting?
 
+        @inlinable
         public init(cell: PivotTableCellConditionalFormatting? = nil) {
             self.cell = cell
         }
@@ -26394,6 +27165,7 @@ extension QuickSight {
         /// The role (field, field total, grand total) of the cell for conditional formatting.
         public let role: PivotTableConditionalFormattingScopeRole?
 
+        @inlinable
         public init(role: PivotTableConditionalFormattingScopeRole? = nil) {
             self.role = role
         }
@@ -26419,6 +27191,7 @@ extension QuickSight {
         /// The total options for a pivot table visual.
         public let totalOptions: PivotTableTotalOptions?
 
+        @inlinable
         public init(fieldOptions: PivotTableFieldOptions? = nil, fieldWells: PivotTableFieldWells? = nil, interactions: VisualInteractionOptions? = nil, paginatedReportOptions: PivotTablePaginatedReportOptions? = nil, sortConfiguration: PivotTableSortConfiguration? = nil, tableOptions: PivotTableOptions? = nil, totalOptions: PivotTableTotalOptions? = nil) {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
@@ -26454,6 +27227,7 @@ extension QuickSight {
         /// The width of the data path option.
         public let width: String?
 
+        @inlinable
         public init(dataPathList: [DataPathValue], width: String? = nil) {
             self.dataPathList = dataPathList
             self.width = width
@@ -26478,6 +27252,7 @@ extension QuickSight {
         /// A tagged-union object that sets the collapse state.
         public let target: PivotTableFieldCollapseStateTarget
 
+        @inlinable
         public init(state: PivotTableFieldCollapseState? = nil, target: PivotTableFieldCollapseStateTarget) {
             self.state = state
             self.target = target
@@ -26499,6 +27274,7 @@ extension QuickSight {
         /// The field ID of the pivot table that the collapse state needs to be set to.
         public let fieldId: String?
 
+        @inlinable
         public init(fieldDataPathValues: [DataPathValue]? = nil, fieldId: String? = nil) {
             self.fieldDataPathValues = fieldDataPathValues
             self.fieldId = fieldId
@@ -26525,6 +27301,7 @@ extension QuickSight {
         /// The visibility of the pivot table field.
         public let visibility: Visibility?
 
+        @inlinable
         public init(customLabel: String? = nil, fieldId: String, visibility: Visibility? = nil) {
             self.customLabel = customLabel
             self.fieldId = fieldId
@@ -26553,6 +27330,7 @@ extension QuickSight {
         /// The selected field options for the pivot table field options.
         public let selectedFieldOptions: [PivotTableFieldOption]?
 
+        @inlinable
         public init(collapseStateOptions: [PivotTableFieldCollapseStateOption]? = nil, dataPathOptions: [PivotTableDataPathOption]? = nil, selectedFieldOptions: [PivotTableFieldOption]? = nil) {
             self.collapseStateOptions = collapseStateOptions
             self.dataPathOptions = dataPathOptions
@@ -26584,6 +27362,7 @@ extension QuickSight {
         /// The field ID of the subtotal options.
         public let fieldId: String?
 
+        @inlinable
         public init(fieldId: String? = nil) {
             self.fieldId = fieldId
         }
@@ -26602,6 +27381,7 @@ extension QuickSight {
         /// The aggregated field well for the pivot table.
         public let pivotTableAggregatedFieldWells: PivotTableAggregatedFieldWells?
 
+        @inlinable
         public init(pivotTableAggregatedFieldWells: PivotTableAggregatedFieldWells? = nil) {
             self.pivotTableAggregatedFieldWells = pivotTableAggregatedFieldWells
         }
@@ -26643,6 +27423,7 @@ extension QuickSight {
         /// Determines the visibility of the pivot table.
         public let toggleButtonsVisibility: Visibility?
 
+        @inlinable
         public init(cellStyle: TableCellStyle? = nil, collapsedRowDimensionsVisibility: Visibility? = nil, columnHeaderStyle: TableCellStyle? = nil, columnNamesVisibility: Visibility? = nil, defaultCellWidth: String? = nil, metricPlacement: PivotTableMetricPlacement? = nil, rowAlternateColorOptions: RowAlternateColorOptions? = nil, rowFieldNamesStyle: TableCellStyle? = nil, rowHeaderStyle: TableCellStyle? = nil, rowsLabelOptions: PivotTableRowsLabelOptions? = nil, rowsLayout: PivotTableRowsLayout? = nil, singleMetricVisibility: Visibility? = nil, toggleButtonsVisibility: Visibility? = nil) {
             self.cellStyle = cellStyle
             self.collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibility
@@ -26691,6 +27472,7 @@ extension QuickSight {
         /// The visibility of the printing table overflow across pages.
         public let verticalOverflowVisibility: Visibility?
 
+        @inlinable
         public init(overflowColumnHeaderVisibility: Visibility? = nil, verticalOverflowVisibility: Visibility? = nil) {
             self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
             self.verticalOverflowVisibility = verticalOverflowVisibility
@@ -26708,6 +27490,7 @@ extension QuickSight {
         /// The visibility of the rows label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(customLabel: String? = nil, visibility: Visibility? = nil) {
             self.customLabel = customLabel
             self.visibility = visibility
@@ -26732,6 +27515,7 @@ extension QuickSight {
         /// The field sort (field id, direction) for the pivot table sort by options.
         public let field: FieldSort?
 
+        @inlinable
         public init(column: ColumnSort? = nil, dataPath: DataPathSort? = nil, field: FieldSort? = nil) {
             self.column = column
             self.dataPath = dataPath
@@ -26755,6 +27539,7 @@ extension QuickSight {
         /// The field sort options for a pivot table sort configuration.
         public let fieldSortOptions: [PivotFieldSortOptions]?
 
+        @inlinable
         public init(fieldSortOptions: [PivotFieldSortOptions]? = nil) {
             self.fieldSortOptions = fieldSortOptions
         }
@@ -26781,6 +27566,7 @@ extension QuickSight {
         /// The row total options.
         public let rowTotalOptions: PivotTotalOptions?
 
+        @inlinable
         public init(columnSubtotalOptions: SubtotalOptions? = nil, columnTotalOptions: PivotTotalOptions? = nil, rowSubtotalOptions: SubtotalOptions? = nil, rowTotalOptions: PivotTotalOptions? = nil) {
             self.columnSubtotalOptions = columnSubtotalOptions
             self.columnTotalOptions = columnTotalOptions
@@ -26817,6 +27603,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: PivotTableConfiguration? = nil, conditionalFormatting: PivotTableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -26868,6 +27655,7 @@ extension QuickSight {
         /// The cell styling options for the totals of value cells.
         public let valueCellStyle: TableCellStyle?
 
+        @inlinable
         public init(customLabel: String? = nil, metricHeaderCellStyle: TableCellStyle? = nil, placement: TableTotalsPlacement? = nil, scrollStatus: TableTotalsScrollStatus? = nil, totalAggregationOptions: [TotalAggregationOption]? = nil, totalCellStyle: TableCellStyle? = nil, totalsVisibility: Visibility? = nil, valueCellStyle: TableCellStyle? = nil) {
             self.customLabel = customLabel
             self.metricHeaderCellStyle = metricHeaderCellStyle
@@ -26909,6 +27697,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -26939,6 +27728,7 @@ extension QuickSight {
         /// The hierarchy ID of the predefined hierarchy.
         public let hierarchyId: String
 
+        @inlinable
         public init(columns: [ColumnIdentifier], drillDownFilters: [DrillDownFilter]? = nil, hierarchyId: String) {
             self.columns = columns
             self.drillDownFilters = drillDownFilters
@@ -26974,6 +27764,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(catalog: String, host: String, port: Int) {
             self.catalog = catalog
             self.host = host
@@ -26999,6 +27790,7 @@ extension QuickSight {
         /// The visibility of the progress bar.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -27012,6 +27804,7 @@ extension QuickSight {
         /// Projected columns.
         public let projectedColumns: [String]
 
+        @inlinable
         public init(projectedColumns: [String]) {
             self.projectedColumns = projectedColumns
         }
@@ -27034,6 +27827,7 @@ extension QuickSight {
         /// The dataset refresh properties.
         public let dataSetRefreshProperties: DataSetRefreshProperties
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, dataSetRefreshProperties: DataSetRefreshProperties) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -27066,6 +27860,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -27087,6 +27882,7 @@ extension QuickSight {
         /// A structure that describes the query execution mode.
         public let queryExecutionMode: QueryExecutionMode?
 
+        @inlinable
         public init(queryExecutionMode: QueryExecutionMode? = nil) {
             self.queryExecutionMode = queryExecutionMode
         }
@@ -27102,6 +27898,7 @@ extension QuickSight {
         /// The ID of the queued ingestion.
         public let waitingOnIngestion: String
 
+        @inlinable
         public init(queuedIngestion: String, waitingOnIngestion: String) {
             self.queuedIngestion = queuedIngestion
             self.waitingOnIngestion = waitingOnIngestion
@@ -27121,6 +27918,7 @@ extension QuickSight {
         /// The values that are assigned to the aggregated field wells of a radar chart.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, color: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.category = category
             self.color = color
@@ -27153,6 +27951,7 @@ extension QuickSight {
         /// The visibility settings of a radar chart.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -27196,6 +27995,7 @@ extension QuickSight {
         /// The palette (chart color) display setup of the visual.
         public let visualPalette: VisualPalette?
 
+        @inlinable
         public init(alternateBandColorsVisibility: Visibility? = nil, alternateBandEvenColor: String? = nil, alternateBandOddColor: String? = nil, axesRangeScale: RadarChartAxesRangeScale? = nil, baseSeriesSettings: RadarChartSeriesSettings? = nil, categoryAxis: AxisDisplayOptions? = nil, categoryLabelOptions: ChartAxisLabelOptions? = nil, colorAxis: AxisDisplayOptions? = nil, colorLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: RadarChartFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, shape: RadarChartShape? = nil, sortConfiguration: RadarChartSortConfiguration? = nil, startAngle: Double? = nil, visualPalette: VisualPalette? = nil) {
             self.alternateBandColorsVisibility = alternateBandColorsVisibility
             self.alternateBandEvenColor = alternateBandEvenColor
@@ -27254,6 +28054,7 @@ extension QuickSight {
         /// The aggregated field wells of a radar chart visual.
         public let radarChartAggregatedFieldWells: RadarChartAggregatedFieldWells?
 
+        @inlinable
         public init(radarChartAggregatedFieldWells: RadarChartAggregatedFieldWells? = nil) {
             self.radarChartAggregatedFieldWells = radarChartAggregatedFieldWells
         }
@@ -27271,6 +28072,7 @@ extension QuickSight {
         /// The area style settings of a radar chart.
         public let areaStyleSettings: RadarChartAreaStyleSettings?
 
+        @inlinable
         public init(areaStyleSettings: RadarChartAreaStyleSettings? = nil) {
             self.areaStyleSettings = areaStyleSettings
         }
@@ -27290,6 +28092,7 @@ extension QuickSight {
         /// The color sort configuration of a radar chart.
         public let colorSort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil, colorItemsLimit: ItemsLimitConfiguration? = nil, colorSort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
@@ -27330,6 +28133,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: RadarChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -27372,6 +28176,7 @@ extension QuickSight {
         /// The minimum value for a range constant.
         public let minimum: String?
 
+        @inlinable
         public init(maximum: String? = nil, minimum: String? = nil) {
             self.maximum = maximum
             self.minimum = minimum
@@ -27392,6 +28197,7 @@ extension QuickSight {
         /// The visibility of the range ends label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -27407,6 +28213,7 @@ extension QuickSight {
         /// Instance ID.
         public let instanceId: String
 
+        @inlinable
         public init(database: String, instanceId: String) {
             self.database = database
             self.instanceId = instanceId
@@ -27435,6 +28242,7 @@ extension QuickSight {
         /// Use the RoleArn structure to allow Amazon QuickSight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Amazon QuickSight. The role's trust policy must allow the Amazon QuickSight service principal to assume the role.
         public let roleArn: String
 
+        @inlinable
         public init(autoCreateDatabaseUser: Bool? = nil, databaseGroups: [String]? = nil, databaseUser: String? = nil, roleArn: String) {
             self.autoCreateDatabaseUser = autoCreateDatabaseUser
             self.databaseGroups = databaseGroups
@@ -27477,6 +28285,7 @@ extension QuickSight {
         /// Port. This field can be blank if the ClusterId is provided.
         public let port: Int?
 
+        @inlinable
         public init(clusterId: String? = nil, database: String, host: String? = nil, iamParameters: RedshiftIAMParameters? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, port: Int? = nil) {
             self.clusterId = clusterId
             self.database = database
@@ -27518,6 +28327,7 @@ extension QuickSight {
         /// The style configuration of the reference line.
         public let styleConfiguration: ReferenceLineStyleConfiguration?
 
+        @inlinable
         public init(dataConfiguration: ReferenceLineDataConfiguration, labelConfiguration: ReferenceLineLabelConfiguration? = nil, status: WidgetStatus? = nil, styleConfiguration: ReferenceLineStyleConfiguration? = nil) {
             self.dataConfiguration = dataConfiguration
             self.labelConfiguration = labelConfiguration
@@ -27543,6 +28353,7 @@ extension QuickSight {
         /// The string text of the custom label.
         public let customLabel: String
 
+        @inlinable
         public init(customLabel: String) {
             self.customLabel = customLabel
         }
@@ -27566,6 +28377,7 @@ extension QuickSight {
         /// The static data configuration of the reference line data configuration.
         public let staticConfiguration: ReferenceLineStaticDataConfiguration?
 
+        @inlinable
         public init(axisBinding: AxisBinding? = nil, dynamicConfiguration: ReferenceLineDynamicDataConfiguration? = nil, seriesType: ReferenceLineSeriesType? = nil, staticConfiguration: ReferenceLineStaticDataConfiguration? = nil) {
             self.axisBinding = axisBinding
             self.dynamicConfiguration = dynamicConfiguration
@@ -27593,6 +28405,7 @@ extension QuickSight {
         /// The aggregation function that is used in the dynamic data.
         public let measureAggregationFunction: AggregationFunction?
 
+        @inlinable
         public init(calculation: NumericalAggregationFunction, column: ColumnIdentifier, measureAggregationFunction: AggregationFunction? = nil) {
             self.calculation = calculation
             self.column = column
@@ -27626,6 +28439,7 @@ extension QuickSight {
         /// The vertical position configuration of the label in a reference line. Choose one of the following options:    ABOVE     BELOW
         public let verticalPosition: ReferenceLineLabelVerticalPosition?
 
+        @inlinable
         public init(customLabelConfiguration: ReferenceLineCustomLabelConfiguration? = nil, fontColor: String? = nil, fontConfiguration: FontConfiguration? = nil, horizontalPosition: ReferenceLineLabelHorizontalPosition? = nil, valueLabelConfiguration: ReferenceLineValueLabelConfiguration? = nil, verticalPosition: ReferenceLineLabelVerticalPosition? = nil) {
             self.customLabelConfiguration = customLabelConfiguration
             self.fontColor = fontColor
@@ -27656,6 +28470,7 @@ extension QuickSight {
         /// The double input of the static data.
         public let value: Double
 
+        @inlinable
         public init(value: Double) {
             self.value = value
         }
@@ -27671,6 +28486,7 @@ extension QuickSight {
         /// The pattern type of the line style. Choose one of the following options:    SOLID     DASHED     DOTTED
         public let pattern: ReferenceLinePatternType?
 
+        @inlinable
         public init(color: String? = nil, pattern: ReferenceLinePatternType? = nil) {
             self.color = color
             self.pattern = pattern
@@ -27692,6 +28508,7 @@ extension QuickSight {
         /// The relative position of the value label. Choose one of the following options:    BEFORE_CUSTOM_LABEL     AFTER_CUSTOM_LABEL
         public let relativePosition: ReferenceLineValueLabelRelativePosition?
 
+        @inlinable
         public init(formatConfiguration: NumericFormatConfiguration? = nil, relativePosition: ReferenceLineValueLabelRelativePosition? = nil) {
             self.formatConfiguration = formatConfiguration
             self.relativePosition = relativePosition
@@ -27711,6 +28528,7 @@ extension QuickSight {
         /// The incremental refresh for the dataset.
         public let incrementalRefresh: IncrementalRefresh
 
+        @inlinable
         public init(incrementalRefresh: IncrementalRefresh) {
             self.incrementalRefresh = incrementalRefresh
         }
@@ -27734,6 +28552,7 @@ extension QuickSight {
         /// The timezone that you want the refresh schedule to use. The timezone ID must match a corresponding ID found on java.util.time.getAvailableIDs().
         public let timezone: String?
 
+        @inlinable
         public init(interval: RefreshInterval, refreshOnDay: ScheduleRefreshOnEntity? = nil, timeOfTheDay: String? = nil, timezone: String? = nil) {
             self.interval = interval
             self.refreshOnDay = refreshOnDay
@@ -27765,6 +28584,7 @@ extension QuickSight {
         /// Time after which the refresh schedule can be started, expressed in YYYY-MM-DDTHH:MM:SS format.
         public let startAfterDateTime: Date?
 
+        @inlinable
         public init(arn: String? = nil, refreshType: IngestionType, scheduleFrequency: RefreshFrequency, scheduleId: String, startAfterDateTime: Date? = nil) {
             self.arn = arn
             self.refreshType = refreshType
@@ -27825,6 +28645,7 @@ extension QuickSight {
         /// 					use.
         public let userRole: UserRole
 
+        @inlinable
         public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, iamArn: String? = nil, identityType: IdentityType, namespace: String, sessionName: String? = nil, tags: [Tag]? = nil, userName: String? = nil, userRole: UserRole) {
             self.awsAccountId = awsAccountId
             self.customFederationProviderUrl = customFederationProviderUrl
@@ -27906,6 +28727,7 @@ extension QuickSight {
         /// 			returned only for users with an identity type of QUICKSIGHT.
         public let userInvitationUrl: String?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, user: User? = nil, userInvitationUrl: String? = nil) {
             self.requestId = requestId
             self.status = status
@@ -27935,6 +28757,7 @@ extension QuickSight {
         /// The ARN of the KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
         public let keyArn: String?
 
+        @inlinable
         public init(defaultKey: Bool? = nil, keyArn: String? = nil) {
             self.defaultKey = defaultKey
             self.keyArn = keyArn
@@ -27952,6 +28775,7 @@ extension QuickSight {
         /// The state persistence configurations of an embedded Amazon QuickSight console.
         public let statePersistence: StatePersistenceConfigurations?
 
+        @inlinable
         public init(sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
             self.sharedView = sharedView
             self.statePersistence = statePersistence
@@ -27969,6 +28793,7 @@ extension QuickSight {
         /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
         public let initialDashboardId: String
 
+        @inlinable
         public init(featureConfigurations: RegisteredUserDashboardFeatureConfigurations? = nil, initialDashboardId: String) {
             self.featureConfigurations = featureConfigurations
             self.initialDashboardId = initialDashboardId
@@ -27994,6 +28819,7 @@ extension QuickSight {
         /// The state persistence settings of an embedded dashboard.
         public let statePersistence: StatePersistenceConfigurations?
 
+        @inlinable
         public init(bookmarks: BookmarksConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
             self.bookmarks = bookmarks
             self.sharedView = sharedView
@@ -28011,6 +28837,7 @@ extension QuickSight {
         /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         public let initialDashboardVisualId: DashboardVisualId
 
+        @inlinable
         public init(initialDashboardVisualId: DashboardVisualId) {
             self.initialDashboardVisualId = initialDashboardVisualId
         }
@@ -28036,6 +28863,7 @@ extension QuickSight {
         /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser  where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
+        @inlinable
         public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, dashboardVisual: RegisteredUserDashboardVisualEmbeddingConfiguration? = nil, generativeQnA: RegisteredUserGenerativeQnAEmbeddingConfiguration? = nil, qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
@@ -28065,6 +28893,7 @@ extension QuickSight {
         /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
         public let initialTopicId: String?
 
+        @inlinable
         public init(initialTopicId: String? = nil) {
             self.initialTopicId = initialTopicId
         }
@@ -28084,6 +28913,7 @@ extension QuickSight {
         /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the Amazon QuickSight console, navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
         public let initialTopicId: String?
 
+        @inlinable
         public init(initialTopicId: String? = nil) {
             self.initialTopicId = initialTopicId
         }
@@ -28105,6 +28935,7 @@ extension QuickSight {
         /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:    /start     /start/analyses     /start/dashboards     /start/favorites     /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard.    /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis.
         public let initialPath: String?
 
+        @inlinable
         public init(featureConfigurations: RegisteredUserConsoleFeatureConfigurations? = nil, initialPath: String? = nil) {
             self.featureConfigurations = featureConfigurations
             self.initialPath = initialPath
@@ -28133,6 +28964,7 @@ extension QuickSight {
         /// The schema name. This name applies to certain relational database engines.
         public let schema: String?
 
+        @inlinable
         public init(catalog: String? = nil, dataSourceArn: String, inputColumns: [InputColumn], name: String, schema: String? = nil) {
             self.catalog = catalog
             self.dataSourceArn = dataSourceArn
@@ -28170,6 +29002,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(dateTimeFormat: String? = nil, infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.dateTimeFormat = dateTimeFormat
             self.infoIconLabelOptions = infoIconLabelOptions
@@ -28214,6 +29047,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity
 
+        @inlinable
         public init(anchorDateConfiguration: AnchorDateConfiguration, column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, minimumGranularity: TimeGranularity? = nil, nullOption: FilterNullOption, parameterName: String? = nil, relativeDateType: RelativeDateType, relativeDateValue: Int? = nil, timeGranularity: TimeGranularity) {
             self.anchorDateConfiguration = anchorDateConfiguration
             self.column = column
@@ -28261,6 +29095,7 @@ extension QuickSight {
         /// The new name for the column.
         public let newColumnName: String
 
+        @inlinable
         public init(columnName: String, newColumnName: String) {
             self.columnName = columnName
             self.newColumnName = newColumnName
@@ -28285,6 +29120,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. (This is less common.)
         public let principal: String
 
+        @inlinable
         public init(actions: [String], principal: String) {
             self.actions = actions
             self.principal = principal
@@ -28309,6 +29145,7 @@ extension QuickSight {
         /// The ID of the Amazon Web Services account that contains the analysis.
         public let awsAccountId: String
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -28343,6 +29180,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisId = analysisId
             self.arn = arn
@@ -28372,6 +29210,7 @@ extension QuickSight {
         /// The expression of the rolling date configuration.
         public let expression: String
 
+        @inlinable
         public init(dataSetIdentifier: String? = nil, expression: String) {
             self.dataSetIdentifier = dataSetIdentifier
             self.expression = expression
@@ -28398,6 +29237,7 @@ extension QuickSight {
         /// The primary background color options for alternate rows.
         public let usePrimaryBackgroundColor: WidgetStatus?
 
+        @inlinable
         public init(rowAlternateColors: [String]? = nil, status: WidgetStatus? = nil, usePrimaryBackgroundColor: WidgetStatus? = nil) {
             self.rowAlternateColors = rowAlternateColors
             self.status = status
@@ -28426,6 +29266,7 @@ extension QuickSight {
         /// The total number of rows in the dataset.
         public let totalRowsInDataset: Int64?
 
+        @inlinable
         public init(rowsDropped: Int64? = nil, rowsIngested: Int64? = nil, totalRowsInDataset: Int64? = nil) {
             self.rowsDropped = rowsDropped
             self.rowsIngested = rowsIngested
@@ -28451,6 +29292,7 @@ extension QuickSight {
         /// The status of the row-level security permission dataset. If enabled, the status is ENABLED. If disabled, the status is DISABLED.
         public let status: Status?
 
+        @inlinable
         public init(arn: String, formatVersion: RowLevelPermissionFormatVersion? = nil, namespace: String? = nil, permissionPolicy: RowLevelPermissionPolicy, status: Status? = nil) {
             self.arn = arn
             self.formatVersion = formatVersion
@@ -28481,6 +29323,7 @@ extension QuickSight {
         /// A set of rules associated with row-level security, such as the tag names and columns that they are assigned to.
         public let tagRules: [RowLevelPermissionTagRule]
 
+        @inlinable
         public init(status: Status? = nil, tagRuleConfigurations: [[String]]? = nil, tagRules: [RowLevelPermissionTagRule]) {
             self.status = status
             self.tagRuleConfigurations = tagRuleConfigurations
@@ -28518,6 +29361,7 @@ extension QuickSight {
         /// A string that you want to use to delimit the values when you pass the values at run time. For example, you can delimit the values with a comma.
         public let tagMultiValueDelimiter: String?
 
+        @inlinable
         public init(columnName: String, matchAllValue: String? = nil, tagKey: String, tagMultiValueDelimiter: String? = nil) {
             self.columnName = columnName
             self.matchAllValue = matchAllValue
@@ -28549,6 +29393,7 @@ extension QuickSight {
         /// The region that the Amazon S3 bucket is located in. The bucket must be located in the same region that the StartDashboardSnapshotJob API call is made.
         public let bucketRegion: String
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String, bucketRegion: String) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -28574,6 +29419,7 @@ extension QuickSight {
         /// Use the RoleArn structure to override an account-wide role for a specific S3 data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
         public let roleArn: String?
 
+        @inlinable
         public init(manifestFileLocation: ManifestFileLocation, roleArn: String? = nil) {
             self.manifestFileLocation = manifestFileLocation
             self.roleArn = roleArn
@@ -28599,6 +29445,7 @@ extension QuickSight {
         /// Information about the format for the S3 source file or files.
         public let uploadSettings: UploadSettings?
 
+        @inlinable
         public init(dataSourceArn: String, inputColumns: [InputColumn], uploadSettings: UploadSettings? = nil) {
             self.dataSourceArn = dataSourceArn
             self.inputColumns = inputColumns
@@ -28627,6 +29474,7 @@ extension QuickSight {
         /// A list of the target visual IDs that are located in the same sheet of the analysis.
         public let targetVisuals: [String]?
 
+        @inlinable
         public init(targetVisualOptions: TargetVisualOptions? = nil, targetVisuals: [String]? = nil) {
             self.targetVisualOptions = targetVisualOptions
             self.targetVisuals = targetVisuals
@@ -28656,6 +29504,7 @@ extension QuickSight {
         /// The weight field wells of a sankey diagram.
         public let weight: [MeasureField]?
 
+        @inlinable
         public init(destination: [DimensionField]? = nil, source: [DimensionField]? = nil, weight: [MeasureField]? = nil) {
             self.destination = destination
             self.source = source
@@ -28694,6 +29543,7 @@ extension QuickSight {
         /// The sort configuration of a sankey diagram.
         public let sortConfiguration: SankeyDiagramSortConfiguration?
 
+        @inlinable
         public init(dataLabels: DataLabelOptions? = nil, fieldWells: SankeyDiagramFieldWells? = nil, interactions: VisualInteractionOptions? = nil, sortConfiguration: SankeyDiagramSortConfiguration? = nil) {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
@@ -28719,6 +29569,7 @@ extension QuickSight {
         /// The field well configuration of a sankey diagram.
         public let sankeyDiagramAggregatedFieldWells: SankeyDiagramAggregatedFieldWells?
 
+        @inlinable
         public init(sankeyDiagramAggregatedFieldWells: SankeyDiagramAggregatedFieldWells? = nil) {
             self.sankeyDiagramAggregatedFieldWells = sankeyDiagramAggregatedFieldWells
         }
@@ -28740,6 +29591,7 @@ extension QuickSight {
         /// The sort configuration of the weight fields.
         public let weightSort: [FieldSortOptions]?
 
+        @inlinable
         public init(destinationItemsLimit: ItemsLimitConfiguration? = nil, sourceItemsLimit: ItemsLimitConfiguration? = nil, weightSort: [FieldSortOptions]? = nil) {
             self.destinationItemsLimit = destinationItemsLimit
             self.sourceItemsLimit = sourceItemsLimit
@@ -28772,6 +29624,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: SankeyDiagramChartConfiguration? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -28814,6 +29667,7 @@ extension QuickSight {
         /// The y-axis field well of a scatter plot. The y-axis is aggregated by category.
         public let yAxis: [MeasureField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, label: [DimensionField]? = nil, size: [MeasureField]? = nil, xAxis: [MeasureField]? = nil, yAxis: [MeasureField]? = nil) {
             self.category = category
             self.label = label
@@ -28878,6 +29732,7 @@ extension QuickSight {
         /// The label options (label text, label visibility, and sort icon visibility) of the scatter plot's y-axis.
         public let yAxisLabelOptions: ChartAxisLabelOptions?
 
+        @inlinable
         public init(dataLabels: DataLabelOptions? = nil, fieldWells: ScatterPlotFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, sortConfiguration: ScatterPlotSortConfiguration? = nil, tooltip: TooltipOptions? = nil, visualPalette: VisualPalette? = nil, xAxisDisplayOptions: AxisDisplayOptions? = nil, xAxisLabelOptions: ChartAxisLabelOptions? = nil, yAxisDisplayOptions: AxisDisplayOptions? = nil, yAxisLabelOptions: ChartAxisLabelOptions? = nil) {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
@@ -28925,6 +29780,7 @@ extension QuickSight {
         /// The unaggregated field wells of a scatter plot. The x and y-axes of these scatter plots are unaggregated.
         public let scatterPlotUnaggregatedFieldWells: ScatterPlotUnaggregatedFieldWells?
 
+        @inlinable
         public init(scatterPlotCategoricallyAggregatedFieldWells: ScatterPlotCategoricallyAggregatedFieldWells? = nil, scatterPlotUnaggregatedFieldWells: ScatterPlotUnaggregatedFieldWells? = nil) {
             self.scatterPlotCategoricallyAggregatedFieldWells = scatterPlotCategoricallyAggregatedFieldWells
             self.scatterPlotUnaggregatedFieldWells = scatterPlotUnaggregatedFieldWells
@@ -28944,6 +29800,7 @@ extension QuickSight {
     public struct ScatterPlotSortConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let scatterPlotLimitConfiguration: ItemsLimitConfiguration?
 
+        @inlinable
         public init(scatterPlotLimitConfiguration: ItemsLimitConfiguration? = nil) {
             self.scatterPlotLimitConfiguration = scatterPlotLimitConfiguration
         }
@@ -28965,6 +29822,7 @@ extension QuickSight {
         /// The y-axis field well of a scatter plot. The y-axis is a dimension field and cannot be aggregated.
         public let yAxis: [DimensionField]?
 
+        @inlinable
         public init(category: [DimensionField]? = nil, label: [DimensionField]? = nil, size: [MeasureField]? = nil, xAxis: [DimensionField]? = nil, yAxis: [DimensionField]? = nil) {
             self.category = category
             self.label = label
@@ -29019,6 +29877,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: ScatterPlotConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -29061,6 +29920,7 @@ extension QuickSight {
         /// The day of the week that you want to schedule a refresh on.
         public let dayOfWeek: DayOfWeek?
 
+        @inlinable
         public init(dayOfMonth: String? = nil, dayOfWeek: DayOfWeek? = nil) {
             self.dayOfMonth = dayOfMonth
             self.dayOfWeek = dayOfWeek
@@ -29084,6 +29944,7 @@ extension QuickSight {
         /// The visibility range for the data zoom scroll bar.
         public let visibleRange: VisibleRangeOptions?
 
+        @inlinable
         public init(visibility: Visibility? = nil, visibleRange: VisibleRangeOptions? = nil) {
             self.visibility = visibility
             self.visibleRange = visibleRange
@@ -29109,6 +29970,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, filters: [AnalysisSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.filters = filters
@@ -29152,6 +30014,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisSummaryList: [AnalysisSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisSummaryList = analysisSummaryList
             self.nextToken = nextToken
@@ -29185,6 +30048,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, filters: [DashboardSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.filters = filters
@@ -29228,6 +30092,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardSummaryList: [DashboardSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardSummaryList = dashboardSummaryList
             self.nextToken = nextToken
@@ -29261,6 +30126,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, filters: [DataSetSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.filters = filters
@@ -29304,6 +30170,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSetSummaries: [DataSetSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSetSummaries = dataSetSummaries
             self.nextToken = nextToken
@@ -29337,6 +30204,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, filters: [DataSourceSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.filters = filters
@@ -29380,6 +30248,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSourceSummaries: [DataSourceSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSourceSummaries = dataSourceSummaries
             self.nextToken = nextToken
@@ -29413,6 +30282,7 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, filters: [FolderSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.filters = filters
@@ -29455,6 +30325,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(folderSummaryList: [FolderSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.folderSummaryList = folderSummaryList
             self.nextToken = nextToken
@@ -29490,6 +30361,7 @@ extension QuickSight {
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
 
+        @inlinable
         public init(awsAccountId: String, filters: [GroupSearchFilter], maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
             self.awsAccountId = awsAccountId
             self.filters = filters
@@ -29535,6 +30407,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.groupList = groupList
             self.nextToken = nextToken
@@ -29562,6 +30435,7 @@ extension QuickSight {
         /// Determines the visibility of the secondary value.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -29575,6 +30449,7 @@ extension QuickSight {
         /// The option that enables or disables a page break at the end of a section.
         public let status: SectionPageBreakStatus?
 
+        @inlinable
         public init(status: SectionPageBreakStatus? = nil) {
             self.status = status
         }
@@ -29588,6 +30463,7 @@ extension QuickSight {
         /// The options for a paper canvas of a section-based layout.
         public let paperCanvasSizeOptions: SectionBasedLayoutPaperCanvasSizeOptions?
 
+        @inlinable
         public init(paperCanvasSizeOptions: SectionBasedLayoutPaperCanvasSizeOptions? = nil) {
             self.paperCanvasSizeOptions = paperCanvasSizeOptions
         }
@@ -29607,6 +30483,7 @@ extension QuickSight {
         /// A list of header section configurations.
         public let headerSections: [HeaderFooterSectionConfiguration]
 
+        @inlinable
         public init(bodySections: [BodySectionConfiguration], canvasSizeOptions: SectionBasedLayoutCanvasSizeOptions, footerSections: [HeaderFooterSectionConfiguration], headerSections: [HeaderFooterSectionConfiguration]) {
             self.bodySections = bodySections
             self.canvasSizeOptions = canvasSizeOptions
@@ -29645,6 +30522,7 @@ extension QuickSight {
         /// The paper size that is used to define canvas dimensions.
         public let paperSize: PaperSize?
 
+        @inlinable
         public init(paperMargin: Spacing? = nil, paperOrientation: PaperOrientation? = nil, paperSize: PaperSize? = nil) {
             self.paperMargin = paperMargin
             self.paperOrientation = paperOrientation
@@ -29662,6 +30540,7 @@ extension QuickSight {
         /// The free-form layout configuration of a section.
         public let freeFormLayout: FreeFormSectionLayoutConfiguration
 
+        @inlinable
         public init(freeFormLayout: FreeFormSectionLayoutConfiguration) {
             self.freeFormLayout = freeFormLayout
         }
@@ -29679,6 +30558,7 @@ extension QuickSight {
         /// The configuration of a page break after a section.
         public let after: SectionAfterPageBreak?
 
+        @inlinable
         public init(after: SectionAfterPageBreak? = nil) {
             self.after = after
         }
@@ -29694,6 +30574,7 @@ extension QuickSight {
         /// The spacing between section content and its top, bottom, left, and right edges. There is no padding by default.
         public let padding: Spacing?
 
+        @inlinable
         public init(height: String? = nil, padding: Spacing? = nil) {
             self.height = height
             self.padding = padding
@@ -29709,6 +30590,7 @@ extension QuickSight {
         /// The sheet ID and visual IDs of the sheet and visuals that the filter is applied to.
         public let sheetVisualScopingConfigurations: [SheetVisualScopingConfiguration]?
 
+        @inlinable
         public init(sheetVisualScopingConfigurations: [SheetVisualScopingConfiguration]? = nil) {
             self.sheetVisualScopingConfigurations = sheetVisualScopingConfigurations
         }
@@ -29734,6 +30616,7 @@ extension QuickSight {
         /// The semantic entity type parameters.
         public let typeParameters: [String: String]?
 
+        @inlinable
         public init(subTypeName: String? = nil, typeName: String? = nil, typeParameters: [String: String]? = nil) {
             self.subTypeName = subTypeName
             self.typeName = typeName
@@ -29772,6 +30655,7 @@ extension QuickSight {
         /// The semantic type parameters.
         public let typeParameters: [String: String]?
 
+        @inlinable
         public init(falseyCellValue: String? = nil, falseyCellValueSynonyms: [String]? = nil, subTypeName: String? = nil, truthyCellValue: String? = nil, truthyCellValueSynonyms: [String]? = nil, typeName: String? = nil, typeParameters: [String: String]? = nil) {
             self.falseyCellValue = falseyCellValue
             self.falseyCellValueSynonyms = falseyCellValueSynonyms
@@ -29808,6 +30692,7 @@ extension QuickSight {
         /// The field series item configuration of a line chart.
         public let fieldSeriesItem: FieldSeriesItem?
 
+        @inlinable
         public init(dataFieldSeriesItem: DataFieldSeriesItem? = nil, fieldSeriesItem: FieldSeriesItem? = nil) {
             self.dataFieldSeriesItem = dataFieldSeriesItem
             self.fieldSeriesItem = fieldSeriesItem
@@ -29828,6 +30713,7 @@ extension QuickSight {
         /// URL of the base site.
         public let siteBaseUrl: String
 
+        @inlinable
         public init(siteBaseUrl: String) {
             self.siteBaseUrl = siteBaseUrl
         }
@@ -29848,6 +30734,7 @@ extension QuickSight {
         /// The value that you want to assign the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -29871,6 +30758,7 @@ extension QuickSight {
         public let destinationParameterName: String
         public let value: DestinationParameterValueConfiguration
 
+        @inlinable
         public init(destinationParameterName: String, value: DestinationParameterValueConfiguration) {
             self.destinationParameterName = destinationParameterName
             self.value = value
@@ -29893,6 +30781,7 @@ extension QuickSight {
         /// The conditional formatting for the shape background color of a filled map visual.
         public let backgroundColor: ConditionalFormattingColor
 
+        @inlinable
         public init(backgroundColor: ConditionalFormattingColor) {
             self.backgroundColor = backgroundColor
         }
@@ -29910,6 +30799,7 @@ extension QuickSight {
         /// The shared view settings of an embedded dashboard.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool = false) {
             self.enabled = enabled
         }
@@ -29925,6 +30815,7 @@ extension QuickSight {
         /// The unique identifier associated with a sheet.
         public let sheetId: String?
 
+        @inlinable
         public init(name: String? = nil, sheetId: String? = nil) {
             self.name = name
             self.sheetId = sheetId
@@ -29942,6 +30833,7 @@ extension QuickSight {
         /// The visibility configuration of info icon label options.
         public let visibility: Visibility?
 
+        @inlinable
         public init(infoIconText: String? = nil, visibility: Visibility? = nil) {
             self.infoIconText = infoIconText
             self.visibility = visibility
@@ -29962,6 +30854,7 @@ extension QuickSight {
         /// The configuration that determines the elements and canvas size options of sheet control.
         public let configuration: SheetControlLayoutConfiguration
 
+        @inlinable
         public init(configuration: SheetControlLayoutConfiguration) {
             self.configuration = configuration
         }
@@ -29979,6 +30872,7 @@ extension QuickSight {
         /// The configuration that determines the elements and canvas size options of sheet control.
         public let gridLayout: GridLayoutConfiguration?
 
+        @inlinable
         public init(gridLayout: GridLayoutConfiguration? = nil) {
             self.gridLayout = gridLayout
         }
@@ -29996,6 +30890,7 @@ extension QuickSight {
         /// Visibility state.
         public let visibilityState: DashboardUIState?
 
+        @inlinable
         public init(visibilityState: DashboardUIState? = nil) {
             self.visibilityState = visibilityState
         }
@@ -30029,6 +30924,7 @@ extension QuickSight {
         /// A list of the visuals that are on a sheet. Visual placement is determined by the layout of the sheet.
         public let visuals: [Visual]?
 
+        @inlinable
         public init(contentType: SheetContentType? = nil, description: String? = nil, filterControls: [FilterControl]? = nil, layouts: [Layout]? = nil, name: String? = nil, parameterControls: [ParameterControl]? = nil, sheetControlLayouts: [SheetControlLayout]? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, title: String? = nil, visuals: [Visual]? = nil) {
             self.contentType = contentType
             self.description = description
@@ -30099,6 +30995,7 @@ extension QuickSight {
         /// Determines whether or not the overrides are visible. Choose one of the following options:    VISIBLE     HIDDEN
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -30114,6 +31011,7 @@ extension QuickSight {
         /// The expression of the rendering rules of a sheet.
         public let expression: String
 
+        @inlinable
         public init(configurationOverrides: SheetElementConfigurationOverrides, expression: String) {
             self.configurationOverrides = configurationOverrides
             self.expression = expression
@@ -30134,6 +31032,7 @@ extension QuickSight {
         /// The status of the sheet layout maximization options of a dashbaord.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -30149,6 +31048,7 @@ extension QuickSight {
         /// The layout options for tiles.
         public let tileLayout: TileLayoutStyle?
 
+        @inlinable
         public init(tile: TileStyle? = nil, tileLayout: TileLayoutStyle? = nil) {
             self.tile = tile
             self.tileLayout = tileLayout
@@ -30166,6 +31066,7 @@ extension QuickSight {
         /// The unique identifier for a text box. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have text boxes that share identifiers.
         public let sheetTextBoxId: String
 
+        @inlinable
         public init(content: String? = nil, sheetTextBoxId: String) {
             self.content = content
             self.sheetTextBoxId = sheetTextBoxId
@@ -30192,6 +31093,7 @@ extension QuickSight {
         /// The selected visuals that the filter is applied to.
         public let visualIds: [String]?
 
+        @inlinable
         public init(scope: FilterVisualScope, sheetId: String, visualIds: [String]? = nil) {
             self.scope = scope
             self.sheetId = sheetId
@@ -30223,6 +31125,7 @@ extension QuickSight {
         /// Rich text. Examples of rich text include bold, underline, and italics.
         public let richText: String?
 
+        @inlinable
         public init(plainText: String? = nil, richText: String? = nil) {
             self.plainText = plainText
             self.richText = richText
@@ -30251,6 +31154,7 @@ extension QuickSight {
         /// The user login name for your Amazon QuickSight account.
         public let userLoginName: String?
 
+        @inlinable
         public init(accountName: String? = nil, directoryType: String? = nil, iamUser: Bool? = nil, userLoginName: String? = nil) {
             self.accountName = accountName
             self.directoryType = directoryType
@@ -30270,6 +31174,7 @@ extension QuickSight {
         /// The color of the simple cluster marker.
         public let color: String?
 
+        @inlinable
         public init(color: String? = nil) {
             self.color = color
         }
@@ -30287,6 +31192,7 @@ extension QuickSight {
         /// The Y axis options of a single axis configuration.
         public let yAxisOptions: YAxisOptions?
 
+        @inlinable
         public init(yAxisOptions: YAxisOptions? = nil) {
             self.yAxisOptions = yAxisOptions
         }
@@ -30302,6 +31208,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.titleOptions = titleOptions
@@ -30324,6 +31231,7 @@ extension QuickSight {
         /// The visual ID for the slot.
         public let visualId: String?
 
+        @inlinable
         public init(slotId: String? = nil, visualId: String? = nil) {
             self.slotId = slotId
             self.visualId = visualId
@@ -30346,6 +31254,7 @@ extension QuickSight {
         /// Determines whether scale of the axes are shared or independent. The default value is SHARED.
         public let scale: SmallMultiplesAxisScale?
 
+        @inlinable
         public init(placement: SmallMultiplesAxisPlacement? = nil, scale: SmallMultiplesAxisScale? = nil) {
             self.placement = placement
             self.scale = scale
@@ -30369,6 +31278,7 @@ extension QuickSight {
         /// The properties of a small multiples Y axis.
         public let yAxis: SmallMultiplesAxisProperties?
 
+        @inlinable
         public init(maxVisibleColumns: Int64? = nil, maxVisibleRows: Int64? = nil, panelConfiguration: PanelConfiguration? = nil, xAxis: SmallMultiplesAxisProperties? = nil, yAxis: SmallMultiplesAxisProperties? = nil) {
             self.maxVisibleColumns = maxVisibleColumns
             self.maxVisibleRows = maxVisibleRows
@@ -30398,6 +31308,7 @@ extension QuickSight {
         /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon QuickSight, see Using Row-Level Security (RLS) with Tagsin the Amazon QuickSight User Guide.
         public let rowLevelPermissionTags: [SessionTag]?
 
+        @inlinable
         public init(rowLevelPermissionTags: [SessionTag]? = nil) {
             self.rowLevelPermissionTags = rowLevelPermissionTags
         }
@@ -30419,6 +31330,7 @@ extension QuickSight {
         /// The tag keys for the RowLevelPermissionTags.
         public let rowLevelPermissionTagKeys: [String]?
 
+        @inlinable
         public init(rowLevelPermissionTagKeys: [String]? = nil) {
             self.rowLevelPermissionTagKeys = rowLevelPermissionTagKeys
         }
@@ -30435,6 +31347,7 @@ extension QuickSight {
         public let fileGroups: [SnapshotFileGroup]
         public let parameters: Parameters?
 
+        @inlinable
         public init(destinationConfiguration: SnapshotDestinationConfiguration? = nil, fileGroups: [SnapshotFileGroup], parameters: Parameters? = nil) {
             self.destinationConfiguration = destinationConfiguration
             self.fileGroups = fileGroups
@@ -30462,6 +31375,7 @@ extension QuickSight {
         ///  A list of SnapshotS3DestinationConfiguration objects that contain Amazon S3 destination configurations. This structure can hold a maximum of 1 S3DestinationConfiguration.
         public let s3Destinations: [SnapshotS3DestinationConfiguration]?
 
+        @inlinable
         public init(s3Destinations: [SnapshotS3DestinationConfiguration]? = nil) {
             self.s3Destinations = s3Destinations
         }
@@ -30485,6 +31399,7 @@ extension QuickSight {
         /// A list of SnapshotFileSheetSelection objects that contain information on the dashboard sheet that is exported. These objects provide information about the snapshot artifacts that are generated during the job. This structure can hold a maximum of 5 CSV configurations, 5 Excel configurations, or 1 configuration for PDF.
         public let sheetSelections: [SnapshotFileSheetSelection]
 
+        @inlinable
         public init(formatType: SnapshotFileFormatType, sheetSelections: [SnapshotFileSheetSelection]) {
             self.formatType = formatType
             self.sheetSelections = sheetSelections
@@ -30508,6 +31423,7 @@ extension QuickSight {
         /// A list of SnapshotFile objects that contain the information on the snapshot files that need to be generated. This structure can hold 1 configuration at a time.
         public let files: [SnapshotFile]?
 
+        @inlinable
         public init(files: [SnapshotFile]? = nil) {
             self.files = files
         }
@@ -30533,6 +31449,7 @@ extension QuickSight {
         ///  A structure that lists the IDs of the visuals in the selected sheet. Supported visual types are table, pivot table visuals. This value is required if you are generating a CSV or Excel workbook. This value supports a maximum of 1 visual ID for CSV and 5 visual IDs across up to 5 sheet selections for Excel. If you are generating an Excel workbook, the order of the visual IDs provided in this structure determines the order of the worksheets in the Excel file.
         public let visualIds: [String]?
 
+        @inlinable
         public init(selectionScope: SnapshotFileSheetSelectionScope, sheetId: String, visualIds: [String]? = nil) {
             self.selectionScope = selectionScope
             self.sheetId = sheetId
@@ -30565,6 +31482,7 @@ extension QuickSight {
         /// The error type.
         public let errorType: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: String? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -30580,6 +31498,7 @@ extension QuickSight {
         ///  A list of AnonymousUserSnapshotJobResult objects that contain information on anonymous users and their user configurations. This data provided by you when you make a StartDashboardSnapshotJob API call.
         public let anonymousUsers: [AnonymousUserSnapshotJobResult]?
 
+        @inlinable
         public init(anonymousUsers: [AnonymousUserSnapshotJobResult]? = nil) {
             self.anonymousUsers = anonymousUsers
         }
@@ -30595,6 +31514,7 @@ extension QuickSight {
         /// The error type.
         public let errorType: String?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: String? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -30612,6 +31532,7 @@ extension QuickSight {
         ///  A list of SnapshotJobS3Result objects.
         public let s3Results: [SnapshotJobS3Result]?
 
+        @inlinable
         public init(files: [SnapshotFile]? = nil, s3Results: [SnapshotJobS3Result]? = nil) {
             self.files = files
             self.s3Results = s3Results
@@ -30631,6 +31552,7 @@ extension QuickSight {
         /// The Amazon S3 Uri.
         public let s3Uri: String?
 
+        @inlinable
         public init(errorInfo: [SnapshotJobResultErrorInfo]? = nil, s3DestinationConfiguration: SnapshotS3DestinationConfiguration? = nil, s3Uri: String? = nil) {
             self.errorInfo = errorInfo
             self.s3DestinationConfiguration = s3DestinationConfiguration
@@ -30648,6 +31570,7 @@ extension QuickSight {
         /// A structure that contains details about the Amazon S3 bucket that the generated dashboard snapshot is saved in.
         public let bucketConfiguration: S3BucketConfiguration
 
+        @inlinable
         public init(bucketConfiguration: S3BucketConfiguration) {
             self.bucketConfiguration = bucketConfiguration
         }
@@ -30665,6 +31588,7 @@ extension QuickSight {
         /// An array of records that describe the anonymous users that the dashboard snapshot is generated for.
         public let anonymousUsers: [SnapshotAnonymousUser]?
 
+        @inlinable
         public init(anonymousUsers: [SnapshotAnonymousUser]? = nil) {
             self.anonymousUsers = anonymousUsers
         }
@@ -30686,6 +31610,7 @@ extension QuickSight {
         ///  An array of records that describe anonymous users that the dashboard snapshot is generated for. Sensitive user information is excluded.
         public let anonymousUsers: [SnapshotAnonymousUserRedacted]?
 
+        @inlinable
         public init(anonymousUsers: [SnapshotAnonymousUserRedacted]? = nil) {
             self.anonymousUsers = anonymousUsers
         }
@@ -30703,6 +31628,7 @@ extension QuickSight {
         /// Warehouse.
         public let warehouse: String
 
+        @inlinable
         public init(database: String, host: String, warehouse: String) {
             self.database = database
             self.host = host
@@ -30734,6 +31660,7 @@ extension QuickSight {
         /// Define the top spacing.
         public let top: String?
 
+        @inlinable
         public init(bottom: String? = nil, left: String? = nil, right: String? = nil, top: String? = nil) {
             self.bottom = bottom
             self.left = left
@@ -30755,6 +31682,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(host: String, port: Int) {
             self.host = host
             self.port = port
@@ -30781,6 +31709,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -30807,6 +31736,7 @@ extension QuickSight {
         /// A Boolean option to control whether SSL should be disabled.
         public let disableSsl: Bool?
 
+        @inlinable
         public init(disableSsl: Bool? = nil) {
             self.disableSsl = disableSsl
         }
@@ -30826,6 +31756,7 @@ extension QuickSight {
         /// The product type for the Starburst data source.
         public let productType: StarburstProductType?
 
+        @inlinable
         public init(catalog: String, host: String, port: Int, productType: StarburstProductType? = nil) {
             self.catalog = catalog
             self.host = host
@@ -30869,6 +31800,7 @@ extension QuickSight {
         /// An optional parameter that determines which validation strategy to use for the export job. If StrictModeForAllResources is set to TRUE, strict validation for every error is enforced. If it is set to FALSE, validation is skipped for specific UI errors that are shown as warnings. The default value for StrictModeForAllResources is FALSE.
         public let validationStrategy: AssetBundleExportJobValidationStrategy?
 
+        @inlinable
         public init(assetBundleExportJobId: String, awsAccountId: String, cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil, exportFormat: AssetBundleExportFormat, includeAllDependencies: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, resourceArns: [String], validationStrategy: AssetBundleExportJobValidationStrategy? = nil) {
             self.assetBundleExportJobId = assetBundleExportJobId
             self.awsAccountId = awsAccountId
@@ -30929,6 +31861,7 @@ extension QuickSight {
         /// The HTTP status of the response.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, assetBundleExportJobId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.assetBundleExportJobId = assetBundleExportJobId
@@ -30970,6 +31903,7 @@ extension QuickSight {
         /// An optional validation strategy override for all analyses and dashboards that is applied to the resource configuration before import.
         public let overrideValidationStrategy: AssetBundleImportJobOverrideValidationStrategy?
 
+        @inlinable
         public init(assetBundleImportJobId: String, assetBundleImportSource: AssetBundleImportSource, awsAccountId: String, failureAction: AssetBundleImportFailureAction? = nil, overrideParameters: AssetBundleImportJobOverrideParameters? = nil, overridePermissions: AssetBundleImportJobOverridePermissions? = nil, overrideTags: AssetBundleImportJobOverrideTags? = nil, overrideValidationStrategy: AssetBundleImportJobOverrideValidationStrategy? = nil) {
             self.assetBundleImportJobId = assetBundleImportJobId
             self.assetBundleImportSource = assetBundleImportSource
@@ -31028,6 +31962,7 @@ extension QuickSight {
         /// The HTTP status of the response.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, assetBundleImportJobId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.assetBundleImportJobId = assetBundleImportJobId
@@ -31063,6 +31998,7 @@ extension QuickSight {
         ///  A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon QuickSight.
         public let userConfiguration: SnapshotUserConfiguration
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, snapshotConfiguration: SnapshotConfiguration, snapshotJobId: String, userConfiguration: SnapshotUserConfiguration) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -31112,6 +32048,7 @@ extension QuickSight {
         /// The HTTP status of the request
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, snapshotJobId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -31139,6 +32076,7 @@ extension QuickSight {
         /// Determines if a Amazon QuickSight dashboard's state persistence settings are turned on or off.
         public let enabled: Bool
 
+        @inlinable
         public init(enabled: Bool = false) {
             self.enabled = enabled
         }
@@ -31158,6 +32096,7 @@ extension QuickSight {
         /// The value type of the dataset parameter. Valid values are single value or multi value.
         public let valueType: DatasetParameterValueType
 
+        @inlinable
         public init(defaultValues: StringDatasetParameterDefaultValues? = nil, id: String, name: String, valueType: DatasetParameterValueType) {
             self.defaultValues = defaultValues
             self.id = id
@@ -31187,6 +32126,7 @@ extension QuickSight {
         /// A list of static default values for a given string parameter.
         public let staticValues: [String]?
 
+        @inlinable
         public init(staticValues: [String]? = nil) {
             self.staticValues = staticValues
         }
@@ -31210,6 +32150,7 @@ extension QuickSight {
         /// The static values of the DecimalDefaultValues.
         public let staticValues: [String]?
 
+        @inlinable
         public init(dynamicValue: DynamicDefaultValue? = nil, staticValues: [String]? = nil) {
             self.dynamicValue = dynamicValue
             self.staticValues = staticValues
@@ -31232,6 +32173,7 @@ extension QuickSight {
         /// The formatting configuration for numeric strings.
         public let numericFormatConfiguration: NumericFormatConfiguration?
 
+        @inlinable
         public init(nullValueFormatConfiguration: NullValueFormatConfiguration? = nil, numericFormatConfiguration: NumericFormatConfiguration? = nil) {
             self.nullValueFormatConfiguration = nullValueFormatConfiguration
             self.numericFormatConfiguration = numericFormatConfiguration
@@ -31254,6 +32196,7 @@ extension QuickSight {
         /// The values of a string parameter.
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -31280,6 +32223,7 @@ extension QuickSight {
         /// The configuration that defines the default value of a String parameter when a value has not been set.
         public let valueWhenUnset: StringValueWhenUnsetConfiguration?
 
+        @inlinable
         public init(defaultValues: StringDefaultValues? = nil, mappedDataSetParameters: [MappedDataSetParameter]? = nil, name: String, parameterValueType: ParameterValueType, valueWhenUnset: StringValueWhenUnsetConfiguration? = nil) {
             self.defaultValues = defaultValues
             self.mappedDataSetParameters = mappedDataSetParameters
@@ -31314,6 +32258,7 @@ extension QuickSight {
         /// The built-in options for default values. The value can be one of the following:    RECOMMENDED: The recommended value.    NULL: The NULL value.
         public let valueWhenUnsetOption: ValueWhenUnsetOption?
 
+        @inlinable
         public init(customValue: String? = nil, valueWhenUnsetOption: ValueWhenUnsetOption? = nil) {
             self.customValue = customValue
             self.valueWhenUnsetOption = valueWhenUnsetOption
@@ -31343,6 +32288,7 @@ extension QuickSight {
         /// The cell styling options for the subtotals of value cells.
         public let valueCellStyle: TableCellStyle?
 
+        @inlinable
         public init(customLabel: String? = nil, fieldLevel: PivotTableSubtotalLevel? = nil, fieldLevelOptions: [PivotTableFieldSubtotalOptions]? = nil, metricHeaderCellStyle: TableCellStyle? = nil, styleTargets: [TableStyleTarget]? = nil, totalCellStyle: TableCellStyle? = nil, totalsVisibility: Visibility? = nil, valueCellStyle: TableCellStyle? = nil) {
             self.customLabel = customLabel
             self.fieldLevel = fieldLevel
@@ -31381,6 +32327,7 @@ extension QuickSight {
         /// The answer ID for the SucceededTopicReviewedAnswer.
         public let answerId: String?
 
+        @inlinable
         public init(answerId: String? = nil) {
             self.answerId = answerId
         }
@@ -31396,6 +32343,7 @@ extension QuickSight {
         /// The HTTP status of a SuccessfulKeyRegistrationEntry entry.
         public let statusCode: Int
 
+        @inlinable
         public init(keyArn: String, statusCode: Int) {
             self.keyArn = keyArn
             self.statusCode = statusCode
@@ -31413,6 +32361,7 @@ extension QuickSight {
         /// The values field well for a pivot table. Values are aggregated based on group by fields.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(groupBy: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.groupBy = groupBy
             self.values = values
@@ -31443,6 +32392,7 @@ extension QuickSight {
         /// The thickness of a table border.
         public let thickness: Int?
 
+        @inlinable
         public init(color: String? = nil, style: TableBorderStyle? = nil, thickness: Int? = nil) {
             self.color = color
             self.style = style
@@ -31468,6 +32418,7 @@ extension QuickSight {
         /// The text format of the cell for conditional formatting.
         public let textFormat: TextConditionalFormat?
 
+        @inlinable
         public init(fieldId: String, textFormat: TextConditionalFormat? = nil) {
             self.fieldId = fieldId
             self.textFormat = textFormat
@@ -31489,6 +32440,7 @@ extension QuickSight {
         /// The cell scaling configuration of the sizing options for the table image configuration.
         public let tableCellImageScalingConfiguration: TableCellImageScalingConfiguration?
 
+        @inlinable
         public init(tableCellImageScalingConfiguration: TableCellImageScalingConfiguration? = nil) {
             self.tableCellImageScalingConfiguration = tableCellImageScalingConfiguration
         }
@@ -31516,6 +32468,7 @@ extension QuickSight {
         /// The visibility of the table cells.
         public let visibility: Visibility?
 
+        @inlinable
         public init(backgroundColor: String? = nil, border: GlobalTableBorderOptions? = nil, fontConfiguration: FontConfiguration? = nil, height: Int? = nil, horizontalTextAlignment: HorizontalTextAlignment? = nil, textWrap: TextWrap? = nil, verticalTextAlignment: VerticalTextAlignment? = nil, visibility: Visibility? = nil) {
             self.backgroundColor = backgroundColor
             self.border = border
@@ -31551,6 +32504,7 @@ extension QuickSight {
         /// Conditional formatting options for a PivotTableVisual.
         public let conditionalFormattingOptions: [TableConditionalFormattingOption]?
 
+        @inlinable
         public init(conditionalFormattingOptions: [TableConditionalFormattingOption]? = nil) {
             self.conditionalFormattingOptions = conditionalFormattingOptions
         }
@@ -31573,6 +32527,7 @@ extension QuickSight {
         /// The row conditional formatting option for a table.
         public let row: TableRowConditionalFormatting?
 
+        @inlinable
         public init(cell: TableCellConditionalFormatting? = nil, row: TableRowConditionalFormatting? = nil) {
             self.cell = cell
             self.row = row
@@ -31607,6 +32562,7 @@ extension QuickSight {
         /// The total options for a table visual.
         public let totalOptions: TotalOptions?
 
+        @inlinable
         public init(fieldOptions: TableFieldOptions? = nil, fieldWells: TableFieldWells? = nil, interactions: VisualInteractionOptions? = nil, paginatedReportOptions: TablePaginatedReportOptions? = nil, sortConfiguration: TableSortConfiguration? = nil, tableInlineVisualizations: [TableInlineVisualization]? = nil, tableOptions: TableOptions? = nil, totalOptions: TotalOptions? = nil) {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
@@ -31646,6 +32602,7 @@ extension QuickSight {
         /// The icon set type (link) of the custom icon content for table URL link content.
         public let icon: TableFieldIconSetType?
 
+        @inlinable
         public init(icon: TableFieldIconSetType? = nil) {
             self.icon = icon
         }
@@ -31661,6 +32618,7 @@ extension QuickSight {
         /// The string value of the custom text content for the table URL link content.
         public let value: String?
 
+        @inlinable
         public init(fontConfiguration: FontConfiguration, value: String? = nil) {
             self.fontConfiguration = fontConfiguration
             self.value = value
@@ -31680,6 +32638,7 @@ extension QuickSight {
         /// The sizing options for the table image configuration.
         public let sizingOptions: TableCellImageSizingConfiguration?
 
+        @inlinable
         public init(sizingOptions: TableCellImageSizingConfiguration? = nil) {
             self.sizingOptions = sizingOptions
         }
@@ -31695,6 +32654,7 @@ extension QuickSight {
         /// The URL target (new tab, new window, same tab) for the table link configuration.
         public let target: URLTargetConfiguration
 
+        @inlinable
         public init(content: TableFieldLinkContentConfiguration, target: URLTargetConfiguration) {
             self.content = content
             self.target = target
@@ -31716,6 +32676,7 @@ extension QuickSight {
         /// The custom text content (value, font configuration) for the table link content configuration.
         public let customTextContent: TableFieldCustomTextContent?
 
+        @inlinable
         public init(customIconContent: TableFieldCustomIconContent? = nil, customTextContent: TableFieldCustomTextContent? = nil) {
             self.customIconContent = customIconContent
             self.customTextContent = customTextContent
@@ -31743,6 +32704,7 @@ extension QuickSight {
         /// The width for a table field.
         public let width: String?
 
+        @inlinable
         public init(customLabel: String? = nil, fieldId: String, urlStyling: TableFieldURLConfiguration? = nil, visibility: Visibility? = nil, width: String? = nil) {
             self.customLabel = customLabel
             self.fieldId = fieldId
@@ -31776,6 +32738,7 @@ extension QuickSight {
         /// The field options to be configured to a table.
         public let selectedFieldOptions: [TableFieldOption]?
 
+        @inlinable
         public init(order: [String]? = nil, pinnedFieldOptions: TablePinnedFieldOptions? = nil, selectedFieldOptions: [TableFieldOption]? = nil) {
             self.order = order
             self.pinnedFieldOptions = pinnedFieldOptions
@@ -31808,6 +32771,7 @@ extension QuickSight {
         /// The link configuration of a table field URL.
         public let linkConfiguration: TableFieldLinkConfiguration?
 
+        @inlinable
         public init(imageConfiguration: TableFieldImageConfiguration? = nil, linkConfiguration: TableFieldLinkConfiguration? = nil) {
             self.imageConfiguration = imageConfiguration
             self.linkConfiguration = linkConfiguration
@@ -31829,6 +32793,7 @@ extension QuickSight {
         /// The unaggregated field well for the table.
         public let tableUnaggregatedFieldWells: TableUnaggregatedFieldWells?
 
+        @inlinable
         public init(tableAggregatedFieldWells: TableAggregatedFieldWells? = nil, tableUnaggregatedFieldWells: TableUnaggregatedFieldWells? = nil) {
             self.tableAggregatedFieldWells = tableAggregatedFieldWells
             self.tableUnaggregatedFieldWells = tableUnaggregatedFieldWells
@@ -31849,6 +32814,7 @@ extension QuickSight {
         /// The configuration of the inline visualization of the data bars within a chart.
         public let dataBars: DataBarsOptions?
 
+        @inlinable
         public init(dataBars: DataBarsOptions? = nil) {
             self.dataBars = dataBars
         }
@@ -31872,6 +32838,7 @@ extension QuickSight {
         /// The row alternate color options (widget status, row alternate colors) for a table.
         public let rowAlternateColorOptions: RowAlternateColorOptions?
 
+        @inlinable
         public init(cellStyle: TableCellStyle? = nil, headerStyle: TableCellStyle? = nil, orientation: TableOrientation? = nil, rowAlternateColorOptions: RowAlternateColorOptions? = nil) {
             self.cellStyle = cellStyle
             self.headerStyle = headerStyle
@@ -31899,6 +32866,7 @@ extension QuickSight {
         /// The visibility of printing table overflow across pages.
         public let verticalOverflowVisibility: Visibility?
 
+        @inlinable
         public init(overflowColumnHeaderVisibility: Visibility? = nil, verticalOverflowVisibility: Visibility? = nil) {
             self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
             self.verticalOverflowVisibility = verticalOverflowVisibility
@@ -31914,6 +32882,7 @@ extension QuickSight {
         /// A list of columns to be pinned to the left of a table visual.
         public let pinnedLeftFields: [String]?
 
+        @inlinable
         public init(pinnedLeftFields: [String]? = nil) {
             self.pinnedLeftFields = pinnedLeftFields
         }
@@ -31937,6 +32906,7 @@ extension QuickSight {
         /// The conditional formatting color (solid, gradient) of the text for a table row.
         public let textColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(backgroundColor: ConditionalFormattingColor? = nil, textColor: ConditionalFormattingColor? = nil) {
             self.backgroundColor = backgroundColor
             self.textColor = textColor
@@ -31967,6 +32937,7 @@ extension QuickSight {
         /// The table border options of the top border.
         public let top: TableBorderOptions?
 
+        @inlinable
         public init(bottom: TableBorderOptions? = nil, innerHorizontal: TableBorderOptions? = nil, innerVertical: TableBorderOptions? = nil, left: TableBorderOptions? = nil, right: TableBorderOptions? = nil, top: TableBorderOptions? = nil) {
             self.bottom = bottom
             self.innerHorizontal = innerHorizontal
@@ -32001,6 +32972,7 @@ extension QuickSight {
         /// The field sort options for rows in the table.
         public let rowSort: [FieldSortOptions]?
 
+        @inlinable
         public init(paginationConfiguration: PaginationConfiguration? = nil, rowSort: [FieldSortOptions]? = nil) {
             self.paginationConfiguration = paginationConfiguration
             self.rowSort = rowSort
@@ -32024,6 +32996,7 @@ extension QuickSight {
         /// The cell type of the table style target.
         public let cellType: StyledCellType
 
+        @inlinable
         public init(cellType: StyledCellType) {
             self.cellType = cellType
         }
@@ -32037,6 +33010,7 @@ extension QuickSight {
         /// The values field well for a pivot table. Values are unaggregated for an unaggregated table.
         public let values: [UnaggregatedField]?
 
+        @inlinable
         public init(values: [UnaggregatedField]? = nil) {
             self.values = values
         }
@@ -32067,6 +33041,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TableConfiguration? = nil, conditionalFormatting: TableConditionalFormatting? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -32106,6 +33081,7 @@ extension QuickSight {
         /// Tag value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -32130,6 +33106,7 @@ extension QuickSight {
         /// The dataset column tag, currently only used for geospatial type tagging.  This is not tags for the Amazon Web Services tagging feature.
         public let tags: [ColumnTag]
 
+        @inlinable
         public init(columnName: String, tags: [ColumnTag]) {
             self.columnName = columnName
             self.tags = tags
@@ -32157,6 +33134,7 @@ extension QuickSight {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -32188,6 +33166,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -32219,6 +33198,7 @@ extension QuickSight {
         /// A structure describing the versions of the template.
         public let version: TemplateVersion?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, templateId: String? = nil, version: TemplateVersion? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -32246,6 +33226,7 @@ extension QuickSight {
         /// The version number of the template alias.
         public let templateVersionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, arn: String? = nil, templateVersionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.arn = arn
@@ -32267,6 +33248,7 @@ extension QuickSight {
         /// An error path that shows which entities caused the template error.
         public let violatedEntities: [Entity]?
 
+        @inlinable
         public init(message: String? = nil, type: TemplateErrorType? = nil, violatedEntities: [Entity]? = nil) {
             self.message = message
             self.type = type
@@ -32286,6 +33268,7 @@ extension QuickSight {
         /// A structure containing information about the dataset references used as placeholders in the template.
         public let dataSetReferences: [DataSetReference]
 
+        @inlinable
         public init(arn: String, dataSetReferences: [DataSetReference]) {
             self.arn = arn
             self.dataSetReferences = dataSetReferences
@@ -32310,6 +33293,7 @@ extension QuickSight {
         /// The source template, if it is based on an template.
         public let sourceTemplate: TemplateSourceTemplate?
 
+        @inlinable
         public init(sourceAnalysis: TemplateSourceAnalysis? = nil, sourceTemplate: TemplateSourceTemplate? = nil) {
             self.sourceAnalysis = sourceAnalysis
             self.sourceTemplate = sourceTemplate
@@ -32329,6 +33313,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -32352,6 +33337,7 @@ extension QuickSight {
         /// The ID of the template. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let templateId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, templateId: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -32391,6 +33377,7 @@ extension QuickSight {
         /// The version number of the template version.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(createdTime: Date? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sheets: [Sheet]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.dataSetConfigurations = dataSetConfigurations
@@ -32434,6 +33421,7 @@ extension QuickSight {
         /// An array of sheet definitions for a template.
         public let sheets: [SheetDefinition]?
 
+        @inlinable
         public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
@@ -32498,6 +33486,7 @@ extension QuickSight {
         /// The version number of the template version.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -32523,6 +33512,7 @@ extension QuickSight {
         /// Port.
         public let port: Int
 
+        @inlinable
         public init(database: String, host: String, port: Int) {
             self.database = database
             self.host = host
@@ -32553,6 +33543,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, placeholderOptions: TextControlPlaceholderOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.placeholderOptions = placeholderOptions
@@ -32579,6 +33570,7 @@ extension QuickSight {
         /// The conditional formatting for the text color.
         public let textColor: ConditionalFormattingColor?
 
+        @inlinable
         public init(backgroundColor: ConditionalFormattingColor? = nil, icon: ConditionalFormattingIcon? = nil, textColor: ConditionalFormattingColor? = nil) {
             self.backgroundColor = backgroundColor
             self.icon = icon
@@ -32602,6 +33594,7 @@ extension QuickSight {
         /// The visibility configuration of the placeholder options in a text control.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -32619,6 +33612,7 @@ extension QuickSight {
         /// The options to configure the title visibility, name, and font size.
         public let titleOptions: LabelOptions?
 
+        @inlinable
         public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, placeholderOptions: TextControlPlaceholderOptions? = nil, titleOptions: LabelOptions? = nil) {
             self.infoIconLabelOptions = infoIconLabelOptions
             self.placeholderOptions = placeholderOptions
@@ -32652,6 +33646,7 @@ extension QuickSight {
         public let type: ThemeType?
         public let version: ThemeVersion?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, themeId: String? = nil, type: ThemeType? = nil, version: ThemeVersion? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -32681,6 +33676,7 @@ extension QuickSight {
         /// The version number of the theme alias.
         public let themeVersionNumber: Int64?
 
+        @inlinable
         public init(aliasName: String? = nil, arn: String? = nil, themeVersionNumber: Int64? = nil) {
             self.aliasName = aliasName
             self.arn = arn
@@ -32703,6 +33699,7 @@ extension QuickSight {
         /// Color properties that apply to the UI and to charts, excluding the colors that apply to data.
         public let uiColorPalette: UIColorPalette?
 
+        @inlinable
         public init(dataColorPalette: DataColorPalette? = nil, sheet: SheetStyle? = nil, typography: Typography? = nil, uiColorPalette: UIColorPalette? = nil) {
             self.dataColorPalette = dataColorPalette
             self.sheet = sheet
@@ -32730,6 +33727,7 @@ extension QuickSight {
         /// The type of error.
         public let type: ThemeErrorType?
 
+        @inlinable
         public init(message: String? = nil, type: ThemeErrorType? = nil) {
             self.message = message
             self.type = type
@@ -32755,6 +33753,7 @@ extension QuickSight {
         /// The ID of the theme. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let themeId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, latestVersionNumber: Int64? = nil, name: String? = nil, themeId: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -32792,6 +33791,7 @@ extension QuickSight {
         /// The version number of the theme.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, baseThemeId: String? = nil, configuration: ThemeConfiguration? = nil, createdTime: Date? = nil, description: String? = nil, errors: [ThemeError]? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.baseThemeId = baseThemeId
@@ -32827,6 +33827,7 @@ extension QuickSight {
         /// The version number of the theme version.
         public let versionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, status: ResourceStatus? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -32850,6 +33851,7 @@ extension QuickSight {
         /// Determines the visibility of the thousands separator.
         public let visibility: Visibility?
 
+        @inlinable
         public init(symbol: NumericSeparatorSymbol? = nil, visibility: Visibility? = nil) {
             self.symbol = symbol
             self.visibility = visibility
@@ -32867,6 +33869,7 @@ extension QuickSight {
         /// The margin settings that apply around the outside edge of sheets.
         public let margin: MarginStyle?
 
+        @inlinable
         public init(gutter: GutterStyle? = nil, margin: MarginStyle? = nil) {
             self.gutter = gutter
             self.margin = margin
@@ -32882,6 +33885,7 @@ extension QuickSight {
         /// The border around a tile.
         public let border: BorderStyle?
 
+        @inlinable
         public init(border: BorderStyle? = nil) {
             self.border = border
         }
@@ -32905,6 +33909,7 @@ extension QuickSight {
         /// The upper boundary setup of a forecast computation.
         public let upperBoundary: Double?
 
+        @inlinable
         public init(lowerBoundary: Double? = nil, periodsBackward: Int? = nil, periodsForward: Int? = nil, predictionInterval: Int? = nil, seasonality: Int? = nil, upperBoundary: Double? = nil) {
             self.lowerBoundary = lowerBoundary
             self.periodsBackward = periodsBackward
@@ -32951,6 +33956,7 @@ extension QuickSight {
         /// The value of a TimeEquality filter. This field is mutually exclusive to RollingDate and ParameterName.
         public let value: Date?
 
+        @inlinable
         public init(column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, parameterName: String? = nil, rollingDate: RollingDateConfiguration? = nil, timeGranularity: TimeGranularity? = nil, value: Date? = nil) {
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -32994,6 +34000,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity
 
+        @inlinable
         public init(column: ColumnIdentifier, rangeMaximum: Date, rangeMinimum: Date, timeGranularity: TimeGranularity) {
             self.column = column
             self.rangeMaximum = rangeMaximum
@@ -33035,6 +34042,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity?
 
+        @inlinable
         public init(column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, excludePeriodConfiguration: ExcludePeriodConfiguration? = nil, filterId: String, includeMaximum: Bool? = nil, includeMinimum: Bool? = nil, nullOption: FilterNullOption, rangeMaximumValue: TimeRangeFilterValue? = nil, rangeMinimumValue: TimeRangeFilterValue? = nil, timeGranularity: TimeGranularity? = nil) {
             self.column = column
             self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
@@ -33080,6 +34088,7 @@ extension QuickSight {
         /// The static input value.
         public let staticValue: Date?
 
+        @inlinable
         public init(parameter: String? = nil, rollingDate: RollingDateConfiguration? = nil, staticValue: Date? = nil) {
             self.parameter = parameter
             self.rollingDate = rollingDate
@@ -33106,6 +34115,7 @@ extension QuickSight {
         /// The tooltip item for the fields.
         public let fieldTooltipItem: FieldTooltipItem?
 
+        @inlinable
         public init(columnTooltipItem: ColumnTooltipItem? = nil, fieldTooltipItem: FieldTooltipItem? = nil) {
             self.columnTooltipItem = columnTooltipItem
             self.fieldTooltipItem = fieldTooltipItem
@@ -33130,6 +34140,7 @@ extension QuickSight {
         /// Determines whether or not the tooltip is visible.
         public let tooltipVisibility: Visibility?
 
+        @inlinable
         public init(fieldBasedTooltip: FieldBasedTooltip? = nil, selectedTooltipType: SelectedTooltipType? = nil, tooltipVisibility: Visibility? = nil) {
             self.fieldBasedTooltip = fieldBasedTooltip
             self.selectedTooltipType = selectedTooltipType
@@ -33163,6 +34174,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TimeGranularity?
 
+        @inlinable
         public init(aggregationSortConfigurations: [AggregationSortConfiguration], column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, limit: Int? = nil, parameterName: String? = nil, timeGranularity: TimeGranularity? = nil) {
             self.aggregationSortConfigurations = aggregationSortConfigurations
             self.column = column
@@ -33217,6 +34229,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(category: DimensionField? = nil, computationId: String, moverSize: Int? = nil, name: String? = nil, sortOrder: TopBottomSortOrder? = nil, time: DimensionField? = nil, type: TopBottomComputationType, value: MeasureField? = nil) {
             self.category = category
             self.computationId = computationId
@@ -33265,6 +34278,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(category: DimensionField? = nil, computationId: String, name: String? = nil, resultSize: Int? = nil, type: TopBottomComputationType, value: MeasureField? = nil) {
             self.category = category
             self.computationId = computationId
@@ -33330,6 +34344,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TopicTimeGranularity?
 
+        @inlinable
         public init(aggregation: DefaultAggregation? = nil, allowedAggregations: [AuthorSpecifiedAggregation]? = nil, calculatedFieldDescription: String? = nil, calculatedFieldName: String, calculatedFieldSynonyms: [String]? = nil, cellValueSynonyms: [CellValueSynonym]? = nil, columnDataRole: ColumnDataRole? = nil, comparativeOrder: ComparativeOrder? = nil, defaultFormatting: DefaultFormatting? = nil, disableIndexing: Bool? = nil, expression: String, isIncludedInTopic: Bool? = nil, neverAggregateInFilter: Bool? = nil, nonAdditive: Bool? = nil, notAllowedAggregations: [AuthorSpecifiedAggregation]? = nil, semanticType: SemanticType? = nil, timeGranularity: TopicTimeGranularity? = nil) {
             self.aggregation = aggregation
             self.allowedAggregations = allowedAggregations
@@ -33396,6 +34411,7 @@ extension QuickSight {
         /// A Boolean value that indicates if the filter is inverse.
         public let inverse: Bool?
 
+        @inlinable
         public init(categoryFilterFunction: CategoryFilterFunction? = nil, categoryFilterType: CategoryFilterType? = nil, constant: TopicCategoryFilterConstant? = nil, inverse: Bool? = nil) {
             self.categoryFilterFunction = categoryFilterFunction
             self.categoryFilterType = categoryFilterType
@@ -33423,6 +34439,7 @@ extension QuickSight {
         /// A singular constant used in a category filter. This element is used to specify a single value for the constant.
         public let singularConstant: String?
 
+        @inlinable
         public init(collectiveConstant: CollectiveConstant? = nil, constantType: ConstantType? = nil, singularConstant: String? = nil) {
             self.collectiveConstant = collectiveConstant
             self.constantType = constantType
@@ -33476,6 +34493,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TopicTimeGranularity?
 
+        @inlinable
         public init(aggregation: DefaultAggregation? = nil, allowedAggregations: [AuthorSpecifiedAggregation]? = nil, cellValueSynonyms: [CellValueSynonym]? = nil, columnDataRole: ColumnDataRole? = nil, columnDescription: String? = nil, columnFriendlyName: String? = nil, columnName: String, columnSynonyms: [String]? = nil, comparativeOrder: ComparativeOrder? = nil, defaultFormatting: DefaultFormatting? = nil, disableIndexing: Bool? = nil, isIncludedInTopic: Bool? = nil, neverAggregateInFilter: Bool? = nil, nonAdditive: Bool? = nil, notAllowedAggregations: [AuthorSpecifiedAggregation]? = nil, semanticType: SemanticType? = nil, timeGranularity: TopicTimeGranularity? = nil) {
             self.aggregation = aggregation
             self.allowedAggregations = allowedAggregations
@@ -33543,6 +34561,7 @@ extension QuickSight {
         /// The value list of the TopicConstantValue.
         public let valueList: [CollectiveConstantEntry]?
 
+        @inlinable
         public init(constantType: ConstantType? = nil, maximum: String? = nil, minimum: String? = nil, value: String? = nil, valueList: [CollectiveConstantEntry]? = nil) {
             self.constantType = constantType
             self.maximum = maximum
@@ -33576,6 +34595,7 @@ extension QuickSight {
         /// A Boolean value that indicates whether the date range filter should include the boundary values. If set to true, the filter includes the start and end dates. If set to false, the filter excludes them.
         public let inclusive: Bool?
 
+        @inlinable
         public init(constant: TopicRangeFilterConstant? = nil, inclusive: Bool? = nil) {
             self.constant = constant
             self.inclusive = inclusive
@@ -33601,6 +34621,7 @@ extension QuickSight {
         /// The user experience version of a topic.
         public let userExperienceVersion: TopicUserExperienceVersion?
 
+        @inlinable
         public init(dataSets: [DatasetMetadata]? = nil, description: String? = nil, name: String? = nil, userExperienceVersion: TopicUserExperienceVersion? = nil) {
             self.dataSets = dataSets
             self.description = description
@@ -33649,6 +34670,7 @@ extension QuickSight {
         /// The relative date filter.
         public let relativeDateFilter: TopicRelativeDateFilter?
 
+        @inlinable
         public init(categoryFilter: TopicCategoryFilter? = nil, dateRangeFilter: TopicDateRangeFilter? = nil, filterClass: FilterClass? = nil, filterDescription: String? = nil, filterName: String, filterSynonyms: [String]? = nil, filterType: NamedFilterType? = nil, numericEqualityFilter: TopicNumericEqualityFilter? = nil, numericRangeFilter: TopicNumericRangeFilter? = nil, operandFieldName: String, relativeDateFilter: TopicRelativeDateFilter? = nil) {
             self.categoryFilter = categoryFilter
             self.dateRangeFilter = dateRangeFilter
@@ -33706,6 +34728,7 @@ extension QuickSight {
         /// The visual for the TopicIR.
         public let visual: VisualOptions?
 
+        @inlinable
         public init(contributionAnalysis: TopicIRContributionAnalysis? = nil, filters: [[TopicIRFilterOption]]? = nil, groupByList: [TopicIRGroupBy]? = nil, metrics: [TopicIRMetric]? = nil, sort: TopicSortClause? = nil, visual: VisualOptions? = nil) {
             self.contributionAnalysis = contributionAnalysis
             self.filters = filters
@@ -33751,6 +34774,7 @@ extension QuickSight {
         /// The window size for the TopicIRComparisonMethod.
         public let windowSize: Int?
 
+        @inlinable
         public init(period: TopicTimeGranularity? = nil, type: ComparisonMethodType? = nil, windowSize: Int? = nil) {
             self.period = period
             self.type = type
@@ -33774,6 +34798,7 @@ extension QuickSight {
         /// The time ranges for the TopicIRContributionAnalysis.
         public let timeRanges: ContributionAnalysisTimeRanges?
 
+        @inlinable
         public init(direction: ContributionAnalysisDirection? = nil, factors: [ContributionAnalysisFactor]? = nil, sortType: ContributionAnalysisSortType? = nil, timeRanges: ContributionAnalysisTimeRanges? = nil) {
             self.direction = direction
             self.factors = factors
@@ -33835,6 +34860,7 @@ extension QuickSight {
         /// The TopBottomLimit for the TopicIRFilterOption.
         public let topBottomLimit: TopicConstantValue?
 
+        @inlinable
         public init(aggMetrics: [FilterAggMetrics]? = nil, aggregation: AggType? = nil, aggregationFunctionParameters: [String: String]? = nil, aggregationPartitionBy: [AggregationPartitionBy]? = nil, anchor: Anchor? = nil, constant: TopicConstantValue? = nil, filterClass: FilterClass? = nil, filterType: TopicIRFilterType? = nil, function: TopicIRFilterFunction? = nil, inclusive: Bool? = nil, inverse: Bool? = nil, lastNextOffset: TopicConstantValue? = nil, nullFilter: NullFilterOption? = nil, operandField: Identifier? = nil, range: TopicConstantValue? = nil, sortDirection: TopicSortDirection? = nil, timeGranularity: TimeGranularity? = nil, topBottomLimit: TopicConstantValue? = nil) {
             self.aggMetrics = aggMetrics
             self.aggregation = aggregation
@@ -33912,6 +34938,7 @@ extension QuickSight {
         /// The time granularity for the TopicIRGroupBy.
         public let timeGranularity: TopicTimeGranularity?
 
+        @inlinable
         public init(displayFormat: DisplayFormat? = nil, displayFormatOptions: DisplayFormatOptions? = nil, fieldName: Identifier? = nil, namedEntity: NamedEntityRef? = nil, sort: TopicSortClause? = nil, timeGranularity: TopicTimeGranularity? = nil) {
             self.displayFormat = displayFormat
             self.displayFormatOptions = displayFormatOptions
@@ -33957,6 +34984,7 @@ extension QuickSight {
         /// The operands for the TopicIRMetric.
         public let operands: [Identifier]?
 
+        @inlinable
         public init(calculatedFieldReferences: [Identifier]? = nil, comparisonMethod: TopicIRComparisonMethod? = nil, displayFormat: DisplayFormat? = nil, displayFormatOptions: DisplayFormatOptions? = nil, expression: String? = nil, function: AggFunction? = nil, metricId: Identifier? = nil, namedEntity: NamedEntityRef? = nil, operands: [Identifier]? = nil) {
             self.calculatedFieldReferences = calculatedFieldReferences
             self.comparisonMethod = comparisonMethod
@@ -34011,6 +35039,7 @@ extension QuickSight {
         /// The type of named entity that a topic represents.
         public let semanticEntityType: SemanticEntityType?
 
+        @inlinable
         public init(definition: [NamedEntityDefinition]? = nil, entityDescription: String? = nil, entityName: String, entitySynonyms: [String]? = nil, semanticEntityType: SemanticEntityType? = nil) {
             self.definition = definition
             self.entityDescription = entityDescription
@@ -34046,6 +35075,7 @@ extension QuickSight {
         /// The constant used in a numeric equality filter.
         public let constant: TopicSingularFilterConstant?
 
+        @inlinable
         public init(aggregation: NamedFilterAggType? = nil, constant: TopicSingularFilterConstant? = nil) {
             self.aggregation = aggregation
             self.constant = constant
@@ -34069,6 +35099,7 @@ extension QuickSight {
         /// A Boolean value that indicates whether the endpoints of the numeric range are included in the filter. If set to true, topics whose numeric field value is equal to the endpoint values will be included in the filter. If set to false, topics whose numeric field value is equal to the endpoint values will be excluded from the filter.
         public let inclusive: Bool?
 
+        @inlinable
         public init(aggregation: NamedFilterAggType? = nil, constant: TopicRangeFilterConstant? = nil, inclusive: Bool? = nil) {
             self.aggregation = aggregation
             self.constant = constant
@@ -34092,6 +35123,7 @@ extension QuickSight {
         /// The value of the constant that is used to specify the endpoints of a range filter.
         public let rangeConstant: RangeConstant?
 
+        @inlinable
         public init(constantType: ConstantType? = nil, rangeConstant: RangeConstant? = nil) {
             self.constantType = constantType
             self.rangeConstant = rangeConstant
@@ -34115,6 +35147,7 @@ extension QuickSight {
         /// The status of the refresh job that indicates whether the job is still running, completed successfully, or failed.
         public let refreshStatus: TopicRefreshStatus?
 
+        @inlinable
         public init(refreshArn: String? = nil, refreshId: String? = nil, refreshStatus: TopicRefreshStatus? = nil) {
             self.refreshArn = refreshArn
             self.refreshId = refreshId
@@ -34142,6 +35175,7 @@ extension QuickSight {
         /// The type of refresh schedule. Valid values for this structure are HOURLY, DAILY, WEEKLY, and MONTHLY.
         public let topicScheduleType: TopicScheduleType?
 
+        @inlinable
         public init(basedOnSpiceSchedule: Bool, isEnabled: Bool, repeatAt: String? = nil, startingAt: Date? = nil, timezone: String? = nil, topicScheduleType: TopicScheduleType? = nil) {
             self.basedOnSpiceSchedule = basedOnSpiceSchedule
             self.isEnabled = isEnabled
@@ -34176,6 +35210,7 @@ extension QuickSight {
         /// The definition of a refresh schedule.
         public let refreshSchedule: TopicRefreshSchedule?
 
+        @inlinable
         public init(datasetArn: String? = nil, datasetId: String? = nil, datasetName: String? = nil, refreshSchedule: TopicRefreshSchedule? = nil) {
             self.datasetArn = datasetArn
             self.datasetId = datasetId
@@ -34199,6 +35234,7 @@ extension QuickSight {
         /// The level of time precision that is used to aggregate DateTime values.
         public let timeGranularity: TopicTimeGranularity?
 
+        @inlinable
         public init(constant: TopicSingularFilterConstant? = nil, relativeDateFilterFunction: TopicRelativeDateFilterFunction? = nil, timeGranularity: TopicTimeGranularity? = nil) {
             self.constant = constant
             self.relativeDateFilterFunction = relativeDateFilterFunction
@@ -34232,6 +35268,7 @@ extension QuickSight {
         /// The template for the TopicReviewedAnswer.
         public let template: TopicTemplate?
 
+        @inlinable
         public init(answerId: String, arn: String? = nil, datasetArn: String, mir: TopicIR? = nil, primaryVisual: TopicVisual? = nil, question: String, template: TopicTemplate? = nil) {
             self.answerId = answerId
             self.arn = arn
@@ -34259,6 +35296,7 @@ extension QuickSight {
         /// The value of the singular filter constant.
         public let singularConstant: String?
 
+        @inlinable
         public init(constantType: ConstantType? = nil, singularConstant: String? = nil) {
             self.constantType = constantType
             self.singularConstant = singularConstant
@@ -34280,6 +35318,7 @@ extension QuickSight {
         /// The sort direction for the TopicSortClause.
         public let sortDirection: TopicSortDirection?
 
+        @inlinable
         public init(operand: Identifier? = nil, sortDirection: TopicSortDirection? = nil) {
             self.operand = operand
             self.sortDirection = sortDirection
@@ -34305,6 +35344,7 @@ extension QuickSight {
         /// The user experience version of the topic.
         public let userExperienceVersion: TopicUserExperienceVersion?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, topicId: String? = nil, userExperienceVersion: TopicUserExperienceVersion? = nil) {
             self.arn = arn
             self.name = name
@@ -34326,6 +35366,7 @@ extension QuickSight {
         /// The template type for the TopicTemplate.
         public let templateType: String?
 
+        @inlinable
         public init(slots: [Slot]? = nil, templateType: String? = nil) {
             self.slots = slots
             self.templateType = templateType
@@ -34354,6 +35395,7 @@ extension QuickSight {
         /// The visual ID for the TopicVisual.
         public let visualId: String?
 
+        @inlinable
         public init(ir: TopicIR? = nil, role: VisualRole? = nil, supportingVisuals: [TopicVisual]? = nil, visualId: String? = nil) {
             self.ir = ir
             self.role = role
@@ -34385,6 +35427,7 @@ extension QuickSight {
         /// The value field that is used in a computation.
         public let value: MeasureField?
 
+        @inlinable
         public init(computationId: String, name: String? = nil, value: MeasureField? = nil) {
             self.computationId = computationId
             self.name = name
@@ -34409,6 +35452,7 @@ extension QuickSight {
         /// A built in aggregation function for total values.
         public let simpleTotalAggregationFunction: SimpleTotalAggregationFunction?
 
+        @inlinable
         public init(simpleTotalAggregationFunction: SimpleTotalAggregationFunction? = nil) {
             self.simpleTotalAggregationFunction = simpleTotalAggregationFunction
         }
@@ -34424,6 +35468,7 @@ extension QuickSight {
         /// The total aggregation function that you want to set for a specified field id.
         public let totalAggregationFunction: TotalAggregationFunction
 
+        @inlinable
         public init(fieldId: String, totalAggregationFunction: TotalAggregationFunction) {
             self.fieldId = fieldId
             self.totalAggregationFunction = totalAggregationFunction
@@ -34454,6 +35499,7 @@ extension QuickSight {
         /// The visibility configuration for the total cells.
         public let totalsVisibility: Visibility?
 
+        @inlinable
         public init(customLabel: String? = nil, placement: TableTotalsPlacement? = nil, scrollStatus: TableTotalsScrollStatus? = nil, totalAggregationOptions: [TotalAggregationOption]? = nil, totalCellStyle: TableCellStyle? = nil, totalsVisibility: Visibility? = nil) {
             self.customLabel = customLabel
             self.placement = placement
@@ -34489,6 +35535,7 @@ extension QuickSight {
         /// The size field well of a tree map. Values are aggregated based on group by fields.
         public let sizes: [MeasureField]?
 
+        @inlinable
         public init(colors: [MeasureField]? = nil, groups: [DimensionField]? = nil, sizes: [MeasureField]? = nil) {
             self.colors = colors
             self.groups = groups
@@ -34539,6 +35586,7 @@ extension QuickSight {
         /// The tooltip display setup of the visual.
         public let tooltip: TooltipOptions?
 
+        @inlinable
         public init(colorLabelOptions: ChartAxisLabelOptions? = nil, colorScale: ColorScale? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: TreeMapFieldWells? = nil, groupLabelOptions: ChartAxisLabelOptions? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, sizeLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: TreeMapSortConfiguration? = nil, tooltip: TooltipOptions? = nil) {
             self.colorLabelOptions = colorLabelOptions
             self.colorScale = colorScale
@@ -34582,6 +35630,7 @@ extension QuickSight {
         /// The aggregated field wells of a tree map.
         public let treeMapAggregatedFieldWells: TreeMapAggregatedFieldWells?
 
+        @inlinable
         public init(treeMapAggregatedFieldWells: TreeMapAggregatedFieldWells? = nil) {
             self.treeMapAggregatedFieldWells = treeMapAggregatedFieldWells
         }
@@ -34601,6 +35650,7 @@ extension QuickSight {
         /// The sort configuration of group by fields.
         public let treeMapSort: [FieldSortOptions]?
 
+        @inlinable
         public init(treeMapGroupItemsLimitConfiguration: ItemsLimitConfiguration? = nil, treeMapSort: [FieldSortOptions]? = nil) {
             self.treeMapGroupItemsLimitConfiguration = treeMapGroupItemsLimitConfiguration
             self.treeMapSort = treeMapSort
@@ -34633,6 +35683,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: TreeMapConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -34673,6 +35724,7 @@ extension QuickSight {
         /// The visibility of the trend arrows.
         public let visibility: Visibility?
 
+        @inlinable
         public init(visibility: Visibility? = nil) {
             self.visibility = visibility
         }
@@ -34690,6 +35742,7 @@ extension QuickSight {
         /// The port for the Trino data source.
         public let port: Int
 
+        @inlinable
         public init(catalog: String, host: String, port: Int) {
             self.catalog = catalog
             self.host = host
@@ -34717,6 +35770,7 @@ extension QuickSight {
         /// Twitter query string.
         public let query: String
 
+        @inlinable
         public init(maxRows: Int, query: String) {
             self.maxRows = maxRows
             self.query = query
@@ -34738,6 +35792,7 @@ extension QuickSight {
         /// Determines the list of font families.
         public let fontFamilies: [Font]?
 
+        @inlinable
         public init(fontFamilies: [Font]? = nil) {
             self.fontFamilies = fontFamilies
         }
@@ -34785,6 +35840,7 @@ extension QuickSight {
         /// The foreground color that applies to any text or other elements that appear over the warning color.
         public let warningForeground: String?
 
+        @inlinable
         public init(accent: String? = nil, accentForeground: String? = nil, danger: String? = nil, dangerForeground: String? = nil, dimension: String? = nil, dimensionForeground: String? = nil, measure: String? = nil, measureForeground: String? = nil, primaryBackground: String? = nil, primaryForeground: String? = nil, secondaryBackground: String? = nil, secondaryForeground: String? = nil, success: String? = nil, successForeground: String? = nil, warning: String? = nil, warningForeground: String? = nil) {
             self.accent = accent
             self.accentForeground = accentForeground
@@ -34851,6 +35907,7 @@ extension QuickSight {
         /// The format configuration of the field.
         public let formatConfiguration: FormatConfiguration?
 
+        @inlinable
         public init(column: ColumnIdentifier, fieldId: String, formatConfiguration: FormatConfiguration? = nil) {
             self.column = column
             self.fieldId = fieldId
@@ -34879,6 +35936,7 @@ extension QuickSight {
         /// The name of a computation.
         public let name: String?
 
+        @inlinable
         public init(category: DimensionField? = nil, computationId: String, name: String? = nil) {
             self.category = category
             self.computationId = computationId
@@ -34905,6 +35963,7 @@ extension QuickSight {
         /// The column tags to remove from this column.
         public let tagNames: [ColumnTagName]
 
+        @inlinable
         public init(columnName: String, tagNames: [ColumnTagName]) {
             self.columnName = columnName
             self.tagNames = tagNames
@@ -34927,6 +35986,7 @@ extension QuickSight {
         /// The keys of the key-value pairs for the resource tag or tags assigned to the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -34957,6 +36017,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -34982,6 +36043,7 @@ extension QuickSight {
         /// The namespace that you want to update Amazon QuickSight customizations for.
         public let namespace: String?
 
+        @inlinable
         public init(accountCustomization: AccountCustomization, awsAccountId: String, namespace: String? = nil) {
             self.accountCustomization = accountCustomization
             self.awsAccountId = awsAccountId
@@ -35023,6 +36085,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(accountCustomization: AccountCustomization? = nil, arn: String? = nil, awsAccountId: String? = nil, namespace: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.accountCustomization = accountCustomization
             self.arn = arn
@@ -35062,6 +36125,7 @@ extension QuickSight {
         /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
         public let terminationProtectionEnabled: Bool?
 
+        @inlinable
         public init(awsAccountId: String, defaultNamespace: String, notificationEmail: String? = nil, terminationProtectionEnabled: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.defaultNamespace = defaultNamespace
@@ -35099,6 +36163,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -35126,6 +36191,7 @@ extension QuickSight {
         /// A structure that describes the permissions to remove and the principal to remove them from.
         public let revokePermissions: [ResourcePermission]?
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -35177,6 +36243,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(analysisArn: String? = nil, analysisId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.analysisArn = analysisArn
             self.analysisId = analysisId
@@ -35221,6 +36288,7 @@ extension QuickSight {
         /// The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
         public let validationStrategy: ValidationStrategy?
 
+        @inlinable
         public init(analysisId: String, awsAccountId: String, definition: AnalysisDefinition? = nil, name: String, parameters: Parameters? = nil, sourceEntity: AnalysisSourceEntity? = nil, themeArn: String? = nil, validationStrategy: ValidationStrategy? = nil) {
             self.analysisId = analysisId
             self.awsAccountId = awsAccountId
@@ -35281,6 +36349,7 @@ extension QuickSight {
         /// The update status of the last update that was made to the analysis.
         public let updateStatus: ResourceStatus?
 
+        @inlinable
         public init(analysisId: String? = nil, arn: String? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: ResourceStatus? = nil) {
             self.analysisId = analysisId
             self.arn = arn
@@ -35315,6 +36384,7 @@ extension QuickSight {
         ///  list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
         public let linkEntities: [String]
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, linkEntities: [String]) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -35359,6 +36429,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardArn: String? = nil, linkEntities: [String]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardArn = dashboardArn
             self.linkEntities = linkEntities
@@ -35396,6 +36467,7 @@ extension QuickSight {
         /// The permissions that you want to revoke from this resource.
         public let revokePermissions: [ResourcePermission]?
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, grantLinkPermissions: [ResourcePermission]? = nil, grantPermissions: [ResourcePermission]? = nil, revokeLinkPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -35463,6 +36535,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardArn: String? = nil, dashboardId: String? = nil, linkSharingConfiguration: LinkSharingConfiguration? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardId = dashboardId
@@ -35500,6 +36573,7 @@ extension QuickSight {
         /// The version number of the dashboard.
         public let versionNumber: Int64
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, versionNumber: Int64) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -35537,6 +36611,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dashboardArn: String? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardId = dashboardId
@@ -35582,6 +36657,7 @@ extension QuickSight {
         /// A description for the first version of the dashboard being created.
         public let versionDescription: String?
 
+        @inlinable
         public init(awsAccountId: String, dashboardId: String, dashboardPublishOptions: DashboardPublishOptions? = nil, definition: DashboardVersionDefinition? = nil, name: String, parameters: Parameters? = nil, sourceEntity: DashboardSourceEntity? = nil, themeArn: String? = nil, validationStrategy: ValidationStrategy? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
@@ -35652,6 +36728,7 @@ extension QuickSight {
         /// The ARN of the dashboard, including the version number.
         public let versionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, dashboardId: String? = nil, requestId: String? = nil, status: Int? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -35682,6 +36759,7 @@ extension QuickSight {
         /// The resource permissions that you want to revoke from the dataset.
         public let revokePermissions: [ResourcePermission]?
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -35731,6 +36809,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSetArn: String? = nil, dataSetId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSetArn = dataSetArn
             self.dataSetId = dataSetId
@@ -35782,6 +36861,7 @@ extension QuickSight {
         /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
+        @inlinable
         public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
@@ -35891,6 +36971,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, dataSetId: String? = nil, ingestionArn: String? = nil, ingestionId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.dataSetId = dataSetId
@@ -35930,6 +37011,7 @@ extension QuickSight {
         /// A list of resource permissions that you want to revoke on the data source.
         public let revokePermissions: [ResourcePermission]?
 
+        @inlinable
         public init(awsAccountId: String, dataSourceId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
             self.awsAccountId = awsAccountId
             self.dataSourceId = dataSourceId
@@ -35978,6 +37060,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(dataSourceArn: String? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dataSourceArn = dataSourceArn
             self.dataSourceId = dataSourceId
@@ -36020,6 +37103,7 @@ extension QuickSight {
         /// 			your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
+        @inlinable
         public init(awsAccountId: String, credentials: DataSourceCredentials? = nil, dataSourceId: String, dataSourceParameters: DataSourceParameters? = nil, name: String, sslProperties: SslProperties? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.awsAccountId = awsAccountId
             self.credentials = credentials
@@ -36073,6 +37157,7 @@ extension QuickSight {
         /// The update status of the data source's last update.
         public let updateStatus: ResourceStatus?
 
+        @inlinable
         public init(arn: String? = nil, dataSourceId: String? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: ResourceStatus? = nil) {
             self.arn = arn
             self.dataSourceId = dataSourceId
@@ -36109,6 +37194,7 @@ extension QuickSight {
         /// The permissions that you want to revoke from a resource.  Namespace ARNs are not supported Principal values for folder permissions.
         public let revokePermissions: [ResourcePermission]?
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -36162,6 +37248,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.folderId = folderId
@@ -36187,6 +37274,7 @@ extension QuickSight {
         /// The name of the folder.
         public let name: String
 
+        @inlinable
         public init(awsAccountId: String, folderId: String, name: String) {
             self.awsAccountId = awsAccountId
             self.folderId = folderId
@@ -36227,6 +37315,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.folderId = folderId
@@ -36261,6 +37350,7 @@ extension QuickSight {
         /// The namespace of the group that you want to update.
         public let namespace: String
 
+        @inlinable
         public init(awsAccountId: String, description: String? = nil, groupName: String, namespace: String) {
             self.awsAccountId = awsAccountId
             self.description = description
@@ -36302,6 +37392,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(group: Group? = nil, requestId: String? = nil, status: Int? = nil) {
             self.group = group
             self.requestId = requestId
@@ -36345,6 +37436,7 @@ extension QuickSight {
         /// 			groups specified in this assignment.
         public let policyArn: String?
 
+        @inlinable
         public init(assignmentName: String, assignmentStatus: AssignmentStatus? = nil, awsAccountId: String, identities: [String: [String]]? = nil, namespace: String, policyArn: String? = nil) {
             self.assignmentName = assignmentName
             self.assignmentStatus = assignmentStatus
@@ -36403,6 +37495,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.assignmentId = assignmentId
             self.assignmentName = assignmentName
@@ -36443,6 +37536,7 @@ extension QuickSight {
         /// The name of the Amazon Web Services service that contains the authorized targets that you want to add or update.
         public let service: ServiceType
 
+        @inlinable
         public init(authorizedTargets: [String]? = nil, awsAccountId: String, service: ServiceType) {
             self.authorizedTargets = authorizedTargets
             self.awsAccountId = awsAccountId
@@ -36474,6 +37568,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -36503,6 +37598,7 @@ extension QuickSight {
         /// A map of VPC IDs and their corresponding rules. When you configure this parameter, traffic from all VPC endpoints that are present in the specified VPC is allowed.
         public let vpcIdRestrictionRuleMap: [String: String]?
 
+        @inlinable
         public init(awsAccountId: String, enabled: Bool? = nil, ipRestrictionRuleMap: [String: String]? = nil, vpcEndpointIdRestrictionRuleMap: [String: String]? = nil, vpcIdRestrictionRuleMap: [String: String]? = nil) {
             self.awsAccountId = awsAccountId
             self.enabled = enabled
@@ -36559,6 +37655,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(awsAccountId: String? = nil, requestId: String? = nil, status: Int? = nil) {
             self.awsAccountId = awsAccountId
             self.requestId = requestId
@@ -36585,6 +37682,7 @@ extension QuickSight {
         /// A list of RegisteredCustomerManagedKey objects to be updated to the Amazon QuickSight account.
         public let keyRegistration: [RegisteredCustomerManagedKey]
 
+        @inlinable
         public init(awsAccountId: String, keyRegistration: [RegisteredCustomerManagedKey]) {
             self.awsAccountId = awsAccountId
             self.keyRegistration = keyRegistration
@@ -36616,6 +37714,7 @@ extension QuickSight {
         /// A list of all customer managed key registrations that were successfully updated.
         public let successfulKeyRegistration: [SuccessfulKeyRegistrationEntry]?
 
+        @inlinable
         public init(failedKeyRegistration: [FailedKeyRegistrationEntry]? = nil, requestId: String? = nil, successfulKeyRegistration: [SuccessfulKeyRegistrationEntry]? = nil) {
             self.failedKeyRegistration = failedKeyRegistration
             self.requestId = requestId
@@ -36635,6 +37734,7 @@ extension QuickSight {
         /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
         public let publicSharingEnabled: Bool?
 
+        @inlinable
         public init(awsAccountId: String, publicSharingEnabled: Bool? = nil) {
             self.awsAccountId = awsAccountId
             self.publicSharingEnabled = publicSharingEnabled
@@ -36664,6 +37764,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -36689,6 +37790,7 @@ extension QuickSight {
         /// The refresh schedule.
         public let schedule: RefreshSchedule
 
+        @inlinable
         public init(awsAccountId: String, dataSetId: String, schedule: RefreshSchedule) {
             self.awsAccountId = awsAccountId
             self.dataSetId = dataSetId
@@ -36725,6 +37827,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(arn: String? = nil, requestId: String? = nil, scheduleId: String? = nil, status: Int? = nil) {
             self.arn = arn
             self.requestId = requestId
@@ -36758,6 +37861,7 @@ extension QuickSight {
         /// The name of role tht you want to update.
         public let role: Role
 
+        @inlinable
         public init(awsAccountId: String, customPermissionsName: String, namespace: String, role: Role) {
             self.awsAccountId = awsAccountId
             self.customPermissionsName = customPermissionsName
@@ -36796,6 +37900,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -36813,6 +37918,7 @@ extension QuickSight {
         /// Determines how SPICE capacity can be purchased. The following options are available.     MANUAL: SPICE capacity can only be purchased manually.    AUTO_PURCHASE: Extra SPICE capacity is automatically purchased on your behalf as needed. SPICE capacity can also be purchased manually with this option.
         public let purchaseMode: PurchaseMode
 
+        @inlinable
         public init(awsAccountId: String, purchaseMode: PurchaseMode) {
             self.awsAccountId = awsAccountId
             self.purchaseMode = purchaseMode
@@ -36842,6 +37948,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil) {
             self.requestId = requestId
             self.status = status
@@ -36872,6 +37979,7 @@ extension QuickSight {
         /// The version number of the template.
         public let templateVersionNumber: Int64
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, templateId: String, templateVersionNumber: Int64) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -36914,6 +38022,7 @@ extension QuickSight {
         /// The template alias.
         public let templateAlias: TemplateAlias?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, templateAlias: TemplateAlias? = nil) {
             self.requestId = requestId
             self.status = status
@@ -36944,6 +38053,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String
 
+        @inlinable
         public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil, templateId: String) {
             self.awsAccountId = awsAccountId
             self.grantPermissions = grantPermissions
@@ -36995,6 +38105,7 @@ extension QuickSight {
         /// The ID for the template.
         public let templateId: String?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, templateArn: String? = nil, templateId: String? = nil) {
             self.permissions = permissions
             self.requestId = requestId
@@ -37048,6 +38159,7 @@ extension QuickSight {
         /// 				VersionDescription field.
         public let versionDescription: String?
 
+        @inlinable
         public init(awsAccountId: String, definition: TemplateVersionDefinition? = nil, name: String? = nil, sourceEntity: TemplateSourceEntity? = nil, templateId: String, validationStrategy: ValidationStrategy? = nil, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.definition = definition
@@ -37108,6 +38220,7 @@ extension QuickSight {
         /// The ARN for the template, including the version information of the first version.
         public let versionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, templateId: String? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -37147,6 +38260,7 @@ extension QuickSight {
         /// The version number of the theme that the alias should reference.
         public let themeVersionNumber: Int64
 
+        @inlinable
         public init(aliasName: String, awsAccountId: String, themeId: String, themeVersionNumber: Int64) {
             self.aliasName = aliasName
             self.awsAccountId = awsAccountId
@@ -37189,6 +38303,7 @@ extension QuickSight {
         /// Information about the theme alias.
         public let themeAlias: ThemeAlias?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, themeAlias: ThemeAlias? = nil) {
             self.requestId = requestId
             self.status = status
@@ -37219,6 +38334,7 @@ extension QuickSight {
         /// The ID for the theme.
         public let themeId: String
 
+        @inlinable
         public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil, themeId: String) {
             self.awsAccountId = awsAccountId
             self.grantPermissions = grantPermissions
@@ -37270,6 +38386,7 @@ extension QuickSight {
         /// The ID for the theme.
         public let themeId: String?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, themeArn: String? = nil, themeId: String? = nil) {
             self.permissions = permissions
             self.requestId = requestId
@@ -37313,6 +38430,7 @@ extension QuickSight {
         /// 			theme maintains a description of the version in VersionDescription.
         public let versionDescription: String?
 
+        @inlinable
         public init(awsAccountId: String, baseThemeId: String, configuration: ThemeConfiguration? = nil, name: String? = nil, themeId: String, versionDescription: String? = nil) {
             self.awsAccountId = awsAccountId
             self.baseThemeId = baseThemeId
@@ -37372,6 +38490,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) for the new version of the theme.
         public let versionArn: String?
 
+        @inlinable
         public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, requestId: String? = nil, status: Int? = nil, themeId: String? = nil, versionArn: String? = nil) {
             self.arn = arn
             self.creationStatus = creationStatus
@@ -37411,6 +38530,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil, topicId: String) {
             self.awsAccountId = awsAccountId
             self.grantPermissions = grantPermissions
@@ -37461,6 +38581,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.permissions = permissions
             self.requestId = requestId
@@ -37497,6 +38618,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, datasetId: String, refreshSchedule: TopicRefreshSchedule, topicId: String) {
             self.awsAccountId = awsAccountId
             self.datasetId = datasetId
@@ -37539,6 +38661,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(datasetArn: String? = nil, requestId: String? = nil, status: Int? = nil, topicArn: String? = nil, topicId: String? = nil) {
             self.datasetArn = datasetArn
             self.requestId = requestId
@@ -37573,6 +38696,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String
 
+        @inlinable
         public init(awsAccountId: String, topic: TopicDetails, topicId: String) {
             self.awsAccountId = awsAccountId
             self.topic = topic
@@ -37613,6 +38737,7 @@ extension QuickSight {
         /// The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let topicId: String?
 
+        @inlinable
         public init(arn: String? = nil, refreshArn: String? = nil, requestId: String? = nil, status: Int? = nil, topicId: String? = nil) {
             self.arn = arn
             self.refreshArn = refreshArn
@@ -37666,6 +38791,7 @@ extension QuickSight {
         /// The Amazon QuickSight user name that you want to update.
         public let userName: String
 
+        @inlinable
         public init(awsAccountId: String, customFederationProviderUrl: String? = nil, customPermissionsName: String? = nil, email: String, externalLoginFederationProviderType: String? = nil, externalLoginId: String? = nil, namespace: String, role: UserRole, unapplyCustomPermissions: Bool? = nil, userName: String) {
             self.awsAccountId = awsAccountId
             self.customFederationProviderUrl = customFederationProviderUrl
@@ -37726,6 +38852,7 @@ extension QuickSight {
         /// The Amazon QuickSight user.
         public let user: User?
 
+        @inlinable
         public init(requestId: String? = nil, status: Int? = nil, user: User? = nil) {
             self.requestId = requestId
             self.status = status
@@ -37765,6 +38892,7 @@ extension QuickSight {
         /// 				Amazon Web Services account.
         public let vpcConnectionId: String
 
+        @inlinable
         public init(awsAccountId: String, dnsResolvers: [String]? = nil, name: String, roleArn: String, securityGroupIds: [String], subnetIds: [String], vpcConnectionId: String) {
             self.awsAccountId = awsAccountId
             self.dnsResolvers = dnsResolvers
@@ -37841,6 +38969,7 @@ extension QuickSight {
         /// The ID of the VPC connection that you are updating. This ID is a unique identifier for each Amazon Web Services Region in anAmazon Web Services account.
         public let vpcConnectionId: String?
 
+        @inlinable
         public init(arn: String? = nil, availabilityStatus: VPCConnectionAvailabilityStatus? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: VPCConnectionResourceStatus? = nil, vpcConnectionId: String? = nil) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
@@ -37882,6 +39011,7 @@ extension QuickSight {
         /// Text qualifier.
         public let textQualifier: TextQualifier?
 
+        @inlinable
         public init(containsHeader: Bool? = nil, delimiter: String? = nil, format: FileFormat? = nil, startFromRow: Int? = nil, textQualifier: TextQualifier? = nil) {
             self.containsHeader = containsHeader
             self.delimiter = delimiter
@@ -37929,6 +39059,7 @@ extension QuickSight {
         /// The user's user name. This value is required if you are registering a user that will be managed in Amazon QuickSight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public let userName: String?
 
+        @inlinable
         public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, externalLoginFederationProviderType: String? = nil, externalLoginFederationProviderUrl: String? = nil, externalLoginId: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {
             self.active = active
             self.arn = arn
@@ -37984,6 +39115,7 @@ extension QuickSight {
         /// The Amazon EC2 VPC ID associated with the VPC connection.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, availabilityStatus: VPCConnectionAvailabilityStatus? = nil, createdTime: Date? = nil, dnsResolvers: [String]? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, status: VPCConnectionResourceStatus? = nil, vpcConnectionId: String? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
@@ -38041,6 +39173,7 @@ extension QuickSight {
         /// The Amazon EC2 VPC ID associated with the VPC connection.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, availabilityStatus: VPCConnectionAvailabilityStatus? = nil, createdTime: Date? = nil, dnsResolvers: [String]? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, status: VPCConnectionResourceStatus? = nil, vpcConnectionId: String? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.availabilityStatus = availabilityStatus
@@ -38076,6 +39209,7 @@ extension QuickSight {
         /// The mode of validation for the asset to be created or updated. When you set this value to STRICT, strict validation for every error is enforced. When you set this value to LENIENT, validation is skipped for specific UI errors.
         public let mode: ValidationStrategyMode
 
+        @inlinable
         public init(mode: ValidationStrategyMode) {
             self.mode = mode
         }
@@ -38089,6 +39223,7 @@ extension QuickSight {
         /// The percent range in the visible range.
         public let percentRange: PercentVisibleRange?
 
+        @inlinable
         public init(percentRange: PercentVisibleRange? = nil) {
             self.percentRange = percentRange
         }
@@ -38150,6 +39285,7 @@ extension QuickSight {
         /// A word cloud. For more information, see Using word clouds in the Amazon QuickSight User Guide.
         public let wordCloudVisual: WordCloudVisual?
 
+        @inlinable
         public init(barChartVisual: BarChartVisual? = nil, boxPlotVisual: BoxPlotVisual? = nil, comboChartVisual: ComboChartVisual? = nil, customContentVisual: CustomContentVisual? = nil, emptyVisual: EmptyVisual? = nil, filledMapVisual: FilledMapVisual? = nil, funnelChartVisual: FunnelChartVisual? = nil, gaugeChartVisual: GaugeChartVisual? = nil, geospatialMapVisual: GeospatialMapVisual? = nil, heatMapVisual: HeatMapVisual? = nil, histogramVisual: HistogramVisual? = nil, insightVisual: InsightVisual? = nil, kpiVisual: KPIVisual? = nil, lineChartVisual: LineChartVisual? = nil, pieChartVisual: PieChartVisual? = nil, pivotTableVisual: PivotTableVisual? = nil, radarChartVisual: RadarChartVisual? = nil, sankeyDiagramVisual: SankeyDiagramVisual? = nil, scatterPlotVisual: ScatterPlotVisual? = nil, tableVisual: TableVisual? = nil, treeMapVisual: TreeMapVisual? = nil, waterfallVisual: WaterfallVisual? = nil, wordCloudVisual: WordCloudVisual? = nil) {
             self.barChartVisual = barChartVisual
             self.boxPlotVisual = boxPlotVisual
@@ -38233,6 +39369,7 @@ extension QuickSight {
         /// The availaiblity status of a visual's axis sort options.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -38254,6 +39391,7 @@ extension QuickSight {
         /// The trigger of the VisualCustomAction. Valid values are defined as follows:    DATA_POINT_CLICK: Initiates a custom action by a left pointer click on a data point.    DATA_POINT_MENU: Initiates a custom action by right pointer click from the menu.
         public let trigger: VisualCustomActionTrigger
 
+        @inlinable
         public init(actionOperations: [VisualCustomActionOperation], customActionId: String, name: String, status: WidgetStatus? = nil, trigger: VisualCustomActionTrigger) {
             self.actionOperations = actionOperations
             self.customActionId = customActionId
@@ -38294,6 +39432,7 @@ extension QuickSight {
         /// The URL operation that opens a link to another webpage.
         public let urlOperation: CustomActionURLOperation?
 
+        @inlinable
         public init(filterOperation: CustomActionFilterOperation? = nil, navigationOperation: CustomActionNavigationOperation? = nil, setParametersOperation: CustomActionSetParametersOperation? = nil, urlOperation: CustomActionURLOperation? = nil) {
             self.filterOperation = filterOperation
             self.navigationOperation = navigationOperation
@@ -38322,6 +39461,7 @@ extension QuickSight {
         /// The on-visual menu options for a visual.
         public let visualMenuOption: VisualMenuOption?
 
+        @inlinable
         public init(contextMenuOption: ContextMenuOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
             self.contextMenuOption = contextMenuOption
             self.visualMenuOption = visualMenuOption
@@ -38337,6 +39477,7 @@ extension QuickSight {
         /// The availaiblity status of a visual's menu options.
         public let availabilityStatus: DashboardBehavior?
 
+        @inlinable
         public init(availabilityStatus: DashboardBehavior? = nil) {
             self.availabilityStatus = availabilityStatus
         }
@@ -38350,6 +39491,7 @@ extension QuickSight {
         /// The type for a VisualOptions.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -38369,6 +39511,7 @@ extension QuickSight {
         /// The color map options for the visual palette.
         public let colorMap: [DataPathColor]?
 
+        @inlinable
         public init(chartColor: String? = nil, colorMap: [DataPathColor]? = nil) {
             self.chartColor = chartColor
             self.colorMap = colorMap
@@ -38394,6 +39537,7 @@ extension QuickSight {
         /// The visibility of the subtitle label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(formatText: LongFormatText? = nil, visibility: Visibility? = nil) {
             self.formatText = formatText
             self.visibility = visibility
@@ -38415,6 +39559,7 @@ extension QuickSight {
         /// The visibility of the title label.
         public let visibility: Visibility?
 
+        @inlinable
         public init(formatText: ShortFormatText? = nil, visibility: Visibility? = nil) {
             self.formatText = formatText
             self.visibility = visibility
@@ -38434,6 +39579,7 @@ extension QuickSight {
         /// The Amazon Resource Name (ARN) for the VPC connection.
         public let vpcConnectionArn: String
 
+        @inlinable
         public init(vpcConnectionArn: String) {
             self.vpcConnectionArn = vpcConnectionArn
         }
@@ -38451,6 +39597,7 @@ extension QuickSight {
         /// The value field wells of a waterfall visual.
         public let values: [MeasureField]?
 
+        @inlinable
         public init(breakdowns: [DimensionField]? = nil, categories: [DimensionField]? = nil, values: [MeasureField]? = nil) {
             self.breakdowns = breakdowns
             self.categories = categories
@@ -38483,6 +39630,7 @@ extension QuickSight {
         /// The color configuration for individual groups within a waterfall visual.
         public let groupColorConfiguration: WaterfallChartGroupColorConfiguration?
 
+        @inlinable
         public init(groupColorConfiguration: WaterfallChartGroupColorConfiguration? = nil) {
             self.groupColorConfiguration = groupColorConfiguration
         }
@@ -38522,6 +39670,7 @@ extension QuickSight {
         /// The options that determine the presentation of a waterfall visual.
         public let waterfallChartOptions: WaterfallChartOptions?
 
+        @inlinable
         public init(categoryAxisDisplayOptions: AxisDisplayOptions? = nil, categoryAxisLabelOptions: ChartAxisLabelOptions? = nil, colorConfiguration: WaterfallChartColorConfiguration? = nil, dataLabels: DataLabelOptions? = nil, fieldWells: WaterfallChartFieldWells? = nil, interactions: VisualInteractionOptions? = nil, legend: LegendOptions? = nil, primaryYAxisDisplayOptions: AxisDisplayOptions? = nil, primaryYAxisLabelOptions: ChartAxisLabelOptions? = nil, sortConfiguration: WaterfallChartSortConfiguration? = nil, visualPalette: VisualPalette? = nil, waterfallChartOptions: WaterfallChartOptions? = nil) {
             self.categoryAxisDisplayOptions = categoryAxisDisplayOptions
             self.categoryAxisLabelOptions = categoryAxisLabelOptions
@@ -38570,6 +39719,7 @@ extension QuickSight {
         /// The field well configuration of a waterfall visual.
         public let waterfallChartAggregatedFieldWells: WaterfallChartAggregatedFieldWells?
 
+        @inlinable
         public init(waterfallChartAggregatedFieldWells: WaterfallChartAggregatedFieldWells? = nil) {
             self.waterfallChartAggregatedFieldWells = waterfallChartAggregatedFieldWells
         }
@@ -38591,6 +39741,7 @@ extension QuickSight {
         /// Defines the color for the total bars of a waterfall chart.
         public let totalBarColor: String?
 
+        @inlinable
         public init(negativeBarColor: String? = nil, positiveBarColor: String? = nil, totalBarColor: String? = nil) {
             self.negativeBarColor = negativeBarColor
             self.positiveBarColor = positiveBarColor
@@ -38614,6 +39765,7 @@ extension QuickSight {
         /// This option determines the total bar label of a waterfall visual.
         public let totalBarLabel: String?
 
+        @inlinable
         public init(totalBarLabel: String? = nil) {
             self.totalBarLabel = totalBarLabel
         }
@@ -38629,6 +39781,7 @@ extension QuickSight {
         /// The sort configuration of the category fields.
         public let categorySort: [FieldSortOptions]?
 
+        @inlinable
         public init(breakdownItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil) {
             self.breakdownItemsLimit = breakdownItemsLimit
             self.categorySort = categorySort
@@ -38661,6 +39814,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WaterfallChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -38703,6 +39857,7 @@ extension QuickSight {
         /// The target value that you want to meet for the provided date.
         public let value: Double
 
+        @inlinable
         public init(date: Date, value: Double) {
             self.date = date
             self.value = value
@@ -38722,6 +39877,7 @@ extension QuickSight {
         /// The target value that you want to meet for the provided date range.
         public let value: Double
 
+        @inlinable
         public init(endDate: Date, startDate: Date, value: Double) {
             self.endDate = endDate
             self.startDate = startDate
@@ -38741,6 +39897,7 @@ extension QuickSight {
         /// The size field well of a word cloud. Values are aggregated based on group by fields.
         public let size: [MeasureField]?
 
+        @inlinable
         public init(groupBy: [DimensionField]? = nil, size: [MeasureField]? = nil) {
             self.groupBy = groupBy
             self.size = size
@@ -38775,6 +39932,7 @@ extension QuickSight {
         /// The options for a word cloud visual.
         public let wordCloudOptions: WordCloudOptions?
 
+        @inlinable
         public init(categoryLabelOptions: ChartAxisLabelOptions? = nil, fieldWells: WordCloudFieldWells? = nil, interactions: VisualInteractionOptions? = nil, sortConfiguration: WordCloudSortConfiguration? = nil, wordCloudOptions: WordCloudOptions? = nil) {
             self.categoryLabelOptions = categoryLabelOptions
             self.fieldWells = fieldWells
@@ -38803,6 +39961,7 @@ extension QuickSight {
         /// The aggregated field wells of a word cloud.
         public let wordCloudAggregatedFieldWells: WordCloudAggregatedFieldWells?
 
+        @inlinable
         public init(wordCloudAggregatedFieldWells: WordCloudAggregatedFieldWells? = nil) {
             self.wordCloudAggregatedFieldWells = wordCloudAggregatedFieldWells
         }
@@ -38830,6 +39989,7 @@ extension QuickSight {
         /// The word scaling options (emphasize, normal) for the words in a word cloud.
         public let wordScaling: WordCloudWordScaling?
 
+        @inlinable
         public init(cloudLayout: WordCloudCloudLayout? = nil, maximumStringLength: Int? = nil, wordCasing: WordCloudWordCasing? = nil, wordOrientation: WordCloudWordOrientation? = nil, wordPadding: WordCloudWordPadding? = nil, wordScaling: WordCloudWordScaling? = nil) {
             self.cloudLayout = cloudLayout
             self.maximumStringLength = maximumStringLength
@@ -38860,6 +40020,7 @@ extension QuickSight {
         /// The sort configuration of group by fields.
         public let categorySort: [FieldSortOptions]?
 
+        @inlinable
         public init(categoryItemsLimit: ItemsLimitConfiguration? = nil, categorySort: [FieldSortOptions]? = nil) {
             self.categoryItemsLimit = categoryItemsLimit
             self.categorySort = categorySort
@@ -38892,6 +40053,7 @@ extension QuickSight {
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         public let visualId: String
 
+        @inlinable
         public init(actions: [VisualCustomAction]? = nil, chartConfiguration: WordCloudChartConfiguration? = nil, columnHierarchies: [ColumnHierarchy]? = nil, subtitle: VisualSubtitleLabelOptions? = nil, title: VisualTitleLabelOptions? = nil, visualId: String) {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
@@ -38932,6 +40094,7 @@ extension QuickSight {
         /// The Y axis type to be used in the chart. If you choose PRIMARY_Y_AXIS, the primary Y Axis is located on the leftmost vertical axis of the chart.
         public let yAxis: SingleYAxisOption
 
+        @inlinable
         public init(yAxis: SingleYAxisOption) {
             self.yAxis = yAxis
         }

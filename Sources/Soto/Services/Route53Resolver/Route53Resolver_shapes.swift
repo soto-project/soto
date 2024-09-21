@@ -274,6 +274,7 @@ extension Route53Resolver {
         /// The unique identifier of the VPC that you want to associate with the rule group.
         public let vpcId: String
 
+        @inlinable
         public init(creatorRequestId: String = AssociateFirewallRuleGroupRequest.idempotencyToken(), firewallRuleGroupId: String, mutationProtection: MutationProtectionStatus? = nil, name: String, priority: Int, tags: [Tag]? = nil, vpcId: String) {
             self.creatorRequestId = creatorRequestId
             self.firewallRuleGroupId = firewallRuleGroupId
@@ -315,6 +316,7 @@ extension Route53Resolver {
         /// 			identify it in other requests, like update and delete.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
+        @inlinable
         public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
             self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
         }
@@ -331,6 +333,7 @@ extension Route53Resolver {
         /// The ID of the Resolver endpoint that you want to associate IP addresses with.
         public let resolverEndpointId: String
 
+        @inlinable
         public init(ipAddress: IpAddressUpdate, resolverEndpointId: String) {
             self.ipAddress = ipAddress
             self.resolverEndpointId = resolverEndpointId
@@ -352,6 +355,7 @@ extension Route53Resolver {
         /// The response to an AssociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
 
+        @inlinable
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -367,6 +371,7 @@ extension Route53Resolver {
         /// The ID of an Amazon VPC that you want this query logging configuration to log queries for.  The VPCs and the query logging configuration must be in the same Region.
         public let resourceId: String
 
+        @inlinable
         public init(resolverQueryLogConfigId: String, resourceId: String) {
             self.resolverQueryLogConfigId = resolverQueryLogConfigId
             self.resourceId = resourceId
@@ -389,6 +394,7 @@ extension Route53Resolver {
         /// A complex type that contains settings for a specified association between an Amazon VPC and a query logging configuration.
         public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
 
+        @inlinable
         public init(resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation? = nil) {
             self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
         }
@@ -407,6 +413,7 @@ extension Route53Resolver {
         /// The ID of the VPC that you want to associate the Resolver rule with.
         public let vpcId: String
 
+        @inlinable
         public init(name: String? = nil, resolverRuleId: String, vpcId: String) {
             self.name = name
             self.resolverRuleId = resolverRuleId
@@ -433,6 +440,7 @@ extension Route53Resolver {
         /// Information about the AssociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
+        @inlinable
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
         }
@@ -452,6 +460,7 @@ extension Route53Resolver {
         /// A list of the tag keys and values that you want to associate with the domain list.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String = CreateFirewallDomainListRequest.idempotencyToken(), name: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.name = name
@@ -480,6 +489,7 @@ extension Route53Resolver {
         /// The domain list that you just created.
         public let firewallDomainList: FirewallDomainList?
 
+        @inlinable
         public init(firewallDomainList: FirewallDomainList? = nil) {
             self.firewallDomainList = firewallDomainList
         }
@@ -499,6 +509,7 @@ extension Route53Resolver {
         /// A list of the tag keys and values that you want to associate with the rule group.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String = CreateFirewallRuleGroupRequest.idempotencyToken(), name: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.name = name
@@ -527,6 +538,7 @@ extension Route53Resolver {
         /// A collection of rules used to filter DNS network traffic.
         public let firewallRuleGroup: FirewallRuleGroup?
 
+        @inlinable
         public init(firewallRuleGroup: FirewallRuleGroup? = nil) {
             self.firewallRuleGroup = firewallRuleGroup
         }
@@ -574,6 +586,7 @@ extension Route53Resolver {
         /// 				List of DNS record types.
         public let qtype: String?
 
+        @inlinable
         public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), firewallDomainListId: String, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String, priority: Int, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
@@ -627,6 +640,7 @@ extension Route53Resolver {
         /// 			firewall rule that you just created.
         public let firewallRule: FirewallRule?
 
+        @inlinable
         public init(firewallRule: FirewallRule? = nil) {
             self.firewallRule = firewallRule
         }
@@ -656,6 +670,7 @@ extension Route53Resolver {
         ///
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String, instanceCount: Int? = nil, name: String, outpostArn: String, preferredInstanceType: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.instanceCount = instanceCount
@@ -696,6 +711,7 @@ extension Route53Resolver {
         /// 		request, including the status of the request.
         public let outpostResolver: OutpostResolver?
 
+        @inlinable
         public init(outpostResolver: OutpostResolver? = nil) {
             self.outpostResolver = outpostResolver
         }
@@ -741,6 +757,7 @@ extension Route53Resolver {
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String], tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.direction = direction
@@ -799,6 +816,7 @@ extension Route53Resolver {
         /// Information about the CreateResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
 
+        @inlinable
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -821,6 +839,7 @@ extension Route53Resolver {
         /// A list of the tag keys and values that you want to associate with the query logging configuration.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String = CreateResolverQueryLogConfigRequest.idempotencyToken(), destinationArn: String, name: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.destinationArn = destinationArn
@@ -854,6 +873,7 @@ extension Route53Resolver {
         /// Information about the CreateResolverQueryLogConfig request, including the status of the request.
         public let resolverQueryLogConfig: ResolverQueryLogConfig?
 
+        @inlinable
         public init(resolverQueryLogConfig: ResolverQueryLogConfig? = nil) {
             self.resolverQueryLogConfig = resolverQueryLogConfig
         }
@@ -887,6 +907,7 @@ extension Route53Resolver {
         /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space.  TargetIps is available only when the value of Rule type is FORWARD.
         public let targetIps: [TargetAddress]?
 
+        @inlinable
         public init(creatorRequestId: String, domainName: String? = nil, name: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption, tags: [Tag]? = nil, targetIps: [TargetAddress]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.domainName = domainName
@@ -931,6 +952,7 @@ extension Route53Resolver {
         /// Information about the CreateResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
 
+        @inlinable
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -944,6 +966,7 @@ extension Route53Resolver {
         /// The ID of the domain list that you want to delete.
         public let firewallDomainListId: String
 
+        @inlinable
         public init(firewallDomainListId: String) {
             self.firewallDomainListId = firewallDomainListId
         }
@@ -962,6 +985,7 @@ extension Route53Resolver {
         /// The domain list that you just deleted.
         public let firewallDomainList: FirewallDomainList?
 
+        @inlinable
         public init(firewallDomainList: FirewallDomainList? = nil) {
             self.firewallDomainList = firewallDomainList
         }
@@ -975,6 +999,7 @@ extension Route53Resolver {
         /// The unique identifier of the firewall rule group that you want to delete.
         public let firewallRuleGroupId: String
 
+        @inlinable
         public init(firewallRuleGroupId: String) {
             self.firewallRuleGroupId = firewallRuleGroupId
         }
@@ -993,6 +1018,7 @@ extension Route53Resolver {
         /// A collection of rules used to filter DNS network traffic.
         public let firewallRuleGroup: FirewallRuleGroup?
 
+        @inlinable
         public init(firewallRuleGroup: FirewallRuleGroup? = nil) {
             self.firewallRuleGroup = firewallRuleGroup
         }
@@ -1016,6 +1042,7 @@ extension Route53Resolver {
         /// 				List of DNS record types.
         public let qtype: String?
 
+        @inlinable
         public init(firewallDomainListId: String, firewallRuleGroupId: String, qtype: String? = nil) {
             self.firewallDomainListId = firewallDomainListId
             self.firewallRuleGroupId = firewallRuleGroupId
@@ -1042,6 +1069,7 @@ extension Route53Resolver {
         /// The specification for the firewall rule that you just deleted.
         public let firewallRule: FirewallRule?
 
+        @inlinable
         public init(firewallRule: FirewallRule? = nil) {
             self.firewallRule = firewallRule
         }
@@ -1055,6 +1083,7 @@ extension Route53Resolver {
         /// A unique string that identifies the Resolver on the Outpost.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1074,6 +1103,7 @@ extension Route53Resolver {
         /// 		request, including the status of the request.
         public let outpostResolver: OutpostResolver?
 
+        @inlinable
         public init(outpostResolver: OutpostResolver? = nil) {
             self.outpostResolver = outpostResolver
         }
@@ -1087,6 +1117,7 @@ extension Route53Resolver {
         /// The ID of the Resolver endpoint that you want to delete.
         public let resolverEndpointId: String
 
+        @inlinable
         public init(resolverEndpointId: String) {
             self.resolverEndpointId = resolverEndpointId
         }
@@ -1105,6 +1136,7 @@ extension Route53Resolver {
         /// Information about the DeleteResolverEndpoint request, including the status of the request.
         public let resolverEndpoint: ResolverEndpoint?
 
+        @inlinable
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -1118,6 +1150,7 @@ extension Route53Resolver {
         /// The ID of the query logging configuration that you want to delete.
         public let resolverQueryLogConfigId: String
 
+        @inlinable
         public init(resolverQueryLogConfigId: String) {
             self.resolverQueryLogConfigId = resolverQueryLogConfigId
         }
@@ -1136,6 +1169,7 @@ extension Route53Resolver {
         /// Information about the query logging configuration that you deleted, including the status of the request.
         public let resolverQueryLogConfig: ResolverQueryLogConfig?
 
+        @inlinable
         public init(resolverQueryLogConfig: ResolverQueryLogConfig? = nil) {
             self.resolverQueryLogConfig = resolverQueryLogConfig
         }
@@ -1149,6 +1183,7 @@ extension Route53Resolver {
         /// The ID of the Resolver rule that you want to delete.
         public let resolverRuleId: String
 
+        @inlinable
         public init(resolverRuleId: String) {
             self.resolverRuleId = resolverRuleId
         }
@@ -1167,6 +1202,7 @@ extension Route53Resolver {
         /// Information about the DeleteResolverRule request, including the status of the request.
         public let resolverRule: ResolverRule?
 
+        @inlinable
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -1180,6 +1216,7 @@ extension Route53Resolver {
         /// The identifier of the FirewallRuleGroupAssociation.
         public let firewallRuleGroupAssociationId: String
 
+        @inlinable
         public init(firewallRuleGroupAssociationId: String) {
             self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
         }
@@ -1198,6 +1235,7 @@ extension Route53Resolver {
         /// The firewall rule group association that you just removed.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
+        @inlinable
         public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
             self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
         }
@@ -1213,6 +1251,7 @@ extension Route53Resolver {
         /// The ID of the Resolver endpoint that you want to disassociate an IP address from.
         public let resolverEndpointId: String
 
+        @inlinable
         public init(ipAddress: IpAddressUpdate, resolverEndpointId: String) {
             self.ipAddress = ipAddress
             self.resolverEndpointId = resolverEndpointId
@@ -1234,6 +1273,7 @@ extension Route53Resolver {
         /// The response to an DisassociateResolverEndpointIpAddress request.
         public let resolverEndpoint: ResolverEndpoint?
 
+        @inlinable
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -1249,6 +1289,7 @@ extension Route53Resolver {
         /// The ID of the Amazon VPC that you want to disassociate from a specified query logging configuration.
         public let resourceId: String
 
+        @inlinable
         public init(resolverQueryLogConfigId: String, resourceId: String) {
             self.resolverQueryLogConfigId = resolverQueryLogConfigId
             self.resourceId = resourceId
@@ -1271,6 +1312,7 @@ extension Route53Resolver {
         /// A complex type that contains settings for the association that you deleted between an Amazon VPC and a query logging configuration.
         public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
 
+        @inlinable
         public init(resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation? = nil) {
             self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
         }
@@ -1286,6 +1328,7 @@ extension Route53Resolver {
         /// The ID of the VPC that you want to disassociate the Resolver rule from.
         public let vpcId: String
 
+        @inlinable
         public init(resolverRuleId: String, vpcId: String) {
             self.resolverRuleId = resolverRuleId
             self.vpcId = vpcId
@@ -1308,6 +1351,7 @@ extension Route53Resolver {
         /// Information about the DisassociateResolverRule request, including the status of the request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
+        @inlinable
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
         }
@@ -1365,6 +1409,7 @@ extension Route53Resolver {
         /// 			Name and specify INBOUND for Values.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1395,6 +1440,7 @@ extension Route53Resolver {
         /// The ID of the VPC that this firewall configuration applies to.
         public let resourceId: String?
 
+        @inlinable
         public init(firewallFailOpen: FirewallFailOpenStatus? = nil, id: String? = nil, ownerId: String? = nil, resourceId: String? = nil) {
             self.firewallFailOpen = firewallFailOpen
             self.id = id
@@ -1434,6 +1480,7 @@ extension Route53Resolver {
         /// Additional information about the status of the list, if available.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainCount: Int? = nil, id: String? = nil, managedOwnerName: String? = nil, modificationTime: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1475,6 +1522,7 @@ extension Route53Resolver {
         /// The name of the domain list.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creatorRequestId: String? = nil, id: String? = nil, managedOwnerName: String? = nil, name: String? = nil) {
             self.arn = arn
             self.creatorRequestId = creatorRequestId
@@ -1531,6 +1579,7 @@ extension Route53Resolver {
         /// 				List of DNS record types.
         public let qtype: String?
 
+        @inlinable
         public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
@@ -1592,6 +1641,7 @@ extension Route53Resolver {
         /// Additional information about the status of the rule group, if available.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, ruleCount: Int? = nil, shareStatus: ShareStatus? = nil, status: FirewallRuleGroupStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1651,6 +1701,7 @@ extension Route53Resolver {
         /// The unique identifier of the VPC that is associated with the rule group.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, firewallRuleGroupId: String? = nil, id: String? = nil, managedOwnerName: String? = nil, modificationTime: String? = nil, mutationProtection: MutationProtectionStatus? = nil, name: String? = nil, priority: Int? = nil, status: FirewallRuleGroupAssociationStatus? = nil, statusMessage: String? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1700,6 +1751,7 @@ extension Route53Resolver {
         /// Whether the rule group is shared with other Amazon Web Services accounts, or was shared with the current account by another  Amazon Web Services account. Sharing is configured through Resource Access Manager (RAM).
         public let shareStatus: ShareStatus?
 
+        @inlinable
         public init(arn: String? = nil, creatorRequestId: String? = nil, id: String? = nil, name: String? = nil, ownerId: String? = nil, shareStatus: ShareStatus? = nil) {
             self.arn = arn
             self.creatorRequestId = creatorRequestId
@@ -1723,6 +1775,7 @@ extension Route53Resolver {
         /// The ID of the VPC from Amazon VPC that the configuration is for.
         public let resourceId: String
 
+        @inlinable
         public init(resourceId: String) {
             self.resourceId = resourceId
         }
@@ -1742,6 +1795,7 @@ extension Route53Resolver {
         /// 			AmazonVPC.
         public let firewallConfig: FirewallConfig?
 
+        @inlinable
         public init(firewallConfig: FirewallConfig? = nil) {
             self.firewallConfig = firewallConfig
         }
@@ -1755,6 +1809,7 @@ extension Route53Resolver {
         /// The ID of the domain list.
         public let firewallDomainListId: String
 
+        @inlinable
         public init(firewallDomainListId: String) {
             self.firewallDomainListId = firewallDomainListId
         }
@@ -1773,6 +1828,7 @@ extension Route53Resolver {
         /// The domain list that you requested.
         public let firewallDomainList: FirewallDomainList?
 
+        @inlinable
         public init(firewallDomainList: FirewallDomainList? = nil) {
             self.firewallDomainList = firewallDomainList
         }
@@ -1786,6 +1842,7 @@ extension Route53Resolver {
         /// The identifier of the FirewallRuleGroupAssociation.
         public let firewallRuleGroupAssociationId: String
 
+        @inlinable
         public init(firewallRuleGroupAssociationId: String) {
             self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
         }
@@ -1804,6 +1861,7 @@ extension Route53Resolver {
         /// The association that you requested.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
+        @inlinable
         public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
             self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
         }
@@ -1817,6 +1875,7 @@ extension Route53Resolver {
         /// The ARN (Amazon Resource Name) for the rule group.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1837,6 +1896,7 @@ extension Route53Resolver {
         /// 			(RAM).
         public let firewallRuleGroupPolicy: String?
 
+        @inlinable
         public init(firewallRuleGroupPolicy: String? = nil) {
             self.firewallRuleGroupPolicy = firewallRuleGroupPolicy
         }
@@ -1850,6 +1910,7 @@ extension Route53Resolver {
         /// The unique identifier of the firewall rule group.
         public let firewallRuleGroupId: String
 
+        @inlinable
         public init(firewallRuleGroupId: String) {
             self.firewallRuleGroupId = firewallRuleGroupId
         }
@@ -1868,6 +1929,7 @@ extension Route53Resolver {
         /// A collection of rules used to filter DNS network traffic.
         public let firewallRuleGroup: FirewallRuleGroup?
 
+        @inlinable
         public init(firewallRuleGroup: FirewallRuleGroup? = nil) {
             self.firewallRuleGroup = firewallRuleGroup
         }
@@ -1881,6 +1943,7 @@ extension Route53Resolver {
         /// The ID of the Resolver on the Outpost.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1900,6 +1963,7 @@ extension Route53Resolver {
         /// 		request, including the status of the request.
         public let outpostResolver: OutpostResolver?
 
+        @inlinable
         public init(outpostResolver: OutpostResolver? = nil) {
             self.outpostResolver = outpostResolver
         }
@@ -1913,6 +1977,7 @@ extension Route53Resolver {
         /// Resource ID of the Amazon VPC that you want to get information about.
         public let resourceId: String
 
+        @inlinable
         public init(resourceId: String) {
             self.resourceId = resourceId
         }
@@ -1932,6 +1997,7 @@ extension Route53Resolver {
         /// 			specified in the GetResolverConfig request.
         public let resolverConfig: ResolverConfig?
 
+        @inlinable
         public init(resolverConfig: ResolverConfig? = nil) {
             self.resolverConfig = resolverConfig
         }
@@ -1945,6 +2011,7 @@ extension Route53Resolver {
         /// The ID of the virtual private cloud (VPC) for the DNSSEC validation status.
         public let resourceId: String
 
+        @inlinable
         public init(resourceId: String) {
             self.resourceId = resourceId
         }
@@ -1963,6 +2030,7 @@ extension Route53Resolver {
         /// The information about a configuration for DNSSEC validation.
         public let resolverDNSSECConfig: ResolverDnssecConfig?
 
+        @inlinable
         public init(resolverDNSSECConfig: ResolverDnssecConfig? = nil) {
             self.resolverDNSSECConfig = resolverDNSSECConfig
         }
@@ -1976,6 +2044,7 @@ extension Route53Resolver {
         /// The ID of the Resolver endpoint that you want to get information about.
         public let resolverEndpointId: String
 
+        @inlinable
         public init(resolverEndpointId: String) {
             self.resolverEndpointId = resolverEndpointId
         }
@@ -1994,6 +2063,7 @@ extension Route53Resolver {
         /// Information about the Resolver endpoint that you specified in a GetResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
 
+        @inlinable
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -2007,6 +2077,7 @@ extension Route53Resolver {
         /// The ID of the Resolver query logging configuration association that you want to get information about.
         public let resolverQueryLogConfigAssociationId: String
 
+        @inlinable
         public init(resolverQueryLogConfigAssociationId: String) {
             self.resolverQueryLogConfigAssociationId = resolverQueryLogConfigAssociationId
         }
@@ -2025,6 +2096,7 @@ extension Route53Resolver {
         /// Information about the Resolver query logging configuration association that you specified in a GetQueryLogConfigAssociation request.
         public let resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation?
 
+        @inlinable
         public init(resolverQueryLogConfigAssociation: ResolverQueryLogConfigAssociation? = nil) {
             self.resolverQueryLogConfigAssociation = resolverQueryLogConfigAssociation
         }
@@ -2038,6 +2110,7 @@ extension Route53Resolver {
         /// The ARN of the query logging configuration that you want to get the query logging policy for.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2057,6 +2130,7 @@ extension Route53Resolver {
         /// 			GetResolverQueryLogConfigPolicy request.
         public let resolverQueryLogConfigPolicy: String?
 
+        @inlinable
         public init(resolverQueryLogConfigPolicy: String? = nil) {
             self.resolverQueryLogConfigPolicy = resolverQueryLogConfigPolicy
         }
@@ -2070,6 +2144,7 @@ extension Route53Resolver {
         /// The ID of the Resolver query logging configuration that you want to get information about.
         public let resolverQueryLogConfigId: String
 
+        @inlinable
         public init(resolverQueryLogConfigId: String) {
             self.resolverQueryLogConfigId = resolverQueryLogConfigId
         }
@@ -2088,6 +2163,7 @@ extension Route53Resolver {
         /// Information about the Resolver query logging configuration that you specified in a GetQueryLogConfig request.
         public let resolverQueryLogConfig: ResolverQueryLogConfig?
 
+        @inlinable
         public init(resolverQueryLogConfig: ResolverQueryLogConfig? = nil) {
             self.resolverQueryLogConfig = resolverQueryLogConfig
         }
@@ -2101,6 +2177,7 @@ extension Route53Resolver {
         /// The ID of the Resolver rule association that you want to get information about.
         public let resolverRuleAssociationId: String
 
+        @inlinable
         public init(resolverRuleAssociationId: String) {
             self.resolverRuleAssociationId = resolverRuleAssociationId
         }
@@ -2119,6 +2196,7 @@ extension Route53Resolver {
         /// Information about the Resolver rule association that you specified in a GetResolverRuleAssociation request.
         public let resolverRuleAssociation: ResolverRuleAssociation?
 
+        @inlinable
         public init(resolverRuleAssociation: ResolverRuleAssociation? = nil) {
             self.resolverRuleAssociation = resolverRuleAssociation
         }
@@ -2132,6 +2210,7 @@ extension Route53Resolver {
         /// The ID of the Resolver rule that you want to get the Resolver rule policy for.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2150,6 +2229,7 @@ extension Route53Resolver {
         /// The Resolver rule policy for the rule that you specified in a GetResolverRulePolicy request.
         public let resolverRulePolicy: String?
 
+        @inlinable
         public init(resolverRulePolicy: String? = nil) {
             self.resolverRulePolicy = resolverRulePolicy
         }
@@ -2163,6 +2243,7 @@ extension Route53Resolver {
         /// The ID of the Resolver rule that you want to get information about.
         public let resolverRuleId: String
 
+        @inlinable
         public init(resolverRuleId: String) {
             self.resolverRuleId = resolverRuleId
         }
@@ -2181,6 +2262,7 @@ extension Route53Resolver {
         /// Information about the Resolver rule that you specified in a GetResolverRule request.
         public let resolverRule: ResolverRule?
 
+        @inlinable
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }
@@ -2199,6 +2281,7 @@ extension Route53Resolver {
         /// What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE, which updates the domain list to exactly match the list in the file.
         public let operation: FirewallDomainImportOperation
 
+        @inlinable
         public init(domainFileUrl: String, firewallDomainListId: String, operation: FirewallDomainImportOperation) {
             self.domainFileUrl = domainFileUrl
             self.firewallDomainListId = firewallDomainListId
@@ -2229,6 +2312,7 @@ extension Route53Resolver {
         /// Additional information about the status of the list, if available.
         public let statusMessage: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
             self.id = id
             self.name = name
@@ -2253,6 +2337,7 @@ extension Route53Resolver {
         /// The ID of the subnet that contains the IP address.
         public let subnetId: String
 
+        @inlinable
         public init(ip: String? = nil, ipv6: String? = nil, subnetId: String) {
             self.ip = ip
             self.ipv6 = ipv6
@@ -2294,6 +2379,7 @@ extension Route53Resolver {
         /// The ID of one subnet.
         public let subnetId: String?
 
+        @inlinable
         public init(creationTime: String? = nil, ip: String? = nil, ipId: String? = nil, ipv6: String? = nil, modificationTime: String? = nil, status: IpAddressStatus? = nil, statusMessage: String? = nil, subnetId: String? = nil) {
             self.creationTime = creationTime
             self.ip = ip
@@ -2331,6 +2417,7 @@ extension Route53Resolver {
         /// 			GetResolverEndpoint.
         public let subnetId: String?
 
+        @inlinable
         public init(ip: String? = nil, ipId: String? = nil, ipv6: String? = nil, subnetId: String? = nil) {
             self.ip = ip
             self.ipId = ipId
@@ -2363,6 +2450,7 @@ extension Route53Resolver {
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects  specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next  batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2386,6 +2474,7 @@ extension Route53Resolver {
         /// If objects are still available for retrieval, Resolver returns this token in the response.  To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallConfigs: [FirewallConfig]? = nil, nextToken: String? = nil) {
             self.firewallConfigs = firewallConfigs
             self.nextToken = nextToken
@@ -2403,6 +2492,7 @@ extension Route53Resolver {
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects  specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next  batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2426,6 +2516,7 @@ extension Route53Resolver {
         /// If objects are still available for retrieval, Resolver returns this token in the response.  To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallDomainLists: [FirewallDomainListMetadata]? = nil, nextToken: String? = nil) {
             self.firewallDomainLists = firewallDomainLists
             self.nextToken = nextToken
@@ -2445,6 +2536,7 @@ extension Route53Resolver {
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects  specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next  batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallDomainListId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.firewallDomainListId = firewallDomainListId
             self.maxResults = maxResults
@@ -2472,6 +2564,7 @@ extension Route53Resolver {
         /// If objects are still available for retrieval, Resolver returns this token in the response.  To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(domains: [String]? = nil, nextToken: String? = nil) {
             self.domains = domains
             self.nextToken = nextToken
@@ -2499,6 +2592,7 @@ extension Route53Resolver {
         /// The unique identifier of the VPC that you want to retrieve the associations for. Leave this blank to retrieve associations for any VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(firewallRuleGroupId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, priority: Int? = nil, status: FirewallRuleGroupAssociationStatus? = nil, vpcId: String? = nil) {
             self.firewallRuleGroupId = firewallRuleGroupId
             self.maxResults = maxResults
@@ -2533,6 +2627,7 @@ extension Route53Resolver {
         /// If objects are still available for retrieval, Resolver returns this token in the response.  To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallRuleGroupAssociations: [FirewallRuleGroupAssociation]? = nil, nextToken: String? = nil) {
             self.firewallRuleGroupAssociations = firewallRuleGroupAssociations
             self.nextToken = nextToken
@@ -2550,6 +2645,7 @@ extension Route53Resolver {
         /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects  specified in MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value in the response. To retrieve the next  batch of objects, use the token that was returned for the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2572,6 +2668,7 @@ extension Route53Resolver {
         /// If objects are still available for retrieval, Resolver returns this token in the response.  To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallRuleGroups: [FirewallRuleGroupMetadata]? = nil, nextToken: String? = nil) {
             self.firewallRuleGroups = firewallRuleGroups
             self.nextToken = nextToken
@@ -2595,6 +2692,7 @@ extension Route53Resolver {
         /// Optional additional filter for the rules to retrieve. The setting that determines the processing order of the rules in a rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting.
         public let priority: Int?
 
+        @inlinable
         public init(action: Action? = nil, firewallRuleGroupId: String, maxResults: Int? = nil, nextToken: String? = nil, priority: Int? = nil) {
             self.action = action
             self.firewallRuleGroupId = firewallRuleGroupId
@@ -2626,6 +2724,7 @@ extension Route53Resolver {
         /// If objects are still available for retrieval, Resolver returns this token in the response.  To retrieve the next batch of objects, provide this token in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(firewallRules: [FirewallRule]? = nil, nextToken: String? = nil) {
             self.firewallRules = firewallRules
             self.nextToken = nextToken
@@ -2647,6 +2746,7 @@ extension Route53Resolver {
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2676,6 +2776,7 @@ extension Route53Resolver {
         /// 		and that match the specified filters, if any.
         public let outpostResolvers: [OutpostResolver]?
 
+        @inlinable
         public init(nextToken: String? = nil, outpostResolvers: [OutpostResolver]? = nil) {
             self.nextToken = nextToken
             self.outpostResolvers = outpostResolvers
@@ -2697,6 +2798,7 @@ extension Route53Resolver {
         /// 			specify that value for NextToken in the request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2724,6 +2826,7 @@ extension Route53Resolver {
         /// 			with the current Amazon Web Services account.
         public let resolverConfigs: [ResolverConfig]?
 
+        @inlinable
         public init(nextToken: String? = nil, resolverConfigs: [ResolverConfig]? = nil) {
             self.nextToken = nextToken
             self.resolverConfigs = resolverConfigs
@@ -2746,6 +2849,7 @@ extension Route53Resolver {
         /// 			for NextToken in the request.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2780,6 +2884,7 @@ extension Route53Resolver {
         /// 			 It doesn't contain disabled DNSSEC configurations for the resource.
         public let resolverDnssecConfigs: [ResolverDnssecConfig]?
 
+        @inlinable
         public init(nextToken: String? = nil, resolverDnssecConfigs: [ResolverDnssecConfig]? = nil) {
             self.nextToken = nextToken
             self.resolverDnssecConfigs = resolverDnssecConfigs
@@ -2802,6 +2907,7 @@ extension Route53Resolver {
         /// The ID of the Resolver endpoint that you want to get IP addresses for.
         public let resolverEndpointId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverEndpointId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2833,6 +2939,7 @@ extension Route53Resolver {
         /// 			specify the value of NextToken from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(ipAddresses: [IpAddressResponse]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.ipAddresses = ipAddresses
             self.maxResults = maxResults
@@ -2857,6 +2964,7 @@ extension Route53Resolver {
         /// 			to get the next group of Resolver endpoints. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2887,6 +2995,7 @@ extension Route53Resolver {
         /// The Resolver endpoints that were created by using the current Amazon Web Services account, and that match the specified filters, if any.
         public let resolverEndpoints: [ResolverEndpoint]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverEndpoints: [ResolverEndpoint]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2922,6 +3031,7 @@ extension Route53Resolver {
         /// 				you must use the same value for SortOrder, if any, as in the previous request.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2965,6 +3075,7 @@ extension Route53Resolver {
         /// 			current account in the specified Region, see TotalCount.
         public let totalFilteredCount: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, resolverQueryLogConfigAssociations: [ResolverQueryLogConfigAssociation]? = nil, totalCount: Int? = nil, totalFilteredCount: Int? = nil) {
             self.nextToken = nextToken
             self.resolverQueryLogConfigAssociations = resolverQueryLogConfigAssociations
@@ -3002,6 +3113,7 @@ extension Route53Resolver {
         /// 				you must use the same value for SortOrder, if any, as in the previous request.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3045,6 +3157,7 @@ extension Route53Resolver {
         /// 			current account in the specified Region, see TotalCount.
         public let totalFilteredCount: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, resolverQueryLogConfigs: [ResolverQueryLogConfig]? = nil, totalCount: Int? = nil, totalFilteredCount: Int? = nil) {
             self.nextToken = nextToken
             self.resolverQueryLogConfigs = resolverQueryLogConfigs
@@ -3071,6 +3184,7 @@ extension Route53Resolver {
         /// 			to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3103,6 +3217,7 @@ extension Route53Resolver {
         /// 			specified filters, if any.
         public let resolverRuleAssociations: [ResolverRuleAssociation]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverRuleAssociations: [ResolverRuleAssociation]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3127,6 +3242,7 @@ extension Route53Resolver {
         /// 			to get the next group of Resolver rules. In the next request, specify the value of NextToken from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3158,6 +3274,7 @@ extension Route53Resolver {
         /// The Resolver rules that were created using the current Amazon Web Services account and that match the specified filters, if any.
         public let resolverRules: [ResolverRule]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resolverRules: [ResolverRule]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3181,6 +3298,7 @@ extension Route53Resolver {
         /// The Amazon Resource Name (ARN) for the resource that you want to list tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3209,6 +3327,7 @@ extension Route53Resolver {
         /// The tags that are associated with the resource that you specified in the ListTagsForResource request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3246,6 +3365,7 @@ extension Route53Resolver {
         /// A detailed description of the Resolver.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, id: String? = nil, instanceCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, status: OutpostResolverStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3281,6 +3401,7 @@ extension Route53Resolver {
         /// The Identity and Access Management (Amazon Web Services IAM) policy to attach to the rule group.
         public let firewallRuleGroupPolicy: String
 
+        @inlinable
         public init(arn: String, firewallRuleGroupPolicy: String) {
             self.arn = arn
             self.firewallRuleGroupPolicy = firewallRuleGroupPolicy
@@ -3301,6 +3422,7 @@ extension Route53Resolver {
     public struct PutFirewallRuleGroupPolicyResponse: AWSDecodableShape {
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -3319,6 +3441,7 @@ extension Route53Resolver {
         /// 			with the account that you specified in Arn.
         public let resolverQueryLogConfigPolicy: String
 
+        @inlinable
         public init(arn: String, resolverQueryLogConfigPolicy: String) {
             self.arn = arn
             self.resolverQueryLogConfigPolicy = resolverQueryLogConfigPolicy
@@ -3340,6 +3463,7 @@ extension Route53Resolver {
         /// Whether the PutResolverQueryLogConfigPolicy request was successful.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -3357,6 +3481,7 @@ extension Route53Resolver {
         /// 			that you specified in Arn.
         public let resolverRulePolicy: String
 
+        @inlinable
         public init(arn: String, resolverRulePolicy: String) {
             self.arn = arn
             self.resolverRulePolicy = resolverRulePolicy
@@ -3378,6 +3503,7 @@ extension Route53Resolver {
         /// Whether the PutResolverRulePolicy request was successful.
         public let returnValue: Bool?
 
+        @inlinable
         public init(returnValue: Bool? = nil) {
             self.returnValue = returnValue
         }
@@ -3402,6 +3528,7 @@ extension Route53Resolver {
         /// The ID of the Amazon Virtual Private Cloud VPC that you're configuring Resolver for.
         public let resourceId: String?
 
+        @inlinable
         public init(autodefinedReverse: ResolverAutodefinedReverseStatus? = nil, id: String? = nil, ownerId: String? = nil, resourceId: String? = nil) {
             self.autodefinedReverse = autodefinedReverse
             self.id = id
@@ -3427,6 +3554,7 @@ extension Route53Resolver {
         /// The validation status for a DNSSEC configuration. The status can be one of the following:    ENABLING: DNSSEC validation is being enabled but is not complete.    ENABLED: DNSSEC validation is enabled.    DISABLING: DNSSEC validation is being disabled but is not complete.    DISABLED DNSSEC validation is disabled.
         public let validationStatus: ResolverDNSSECValidationStatus?
 
+        @inlinable
         public init(id: String? = nil, ownerId: String? = nil, resourceId: String? = nil, validationStatus: ResolverDNSSECValidationStatus? = nil) {
             self.id = id
             self.ownerId = ownerId
@@ -3494,6 +3622,7 @@ extension Route53Resolver {
         /// A detailed description of the status of the Resolver endpoint.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3561,6 +3690,7 @@ extension Route53Resolver {
         /// 				Here are two common causes:   The specified destination (for example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the destination.
         public let status: ResolverQueryLogConfigStatus?
 
+        @inlinable
         public init(arn: String? = nil, associationCount: Int? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, destinationArn: String? = nil, id: String? = nil, name: String? = nil, ownerId: String? = nil, shareStatus: ShareStatus? = nil, status: ResolverQueryLogConfigStatus? = nil) {
             self.arn = arn
             self.associationCount = associationCount
@@ -3605,6 +3735,7 @@ extension Route53Resolver {
         /// 				was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging association.    FAILED: Resolver either couldn't create or couldn't delete the query logging association.
         public let status: ResolverQueryLogConfigAssociationStatus?
 
+        @inlinable
         public init(creationTime: String? = nil, error: ResolverQueryLogConfigAssociationError? = nil, errorMessage: String? = nil, id: String? = nil, resolverQueryLogConfigId: String? = nil, resourceId: String? = nil, status: ResolverQueryLogConfigAssociationStatus? = nil) {
             self.creationTime = creationTime
             self.error = error
@@ -3665,6 +3796,7 @@ extension Route53Resolver {
         /// 			these are the IP addresses of DNS resolvers on your network.
         public let targetIps: [TargetAddress]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainName: String? = nil, id: String? = nil, modificationTime: String? = nil, name: String? = nil, ownerId: String? = nil, resolverEndpointId: String? = nil, ruleType: RuleTypeOption? = nil, shareStatus: ShareStatus? = nil, status: ResolverRuleStatus? = nil, statusMessage: String? = nil, targetIps: [TargetAddress]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -3716,6 +3848,7 @@ extension Route53Resolver {
         /// The ID of the VPC that you associated the Resolver rule with.
         public let vpcId: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, resolverRuleId: String? = nil, status: ResolverRuleAssociationStatus? = nil, statusMessage: String? = nil, vpcId: String? = nil) {
             self.id = id
             self.name = name
@@ -3744,6 +3877,7 @@ extension Route53Resolver {
         /// For DNS queries that originate in your VPC, the new IP addresses that you want to route outbound DNS queries to.
         public let targetIps: [TargetAddress]?
 
+        @inlinable
         public init(name: String? = nil, resolverEndpointId: String? = nil, targetIps: [TargetAddress]? = nil) {
             self.name = name
             self.resolverEndpointId = resolverEndpointId
@@ -3776,6 +3910,7 @@ extension Route53Resolver {
         /// 			customer account that you're creating the resource for.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3800,6 +3935,7 @@ extension Route53Resolver {
         /// The tags that you want to add to the specified resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3837,6 +3973,7 @@ extension Route53Resolver {
         /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
         public let `protocol`: `Protocol`?
 
+        @inlinable
         public init(ip: String? = nil, ipv6: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.ip = ip
             self.ipv6 = ipv6
@@ -3868,6 +4005,7 @@ extension Route53Resolver {
         /// The tags that you want to remove to the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3899,6 +4037,7 @@ extension Route53Resolver {
         /// The ID of the VPC that the configuration is for.
         public let resourceId: String
 
+        @inlinable
         public init(firewallFailOpen: FirewallFailOpenStatus, resourceId: String) {
             self.firewallFailOpen = firewallFailOpen
             self.resourceId = resourceId
@@ -3919,6 +4058,7 @@ extension Route53Resolver {
         /// Configuration of the firewall behavior provided by DNS Firewall for a single VPC.
         public let firewallConfig: FirewallConfig?
 
+        @inlinable
         public init(firewallConfig: FirewallConfig? = nil) {
             self.firewallConfig = firewallConfig
         }
@@ -3937,6 +4077,7 @@ extension Route53Resolver {
         /// What you want DNS Firewall to do with the domains that you are providing:     ADD - Add the domains to the ones that are already in the domain list.     REMOVE - Search the domain list for the domains and remove them from the list.    REPLACE - Update the domain list to exactly match the list that you are providing.
         public let operation: FirewallDomainUpdateOperation
 
+        @inlinable
         public init(domains: [String], firewallDomainListId: String, operation: FirewallDomainUpdateOperation) {
             self.domains = domains
             self.firewallDomainListId = firewallDomainListId
@@ -3969,6 +4110,7 @@ extension Route53Resolver {
         /// Additional information about the status of the list, if available.
         public let statusMessage: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
             self.id = id
             self.name = name
@@ -3996,6 +4138,7 @@ extension Route53Resolver {
         /// 			starting from the rule group with the lowest numeric priority setting.  You must specify a unique priority for each rule group that you associate with a single VPC.  To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You  can change the priority setting for a rule group association after you create it.
         public let priority: Int?
 
+        @inlinable
         public init(firewallRuleGroupAssociationId: String, mutationProtection: MutationProtectionStatus? = nil, name: String? = nil, priority: Int? = nil) {
             self.firewallRuleGroupAssociationId = firewallRuleGroupAssociationId
             self.mutationProtection = mutationProtection
@@ -4022,6 +4165,7 @@ extension Route53Resolver {
         /// The association that you just updated.
         public let firewallRuleGroupAssociation: FirewallRuleGroupAssociation?
 
+        @inlinable
         public init(firewallRuleGroupAssociation: FirewallRuleGroupAssociation? = nil) {
             self.firewallRuleGroupAssociation = firewallRuleGroupAssociation
         }
@@ -4064,6 +4208,7 @@ extension Route53Resolver {
         /// 				List of DNS record types.
         public let qtype: String?
 
+        @inlinable
         public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, firewallDomainListId: String, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
@@ -4112,6 +4257,7 @@ extension Route53Resolver {
         /// The firewall rule that you just updated.
         public let firewallRule: FirewallRule?
 
+        @inlinable
         public init(firewallRule: FirewallRule? = nil) {
             self.firewallRule = firewallRule
         }
@@ -4128,6 +4274,7 @@ extension Route53Resolver {
         ///
         public let ipv6: String
 
+        @inlinable
         public init(ipId: String, ipv6: String) {
             self.ipId = ipId
             self.ipv6 = ipv6
@@ -4157,6 +4304,7 @@ extension Route53Resolver {
         ///
         public let preferredInstanceType: String?
 
+        @inlinable
         public init(id: String, instanceCount: Int? = nil, name: String? = nil, preferredInstanceType: String? = nil) {
             self.id = id
             self.instanceCount = instanceCount
@@ -4185,6 +4333,7 @@ extension Route53Resolver {
         /// The response to an UpdateOutpostResolver request.
         public let outpostResolver: OutpostResolver?
 
+        @inlinable
         public init(outpostResolver: OutpostResolver? = nil) {
             self.outpostResolver = outpostResolver
         }
@@ -4204,6 +4353,7 @@ extension Route53Resolver {
         /// Resource ID of the Amazon VPC that you want to update the Resolver configuration for.
         public let resourceId: String
 
+        @inlinable
         public init(autodefinedReverseFlag: AutodefinedReverseFlag, resourceId: String) {
             self.autodefinedReverseFlag = autodefinedReverseFlag
             self.resourceId = resourceId
@@ -4224,6 +4374,7 @@ extension Route53Resolver {
         /// An array that contains settings for the specified Resolver configuration.
         public let resolverConfig: ResolverConfig?
 
+        @inlinable
         public init(resolverConfig: ResolverConfig? = nil) {
             self.resolverConfig = resolverConfig
         }
@@ -4240,6 +4391,7 @@ extension Route53Resolver {
         /// 			or DISABLE. Be aware that it can take time for a validation status change to be completed.
         public let validation: Validation
 
+        @inlinable
         public init(resourceId: String, validation: Validation) {
             self.resourceId = resourceId
             self.validation = validation
@@ -4260,6 +4412,7 @@ extension Route53Resolver {
         /// A complex type that contains settings for the specified DNSSEC configuration.
         public let resolverDNSSECConfig: ResolverDnssecConfig?
 
+        @inlinable
         public init(resolverDNSSECConfig: ResolverDnssecConfig? = nil) {
             self.resolverDNSSECConfig = resolverDNSSECConfig
         }
@@ -4290,6 +4443,7 @@ extension Route53Resolver {
         ///
         public let updateIpAddresses: [UpdateIpAddress]?
 
+        @inlinable
         public init(name: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointId: String, resolverEndpointType: ResolverEndpointType? = nil, updateIpAddresses: [UpdateIpAddress]? = nil) {
             self.name = name
             self.protocols = protocols
@@ -4324,6 +4478,7 @@ extension Route53Resolver {
         /// The response to an UpdateResolverEndpoint request.
         public let resolverEndpoint: ResolverEndpoint?
 
+        @inlinable
         public init(resolverEndpoint: ResolverEndpoint? = nil) {
             self.resolverEndpoint = resolverEndpoint
         }
@@ -4339,6 +4494,7 @@ extension Route53Resolver {
         /// The ID of the Resolver rule that you want to update.
         public let resolverRuleId: String
 
+        @inlinable
         public init(config: ResolverRuleConfig, resolverRuleId: String) {
             self.config = config
             self.resolverRuleId = resolverRuleId
@@ -4360,6 +4516,7 @@ extension Route53Resolver {
         /// The response to an UpdateResolverRule request.
         public let resolverRule: ResolverRule?
 
+        @inlinable
         public init(resolverRule: ResolverRule? = nil) {
             self.resolverRule = resolverRule
         }

@@ -530,6 +530,7 @@ extension CleanRooms {
         /// Aggregation function that can be applied to aggregate column in query.
         public let function: AggregateFunctionName
 
+        @inlinable
         public init(columnNames: [String], function: AggregateFunctionName) {
             self.columnNames = columnNames
             self.function = function
@@ -557,6 +558,7 @@ extension CleanRooms {
         /// The type of aggregation the constraint allows. The only valid value is currently `COUNT_DISTINCT`.
         public let type: AggregationType
 
+        @inlinable
         public init(columnName: String, minimum: Int, type: AggregationType) {
             self.columnName = columnName
             self.minimum = minimum
@@ -584,6 +586,7 @@ extension CleanRooms {
         /// The type of parameter.
         public let type: ParameterType
 
+        @inlinable
         public init(defaultValue: String? = nil, name: String, type: ParameterType) {
             self.defaultValue = defaultValue
             self.name = name
@@ -618,6 +621,7 @@ extension CleanRooms {
         /// The time the analysis rule was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(collaborationId: String, createTime: Date, name: String, policy: AnalysisRulePolicy, type: AnalysisRuleType, updateTime: Date) {
             self.collaborationId = collaborationId
             self.createTime = createTime
@@ -655,6 +659,7 @@ extension CleanRooms {
         /// Set of scalar functions that are allowed to be used on dimension columns and the output of aggregation of metrics.
         public let scalarFunctions: [ScalarFunctions]
 
+        @inlinable
         public init(additionalAnalyses: AdditionalAnalyses? = nil, aggregateColumns: [AggregateColumn], allowedJoinOperators: [JoinOperator]? = nil, dimensionColumns: [String], joinColumns: [String], joinRequired: JoinRequiredOption? = nil, outputConstraints: [AggregationConstraint], scalarFunctions: [ScalarFunctions]) {
             self.additionalAnalyses = additionalAnalyses
             self.aggregateColumns = aggregateColumns
@@ -711,6 +716,7 @@ extension CleanRooms {
         ///  A list of columns that aren't allowed to be shown in the query output.
         public let disallowedOutputColumns: [String]?
 
+        @inlinable
         public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
             self.additionalAnalyses = additionalAnalyses
             self.allowedAnalyses = allowedAnalyses
@@ -754,6 +760,7 @@ extension CleanRooms {
         /// The query constraints of the analysis rule ID mapping table.
         public let queryConstraints: [QueryConstraint]
 
+        @inlinable
         public init(dimensionColumns: [String]? = nil, joinColumns: [String], queryConstraints: [QueryConstraint]) {
             self.dimensionColumns = dimensionColumns
             self.joinColumns = joinColumns
@@ -777,6 +784,7 @@ extension CleanRooms {
         /// Columns that can be listed in the output.
         public let listColumns: [String]
 
+        @inlinable
         public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedJoinOperators: [JoinOperator]? = nil, joinColumns: [String], listColumns: [String]) {
             self.additionalAnalyses = additionalAnalyses
             self.allowedJoinOperators = allowedJoinOperators
@@ -810,6 +818,7 @@ extension CleanRooms {
         /// The tables referenced in the analysis schema.
         public let referencedTables: [String]?
 
+        @inlinable
         public init(referencedTables: [String]? = nil) {
             self.referencedTables = referencedTables
         }
@@ -851,6 +860,7 @@ extension CleanRooms {
         /// Information about the validations performed on the analysis template.
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
+        @inlinable
         public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
@@ -910,6 +920,7 @@ extension CleanRooms {
         /// The time that the analysis template summary was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -945,6 +956,7 @@ extension CleanRooms {
         /// The type of validation that was performed.
         public let type: AnalysisTemplateValidationType
 
+        @inlinable
         public init(reasons: [AnalysisTemplateValidationStatusReason]? = nil, status: AnalysisTemplateValidationStatus, type: AnalysisTemplateValidationType) {
             self.reasons = reasons
             self.status = status
@@ -962,6 +974,7 @@ extension CleanRooms {
         /// The validation message.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -979,6 +992,7 @@ extension CleanRooms {
         /// A description of why the call failed.
         public let message: String
 
+        @inlinable
         public init(arn: String, code: String, message: String) {
             self.arn = arn
             self.code = code
@@ -998,6 +1012,7 @@ extension CleanRooms {
         /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
         public let collaborationIdentifier: String
 
+        @inlinable
         public init(analysisTemplateArns: [String], collaborationIdentifier: String) {
             self.analysisTemplateArns = analysisTemplateArns
             self.collaborationIdentifier = collaborationIdentifier
@@ -1033,6 +1048,7 @@ extension CleanRooms {
         /// Error reasons for collaboration analysis templates that could not be retrieved. One error is returned for every collaboration analysis template that could not be retrieved.
         public let errors: [BatchGetCollaborationAnalysisTemplateError]
 
+        @inlinable
         public init(collaborationAnalysisTemplates: [CollaborationAnalysisTemplate], errors: [BatchGetCollaborationAnalysisTemplateError]) {
             self.collaborationAnalysisTemplates = collaborationAnalysisTemplates
             self.errors = errors
@@ -1054,6 +1070,7 @@ extension CleanRooms {
         /// The analysis rule type.
         public let type: AnalysisRuleType
 
+        @inlinable
         public init(code: String, message: String, name: String, type: AnalysisRuleType) {
             self.code = code
             self.message = message
@@ -1075,6 +1092,7 @@ extension CleanRooms {
         /// The information that's necessary to retrieve a schema analysis rule.
         public let schemaAnalysisRuleRequests: [SchemaAnalysisRuleRequest]
 
+        @inlinable
         public init(collaborationIdentifier: String, schemaAnalysisRuleRequests: [SchemaAnalysisRuleRequest]) {
             self.collaborationIdentifier = collaborationIdentifier
             self.schemaAnalysisRuleRequests = schemaAnalysisRuleRequests
@@ -1109,6 +1127,7 @@ extension CleanRooms {
         /// Error reasons for schemas that could not be retrieved. One error is returned for every schema that could not be retrieved.
         public let errors: [BatchGetSchemaAnalysisRuleError]
 
+        @inlinable
         public init(analysisRules: [AnalysisRule], errors: [BatchGetSchemaAnalysisRuleError]) {
             self.analysisRules = analysisRules
             self.errors = errors
@@ -1128,6 +1147,7 @@ extension CleanRooms {
         /// An error name for the error.
         public let name: String
 
+        @inlinable
         public init(code: String, message: String, name: String) {
             self.code = code
             self.message = message
@@ -1147,6 +1167,7 @@ extension CleanRooms {
         /// The names for the schema objects to retrieve.
         public let names: [String]
 
+        @inlinable
         public init(collaborationIdentifier: String, names: [String]) {
             self.collaborationIdentifier = collaborationIdentifier
             self.names = names
@@ -1182,6 +1203,7 @@ extension CleanRooms {
         /// The retrieved list of schemas.
         public let schemas: [Schema]
 
+        @inlinable
         public init(errors: [BatchGetSchemaError], schemas: [Schema]) {
             self.errors = errors
             self.schemas = schemas
@@ -1221,6 +1243,7 @@ extension CleanRooms {
         /// The time the collaboration metadata was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
             self.arn = arn
             self.createTime = createTime
@@ -1284,6 +1307,7 @@ extension CleanRooms {
         /// The validations that were performed.
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
+        @inlinable
         public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
@@ -1339,6 +1363,7 @@ extension CleanRooms {
         /// The time that the summary of the analysis template in the collaboration was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1386,6 +1411,7 @@ extension CleanRooms {
         /// The most recent time at which the configured audience model association was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, configuredAudienceModelArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1433,6 +1459,7 @@ extension CleanRooms {
         /// The most recent time at which the configured audience model association was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1483,6 +1510,7 @@ extension CleanRooms {
         /// The most recent time at which the collaboration ID namespace was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, idMappingConfig: IdMappingConfig? = nil, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1538,6 +1566,7 @@ extension CleanRooms {
         /// The most recent time at which the collaboration ID namespace association was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1589,6 +1618,7 @@ extension CleanRooms {
         /// The most recent time at which the privacy budget was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(budget: PrivacyBudget, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, id: String, privacyBudgetTemplateArn: String, privacyBudgetTemplateId: String, type: PrivacyBudgetType, updateTime: Date) {
             self.budget = budget
             self.collaborationArn = collaborationArn
@@ -1638,6 +1668,7 @@ extension CleanRooms {
         /// The most recent time at which the collaboration privacy budget template was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, autoRefresh: PrivacyBudgetTemplateAutoRefresh, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, id: String, parameters: PrivacyBudgetTemplateParametersOutput, privacyBudgetType: PrivacyBudgetType, updateTime: Date) {
             self.arn = arn
             self.autoRefresh = autoRefresh
@@ -1683,6 +1714,7 @@ extension CleanRooms {
         /// The most recent time at which the collaboration privacy budget template was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, id: String, privacyBudgetType: PrivacyBudgetType, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1728,6 +1760,7 @@ extension CleanRooms {
         /// The time the collaboration metadata was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, updateTime: Date) {
             self.arn = arn
             self.createTime = createTime
@@ -1761,6 +1794,7 @@ extension CleanRooms {
         /// The type of the column.
         public let type: String
 
+        @inlinable
         public init(name: String, type: String) {
             self.name = name
             self.type = type
@@ -1798,6 +1832,7 @@ extension CleanRooms {
         /// The most recent time at which the configured audience model association was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, id: String, manageResourcePolicies: Bool, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1853,6 +1888,7 @@ extension CleanRooms {
         /// The most recent time at which the configured audience model association was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, configuredAudienceModelArn: String, createTime: Date, description: String? = nil, id: String, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1904,6 +1940,7 @@ extension CleanRooms {
         /// The time the configured table was last updated
         public let updateTime: Date
 
+        @inlinable
         public init(allowedColumns: [String], analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, description: String? = nil, id: String, name: String, tableReference: TableReference, updateTime: Date) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
@@ -1945,6 +1982,7 @@ extension CleanRooms {
         /// The time the configured table analysis rule was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(configuredTableArn: String, configuredTableId: String, createTime: Date, policy: ConfiguredTableAnalysisRulePolicy, type: ConfiguredTableAnalysisRuleType, updateTime: Date) {
             self.configuredTableArn = configuredTableArn
             self.configuredTableId = configuredTableId
@@ -1990,6 +2028,7 @@ extension CleanRooms {
         /// The time the configured table association was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(analysisRuleTypes: [ConfiguredTableAssociationAnalysisRuleType]? = nil, arn: String, configuredTableArn: String, configuredTableId: String, createTime: Date, description: String? = nil, id: String, membershipArn: String, membershipId: String, name: String, roleArn: String, updateTime: Date) {
             self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
@@ -2037,6 +2076,7 @@ extension CleanRooms {
         ///  The update time of the configured table association analysis rule.
         public let updateTime: Date
 
+        @inlinable
         public init(configuredTableAssociationArn: String, configuredTableAssociationId: String, createTime: Date, membershipIdentifier: String, policy: ConfiguredTableAssociationAnalysisRulePolicy, type: ConfiguredTableAssociationAnalysisRuleType, updateTime: Date) {
             self.configuredTableAssociationArn = configuredTableAssociationArn
             self.configuredTableAssociationId = configuredTableAssociationId
@@ -2064,6 +2104,7 @@ extension CleanRooms {
         ///  The list of collaboration members who are allowed to receive results of queries run with this configured table.
         public let allowedResultReceivers: [String]?
 
+        @inlinable
         public init(allowedAdditionalAnalyses: [String]? = nil, allowedResultReceivers: [String]? = nil) {
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedResultReceivers = allowedResultReceivers
@@ -2094,6 +2135,7 @@ extension CleanRooms {
         ///  The list of collaboration members who are allowed to receive results of queries run with this configured table.
         public let allowedResultReceivers: [String]?
 
+        @inlinable
         public init(allowedAdditionalAnalyses: [String]? = nil, allowedResultReceivers: [String]? = nil) {
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedResultReceivers = allowedResultReceivers
@@ -2124,6 +2166,7 @@ extension CleanRooms {
         ///  The list of collaboration members who are allowed to receive results of queries run with this configured table.
         public let allowedResultReceivers: [String]?
 
+        @inlinable
         public init(allowedAdditionalAnalyses: [String]? = nil, allowedResultReceivers: [String]? = nil) {
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedResultReceivers = allowedResultReceivers
@@ -2166,6 +2209,7 @@ extension CleanRooms {
         /// The time the configured table association was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, configuredTableId: String, createTime: Date, id: String, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.configuredTableId = configuredTableId
@@ -2205,6 +2249,7 @@ extension CleanRooms {
         /// The time the configured table was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, id: String, name: String, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
@@ -2242,6 +2287,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, source: AnalysisSource, tags: [String: String]? = nil) {
             self.analysisParameters = analysisParameters
             self.description = description
@@ -2299,6 +2345,7 @@ extension CleanRooms {
         /// The analysis template.
         public let analysisTemplate: AnalysisTemplate
 
+        @inlinable
         public init(analysisTemplate: AnalysisTemplate) {
             self.analysisTemplate = analysisTemplate
         }
@@ -2328,6 +2375,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
             self.creatorDisplayName = creatorDisplayName
             self.creatorMemberAbilities = creatorMemberAbilities
@@ -2379,6 +2427,7 @@ extension CleanRooms {
         /// The collaboration.
         public let collaboration: Collaboration
 
+        @inlinable
         public init(collaboration: Collaboration) {
             self.collaboration = collaboration
         }
@@ -2402,6 +2451,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configuredAudienceModelArn: String, configuredAudienceModelAssociationName: String, description: String? = nil, manageResourcePolicies: Bool, membershipIdentifier: String, tags: [String: String]? = nil) {
             self.configuredAudienceModelArn = configuredAudienceModelArn
             self.configuredAudienceModelAssociationName = configuredAudienceModelAssociationName
@@ -2455,6 +2505,7 @@ extension CleanRooms {
         /// Information about the configured audience model association.
         public let configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation
 
+        @inlinable
         public init(configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation) {
             self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
         }
@@ -2472,6 +2523,7 @@ extension CleanRooms {
         /// The identifier for the configured table to create the analysis rule for. Currently accepts the configured table ID.
         public let configuredTableIdentifier: String
 
+        @inlinable
         public init(analysisRulePolicy: ConfiguredTableAnalysisRulePolicy, analysisRuleType: ConfiguredTableAnalysisRuleType, configuredTableIdentifier: String) {
             self.analysisRulePolicy = analysisRulePolicy
             self.analysisRuleType = analysisRuleType
@@ -2503,6 +2555,7 @@ extension CleanRooms {
         /// The analysis rule that was created for the configured table.
         public let analysisRule: ConfiguredTableAnalysisRule
 
+        @inlinable
         public init(analysisRule: ConfiguredTableAnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -2522,6 +2575,7 @@ extension CleanRooms {
         ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy, analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.analysisRulePolicy = analysisRulePolicy
             self.analysisRuleType = analysisRuleType
@@ -2558,6 +2612,7 @@ extension CleanRooms {
         /// The analysis rule for the conﬁgured table association. In the console, the ConfiguredTableAssociationAnalysisRule is referred to as the collaboration analysis rule.
         public let analysisRule: ConfiguredTableAssociationAnalysisRule
 
+        @inlinable
         public init(analysisRule: ConfiguredTableAssociationAnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -2581,6 +2636,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configuredTableIdentifier: String, description: String? = nil, membershipIdentifier: String, name: String, roleArn: String, tags: [String: String]? = nil) {
             self.configuredTableIdentifier = configuredTableIdentifier
             self.description = description
@@ -2636,6 +2692,7 @@ extension CleanRooms {
         /// The configured table association.
         public let configuredTableAssociation: ConfiguredTableAssociation
 
+        @inlinable
         public init(configuredTableAssociation: ConfiguredTableAssociation) {
             self.configuredTableAssociation = configuredTableAssociation
         }
@@ -2659,6 +2716,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedColumns: [String], analysisMethod: AnalysisMethod, description: String? = nil, name: String, tableReference: TableReference, tags: [String: String]? = nil) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
@@ -2703,6 +2761,7 @@ extension CleanRooms {
         /// The created configured table.
         public let configuredTable: ConfiguredTable
 
+        @inlinable
         public init(configuredTable: ConfiguredTable) {
             self.configuredTable = configuredTable
         }
@@ -2726,6 +2785,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, inputReferenceConfig: IdMappingTableInputReferenceConfig, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, tags: [String: String]? = nil) {
             self.description = description
             self.inputReferenceConfig = inputReferenceConfig
@@ -2779,6 +2839,7 @@ extension CleanRooms {
         /// The ID mapping table that was created.
         public let idMappingTable: IdMappingTable
 
+        @inlinable
         public init(idMappingTable: IdMappingTable) {
             self.idMappingTable = idMappingTable
         }
@@ -2802,6 +2863,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, idMappingConfig: IdMappingConfig? = nil, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, membershipIdentifier: String, name: String, tags: [String: String]? = nil) {
             self.description = description
             self.idMappingConfig = idMappingConfig
@@ -2853,6 +2915,7 @@ extension CleanRooms {
         /// The ID namespace association that was created.
         public let idNamespaceAssociation: IdNamespaceAssociation
 
+        @inlinable
         public init(idNamespaceAssociation: IdNamespaceAssociation) {
             self.idNamespaceAssociation = idNamespaceAssociation
         }
@@ -2874,6 +2937,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(collaborationIdentifier: String, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, paymentConfiguration: MembershipPaymentConfiguration? = nil, queryLogStatus: MembershipQueryLogStatus, tags: [String: String]? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.defaultResultConfiguration = defaultResultConfiguration
@@ -2908,6 +2972,7 @@ extension CleanRooms {
         /// The membership that was created.
         public let membership: Membership
 
+        @inlinable
         public init(membership: Membership) {
             self.membership = membership
         }
@@ -2929,6 +2994,7 @@ extension CleanRooms {
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(autoRefresh: PrivacyBudgetTemplateAutoRefresh, membershipIdentifier: String, parameters: PrivacyBudgetTemplateParametersInput, privacyBudgetType: PrivacyBudgetType, tags: [String: String]? = nil) {
             self.autoRefresh = autoRefresh
             self.membershipIdentifier = membershipIdentifier
@@ -2972,6 +3038,7 @@ extension CleanRooms {
         /// A summary of the elements in the privacy budget template.
         public let privacyBudgetTemplate: PrivacyBudgetTemplate
 
+        @inlinable
         public init(privacyBudgetTemplate: PrivacyBudgetTemplate) {
             self.privacyBudgetTemplate = privacyBudgetTemplate
         }
@@ -2991,6 +3058,7 @@ extension CleanRooms {
         /// Indicates whether NULL values are to be copied as NULL to encrypted tables (TRUE) or cryptographically processed (FALSE).
         public let preserveNulls: Bool
 
+        @inlinable
         public init(allowCleartext: Bool, allowDuplicates: Bool, allowJoinsOnColumnsWithDifferentNames: Bool, preserveNulls: Bool) {
             self.allowCleartext = allowCleartext
             self.allowDuplicates = allowDuplicates
@@ -3012,6 +3080,7 @@ extension CleanRooms {
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisTemplateIdentifier: String, membershipIdentifier: String) {
             self.analysisTemplateIdentifier = analysisTemplateIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3044,6 +3113,7 @@ extension CleanRooms {
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
 
+        @inlinable
         public init(collaborationIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
         }
@@ -3073,6 +3143,7 @@ extension CleanRooms {
         /// A unique identifier of the membership that contains the audience model association that you want to delete.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(configuredAudienceModelAssociationIdentifier: String, membershipIdentifier: String) {
             self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3107,6 +3178,7 @@ extension CleanRooms {
         /// The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID.
         public let configuredTableIdentifier: String
 
+        @inlinable
         public init(analysisRuleType: ConfiguredTableAnalysisRuleType, configuredTableIdentifier: String) {
             self.analysisRuleType = analysisRuleType
             self.configuredTableIdentifier = configuredTableIdentifier
@@ -3140,6 +3212,7 @@ extension CleanRooms {
         ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.analysisRuleType = analysisRuleType
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
@@ -3176,6 +3249,7 @@ extension CleanRooms {
         /// A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3208,6 +3282,7 @@ extension CleanRooms {
         /// The unique ID for the configured table to delete.
         public let configuredTableIdentifier: String
 
+        @inlinable
         public init(configuredTableIdentifier: String) {
             self.configuredTableIdentifier = configuredTableIdentifier
         }
@@ -3237,6 +3312,7 @@ extension CleanRooms {
         /// The unique identifier of the membership that contains the ID mapping table that you want to delete.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
             self.idMappingTableIdentifier = idMappingTableIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3271,6 +3347,7 @@ extension CleanRooms {
         /// The unique identifier of the membership that contains the ID namespace association that you want to delete.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(idNamespaceAssociationIdentifier: String, membershipIdentifier: String) {
             self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3305,6 +3382,7 @@ extension CleanRooms {
         /// The unique identifier for the associated collaboration.
         public let collaborationIdentifier: String
 
+        @inlinable
         public init(accountId: String, collaborationIdentifier: String) {
             self.accountId = accountId
             self.collaborationIdentifier = collaborationIdentifier
@@ -3337,6 +3415,7 @@ extension CleanRooms {
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(membershipIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
         }
@@ -3366,6 +3445,7 @@ extension CleanRooms {
         /// A unique identifier for your privacy budget template.
         public let privacyBudgetTemplateIdentifier: String
 
+        @inlinable
         public init(membershipIdentifier: String, privacyBudgetTemplateIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
             self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
@@ -3398,6 +3478,7 @@ extension CleanRooms {
         /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3411,6 +3492,7 @@ extension CleanRooms {
         /// The name of the column (such as user_id) that contains the unique identifier of your users whose privacy you want to protect. If you want to turn on diﬀerential privacy for two or more tables in a collaboration, you must conﬁgure the same column as the user identiﬁer column in both analysis rules.
         public let columns: [DifferentialPrivacyColumn]
 
+        @inlinable
         public init(columns: [DifferentialPrivacyColumn]) {
             self.columns = columns
         }
@@ -3429,6 +3511,7 @@ extension CleanRooms {
         /// Provides the sensitivity parameters that you can use to better understand the total amount of noise in query results.
         public let sensitivityParameters: [DifferentialPrivacySensitivityParameters]
 
+        @inlinable
         public init(sensitivityParameters: [DifferentialPrivacySensitivityParameters]) {
             self.sensitivityParameters = sensitivityParameters
         }
@@ -3444,6 +3527,7 @@ extension CleanRooms {
         /// The type of aggregation function.
         public let type: DifferentialPrivacyAggregationType
 
+        @inlinable
         public init(maxCount: Int, type: DifferentialPrivacyAggregationType) {
             self.maxCount = maxCount
             self.type = type
@@ -3461,6 +3545,7 @@ extension CleanRooms {
         /// Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
         public let usersNoisePerQuery: Int
 
+        @inlinable
         public init(epsilon: Int, usersNoisePerQuery: Int) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
@@ -3485,6 +3570,7 @@ extension CleanRooms {
         /// The epsilon value that you configured.
         public let epsilon: Int
 
+        @inlinable
         public init(aggregations: [DifferentialPrivacyPrivacyBudgetAggregation], epsilon: Int) {
             self.aggregations = aggregations
             self.epsilon = epsilon
@@ -3504,6 +3590,7 @@ extension CleanRooms {
         /// The different types of aggregation functions that you can perform.
         public let type: DifferentialPrivacyAggregationType
 
+        @inlinable
         public init(maxCount: Int, remainingCount: Int, type: DifferentialPrivacyAggregationType) {
             self.maxCount = maxCount
             self.remainingCount = remainingCount
@@ -3521,6 +3608,7 @@ extension CleanRooms {
         /// The number of aggregation functions that you can perform.
         public let aggregations: [DifferentialPrivacyPreviewAggregation]
 
+        @inlinable
         public init(aggregations: [DifferentialPrivacyPreviewAggregation]) {
             self.aggregations = aggregations
         }
@@ -3542,6 +3630,7 @@ extension CleanRooms {
         /// The maximum number of rows contributed by a user in a SQL query.
         public let userContributionLimit: Int
 
+        @inlinable
         public init(aggregationExpression: String, aggregationType: DifferentialPrivacyAggregationType, maxColumnValue: Float? = nil, minColumnValue: Float? = nil, userContributionLimit: Int) {
             self.aggregationExpression = aggregationExpression
             self.aggregationType = aggregationType
@@ -3565,6 +3654,7 @@ extension CleanRooms {
         /// Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
         public let usersNoisePerQuery: Int
 
+        @inlinable
         public init(epsilon: Int, usersNoisePerQuery: Int) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
@@ -3589,6 +3679,7 @@ extension CleanRooms {
         /// Noise added per query is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
         public let usersNoisePerQuery: Int
 
+        @inlinable
         public init(epsilon: Int, usersNoisePerQuery: Int) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
@@ -3606,6 +3697,7 @@ extension CleanRooms {
         /// The updated value of noise added per query. It is measured in terms of the number of users whose contributions you want to obscure. This value governs the rate at which the privacy budget is depleted.
         public let usersNoisePerQuery: Int?
 
+        @inlinable
         public init(epsilon: Int? = nil, usersNoisePerQuery: Int? = nil) {
             self.epsilon = epsilon
             self.usersNoisePerQuery = usersNoisePerQuery
@@ -3628,6 +3720,7 @@ extension CleanRooms {
         ///  The account IDs for the member who received the results of a protected query.
         public let receiverAccountIds: [String]?
 
+        @inlinable
         public init(receiverAccountIds: [String]? = nil) {
             self.receiverAccountIds = receiverAccountIds
         }
@@ -3643,6 +3736,7 @@ extension CleanRooms {
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisTemplateIdentifier: String, membershipIdentifier: String) {
             self.analysisTemplateIdentifier = analysisTemplateIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3671,6 +3765,7 @@ extension CleanRooms {
         /// The analysis template.
         public let analysisTemplate: AnalysisTemplate
 
+        @inlinable
         public init(analysisTemplate: AnalysisTemplate) {
             self.analysisTemplate = analysisTemplate
         }
@@ -3686,6 +3781,7 @@ extension CleanRooms {
         /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
         public let collaborationIdentifier: String
 
+        @inlinable
         public init(analysisTemplateArn: String, collaborationIdentifier: String) {
             self.analysisTemplateArn = analysisTemplateArn
             self.collaborationIdentifier = collaborationIdentifier
@@ -3713,6 +3809,7 @@ extension CleanRooms {
         /// The analysis template within a collaboration.
         public let collaborationAnalysisTemplate: CollaborationAnalysisTemplate
 
+        @inlinable
         public init(collaborationAnalysisTemplate: CollaborationAnalysisTemplate) {
             self.collaborationAnalysisTemplate = collaborationAnalysisTemplate
         }
@@ -3728,6 +3825,7 @@ extension CleanRooms {
         /// A unique identifier for the configured audience model association that you want to retrieve.
         public let configuredAudienceModelAssociationIdentifier: String
 
+        @inlinable
         public init(collaborationIdentifier: String, configuredAudienceModelAssociationIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
@@ -3756,6 +3854,7 @@ extension CleanRooms {
         /// The metadata of the configured audience model association.
         public let collaborationConfiguredAudienceModelAssociation: CollaborationConfiguredAudienceModelAssociation
 
+        @inlinable
         public init(collaborationConfiguredAudienceModelAssociation: CollaborationConfiguredAudienceModelAssociation) {
             self.collaborationConfiguredAudienceModelAssociation = collaborationConfiguredAudienceModelAssociation
         }
@@ -3771,6 +3870,7 @@ extension CleanRooms {
         /// The unique identifier of the ID namespace association that you want to retrieve.
         public let idNamespaceAssociationIdentifier: String
 
+        @inlinable
         public init(collaborationIdentifier: String, idNamespaceAssociationIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
             self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
@@ -3799,6 +3899,7 @@ extension CleanRooms {
         /// The ID namespace association that you requested.
         public let collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation
 
+        @inlinable
         public init(collaborationIdNamespaceAssociation: CollaborationIdNamespaceAssociation) {
             self.collaborationIdNamespaceAssociation = collaborationIdNamespaceAssociation
         }
@@ -3812,6 +3913,7 @@ extension CleanRooms {
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
 
+        @inlinable
         public init(collaborationIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
         }
@@ -3835,6 +3937,7 @@ extension CleanRooms {
         /// The entire collaboration for this identifier.
         public let collaboration: Collaboration
 
+        @inlinable
         public init(collaboration: Collaboration) {
             self.collaboration = collaboration
         }
@@ -3850,6 +3953,7 @@ extension CleanRooms {
         /// A unique identifier for one of your privacy budget templates.
         public let privacyBudgetTemplateIdentifier: String
 
+        @inlinable
         public init(collaborationIdentifier: String, privacyBudgetTemplateIdentifier: String) {
             self.collaborationIdentifier = collaborationIdentifier
             self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
@@ -3878,6 +3982,7 @@ extension CleanRooms {
         /// Returns the details of the privacy budget template that you requested.
         public let collaborationPrivacyBudgetTemplate: CollaborationPrivacyBudgetTemplate
 
+        @inlinable
         public init(collaborationPrivacyBudgetTemplate: CollaborationPrivacyBudgetTemplate) {
             self.collaborationPrivacyBudgetTemplate = collaborationPrivacyBudgetTemplate
         }
@@ -3893,6 +3998,7 @@ extension CleanRooms {
         /// A unique identifier for the membership that contains the configured audience model association that you want to retrieve.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(configuredAudienceModelAssociationIdentifier: String, membershipIdentifier: String) {
             self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -3921,6 +4027,7 @@ extension CleanRooms {
         /// Information about the configured audience model association that you requested.
         public let configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation
 
+        @inlinable
         public init(configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation) {
             self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
         }
@@ -3936,6 +4043,7 @@ extension CleanRooms {
         /// The unique identifier for the configured table to retrieve. Currently accepts the configured table ID.
         public let configuredTableIdentifier: String
 
+        @inlinable
         public init(analysisRuleType: ConfiguredTableAnalysisRuleType, configuredTableIdentifier: String) {
             self.analysisRuleType = analysisRuleType
             self.configuredTableIdentifier = configuredTableIdentifier
@@ -3961,6 +4069,7 @@ extension CleanRooms {
         /// The entire analysis rule output.
         public let analysisRule: ConfiguredTableAnalysisRule
 
+        @inlinable
         public init(analysisRule: ConfiguredTableAnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -3978,6 +4087,7 @@ extension CleanRooms {
         ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.analysisRuleType = analysisRuleType
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
@@ -4008,6 +4118,7 @@ extension CleanRooms {
         /// The analysis rule for the conﬁgured table association. In the console, the ConfiguredTableAssociationAnalysisRule is referred to as the collaboration analysis rule.
         public let analysisRule: ConfiguredTableAssociationAnalysisRule
 
+        @inlinable
         public init(analysisRule: ConfiguredTableAssociationAnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -4023,6 +4134,7 @@ extension CleanRooms {
         /// A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -4051,6 +4163,7 @@ extension CleanRooms {
         /// The entire configured table association object.
         public let configuredTableAssociation: ConfiguredTableAssociation
 
+        @inlinable
         public init(configuredTableAssociation: ConfiguredTableAssociation) {
             self.configuredTableAssociation = configuredTableAssociation
         }
@@ -4064,6 +4177,7 @@ extension CleanRooms {
         /// The unique ID for the configured table to retrieve.
         public let configuredTableIdentifier: String
 
+        @inlinable
         public init(configuredTableIdentifier: String) {
             self.configuredTableIdentifier = configuredTableIdentifier
         }
@@ -4087,6 +4201,7 @@ extension CleanRooms {
         /// The retrieved configured table.
         public let configuredTable: ConfiguredTable
 
+        @inlinable
         public init(configuredTable: ConfiguredTable) {
             self.configuredTable = configuredTable
         }
@@ -4102,6 +4217,7 @@ extension CleanRooms {
         /// The unique identifier of the membership that contains the ID mapping table that you want to retrieve.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
             self.idMappingTableIdentifier = idMappingTableIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -4130,6 +4246,7 @@ extension CleanRooms {
         /// The ID mapping table that you requested.
         public let idMappingTable: IdMappingTable
 
+        @inlinable
         public init(idMappingTable: IdMappingTable) {
             self.idMappingTable = idMappingTable
         }
@@ -4145,6 +4262,7 @@ extension CleanRooms {
         /// The unique identifier of the membership that contains the ID namespace association that you want to retrieve.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(idNamespaceAssociationIdentifier: String, membershipIdentifier: String) {
             self.idNamespaceAssociationIdentifier = idNamespaceAssociationIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -4173,6 +4291,7 @@ extension CleanRooms {
         /// The ID namespace association that you requested.
         public let idNamespaceAssociation: IdNamespaceAssociation
 
+        @inlinable
         public init(idNamespaceAssociation: IdNamespaceAssociation) {
             self.idNamespaceAssociation = idNamespaceAssociation
         }
@@ -4186,6 +4305,7 @@ extension CleanRooms {
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(membershipIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
         }
@@ -4209,6 +4329,7 @@ extension CleanRooms {
         /// The membership retrieved for the provided identifier.
         public let membership: Membership
 
+        @inlinable
         public init(membership: Membership) {
             self.membership = membership
         }
@@ -4224,6 +4345,7 @@ extension CleanRooms {
         /// A unique identifier for your privacy budget template.
         public let privacyBudgetTemplateIdentifier: String
 
+        @inlinable
         public init(membershipIdentifier: String, privacyBudgetTemplateIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
             self.privacyBudgetTemplateIdentifier = privacyBudgetTemplateIdentifier
@@ -4252,6 +4374,7 @@ extension CleanRooms {
         /// Returns the details of the privacy budget template that you requested.
         public let privacyBudgetTemplate: PrivacyBudgetTemplate
 
+        @inlinable
         public init(privacyBudgetTemplate: PrivacyBudgetTemplate) {
             self.privacyBudgetTemplate = privacyBudgetTemplate
         }
@@ -4267,6 +4390,7 @@ extension CleanRooms {
         /// The identifier for a protected query instance.
         public let protectedQueryIdentifier: String
 
+        @inlinable
         public init(membershipIdentifier: String, protectedQueryIdentifier: String) {
             self.membershipIdentifier = membershipIdentifier
             self.protectedQueryIdentifier = protectedQueryIdentifier
@@ -4295,6 +4419,7 @@ extension CleanRooms {
         /// The query processing metadata.
         public let protectedQuery: ProtectedQuery
 
+        @inlinable
         public init(protectedQuery: ProtectedQuery) {
             self.protectedQuery = protectedQuery
         }
@@ -4312,6 +4437,7 @@ extension CleanRooms {
         /// The type of the schema analysis rule to retrieve. Schema analysis rules are uniquely identified by a combination of the collaboration, the schema name, and their type.
         public let type: AnalysisRuleType
 
+        @inlinable
         public init(collaborationIdentifier: String, name: String, type: AnalysisRuleType) {
             self.collaborationIdentifier = collaborationIdentifier
             self.name = name
@@ -4341,6 +4467,7 @@ extension CleanRooms {
         /// A specification about how data from the configured table can be used.
         public let analysisRule: AnalysisRule
 
+        @inlinable
         public init(analysisRule: AnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -4356,6 +4483,7 @@ extension CleanRooms {
         /// The name of the relation to retrieve the schema for.
         public let name: String
 
+        @inlinable
         public init(collaborationIdentifier: String, name: String) {
             self.collaborationIdentifier = collaborationIdentifier
             self.name = name
@@ -4383,6 +4511,7 @@ extension CleanRooms {
         /// The entire schema object.
         public let schema: Schema
 
+        @inlinable
         public init(schema: Schema) {
             self.schema = schema
         }
@@ -4398,6 +4527,7 @@ extension CleanRooms {
         /// The name of the Glue table.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -4420,6 +4550,7 @@ extension CleanRooms {
         /// An indicator as to whether you can use your column as a dimension column in the ID mapping table (TRUE) or not (FALSE). Default is FALSE.
         public let allowUseAsDimensionColumn: Bool
 
+        @inlinable
         public init(allowUseAsDimensionColumn: Bool) {
             self.allowUseAsDimensionColumn = allowUseAsDimensionColumn
         }
@@ -4457,6 +4588,7 @@ extension CleanRooms {
         /// The most recent time at which the ID mapping table was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, inputReferenceConfig: IdMappingTableInputReferenceConfig, inputReferenceProperties: IdMappingTableInputReferenceProperties, kmsKeyArn: String? = nil, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -4496,6 +4628,7 @@ extension CleanRooms {
         /// When TRUE, Clean Rooms manages permissions for the ID mapping table resource.  When FALSE, the resource owner manages permissions for the ID mapping table resource.
         public let manageResourcePolicies: Bool
 
+        @inlinable
         public init(inputReferenceArn: String, manageResourcePolicies: Bool) {
             self.inputReferenceArn = inputReferenceArn
             self.manageResourcePolicies = manageResourcePolicies
@@ -4517,6 +4650,7 @@ extension CleanRooms {
         /// The input source of the ID mapping table.
         public let idMappingTableInputSource: [IdMappingTableInputSource]
 
+        @inlinable
         public init(idMappingTableInputSource: [IdMappingTableInputSource]) {
             self.idMappingTableInputSource = idMappingTableInputSource
         }
@@ -4532,6 +4666,7 @@ extension CleanRooms {
         /// The type of the input source of the ID mapping table.
         public let type: IdNamespaceType
 
+        @inlinable
         public init(idNamespaceAssociationId: String, type: IdNamespaceType) {
             self.idNamespaceAssociationId = idNamespaceAssociationId
             self.type = type
@@ -4547,6 +4682,7 @@ extension CleanRooms {
         /// Defines which ID namespace associations are used to create the ID mapping table.
         public let idMappingTableInputSource: [IdMappingTableInputSource]
 
+        @inlinable
         public init(idMappingTableInputSource: [IdMappingTableInputSource]) {
             self.idMappingTableInputSource = idMappingTableInputSource
         }
@@ -4580,6 +4716,7 @@ extension CleanRooms {
         /// The most recent time at which this ID mapping table was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, inputReferenceConfig: IdMappingTableInputReferenceConfig, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -4637,6 +4774,7 @@ extension CleanRooms {
         /// The most recent time at which the ID namespace association was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, idMappingConfig: IdMappingConfig? = nil, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferenceProperties, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -4676,6 +4814,7 @@ extension CleanRooms {
         /// When TRUE, Clean Rooms manages permissions for the ID namespace association resource. When FALSE, the resource owner manages permissions for the ID namespace association resource.
         public let manageResourcePolicies: Bool
 
+        @inlinable
         public init(inputReferenceArn: String, manageResourcePolicies: Bool) {
             self.inputReferenceArn = inputReferenceArn
             self.manageResourcePolicies = manageResourcePolicies
@@ -4698,6 +4837,7 @@ extension CleanRooms {
         /// The ID namespace type for this ID namespace association.
         public let idNamespaceType: IdNamespaceType
 
+        @inlinable
         public init(idMappingWorkflowsSupported: [String], idNamespaceType: IdNamespaceType) {
             self.idMappingWorkflowsSupported = idMappingWorkflowsSupported
             self.idNamespaceType = idNamespaceType
@@ -4713,6 +4853,7 @@ extension CleanRooms {
         /// The ID namespace type for this ID namespace association.
         public let idNamespaceType: IdNamespaceType
 
+        @inlinable
         public init(idNamespaceType: IdNamespaceType) {
             self.idNamespaceType = idNamespaceType
         }
@@ -4748,6 +4889,7 @@ extension CleanRooms {
         /// The most recent time at which this ID namespace association has been updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, inputReferenceConfig: IdNamespaceAssociationInputReferenceConfig, inputReferenceProperties: IdNamespaceAssociationInputReferencePropertiesSummary, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -4787,6 +4929,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -4819,6 +4962,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(analysisTemplateSummaries: [AnalysisTemplateSummary], nextToken: String? = nil) {
             self.analysisTemplateSummaries = analysisTemplateSummaries
             self.nextToken = nextToken
@@ -4838,6 +4982,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -4870,6 +5015,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationAnalysisTemplateSummaries: [CollaborationAnalysisTemplateSummary], nextToken: String? = nil) {
             self.collaborationAnalysisTemplateSummaries = collaborationAnalysisTemplateSummaries
             self.nextToken = nextToken
@@ -4889,6 +5035,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -4921,6 +5068,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationConfiguredAudienceModelAssociationSummaries: [CollaborationConfiguredAudienceModelAssociationSummary], nextToken: String? = nil) {
             self.collaborationConfiguredAudienceModelAssociationSummaries = collaborationConfiguredAudienceModelAssociationSummaries
             self.nextToken = nextToken
@@ -4940,6 +5088,7 @@ extension CleanRooms {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -4972,6 +5121,7 @@ extension CleanRooms {
         /// The token value provided to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationIdNamespaceAssociationSummaries: [CollaborationIdNamespaceAssociationSummary], nextToken: String? = nil) {
             self.collaborationIdNamespaceAssociationSummaries = collaborationIdNamespaceAssociationSummaries
             self.nextToken = nextToken
@@ -4991,6 +5141,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -5023,6 +5174,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationPrivacyBudgetTemplateSummaries: [CollaborationPrivacyBudgetTemplateSummary], nextToken: String? = nil) {
             self.collaborationPrivacyBudgetTemplateSummaries = collaborationPrivacyBudgetTemplateSummaries
             self.nextToken = nextToken
@@ -5044,6 +5196,7 @@ extension CleanRooms {
         /// Specifies the type of the privacy budget.
         public let privacyBudgetType: PrivacyBudgetType
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, privacyBudgetType: PrivacyBudgetType) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -5078,6 +5231,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationPrivacyBudgetSummaries: [CollaborationPrivacyBudgetSummary], nextToken: String? = nil) {
             self.collaborationPrivacyBudgetSummaries = collaborationPrivacyBudgetSummaries
             self.nextToken = nextToken
@@ -5097,6 +5251,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, memberStatus: FilterableMemberStatus? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.memberStatus = memberStatus
@@ -5126,6 +5281,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationList: [CollaborationSummary], nextToken: String? = nil) {
             self.collaborationList = collaborationList
             self.nextToken = nextToken
@@ -5145,6 +5301,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5177,6 +5334,7 @@ extension CleanRooms {
         /// The token value provided to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(configuredAudienceModelAssociationSummaries: [ConfiguredAudienceModelAssociationSummary], nextToken: String? = nil) {
             self.configuredAudienceModelAssociationSummaries = configuredAudienceModelAssociationSummaries
             self.nextToken = nextToken
@@ -5196,6 +5354,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5228,6 +5387,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(configuredTableAssociationSummaries: [ConfiguredTableAssociationSummary], nextToken: String? = nil) {
             self.configuredTableAssociationSummaries = configuredTableAssociationSummaries
             self.nextToken = nextToken
@@ -5245,6 +5405,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5272,6 +5433,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(configuredTableSummaries: [ConfiguredTableSummary], nextToken: String? = nil) {
             self.configuredTableSummaries = configuredTableSummaries
             self.nextToken = nextToken
@@ -5291,6 +5453,7 @@ extension CleanRooms {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5323,6 +5486,7 @@ extension CleanRooms {
         /// The token value provided to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(idMappingTableSummaries: [IdMappingTableSummary], nextToken: String? = nil) {
             self.idMappingTableSummaries = idMappingTableSummaries
             self.nextToken = nextToken
@@ -5342,6 +5506,7 @@ extension CleanRooms {
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5374,6 +5539,7 @@ extension CleanRooms {
         /// The token value provided to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(idNamespaceAssociationSummaries: [IdNamespaceAssociationSummary], nextToken: String? = nil) {
             self.idNamespaceAssociationSummaries = idNamespaceAssociationSummaries
             self.nextToken = nextToken
@@ -5393,6 +5559,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -5425,6 +5592,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(memberSummaries: [MemberSummary], nextToken: String? = nil) {
             self.memberSummaries = memberSummaries
             self.nextToken = nextToken
@@ -5444,6 +5612,7 @@ extension CleanRooms {
         /// A filter which will return only memberships in the specified status.
         public let status: MembershipStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: MembershipStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5473,6 +5642,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(membershipSummaries: [MembershipSummary], nextToken: String? = nil) {
             self.membershipSummaries = membershipSummaries
             self.nextToken = nextToken
@@ -5492,6 +5662,7 @@ extension CleanRooms {
         /// The token value retrieved from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5524,6 +5695,7 @@ extension CleanRooms {
         /// An array that summarizes the privacy budget templates. The summary includes collaboration information, creation information, and privacy budget type.
         public let privacyBudgetTemplateSummaries: [PrivacyBudgetTemplateSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, privacyBudgetTemplateSummaries: [PrivacyBudgetTemplateSummary]) {
             self.nextToken = nextToken
             self.privacyBudgetTemplateSummaries = privacyBudgetTemplateSummaries
@@ -5545,6 +5717,7 @@ extension CleanRooms {
         /// The privacy budget type.
         public let privacyBudgetType: PrivacyBudgetType
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, privacyBudgetType: PrivacyBudgetType) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5579,6 +5752,7 @@ extension CleanRooms {
         /// An array that summarizes the privacy budgets. The summary includes collaboration information, membership information, privacy budget template information, and privacy budget details.
         public let privacyBudgetSummaries: [PrivacyBudgetSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, privacyBudgetSummaries: [PrivacyBudgetSummary]) {
             self.nextToken = nextToken
             self.privacyBudgetSummaries = privacyBudgetSummaries
@@ -5600,6 +5774,7 @@ extension CleanRooms {
         /// A filter on the status of the protected query.
         public let status: ProtectedQueryStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, status: ProtectedQueryStatus? = nil) {
             self.maxResults = maxResults
             self.membershipIdentifier = membershipIdentifier
@@ -5634,6 +5809,7 @@ extension CleanRooms {
         /// A list of protected queries.
         public let protectedQueries: [ProtectedQuerySummary]
 
+        @inlinable
         public init(nextToken: String? = nil, protectedQueries: [ProtectedQuerySummary]) {
             self.nextToken = nextToken
             self.protectedQueries = protectedQueries
@@ -5655,6 +5831,7 @@ extension CleanRooms {
         /// If present, filter schemas by schema type. The only valid schema type is currently `TABLE`.
         public let schemaType: SchemaType?
 
+        @inlinable
         public init(collaborationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, schemaType: SchemaType? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.maxResults = maxResults
@@ -5689,6 +5866,7 @@ extension CleanRooms {
         /// The retrieved list of schemas.
         public let schemaSummaries: [SchemaSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, schemaSummaries: [SchemaSummary]) {
             self.nextToken = nextToken
             self.schemaSummaries = schemaSummaries
@@ -5704,6 +5882,7 @@ extension CleanRooms {
         /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -5726,6 +5905,7 @@ extension CleanRooms {
         /// A map of objects specifying each key name and value.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -5745,6 +5925,7 @@ extension CleanRooms {
         /// The collaboration member's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't speciﬁed anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public let paymentConfiguration: PaymentConfiguration?
 
+        @inlinable
         public init(accountId: String, displayName: String, memberAbilities: [MemberAbility], paymentConfiguration: PaymentConfiguration? = nil) {
             self.accountId = accountId
             self.displayName = displayName
@@ -5789,6 +5970,7 @@ extension CleanRooms {
         /// The time the member metadata was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(abilities: [MemberAbility], accountId: String, createTime: Date, displayName: String, membershipArn: String? = nil, membershipId: String? = nil, paymentConfiguration: PaymentConfiguration, status: MemberStatus, updateTime: Date) {
             self.abilities = abilities
             self.accountId = accountId
@@ -5844,6 +6026,7 @@ extension CleanRooms {
         /// The time the membership metadata was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, memberAbilities: [MemberAbility], paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -5883,6 +6066,7 @@ extension CleanRooms {
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
         public let queryCompute: MembershipQueryComputePaymentConfig
 
+        @inlinable
         public init(queryCompute: MembershipQueryComputePaymentConfig) {
             self.queryCompute = queryCompute
         }
@@ -5898,6 +6082,7 @@ extension CleanRooms {
         /// The unique ARN for an IAM role that is used by Clean Rooms to write protected query results to the result location, given by the member who can receive results.
         public let roleArn: String?
 
+        @inlinable
         public init(outputConfiguration: MembershipProtectedQueryOutputConfiguration, roleArn: String? = nil) {
             self.outputConfiguration = outputConfiguration
             self.roleArn = roleArn
@@ -5920,6 +6105,7 @@ extension CleanRooms {
         /// Indicates whether the collaboration member has accepted to pay for query compute costs (TRUE) or has not accepted to pay for query compute costs (FALSE). If the collaboration creator has not specified anyone to pay for query compute costs, then the member who can query is the default payer.  An error message is returned for the following reasons:    If you set the value to FALSE but you are responsible to pay for query compute costs.    If you set the value to TRUE but you are not responsible to pay for query compute costs.
         public let isResponsible: Bool
 
+        @inlinable
         public init(isResponsible: Bool) {
             self.isResponsible = isResponsible
         }
@@ -5955,6 +6141,7 @@ extension CleanRooms {
         /// The time the membership metadata was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, id: String, memberAbilities: [MemberAbility], paymentConfiguration: MembershipPaymentConfiguration, status: MembershipStatus, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -5990,6 +6177,7 @@ extension CleanRooms {
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
         public let queryCompute: QueryComputePaymentConfig
 
+        @inlinable
         public init(queryCompute: QueryComputePaymentConfig) {
             self.queryCompute = queryCompute
         }
@@ -6005,6 +6193,7 @@ extension CleanRooms {
         /// The unique identifier of the membership that contains the ID mapping table that you want to populate.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(idMappingTableIdentifier: String, membershipIdentifier: String) {
             self.idMappingTableIdentifier = idMappingTableIdentifier
             self.membershipIdentifier = membershipIdentifier
@@ -6033,6 +6222,7 @@ extension CleanRooms {
         /// The unique identifier of the mapping job that will populate the ID mapping table.
         public let idMappingJobId: String
 
+        @inlinable
         public init(idMappingJobId: String) {
             self.idMappingJobId = idMappingJobId
         }
@@ -6048,6 +6238,7 @@ extension CleanRooms {
         /// Specifies the desired epsilon and noise parameters to preview.
         public let parameters: PreviewPrivacyImpactParametersInput
 
+        @inlinable
         public init(membershipIdentifier: String, parameters: PreviewPrivacyImpactParametersInput) {
             self.membershipIdentifier = membershipIdentifier
             self.parameters = parameters
@@ -6076,6 +6267,7 @@ extension CleanRooms {
         /// An estimate of the number of aggregation functions that the member who can query can run given the epsilon and noise parameters. This does not change the privacy budget.
         public let privacyImpact: PrivacyImpact
 
+        @inlinable
         public init(privacyImpact: PrivacyImpact) {
             self.privacyImpact = privacyImpact
         }
@@ -6109,6 +6301,7 @@ extension CleanRooms {
         /// The most recent time at which the privacy budget was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(budget: PrivacyBudget, collaborationArn: String, collaborationId: String, createTime: Date, id: String, membershipArn: String, membershipId: String, privacyBudgetTemplateArn: String, privacyBudgetTemplateId: String, type: PrivacyBudgetType, updateTime: Date) {
             self.budget = budget
             self.collaborationArn = collaborationArn
@@ -6162,6 +6355,7 @@ extension CleanRooms {
         /// The most recent time at which the privacy budget template was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, autoRefresh: PrivacyBudgetTemplateAutoRefresh, collaborationArn: String, collaborationId: String, createTime: Date, id: String, membershipArn: String, membershipId: String, parameters: PrivacyBudgetTemplateParametersOutput, privacyBudgetType: PrivacyBudgetType, updateTime: Date) {
             self.arn = arn
             self.autoRefresh = autoRefresh
@@ -6211,6 +6405,7 @@ extension CleanRooms {
         /// The most recent time at which the privacy budget template was updated.
         public let updateTime: Date
 
+        @inlinable
         public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, id: String, membershipArn: String, membershipId: String, privacyBudgetType: PrivacyBudgetType, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -6260,6 +6455,7 @@ extension CleanRooms {
         /// The status of the query.
         public let status: ProtectedQueryStatus
 
+        @inlinable
         public init(createTime: Date, differentialPrivacy: DifferentialPrivacyParameters? = nil, error: ProtectedQueryError? = nil, id: String, membershipArn: String, membershipId: String, result: ProtectedQueryResult? = nil, resultConfiguration: ProtectedQueryResultConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters? = nil, statistics: ProtectedQueryStatistics? = nil, status: ProtectedQueryStatus) {
             self.createTime = createTime
             self.differentialPrivacy = differentialPrivacy
@@ -6295,6 +6491,7 @@ extension CleanRooms {
         /// A description of why the query failed.
         public let message: String
 
+        @inlinable
         public init(code: String, message: String) {
             self.code = code
             self.message = message
@@ -6310,6 +6507,7 @@ extension CleanRooms {
         /// The unique identifier for the account.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -6329,6 +6527,7 @@ extension CleanRooms {
         /// The output of the protected query.
         public let output: ProtectedQueryOutput
 
+        @inlinable
         public init(output: ProtectedQueryOutput) {
             self.output = output
         }
@@ -6342,6 +6541,7 @@ extension CleanRooms {
         /// Configuration for protected query results.
         public let outputConfiguration: ProtectedQueryOutputConfiguration
 
+        @inlinable
         public init(outputConfiguration: ProtectedQueryOutputConfiguration) {
             self.outputConfiguration = outputConfiguration
         }
@@ -6359,6 +6559,7 @@ extension CleanRooms {
         /// The S3 location of the result.
         public let location: String
 
+        @inlinable
         public init(location: String) {
             self.location = location
         }
@@ -6376,6 +6577,7 @@ extension CleanRooms {
         /// Intended file format of the result.
         public let resultFormat: ResultFormat
 
+        @inlinable
         public init(bucket: String, keyPrefix: String? = nil, resultFormat: ResultFormat) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -6402,6 +6604,7 @@ extension CleanRooms {
         /// The query string to be submitted.
         public let queryString: String?
 
+        @inlinable
         public init(analysisTemplateArn: String? = nil, parameters: [String: String]? = nil, queryString: String? = nil) {
             self.analysisTemplateArn = analysisTemplateArn
             self.parameters = parameters
@@ -6430,6 +6633,7 @@ extension CleanRooms {
         /// The Amazon Web Services account ID of the member in the collaboration who can receive results for the query.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -6443,6 +6647,7 @@ extension CleanRooms {
         /// The duration of the protected query, from creation until query completion.
         public let totalDurationInMillis: Int64?
 
+        @inlinable
         public init(totalDurationInMillis: Int64? = nil) {
             self.totalDurationInMillis = totalDurationInMillis
         }
@@ -6466,6 +6671,7 @@ extension CleanRooms {
         /// The status of the protected query. Value values are `SUBMITTED`, `STARTED`, `CANCELLED`, `CANCELLING`, `FAILED`, `SUCCESS`, `TIMED_OUT`.
         public let status: ProtectedQueryStatus
 
+        @inlinable
         public init(createTime: Date, id: String, membershipArn: String, membershipId: String, receiverConfigurations: [ReceiverConfiguration], status: ProtectedQueryStatus) {
             self.createTime = createTime
             self.id = id
@@ -6489,6 +6695,7 @@ extension CleanRooms {
         /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). Exactly one member can be configured to pay for query compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration.  If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
         public let isResponsible: Bool
 
+        @inlinable
         public init(isResponsible: Bool) {
             self.isResponsible = isResponsible
         }
@@ -6502,6 +6709,7 @@ extension CleanRooms {
         /// The columns that are required to overlap.
         public let columns: [String]?
 
+        @inlinable
         public init(columns: [String]? = nil) {
             self.columns = columns
         }
@@ -6517,6 +6725,7 @@ extension CleanRooms {
         ///  The configuration details of the receiver configuration.
         public let configurationDetails: ConfigurationDetails?
 
+        @inlinable
         public init(analysisType: AnalysisType, configurationDetails: ConfigurationDetails? = nil) {
             self.analysisType = analysisType
             self.configurationDetails = configurationDetails
@@ -6558,6 +6767,7 @@ extension CleanRooms {
         /// The time the schema was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], schemaStatusDetails: [SchemaStatusDetail], schemaTypeProperties: SchemaTypeProperties? = nil, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
@@ -6599,6 +6809,7 @@ extension CleanRooms {
         /// The type of analysis rule schema that you are requesting.
         public let type: AnalysisRuleType
 
+        @inlinable
         public init(name: String, type: AnalysisRuleType) {
             self.name = name
             self.type = type
@@ -6627,6 +6838,7 @@ extension CleanRooms {
         /// The status of the schema, indicating if it is ready to query.
         public let status: SchemaStatus
 
+        @inlinable
         public init(analysisRuleType: AnalysisRuleType? = nil, analysisType: AnalysisType, configurations: [SchemaConfiguration]? = nil, reasons: [SchemaStatusReason]? = nil, status: SchemaStatus) {
             self.analysisRuleType = analysisRuleType
             self.analysisType = analysisType
@@ -6650,6 +6862,7 @@ extension CleanRooms {
         /// An explanation of the schema status reason code.
         public let message: String
 
+        @inlinable
         public init(code: SchemaStatusReasonCode, message: String) {
             self.code = code
             self.message = message
@@ -6681,6 +6894,7 @@ extension CleanRooms {
         /// The time the schema object was last updated.
         public let updateTime: Date
 
+        @inlinable
         public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, name: String, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
@@ -6716,6 +6930,7 @@ extension CleanRooms {
         /// The type of the protected query to be started.
         public let type: ProtectedQueryType
 
+        @inlinable
         public init(membershipIdentifier: String, resultConfiguration: ProtectedQueryResultConfiguration? = nil, sqlParameters: ProtectedQuerySQLParameters, type: ProtectedQueryType) {
             self.membershipIdentifier = membershipIdentifier
             self.resultConfiguration = resultConfiguration
@@ -6751,6 +6966,7 @@ extension CleanRooms {
         /// The protected query.
         public let protectedQuery: ProtectedQuery
 
+        @inlinable
         public init(protectedQuery: ProtectedQuery) {
             self.protectedQuery = protectedQuery
         }
@@ -6766,6 +6982,7 @@ extension CleanRooms {
         /// A map of objects specifying each key name and value.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -6804,6 +7021,7 @@ extension CleanRooms {
         /// A list of key names of tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -6840,6 +7058,7 @@ extension CleanRooms {
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisTemplateIdentifier: String, description: String? = nil, membershipIdentifier: String) {
             self.analysisTemplateIdentifier = analysisTemplateIdentifier
             self.description = description
@@ -6874,6 +7093,7 @@ extension CleanRooms {
         /// The analysis template.
         public let analysisTemplate: AnalysisTemplate
 
+        @inlinable
         public init(analysisTemplate: AnalysisTemplate) {
             self.analysisTemplate = analysisTemplate
         }
@@ -6891,6 +7111,7 @@ extension CleanRooms {
         /// A human-readable identifier provided by the collaboration owner. Display names are not unique.
         public let name: String?
 
+        @inlinable
         public init(collaborationIdentifier: String, description: String? = nil, name: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.description = description
@@ -6927,6 +7148,7 @@ extension CleanRooms {
         /// The entire collaboration that has been updated.
         public let collaboration: Collaboration
 
+        @inlinable
         public init(collaboration: Collaboration) {
             self.collaboration = collaboration
         }
@@ -6946,6 +7168,7 @@ extension CleanRooms {
         /// A new name for the configured audience model association.
         public let name: String?
 
+        @inlinable
         public init(configuredAudienceModelAssociationIdentifier: String, description: String? = nil, membershipIdentifier: String, name: String? = nil) {
             self.configuredAudienceModelAssociationIdentifier = configuredAudienceModelAssociationIdentifier
             self.description = description
@@ -6986,6 +7209,7 @@ extension CleanRooms {
         /// Details about the configured audience model association that you updated.
         public let configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation
 
+        @inlinable
         public init(configuredAudienceModelAssociation: ConfiguredAudienceModelAssociation) {
             self.configuredAudienceModelAssociation = configuredAudienceModelAssociation
         }
@@ -7003,6 +7227,7 @@ extension CleanRooms {
         /// The unique identifier for the configured table that the analysis rule applies to. Currently accepts the configured table ID.
         public let configuredTableIdentifier: String
 
+        @inlinable
         public init(analysisRulePolicy: ConfiguredTableAnalysisRulePolicy, analysisRuleType: ConfiguredTableAnalysisRuleType, configuredTableIdentifier: String) {
             self.analysisRulePolicy = analysisRulePolicy
             self.analysisRuleType = analysisRuleType
@@ -7033,6 +7258,7 @@ extension CleanRooms {
         /// The entire updated analysis rule.
         public let analysisRule: ConfiguredTableAnalysisRule
 
+        @inlinable
         public init(analysisRule: ConfiguredTableAnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -7052,6 +7278,7 @@ extension CleanRooms {
         ///  A unique identifier for the membership that the configured table association belongs to. Currently accepts the membership ID.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(analysisRulePolicy: ConfiguredTableAssociationAnalysisRulePolicy, analysisRuleType: ConfiguredTableAssociationAnalysisRuleType, configuredTableAssociationIdentifier: String, membershipIdentifier: String) {
             self.analysisRulePolicy = analysisRulePolicy
             self.analysisRuleType = analysisRuleType
@@ -7087,6 +7314,7 @@ extension CleanRooms {
         ///  The updated analysis rule for the conﬁgured table association. In the console, the ConfiguredTableAssociationAnalysisRule is referred to as the collaboration analysis rule.
         public let analysisRule: ConfiguredTableAssociationAnalysisRule
 
+        @inlinable
         public init(analysisRule: ConfiguredTableAssociationAnalysisRule) {
             self.analysisRule = analysisRule
         }
@@ -7106,6 +7334,7 @@ extension CleanRooms {
         /// The service will assume this role to access catalog metadata and query the table.
         public let roleArn: String?
 
+        @inlinable
         public init(configuredTableAssociationIdentifier: String, description: String? = nil, membershipIdentifier: String, roleArn: String? = nil) {
             self.configuredTableAssociationIdentifier = configuredTableAssociationIdentifier
             self.description = description
@@ -7146,6 +7375,7 @@ extension CleanRooms {
         /// The entire updated configured table association.
         public let configuredTableAssociation: ConfiguredTableAssociation
 
+        @inlinable
         public init(configuredTableAssociation: ConfiguredTableAssociation) {
             self.configuredTableAssociation = configuredTableAssociation
         }
@@ -7163,6 +7393,7 @@ extension CleanRooms {
         /// A new name for the configured table.
         public let name: String?
 
+        @inlinable
         public init(configuredTableIdentifier: String, description: String? = nil, name: String? = nil) {
             self.configuredTableIdentifier = configuredTableIdentifier
             self.description = description
@@ -7198,6 +7429,7 @@ extension CleanRooms {
         /// The updated configured table.
         public let configuredTable: ConfiguredTable
 
+        @inlinable
         public init(configuredTable: ConfiguredTable) {
             self.configuredTable = configuredTable
         }
@@ -7217,6 +7449,7 @@ extension CleanRooms {
         /// The unique identifier of the membership that contains the ID mapping table that you want to update.
         public let membershipIdentifier: String
 
+        @inlinable
         public init(description: String? = nil, idMappingTableIdentifier: String, kmsKeyArn: String? = nil, membershipIdentifier: String) {
             self.description = description
             self.idMappingTableIdentifier = idMappingTableIdentifier
@@ -7257,6 +7490,7 @@ extension CleanRooms {
         /// The updated ID mapping table.
         public let idMappingTable: IdMappingTable
 
+        @inlinable
         public init(idMappingTable: IdMappingTable) {
             self.idMappingTable = idMappingTable
         }
@@ -7278,6 +7512,7 @@ extension CleanRooms {
         /// A new name for the ID namespace association.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, idMappingConfig: IdMappingConfig? = nil, idNamespaceAssociationIdentifier: String, membershipIdentifier: String, name: String? = nil) {
             self.description = description
             self.idMappingConfig = idMappingConfig
@@ -7321,6 +7556,7 @@ extension CleanRooms {
         /// The updated ID namespace association.
         public let idNamespaceAssociation: IdNamespaceAssociation
 
+        @inlinable
         public init(idNamespaceAssociation: IdNamespaceAssociation) {
             self.idNamespaceAssociation = idNamespaceAssociation
         }
@@ -7338,6 +7574,7 @@ extension CleanRooms {
         /// An indicator as to whether query logging has been enabled or disabled for the membership.
         public let queryLogStatus: MembershipQueryLogStatus?
 
+        @inlinable
         public init(defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, membershipIdentifier: String, queryLogStatus: MembershipQueryLogStatus? = nil) {
             self.defaultResultConfiguration = defaultResultConfiguration
             self.membershipIdentifier = membershipIdentifier
@@ -7368,6 +7605,7 @@ extension CleanRooms {
     public struct UpdateMembershipOutput: AWSDecodableShape {
         public let membership: Membership
 
+        @inlinable
         public init(membership: Membership) {
             self.membership = membership
         }
@@ -7387,6 +7625,7 @@ extension CleanRooms {
         /// Specifies the type of the privacy budget template.
         public let privacyBudgetType: PrivacyBudgetType
 
+        @inlinable
         public init(membershipIdentifier: String, parameters: PrivacyBudgetTemplateUpdateParameters? = nil, privacyBudgetTemplateIdentifier: String, privacyBudgetType: PrivacyBudgetType) {
             self.membershipIdentifier = membershipIdentifier
             self.parameters = parameters
@@ -7423,6 +7662,7 @@ extension CleanRooms {
         /// Summary of the privacy budget template.
         public let privacyBudgetTemplate: PrivacyBudgetTemplate
 
+        @inlinable
         public init(privacyBudgetTemplate: PrivacyBudgetTemplate) {
             self.privacyBudgetTemplate = privacyBudgetTemplate
         }
@@ -7440,6 +7680,7 @@ extension CleanRooms {
         /// The target status of a query. Used to update the execution status of a currently running query.
         public let targetStatus: TargetProtectedQueryStatus
 
+        @inlinable
         public init(membershipIdentifier: String, protectedQueryIdentifier: String, targetStatus: TargetProtectedQueryStatus) {
             self.membershipIdentifier = membershipIdentifier
             self.protectedQueryIdentifier = protectedQueryIdentifier
@@ -7472,6 +7713,7 @@ extension CleanRooms {
         /// The protected query output.
         public let protectedQuery: ProtectedQuery
 
+        @inlinable
         public init(protectedQuery: ProtectedQuery) {
             self.protectedQuery = protectedQuery
         }
@@ -7485,6 +7727,7 @@ extension CleanRooms {
         /// Controls on the query specifications that can be run on configured table.
         public let v1: AnalysisRulePolicyV1?
 
+        @inlinable
         public init(v1: AnalysisRulePolicyV1? = nil) {
             self.v1 = v1
         }
@@ -7498,6 +7741,7 @@ extension CleanRooms {
         /// The query text.
         public let text: String?
 
+        @inlinable
         public init(text: String? = nil) {
             self.text = text
         }
@@ -7515,6 +7759,7 @@ extension CleanRooms {
         ///  The direct analysis configuration details.
         public let directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails?
 
+        @inlinable
         public init(directAnalysisConfigurationDetails: DirectAnalysisConfigurationDetails? = nil) {
             self.directAnalysisConfigurationDetails = directAnalysisConfigurationDetails
         }
@@ -7528,6 +7773,7 @@ extension CleanRooms {
         /// Controls on the query specifications that can be run on a configured table.
         public let v1: ConfiguredTableAnalysisRulePolicyV1?
 
+        @inlinable
         public init(v1: ConfiguredTableAnalysisRulePolicyV1? = nil) {
             self.v1 = v1
         }
@@ -7545,6 +7791,7 @@ extension CleanRooms {
         ///  The policy for the configured table association analysis rule.
         public let v1: ConfiguredTableAssociationAnalysisRulePolicyV1?
 
+        @inlinable
         public init(v1: ConfiguredTableAssociationAnalysisRulePolicyV1? = nil) {
             self.v1 = v1
         }
@@ -7561,6 +7808,7 @@ extension CleanRooms {
     public struct MembershipProtectedQueryOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let s3: ProtectedQueryS3OutputConfiguration?
 
+        @inlinable
         public init(s3: ProtectedQueryS3OutputConfiguration? = nil) {
             self.s3 = s3
         }
@@ -7578,6 +7826,7 @@ extension CleanRooms {
         /// An array that specifies the epsilon and noise parameters.
         public let differentialPrivacy: DifferentialPrivacyPreviewParametersInput?
 
+        @inlinable
         public init(differentialPrivacy: DifferentialPrivacyPreviewParametersInput? = nil) {
             self.differentialPrivacy = differentialPrivacy
         }
@@ -7595,6 +7844,7 @@ extension CleanRooms {
         /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
         public let differentialPrivacy: DifferentialPrivacyPrivacyBudget?
 
+        @inlinable
         public init(differentialPrivacy: DifferentialPrivacyPrivacyBudget? = nil) {
             self.differentialPrivacy = differentialPrivacy
         }
@@ -7608,6 +7858,7 @@ extension CleanRooms {
         /// An object that specifies the epsilon and noise parameters.
         public let differentialPrivacy: DifferentialPrivacyTemplateParametersInput?
 
+        @inlinable
         public init(differentialPrivacy: DifferentialPrivacyTemplateParametersInput? = nil) {
             self.differentialPrivacy = differentialPrivacy
         }
@@ -7625,6 +7876,7 @@ extension CleanRooms {
         /// The epsilon and noise parameters.
         public let differentialPrivacy: DifferentialPrivacyTemplateParametersOutput?
 
+        @inlinable
         public init(differentialPrivacy: DifferentialPrivacyTemplateParametersOutput? = nil) {
             self.differentialPrivacy = differentialPrivacy
         }
@@ -7638,6 +7890,7 @@ extension CleanRooms {
         /// An object that specifies the new values for the epsilon and noise parameters.
         public let differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters?
 
+        @inlinable
         public init(differentialPrivacy: DifferentialPrivacyTemplateUpdateParameters? = nil) {
             self.differentialPrivacy = differentialPrivacy
         }
@@ -7655,6 +7908,7 @@ extension CleanRooms {
         /// An object that lists the number and type of aggregation functions you can perform.
         public let differentialPrivacy: DifferentialPrivacyPrivacyImpact?
 
+        @inlinable
         public init(differentialPrivacy: DifferentialPrivacyPrivacyImpact? = nil) {
             self.differentialPrivacy = differentialPrivacy
         }
@@ -7668,6 +7922,7 @@ extension CleanRooms {
         /// An array of column names that specifies which columns are required in the JOIN statement.
         public let requireOverlap: QueryConstraintRequireOverlap?
 
+        @inlinable
         public init(requireOverlap: QueryConstraintRequireOverlap? = nil) {
             self.requireOverlap = requireOverlap
         }
@@ -7681,6 +7936,7 @@ extension CleanRooms {
         /// The ID mapping table for the schema type properties.
         public let idMappingTable: IdMappingTableSchemaTypeProperties?
 
+        @inlinable
         public init(idMappingTable: IdMappingTableSchemaTypeProperties? = nil) {
             self.idMappingTable = idMappingTable
         }
@@ -7694,6 +7950,7 @@ extension CleanRooms {
         /// If present, a reference to the Glue table referred to by this table reference.
         public let glue: GlueTableReference?
 
+        @inlinable
         public init(glue: GlueTableReference? = nil) {
             self.glue = glue
         }

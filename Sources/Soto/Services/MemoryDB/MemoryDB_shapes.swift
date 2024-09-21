@@ -92,6 +92,7 @@ extension MemoryDB {
         /// The list of user names that belong to the ACL.
         public let userNames: [String]?
 
+        @inlinable
         public init(arn: String? = nil, clusters: [String]? = nil, minimumEngineVersion: String? = nil, name: String? = nil, pendingChanges: ACLPendingChanges? = nil, status: String? = nil, userNames: [String]? = nil) {
             self.arn = arn
             self.clusters = clusters
@@ -119,6 +120,7 @@ extension MemoryDB {
         /// A list of user names being removed from the ACL
         public let userNamesToRemove: [String]?
 
+        @inlinable
         public init(userNamesToAdd: [String]? = nil, userNamesToRemove: [String]? = nil) {
             self.userNamesToAdd = userNamesToAdd
             self.userNamesToRemove = userNamesToRemove
@@ -134,6 +136,7 @@ extension MemoryDB {
         /// A list of ACLs pending to be applied.
         public let aclToApply: String?
 
+        @inlinable
         public init(aclToApply: String? = nil) {
             self.aclToApply = aclToApply
         }
@@ -149,6 +152,7 @@ extension MemoryDB {
         /// Indicates whether the user requires a password to authenticate.
         public let type: AuthenticationType?
 
+        @inlinable
         public init(passwordCount: Int? = nil, type: AuthenticationType? = nil) {
             self.passwordCount = passwordCount
             self.type = type
@@ -166,6 +170,7 @@ extension MemoryDB {
         /// Indicates whether the user requires a password to authenticate. All newly-created users require a password.
         public let type: InputAuthenticationType?
 
+        @inlinable
         public init(passwords: [String]? = nil, type: InputAuthenticationType? = nil) {
             self.passwords = passwords
             self.type = type
@@ -185,6 +190,7 @@ extension MemoryDB {
         /// The name of the Availability Zone.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -200,6 +206,7 @@ extension MemoryDB {
         /// The unique ID of the service update
         public let serviceUpdate: ServiceUpdateRequest?
 
+        @inlinable
         public init(clusterNames: [String], serviceUpdate: ServiceUpdateRequest? = nil) {
             self.clusterNames = clusterNames
             self.serviceUpdate = serviceUpdate
@@ -221,6 +228,7 @@ extension MemoryDB {
         /// The list of clusters where updates have not been applied.
         public let unprocessedClusters: [UnprocessedCluster]?
 
+        @inlinable
         public init(processedClusters: [Cluster]? = nil, unprocessedClusters: [UnprocessedCluster]? = nil) {
             self.processedClusters = processedClusters
             self.unprocessedClusters = unprocessedClusters
@@ -286,6 +294,7 @@ extension MemoryDB {
         /// A flag to indicate if In-transit encryption is enabled
         public let tlsEnabled: Bool?
 
+        @inlinable
         public init(aclName: String? = nil, arn: String? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityMode: AZStatus? = nil, clusterEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, enginePatchVersion: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numberOfShards: Int? = nil, parameterGroupName: String? = nil, parameterGroupStatus: String? = nil, pendingUpdates: ClusterPendingUpdates? = nil, securityGroups: [SecurityGroupMembership]? = nil, shards: [Shard]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil, status: String? = nil, subnetGroupName: String? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.arn = arn
@@ -375,6 +384,7 @@ extension MemoryDB {
         /// The ID of the VPC the cluster belongs to
         public let vpcId: String?
 
+        @inlinable
         public init(description: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, name: String? = nil, nodeType: String? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, shards: [ShardDetail]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, subnetGroupName: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.description = description
             self.engineVersion = engineVersion
@@ -418,6 +428,7 @@ extension MemoryDB {
         /// A list of service updates being applied to the cluster
         public let serviceUpdates: [PendingModifiedServiceUpdate]?
 
+        @inlinable
         public init(acLs: ACLsUpdateStatus? = nil, resharding: ReshardingStatus? = nil, serviceUpdates: [PendingModifiedServiceUpdate]? = nil) {
             self.acLs = acLs
             self.resharding = resharding
@@ -443,6 +454,7 @@ extension MemoryDB {
         /// A name for the snapshot copy. MemoryDB does not permit overwriting a snapshot, therefore this name must be unique within its context - MemoryDB or an Amazon S3 bucket if exporting.
         public let targetSnapshotName: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, sourceSnapshotName: String, tags: [Tag]? = nil, targetBucket: String? = nil, targetSnapshotName: String) {
             self.kmsKeyId = kmsKeyId
             self.sourceSnapshotName = sourceSnapshotName
@@ -471,6 +483,7 @@ extension MemoryDB {
         /// Represents a copy of an entire cluster as of the time when the snapshot was taken.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -488,6 +501,7 @@ extension MemoryDB {
         /// The list of users that belong to the Access Control List.
         public let userNames: [String]?
 
+        @inlinable
         public init(aclName: String, tags: [Tag]? = nil, userNames: [String]? = nil) {
             self.aclName = aclName
             self.tags = tags
@@ -514,6 +528,7 @@ extension MemoryDB {
         /// The newly-created Access Control List.
         public let acl: ACL?
 
+        @inlinable
         public init(acl: ACL? = nil) {
             self.acl = acl
         }
@@ -569,6 +584,7 @@ extension MemoryDB {
         /// A flag to enable in-transit encryption on the cluster.
         public let tlsEnabled: Bool?
 
+        @inlinable
         public init(aclName: String, autoMinorVersionUpgrade: Bool? = nil, clusterName: String, dataTiering: Bool? = nil, description: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, maintenanceWindow: String? = nil, nodeType: String, numReplicasPerShard: Int? = nil, numShards: Int? = nil, parameterGroupName: String? = nil, port: Int? = nil, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, subnetGroupName: String? = nil, tags: [Tag]? = nil, tlsEnabled: Bool? = nil) {
             self.aclName = aclName
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -630,6 +646,7 @@ extension MemoryDB {
         /// The newly-created cluster.
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -649,6 +666,7 @@ extension MemoryDB {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, family: String, parameterGroupName: String, tags: [Tag]? = nil) {
             self.description = description
             self.family = family
@@ -672,6 +690,7 @@ extension MemoryDB {
         /// The newly-created parameter group.
         public let parameterGroup: ParameterGroup?
 
+        @inlinable
         public init(parameterGroup: ParameterGroup? = nil) {
             self.parameterGroup = parameterGroup
         }
@@ -691,6 +710,7 @@ extension MemoryDB {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clusterName: String, kmsKeyId: String? = nil, snapshotName: String, tags: [Tag]? = nil) {
             self.clusterName = clusterName
             self.kmsKeyId = kmsKeyId
@@ -714,6 +734,7 @@ extension MemoryDB {
         /// The newly-created snapshot.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -733,6 +754,7 @@ extension MemoryDB {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, subnetGroupName: String, subnetIds: [String], tags: [Tag]? = nil) {
             self.description = description
             self.subnetGroupName = subnetGroupName
@@ -756,6 +778,7 @@ extension MemoryDB {
         /// The newly-created subnet group
         public let subnetGroup: SubnetGroup?
 
+        @inlinable
         public init(subnetGroup: SubnetGroup? = nil) {
             self.subnetGroup = subnetGroup
         }
@@ -775,6 +798,7 @@ extension MemoryDB {
         /// The name of the user. This value must be unique as it also serves as the user identifier.
         public let userName: String
 
+        @inlinable
         public init(accessString: String, authenticationMode: AuthenticationMode, tags: [Tag]? = nil, userName: String) {
             self.accessString = accessString
             self.authenticationMode = authenticationMode
@@ -802,6 +826,7 @@ extension MemoryDB {
         /// The newly-created user.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -815,6 +840,7 @@ extension MemoryDB {
         /// The name of the Access Control List to delete
         public let aclName: String
 
+        @inlinable
         public init(aclName: String) {
             self.aclName = aclName
         }
@@ -828,6 +854,7 @@ extension MemoryDB {
         /// The Access Control List object that has been deleted.
         public let acl: ACL?
 
+        @inlinable
         public init(acl: ACL? = nil) {
             self.acl = acl
         }
@@ -843,6 +870,7 @@ extension MemoryDB {
         /// The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes the cluster immediately afterward.
         public let finalSnapshotName: String?
 
+        @inlinable
         public init(clusterName: String, finalSnapshotName: String? = nil) {
             self.clusterName = clusterName
             self.finalSnapshotName = finalSnapshotName
@@ -858,6 +886,7 @@ extension MemoryDB {
         /// The cluster object that has been deleted
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -871,6 +900,7 @@ extension MemoryDB {
         /// The name of the parameter group to delete.
         public let parameterGroupName: String
 
+        @inlinable
         public init(parameterGroupName: String) {
             self.parameterGroupName = parameterGroupName
         }
@@ -884,6 +914,7 @@ extension MemoryDB {
         /// The parameter group that has been deleted.
         public let parameterGroup: ParameterGroup?
 
+        @inlinable
         public init(parameterGroup: ParameterGroup? = nil) {
             self.parameterGroup = parameterGroup
         }
@@ -897,6 +928,7 @@ extension MemoryDB {
         /// The name of the snapshot to delete
         public let snapshotName: String
 
+        @inlinable
         public init(snapshotName: String) {
             self.snapshotName = snapshotName
         }
@@ -910,6 +942,7 @@ extension MemoryDB {
         /// The snapshot object that has been deleted.
         public let snapshot: Snapshot?
 
+        @inlinable
         public init(snapshot: Snapshot? = nil) {
             self.snapshot = snapshot
         }
@@ -923,6 +956,7 @@ extension MemoryDB {
         /// The name of the subnet group to delete
         public let subnetGroupName: String
 
+        @inlinable
         public init(subnetGroupName: String) {
             self.subnetGroupName = subnetGroupName
         }
@@ -936,6 +970,7 @@ extension MemoryDB {
         /// The subnet group object that has been deleted.
         public let subnetGroup: SubnetGroup?
 
+        @inlinable
         public init(subnetGroup: SubnetGroup? = nil) {
             self.subnetGroup = subnetGroup
         }
@@ -949,6 +984,7 @@ extension MemoryDB {
         /// The name of the user to delete
         public let userName: String
 
+        @inlinable
         public init(userName: String) {
             self.userName = userName
         }
@@ -967,6 +1003,7 @@ extension MemoryDB {
         /// The user object that has been deleted.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -984,6 +1021,7 @@ extension MemoryDB {
         /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
+        @inlinable
         public init(aclName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.aclName = aclName
             self.maxResults = maxResults
@@ -1003,6 +1041,7 @@ extension MemoryDB {
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
+        @inlinable
         public init(acLs: [ACL]? = nil, nextToken: String? = nil) {
             self.acLs = acLs
             self.nextToken = nextToken
@@ -1024,6 +1063,7 @@ extension MemoryDB {
         /// An optional flag that can be included in the request to retrieve information about the individual shard(s).
         public let showShardDetails: Bool?
 
+        @inlinable
         public init(clusterName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, showShardDetails: Bool? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -1045,6 +1085,7 @@ extension MemoryDB {
         /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
+        @inlinable
         public init(clusters: [Cluster]? = nil, nextToken: String? = nil) {
             self.clusters = clusters
             self.nextToken = nextToken
@@ -1068,6 +1109,7 @@ extension MemoryDB {
         /// The name of a specific parameter group family to return details for.
         public let parameterGroupFamily: String?
 
+        @inlinable
         public init(defaultOnly: Bool? = nil, engineVersion: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, parameterGroupFamily: String? = nil) {
             self.defaultOnly = defaultOnly
             self.engineVersion = engineVersion
@@ -1091,6 +1133,7 @@ extension MemoryDB {
         /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
+        @inlinable
         public init(engineVersions: [EngineVersionInfo]? = nil, nextToken: String? = nil) {
             self.engineVersions = engineVersions
             self.nextToken = nextToken
@@ -1118,6 +1161,7 @@ extension MemoryDB {
         /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
         public let startTime: Date?
 
+        @inlinable
         public init(duration: Int? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil, startTime: Date? = nil) {
             self.duration = duration
             self.endTime = endTime
@@ -1145,6 +1189,7 @@ extension MemoryDB {
         /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -1164,6 +1209,7 @@ extension MemoryDB {
         /// The name of a specific  parameter group to return details for.
         public let parameterGroupName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, parameterGroupName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1183,6 +1229,7 @@ extension MemoryDB {
         /// A list of parameter groups. Each element in the list contains detailed information about one parameter group.
         public let parameterGroups: [ParameterGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, parameterGroups: [ParameterGroup]? = nil) {
             self.nextToken = nextToken
             self.parameterGroups = parameterGroups
@@ -1202,6 +1249,7 @@ extension MemoryDB {
         /// he name of a specific  parameter group to return details for.
         public let parameterGroupName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, parameterGroupName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1221,6 +1269,7 @@ extension MemoryDB {
         /// A list of parameters specific to a particular parameter group. Each element in the list contains detailed information about one parameter.
         public let parameters: [Parameter]?
 
+        @inlinable
         public init(nextToken: String? = nil, parameters: [Parameter]? = nil) {
             self.nextToken = nextToken
             self.parameters = parameters
@@ -1246,6 +1295,7 @@ extension MemoryDB {
         /// The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier.
         public let reservedNodesOfferingId: String?
 
+        @inlinable
         public init(duration: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, nodeType: String? = nil, offeringType: String? = nil, reservedNodesOfferingId: String? = nil) {
             self.duration = duration
             self.maxResults = maxResults
@@ -1271,6 +1321,7 @@ extension MemoryDB {
         /// Lists available reserved node offerings.
         public let reservedNodesOfferings: [ReservedNodesOffering]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedNodesOfferings: [ReservedNodesOffering]? = nil) {
             self.nextToken = nextToken
             self.reservedNodesOfferings = reservedNodesOfferings
@@ -1298,6 +1349,7 @@ extension MemoryDB {
         /// The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
         public let reservedNodesOfferingId: String?
 
+        @inlinable
         public init(duration: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, nodeType: String? = nil, offeringType: String? = nil, reservationId: String? = nil, reservedNodesOfferingId: String? = nil) {
             self.duration = duration
             self.maxResults = maxResults
@@ -1325,6 +1377,7 @@ extension MemoryDB {
         /// Returns information about reserved nodes for this account, or about a specified reserved node.
         public let reservedNodes: [ReservedNode]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservedNodes: [ReservedNode]? = nil) {
             self.nextToken = nextToken
             self.reservedNodes = reservedNodes
@@ -1348,6 +1401,7 @@ extension MemoryDB {
         /// The status(es) of the service updates to filter on
         public let status: [ServiceUpdateStatus]?
 
+        @inlinable
         public init(clusterNames: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceUpdateName: String? = nil, status: [ServiceUpdateStatus]? = nil) {
             self.clusterNames = clusterNames
             self.maxResults = maxResults
@@ -1376,6 +1430,7 @@ extension MemoryDB {
         /// A list of service updates
         public let serviceUpdates: [ServiceUpdate]?
 
+        @inlinable
         public init(nextToken: String? = nil, serviceUpdates: [ServiceUpdate]? = nil) {
             self.nextToken = nextToken
             self.serviceUpdates = serviceUpdates
@@ -1401,6 +1456,7 @@ extension MemoryDB {
         /// If set to system, the output shows snapshots that were automatically created by MemoryDB. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
         public let source: String?
 
+        @inlinable
         public init(clusterName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, showDetail: Bool? = nil, snapshotName: String? = nil, source: String? = nil) {
             self.clusterName = clusterName
             self.maxResults = maxResults
@@ -1426,6 +1482,7 @@ extension MemoryDB {
         /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
         public let snapshots: [Snapshot]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -1445,6 +1502,7 @@ extension MemoryDB {
         /// The name of the subnet group to return details for.
         public let subnetGroupName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, subnetGroupName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1464,6 +1522,7 @@ extension MemoryDB {
         /// A list of subnet groups. Each element in the list contains detailed information about one group.
         public let subnetGroups: [SubnetGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, subnetGroups: [SubnetGroup]? = nil) {
             self.nextToken = nextToken
             self.subnetGroups = subnetGroups
@@ -1485,6 +1544,7 @@ extension MemoryDB {
         /// The name of the user
         public let userName: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, userName: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1514,6 +1574,7 @@ extension MemoryDB {
         /// A list of users.
         public let users: [User]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -1531,6 +1592,7 @@ extension MemoryDB {
         /// The port number that the engine is listening on.
         public let port: Int?
 
+        @inlinable
         public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
@@ -1550,6 +1612,7 @@ extension MemoryDB {
         /// Specifies the name of the parameter group family to which the engine default parameters apply.
         public let parameterGroupFamily: String?
 
+        @inlinable
         public init(enginePatchVersion: String? = nil, engineVersion: String? = nil, parameterGroupFamily: String? = nil) {
             self.enginePatchVersion = enginePatchVersion
             self.engineVersion = engineVersion
@@ -1573,6 +1636,7 @@ extension MemoryDB {
         /// Specifies the origin of this event - a cluster, a parameter group, a security group, etc.
         public let sourceType: SourceType?
 
+        @inlinable
         public init(date: Date? = nil, message: String? = nil, sourceName: String? = nil, sourceType: SourceType? = nil) {
             self.date = date
             self.message = message
@@ -1594,6 +1658,7 @@ extension MemoryDB {
         /// The name of the shard
         public let shardName: String
 
+        @inlinable
         public init(clusterName: String, shardName: String) {
             self.clusterName = clusterName
             self.shardName = shardName
@@ -1609,6 +1674,7 @@ extension MemoryDB {
         /// The cluster being failed over
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -1624,6 +1690,7 @@ extension MemoryDB {
         /// The property values to filter on. For example, "user-123".
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -1647,6 +1714,7 @@ extension MemoryDB {
         /// The name of the cluster you want to scale. MemoryDB uses the cluster name to identify the current node type being used by this cluster, and from that to create a list of node types you can scale up to.
         public let clusterName: String
 
+        @inlinable
         public init(clusterName: String) {
             self.clusterName = clusterName
         }
@@ -1662,6 +1730,7 @@ extension MemoryDB {
         /// A list node types which you can use to scale up your cluster.
         public let scaleUpNodeTypes: [String]?
 
+        @inlinable
         public init(scaleDownNodeTypes: [String]? = nil, scaleUpNodeTypes: [String]? = nil) {
             self.scaleDownNodeTypes = scaleDownNodeTypes
             self.scaleUpNodeTypes = scaleUpNodeTypes
@@ -1677,6 +1746,7 @@ extension MemoryDB {
         /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1690,6 +1760,7 @@ extension MemoryDB {
         /// A list of tags as key-value pairs.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -1711,6 +1782,7 @@ extension MemoryDB {
         /// The status of the service update on the node
         public let status: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, createTime: Date? = nil, endpoint: Endpoint? = nil, name: String? = nil, status: String? = nil) {
             self.availabilityZone = availabilityZone
             self.createTime = createTime
@@ -1742,6 +1814,7 @@ extension MemoryDB {
         /// The value of the parameter
         public let value: String?
 
+        @inlinable
         public init(allowedValues: String? = nil, dataType: String? = nil, description: String? = nil, minimumEngineVersion: String? = nil, name: String? = nil, value: String? = nil) {
             self.allowedValues = allowedValues
             self.dataType = dataType
@@ -1771,6 +1844,7 @@ extension MemoryDB {
         /// The name of the parameter group
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, family: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -1792,6 +1866,7 @@ extension MemoryDB {
         /// The value of the parameter
         public let parameterValue: String?
 
+        @inlinable
         public init(parameterName: String? = nil, parameterValue: String? = nil) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
@@ -1809,6 +1884,7 @@ extension MemoryDB {
         /// The status of the service update
         public let status: ServiceUpdateStatus?
 
+        @inlinable
         public init(serviceUpdateName: String? = nil, status: ServiceUpdateStatus? = nil) {
             self.serviceUpdateName = serviceUpdateName
             self.status = status
@@ -1830,6 +1906,7 @@ extension MemoryDB {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nodeCount: Int? = nil, reservationId: String? = nil, reservedNodesOfferingId: String, tags: [Tag]? = nil) {
             self.nodeCount = nodeCount
             self.reservationId = reservationId
@@ -1853,6 +1930,7 @@ extension MemoryDB {
         /// Represents the output of a PurchaseReservedNodesOffering operation.
         public let reservedNode: ReservedNode?
 
+        @inlinable
         public init(reservedNode: ReservedNode? = nil) {
             self.reservedNode = reservedNode
         }
@@ -1868,6 +1946,7 @@ extension MemoryDB {
         /// The frequency of the recurring price charged to run this reserved node.
         public let recurringChargeFrequency: String?
 
+        @inlinable
         public init(recurringChargeAmount: Double? = nil, recurringChargeFrequency: String? = nil) {
             self.recurringChargeAmount = recurringChargeAmount
             self.recurringChargeFrequency = recurringChargeFrequency
@@ -1883,6 +1962,7 @@ extension MemoryDB {
         /// The number of replicas to scale up or down to
         public let replicaCount: Int?
 
+        @inlinable
         public init(replicaCount: Int? = nil) {
             self.replicaCount = replicaCount
         }
@@ -1916,6 +1996,7 @@ extension MemoryDB {
         /// The state of the reserved node.
         public let state: String?
 
+        @inlinable
         public init(arn: String? = nil, duration: Int? = nil, fixedPrice: Double? = nil, nodeCount: Int? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservationId: String? = nil, reservedNodesOfferingId: String? = nil, startTime: Date? = nil, state: String? = nil) {
             self.arn = arn
             self.duration = duration
@@ -1959,6 +2040,7 @@ extension MemoryDB {
         /// The offering identifier.
         public let reservedNodesOfferingId: String?
 
+        @inlinable
         public init(duration: Int? = nil, fixedPrice: Double? = nil, nodeType: String? = nil, offeringType: String? = nil, recurringCharges: [RecurringCharge]? = nil, reservedNodesOfferingId: String? = nil) {
             self.duration = duration
             self.fixedPrice = fixedPrice
@@ -1986,6 +2068,7 @@ extension MemoryDB {
         /// An array of parameter names to reset to their default values. If AllParameters is true, do not use ParameterNames. If AllParameters is false, you must specify the name of at least one parameter to reset.
         public let parameterNames: [String]?
 
+        @inlinable
         public init(allParameters: Bool? = nil, parameterGroupName: String, parameterNames: [String]? = nil) {
             self.allParameters = allParameters
             self.parameterGroupName = parameterGroupName
@@ -2003,6 +2086,7 @@ extension MemoryDB {
         /// The parameter group being reset.
         public let parameterGroup: ParameterGroup?
 
+        @inlinable
         public init(parameterGroup: ParameterGroup? = nil) {
             self.parameterGroup = parameterGroup
         }
@@ -2016,6 +2100,7 @@ extension MemoryDB {
         /// The status of the online resharding slot migration
         public let slotMigration: SlotMigration?
 
+        @inlinable
         public init(slotMigration: SlotMigration? = nil) {
             self.slotMigration = slotMigration
         }
@@ -2031,6 +2116,7 @@ extension MemoryDB {
         /// The status of the security group membership. The status changes whenever a security group is modified, or when the security groups assigned to a cluster are modified.
         public let status: String?
 
+        @inlinable
         public init(securityGroupId: String? = nil, status: String? = nil) {
             self.securityGroupId = securityGroupId
             self.status = status
@@ -2060,6 +2146,7 @@ extension MemoryDB {
         /// Reflects the nature of the service update
         public let type: ServiceUpdateType?
 
+        @inlinable
         public init(autoUpdateStartDate: Date? = nil, clusterName: String? = nil, description: String? = nil, nodesUpdated: String? = nil, releaseDate: Date? = nil, serviceUpdateName: String? = nil, status: ServiceUpdateStatus? = nil, type: ServiceUpdateType? = nil) {
             self.autoUpdateStartDate = autoUpdateStartDate
             self.clusterName = clusterName
@@ -2087,6 +2174,7 @@ extension MemoryDB {
         /// The unique ID of the service update
         public let serviceUpdateNameToApply: String?
 
+        @inlinable
         public init(serviceUpdateNameToApply: String? = nil) {
             self.serviceUpdateNameToApply = serviceUpdateNameToApply
         }
@@ -2108,6 +2196,7 @@ extension MemoryDB {
         /// The current state of this replication group - creating, available, modifying, deleting.
         public let status: String?
 
+        @inlinable
         public init(name: String? = nil, nodes: [Node]? = nil, numberOfNodes: Int? = nil, slots: String? = nil, status: String? = nil) {
             self.name = name
             self.nodes = nodes
@@ -2131,6 +2220,7 @@ extension MemoryDB {
         /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey.
         public let slots: String?
 
+        @inlinable
         public init(replicaCount: Int? = nil, slots: String? = nil) {
             self.replicaCount = replicaCount
             self.slots = slots
@@ -2146,6 +2236,7 @@ extension MemoryDB {
         /// The number of shards in the cluster
         public let shardCount: Int?
 
+        @inlinable
         public init(shardCount: Int? = nil) {
             self.shardCount = shardCount
         }
@@ -2165,6 +2256,7 @@ extension MemoryDB {
         /// The date and time that the shard's snapshot was created
         public let snapshotCreationTime: Date?
 
+        @inlinable
         public init(configuration: ShardConfiguration? = nil, name: String? = nil, size: String? = nil, snapshotCreationTime: Date? = nil) {
             self.configuration = configuration
             self.name = name
@@ -2184,6 +2276,7 @@ extension MemoryDB {
         /// The percentage of the slot migration that is complete.
         public let progressPercentage: Double?
 
+        @inlinable
         public init(progressPercentage: Double? = nil) {
             self.progressPercentage = progressPercentage
         }
@@ -2209,6 +2302,7 @@ extension MemoryDB {
         /// The status of the snapshot. Valid values: creating | available | restoring | copying | deleting.
         public let status: String?
 
+        @inlinable
         public init(arn: String? = nil, clusterConfiguration: ClusterConfiguration? = nil, dataTiering: DataTieringStatus? = nil, kmsKeyId: String? = nil, name: String? = nil, source: String? = nil, status: String? = nil) {
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
@@ -2236,6 +2330,7 @@ extension MemoryDB {
         /// The unique identifier for the subnet.
         public let identifier: String?
 
+        @inlinable
         public init(availabilityZone: AvailabilityZone? = nil, identifier: String? = nil) {
             self.availabilityZone = availabilityZone
             self.identifier = identifier
@@ -2259,6 +2354,7 @@ extension MemoryDB {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
         public let vpcId: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, name: String? = nil, subnets: [Subnet]? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2282,6 +2378,7 @@ extension MemoryDB {
         /// The tag's value. May be null.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2299,6 +2396,7 @@ extension MemoryDB {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2318,6 +2416,7 @@ extension MemoryDB {
         /// A list of tags as key-value pairs.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -2335,6 +2434,7 @@ extension MemoryDB {
         /// The error type associated with the update failure
         public let errorType: String?
 
+        @inlinable
         public init(clusterName: String? = nil, errorMessage: String? = nil, errorType: String? = nil) {
             self.clusterName = clusterName
             self.errorMessage = errorMessage
@@ -2354,6 +2454,7 @@ extension MemoryDB {
         /// The list of keys of the tags that are to be removed
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2369,6 +2470,7 @@ extension MemoryDB {
         /// The list of tags removed
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -2386,6 +2488,7 @@ extension MemoryDB {
         /// The list of users to remove from the Access Control List
         public let userNamesToRemove: [String]?
 
+        @inlinable
         public init(aclName: String, userNamesToAdd: [String]? = nil, userNamesToRemove: [String]? = nil) {
             self.aclName = aclName
             self.userNamesToAdd = userNamesToAdd
@@ -2416,6 +2519,7 @@ extension MemoryDB {
         /// The updated Access Control List
         public let acl: ACL?
 
+        @inlinable
         public init(acl: ACL? = nil) {
             self.acl = acl
         }
@@ -2455,6 +2559,7 @@ extension MemoryDB {
         /// The status of the Amazon SNS notification topic. Notifications are sent only if the status is active.
         public let snsTopicStatus: String?
 
+        @inlinable
         public init(aclName: String? = nil, clusterName: String, description: String? = nil, engineVersion: String? = nil, maintenanceWindow: String? = nil, nodeType: String? = nil, parameterGroupName: String? = nil, replicaConfiguration: ReplicaConfigurationRequest? = nil, securityGroupIds: [String]? = nil, shardConfiguration: ShardConfigurationRequest? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, snsTopicArn: String? = nil, snsTopicStatus: String? = nil) {
             self.aclName = aclName
             self.clusterName = clusterName
@@ -2499,6 +2604,7 @@ extension MemoryDB {
         /// The updated cluster
         public let cluster: Cluster?
 
+        @inlinable
         public init(cluster: Cluster? = nil) {
             self.cluster = cluster
         }
@@ -2514,6 +2620,7 @@ extension MemoryDB {
         /// An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be updated per request.
         public let parameterNameValues: [ParameterNameValue]
 
+        @inlinable
         public init(parameterGroupName: String, parameterNameValues: [ParameterNameValue]) {
             self.parameterGroupName = parameterGroupName
             self.parameterNameValues = parameterNameValues
@@ -2529,6 +2636,7 @@ extension MemoryDB {
         /// The updated parameter group
         public let parameterGroup: ParameterGroup?
 
+        @inlinable
         public init(parameterGroup: ParameterGroup? = nil) {
             self.parameterGroup = parameterGroup
         }
@@ -2546,6 +2654,7 @@ extension MemoryDB {
         /// The EC2 subnet IDs for the subnet group.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(description: String? = nil, subnetGroupName: String, subnetIds: [String]? = nil) {
             self.description = description
             self.subnetGroupName = subnetGroupName
@@ -2563,6 +2672,7 @@ extension MemoryDB {
         /// The updated subnet group
         public let subnetGroup: SubnetGroup?
 
+        @inlinable
         public init(subnetGroup: SubnetGroup? = nil) {
             self.subnetGroup = subnetGroup
         }
@@ -2580,6 +2690,7 @@ extension MemoryDB {
         /// The name of the user
         public let userName: String
 
+        @inlinable
         public init(accessString: String? = nil, authenticationMode: AuthenticationMode? = nil, userName: String) {
             self.accessString = accessString
             self.authenticationMode = authenticationMode
@@ -2604,6 +2715,7 @@ extension MemoryDB {
         /// The updated user
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -2629,6 +2741,7 @@ extension MemoryDB {
         /// Indicates the user status. Can be "active", "modifying" or "deleting".
         public let status: String?
 
+        @inlinable
         public init(accessString: String? = nil, aclNames: [String]? = nil, arn: String? = nil, authentication: Authentication? = nil, minimumEngineVersion: String? = nil, name: String? = nil, status: String? = nil) {
             self.accessString = accessString
             self.aclNames = aclNames

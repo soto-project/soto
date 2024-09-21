@@ -627,6 +627,7 @@ extension AppTest {
         /// The export data set names of the batch.
         public let exportDataSetNames: [String]?
 
+        @inlinable
         public init(batchJobName: String, batchJobParameters: [String: String]? = nil, exportDataSetNames: [String]? = nil) {
             self.batchJobName = batchJobName
             self.batchJobParameters = batchJobParameters
@@ -659,6 +660,7 @@ extension AppTest {
         /// The resource of the batch step input.
         public let resource: MainframeResourceSummary
 
+        @inlinable
         public init(batchJobName: String, batchJobParameters: [String: String]? = nil, exportDataSetNames: [String]? = nil, properties: MainframeActionProperties? = nil, resource: MainframeResourceSummary) {
             self.batchJobName = batchJobName
             self.batchJobParameters = batchJobParameters
@@ -684,6 +686,7 @@ extension AppTest {
         /// The Database Migration Service (DMS) output location of the batch step output.
         public let dmsOutputLocation: String?
 
+        @inlinable
         public init(dataSetDetails: [DataSet]? = nil, dataSetExportLocation: String? = nil, dmsOutputLocation: String? = nil) {
             self.dataSetDetails = dataSetDetails
             self.dataSetExportLocation = dataSetExportLocation
@@ -703,6 +706,7 @@ extension AppTest {
         /// The step output of the batch summary.
         public let stepOutput: BatchStepOutput?
 
+        @inlinable
         public init(stepInput: BatchStepInput, stepOutput: BatchStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -720,6 +724,7 @@ extension AppTest {
         /// The template location of the CloudFormation template.
         public let templateLocation: String
 
+        @inlinable
         public init(parameters: [String: String]? = nil, templateLocation: String) {
             self.parameters = parameters
             self.templateLocation = templateLocation
@@ -741,6 +746,7 @@ extension AppTest {
         /// The resource of the CloudFormation action.
         public let resource: String
 
+        @inlinable
         public init(actionType: CloudFormationActionType? = nil, resource: String) {
             self.actionType = actionType
             self.resource = resource
@@ -762,6 +768,7 @@ extension AppTest {
         /// The output of the compare action.
         public let output: Output?
 
+        @inlinable
         public init(input: Input, output: Output? = nil) {
             self.input = input
             self.output = output
@@ -782,6 +789,7 @@ extension AppTest {
         /// The type of the compare action summary.
         public let type: File
 
+        @inlinable
         public init(type: File) {
             self.type = type
         }
@@ -801,6 +809,7 @@ extension AppTest {
         /// The target location of the compare data sets step input location.
         public let targetLocation: String
 
+        @inlinable
         public init(sourceDataSets: [DataSet], sourceLocation: String, targetDataSets: [DataSet], targetLocation: String) {
             self.sourceDataSets = sourceDataSets
             self.sourceLocation = sourceLocation
@@ -822,6 +831,7 @@ extension AppTest {
         /// The comparison status of the compare data sets step output.
         public let comparisonStatus: ComparisonStatusEnum
 
+        @inlinable
         public init(comparisonOutputLocation: String, comparisonStatus: ComparisonStatusEnum) {
             self.comparisonOutputLocation = comparisonOutputLocation
             self.comparisonStatus = comparisonStatus
@@ -839,6 +849,7 @@ extension AppTest {
         /// The step output of the compare data sets summary.
         public let stepOutput: CompareDataSetsStepOutput?
 
+        @inlinable
         public init(stepInput: CompareDataSetsStepInput, stepOutput: CompareDataSetsStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -862,6 +873,7 @@ extension AppTest {
         /// The target metadata location of the compare database CDC step input.
         public let targetMetadata: TargetDatabaseMetadata
 
+        @inlinable
         public init(outputLocation: String? = nil, sourceLocation: String, sourceMetadata: SourceDatabaseMetadata, targetLocation: String, targetMetadata: TargetDatabaseMetadata) {
             self.outputLocation = outputLocation
             self.sourceLocation = sourceLocation
@@ -885,6 +897,7 @@ extension AppTest {
         /// The comparison status of the compare database CDC step output.
         public let comparisonStatus: ComparisonStatusEnum
 
+        @inlinable
         public init(comparisonOutputLocation: String, comparisonStatus: ComparisonStatusEnum) {
             self.comparisonOutputLocation = comparisonOutputLocation
             self.comparisonStatus = comparisonStatus
@@ -902,6 +915,7 @@ extension AppTest {
         /// The step output of the compare database CDC summary.
         public let stepOutput: CompareDatabaseCDCStepOutput?
 
+        @inlinable
         public init(stepInput: CompareDatabaseCDCStepInput, stepOutput: CompareDatabaseCDCStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -919,6 +933,7 @@ extension AppTest {
         /// The template location of the CloudFormation step input.
         public let templateLocation: String
 
+        @inlinable
         public init(parameters: [String: String]? = nil, templateLocation: String) {
             self.parameters = parameters
             self.templateLocation = templateLocation
@@ -936,6 +951,7 @@ extension AppTest {
         /// The stack ID of the CloudFormation step output.
         public let stackId: String
 
+        @inlinable
         public init(exports: [String: String]? = nil, stackId: String) {
             self.exports = exports
             self.stackId = stackId
@@ -953,6 +969,7 @@ extension AppTest {
         /// The step output of the CloudFormation summary.
         public let stepOutput: CreateCloudFormationStepOutput?
 
+        @inlinable
         public init(stepInput: CreateCloudFormationStepInput, stepOutput: CreateCloudFormationStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -976,6 +993,7 @@ extension AppTest {
         /// The specified tags of the test case.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateTestCaseRequest.idempotencyToken(), description: String? = nil, name: String, steps: [Step], tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1017,6 +1035,7 @@ extension AppTest {
         /// The test case version of the test case.
         public let testCaseVersion: Int
 
+        @inlinable
         public init(testCaseId: String, testCaseVersion: Int) {
             self.testCaseId = testCaseId
             self.testCaseVersion = testCaseVersion
@@ -1044,6 +1063,7 @@ extension AppTest {
         /// The tags of the test configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateTestConfigurationRequest.idempotencyToken(), description: String? = nil, name: String, properties: [String: String]? = nil, resources: [Resource], serviceSettings: ServiceSettings? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1089,6 +1109,7 @@ extension AppTest {
         /// The test configuration version.
         public let testConfigurationVersion: Int
 
+        @inlinable
         public init(testConfigurationId: String, testConfigurationVersion: Int) {
             self.testConfigurationId = testConfigurationId
             self.testConfigurationVersion = testConfigurationVersion
@@ -1116,6 +1137,7 @@ extension AppTest {
         /// The test cases in the test suite.
         public let testCases: TestCases
 
+        @inlinable
         public init(afterSteps: [Step]? = nil, beforeSteps: [Step]? = nil, clientToken: String? = CreateTestSuiteRequest.idempotencyToken(), description: String? = nil, name: String, tags: [String: String]? = nil, testCases: TestCases) {
             self.afterSteps = afterSteps
             self.beforeSteps = beforeSteps
@@ -1167,6 +1189,7 @@ extension AppTest {
         /// The suite version of the test suite.
         public let testSuiteVersion: Int
 
+        @inlinable
         public init(testSuiteId: String, testSuiteVersion: Int) {
             self.testSuiteId = testSuiteId
             self.testSuiteVersion = testSuiteVersion
@@ -1190,6 +1213,7 @@ extension AppTest {
         /// The type of the data set.
         public let type: DataSetType
 
+        @inlinable
         public init(ccsid: String, format: Format, length: Int, name: String, type: DataSetType) {
             self.ccsid = ccsid
             self.format = format
@@ -1218,6 +1242,7 @@ extension AppTest {
         /// The target metadata of the database CDC.
         public let targetMetadata: TargetDatabaseMetadata
 
+        @inlinable
         public init(sourceMetadata: SourceDatabaseMetadata, targetMetadata: TargetDatabaseMetadata) {
             self.sourceMetadata = sourceMetadata
             self.targetMetadata = targetMetadata
@@ -1233,6 +1258,7 @@ extension AppTest {
         /// The stack ID of the deleted CloudFormation step input.
         public let stackId: String
 
+        @inlinable
         public init(stackId: String) {
             self.stackId = stackId
         }
@@ -1252,6 +1278,7 @@ extension AppTest {
         /// The step output of the deleted CloudFormation summary.
         public let stepOutput: DeleteCloudFormationStepOutput?
 
+        @inlinable
         public init(stepInput: DeleteCloudFormationStepInput, stepOutput: DeleteCloudFormationStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -1267,6 +1294,7 @@ extension AppTest {
         /// The test case ID of the test case.
         public let testCaseId: String
 
+        @inlinable
         public init(testCaseId: String) {
             self.testCaseId = testCaseId
         }
@@ -1292,6 +1320,7 @@ extension AppTest {
         /// The test ID of the test configuration.
         public let testConfigurationId: String
 
+        @inlinable
         public init(testConfigurationId: String) {
             self.testConfigurationId = testConfigurationId
         }
@@ -1317,6 +1346,7 @@ extension AppTest {
         /// The run ID of the test run.
         public let testRunId: String
 
+        @inlinable
         public init(testRunId: String) {
             self.testRunId = testRunId
         }
@@ -1342,6 +1372,7 @@ extension AppTest {
         /// The test ID of the test suite.
         public let testSuiteId: String
 
+        @inlinable
         public init(testSuiteId: String) {
             self.testSuiteId = testSuiteId
         }
@@ -1369,6 +1400,7 @@ extension AppTest {
         /// The test case version of the test case.
         public let testCaseVersion: Int?
 
+        @inlinable
         public init(testCaseId: String, testCaseVersion: Int? = nil) {
             self.testCaseId = testCaseId
             self.testCaseVersion = testCaseVersion
@@ -1414,6 +1446,7 @@ extension AppTest {
         /// The case version of the test case.
         public let testCaseVersion: Int
 
+        @inlinable
         public init(creationTime: Date, description: String? = nil, lastUpdateTime: Date, latestVersion: TestCaseLatestVersion, name: String, status: TestCaseLifecycle, statusReason: String? = nil, steps: [Step], tags: [String: String]? = nil, testCaseArn: String, testCaseId: String, testCaseVersion: Int) {
             self.creationTime = creationTime
             self.description = description
@@ -1451,6 +1484,7 @@ extension AppTest {
         /// The test configuration version.
         public let testConfigurationVersion: Int?
 
+        @inlinable
         public init(testConfigurationId: String, testConfigurationVersion: Int? = nil) {
             self.testConfigurationId = testConfigurationId
             self.testConfigurationVersion = testConfigurationVersion
@@ -1500,6 +1534,7 @@ extension AppTest {
         /// The test configuration version.
         public let testConfigurationVersion: Int
 
+        @inlinable
         public init(creationTime: Date, description: String? = nil, lastUpdateTime: Date, latestVersion: TestConfigurationLatestVersion, name: String, properties: [String: String], resources: [Resource], serviceSettings: ServiceSettings? = nil, status: TestConfigurationLifecycle, statusReason: String? = nil, tags: [String: String]? = nil, testConfigurationArn: String, testConfigurationId: String, testConfigurationVersion: Int) {
             self.creationTime = creationTime
             self.description = description
@@ -1545,6 +1580,7 @@ extension AppTest {
         /// The test suite ID of a test run step.
         public let testSuiteId: String?
 
+        @inlinable
         public init(stepName: String, testCaseId: String? = nil, testRunId: String, testSuiteId: String? = nil) {
             self.stepName = stepName
             self.testCaseId = testCaseId
@@ -1599,6 +1635,7 @@ extension AppTest {
         /// The test suite version of the test run step.
         public let testSuiteVersion: Int?
 
+        @inlinable
         public init(afterStep: Bool? = nil, beforeStep: Bool? = nil, runEndTime: Date? = nil, runStartTime: Date, status: StepRunStatus, statusReason: String? = nil, stepName: String, stepRunSummary: StepRunSummary? = nil, testCaseId: String? = nil, testCaseVersion: Int? = nil, testRunId: String, testSuiteId: String? = nil, testSuiteVersion: Int? = nil) {
             self.afterStep = afterStep
             self.beforeStep = beforeStep
@@ -1638,6 +1675,7 @@ extension AppTest {
         /// The version of the test suite.
         public let testSuiteVersion: Int?
 
+        @inlinable
         public init(testSuiteId: String, testSuiteVersion: Int? = nil) {
             self.testSuiteId = testSuiteId
             self.testSuiteVersion = testSuiteVersion
@@ -1687,6 +1725,7 @@ extension AppTest {
         /// The version of the test suite.
         public let testSuiteVersion: Int
 
+        @inlinable
         public init(afterSteps: [Step], beforeSteps: [Step], creationTime: Date, description: String? = nil, lastUpdateTime: Date, latestVersion: TestSuiteLatestVersion, name: String, status: TestSuiteLifecycle? = nil, statusReason: String? = nil, tags: [String: String]? = nil, testCases: TestCases, testSuiteArn: String, testSuiteId: String, testSuiteVersion: Int) {
             self.afterSteps = afterSteps
             self.beforeSteps = beforeSteps
@@ -1730,6 +1769,7 @@ extension AppTest {
         /// The target location of the input file.
         public let targetLocation: String
 
+        @inlinable
         public init(fileMetadata: FileMetadata, sourceLocation: String, targetLocation: String) {
             self.fileMetadata = fileMetadata
             self.sourceLocation = sourceLocation
@@ -1753,6 +1793,7 @@ extension AppTest {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1774,6 +1815,7 @@ extension AppTest {
         /// The tags of the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1791,6 +1833,7 @@ extension AppTest {
         /// The IDs of the test cases.
         public let testCaseIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testCaseIds: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1823,6 +1866,7 @@ extension AppTest {
         /// The test cases in an application.
         public let testCases: [TestCaseSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, testCases: [TestCaseSummary]) {
             self.nextToken = nextToken
             self.testCases = testCases
@@ -1842,6 +1886,7 @@ extension AppTest {
         /// The configuration IDs of the test configurations.
         public let testConfigurationIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testConfigurationIds: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1874,6 +1919,7 @@ extension AppTest {
         /// The test configurations.
         public let testConfigurations: [TestConfigurationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, testConfigurations: [TestConfigurationSummary]) {
             self.nextToken = nextToken
             self.testConfigurations = testConfigurations
@@ -1897,6 +1943,7 @@ extension AppTest {
         /// The test suite ID of the test run steps.
         public let testSuiteId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testCaseId: String? = nil, testRunId: String, testSuiteId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1933,6 +1980,7 @@ extension AppTest {
         /// The test run steps of the response query.
         public let testRunSteps: [TestRunStepSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, testRunSteps: [TestRunStepSummary]) {
             self.nextToken = nextToken
             self.testRunSteps = testRunSteps
@@ -1952,6 +2000,7 @@ extension AppTest {
         /// The test run ID of the test cases.
         public let testRunId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testRunId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1982,6 +2031,7 @@ extension AppTest {
         /// The test run of the test cases.
         public let testRunTestCases: [TestCaseRunSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, testRunTestCases: [TestCaseRunSummary]) {
             self.nextToken = nextToken
             self.testRunTestCases = testRunTestCases
@@ -2003,6 +2053,7 @@ extension AppTest {
         /// The test suite ID of the test runs.
         public let testSuiteId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testRunIds: [String]? = nil, testSuiteId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2038,6 +2089,7 @@ extension AppTest {
         /// The test runs of the response query.
         public let testRuns: [TestRunSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, testRuns: [TestRunSummary]) {
             self.nextToken = nextToken
             self.testRuns = testRuns
@@ -2057,6 +2109,7 @@ extension AppTest {
         /// The suite ID of the test suites.
         public let testSuiteIds: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, testSuiteIds: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2089,6 +2142,7 @@ extension AppTest {
         /// The test suites returned with the response query.
         public let testSuites: [TestSuiteSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, testSuites: [TestSuiteSummary]) {
             self.nextToken = nextToken
             self.testSuites = testSuites
@@ -2106,6 +2160,7 @@ extension AppTest {
         /// The import data set location of the AWS Mainframe Modernization managed action properties.
         public let importDataSetLocation: String?
 
+        @inlinable
         public init(forceStop: Bool? = nil, importDataSetLocation: String? = nil) {
             self.forceStop = forceStop
             self.importDataSetLocation = importDataSetLocation
@@ -2131,6 +2186,7 @@ extension AppTest {
         /// The VPC endpoint service name of the AWS Mainframe Modernization managed application.
         public let vpcEndpointServiceName: String?
 
+        @inlinable
         public init(applicationId: String, listenerPort: String? = nil, runtime: M2ManagedRuntime, vpcEndpointServiceName: String? = nil) {
             self.applicationId = applicationId
             self.listenerPort = listenerPort
@@ -2160,6 +2216,7 @@ extension AppTest {
         /// The resource of the AWS Mainframe Modernization managed application action.
         public let resource: String
 
+        @inlinable
         public init(actionType: M2ManagedActionType, properties: M2ManagedActionProperties? = nil, resource: String) {
             self.actionType = actionType
             self.properties = properties
@@ -2192,6 +2249,7 @@ extension AppTest {
         /// The VPC endpoint service name of the AWS Mainframe Modernization managed application step input.
         public let vpcEndpointServiceName: String?
 
+        @inlinable
         public init(actionType: M2ManagedActionType, applicationId: String, listenerPort: Int? = nil, properties: M2ManagedActionProperties? = nil, runtime: String, vpcEndpointServiceName: String? = nil) {
             self.actionType = actionType
             self.applicationId = applicationId
@@ -2215,6 +2273,7 @@ extension AppTest {
         /// The import data set summary of the AWS Mainframe Modernization managed application step output.
         public let importDataSetSummary: [String: String]?
 
+        @inlinable
         public init(importDataSetSummary: [String: String]? = nil) {
             self.importDataSetSummary = importDataSetSummary
         }
@@ -2230,6 +2289,7 @@ extension AppTest {
         /// The step output of the AWS Mainframe Modernization managed application step summary.
         public let stepOutput: M2ManagedApplicationStepOutput?
 
+        @inlinable
         public init(stepInput: M2ManagedApplicationStepInput, stepOutput: M2ManagedApplicationStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -2249,6 +2309,7 @@ extension AppTest {
         /// The runtime of the AWS Mainframe Modernization managed application summary.
         public let runtime: M2ManagedRuntime
 
+        @inlinable
         public init(applicationId: String, listenerPort: Int? = nil, runtime: M2ManagedRuntime) {
             self.applicationId = applicationId
             self.listenerPort = listenerPort
@@ -2272,6 +2333,7 @@ extension AppTest {
         /// The web application name of the AWS Mainframe Modernization non-managed application.
         public let webAppName: String?
 
+        @inlinable
         public init(listenerPort: String, runtime: M2NonManagedRuntime, vpcEndpointServiceName: String, webAppName: String? = nil) {
             self.listenerPort = listenerPort
             self.runtime = runtime
@@ -2299,6 +2361,7 @@ extension AppTest {
         /// The resource of the AWS Mainframe Modernization non-managed application action.
         public let resource: String
 
+        @inlinable
         public init(actionType: M2NonManagedActionType, resource: String) {
             self.actionType = actionType
             self.resource = resource
@@ -2326,6 +2389,7 @@ extension AppTest {
         /// The web app name of the AWS Mainframe Modernization non-managed application step input.
         public let webAppName: String?
 
+        @inlinable
         public init(actionType: M2NonManagedActionType, listenerPort: Int, runtime: M2NonManagedRuntime, vpcEndpointServiceName: String, webAppName: String? = nil) {
             self.actionType = actionType
             self.listenerPort = listenerPort
@@ -2353,6 +2417,7 @@ extension AppTest {
         /// The step output of the AWS Mainframe Modernization non-managed application step summary.
         public let stepOutput: M2NonManagedApplicationStepOutput?
 
+        @inlinable
         public init(stepInput: M2NonManagedApplicationStepInput, stepOutput: M2NonManagedApplicationStepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -2374,6 +2439,7 @@ extension AppTest {
         /// The web application name of the AWS Mainframe Modernization non-managed application summary.
         public let webAppName: String?
 
+        @inlinable
         public init(listenerPort: Int, runtime: M2NonManagedRuntime, vpcEndpointServiceName: String, webAppName: String? = nil) {
             self.listenerPort = listenerPort
             self.runtime = runtime
@@ -2397,6 +2463,7 @@ extension AppTest {
         /// The resource of the mainframe action.
         public let resource: String
 
+        @inlinable
         public init(actionType: MainframeActionType, properties: MainframeActionProperties? = nil, resource: String) {
             self.actionType = actionType
             self.properties = properties
@@ -2420,6 +2487,7 @@ extension AppTest {
         /// The DMS task ARN of the mainframe action properties.
         public let dmsTaskArn: String?
 
+        @inlinable
         public init(dmsTaskArn: String? = nil) {
             self.dmsTaskArn = dmsTaskArn
         }
@@ -2437,6 +2505,7 @@ extension AppTest {
         /// The file location of the output file.
         public let fileLocation: String?
 
+        @inlinable
         public init(fileLocation: String? = nil) {
             self.fileLocation = fileLocation
         }
@@ -2456,6 +2525,7 @@ extension AppTest {
         /// The type of the resource.
         public let type: ResourceType
 
+        @inlinable
         public init(name: String, type: ResourceType) {
             self.name = name
             self.type = type
@@ -2478,6 +2548,7 @@ extension AppTest {
         /// The type of the scripts.
         public let type: ScriptType
 
+        @inlinable
         public init(scriptLocation: String, type: ScriptType) {
             self.scriptLocation = scriptLocation
             self.type = type
@@ -2499,6 +2570,7 @@ extension AppTest {
         /// The type of the script summary.
         public let type: ScriptType
 
+        @inlinable
         public init(scriptLocation: String, type: ScriptType) {
             self.scriptLocation = scriptLocation
             self.type = type
@@ -2514,6 +2586,7 @@ extension AppTest {
         /// The KMS key ID of the service settings.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -2529,6 +2602,7 @@ extension AppTest {
         /// The type of the source database metadata.
         public let type: SourceDatabase
 
+        @inlinable
         public init(captureTool: CaptureTool, type: SourceDatabase) {
             self.captureTool = captureTool
             self.type = type
@@ -2550,6 +2624,7 @@ extension AppTest {
         /// The test suite ID of the test run.
         public let testSuiteId: String
 
+        @inlinable
         public init(clientToken: String? = StartTestRunRequest.idempotencyToken(), tags: [String: String]? = nil, testConfigurationId: String? = nil, testSuiteId: String) {
             self.clientToken = clientToken
             self.tags = tags
@@ -2584,6 +2659,7 @@ extension AppTest {
         /// The test run status of the test run.
         public let testRunStatus: TestRunStatus
 
+        @inlinable
         public init(testRunId: String, testRunStatus: TestRunStatus) {
             self.testRunId = testRunId
             self.testRunStatus = testRunStatus
@@ -2603,6 +2679,7 @@ extension AppTest {
         /// The name of the step.
         public let name: String
 
+        @inlinable
         public init(action: StepAction, description: String? = nil, name: String) {
             self.action = action
             self.description = description
@@ -2628,6 +2705,7 @@ extension AppTest {
         /// The script of the TN3270 protocol.
         public let script: Script
 
+        @inlinable
         public init(exportDataSetNames: [String]? = nil, script: Script) {
             self.exportDataSetNames = exportDataSetNames
             self.script = script
@@ -2656,6 +2734,7 @@ extension AppTest {
         /// The script of the TN3270 step input.
         public let script: ScriptSummary
 
+        @inlinable
         public init(exportDataSetNames: [String]? = nil, properties: MainframeActionProperties? = nil, resource: MainframeResourceSummary, script: ScriptSummary) {
             self.exportDataSetNames = exportDataSetNames
             self.properties = properties
@@ -2681,6 +2760,7 @@ extension AppTest {
         /// The script output location of the TN3270 step output.
         public let scriptOutputLocation: String
 
+        @inlinable
         public init(dataSetDetails: [DataSet]? = nil, dataSetExportLocation: String? = nil, dmsOutputLocation: String? = nil, scriptOutputLocation: String) {
             self.dataSetDetails = dataSetDetails
             self.dataSetExportLocation = dataSetExportLocation
@@ -2702,6 +2782,7 @@ extension AppTest {
         /// The step output of the TN3270 summary.
         public let stepOutput: TN3270StepOutput?
 
+        @inlinable
         public init(stepInput: TN3270StepInput, stepOutput: TN3270StepOutput? = nil) {
             self.stepInput = stepInput
             self.stepOutput = stepOutput
@@ -2719,6 +2800,7 @@ extension AppTest {
         /// The tags of the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2757,6 +2839,7 @@ extension AppTest {
         /// The type of the target database metadata.
         public let type: TargetDatabase
 
+        @inlinable
         public init(captureTool: CaptureTool, type: TargetDatabase) {
             self.captureTool = captureTool
             self.type = type
@@ -2776,6 +2859,7 @@ extension AppTest {
         /// The version of the test case latest version.
         public let version: Int
 
+        @inlinable
         public init(status: TestCaseLifecycle, statusReason: String? = nil, version: Int) {
             self.status = status
             self.statusReason = statusReason
@@ -2805,6 +2889,7 @@ extension AppTest {
         /// The test run id of the test case run summary.
         public let testRunId: String
 
+        @inlinable
         public init(runEndTime: Date? = nil, runStartTime: Date, status: TestCaseRunStatus, statusReason: String? = nil, testCaseId: String, testCaseVersion: Int, testRunId: String) {
             self.runEndTime = runEndTime
             self.runStartTime = runStartTime
@@ -2844,6 +2929,7 @@ extension AppTest {
         /// The test case ID of the test case summary.
         public let testCaseId: String
 
+        @inlinable
         public init(creationTime: Date, lastUpdateTime: Date, latestVersion: Int, name: String, status: TestCaseLifecycle, statusReason: String? = nil, testCaseArn: String, testCaseId: String) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
@@ -2875,6 +2961,7 @@ extension AppTest {
         /// The version of the test configuration latest version.
         public let version: Int
 
+        @inlinable
         public init(status: TestConfigurationLifecycle, statusReason: String? = nil, version: Int) {
             self.status = status
             self.statusReason = statusReason
@@ -2906,6 +2993,7 @@ extension AppTest {
         /// The test configuration ID of the test configuration summary.
         public let testConfigurationId: String
 
+        @inlinable
         public init(creationTime: Date, lastUpdateTime: Date, latestVersion: Int, name: String, status: TestConfigurationLifecycle, statusReason: String? = nil, testConfigurationArn: String, testConfigurationId: String) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
@@ -2955,6 +3043,7 @@ extension AppTest {
         /// The test suite version of the test run step summary.
         public let testSuiteVersion: Int?
 
+        @inlinable
         public init(afterStep: Bool? = nil, beforeStep: Bool? = nil, runEndTime: Date? = nil, runStartTime: Date, status: StepRunStatus, statusReason: String? = nil, stepName: String, testCaseId: String? = nil, testCaseVersion: Int? = nil, testRunId: String, testSuiteId: String? = nil, testSuiteVersion: Int? = nil) {
             self.afterStep = afterStep
             self.beforeStep = beforeStep
@@ -3008,6 +3097,7 @@ extension AppTest {
         /// The test suite version of the test run summary.
         public let testSuiteVersion: Int
 
+        @inlinable
         public init(runEndTime: Date? = nil, runStartTime: Date, status: TestRunStatus, statusReason: String? = nil, testConfigurationId: String? = nil, testConfigurationVersion: Int? = nil, testRunArn: String, testRunId: String, testSuiteId: String, testSuiteVersion: Int) {
             self.runEndTime = runEndTime
             self.runStartTime = runStartTime
@@ -3043,6 +3133,7 @@ extension AppTest {
         /// The version of the test suite latest version.
         public let version: Int
 
+        @inlinable
         public init(status: TestSuiteLifecycle, statusReason: String? = nil, version: Int) {
             self.status = status
             self.statusReason = statusReason
@@ -3074,6 +3165,7 @@ extension AppTest {
         /// The test suite ID of the test suite summary.
         public let testSuiteId: String
 
+        @inlinable
         public init(creationTime: Date, lastUpdateTime: Date, latestVersion: Int, name: String, status: TestSuiteLifecycle, statusReason: String? = nil, testSuiteArn: String, testSuiteId: String) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
@@ -3103,6 +3195,7 @@ extension AppTest {
         /// The tag keys of the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3139,6 +3232,7 @@ extension AppTest {
         /// The test case ID of the test case.
         public let testCaseId: String
 
+        @inlinable
         public init(description: String? = nil, steps: [Step]? = nil, testCaseId: String) {
             self.description = description
             self.steps = steps
@@ -3175,6 +3269,7 @@ extension AppTest {
         /// The test case version of the test case.
         public let testCaseVersion: Int
 
+        @inlinable
         public init(testCaseId: String, testCaseVersion: Int) {
             self.testCaseId = testCaseId
             self.testCaseVersion = testCaseVersion
@@ -3198,6 +3293,7 @@ extension AppTest {
         /// The test configuration ID of the test configuration.
         public let testConfigurationId: String
 
+        @inlinable
         public init(description: String? = nil, properties: [String: String]? = nil, resources: [Resource]? = nil, serviceSettings: ServiceSettings? = nil, testConfigurationId: String) {
             self.description = description
             self.properties = properties
@@ -3240,6 +3336,7 @@ extension AppTest {
         /// The configuration version of the test configuration.
         public let testConfigurationVersion: Int
 
+        @inlinable
         public init(testConfigurationId: String, testConfigurationVersion: Int) {
             self.testConfigurationId = testConfigurationId
             self.testConfigurationVersion = testConfigurationVersion
@@ -3263,6 +3360,7 @@ extension AppTest {
         /// The test suite ID of the test suite.
         public let testSuiteId: String
 
+        @inlinable
         public init(afterSteps: [Step]? = nil, beforeSteps: [Step]? = nil, description: String? = nil, testCases: TestCases? = nil, testSuiteId: String) {
             self.afterSteps = afterSteps
             self.beforeSteps = beforeSteps
@@ -3311,6 +3409,7 @@ extension AppTest {
         /// The test suite version of the test suite.
         public let testSuiteVersion: Int?
 
+        @inlinable
         public init(testSuiteId: String, testSuiteVersion: Int? = nil) {
             self.testSuiteId = testSuiteId
             self.testSuiteVersion = testSuiteVersion
@@ -3326,6 +3425,7 @@ extension AppTest {
         /// The file type of the file.
         public let fileType: CompareFileType?
 
+        @inlinable
         public init(fileType: CompareFileType? = nil) {
             self.fileType = fileType
         }
@@ -3339,6 +3439,7 @@ extension AppTest {
         /// The file in the input.
         public let file: InputFile?
 
+        @inlinable
         public init(file: InputFile? = nil) {
             self.file = file
         }
@@ -3356,6 +3457,7 @@ extension AppTest {
         /// The file of the output.
         public let file: OutputFile?
 
+        @inlinable
         public init(file: OutputFile? = nil) {
             self.file = file
         }
@@ -3373,6 +3475,7 @@ extension AppTest {
         /// The sequential of the test case.
         public let sequential: [String]?
 
+        @inlinable
         public init(sequential: [String]? = nil) {
             self.sequential = sequential
         }

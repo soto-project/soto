@@ -57,6 +57,7 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(crossAccount: Bool? = nil, description: String? = nil, sourceArn: String? = nil, tags: [String: String]? = nil) {
             self.crossAccount = crossAccount
             self.description = description
@@ -94,6 +95,7 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(crossAccount: Bool? = nil, description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
             self.crossAccount = crossAccount
             self.description = description
@@ -123,6 +125,7 @@ extension Schemas {
         /// Tags to associate with the registry.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, registryName: String, tags: [String: String]? = nil) {
             self.description = description
             self.registryName = registryName
@@ -157,6 +160,7 @@ extension Schemas {
         /// Tags associated with the registry.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, registryArn: String? = nil, registryName: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.registryArn = registryArn
@@ -186,6 +190,7 @@ extension Schemas {
         /// The type of schema.
         public let type: `Type`?
 
+        @inlinable
         public init(content: String? = nil, description: String? = nil, registryName: String, schemaName: String, tags: [String: String]? = nil, type: `Type`? = nil) {
             self.content = content
             self.description = description
@@ -239,6 +244,7 @@ extension Schemas {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var versionCreatedDate: Date?
 
+        @inlinable
         public init(description: String? = nil, lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: Date? = nil) {
             self.description = description
             self.lastModified = lastModified
@@ -266,6 +272,7 @@ extension Schemas {
         /// The ID of the discoverer.
         public let discovererId: String
 
+        @inlinable
         public init(discovererId: String) {
             self.discovererId = discovererId
         }
@@ -283,6 +290,7 @@ extension Schemas {
         /// The name of the registry.
         public let registryName: String
 
+        @inlinable
         public init(registryName: String) {
             self.registryName = registryName
         }
@@ -300,6 +308,7 @@ extension Schemas {
         /// The name of the registry.
         public let registryName: String?
 
+        @inlinable
         public init(registryName: String? = nil) {
             self.registryName = registryName
         }
@@ -319,6 +328,7 @@ extension Schemas {
         /// The name of the schema.
         public let schemaName: String
 
+        @inlinable
         public init(registryName: String, schemaName: String) {
             self.registryName = registryName
             self.schemaName = schemaName
@@ -342,6 +352,7 @@ extension Schemas {
         /// The version number of the schema
         public let schemaVersion: String
 
+        @inlinable
         public init(registryName: String, schemaName: String, schemaVersion: String) {
             self.registryName = registryName
             self.schemaName = schemaName
@@ -369,6 +380,7 @@ extension Schemas {
         /// Specifying this limits the results to only this schema version.
         public let schemaVersion: String?
 
+        @inlinable
         public init(language: String, registryName: String, schemaName: String, schemaVersion: String? = nil) {
             self.language = language
             self.registryName = registryName
@@ -400,6 +412,7 @@ extension Schemas {
         /// The current status of code binding generation.
         public let status: CodeGenerationStatus?
 
+        @inlinable
         public init(creationDate: Date? = nil, lastModified: Date? = nil, schemaVersion: String? = nil, status: CodeGenerationStatus? = nil) {
             self.creationDate = creationDate
             self.lastModified = lastModified
@@ -419,6 +432,7 @@ extension Schemas {
         /// The ID of the discoverer.
         public let discovererId: String
 
+        @inlinable
         public init(discovererId: String) {
             self.discovererId = discovererId
         }
@@ -448,6 +462,7 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(crossAccount: Bool? = nil, description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
             self.crossAccount = crossAccount
             self.description = description
@@ -473,6 +488,7 @@ extension Schemas {
         /// The name of the registry.
         public let registryName: String
 
+        @inlinable
         public init(registryName: String) {
             self.registryName = registryName
         }
@@ -496,6 +512,7 @@ extension Schemas {
         /// Tags associated with the registry.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, registryArn: String? = nil, registryName: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.registryArn = registryArn
@@ -519,6 +536,7 @@ extension Schemas {
         /// Specifying this limits the results to only this schema version.
         public let schemaVersion: String?
 
+        @inlinable
         public init(registryName: String, schemaName: String, schemaVersion: String? = nil) {
             self.registryName = registryName
             self.schemaName = schemaName
@@ -558,6 +576,7 @@ extension Schemas {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var versionCreatedDate: Date?
 
+        @inlinable
         public init(content: String? = nil, description: String? = nil, lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: Date? = nil) {
             self.content = content
             self.description = description
@@ -597,6 +616,7 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(crossAccount: Bool? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
             self.crossAccount = crossAccount
             self.discovererArn = discovererArn
@@ -625,6 +645,7 @@ extension Schemas {
         public let schemaVersion: String?
         public let type: String?
 
+        @inlinable
         public init(registryName: String, schemaName: String, schemaVersion: String? = nil, type: String? = nil) {
             self.registryName = registryName
             self.schemaName = schemaName
@@ -651,6 +672,7 @@ extension Schemas {
         public let schemaVersion: String?
         public let type: String?
 
+        @inlinable
         public init(content: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.content = content
             self.schemaArn = schemaArn
@@ -678,6 +700,7 @@ extension Schemas {
         /// Specifying this limits the results to only this schema version.
         public let schemaVersion: String?
 
+        @inlinable
         public init(language: String, registryName: String, schemaName: String, schemaVersion: String? = nil) {
             self.language = language
             self.registryName = registryName
@@ -701,6 +724,7 @@ extension Schemas {
         public static let _options: AWSShapeOptions = [.rawPayload]
         public let body: AWSHTTPBody
 
+        @inlinable
         public init(body: AWSHTTPBody) {
             self.body = body
         }
@@ -719,6 +743,7 @@ extension Schemas {
         /// The type of event.
         public let type: `Type`?
 
+        @inlinable
         public init(events: [String]? = nil, type: `Type`? = nil) {
             self.events = events
             self.type = type
@@ -743,6 +768,7 @@ extension Schemas {
         /// The source of the schema definition.
         public let content: String?
 
+        @inlinable
         public init(content: String? = nil) {
             self.content = content
         }
@@ -756,6 +782,7 @@ extension Schemas {
         /// The name of the registry.
         public let registryName: String?
 
+        @inlinable
         public init(registryName: String? = nil) {
             self.registryName = registryName
         }
@@ -775,6 +802,7 @@ extension Schemas {
         /// The revision ID.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -795,6 +823,7 @@ extension Schemas {
         /// Specifying this limits the results to only those ARNs that start with the specified prefix.
         public let sourceArnPrefix: String?
 
+        @inlinable
         public init(discovererIdPrefix: String? = nil, limit: Int? = nil, nextToken: String? = nil, sourceArnPrefix: String? = nil) {
             self.discovererIdPrefix = discovererIdPrefix
             self.limit = limit
@@ -820,6 +849,7 @@ extension Schemas {
         /// The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
         public let nextToken: String?
 
+        @inlinable
         public init(discoverers: [DiscovererSummary]? = nil, nextToken: String? = nil) {
             self.discoverers = discoverers
             self.nextToken = nextToken
@@ -840,6 +870,7 @@ extension Schemas {
         /// Can be set to Local or AWS to limit responses to your custom registries, or the ones provided by AWS.
         public let scope: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, registryNamePrefix: String? = nil, scope: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -865,6 +896,7 @@ extension Schemas {
         /// An array of registry summaries.
         public let registries: [RegistrySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, registries: [RegistrySummary]? = nil) {
             self.nextToken = nextToken
             self.registries = registries
@@ -885,6 +917,7 @@ extension Schemas {
         /// The name of the schema.
         public let schemaName: String
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, registryName: String, schemaName: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -910,6 +943,7 @@ extension Schemas {
         /// An array of schema version summaries.
         public let schemaVersions: [SchemaVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemaVersions: [SchemaVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.schemaVersions = schemaVersions
@@ -930,6 +964,7 @@ extension Schemas {
         /// Specifying this limits the results to only those schema names that start with the specified prefix.
         public let schemaNamePrefix: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, registryName: String, schemaNamePrefix: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -955,6 +990,7 @@ extension Schemas {
         /// An array of schema summaries.
         public let schemas: [SchemaSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemas: [SchemaSummary]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -970,6 +1006,7 @@ extension Schemas {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -986,6 +1023,7 @@ extension Schemas {
     public struct ListTagsForResourceResponse: AWSDecodableShape {
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1005,6 +1043,7 @@ extension Schemas {
         /// Specifying this limits the results to only this schema version.
         public let schemaVersion: String?
 
+        @inlinable
         public init(language: String, registryName: String, schemaName: String, schemaVersion: String? = nil) {
             self.language = language
             self.registryName = registryName
@@ -1036,6 +1075,7 @@ extension Schemas {
         /// The current status of code binding generation.
         public let status: CodeGenerationStatus?
 
+        @inlinable
         public init(creationDate: Date? = nil, lastModified: Date? = nil, schemaVersion: String? = nil, status: CodeGenerationStatus? = nil) {
             self.creationDate = creationDate
             self.lastModified = lastModified
@@ -1059,6 +1099,7 @@ extension Schemas {
         /// The revision ID of the policy.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, registryName: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.registryName = registryName
@@ -1085,6 +1126,7 @@ extension Schemas {
         /// The revision ID of the policy.
         public let revisionId: String?
 
+        @inlinable
         public init(policy: String? = nil, revisionId: String? = nil) {
             self.policy = policy
             self.revisionId = revisionId
@@ -1104,6 +1146,7 @@ extension Schemas {
         /// Tags associated with the registry.
         public let tags: [String: String]?
 
+        @inlinable
         public init(registryArn: String? = nil, registryName: String? = nil, tags: [String: String]? = nil) {
             self.registryArn = registryArn
             self.registryName = registryName
@@ -1130,6 +1173,7 @@ extension Schemas {
         /// The number of versions available for the schema.
         public let versionCount: Int64?
 
+        @inlinable
         public init(lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, tags: [String: String]? = nil, versionCount: Int64? = nil) {
             self.lastModified = lastModified
             self.schemaArn = schemaArn
@@ -1157,6 +1201,7 @@ extension Schemas {
         /// The type of schema.
         public let type: `Type`?
 
+        @inlinable
         public init(schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: `Type`? = nil) {
             self.schemaArn = schemaArn
             self.schemaName = schemaName
@@ -1182,6 +1227,7 @@ extension Schemas {
         /// An array of schema version summaries.
         public let schemaVersions: [SearchSchemaVersionSummary]?
 
+        @inlinable
         public init(registryName: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersions: [SearchSchemaVersionSummary]? = nil) {
             self.registryName = registryName
             self.schemaArn = schemaArn
@@ -1206,6 +1252,7 @@ extension Schemas {
         /// The type of schema.
         public let type: `Type`?
 
+        @inlinable
         public init(createdDate: Date? = nil, schemaVersion: String? = nil, type: `Type`? = nil) {
             self.createdDate = createdDate
             self.schemaVersion = schemaVersion
@@ -1228,6 +1275,7 @@ extension Schemas {
         /// The name of the registry.
         public let registryName: String
 
+        @inlinable
         public init(keywords: String? = nil, limit: Int? = nil, nextToken: String? = nil, registryName: String) {
             self.keywords = keywords
             self.limit = limit
@@ -1253,6 +1301,7 @@ extension Schemas {
         /// An array of SearchSchemaSummary information.
         public let schemas: [SearchSchemaSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemas: [SearchSchemaSummary]? = nil) {
             self.nextToken = nextToken
             self.schemas = schemas
@@ -1268,6 +1317,7 @@ extension Schemas {
         /// The ID of the discoverer.
         public let discovererId: String
 
+        @inlinable
         public init(discovererId: String) {
             self.discovererId = discovererId
         }
@@ -1287,6 +1337,7 @@ extension Schemas {
         /// The state of the discoverer.
         public let state: DiscovererState?
 
+        @inlinable
         public init(discovererId: String? = nil, state: DiscovererState? = nil) {
             self.discovererId = discovererId
             self.state = state
@@ -1302,6 +1353,7 @@ extension Schemas {
         /// The ID of the discoverer.
         public let discovererId: String
 
+        @inlinable
         public init(discovererId: String) {
             self.discovererId = discovererId
         }
@@ -1321,6 +1373,7 @@ extension Schemas {
         /// The state of the discoverer.
         public let state: DiscovererState?
 
+        @inlinable
         public init(discovererId: String? = nil, state: DiscovererState? = nil) {
             self.discovererId = discovererId
             self.state = state
@@ -1338,6 +1391,7 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1361,6 +1415,7 @@ extension Schemas {
         /// Keys of key-value pairs.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1384,6 +1439,7 @@ extension Schemas {
         /// The ID of the discoverer.
         public let discovererId: String
 
+        @inlinable
         public init(crossAccount: Bool? = nil, description: String? = nil, discovererId: String) {
             self.crossAccount = crossAccount
             self.description = description
@@ -1424,6 +1480,7 @@ extension Schemas {
         /// Tags associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(crossAccount: Bool? = nil, description: String? = nil, discovererArn: String? = nil, discovererId: String? = nil, sourceArn: String? = nil, state: DiscovererState? = nil, tags: [String: String]? = nil) {
             self.crossAccount = crossAccount
             self.description = description
@@ -1451,6 +1508,7 @@ extension Schemas {
         /// The name of the registry.
         public let registryName: String
 
+        @inlinable
         public init(description: String? = nil, registryName: String) {
             self.description = description
             self.registryName = registryName
@@ -1482,6 +1540,7 @@ extension Schemas {
         /// Tags associated with the registry.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, registryArn: String? = nil, registryName: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.registryArn = registryArn
@@ -1511,6 +1570,7 @@ extension Schemas {
         /// The schema type for the events schema.
         public let type: `Type`?
 
+        @inlinable
         public init(clientTokenId: String? = UpdateSchemaRequest.idempotencyToken(), content: String? = nil, description: String? = nil, registryName: String, schemaName: String, type: `Type`? = nil) {
             self.clientTokenId = clientTokenId
             self.content = content
@@ -1565,6 +1625,7 @@ extension Schemas {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var versionCreatedDate: Date?
 
+        @inlinable
         public init(description: String? = nil, lastModified: Date? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, tags: [String: String]? = nil, type: String? = nil, versionCreatedDate: Date? = nil) {
             self.description = description
             self.lastModified = lastModified

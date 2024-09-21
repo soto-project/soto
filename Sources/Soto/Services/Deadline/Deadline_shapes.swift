@@ -969,6 +969,7 @@ extension Deadline {
         /// The minimum GPU for the accelerator.
         public let min: Int
 
+        @inlinable
         public init(max: Int? = nil, min: Int) {
             self.max = max
             self.min = min
@@ -993,6 +994,7 @@ extension Deadline {
         /// The minimum amount of memory to use for the accelerator, measured in MiB.
         public let min: Int
 
+        @inlinable
         public init(max: Int? = nil, min: Int) {
             self.max = max
             self.min = min
@@ -1015,6 +1017,7 @@ extension Deadline {
         /// The environment ID of the assigned environment at the start of a session.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -1028,6 +1031,7 @@ extension Deadline {
         /// The environment ID of the assigned environment when exiting a session.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -1047,6 +1051,7 @@ extension Deadline {
         /// The session actions to apply to the assigned session.
         public let sessionActions: [AssignedSessionAction]
 
+        @inlinable
         public init(jobId: String, logConfiguration: LogConfiguration, queueId: String, sessionActions: [AssignedSessionAction]) {
             self.jobId = jobId
             self.logConfiguration = logConfiguration
@@ -1068,6 +1073,7 @@ extension Deadline {
         /// The session action ID for the assigned session.
         public let sessionActionId: String
 
+        @inlinable
         public init(definition: AssignedSessionActionDefinition, sessionActionId: String) {
             self.definition = definition
             self.sessionActionId = sessionActionId
@@ -1083,6 +1089,7 @@ extension Deadline {
         /// The step ID.
         public let stepId: String?
 
+        @inlinable
         public init(stepId: String? = nil) {
             self.stepId = stepId
         }
@@ -1100,6 +1107,7 @@ extension Deadline {
         /// The task ID.
         public let taskId: String
 
+        @inlinable
         public init(parameters: [String: TaskParameterValue], stepId: String, taskId: String) {
             self.parameters = parameters
             self.stepId = stepId
@@ -1125,6 +1133,7 @@ extension Deadline {
         /// The principal type of the member to associate with the farm.
         public let principalType: DeadlinePrincipalType
 
+        @inlinable
         public init(farmId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
@@ -1178,6 +1187,7 @@ extension Deadline {
         /// The member's principal type to associate with the fleet.
         public let principalType: DeadlinePrincipalType
 
+        @inlinable
         public init(farmId: String, fleetId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -1236,6 +1246,7 @@ extension Deadline {
         /// The queue ID to associate to the member.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, identityStoreId: String, jobId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
@@ -1295,6 +1306,7 @@ extension Deadline {
         /// The ID of the queue to associate to the member.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
@@ -1343,6 +1355,7 @@ extension Deadline {
         /// The fleet ID.
         public let fleetId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -1367,6 +1380,7 @@ extension Deadline {
         /// The credentials for the fleet role.
         public let credentials: AwsCredentials
 
+        @inlinable
         public init(credentials: AwsCredentials) {
             self.credentials = credentials
         }
@@ -1384,6 +1398,7 @@ extension Deadline {
         /// The ID of the worker assuming the fleet role.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -1411,6 +1426,7 @@ extension Deadline {
         /// The credentials for the worker.
         public let credentials: AwsCredentials
 
+        @inlinable
         public init(credentials: AwsCredentials) {
             self.credentials = credentials
         }
@@ -1426,6 +1442,7 @@ extension Deadline {
         /// The queue ID.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, queueId: String) {
             self.farmId = farmId
             self.queueId = queueId
@@ -1450,6 +1467,7 @@ extension Deadline {
         /// The credentials for the queue role.
         public let credentials: AwsCredentials
 
+        @inlinable
         public init(credentials: AwsCredentials) {
             self.credentials = credentials
         }
@@ -1465,6 +1483,7 @@ extension Deadline {
         /// The queue ID of the queue that the user assumes the role for.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, queueId: String) {
             self.farmId = farmId
             self.queueId = queueId
@@ -1489,6 +1508,7 @@ extension Deadline {
         /// The credentials for the queue role that a user has access to.
         public let credentials: AwsCredentials
 
+        @inlinable
         public init(credentials: AwsCredentials) {
             self.credentials = credentials
         }
@@ -1508,6 +1528,7 @@ extension Deadline {
         /// The worker ID of the worker assuming the queue role.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, queueId: String, workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -1538,6 +1559,7 @@ extension Deadline {
         /// The Amazon Web Services credentials for the role that the worker is assuming.
         public let credentials: AwsCredentials?
 
+        @inlinable
         public init(credentials: AwsCredentials? = nil) {
             self.credentials = credentials
         }
@@ -1553,6 +1575,7 @@ extension Deadline {
         /// A list of manifests which describe job attachment configurations.
         public let manifests: [ManifestProperties]
 
+        @inlinable
         public init(fileSystem: JobAttachmentsFileSystem? = nil, manifests: [ManifestProperties]) {
             self.fileSystem = fileSystem
             self.manifests = manifests
@@ -1583,6 +1606,7 @@ extension Deadline {
         /// The IAM session token
         public let sessionToken: String
 
+        @inlinable
         public init(accessKeyId: String, expiration: Date, secretAccessKey: String, sessionToken: String) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -1608,6 +1632,7 @@ extension Deadline {
         /// The worker ID of the worker containing the job details to get.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, identifiers: [JobEntityIdentifiersUnion], workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -1646,6 +1671,7 @@ extension Deadline {
         /// A list of errors from the job error logs for the batch.
         public let errors: [GetJobEntityError]
 
+        @inlinable
         public init(entities: [JobEntity], errors: [GetJobEntityError]) {
             self.entities = entities
             self.errors = errors
@@ -1665,6 +1691,7 @@ extension Deadline {
         /// The type of budget action to add.
         public let type: BudgetActionType
 
+        @inlinable
         public init(description: String? = nil, thresholdPercentage: Float, type: BudgetActionType) {
             self.description = description
             self.thresholdPercentage = thresholdPercentage
@@ -1690,6 +1717,7 @@ extension Deadline {
         /// The type of budget action to remove.
         public let type: BudgetActionType
 
+        @inlinable
         public init(thresholdPercentage: Float, type: BudgetActionType) {
             self.thresholdPercentage = thresholdPercentage
             self.type = type
@@ -1732,6 +1760,7 @@ extension Deadline {
         /// The resource used to track expenditure in the budget.
         public let usageTrackingResource: UsageTrackingResource
 
+        @inlinable
         public init(approximateDollarLimit: Float, budgetId: String, createdAt: Date, createdBy: String, displayName: String, status: BudgetStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usages: ConsumedUsages, usageTrackingResource: UsageTrackingResource) {
             self.approximateDollarLimit = approximateDollarLimit
             self.budgetId = budgetId
@@ -1747,6 +1776,7 @@ extension Deadline {
         }
 
         @available(*, deprecated, message: "Members description have been deprecated")
+        @inlinable
         public init(approximateDollarLimit: Float, budgetId: String, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, status: BudgetStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usages: ConsumedUsages, usageTrackingResource: UsageTrackingResource) {
             self.approximateDollarLimit = approximateDollarLimit
             self.budgetId = budgetId
@@ -1780,6 +1810,7 @@ extension Deadline {
         /// The amount of the budget consumed.
         public let approximateDollarUsage: Float
 
+        @inlinable
         public init(approximateDollarUsage: Float) {
             self.approximateDollarUsage = approximateDollarUsage
         }
@@ -1799,6 +1830,7 @@ extension Deadline {
         /// The Amazon S3 bucket name and key where you would like to add a copy of the job template.
         public let targetS3Location: S3Location
 
+        @inlinable
         public init(farmId: String, jobId: String, queueId: String, targetS3Location: S3Location) {
             self.farmId = farmId
             self.jobId = jobId
@@ -1831,6 +1863,7 @@ extension Deadline {
         /// The format of the job template, either JSON or YAML.
         public let templateType: JobTemplateType
 
+        @inlinable
         public init(templateType: JobTemplateType) {
             self.templateType = templateType
         }
@@ -1858,6 +1891,7 @@ extension Deadline {
         /// The queue ID provided to this budget to track usage.
         public let usageTrackingResource: UsageTrackingResource
 
+        @inlinable
         public init(actions: [BudgetActionToAdd], approximateDollarLimit: Float, clientToken: String? = CreateBudgetRequest.idempotencyToken(), description: String? = nil, displayName: String, farmId: String, schedule: BudgetSchedule, usageTrackingResource: UsageTrackingResource) {
             self.actions = actions
             self.approximateDollarLimit = approximateDollarLimit
@@ -1911,6 +1945,7 @@ extension Deadline {
         /// The budget ID.
         public let budgetId: String
 
+        @inlinable
         public init(budgetId: String) {
             self.budgetId = budgetId
         }
@@ -1932,6 +1967,7 @@ extension Deadline {
         /// The tags to add to your farm. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateFarmRequest.idempotencyToken(), description: String? = nil, displayName: String, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1971,6 +2007,7 @@ extension Deadline {
         /// The farm ID.
         public let farmId: String
 
+        @inlinable
         public init(farmId: String) {
             self.farmId = farmId
         }
@@ -2000,6 +2037,7 @@ extension Deadline {
         /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateFleetRequest.idempotencyToken(), configuration: FleetConfiguration, description: String? = nil, displayName: String, farmId: String, maxWorkerCount: Int, minWorkerCount: Int? = nil, roleArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -2056,6 +2094,7 @@ extension Deadline {
         /// The fleet ID.
         public let fleetId: String
 
+        @inlinable
         public init(fleetId: String) {
             self.fleetId = fleetId
         }
@@ -2091,6 +2130,7 @@ extension Deadline {
         /// The file type for the job template.
         public let templateType: JobTemplateType
 
+        @inlinable
         public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, storageProfileId: String? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String, templateType: JobTemplateType) {
             self.attachments = attachments
             self.clientToken = clientToken
@@ -2160,6 +2200,7 @@ extension Deadline {
         /// The job ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2181,6 +2222,7 @@ extension Deadline {
         /// The VPC (virtual private cloud) ID to use with the license endpoint.
         public let vpcId: String
 
+        @inlinable
         public init(clientToken: String? = CreateLicenseEndpointRequest.idempotencyToken(), securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, vpcId: String) {
             self.clientToken = clientToken
             self.securityGroupIds = securityGroupIds
@@ -2231,6 +2273,7 @@ extension Deadline {
         /// The license endpoint ID.
         public let licenseEndpointId: String
 
+        @inlinable
         public init(licenseEndpointId: String) {
             self.licenseEndpointId = licenseEndpointId
         }
@@ -2252,6 +2295,7 @@ extension Deadline {
         /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let subdomain: String
 
+        @inlinable
         public init(clientToken: String? = CreateMonitorRequest.idempotencyToken(), displayName: String, identityCenterInstanceArn: String, roleArn: String, subdomain: String) {
             self.clientToken = clientToken
             self.displayName = displayName
@@ -2294,6 +2338,7 @@ extension Deadline {
         /// The unique identifier of the monitor.
         public let monitorId: String
 
+        @inlinable
         public init(identityCenterApplicationArn: String, monitorId: String) {
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.monitorId = monitorId
@@ -2319,6 +2364,7 @@ extension Deadline {
         /// The template's file type, JSON or YAML.
         public let templateType: EnvironmentTemplateType
 
+        @inlinable
         public init(clientToken: String? = CreateQueueEnvironmentRequest.idempotencyToken(), farmId: String, priority: Int, queueId: String, template: String, templateType: EnvironmentTemplateType) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -2361,6 +2407,7 @@ extension Deadline {
         /// The queue environment ID.
         public let queueEnvironmentId: String
 
+        @inlinable
         public init(queueEnvironmentId: String) {
             self.queueEnvironmentId = queueEnvironmentId
         }
@@ -2378,6 +2425,7 @@ extension Deadline {
         /// The queue ID.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, queueId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -2432,6 +2480,7 @@ extension Deadline {
         /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedStorageProfileIds: [String]? = nil, clientToken: String? = CreateQueueRequest.idempotencyToken(), defaultBudgetAction: DefaultQueueBudgetAction? = nil, description: String? = nil, displayName: String, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, requiredFileSystemLocationNames: [String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
             self.allowedStorageProfileIds = allowedStorageProfileIds
             self.clientToken = clientToken
@@ -2500,6 +2549,7 @@ extension Deadline {
         /// The queue ID.
         public let queueId: String
 
+        @inlinable
         public init(queueId: String) {
             self.queueId = queueId
         }
@@ -2521,6 +2571,7 @@ extension Deadline {
         /// The type of operating system (OS) for the storage profile.
         public let osFamily: StorageProfileOperatingSystemFamily
 
+        @inlinable
         public init(clientToken: String? = CreateStorageProfileRequest.idempotencyToken(), displayName: String, farmId: String, fileSystemLocations: [FileSystemLocation]? = nil, osFamily: StorageProfileOperatingSystemFamily) {
             self.clientToken = clientToken
             self.displayName = displayName
@@ -2562,6 +2613,7 @@ extension Deadline {
         /// The storage profile ID.
         public let storageProfileId: String
 
+        @inlinable
         public init(storageProfileId: String) {
             self.storageProfileId = storageProfileId
         }
@@ -2581,6 +2633,7 @@ extension Deadline {
         /// The IP address and host name of the worker.
         public let hostProperties: HostPropertiesRequest?
 
+        @inlinable
         public init(clientToken: String? = CreateWorkerRequest.idempotencyToken(), farmId: String, fleetId: String, hostProperties: HostPropertiesRequest? = nil) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -2614,6 +2667,7 @@ extension Deadline {
         /// The worker ID.
         public let workerId: String
 
+        @inlinable
         public init(workerId: String) {
             self.workerId = workerId
         }
@@ -2631,6 +2685,7 @@ extension Deadline {
         /// The worker capabilities for a customer managed fleet configuration.
         public let workerCapabilities: CustomerManagedWorkerCapabilities
 
+        @inlinable
         public init(mode: AutoScalingMode, storageProfileId: String? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
             self.mode = mode
             self.storageProfileId = storageProfileId
@@ -2669,6 +2724,7 @@ extension Deadline {
         /// The vCPU count for the customer manged worker capabilities.
         public let vCpuCount: VCpuCountRange
 
+        @inlinable
         public init(acceleratorCount: AcceleratorCountRange? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRange? = nil, acceleratorTypes: [AcceleratorType]? = nil, cpuArchitectureType: CpuArchitectureType, customAmounts: [FleetAmountCapability]? = nil, customAttributes: [FleetAttributeCapability]? = nil, memoryMiB: MemoryMiBRange, osFamily: CustomerManagedFleetOperatingSystemFamily, vCpuCount: VCpuCountRange) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
@@ -2720,6 +2776,7 @@ extension Deadline {
         /// The type of comparison to use to filter the results.
         public let `operator`: ComparisonOperator
 
+        @inlinable
         public init(dateTime: Date, name: String, operator: ComparisonOperator) {
             self.dateTime = dateTime
             self.name = name
@@ -2739,6 +2796,7 @@ extension Deadline {
         /// The farm ID of the farm to remove from the budget.
         public let farmId: String
 
+        @inlinable
         public init(budgetId: String, farmId: String) {
             self.budgetId = budgetId
             self.farmId = farmId
@@ -2767,6 +2825,7 @@ extension Deadline {
         /// The farm ID of the farm to delete.
         public let farmId: String
 
+        @inlinable
         public init(farmId: String) {
             self.farmId = farmId
         }
@@ -2796,6 +2855,7 @@ extension Deadline {
         /// The fleet ID of the fleet to delete.
         public let fleetId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteFleetRequest.idempotencyToken(), farmId: String, fleetId: String) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -2828,6 +2888,7 @@ extension Deadline {
         /// The license endpoint ID of the license endpoint to delete.
         public let licenseEndpointId: String
 
+        @inlinable
         public init(licenseEndpointId: String) {
             self.licenseEndpointId = licenseEndpointId
         }
@@ -2855,6 +2916,7 @@ extension Deadline {
         /// The product ID to remove from the license endpoint.
         public let productId: String
 
+        @inlinable
         public init(licenseEndpointId: String, productId: String) {
             self.licenseEndpointId = licenseEndpointId
             self.productId = productId
@@ -2883,6 +2945,7 @@ extension Deadline {
         /// The unique identifier of the monitor to delete. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation.
         public let monitorId: String
 
+        @inlinable
         public init(monitorId: String) {
             self.monitorId = monitorId
         }
@@ -2912,6 +2975,7 @@ extension Deadline {
         /// The queue ID of the queue environment to delete.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, queueEnvironmentId: String, queueId: String) {
             self.farmId = farmId
             self.queueEnvironmentId = queueEnvironmentId
@@ -2947,6 +3011,7 @@ extension Deadline {
         /// The queue ID of the queue-fleet association.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, queueId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -2980,6 +3045,7 @@ extension Deadline {
         /// The queue ID of the queue to delete.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, queueId: String) {
             self.farmId = farmId
             self.queueId = queueId
@@ -3010,6 +3076,7 @@ extension Deadline {
         /// The storage profile ID of the storage profile to delete.
         public let storageProfileId: String
 
+        @inlinable
         public init(farmId: String, storageProfileId: String) {
             self.farmId = farmId
             self.storageProfileId = storageProfileId
@@ -3042,6 +3109,7 @@ extension Deadline {
         /// The worker ID of the worker to delete.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -3079,6 +3147,7 @@ extension Deadline {
         /// The number of unresolved dependencies.
         public let dependenciesUnresolved: Int
 
+        @inlinable
         public init(consumersResolved: Int, consumersUnresolved: Int, dependenciesResolved: Int, dependenciesUnresolved: Int) {
             self.consumersResolved = consumersResolved
             self.consumersUnresolved = consumersUnresolved
@@ -3100,6 +3169,7 @@ extension Deadline {
         /// A member's principal ID to disassociate from a farm.
         public let principalId: String
 
+        @inlinable
         public init(farmId: String, principalId: String) {
             self.farmId = farmId
             self.principalId = principalId
@@ -3134,6 +3204,7 @@ extension Deadline {
         /// A member's principal ID to disassociate from a fleet.
         public let principalId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, principalId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -3173,6 +3244,7 @@ extension Deadline {
         /// The queue ID connected to a job for which you're disassociating a member.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, principalId: String, queueId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -3213,6 +3285,7 @@ extension Deadline {
         /// The queue ID of the queue in which you're disassociating from a member.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, principalId: String, queueId: String) {
             self.farmId = farmId
             self.principalId = principalId
@@ -3250,6 +3323,7 @@ extension Deadline {
         /// The throughput per volume in MiB.
         public let throughputMiB: Int?
 
+        @inlinable
         public init(iops: Int? = nil, sizeGiB: Int? = nil, throughputMiB: Int? = nil) {
             self.iops = iops
             self.sizeGiB = sizeGiB
@@ -3280,6 +3354,7 @@ extension Deadline {
         /// The template used for the environment.
         public let template: String
 
+        @inlinable
         public init(environmentId: String, jobId: String, schemaVersion: String, template: String) {
             self.environmentId = environmentId
             self.jobId = jobId
@@ -3305,6 +3380,7 @@ extension Deadline {
         /// The error message detailing the error's cause.
         public let message: String
 
+        @inlinable
         public init(code: JobEntityErrorCode, environmentId: String, jobId: String, message: String) {
             self.code = code
             self.environmentId = environmentId
@@ -3326,6 +3402,7 @@ extension Deadline {
         /// The job ID.
         public let jobId: String
 
+        @inlinable
         public init(environmentId: String, jobId: String) {
             self.environmentId = environmentId
             self.jobId = jobId
@@ -3348,6 +3425,7 @@ extension Deadline {
         /// The environment ID.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -3361,6 +3439,7 @@ extension Deadline {
         /// The environment ID.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -3374,6 +3453,7 @@ extension Deadline {
         /// The environment ID.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -3387,6 +3467,7 @@ extension Deadline {
         /// The environment ID.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -3408,6 +3489,7 @@ extension Deadline {
         /// The principal type of the farm member.
         public let principalType: DeadlinePrincipalType
 
+        @inlinable
         public init(farmId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
@@ -3443,6 +3525,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, displayName: String, farmId: String, kmsKeyArn: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3470,6 +3553,7 @@ extension Deadline {
         /// The sort order for the field.
         public let sortOrder: SortOrder
 
+        @inlinable
         public init(name: String, sortOrder: SortOrder) {
             self.name = name
             self.sortOrder = sortOrder
@@ -3489,6 +3573,7 @@ extension Deadline {
         /// The type of file.
         public let type: FileSystemLocationType
 
+        @inlinable
         public init(name: String, path: String, type: FileSystemLocationType) {
             self.name = name
             self.path = path
@@ -3517,6 +3602,7 @@ extension Deadline {
         @CustomCoding<ISO8601DateCoder>
         public var startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -3536,6 +3622,7 @@ extension Deadline {
         /// The name of the fleet capability.
         public let name: String
 
+        @inlinable
         public init(max: Float? = nil, min: Float, name: String) {
             self.max = max
             self.min = min
@@ -3561,6 +3648,7 @@ extension Deadline {
         /// The number of fleet attribute capabilities.
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -3591,6 +3679,7 @@ extension Deadline {
         /// Attribute capabilities of the fleet.
         public let attributes: [FleetAttributeCapability]?
 
+        @inlinable
         public init(amounts: [FleetAmountCapability]? = nil, attributes: [FleetAttributeCapability]? = nil) {
             self.amounts = amounts
             self.attributes = attributes
@@ -3616,6 +3705,7 @@ extension Deadline {
         /// The principal type of the fleet member.
         public let principalType: DeadlinePrincipalType
 
+        @inlinable
         public init(farmId: String, fleetId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -3667,6 +3757,7 @@ extension Deadline {
         /// The number of workers in the fleet summary.
         public let workerCount: Int
 
+        @inlinable
         public init(autoScalingStatus: AutoScalingStatus? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, displayName: String, farmId: String, fleetId: String, maxWorkerCount: Int, minWorkerCount: Int, status: FleetStatus, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
             self.autoScalingStatus = autoScalingStatus
             self.configuration = configuration
@@ -3708,6 +3799,7 @@ extension Deadline {
         /// The farm ID of the farm connected to the budget.
         public let farmId: String
 
+        @inlinable
         public init(budgetId: String, farmId: String) {
             self.budgetId = budgetId
             self.farmId = farmId
@@ -3761,6 +3853,7 @@ extension Deadline {
         /// The resource that the budget is tracking usage for.
         public let usageTrackingResource: UsageTrackingResource
 
+        @inlinable
         public init(actions: [ResponseBudgetAction], approximateDollarLimit: Float, budgetId: String, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, queueStoppedAt: Date? = nil, schedule: BudgetSchedule, status: BudgetStatus, updatedAt: Date? = nil, updatedBy: String? = nil, usages: ConsumedUsages, usageTrackingResource: UsageTrackingResource) {
             self.actions = actions
             self.approximateDollarLimit = approximateDollarLimit
@@ -3800,6 +3893,7 @@ extension Deadline {
         /// The farm ID of the farm.
         public let farmId: String
 
+        @inlinable
         public init(farmId: String) {
             self.farmId = farmId
         }
@@ -3837,6 +3931,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, kmsKeyArn: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3866,6 +3961,7 @@ extension Deadline {
         /// The fleet ID of the fleet to get.
         public let fleetId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -3924,6 +4020,7 @@ extension Deadline {
         /// The number of workers in the fleet.
         public let workerCount: Int
 
+        @inlinable
         public init(autoScalingStatus: AutoScalingStatus? = nil, capabilities: FleetCapabilities? = nil, configuration: FleetConfiguration, createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, fleetId: String, maxWorkerCount: Int, minWorkerCount: Int, roleArn: String, status: FleetStatus, targetWorkerCount: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerCount: Int) {
             self.autoScalingStatus = autoScalingStatus
             self.capabilities = capabilities
@@ -3973,6 +4070,7 @@ extension Deadline {
         /// The queue ID associated with the job.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, queueId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -4042,6 +4140,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.attachments = attachments
             self.createdAt = createdAt
@@ -4093,6 +4192,7 @@ extension Deadline {
         /// The license endpoint ID.
         public let licenseEndpointId: String
 
+        @inlinable
         public init(licenseEndpointId: String) {
             self.licenseEndpointId = licenseEndpointId
         }
@@ -4126,6 +4226,7 @@ extension Deadline {
         /// The VCP(virtual private cloud) ID associated with the license endpoint.
         public let vpcId: String?
 
+        @inlinable
         public init(dnsName: String? = nil, licenseEndpointId: String, securityGroupIds: [String]? = nil, status: LicenseEndpointStatus, statusMessage: String, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.dnsName = dnsName
             self.licenseEndpointId = licenseEndpointId
@@ -4151,6 +4252,7 @@ extension Deadline {
         /// The unique identifier for the monitor. This ID is returned by the CreateMonitor operation.
         public let monitorId: String
 
+        @inlinable
         public init(monitorId: String) {
             self.monitorId = monitorId
         }
@@ -4194,6 +4296,7 @@ extension Deadline {
         /// The complete URL of the monitor. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let url: String
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, displayName: String, identityCenterApplicationArn: String, identityCenterInstanceArn: String, monitorId: String, roleArn: String, subdomain: String, updatedAt: Date? = nil, updatedBy: String? = nil, url: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4231,6 +4334,7 @@ extension Deadline {
         /// The queue ID for the queue environment.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, queueEnvironmentId: String, queueId: String) {
             self.farmId = farmId
             self.queueEnvironmentId = queueEnvironmentId
@@ -4276,6 +4380,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, name: String, priority: Int, queueEnvironmentId: String, template: String, templateType: EnvironmentTemplateType, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4309,6 +4414,7 @@ extension Deadline {
         /// The queue ID for the queue-fleet association.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, queueId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -4350,6 +4456,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, fleetId: String, queueId: String, status: QueueFleetAssociationStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4377,6 +4484,7 @@ extension Deadline {
         /// The queue ID for the queue to retrieve.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, queueId: String) {
             self.farmId = farmId
             self.queueId = queueId
@@ -4433,6 +4541,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(allowedStorageProfileIds: [String]? = nil, blockedReason: QueueBlockedReason? = nil, createdAt: Date, createdBy: String, defaultBudgetAction: DefaultQueueBudgetAction, description: String? = nil, displayName: String, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, queueId: String, requiredFileSystemLocationNames: [String]? = nil, roleArn: String? = nil, status: QueueStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.allowedStorageProfileIds = allowedStorageProfileIds
             self.blockedReason = blockedReason
@@ -4482,6 +4591,7 @@ extension Deadline {
         /// The session action ID for the session.
         public let sessionActionId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, queueId: String, sessionActionId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -4533,6 +4643,7 @@ extension Deadline {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var workerUpdatedAt: Date?
 
+        @inlinable
         public init(definition: SessionActionDefinition, endedAt: Date? = nil, processExitCode: Int? = nil, progressMessage: String? = nil, progressPercent: Float? = nil, sessionActionId: String, sessionId: String, startedAt: Date? = nil, status: SessionActionStatus, workerUpdatedAt: Date? = nil) {
             self.definition = definition
             self.endedAt = endedAt
@@ -4570,6 +4681,7 @@ extension Deadline {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, queueId: String, sessionId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -4625,6 +4737,7 @@ extension Deadline {
         /// The worker log for the session.
         public let workerLog: LogConfiguration?
 
+        @inlinable
         public init(endedAt: Date? = nil, fleetId: String, hostProperties: HostPropertiesResponse? = nil, lifecycleStatus: SessionLifecycleStatus, log: LogConfiguration, sessionId: String, startedAt: Date, targetLifecycleStatus: SessionLifecycleTargetStatus? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String, workerLog: LogConfiguration? = nil) {
             self.endedAt = endedAt
             self.fleetId = fleetId
@@ -4666,6 +4779,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregationId: String, farmId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.aggregationId = aggregationId
             self.farmId = farmId
@@ -4702,6 +4816,7 @@ extension Deadline {
         /// A message that describes the status.
         public let statusMessage: String?
 
+        @inlinable
         public init(nextToken: String? = nil, statistics: [Statistics]? = nil, status: SessionsStatisticsAggregationStatus, statusMessage: String? = nil) {
             self.nextToken = nextToken
             self.statistics = statistics
@@ -4727,6 +4842,7 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, queueId: String, stepId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -4793,6 +4909,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, description: String? = nil, endedAt: Date? = nil, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, parameterSpace: ParameterSpace? = nil, requiredCapabilities: StepRequiredCapabilities? = nil, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4842,6 +4959,7 @@ extension Deadline {
         /// The storage profile ID for the storage profile in the queue.
         public let storageProfileId: String
 
+        @inlinable
         public init(farmId: String, queueId: String, storageProfileId: String) {
             self.farmId = farmId
             self.queueId = queueId
@@ -4875,6 +4993,7 @@ extension Deadline {
         /// The storage profile ID.
         public let storageProfileId: String
 
+        @inlinable
         public init(displayName: String, fileSystemLocations: [FileSystemLocation]? = nil, osFamily: StorageProfileOperatingSystemFamily, storageProfileId: String) {
             self.displayName = displayName
             self.fileSystemLocations = fileSystemLocations
@@ -4896,6 +5015,7 @@ extension Deadline {
         /// The storage profile ID.
         public let storageProfileId: String
 
+        @inlinable
         public init(farmId: String, storageProfileId: String) {
             self.farmId = farmId
             self.storageProfileId = storageProfileId
@@ -4936,6 +5056,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, displayName: String, fileSystemLocations: [FileSystemLocation]? = nil, osFamily: StorageProfileOperatingSystemFamily, storageProfileId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4971,6 +5092,7 @@ extension Deadline {
         /// The task ID.
         public let taskId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, queueId: String, stepId: String, taskId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -5030,6 +5152,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, failureRetryCount: Int? = nil, latestSessionActionId: String? = nil, parameters: [String: TaskParameterValue]? = nil, runStatus: TaskRunStatus, startedAt: Date? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5069,6 +5192,7 @@ extension Deadline {
         /// The worker ID.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -5116,6 +5240,7 @@ extension Deadline {
         /// The worker ID.
         public let workerId: String
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, farmId: String, fleetId: String, hostProperties: HostPropertiesResponse? = nil, log: LogConfiguration? = nil, status: WorkerStatus, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5149,6 +5274,7 @@ extension Deadline {
         /// The IP address of the host.
         public let ipAddresses: IpAddresses?
 
+        @inlinable
         public init(hostName: String? = nil, ipAddresses: IpAddresses? = nil) {
             self.hostName = hostName
             self.ipAddresses = ipAddresses
@@ -5175,6 +5301,7 @@ extension Deadline {
         /// The IP address of the host.
         public let ipAddresses: IpAddresses?
 
+        @inlinable
         public init(ec2InstanceArn: String? = nil, ec2InstanceType: String? = nil, hostName: String? = nil, ipAddresses: IpAddresses? = nil) {
             self.ec2InstanceArn = ec2InstanceArn
             self.ec2InstanceType = ec2InstanceType
@@ -5196,6 +5323,7 @@ extension Deadline {
         /// The IpV6 address for the network and node component.
         public let ipV6Addresses: [String]?
 
+        @inlinable
         public init(ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil) {
             self.ipV4Addresses = ipV4Addresses
             self.ipV6Addresses = ipV6Addresses
@@ -5222,6 +5350,7 @@ extension Deadline {
         /// The job ID.
         public let jobId: String
 
+        @inlinable
         public init(attachments: Attachments, jobId: String) {
             self.attachments = attachments
             self.jobId = jobId
@@ -5241,6 +5370,7 @@ extension Deadline {
         /// The error message detailing the error's cause.
         public let message: String
 
+        @inlinable
         public init(code: JobEntityErrorCode, jobId: String, message: String) {
             self.code = code
             self.jobId = jobId
@@ -5258,6 +5388,7 @@ extension Deadline {
         /// The job ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -5277,6 +5408,7 @@ extension Deadline {
         /// The Amazon S3 bucket name.
         public let s3BucketName: String
 
+        @inlinable
         public init(rootPrefix: String, s3BucketName: String) {
             self.rootPrefix = rootPrefix
             self.s3BucketName = s3BucketName
@@ -5314,6 +5446,7 @@ extension Deadline {
         /// The schema version.
         public let schemaVersion: String
 
+        @inlinable
         public init(jobAttachmentSettings: JobAttachmentSettings? = nil, jobId: String, jobRunAsUser: JobRunAsUser? = nil, logGroupName: String, parameters: [String: JobParameter]? = nil, pathMappingRules: [PathMappingRule]? = nil, queueRoleArn: String? = nil, schemaVersion: String) {
             self.jobAttachmentSettings = jobAttachmentSettings
             self.jobId = jobId
@@ -5345,6 +5478,7 @@ extension Deadline {
         /// The error message detailing the error's cause.
         public let message: String
 
+        @inlinable
         public init(code: JobEntityErrorCode, jobId: String, message: String) {
             self.code = code
             self.jobId = jobId
@@ -5362,6 +5496,7 @@ extension Deadline {
         /// The job ID.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -5391,6 +5526,7 @@ extension Deadline {
         /// The queue ID.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, identityStoreId: String, jobId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
@@ -5420,6 +5556,7 @@ extension Deadline {
         /// Identifies a Microsoft Windows user.
         public let windows: WindowsUser?
 
+        @inlinable
         public init(posix: PosixUser? = nil, runAs: RunAs, windows: WindowsUser? = nil) {
             self.posix = posix
             self.runAs = runAs
@@ -5470,6 +5607,7 @@ extension Deadline {
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5547,6 +5685,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, priority: Int, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5596,6 +5735,7 @@ extension Deadline {
         /// The VCP(virtual private cloud) ID associated with the license endpoint.
         public let vpcId: String?
 
+        @inlinable
         public init(licenseEndpointId: String? = nil, status: LicenseEndpointStatus? = nil, statusMessage: String? = nil, vpcId: String? = nil) {
             self.licenseEndpointId = licenseEndpointId
             self.status = status
@@ -5617,6 +5757,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5643,6 +5784,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(meteredProducts: [MeteredProductSummary], nextToken: String? = nil) {
             self.meteredProducts = meteredProducts
             self.nextToken = nextToken
@@ -5664,6 +5806,7 @@ extension Deadline {
         /// The status to list for the budgets.
         public let status: BudgetStatus?
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil, status: BudgetStatus? = nil) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -5695,6 +5838,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(budgets: [BudgetSummary], nextToken: String? = nil) {
             self.budgets = budgets
             self.nextToken = nextToken
@@ -5714,6 +5858,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -5743,6 +5888,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [FarmMember], nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -5762,6 +5908,7 @@ extension Deadline {
         /// The principal ID of the member to list on the farm.
         public let principalId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -5793,6 +5940,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(farms: [FarmSummary], nextToken: String? = nil) {
             self.farms = farms
             self.nextToken = nextToken
@@ -5814,6 +5962,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(farmId: String, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -5846,6 +5995,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [FleetMember], nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -5871,6 +6021,7 @@ extension Deadline {
         /// The status of the fleet.
         public let status: FleetStatus?
 
+        @inlinable
         public init(displayName: String? = nil, farmId: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, status: FleetStatus? = nil) {
             self.displayName = displayName
             self.farmId = farmId
@@ -5911,6 +6062,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(fleets: [FleetSummary], nextToken: String? = nil) {
             self.fleets = fleets
             self.nextToken = nextToken
@@ -5934,6 +6086,7 @@ extension Deadline {
         /// The queue ID to include on the list.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -5969,6 +6122,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [JobMember], nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -5992,6 +6146,7 @@ extension Deadline {
         /// The queue ID for the job.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, queueId: String) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -6029,6 +6184,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [JobSummary], nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -6046,6 +6202,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6072,6 +6229,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseEndpoints: [LicenseEndpointSummary], nextToken: String? = nil) {
             self.licenseEndpoints = licenseEndpoints
             self.nextToken = nextToken
@@ -6091,6 +6249,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseEndpointId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.licenseEndpointId = licenseEndpointId
             self.maxResults = maxResults
@@ -6120,6 +6279,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(meteredProducts: [MeteredProductSummary], nextToken: String? = nil) {
             self.meteredProducts = meteredProducts
             self.nextToken = nextToken
@@ -6137,6 +6297,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6163,6 +6324,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(monitors: [MonitorSummary], nextToken: String? = nil) {
             self.monitors = monitors
             self.nextToken = nextToken
@@ -6184,6 +6346,7 @@ extension Deadline {
         /// The queue ID for the queue environment list.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -6216,6 +6379,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(environments: [QueueEnvironmentSummary], nextToken: String? = nil) {
             self.environments = environments
             self.nextToken = nextToken
@@ -6239,6 +6403,7 @@ extension Deadline {
         /// The queue ID for the queue-fleet association list.
         public let queueId: String?
 
+        @inlinable
         public init(farmId: String, fleetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queueId: String? = nil) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -6274,6 +6439,7 @@ extension Deadline {
         /// The queue-fleet associations on the list.
         public let queueFleetAssociations: [QueueFleetAssociationSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, queueFleetAssociations: [QueueFleetAssociationSummary]) {
             self.nextToken = nextToken
             self.queueFleetAssociations = queueFleetAssociations
@@ -6295,6 +6461,7 @@ extension Deadline {
         /// The queue ID to include on the list.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -6327,6 +6494,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [QueueMember], nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -6350,6 +6518,7 @@ extension Deadline {
         /// The status of the queues listed.    ACTIVE–The queues are active.    SCHEDULING–The queues are scheduling.    SCHEDULING_BLOCKED–The queue scheduling is blocked for these queues.
         public let status: QueueStatus?
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, status: QueueStatus? = nil) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -6386,6 +6555,7 @@ extension Deadline {
         /// The queues on the list.
         public let queues: [QueueSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, queues: [QueueSummary]) {
             self.nextToken = nextToken
             self.queues = queues
@@ -6413,6 +6583,7 @@ extension Deadline {
         /// The task ID for the session actions list.
         public let taskId: String?
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String, sessionId: String? = nil, taskId: String? = nil) {
             self.farmId = farmId
             self.jobId = jobId
@@ -6454,6 +6625,7 @@ extension Deadline {
         /// The session actions.
         public let sessionActions: [SessionActionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, sessionActions: [SessionActionSummary]) {
             self.nextToken = nextToken
             self.sessionActions = sessionActions
@@ -6477,6 +6649,7 @@ extension Deadline {
         /// The worker ID for the session.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil, workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -6512,6 +6685,7 @@ extension Deadline {
         /// The sessions in the response.
         public let sessions: [WorkerSessionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, sessions: [WorkerSessionSummary]) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -6535,6 +6709,7 @@ extension Deadline {
         /// The queue ID for the list of sessions
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -6570,6 +6745,7 @@ extension Deadline {
         /// The sessions on the list.
         public let sessions: [SessionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, sessions: [SessionSummary]) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -6595,6 +6771,7 @@ extension Deadline {
         /// The step ID to include on the list.
         public let stepId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String, stepId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -6631,6 +6808,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(consumers: [StepConsumer], nextToken: String? = nil) {
             self.consumers = consumers
             self.nextToken = nextToken
@@ -6656,6 +6834,7 @@ extension Deadline {
         /// The step ID to include on the list.
         public let stepId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String, stepId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -6692,6 +6871,7 @@ extension Deadline {
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
+        @inlinable
         public init(dependencies: [StepDependency], nextToken: String? = nil) {
             self.dependencies = dependencies
             self.nextToken = nextToken
@@ -6715,6 +6895,7 @@ extension Deadline {
         /// The queue ID to include on the list of steps.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -6750,6 +6931,7 @@ extension Deadline {
         /// The steps on the list.
         public let steps: [StepSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, steps: [StepSummary]) {
             self.nextToken = nextToken
             self.steps = steps
@@ -6771,6 +6953,7 @@ extension Deadline {
         /// The queue ID for the storage profile.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -6803,6 +6986,7 @@ extension Deadline {
         /// The storage profiles in the queue.
         public let storageProfiles: [StorageProfileSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, storageProfiles: [StorageProfileSummary]) {
             self.nextToken = nextToken
             self.storageProfiles = storageProfiles
@@ -6822,6 +7006,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.farmId = farmId
             self.maxResults = maxResults
@@ -6851,6 +7036,7 @@ extension Deadline {
         /// The storage profiles.
         public let storageProfiles: [StorageProfileSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, storageProfiles: [StorageProfileSummary]) {
             self.nextToken = nextToken
             self.storageProfiles = storageProfiles
@@ -6866,6 +7052,7 @@ extension Deadline {
         /// The resource ARN to list tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -6883,6 +7070,7 @@ extension Deadline {
         /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -6906,6 +7094,7 @@ extension Deadline {
         /// The step ID for the tasks.
         public let stepId: String
 
+        @inlinable
         public init(farmId: String, jobId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String, stepId: String) {
             self.farmId = farmId
             self.jobId = jobId
@@ -6944,6 +7133,7 @@ extension Deadline {
         /// Tasks for the job.
         public let tasks: [TaskSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, tasks: [TaskSummary]) {
             self.nextToken = nextToken
             self.tasks = tasks
@@ -6965,6 +7155,7 @@ extension Deadline {
         /// The token for the next set of results, or null to start from the beginning.
         public let nextToken: String?
 
+        @inlinable
         public init(farmId: String, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -6997,6 +7188,7 @@ extension Deadline {
         /// The workers on the list.
         public let workers: [WorkerSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, workers: [WorkerSummary]) {
             self.nextToken = nextToken
             self.workers = workers
@@ -7018,6 +7210,7 @@ extension Deadline {
         /// The parameters for the log configuration.
         public let parameters: [String: String]?
 
+        @inlinable
         public init(error: String? = nil, logDriver: String, options: [String: String]? = nil, parameters: [String: String]? = nil) {
             self.error = error
             self.logDriver = logDriver
@@ -7047,6 +7240,7 @@ extension Deadline {
         /// The format of the root path.
         public let rootPathFormat: PathFormat
 
+        @inlinable
         public init(fileSystemLocationName: String? = nil, inputManifestHash: String? = nil, inputManifestPath: String? = nil, outputRelativeDirectories: [String]? = nil, rootPath: String, rootPathFormat: PathFormat) {
             self.fileSystemLocationName = fileSystemLocationName
             self.inputManifestHash = inputManifestHash
@@ -7079,6 +7273,7 @@ extension Deadline {
         /// The minimum amount of memory (in MiB).
         public let min: Int
 
+        @inlinable
         public init(max: Int? = nil, min: Int) {
             self.max = max
             self.min = min
@@ -7107,6 +7302,7 @@ extension Deadline {
         /// The vendor.
         public let vendor: String
 
+        @inlinable
         public init(family: String, port: Int, productId: String, vendor: String) {
             self.family = family
             self.port = port
@@ -7148,6 +7344,7 @@ extension Deadline {
         /// The complete URL of the monitor. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let url: String
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, displayName: String, identityCenterApplicationArn: String, identityCenterInstanceArn: String, monitorId: String, roleArn: String, subdomain: String, updatedAt: Date? = nil, updatedBy: String? = nil, url: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7185,6 +7382,7 @@ extension Deadline {
         /// The parameter's value.
         public let value: String
 
+        @inlinable
         public init(name: String, operator: ComparisonOperator, value: String) {
             self.name = name
             self.`operator` = `operator`
@@ -7209,6 +7407,7 @@ extension Deadline {
         /// The sort order for the parameter.
         public let sortOrder: SortOrder
 
+        @inlinable
         public init(name: String, sortOrder: SortOrder) {
             self.name = name
             self.sortOrder = sortOrder
@@ -7226,6 +7425,7 @@ extension Deadline {
         /// The parameters to search for.
         public let parameters: [StepParameter]
 
+        @inlinable
         public init(combination: String? = nil, parameters: [StepParameter]) {
             self.combination = combination
             self.parameters = parameters
@@ -7245,6 +7445,7 @@ extension Deadline {
         /// The source path format.
         public let sourcePathFormat: PathFormat
 
+        @inlinable
         public init(destinationPath: String, sourcePath: String, sourcePathFormat: PathFormat) {
             self.destinationPath = destinationPath
             self.sourcePath = sourcePath
@@ -7264,6 +7465,7 @@ extension Deadline {
         /// The name of the POSIX user.
         public let user: String
 
+        @inlinable
         public init(group: String, user: String) {
             self.group = group
             self.user = user
@@ -7281,6 +7483,7 @@ extension Deadline {
         /// The product ID to add to the metered product.
         public let productId: String
 
+        @inlinable
         public init(licenseEndpointId: String, productId: String) {
             self.licenseEndpointId = licenseEndpointId
             self.productId = productId
@@ -7313,6 +7516,7 @@ extension Deadline {
         /// The queue environment ID.
         public let queueEnvironmentId: String
 
+        @inlinable
         public init(name: String, priority: Int, queueEnvironmentId: String) {
             self.name = name
             self.priority = priority
@@ -7344,6 +7548,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, fleetId: String, queueId: String, status: QueueFleetAssociationStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7379,6 +7584,7 @@ extension Deadline {
         /// The queue ID.
         public let queueId: String
 
+        @inlinable
         public init(farmId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
             self.farmId = farmId
             self.identityStoreId = identityStoreId
@@ -7422,6 +7628,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(blockedReason: QueueBlockedReason? = nil, createdAt: Date, createdBy: String, defaultBudgetAction: DefaultQueueBudgetAction, displayName: String, farmId: String, queueId: String, status: QueueStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.blockedReason = blockedReason
             self.createdAt = createdAt
@@ -7457,6 +7664,7 @@ extension Deadline {
         /// The action taken on the budget once scheduling stops.
         public let type: BudgetActionType
 
+        @inlinable
         public init(description: String? = nil, thresholdPercentage: Float, type: BudgetActionType) {
             self.description = description
             self.thresholdPercentage = thresholdPercentage
@@ -7476,6 +7684,7 @@ extension Deadline {
         /// The Amazon S3 object key that uniquely identifies the Amazon S3 bucket.
         public let key: String
 
+        @inlinable
         public init(bucketName: String, key: String) {
             self.bucketName = bucketName
             self.key = key
@@ -7500,6 +7709,7 @@ extension Deadline {
         /// The operators to include in the search.
         public let `operator`: LogicalOperator
 
+        @inlinable
         public init(filters: [SearchFilterExpression], operator: LogicalOperator) {
             self.filters = filters
             self.`operator` = `operator`
@@ -7535,6 +7745,7 @@ extension Deadline {
         /// The search terms for a resource.
         public let sortExpressions: [SearchSortExpression]?
 
+        @inlinable
         public init(farmId: String, filterExpressions: SearchGroupedFilterExpressions? = nil, itemOffset: Int, pageSize: Int? = nil, queueIds: [String], sortExpressions: [SearchSortExpression]? = nil) {
             self.farmId = farmId
             self.filterExpressions = filterExpressions
@@ -7583,6 +7794,7 @@ extension Deadline {
         /// The total number of results in the search.
         public let totalResults: Int
 
+        @inlinable
         public init(jobs: [JobSearchSummary], nextItemOffset: Int? = nil, totalResults: Int) {
             self.jobs = jobs
             self.nextItemOffset = nextItemOffset
@@ -7614,6 +7826,7 @@ extension Deadline {
         /// The search terms for a resource.
         public let sortExpressions: [SearchSortExpression]?
 
+        @inlinable
         public init(farmId: String, filterExpressions: SearchGroupedFilterExpressions? = nil, itemOffset: Int, jobId: String? = nil, pageSize: Int? = nil, queueIds: [String], sortExpressions: [SearchSortExpression]? = nil) {
             self.farmId = farmId
             self.filterExpressions = filterExpressions
@@ -7666,6 +7879,7 @@ extension Deadline {
         /// The total number of results in the search.
         public let totalResults: Int
 
+        @inlinable
         public init(nextItemOffset: Int? = nil, steps: [StepSearchSummary], totalResults: Int) {
             self.nextItemOffset = nextItemOffset
             self.steps = steps
@@ -7697,6 +7911,7 @@ extension Deadline {
         /// The search terms for a resource.
         public let sortExpressions: [SearchSortExpression]?
 
+        @inlinable
         public init(farmId: String, filterExpressions: SearchGroupedFilterExpressions? = nil, itemOffset: Int, jobId: String? = nil, pageSize: Int? = nil, queueIds: [String], sortExpressions: [SearchSortExpression]? = nil) {
             self.farmId = farmId
             self.filterExpressions = filterExpressions
@@ -7749,6 +7964,7 @@ extension Deadline {
         /// The total number of results in the search.
         public let totalResults: Int
 
+        @inlinable
         public init(nextItemOffset: Int? = nil, tasks: [TaskSearchSummary], totalResults: Int) {
             self.nextItemOffset = nextItemOffset
             self.tasks = tasks
@@ -7766,6 +7982,7 @@ extension Deadline {
         /// The term to search for.
         public let searchTerm: String
 
+        @inlinable
         public init(searchTerm: String) {
             self.searchTerm = searchTerm
         }
@@ -7796,6 +8013,7 @@ extension Deadline {
         /// The search terms for a resource.
         public let sortExpressions: [SearchSortExpression]?
 
+        @inlinable
         public init(farmId: String, filterExpressions: SearchGroupedFilterExpressions? = nil, fleetIds: [String], itemOffset: Int, pageSize: Int? = nil, sortExpressions: [SearchSortExpression]? = nil) {
             self.farmId = farmId
             self.filterExpressions = filterExpressions
@@ -7844,6 +8062,7 @@ extension Deadline {
         /// The workers for the search.
         public let workers: [WorkerSearchSummary]
 
+        @inlinable
         public init(nextItemOffset: Int? = nil, totalResults: Int, workers: [WorkerSearchSummary]) {
             self.nextItemOffset = nextItemOffset
             self.totalResults = totalResults
@@ -7863,6 +8082,7 @@ extension Deadline {
         /// The Amazon EC2 market type.
         public let instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions
 
+        @inlinable
         public init(instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
@@ -7898,6 +8118,7 @@ extension Deadline {
         /// The amount of vCPU to require for instances in this fleet.
         public let vCpuCount: VCpuCountRange
 
+        @inlinable
         public init(allowedInstanceTypes: [String]? = nil, cpuArchitectureType: CpuArchitectureType, customAmounts: [FleetAmountCapability]? = nil, customAttributes: [FleetAttributeCapability]? = nil, excludedInstanceTypes: [String]? = nil, memoryMiB: MemoryMiBRange, osFamily: ServiceManagedFleetOperatingSystemFamily, rootEbsVolume: Ec2EbsVolume? = nil, vCpuCount: VCpuCountRange) {
             self.allowedInstanceTypes = allowedInstanceTypes
             self.cpuArchitectureType = cpuArchitectureType
@@ -7953,6 +8174,7 @@ extension Deadline {
         /// The Amazon EC2 instance type.
         public let type: Ec2MarketType
 
+        @inlinable
         public init(type: Ec2MarketType) {
             self.type = type
         }
@@ -7981,6 +8203,7 @@ extension Deadline {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var workerUpdatedAt: Date?
 
+        @inlinable
         public init(definition: SessionActionDefinitionSummary, endedAt: Date? = nil, progressPercent: Float? = nil, sessionActionId: String, startedAt: Date? = nil, status: SessionActionStatus, workerUpdatedAt: Date? = nil) {
             self.definition = definition
             self.endedAt = endedAt
@@ -8025,6 +8248,7 @@ extension Deadline {
         /// The worker ID.
         public let workerId: String
 
+        @inlinable
         public init(endedAt: Date? = nil, fleetId: String, lifecycleStatus: SessionLifecycleStatus, sessionId: String, startedAt: Date, targetLifecycleStatus: SessionLifecycleTargetStatus? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String) {
             self.endedAt = endedAt
             self.fleetId = fleetId
@@ -8070,6 +8294,7 @@ extension Deadline {
         /// The timezone to use for the statistics. Use UTC notation such as "UTC+8."
         public let timezone: String?
 
+        @inlinable
         public init(endTime: Date, farmId: String, groupBy: [UsageGroupByField], period: Period? = nil, resourceIds: SessionsStatisticsResources, startTime: Date, statistics: [UsageStatistic], timezone: String? = nil) {
             self.endTime = endTime
             self.farmId = farmId
@@ -8121,6 +8346,7 @@ extension Deadline {
         /// A unique identifier for the aggregated statistics. Use this identifier with the GetAggregatedStatisticsForSessions operation to return the statistics.
         public let aggregationId: String
 
+        @inlinable
         public init(aggregationId: String) {
             self.aggregationId = aggregationId
         }
@@ -8160,6 +8386,7 @@ extension Deadline {
         /// The user ID.
         public let userId: String?
 
+        @inlinable
         public init(aggregationEndTime: Date? = nil, aggregationStartTime: Date? = nil, costInUsd: Stats, count: Int, fleetId: String? = nil, instanceType: String? = nil, jobId: String? = nil, jobName: String? = nil, licenseProduct: String? = nil, queueId: String? = nil, runtimeInSeconds: Stats, usageType: UsageType? = nil, userId: String? = nil) {
             self.aggregationEndTime = aggregationEndTime
             self.aggregationStartTime = aggregationStartTime
@@ -8203,6 +8430,7 @@ extension Deadline {
         /// The sum of the usage statistics.
         public let sum: Double?
 
+        @inlinable
         public init(avg: Double? = nil, max: Double? = nil, min: Double? = nil, sum: Double? = nil) {
             self.avg = avg
             self.max = max
@@ -8228,6 +8456,7 @@ extension Deadline {
         /// The amount value.
         public let value: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil, name: String, value: Double? = nil) {
             self.max = max
             self.min = min
@@ -8251,6 +8480,7 @@ extension Deadline {
         /// The name of the step attribute.
         public let name: String
 
+        @inlinable
         public init(allOf: [String]? = nil, anyOf: [String]? = nil, name: String) {
             self.allOf = allOf
             self.anyOf = anyOf
@@ -8270,6 +8500,7 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
 
+        @inlinable
         public init(status: DependencyConsumerResolutionStatus, stepId: String) {
             self.status = status
             self.stepId = stepId
@@ -8287,6 +8518,7 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
 
+        @inlinable
         public init(status: DependencyConsumerResolutionStatus, stepId: String) {
             self.status = status
             self.stepId = stepId
@@ -8310,6 +8542,7 @@ extension Deadline {
         /// The template for a step.
         public let template: String
 
+        @inlinable
         public init(dependencies: [String], jobId: String, schemaVersion: String, stepId: String, template: String) {
             self.dependencies = dependencies
             self.jobId = jobId
@@ -8337,6 +8570,7 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
 
+        @inlinable
         public init(code: JobEntityErrorCode, jobId: String, message: String, stepId: String) {
             self.code = code
             self.jobId = jobId
@@ -8358,6 +8592,7 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
 
+        @inlinable
         public init(jobId: String, stepId: String) {
             self.jobId = jobId
             self.stepId = stepId
@@ -8380,6 +8615,7 @@ extension Deadline {
         /// The data type of the parameter.
         public let type: StepParameterType
 
+        @inlinable
         public init(name: String, type: StepParameterType) {
             self.name = name
             self.type = type
@@ -8397,6 +8633,7 @@ extension Deadline {
         /// The capability attributes that the step requires.
         public let attributes: [StepAttributeCapability]
 
+        @inlinable
         public init(amounts: [StepAmountCapability], attributes: [StepAttributeCapability]) {
             self.amounts = amounts
             self.attributes = attributes
@@ -8439,6 +8676,7 @@ extension Deadline {
         /// The number of tasks running on the job.
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
 
+        @inlinable
         public init(createdAt: Date? = nil, endedAt: Date? = nil, jobId: String? = nil, lifecycleStatus: StepLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, name: String? = nil, parameterSpace: ParameterSpace? = nil, queueId: String? = nil, startedAt: Date? = nil, stepId: String? = nil, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
             self.createdAt = createdAt
             self.endedAt = endedAt
@@ -8506,6 +8744,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, endedAt: Date? = nil, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8549,6 +8788,7 @@ extension Deadline {
         /// The storage profile ID.
         public let storageProfileId: String
 
+        @inlinable
         public init(displayName: String, osFamily: StorageProfileOperatingSystemFamily, storageProfileId: String) {
             self.displayName = displayName
             self.osFamily = osFamily
@@ -8570,6 +8810,7 @@ extension Deadline {
         /// The string to search for.
         public let value: String
 
+        @inlinable
         public init(name: String, operator: ComparisonOperator, value: String) {
             self.name = name
             self.`operator` = `operator`
@@ -8592,6 +8833,7 @@ extension Deadline {
         /// The step ID for the step in the job attachment.
         public let stepId: String?
 
+        @inlinable
         public init(stepId: String? = nil) {
             self.stepId = stepId
         }
@@ -8605,6 +8847,7 @@ extension Deadline {
         /// The step ID of the step in the job attachment.
         public let stepId: String?
 
+        @inlinable
         public init(stepId: String? = nil) {
             self.stepId = stepId
         }
@@ -8620,6 +8863,7 @@ extension Deadline {
         /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -8649,6 +8893,7 @@ extension Deadline {
         /// The task ID.
         public let taskId: String
 
+        @inlinable
         public init(parameters: [String: TaskParameterValue], stepId: String, taskId: String) {
             self.parameters = parameters
             self.stepId = stepId
@@ -8668,6 +8913,7 @@ extension Deadline {
         /// The task ID.
         public let taskId: String
 
+        @inlinable
         public init(stepId: String, taskId: String) {
             self.stepId = stepId
             self.taskId = taskId
@@ -8703,6 +8949,7 @@ extension Deadline {
         /// The task ID.
         public let taskId: String?
 
+        @inlinable
         public init(endedAt: Date? = nil, failureRetryCount: Int? = nil, jobId: String? = nil, parameters: [String: TaskParameterValue]? = nil, queueId: String? = nil, runStatus: TaskRunStatus? = nil, startedAt: Date? = nil, stepId: String? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String? = nil) {
             self.endedAt = endedAt
             self.failureRetryCount = failureRetryCount
@@ -8760,6 +9007,7 @@ extension Deadline {
         /// The user or system that updated this resource.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, failureRetryCount: Int? = nil, latestSessionActionId: String? = nil, parameters: [String: TaskParameterValue]? = nil, runStatus: TaskRunStatus, startedAt: Date? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8797,6 +9045,7 @@ extension Deadline {
         /// They keys of the tag.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -8838,6 +9087,7 @@ extension Deadline {
         /// Updates the status of the budget.    ACTIVE–The budget is being evaluated.    INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
         public let status: BudgetStatus?
 
+        @inlinable
         public init(actionsToAdd: [BudgetActionToAdd]? = nil, actionsToRemove: [BudgetActionToRemove]? = nil, approximateDollarLimit: Float? = nil, budgetId: String, clientToken: String? = UpdateBudgetRequest.idempotencyToken(), description: String? = nil, displayName: String? = nil, farmId: String, schedule: BudgetSchedule? = nil, status: BudgetStatus? = nil) {
             self.actionsToAdd = actionsToAdd
             self.actionsToRemove = actionsToRemove
@@ -8908,6 +9158,7 @@ extension Deadline {
         /// The farm ID to update.
         public let farmId: String
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, farmId: String) {
             self.description = description
             self.displayName = displayName
@@ -8959,6 +9210,7 @@ extension Deadline {
         /// The IAM role ARN that the fleet's workers assume while running jobs.
         public let roleArn: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateFleetRequest.idempotencyToken(), configuration: FleetConfiguration? = nil, description: String? = nil, displayName: String? = nil, farmId: String, fleetId: String, maxWorkerCount: Int? = nil, minWorkerCount: Int? = nil, roleArn: String? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -9035,6 +9287,7 @@ extension Deadline {
         /// The task status to update the job's tasks to.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
 
+        @inlinable
         public init(clientToken: String? = UpdateJobRequest.idempotencyToken(), farmId: String, jobId: String, lifecycleStatus: UpdateJobLifecycleStatus? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, priority: Int? = nil, queueId: String, targetTaskRunStatus: JobTargetTaskRunStatus? = nil) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -9098,6 +9351,7 @@ extension Deadline {
         /// The new value of the subdomain to use when forming the monitor URL.
         public let subdomain: String?
 
+        @inlinable
         public init(displayName: String? = nil, monitorId: String, roleArn: String? = nil, subdomain: String? = nil) {
             self.displayName = displayName
             self.monitorId = monitorId
@@ -9149,6 +9403,7 @@ extension Deadline {
         /// The template type to update.
         public let templateType: EnvironmentTemplateType?
 
+        @inlinable
         public init(clientToken: String? = UpdateQueueEnvironmentRequest.idempotencyToken(), farmId: String, priority: Int? = nil, queueEnvironmentId: String, queueId: String, template: String? = nil, templateType: EnvironmentTemplateType? = nil) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -9204,6 +9459,7 @@ extension Deadline {
         /// The status to update.
         public let status: UpdateQueueFleetAssociationStatus
 
+        @inlinable
         public init(farmId: String, fleetId: String, queueId: String, status: UpdateQueueFleetAssociationStatus) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -9263,6 +9519,7 @@ extension Deadline {
         /// The IAM role ARN that's used to run jobs from this queue.
         public let roleArn: String?
 
+        @inlinable
         public init(allowedStorageProfileIdsToAdd: [String]? = nil, allowedStorageProfileIdsToRemove: [String]? = nil, clientToken: String? = UpdateQueueRequest.idempotencyToken(), defaultBudgetAction: DefaultQueueBudgetAction? = nil, description: String? = nil, displayName: String? = nil, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, queueId: String, requiredFileSystemLocationNamesToAdd: [String]? = nil, requiredFileSystemLocationNamesToRemove: [String]? = nil, roleArn: String? = nil) {
             self.allowedStorageProfileIdsToAdd = allowedStorageProfileIdsToAdd
             self.allowedStorageProfileIdsToRemove = allowedStorageProfileIdsToRemove
@@ -9361,6 +9618,7 @@ extension Deadline {
         /// The life cycle status to update in the session.
         public let targetLifecycleStatus: SessionLifecycleTargetStatus
 
+        @inlinable
         public init(clientToken: String? = UpdateSessionRequest.idempotencyToken(), farmId: String, jobId: String, queueId: String, sessionId: String, targetLifecycleStatus: SessionLifecycleTargetStatus) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -9413,6 +9671,7 @@ extension Deadline {
         /// The task status to update the step's tasks to.
         public let targetTaskRunStatus: StepTargetTaskRunStatus
 
+        @inlinable
         public init(clientToken: String? = UpdateStepRequest.idempotencyToken(), farmId: String, jobId: String, queueId: String, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -9467,6 +9726,7 @@ extension Deadline {
         /// The storage profile ID to update.
         public let storageProfileId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateStorageProfileRequest.idempotencyToken(), displayName: String? = nil, farmId: String, fileSystemLocationsToAdd: [FileSystemLocation]? = nil, fileSystemLocationsToRemove: [FileSystemLocation]? = nil, osFamily: StorageProfileOperatingSystemFamily? = nil, storageProfileId: String) {
             self.clientToken = clientToken
             self.displayName = displayName
@@ -9534,6 +9794,7 @@ extension Deadline {
         /// The task ID to update.
         public let taskId: String
 
+        @inlinable
         public init(clientToken: String? = UpdateTaskRequest.idempotencyToken(), farmId: String, jobId: String, queueId: String, stepId: String, targetRunStatus: TaskTargetRunStatus, taskId: String) {
             self.clientToken = clientToken
             self.farmId = farmId
@@ -9589,6 +9850,7 @@ extension Deadline {
         /// The worker ID to update.
         public let workerId: String
 
+        @inlinable
         public init(capabilities: WorkerCapabilities? = nil, farmId: String, fleetId: String, hostProperties: HostPropertiesRequest? = nil, status: UpdatedWorkerStatus? = nil, workerId: String) {
             self.capabilities = capabilities
             self.farmId = farmId
@@ -9628,6 +9890,7 @@ extension Deadline {
         /// The worker log to update.
         public let log: LogConfiguration?
 
+        @inlinable
         public init(log: LogConfiguration? = nil) {
             self.log = log
         }
@@ -9647,6 +9910,7 @@ extension Deadline {
         /// The worker ID to update.
         public let workerId: String
 
+        @inlinable
         public init(farmId: String, fleetId: String, updatedSessionActions: [String: UpdatedSessionActionInfo]? = nil, workerId: String) {
             self.farmId = farmId
             self.fleetId = fleetId
@@ -9688,6 +9952,7 @@ extension Deadline {
         /// Updates the time interval (in seconds) for the schedule.
         public let updateIntervalSeconds: Int
 
+        @inlinable
         public init(assignedSessions: [String: AssignedSession], cancelSessionActions: [String: [String]], desiredWorkerStatus: DesiredWorkerStatus? = nil, updateIntervalSeconds: Int) {
             self.assignedSessions = assignedSessions
             self.cancelSessionActions = cancelSessionActions
@@ -9722,6 +9987,7 @@ extension Deadline {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(completedStatus: CompletedStatus? = nil, endedAt: Date? = nil, processExitCode: Int? = nil, progressMessage: String? = nil, progressPercent: Float? = nil, startedAt: Date? = nil, updatedAt: Date? = nil) {
             self.completedStatus = completedStatus
             self.endedAt = endedAt
@@ -9755,6 +10021,7 @@ extension Deadline {
         /// The user's ID.
         public let userIdentityId: String
 
+        @inlinable
         public init(userIdentityId: String) {
             self.userIdentityId = userIdentityId
         }
@@ -9770,6 +10037,7 @@ extension Deadline {
         /// The minimum amount of vCPU.
         public let min: Int
 
+        @inlinable
         public init(max: Int? = nil, min: Int) {
             self.max = max
             self.min = min
@@ -9794,6 +10062,7 @@ extension Deadline {
         /// The user.
         public let user: String
 
+        @inlinable
         public init(passwordArn: String, user: String) {
             self.passwordArn = passwordArn
             self.user = user
@@ -9811,6 +10080,7 @@ extension Deadline {
         /// The value of the worker amount capability.
         public let value: Float
 
+        @inlinable
         public init(name: String, value: Float) {
             self.name = name
             self.value = value
@@ -9834,6 +10104,7 @@ extension Deadline {
         /// The values of the worker amount capability.
         public let values: [String]
 
+        @inlinable
         public init(name: String, values: [String]) {
             self.name = name
             self.values = values
@@ -9864,6 +10135,7 @@ extension Deadline {
         /// The worker attribute capabilities in the list of attribute capabilities.
         public let attributes: [WorkerAttributeCapability]
 
+        @inlinable
         public init(amounts: [WorkerAmountCapability], attributes: [WorkerAttributeCapability]) {
             self.amounts = amounts
             self.attributes = attributes
@@ -9908,6 +10180,7 @@ extension Deadline {
         /// The worker ID.
         public let workerId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, fleetId: String? = nil, hostProperties: HostPropertiesResponse? = nil, status: WorkerStatus? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9949,6 +10222,7 @@ extension Deadline {
         /// The life cycle status
         public let targetLifecycleStatus: SessionLifecycleTargetStatus?
 
+        @inlinable
         public init(endedAt: Date? = nil, jobId: String, lifecycleStatus: SessionLifecycleStatus, queueId: String, sessionId: String, startedAt: Date, targetLifecycleStatus: SessionLifecycleTargetStatus? = nil) {
             self.endedAt = endedAt
             self.jobId = jobId
@@ -9994,6 +10268,7 @@ extension Deadline {
         /// The worker ID.
         public let workerId: String
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, farmId: String, fleetId: String, hostProperties: HostPropertiesResponse? = nil, log: LogConfiguration? = nil, status: WorkerStatus, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -10025,6 +10300,7 @@ extension Deadline {
         /// The fixed start and end time of the budget's schedule.
         public let fixed: FixedBudgetSchedule?
 
+        @inlinable
         public init(fixed: FixedBudgetSchedule? = nil) {
             self.fixed = fixed
         }
@@ -10038,6 +10314,7 @@ extension Deadline {
         /// The queue ID.
         public let queueId: String?
 
+        @inlinable
         public init(queueId: String? = nil) {
             self.queueId = queueId
         }

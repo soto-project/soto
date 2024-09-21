@@ -152,6 +152,7 @@ extension CodeCommit {
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String?
 
+        @inlinable
         public init(approvalState: ApprovalState? = nil, userArn: String? = nil) {
             self.approvalState = approvalState
             self.userArn = userArn
@@ -181,6 +182,7 @@ extension CodeCommit {
         /// The SHA-256 hash signature for the content of the approval rule.
         public let ruleContentSha256: String?
 
+        @inlinable
         public init(approvalRuleContent: String? = nil, approvalRuleId: String? = nil, approvalRuleName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, lastModifiedUser: String? = nil, originApprovalRuleTemplate: OriginApprovalRuleTemplate? = nil, ruleContentSha256: String? = nil) {
             self.approvalRuleContent = approvalRuleContent
             self.approvalRuleId = approvalRuleId
@@ -212,6 +214,7 @@ extension CodeCommit {
         /// The name of the approval rule.
         public let approvalRuleName: String?
 
+        @inlinable
         public init(approvalRuleContent: String? = nil, approvalRuleId: String? = nil, approvalRuleName: String? = nil) {
             self.approvalRuleContent = approvalRuleContent
             self.approvalRuleId = approvalRuleId
@@ -231,6 +234,7 @@ extension CodeCommit {
         /// The revision ID of the pull request when the override event occurred.
         public let revisionId: String?
 
+        @inlinable
         public init(overrideStatus: OverrideStatus? = nil, revisionId: String? = nil) {
             self.overrideStatus = overrideStatus
             self.revisionId = revisionId
@@ -260,6 +264,7 @@ extension CodeCommit {
         /// The SHA-256 hash signature for the content of the approval rule template.
         public let ruleContentSha256: String?
 
+        @inlinable
         public init(approvalRuleTemplateContent: String? = nil, approvalRuleTemplateDescription: String? = nil, approvalRuleTemplateId: String? = nil, approvalRuleTemplateName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, lastModifiedUser: String? = nil, ruleContentSha256: String? = nil) {
             self.approvalRuleTemplateContent = approvalRuleTemplateContent
             self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
@@ -289,6 +294,7 @@ extension CodeCommit {
         /// The revision ID of the pull request when the approval state changed.
         public let revisionId: String?
 
+        @inlinable
         public init(approvalStatus: ApprovalState? = nil, revisionId: String? = nil) {
             self.approvalStatus = approvalStatus
             self.revisionId = revisionId
@@ -306,6 +312,7 @@ extension CodeCommit {
         /// The name of the repository that you want to associate with the template.
         public let repositoryName: String
 
+        @inlinable
         public init(approvalRuleTemplateName: String, repositoryName: String) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
             self.repositoryName = repositoryName
@@ -333,6 +340,7 @@ extension CodeCommit {
         /// The name of the repository where the association was not made.
         public let repositoryName: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, repositoryName: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -352,6 +360,7 @@ extension CodeCommit {
         /// The names of the repositories you want to associate with the template.  The length constraint limit is for each string in the array. The array itself can be empty.
         public let repositoryNames: [String]
 
+        @inlinable
         public init(approvalRuleTemplateName: String, repositoryNames: [String]) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
             self.repositoryNames = repositoryNames
@@ -379,6 +388,7 @@ extension CodeCommit {
         /// A list of any errors that might have occurred while attempting to create the association between the template and the repositories.
         public let errors: [BatchAssociateApprovalRuleTemplateWithRepositoriesError]
 
+        @inlinable
         public init(associatedRepositoryNames: [String], errors: [BatchAssociateApprovalRuleTemplateWithRepositoriesError]) {
             self.associatedRepositoryNames = associatedRepositoryNames
             self.errors = errors
@@ -398,6 +408,7 @@ extension CodeCommit {
         /// The message provided by the exception.
         public let message: String
 
+        @inlinable
         public init(exceptionName: String, filePath: String, message: String) {
             self.exceptionName = exceptionName
             self.filePath = filePath
@@ -433,6 +444,7 @@ extension CodeCommit {
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let sourceCommitSpecifier: String
 
+        @inlinable
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, filePaths: [String]? = nil, maxConflictFiles: Int? = nil, maxMergeHunks: Int? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -480,6 +492,7 @@ extension CodeCommit {
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
 
+        @inlinable
         public init(baseCommitId: String? = nil, conflicts: [Conflict], destinationCommitId: String, errors: [BatchDescribeMergeConflictsError]? = nil, nextToken: String? = nil, sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.conflicts = conflicts
@@ -507,6 +520,7 @@ extension CodeCommit {
         /// The name of the repository where the association with the template was not able to be removed.
         public let repositoryName: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, repositoryName: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -526,6 +540,7 @@ extension CodeCommit {
         /// The repository names that you want to disassociate from the approval rule template.  The length constraint limit is for each string in the array. The array itself can be empty.
         public let repositoryNames: [String]
 
+        @inlinable
         public init(approvalRuleTemplateName: String, repositoryNames: [String]) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
             self.repositoryNames = repositoryNames
@@ -553,6 +568,7 @@ extension CodeCommit {
         /// A list of any errors that might have occurred while attempting to remove the association between the template and the repositories.
         public let errors: [BatchDisassociateApprovalRuleTemplateFromRepositoriesError]
 
+        @inlinable
         public init(disassociatedRepositoryNames: [String], errors: [BatchDisassociateApprovalRuleTemplateFromRepositoriesError]) {
             self.disassociatedRepositoryNames = disassociatedRepositoryNames
             self.errors = errors
@@ -572,6 +588,7 @@ extension CodeCommit {
         /// An error message that provides detail about why the commit ID either was not found or was not valid.
         public let errorMessage: String?
 
+        @inlinable
         public init(commitId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
             self.commitId = commitId
             self.errorCode = errorCode
@@ -591,6 +608,7 @@ extension CodeCommit {
         /// The name of the repository that contains the commits.
         public let repositoryName: String
 
+        @inlinable
         public init(commitIds: [String], repositoryName: String) {
             self.commitIds = commitIds
             self.repositoryName = repositoryName
@@ -614,6 +632,7 @@ extension CodeCommit {
         /// Returns any commit IDs for which information could not be found. For example, if one of the commit IDs was a shortened SHA ID or that commit was not found in the specified repository, the ID returns an error object with more information.
         public let errors: [BatchGetCommitsError]?
 
+        @inlinable
         public init(commits: [Commit]? = nil, errors: [BatchGetCommitsError]? = nil) {
             self.commits = commits
             self.errors = errors
@@ -635,6 +654,7 @@ extension CodeCommit {
         /// The name of a repository that either could not be found or was not in a valid state.
         public let repositoryName: String?
 
+        @inlinable
         public init(errorCode: BatchGetRepositoriesErrorCodeEnum? = nil, errorMessage: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -654,6 +674,7 @@ extension CodeCommit {
         /// The names of the repositories to get information about.  The length constraint limit is for each string in the array. The array itself can be empty.
         public let repositoryNames: [String]
 
+        @inlinable
         public init(repositoryNames: [String]) {
             self.repositoryNames = repositoryNames
         }
@@ -679,6 +700,7 @@ extension CodeCommit {
         /// Returns a list of repository names for which information could not be found.
         public let repositoriesNotFound: [String]?
 
+        @inlinable
         public init(errors: [BatchGetRepositoriesError]? = nil, repositories: [RepositoryMetadata]? = nil, repositoriesNotFound: [String]? = nil) {
             self.errors = errors
             self.repositories = repositories
@@ -700,6 +722,7 @@ extension CodeCommit {
         /// The path to the blob and associated file name, if any.
         public let path: String?
 
+        @inlinable
         public init(blobId: String? = nil, mode: String? = nil, path: String? = nil) {
             self.blobId = blobId
             self.mode = mode
@@ -719,6 +742,7 @@ extension CodeCommit {
         /// The ID of the last commit made to the branch.
         public let commitId: String?
 
+        @inlinable
         public init(branchName: String? = nil, commitId: String? = nil) {
             self.branchName = branchName
             self.commitId = commitId
@@ -752,6 +776,7 @@ extension CodeCommit {
         /// A string to integer map that represents the number of individual users who have responded to a comment with the specified reactions.
         public let reactionCounts: [String: Int]?
 
+        @inlinable
         public init(authorArn: String? = nil, callerReactions: [String]? = nil, clientRequestToken: String? = nil, commentId: String? = nil, content: String? = nil, creationDate: Date? = nil, deleted: Bool? = nil, inReplyTo: String? = nil, lastModifiedDate: Date? = nil, reactionCounts: [String: Int]? = nil) {
             self.authorArn = authorArn
             self.callerReactions = callerReactions
@@ -795,6 +820,7 @@ extension CodeCommit {
         /// The name of the repository that contains the compared commits.
         public let repositoryName: String?
 
+        @inlinable
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -834,6 +860,7 @@ extension CodeCommit {
         /// The name of the repository that contains the pull request.
         public let repositoryName: String?
 
+        @inlinable
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comments: [Comment]? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -873,6 +900,7 @@ extension CodeCommit {
         /// Tree information for the specified commit.
         public let treeId: String?
 
+        @inlinable
         public init(additionalData: String? = nil, author: UserInfo? = nil, commitId: String? = nil, committer: UserInfo? = nil, message: String? = nil, parents: [String]? = nil, treeId: String? = nil) {
             self.additionalData = additionalData
             self.author = author
@@ -900,6 +928,7 @@ extension CodeCommit {
         /// A list of hunks that contain the differences between files or lines causing the conflict.
         public let mergeHunks: [MergeHunk]?
 
+        @inlinable
         public init(conflictMetadata: ConflictMetadata? = nil, mergeHunks: [MergeHunk]? = nil) {
             self.conflictMetadata = conflictMetadata
             self.mergeHunks = mergeHunks
@@ -933,6 +962,7 @@ extension CodeCommit {
         /// Information about any object type conflicts in a merge operation.
         public let objectTypes: ObjectTypes?
 
+        @inlinable
         public init(contentConflict: Bool? = nil, fileModeConflict: Bool? = nil, fileModes: FileModes? = nil, filePath: String? = nil, fileSizes: FileSizes? = nil, isBinaryFile: IsBinaryFile? = nil, mergeOperations: MergeOperations? = nil, numberOfConflicts: Int? = nil, objectTypeConflict: Bool? = nil, objectTypes: ObjectTypes? = nil) {
             self.contentConflict = contentConflict
             self.fileModeConflict = fileModeConflict
@@ -968,6 +998,7 @@ extension CodeCommit {
         /// File modes that are set as part of the merge conflict resolution.
         public let setFileModes: [SetFileModeEntry]?
 
+        @inlinable
         public init(deleteFiles: [DeleteFileEntry]? = nil, replaceContents: [ReplaceContentEntry]? = nil, setFileModes: [SetFileModeEntry]? = nil) {
             self.deleteFiles = deleteFiles
             self.replaceContents = replaceContents
@@ -995,6 +1026,7 @@ extension CodeCommit {
         /// The name of the approval rule template. Provide descriptive names, because this name is applied to the approval rules created automatically in associated repositories.
         public let approvalRuleTemplateName: String
 
+        @inlinable
         public init(approvalRuleTemplateContent: String, approvalRuleTemplateDescription: String? = nil, approvalRuleTemplateName: String) {
             self.approvalRuleTemplateContent = approvalRuleTemplateContent
             self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
@@ -1020,6 +1052,7 @@ extension CodeCommit {
         /// The content and structure of the created approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
+        @inlinable
         public init(approvalRuleTemplate: ApprovalRuleTemplate) {
             self.approvalRuleTemplate = approvalRuleTemplate
         }
@@ -1037,6 +1070,7 @@ extension CodeCommit {
         /// The name of the repository in which you want to create the new branch.
         public let repositoryName: String
 
+        @inlinable
         public init(branchName: String, commitId: String, repositoryName: String) {
             self.branchName = branchName
             self.commitId = commitId
@@ -1080,6 +1114,7 @@ extension CodeCommit {
         /// The file modes to update for files in this commit.
         public let setFileModes: [SetFileModeEntry]?
 
+        @inlinable
         public init(authorName: String? = nil, branchName: String, commitMessage: String? = nil, deleteFiles: [DeleteFileEntry]? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, parentCommitId: String? = nil, putFiles: [PutFileEntry]? = nil, repositoryName: String, setFileModes: [SetFileModeEntry]? = nil) {
             self.authorName = authorName
             self.branchName = branchName
@@ -1130,6 +1165,7 @@ extension CodeCommit {
         /// The full SHA-1 pointer of the tree information for the commit that contains the commited file changes.
         public let treeId: String?
 
+        @inlinable
         public init(commitId: String? = nil, filesAdded: [FileMetadata]? = nil, filesDeleted: [FileMetadata]? = nil, filesUpdated: [FileMetadata]? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.filesAdded = filesAdded
@@ -1155,6 +1191,7 @@ extension CodeCommit {
         /// The system-generated ID of the pull request for which you want to create the approval rule.
         public let pullRequestId: String
 
+        @inlinable
         public init(approvalRuleContent: String, approvalRuleName: String, pullRequestId: String) {
             self.approvalRuleContent = approvalRuleContent
             self.approvalRuleName = approvalRuleName
@@ -1179,6 +1216,7 @@ extension CodeCommit {
         /// Information about the created approval rule.
         public let approvalRule: ApprovalRule
 
+        @inlinable
         public init(approvalRule: ApprovalRule) {
             self.approvalRule = approvalRule
         }
@@ -1198,6 +1236,7 @@ extension CodeCommit {
         /// The title of the pull request. This title is used to identify the pull request to other users in the repository.
         public let title: String
 
+        @inlinable
         public init(clientRequestToken: String? = CreatePullRequestInput.idempotencyToken(), description: String? = nil, targets: [Target], title: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -1225,6 +1264,7 @@ extension CodeCommit {
         /// Information about the newly created pull request.
         public let pullRequest: PullRequest
 
+        @inlinable
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -1244,6 +1284,7 @@ extension CodeCommit {
         /// One or more tag key-value pairs to use when tagging this repository.
         public let tags: [String: String]?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, repositoryDescription: String? = nil, repositoryName: String, tags: [String: String]? = nil) {
             self.kmsKeyId = kmsKeyId
             self.repositoryDescription = repositoryDescription
@@ -1276,6 +1317,7 @@ extension CodeCommit {
         /// Information about the newly created repository.
         public let repositoryMetadata: RepositoryMetadata?
 
+        @inlinable
         public init(repositoryMetadata: RepositoryMetadata? = nil) {
             self.repositoryMetadata = repositoryMetadata
         }
@@ -1309,6 +1351,7 @@ extension CodeCommit {
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let sourceCommitSpecifier: String
 
+        @inlinable
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, mergeOption: MergeOptionTypeEnum, repositoryName: String, sourceCommitSpecifier: String) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -1351,6 +1394,7 @@ extension CodeCommit {
         /// The full SHA-1 pointer of the tree information for the commit that contains the merge results.
         public let treeId: String?
 
+        @inlinable
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -1366,6 +1410,7 @@ extension CodeCommit {
         /// The name of the approval rule template to delete.
         public let approvalRuleTemplateName: String
 
+        @inlinable
         public init(approvalRuleTemplateName: String) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
         }
@@ -1384,6 +1429,7 @@ extension CodeCommit {
         /// The system-generated ID of the deleted approval rule template. If the template has been previously deleted, the only response is a 200 OK.
         public let approvalRuleTemplateId: String
 
+        @inlinable
         public init(approvalRuleTemplateId: String) {
             self.approvalRuleTemplateId = approvalRuleTemplateId
         }
@@ -1399,6 +1445,7 @@ extension CodeCommit {
         /// The name of the repository that contains the branch to be deleted.
         public let repositoryName: String
 
+        @inlinable
         public init(branchName: String, repositoryName: String) {
             self.branchName = branchName
             self.repositoryName = repositoryName
@@ -1422,6 +1469,7 @@ extension CodeCommit {
         /// Information about the branch deleted by the operation, including the branch name and the commit ID that was the tip of the branch.
         public let deletedBranch: BranchInfo?
 
+        @inlinable
         public init(deletedBranch: BranchInfo? = nil) {
             self.deletedBranch = deletedBranch
         }
@@ -1435,6 +1483,7 @@ extension CodeCommit {
         /// The unique, system-generated ID of the comment. To get this ID, use  GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
 
+        @inlinable
         public init(commentId: String) {
             self.commentId = commentId
         }
@@ -1448,6 +1497,7 @@ extension CodeCommit {
         /// Information about the comment you just deleted.
         public let comment: Comment?
 
+        @inlinable
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -1461,6 +1511,7 @@ extension CodeCommit {
         /// The full path of the file to be deleted, including the name of the file.
         public let filePath: String
 
+        @inlinable
         public init(filePath: String) {
             self.filePath = filePath
         }
@@ -1488,6 +1539,7 @@ extension CodeCommit {
         /// The name of the repository that contains the file to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(branchName: String, commitMessage: String? = nil, email: String? = nil, filePath: String, keepEmptyFolders: Bool? = nil, name: String? = nil, parentCommitId: String, repositoryName: String) {
             self.branchName = branchName
             self.commitMessage = commitMessage
@@ -1529,6 +1581,7 @@ extension CodeCommit {
         /// The full SHA-1 pointer of the tree information for the commit that contains the delete file change.
         public let treeId: String
 
+        @inlinable
         public init(blobId: String, commitId: String, filePath: String, treeId: String) {
             self.blobId = blobId
             self.commitId = commitId
@@ -1550,6 +1603,7 @@ extension CodeCommit {
         /// The system-generated ID of the pull request that contains the approval rule you want to delete.
         public let pullRequestId: String
 
+        @inlinable
         public init(approvalRuleName: String, pullRequestId: String) {
             self.approvalRuleName = approvalRuleName
             self.pullRequestId = pullRequestId
@@ -1570,6 +1624,7 @@ extension CodeCommit {
         /// The ID of the deleted approval rule.   If the approval rule was deleted in an earlier API call, the response is 200 OK without content.
         public let approvalRuleId: String
 
+        @inlinable
         public init(approvalRuleId: String) {
             self.approvalRuleId = approvalRuleId
         }
@@ -1583,6 +1638,7 @@ extension CodeCommit {
         /// The name of the repository to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -1602,6 +1658,7 @@ extension CodeCommit {
         /// The ID of the repository that was deleted.
         public let repositoryId: String?
 
+        @inlinable
         public init(repositoryId: String? = nil) {
             self.repositoryId = repositoryId
         }
@@ -1631,6 +1688,7 @@ extension CodeCommit {
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let sourceCommitSpecifier: String
 
+        @inlinable
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, filePath: String, maxMergeHunks: Int? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -1676,6 +1734,7 @@ extension CodeCommit {
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
 
+        @inlinable
         public init(baseCommitId: String? = nil, conflictMetadata: ConflictMetadata, destinationCommitId: String, mergeHunks: [MergeHunk], nextToken: String? = nil, sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.conflictMetadata = conflictMetadata
@@ -1707,6 +1766,7 @@ extension CodeCommit {
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
 
+        @inlinable
         public init(actorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String) {
             self.actorArn = actorArn
             self.maxResults = maxResults
@@ -1730,6 +1790,7 @@ extension CodeCommit {
         /// Information about the pull request events.
         public let pullRequestEvents: [PullRequestEvent]
 
+        @inlinable
         public init(nextToken: String? = nil, pullRequestEvents: [PullRequestEvent]) {
             self.nextToken = nextToken
             self.pullRequestEvents = pullRequestEvents
@@ -1749,6 +1810,7 @@ extension CodeCommit {
         /// Whether the change type of the difference is an addition (A), deletion (D), or modification (M).
         public let changeType: ChangeTypeEnum?
 
+        @inlinable
         public init(afterBlob: BlobMetadata? = nil, beforeBlob: BlobMetadata? = nil, changeType: ChangeTypeEnum? = nil) {
             self.afterBlob = afterBlob
             self.beforeBlob = beforeBlob
@@ -1768,6 +1830,7 @@ extension CodeCommit {
         /// The name of the repository you want to disassociate from the template.
         public let repositoryName: String
 
+        @inlinable
         public init(approvalRuleTemplateName: String, repositoryName: String) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
             self.repositoryName = repositoryName
@@ -1793,6 +1856,7 @@ extension CodeCommit {
         /// The system-generated ID for the pull request revision. To retrieve the most recent revision ID for a pull request, use GetPullRequest.
         public let revisionId: String
 
+        @inlinable
         public init(pullRequestId: String, revisionId: String) {
             self.pullRequestId = pullRequestId
             self.revisionId = revisionId
@@ -1808,6 +1872,7 @@ extension CodeCommit {
         /// The result of the evaluation, including the names of the rules whose conditions have been met (if any), the names of the rules whose conditions have  not been met (if any), whether the pull request is in the approved state, and whether the pull request approval rule has been set aside by an override.
         public let evaluation: Evaluation
 
+        @inlinable
         public init(evaluation: Evaluation) {
             self.evaluation = evaluation
         }
@@ -1827,6 +1892,7 @@ extension CodeCommit {
         /// Whether the approval rule requirements for the pull request have been overridden and no longer need to be met.
         public let overridden: Bool?
 
+        @inlinable
         public init(approvalRulesNotSatisfied: [String]? = nil, approvalRulesSatisfied: [String]? = nil, approved: Bool? = nil, overridden: Bool? = nil) {
             self.approvalRulesNotSatisfied = approvalRulesNotSatisfied
             self.approvalRulesSatisfied = approvalRulesSatisfied
@@ -1852,6 +1918,7 @@ extension CodeCommit {
         /// The relative path of the file from the folder where the query originated.
         public let relativePath: String?
 
+        @inlinable
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
             self.absolutePath = absolutePath
             self.blobId = blobId
@@ -1875,6 +1942,7 @@ extension CodeCommit {
         /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
         public let fileMode: FileModeTypeEnum?
 
+        @inlinable
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil) {
             self.absolutePath = absolutePath
             self.blobId = blobId
@@ -1896,6 +1964,7 @@ extension CodeCommit {
         /// The file mode of a file in the source of a merge or pull request.
         public let source: FileModeTypeEnum?
 
+        @inlinable
         public init(base: FileModeTypeEnum? = nil, destination: FileModeTypeEnum? = nil, source: FileModeTypeEnum? = nil) {
             self.base = base
             self.destination = destination
@@ -1917,6 +1986,7 @@ extension CodeCommit {
         /// The  size of a file in the source of a merge or pull request.
         public let source: Int64?
 
+        @inlinable
         public init(base: Int64? = nil, destination: Int64? = nil, source: Int64? = nil) {
             self.base = base
             self.destination = destination
@@ -1939,6 +2009,7 @@ extension CodeCommit {
         /// An array of commit IDs that contain more recent versions of this file. If there are no additional versions of the file, this array will be empty.
         public let revisionChildren: [String]?
 
+        @inlinable
         public init(blobId: String? = nil, commit: Commit? = nil, path: String? = nil, revisionChildren: [String]? = nil) {
             self.blobId = blobId
             self.commit = commit
@@ -1962,6 +2033,7 @@ extension CodeCommit {
         /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
         public let treeId: String?
 
+        @inlinable
         public init(absolutePath: String? = nil, relativePath: String? = nil, treeId: String? = nil) {
             self.absolutePath = absolutePath
             self.relativePath = relativePath
@@ -1979,6 +2051,7 @@ extension CodeCommit {
         /// The name of the approval rule template for which you want to get information.
         public let approvalRuleTemplateName: String
 
+        @inlinable
         public init(approvalRuleTemplateName: String) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
         }
@@ -1997,6 +2070,7 @@ extension CodeCommit {
         /// The content and structure of the approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
+        @inlinable
         public init(approvalRuleTemplate: ApprovalRuleTemplate) {
             self.approvalRuleTemplate = approvalRuleTemplate
         }
@@ -2012,6 +2086,7 @@ extension CodeCommit {
         /// The name of the repository that contains the blob.
         public let repositoryName: String
 
+        @inlinable
         public init(blobId: String, repositoryName: String) {
             self.blobId = blobId
             self.repositoryName = repositoryName
@@ -2033,6 +2108,7 @@ extension CodeCommit {
         /// The content of the blob, usually a file.
         public let content: AWSBase64Data
 
+        @inlinable
         public init(content: AWSBase64Data) {
             self.content = content
         }
@@ -2048,6 +2124,7 @@ extension CodeCommit {
         /// The name of the repository that contains the branch for which you want to retrieve information.
         public let repositoryName: String?
 
+        @inlinable
         public init(branchName: String? = nil, repositoryName: String? = nil) {
             self.branchName = branchName
             self.repositoryName = repositoryName
@@ -2071,6 +2148,7 @@ extension CodeCommit {
         /// The name of the branch.
         public let branch: BranchInfo?
 
+        @inlinable
         public init(branch: BranchInfo? = nil) {
             self.branch = branch
         }
@@ -2084,6 +2162,7 @@ extension CodeCommit {
         /// The unique, system-generated ID of the comment. To get this ID, use  GetCommentsForComparedCommit or GetCommentsForPullRequest.
         public let commentId: String
 
+        @inlinable
         public init(commentId: String) {
             self.commentId = commentId
         }
@@ -2097,6 +2176,7 @@ extension CodeCommit {
         /// The contents of the comment.
         public let comment: Comment?
 
+        @inlinable
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -2116,6 +2196,7 @@ extension CodeCommit {
         /// Optional. The Amazon Resource Name (ARN) of the user or identity for which you want to get reaction information.
         public let reactionUserArn: String?
 
+        @inlinable
         public init(commentId: String, maxResults: Int? = nil, nextToken: String? = nil, reactionUserArn: String? = nil) {
             self.commentId = commentId
             self.maxResults = maxResults
@@ -2137,6 +2218,7 @@ extension CodeCommit {
         /// An array of reactions to the specified comment.
         public let reactionsForComment: [ReactionForComment]
 
+        @inlinable
         public init(nextToken: String? = nil, reactionsForComment: [ReactionForComment]) {
             self.nextToken = nextToken
             self.reactionsForComment = reactionsForComment
@@ -2160,6 +2242,7 @@ extension CodeCommit {
         /// The name of the repository where you want to compare commits.
         public let repositoryName: String
 
+        @inlinable
         public init(afterCommitId: String, beforeCommitId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -2189,6 +2272,7 @@ extension CodeCommit {
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(commentsForComparedCommitData: [CommentsForComparedCommit]? = nil, nextToken: String? = nil) {
             self.commentsForComparedCommitData = commentsForComparedCommitData
             self.nextToken = nextToken
@@ -2214,6 +2298,7 @@ extension CodeCommit {
         /// The name of the repository that contains the pull request. Requirement is conditional: repositoryName must be specified when  beforeCommitId and afterCommitId are included.
         public let repositoryName: String?
 
+        @inlinable
         public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pullRequestId: String, repositoryName: String? = nil) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -2245,6 +2330,7 @@ extension CodeCommit {
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(commentsForPullRequestData: [CommentsForPullRequest]? = nil, nextToken: String? = nil) {
             self.commentsForPullRequestData = commentsForPullRequestData
             self.nextToken = nextToken
@@ -2262,6 +2348,7 @@ extension CodeCommit {
         /// The name of the repository to which the commit was made.
         public let repositoryName: String
 
+        @inlinable
         public init(commitId: String, repositoryName: String) {
             self.commitId = commitId
             self.repositoryName = repositoryName
@@ -2283,6 +2370,7 @@ extension CodeCommit {
         /// A commit data type object that contains information about the specified commit.
         public let commit: Commit
 
+        @inlinable
         public init(commit: Commit) {
             self.commit = commit
         }
@@ -2308,6 +2396,7 @@ extension CodeCommit {
         /// The name of the repository where you want to get differences.
         public let repositoryName: String
 
+        @inlinable
         public init(afterCommitSpecifier: String, afterPath: String? = nil, beforeCommitSpecifier: String? = nil, beforePath: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, repositoryName: String) {
             self.afterCommitSpecifier = afterCommitSpecifier
             self.afterPath = afterPath
@@ -2341,6 +2430,7 @@ extension CodeCommit {
         /// An enumeration token that can be used in a request to return the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(differences: [Difference]? = nil, nextToken: String? = nil) {
             self.differences = differences
             self.nextToken = nextToken
@@ -2360,6 +2450,7 @@ extension CodeCommit {
         /// The name of the repository that contains the file.
         public let repositoryName: String
 
+        @inlinable
         public init(commitSpecifier: String? = nil, filePath: String, repositoryName: String) {
             self.commitSpecifier = commitSpecifier
             self.filePath = filePath
@@ -2393,6 +2484,7 @@ extension CodeCommit {
         /// The size of the contents of the file, in bytes.
         public let fileSize: Int64
 
+        @inlinable
         public init(blobId: String, commitId: String, fileContent: AWSBase64Data, fileMode: FileModeTypeEnum, filePath: String, fileSize: Int64) {
             self.blobId = blobId
             self.commitId = commitId
@@ -2420,6 +2512,7 @@ extension CodeCommit {
         /// The name of the repository.
         public let repositoryName: String
 
+        @inlinable
         public init(commitSpecifier: String? = nil, folderPath: String, repositoryName: String) {
             self.commitSpecifier = commitSpecifier
             self.folderPath = folderPath
@@ -2455,6 +2548,7 @@ extension CodeCommit {
         /// The full SHA-1 pointer of the tree information for the commit that contains the folder.
         public let treeId: String?
 
+        @inlinable
         public init(commitId: String, files: [File]? = nil, folderPath: String, subFolders: [Folder]? = nil, subModules: [SubModule]? = nil, symbolicLinks: [SymbolicLink]? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.files = files
@@ -2488,6 +2582,7 @@ extension CodeCommit {
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let sourceCommitSpecifier: String
 
+        @inlinable
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -2521,6 +2616,7 @@ extension CodeCommit {
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String?
 
+        @inlinable
         public init(baseCommitId: String? = nil, destinationCommitId: String? = nil, mergedCommitId: String? = nil, sourceCommitId: String? = nil) {
             self.baseCommitId = baseCommitId
             self.destinationCommitId = destinationCommitId
@@ -2554,6 +2650,7 @@ extension CodeCommit {
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let sourceCommitSpecifier: String
 
+        @inlinable
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, maxConflictFiles: Int? = nil, mergeOption: MergeOptionTypeEnum, nextToken: String? = nil, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -2597,6 +2694,7 @@ extension CodeCommit {
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
 
+        @inlinable
         public init(baseCommitId: String? = nil, conflictMetadataList: [ConflictMetadata], destinationCommitId: String, mergeable: Bool, nextToken: String? = nil, sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.conflictMetadataList = conflictMetadataList
@@ -2628,6 +2726,7 @@ extension CodeCommit {
         /// The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, a branch name or a full commit ID).
         public let sourceCommitSpecifier: String
 
+        @inlinable
         public init(conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String) {
             self.conflictDetailLevel = conflictDetailLevel
             self.conflictResolutionStrategy = conflictResolutionStrategy
@@ -2661,6 +2760,7 @@ extension CodeCommit {
         /// The commit ID of the source commit specifier that was used in the merge evaluation.
         public let sourceCommitId: String
 
+        @inlinable
         public init(baseCommitId: String, destinationCommitId: String, mergeOptions: [MergeOptionTypeEnum], sourceCommitId: String) {
             self.baseCommitId = baseCommitId
             self.destinationCommitId = destinationCommitId
@@ -2682,6 +2782,7 @@ extension CodeCommit {
         /// The system-generated ID for the pull request revision.
         public let revisionId: String
 
+        @inlinable
         public init(pullRequestId: String, revisionId: String) {
             self.pullRequestId = pullRequestId
             self.revisionId = revisionId
@@ -2697,6 +2798,7 @@ extension CodeCommit {
         /// Information about users who have approved the pull request.
         public let approvals: [Approval]?
 
+        @inlinable
         public init(approvals: [Approval]? = nil) {
             self.approvals = approvals
         }
@@ -2710,6 +2812,7 @@ extension CodeCommit {
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
 
+        @inlinable
         public init(pullRequestId: String) {
             self.pullRequestId = pullRequestId
         }
@@ -2723,6 +2826,7 @@ extension CodeCommit {
         /// Information about the specified pull request.
         public let pullRequest: PullRequest
 
+        @inlinable
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -2738,6 +2842,7 @@ extension CodeCommit {
         /// The system-generated ID of the revision for the pull request. To retrieve the most recent revision ID, use GetPullRequest.
         public let revisionId: String
 
+        @inlinable
         public init(pullRequestId: String, revisionId: String) {
             self.pullRequestId = pullRequestId
             self.revisionId = revisionId
@@ -2755,6 +2860,7 @@ extension CodeCommit {
         /// The Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
         public let overrider: String?
 
+        @inlinable
         public init(overridden: Bool? = nil, overrider: String? = nil) {
             self.overridden = overridden
             self.overrider = overrider
@@ -2770,6 +2876,7 @@ extension CodeCommit {
         /// The name of the repository to get information about.
         public let repositoryName: String
 
+        @inlinable
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -2789,6 +2896,7 @@ extension CodeCommit {
         /// Information about the repository.
         public let repositoryMetadata: RepositoryMetadata?
 
+        @inlinable
         public init(repositoryMetadata: RepositoryMetadata? = nil) {
             self.repositoryMetadata = repositoryMetadata
         }
@@ -2802,6 +2910,7 @@ extension CodeCommit {
         /// The name of the repository for which the trigger is configured.
         public let repositoryName: String
 
+        @inlinable
         public init(repositoryName: String) {
             self.repositoryName = repositoryName
         }
@@ -2823,6 +2932,7 @@ extension CodeCommit {
         /// The JSON block of configuration information for each trigger.
         public let triggers: [RepositoryTrigger]?
 
+        @inlinable
         public init(configurationId: String? = nil, triggers: [RepositoryTrigger]? = nil) {
             self.configurationId = configurationId
             self.triggers = triggers
@@ -2842,6 +2952,7 @@ extension CodeCommit {
         /// The binary or non-binary status of file in the source of a merge or pull request.
         public let source: Bool?
 
+        @inlinable
         public init(base: Bool? = nil, destination: Bool? = nil, source: Bool? = nil) {
             self.base = base
             self.destination = destination
@@ -2861,6 +2972,7 @@ extension CodeCommit {
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2878,6 +2990,7 @@ extension CodeCommit {
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
 
+        @inlinable
         public init(approvalRuleTemplateNames: [String]? = nil, nextToken: String? = nil) {
             self.approvalRuleTemplateNames = approvalRuleTemplateNames
             self.nextToken = nextToken
@@ -2897,6 +3010,7 @@ extension CodeCommit {
         /// The name of the repository for which you want to list all associated approval rule templates.
         public let repositoryName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, repositoryName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2922,6 +3036,7 @@ extension CodeCommit {
         /// An enumeration token that allows the operation to batch the next results of the operation.
         public let nextToken: String?
 
+        @inlinable
         public init(approvalRuleTemplateNames: [String]? = nil, nextToken: String? = nil) {
             self.approvalRuleTemplateNames = approvalRuleTemplateNames
             self.nextToken = nextToken
@@ -2939,6 +3054,7 @@ extension CodeCommit {
         /// The name of the repository that contains the branches.
         public let repositoryName: String
 
+        @inlinable
         public init(nextToken: String? = nil, repositoryName: String) {
             self.nextToken = nextToken
             self.repositoryName = repositoryName
@@ -2962,6 +3078,7 @@ extension CodeCommit {
         /// An enumeration token that returns the batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(branches: [String]? = nil, nextToken: String? = nil) {
             self.branches = branches
             self.nextToken = nextToken
@@ -2985,6 +3102,7 @@ extension CodeCommit {
         /// The name of the repository that contains the file.
         public let repositoryName: String
 
+        @inlinable
         public init(commitSpecifier: String? = nil, filePath: String, maxResults: Int? = nil, nextToken: String? = nil, repositoryName: String) {
             self.commitSpecifier = commitSpecifier
             self.filePath = filePath
@@ -3014,6 +3132,7 @@ extension CodeCommit {
         /// An array of FileVersion objects that form a directed acyclic graph (DAG) of the changes to the file made by the commits that changed the file.
         public let revisionDag: [FileVersion]
 
+        @inlinable
         public init(nextToken: String? = nil, revisionDag: [FileVersion]) {
             self.nextToken = nextToken
             self.revisionDag = revisionDag
@@ -3037,6 +3156,7 @@ extension CodeCommit {
         /// The name of the repository for which you want to list pull requests.
         public let repositoryName: String
 
+        @inlinable
         public init(authorArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, repositoryName: String) {
             self.authorArn = authorArn
             self.maxResults = maxResults
@@ -3066,6 +3186,7 @@ extension CodeCommit {
         /// The system-generated IDs of the pull requests.
         public let pullRequestIds: [String]
 
+        @inlinable
         public init(nextToken: String? = nil, pullRequestIds: [String]) {
             self.nextToken = nextToken
             self.pullRequestIds = pullRequestIds
@@ -3085,6 +3206,7 @@ extension CodeCommit {
         /// An enumeration token that, when provided in a request, returns the next batch of the results.
         public let nextToken: String?
 
+        @inlinable
         public init(approvalRuleTemplateName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
             self.maxResults = maxResults
@@ -3109,6 +3231,7 @@ extension CodeCommit {
         /// A list of repository names that are associated with the specified approval rule template.
         public let repositoryNames: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositoryNames: [String]? = nil) {
             self.nextToken = nextToken
             self.repositoryNames = repositoryNames
@@ -3128,6 +3251,7 @@ extension CodeCommit {
         /// The criteria used to sort the results of a list repositories operation.
         public let sortBy: SortByEnum?
 
+        @inlinable
         public init(nextToken: String? = nil, order: OrderEnum? = nil, sortBy: SortByEnum? = nil) {
             self.nextToken = nextToken
             self.order = order
@@ -3147,6 +3271,7 @@ extension CodeCommit {
         /// Lists the repositories called by the list repositories operation.
         public let repositories: [RepositoryNameIdPair]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositories: [RepositoryNameIdPair]? = nil) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -3164,6 +3289,7 @@ extension CodeCommit {
         /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
         public let resourceArn: String
 
+        @inlinable
         public init(nextToken: String? = nil, resourceArn: String) {
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -3181,6 +3307,7 @@ extension CodeCommit {
         /// A list of tag key and value pairs associated with the specified resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3200,6 +3327,7 @@ extension CodeCommit {
         /// In a comparison of commits or a pull request, whether the change is in the before or after of that comparison.
         public let relativeFileVersion: RelativeFileVersionEnum?
 
+        @inlinable
         public init(filePath: String? = nil, filePosition: Int64? = nil, relativeFileVersion: RelativeFileVersionEnum? = nil) {
             self.filePath = filePath
             self.filePosition = filePosition
@@ -3223,6 +3351,7 @@ extension CodeCommit {
         /// The branch where the merge is applied.
         public let targetBranch: String?
 
+        @inlinable
         public init(destinationCommitSpecifier: String, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
             self.destinationCommitSpecifier = destinationCommitSpecifier
             self.repositoryName = repositoryName
@@ -3252,6 +3381,7 @@ extension CodeCommit {
         /// The tree ID of the merge in the destination or target branch.
         public let treeId: String?
 
+        @inlinable
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -3287,6 +3417,7 @@ extension CodeCommit {
         /// The branch where the merge is applied.
         public let targetBranch: String?
 
+        @inlinable
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -3331,6 +3462,7 @@ extension CodeCommit {
         /// The tree ID of the merge in the destination or target branch.
         public let treeId: String?
 
+        @inlinable
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -3366,6 +3498,7 @@ extension CodeCommit {
         /// The branch where the merge is applied.
         public let targetBranch: String?
 
+        @inlinable
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, destinationCommitSpecifier: String, email: String? = nil, keepEmptyFolders: Bool? = nil, repositoryName: String, sourceCommitSpecifier: String, targetBranch: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -3410,6 +3543,7 @@ extension CodeCommit {
         /// The tree ID of the merge in the destination or target branch.
         public let treeId: String?
 
+        @inlinable
         public init(commitId: String? = nil, treeId: String? = nil) {
             self.commitId = commitId
             self.treeId = treeId
@@ -3431,6 +3565,7 @@ extension CodeCommit {
         /// Information about the merge hunk in the source of a merge or pull request.
         public let source: MergeHunkDetail?
 
+        @inlinable
         public init(base: MergeHunkDetail? = nil, destination: MergeHunkDetail? = nil, isConflict: Bool? = nil, source: MergeHunkDetail? = nil) {
             self.base = base
             self.destination = destination
@@ -3454,6 +3589,7 @@ extension CodeCommit {
         /// The start position of the hunk in the merge result.
         public let startLine: Int?
 
+        @inlinable
         public init(endLine: Int? = nil, hunkContent: String? = nil, startLine: Int? = nil) {
             self.endLine = endLine
             self.hunkContent = hunkContent
@@ -3477,6 +3613,7 @@ extension CodeCommit {
         /// The merge strategy used in the merge.
         public let mergeOption: MergeOptionTypeEnum?
 
+        @inlinable
         public init(isMerged: Bool? = nil, mergeCommitId: String? = nil, mergedBy: String? = nil, mergeOption: MergeOptionTypeEnum? = nil) {
             self.isMerged = isMerged
             self.mergeCommitId = mergeCommitId
@@ -3498,6 +3635,7 @@ extension CodeCommit {
         /// The operation (add, modify, or delete) on a file in the source of a merge or pull request.
         public let source: ChangeTypeEnum?
 
+        @inlinable
         public init(destination: ChangeTypeEnum? = nil, source: ChangeTypeEnum? = nil) {
             self.destination = destination
             self.source = source
@@ -3517,6 +3655,7 @@ extension CodeCommit {
         /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an  exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
         public let sourceCommitId: String?
 
+        @inlinable
         public init(pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
             self.pullRequestId = pullRequestId
             self.repositoryName = repositoryName
@@ -3540,6 +3679,7 @@ extension CodeCommit {
         /// Information about the specified pull request, including the merge.
         public let pullRequest: PullRequest?
 
+        @inlinable
         public init(pullRequest: PullRequest? = nil) {
             self.pullRequest = pullRequest
         }
@@ -3571,6 +3711,7 @@ extension CodeCommit {
         /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an  exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
         public let sourceCommitId: String?
 
+        @inlinable
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -3608,6 +3749,7 @@ extension CodeCommit {
     public struct MergePullRequestBySquashOutput: AWSDecodableShape {
         public let pullRequest: PullRequest?
 
+        @inlinable
         public init(pullRequest: PullRequest? = nil) {
             self.pullRequest = pullRequest
         }
@@ -3639,6 +3781,7 @@ extension CodeCommit {
         /// The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an  exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
         public let sourceCommitId: String?
 
+        @inlinable
         public init(authorName: String? = nil, commitMessage: String? = nil, conflictDetailLevel: ConflictDetailLevelTypeEnum? = nil, conflictResolution: ConflictResolution? = nil, conflictResolutionStrategy: ConflictResolutionStrategyTypeEnum? = nil, email: String? = nil, keepEmptyFolders: Bool? = nil, pullRequestId: String, repositoryName: String, sourceCommitId: String? = nil) {
             self.authorName = authorName
             self.commitMessage = commitMessage
@@ -3676,6 +3819,7 @@ extension CodeCommit {
     public struct MergePullRequestByThreeWayOutput: AWSDecodableShape {
         public let pullRequest: PullRequest?
 
+        @inlinable
         public init(pullRequest: PullRequest? = nil) {
             self.pullRequest = pullRequest
         }
@@ -3693,6 +3837,7 @@ extension CodeCommit {
         /// The type of the object in the source branch.
         public let source: ObjectTypeEnum?
 
+        @inlinable
         public init(base: ObjectTypeEnum? = nil, destination: ObjectTypeEnum? = nil, source: ObjectTypeEnum? = nil) {
             self.base = base
             self.destination = destination
@@ -3712,6 +3857,7 @@ extension CodeCommit {
         /// The name of the template that created the approval rule.
         public let approvalRuleTemplateName: String?
 
+        @inlinable
         public init(approvalRuleTemplateId: String? = nil, approvalRuleTemplateName: String? = nil) {
             self.approvalRuleTemplateId = approvalRuleTemplateId
             self.approvalRuleTemplateName = approvalRuleTemplateName
@@ -3731,6 +3877,7 @@ extension CodeCommit {
         /// The system-generated ID of the most recent revision of the pull request. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use GetPullRequest.
         public let revisionId: String
 
+        @inlinable
         public init(overrideStatus: OverrideStatus, pullRequestId: String, revisionId: String) {
             self.overrideStatus = overrideStatus
             self.pullRequestId = pullRequestId
@@ -3758,6 +3905,7 @@ extension CodeCommit {
         /// The name of the repository where you want to post a comment on the comparison between commits.
         public let repositoryName: String
 
+        @inlinable
         public init(afterCommitId: String, beforeCommitId: String? = nil, clientRequestToken: String? = PostCommentForComparedCommitInput.idempotencyToken(), content: String, location: Location? = nil, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -3799,6 +3947,7 @@ extension CodeCommit {
         /// The name of the repository where you posted a comment on the comparison between commits.
         public let repositoryName: String?
 
+        @inlinable
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -3836,6 +3985,7 @@ extension CodeCommit {
         /// The name of the repository where you want to post a comment on a pull request.
         public let repositoryName: String
 
+        @inlinable
         public init(afterCommitId: String, beforeCommitId: String, clientRequestToken: String? = PostCommentForPullRequestInput.idempotencyToken(), content: String, location: Location? = nil, pullRequestId: String, repositoryName: String) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -3881,6 +4031,7 @@ extension CodeCommit {
         /// The name of the repository where you posted a comment on a pull request.
         public let repositoryName: String?
 
+        @inlinable
         public init(afterBlobId: String? = nil, afterCommitId: String? = nil, beforeBlobId: String? = nil, beforeCommitId: String? = nil, comment: Comment? = nil, location: Location? = nil, pullRequestId: String? = nil, repositoryName: String? = nil) {
             self.afterBlobId = afterBlobId
             self.afterCommitId = afterCommitId
@@ -3912,6 +4063,7 @@ extension CodeCommit {
         /// The system-generated ID of the comment to which you want to reply. To get this ID, use GetCommentsForComparedCommit  or GetCommentsForPullRequest.
         public let inReplyTo: String
 
+        @inlinable
         public init(clientRequestToken: String? = PostCommentReplyInput.idempotencyToken(), content: String, inReplyTo: String) {
             self.clientRequestToken = clientRequestToken
             self.content = content
@@ -3929,6 +4081,7 @@ extension CodeCommit {
         /// Information about the reply to a comment.
         public let comment: Comment?
 
+        @inlinable
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -3962,6 +4115,7 @@ extension CodeCommit {
         /// The user-defined title of the pull request. This title is displayed in the list of pull requests to other repository users.
         public let title: String?
 
+        @inlinable
         public init(approvalRules: [ApprovalRule]? = nil, authorArn: String? = nil, clientRequestToken: String? = nil, creationDate: Date? = nil, description: String? = nil, lastActivityDate: Date? = nil, pullRequestId: String? = nil, pullRequestStatus: PullRequestStatusEnum? = nil, pullRequestTargets: [PullRequestTarget]? = nil, revisionId: String? = nil, title: String? = nil) {
             self.approvalRules = approvalRules
             self.authorArn = authorArn
@@ -4001,6 +4155,7 @@ extension CodeCommit {
         /// The commit ID on the source branch used when the pull request was created.
         public let sourceCommitId: String?
 
+        @inlinable
         public init(destinationCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil, sourceCommitId: String? = nil) {
             self.destinationCommitId = destinationCommitId
             self.mergeBase = mergeBase
@@ -4040,6 +4195,7 @@ extension CodeCommit {
         /// Information about the change in status for the pull request event.
         public let pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata?
 
+        @inlinable
         public init(actorArn: String? = nil, approvalRuleEventMetadata: ApprovalRuleEventMetadata? = nil, approvalRuleOverriddenEventMetadata: ApprovalRuleOverriddenEventMetadata? = nil, approvalStateChangedEventMetadata: ApprovalStateChangedEventMetadata? = nil, eventDate: Date? = nil, pullRequestCreatedEventMetadata: PullRequestCreatedEventMetadata? = nil, pullRequestEventType: PullRequestEventType? = nil, pullRequestId: String? = nil, pullRequestMergedStateChangedEventMetadata: PullRequestMergedStateChangedEventMetadata? = nil, pullRequestSourceReferenceUpdatedEventMetadata: PullRequestSourceReferenceUpdatedEventMetadata? = nil, pullRequestStatusChangedEventMetadata: PullRequestStatusChangedEventMetadata? = nil) {
             self.actorArn = actorArn
             self.approvalRuleEventMetadata = approvalRuleEventMetadata
@@ -4077,6 +4233,7 @@ extension CodeCommit {
         /// The name of the repository where the pull request was created.
         public let repositoryName: String?
 
+        @inlinable
         public init(destinationReference: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil) {
             self.destinationReference = destinationReference
             self.mergeMetadata = mergeMetadata
@@ -4100,6 +4257,7 @@ extension CodeCommit {
         /// The name of the repository where the pull request was updated.
         public let repositoryName: String?
 
+        @inlinable
         public init(afterCommitId: String? = nil, beforeCommitId: String? = nil, mergeBase: String? = nil, repositoryName: String? = nil) {
             self.afterCommitId = afterCommitId
             self.beforeCommitId = beforeCommitId
@@ -4119,6 +4277,7 @@ extension CodeCommit {
         /// The changed status of the pull request.
         public let pullRequestStatus: PullRequestStatusEnum?
 
+        @inlinable
         public init(pullRequestStatus: PullRequestStatusEnum? = nil) {
             self.pullRequestStatus = pullRequestStatus
         }
@@ -4144,6 +4303,7 @@ extension CodeCommit {
         /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
         public let sourceReference: String?
 
+        @inlinable
         public init(destinationCommit: String? = nil, destinationReference: String? = nil, mergeBase: String? = nil, mergeMetadata: MergeMetadata? = nil, repositoryName: String? = nil, sourceCommit: String? = nil, sourceReference: String? = nil) {
             self.destinationCommit = destinationCommit
             self.destinationReference = destinationReference
@@ -4171,6 +4331,7 @@ extension CodeCommit {
         /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the CodeCommit User Guide.
         public let reactionValue: String
 
+        @inlinable
         public init(commentId: String, reactionValue: String) {
             self.commentId = commentId
             self.reactionValue = reactionValue
@@ -4192,6 +4353,7 @@ extension CodeCommit {
         /// The name and full path of the file that contains the changes you want to make as part of the commit,  if you are not providing the file content directly.
         public let sourceFile: SourceFileSpecifier?
 
+        @inlinable
         public init(fileContent: AWSBase64Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, sourceFile: SourceFileSpecifier? = nil) {
             self.fileContent = fileContent
             self.fileMode = fileMode
@@ -4231,6 +4393,7 @@ extension CodeCommit {
         /// The name of the repository where you want to add or update the file.
         public let repositoryName: String
 
+        @inlinable
         public init(branchName: String, commitMessage: String? = nil, email: String? = nil, fileContent: AWSBase64Data, fileMode: FileModeTypeEnum? = nil, filePath: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String) {
             self.branchName = branchName
             self.commitMessage = commitMessage
@@ -4273,6 +4436,7 @@ extension CodeCommit {
         /// The full SHA-1 pointer of the tree information for the commit that contains this file change.
         public let treeId: String
 
+        @inlinable
         public init(blobId: String, commitId: String, treeId: String) {
             self.blobId = blobId
             self.commitId = commitId
@@ -4292,6 +4456,7 @@ extension CodeCommit {
         /// The JSON block of configuration information for each trigger.
         public let triggers: [RepositoryTrigger]
 
+        @inlinable
         public init(repositoryName: String, triggers: [RepositoryTrigger]) {
             self.repositoryName = repositoryName
             self.triggers = triggers
@@ -4316,6 +4481,7 @@ extension CodeCommit {
         /// The system-generated unique ID for the create or update operation.
         public let configurationId: String?
 
+        @inlinable
         public init(configurationId: String? = nil) {
             self.configurationId = configurationId
         }
@@ -4333,6 +4499,7 @@ extension CodeCommit {
         /// The Amazon Resource Names (ARNs) of users who have provided reactions to the comment.
         public let reactionUsers: [String]?
 
+        @inlinable
         public init(reaction: ReactionValueFormats? = nil, reactionsFromDeletedUsersCount: Int? = nil, reactionUsers: [String]? = nil) {
             self.reaction = reaction
             self.reactionsFromDeletedUsersCount = reactionsFromDeletedUsersCount
@@ -4354,6 +4521,7 @@ extension CodeCommit {
         /// The Unicode codepoint for the reaction.
         public let unicode: String?
 
+        @inlinable
         public init(emoji: String? = nil, shortCode: String? = nil, unicode: String? = nil) {
             self.emoji = emoji
             self.shortCode = shortCode
@@ -4377,6 +4545,7 @@ extension CodeCommit {
         /// The replacement type to use when determining how to resolve the conflict.
         public let replacementType: ReplacementTypeEnum
 
+        @inlinable
         public init(content: AWSBase64Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, replacementType: ReplacementTypeEnum) {
             self.content = content
             self.fileMode = fileMode
@@ -4420,6 +4589,7 @@ extension CodeCommit {
         /// The repository's name.
         public let repositoryName: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, cloneUrlHttp: String? = nil, cloneUrlSsh: String? = nil, creationDate: Date? = nil, defaultBranch: String? = nil, kmsKeyId: String? = nil, lastModifiedDate: Date? = nil, repositoryDescription: String? = nil, repositoryId: String? = nil, repositoryName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -4455,6 +4625,7 @@ extension CodeCommit {
         /// The name associated with the repository.
         public let repositoryName: String?
 
+        @inlinable
         public init(repositoryId: String? = nil, repositoryName: String? = nil) {
             self.repositoryId = repositoryId
             self.repositoryName = repositoryName
@@ -4478,6 +4649,7 @@ extension CodeCommit {
         /// The name of the trigger.
         public let name: String
 
+        @inlinable
         public init(branches: [String]? = nil, customData: String? = nil, destinationArn: String, events: [RepositoryTriggerEventEnum], name: String) {
             self.branches = branches
             self.customData = customData
@@ -4508,6 +4680,7 @@ extension CodeCommit {
         /// The name of the trigger that did not run.
         public let trigger: String?
 
+        @inlinable
         public init(failureMessage: String? = nil, trigger: String? = nil) {
             self.failureMessage = failureMessage
             self.trigger = trigger
@@ -4525,6 +4698,7 @@ extension CodeCommit {
         /// The full path to the file, including the name of the file.
         public let filePath: String
 
+        @inlinable
         public init(fileMode: FileModeTypeEnum, filePath: String) {
             self.fileMode = fileMode
             self.filePath = filePath
@@ -4542,6 +4716,7 @@ extension CodeCommit {
         /// Whether to remove the source file from the parent commit.
         public let isMove: Bool?
 
+        @inlinable
         public init(filePath: String, isMove: Bool? = nil) {
             self.filePath = filePath
             self.isMove = isMove
@@ -4561,6 +4736,7 @@ extension CodeCommit {
         /// The relative path of the submodule from the folder where the query originated.
         public let relativePath: String?
 
+        @inlinable
         public init(absolutePath: String? = nil, commitId: String? = nil, relativePath: String? = nil) {
             self.absolutePath = absolutePath
             self.commitId = commitId
@@ -4584,6 +4760,7 @@ extension CodeCommit {
         /// The relative path of the symbolic link from the folder where the query originated.
         public let relativePath: String?
 
+        @inlinable
         public init(absolutePath: String? = nil, blobId: String? = nil, fileMode: FileModeTypeEnum? = nil, relativePath: String? = nil) {
             self.absolutePath = absolutePath
             self.blobId = blobId
@@ -4605,6 +4782,7 @@ extension CodeCommit {
         /// The key-value pair to use when tagging this repository.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4632,6 +4810,7 @@ extension CodeCommit {
         /// The branch of the repository that contains the changes for the pull request. Also known as the source branch.
         public let sourceReference: String
 
+        @inlinable
         public init(destinationReference: String? = nil, repositoryName: String, sourceReference: String) {
             self.destinationReference = destinationReference
             self.repositoryName = repositoryName
@@ -4657,6 +4836,7 @@ extension CodeCommit {
         /// The list of triggers to test.
         public let triggers: [RepositoryTrigger]
 
+        @inlinable
         public init(repositoryName: String, triggers: [RepositoryTrigger]) {
             self.repositoryName = repositoryName
             self.triggers = triggers
@@ -4683,6 +4863,7 @@ extension CodeCommit {
         /// The list of triggers that were successfully tested. This list provides the names of the triggers that were successfully tested, separated by commas.
         public let successfulExecutions: [String]?
 
+        @inlinable
         public init(failedExecutions: [RepositoryTriggerExecutionFailure]? = nil, successfulExecutions: [String]? = nil) {
             self.failedExecutions = failedExecutions
             self.successfulExecutions = successfulExecutions
@@ -4700,6 +4881,7 @@ extension CodeCommit {
         /// The tag key for each tag that you want to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -4726,6 +4908,7 @@ extension CodeCommit {
         /// The content that replaces the existing content of the rule. Content statements must be complete. You cannot provide only the changes.
         public let newRuleContent: String
 
+        @inlinable
         public init(approvalRuleTemplateName: String, existingRuleContentSha256: String? = nil, newRuleContent: String) {
             self.approvalRuleTemplateName = approvalRuleTemplateName
             self.existingRuleContentSha256 = existingRuleContentSha256
@@ -4749,6 +4932,7 @@ extension CodeCommit {
     public struct UpdateApprovalRuleTemplateContentOutput: AWSDecodableShape {
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
+        @inlinable
         public init(approvalRuleTemplate: ApprovalRuleTemplate) {
             self.approvalRuleTemplate = approvalRuleTemplate
         }
@@ -4764,6 +4948,7 @@ extension CodeCommit {
         /// The name of the template for which you want to update the description.
         public let approvalRuleTemplateName: String
 
+        @inlinable
         public init(approvalRuleTemplateDescription: String, approvalRuleTemplateName: String) {
             self.approvalRuleTemplateDescription = approvalRuleTemplateDescription
             self.approvalRuleTemplateName = approvalRuleTemplateName
@@ -4785,6 +4970,7 @@ extension CodeCommit {
         /// The structure and content of the updated approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
+        @inlinable
         public init(approvalRuleTemplate: ApprovalRuleTemplate) {
             self.approvalRuleTemplate = approvalRuleTemplate
         }
@@ -4800,6 +4986,7 @@ extension CodeCommit {
         /// The current name of the approval rule template.
         public let oldApprovalRuleTemplateName: String
 
+        @inlinable
         public init(newApprovalRuleTemplateName: String, oldApprovalRuleTemplateName: String) {
             self.newApprovalRuleTemplateName = newApprovalRuleTemplateName
             self.oldApprovalRuleTemplateName = oldApprovalRuleTemplateName
@@ -4822,6 +5009,7 @@ extension CodeCommit {
         /// The structure and content of the updated approval rule template.
         public let approvalRuleTemplate: ApprovalRuleTemplate
 
+        @inlinable
         public init(approvalRuleTemplate: ApprovalRuleTemplate) {
             self.approvalRuleTemplate = approvalRuleTemplate
         }
@@ -4837,6 +5025,7 @@ extension CodeCommit {
         /// The updated content to replace the existing content of the comment.
         public let content: String
 
+        @inlinable
         public init(commentId: String, content: String) {
             self.commentId = commentId
             self.content = content
@@ -4852,6 +5041,7 @@ extension CodeCommit {
         /// Information about the updated comment.
         public let comment: Comment?
 
+        @inlinable
         public init(comment: Comment? = nil) {
             self.comment = comment
         }
@@ -4867,6 +5057,7 @@ extension CodeCommit {
         /// The name of the repository for which you want to set or change the default branch.
         public let repositoryName: String
 
+        @inlinable
         public init(defaultBranchName: String, repositoryName: String) {
             self.defaultBranchName = defaultBranchName
             self.repositoryName = repositoryName
@@ -4896,6 +5087,7 @@ extension CodeCommit {
         /// The system-generated ID of the pull request.
         public let pullRequestId: String
 
+        @inlinable
         public init(approvalRuleName: String, existingRuleContentSha256: String? = nil, newRuleContent: String, pullRequestId: String) {
             self.approvalRuleName = approvalRuleName
             self.existingRuleContentSha256 = existingRuleContentSha256
@@ -4922,6 +5114,7 @@ extension CodeCommit {
         /// Information about the updated approval rule.
         public let approvalRule: ApprovalRule
 
+        @inlinable
         public init(approvalRule: ApprovalRule) {
             self.approvalRule = approvalRule
         }
@@ -4939,6 +5132,7 @@ extension CodeCommit {
         /// The system-generated ID of the revision.
         public let revisionId: String
 
+        @inlinable
         public init(approvalState: ApprovalState, pullRequestId: String, revisionId: String) {
             self.approvalState = approvalState
             self.pullRequestId = pullRequestId
@@ -4958,6 +5152,7 @@ extension CodeCommit {
         /// The system-generated ID of the pull request. To get this ID, use ListPullRequests.
         public let pullRequestId: String
 
+        @inlinable
         public init(description: String, pullRequestId: String) {
             self.description = description
             self.pullRequestId = pullRequestId
@@ -4977,6 +5172,7 @@ extension CodeCommit {
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
 
+        @inlinable
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -4992,6 +5188,7 @@ extension CodeCommit {
         /// The status of the pull request. The only valid operations are to update the status from OPEN to OPEN, OPEN to CLOSED or from CLOSED to CLOSED.
         public let pullRequestStatus: PullRequestStatusEnum
 
+        @inlinable
         public init(pullRequestId: String, pullRequestStatus: PullRequestStatusEnum) {
             self.pullRequestId = pullRequestId
             self.pullRequestStatus = pullRequestStatus
@@ -5007,6 +5204,7 @@ extension CodeCommit {
         /// Information about the pull request.
         public let pullRequest: PullRequest
 
+        @inlinable
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -5022,6 +5220,7 @@ extension CodeCommit {
         /// The updated title of the pull request. This replaces the existing title.
         public let title: String
 
+        @inlinable
         public init(pullRequestId: String, title: String) {
             self.pullRequestId = pullRequestId
             self.title = title
@@ -5041,6 +5240,7 @@ extension CodeCommit {
         /// Information about the updated pull request.
         public let pullRequest: PullRequest
 
+        @inlinable
         public init(pullRequest: PullRequest) {
             self.pullRequest = pullRequest
         }
@@ -5056,6 +5256,7 @@ extension CodeCommit {
         /// The name of the repository to set or change the comment or description for.
         public let repositoryName: String
 
+        @inlinable
         public init(repositoryDescription: String? = nil, repositoryName: String) {
             self.repositoryDescription = repositoryDescription
             self.repositoryName = repositoryName
@@ -5080,6 +5281,7 @@ extension CodeCommit {
         /// The name of the repository for which you want to update the KMS encryption key used to encrypt and decrypt the repository.
         public let repositoryName: String
 
+        @inlinable
         public init(kmsKeyId: String, repositoryName: String) {
             self.kmsKeyId = kmsKeyId
             self.repositoryName = repositoryName
@@ -5106,6 +5308,7 @@ extension CodeCommit {
         /// The ID of the repository.
         public let repositoryId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, originalKmsKeyId: String? = nil, repositoryId: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.originalKmsKeyId = originalKmsKeyId
@@ -5125,6 +5328,7 @@ extension CodeCommit {
         /// The current name of the repository.
         public let oldName: String
 
+        @inlinable
         public init(newName: String, oldName: String) {
             self.newName = newName
             self.oldName = oldName
@@ -5153,6 +5357,7 @@ extension CodeCommit {
         /// The name of the user who made the specified commit.
         public let name: String?
 
+        @inlinable
         public init(date: String? = nil, email: String? = nil, name: String? = nil) {
             self.date = date
             self.email = email

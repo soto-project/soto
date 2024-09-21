@@ -56,6 +56,7 @@ extension ConnectContactLens {
         /// The category rule that was matched and when it occurred in the transcript.
         public let matchedDetails: [String: CategoryDetails]?
 
+        @inlinable
         public init(matchedCategories: [String]? = nil, matchedDetails: [String: CategoryDetails]? = nil) {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
@@ -71,6 +72,7 @@ extension ConnectContactLens {
         /// The section of audio where the category rule was detected.
         public let pointsOfInterest: [PointOfInterest]?
 
+        @inlinable
         public init(pointsOfInterest: [PointOfInterest]? = nil) {
             self.pointsOfInterest = pointsOfInterest
         }
@@ -86,6 +88,7 @@ extension ConnectContactLens {
         /// The end of the issue.
         public let endOffsetChar: Int?
 
+        @inlinable
         public init(beginOffsetChar: Int? = nil, endOffsetChar: Int? = nil) {
             self.beginOffsetChar = beginOffsetChar
             self.endOffsetChar = endOffsetChar
@@ -101,6 +104,7 @@ extension ConnectContactLens {
         /// The offset for when the issue was detected in the segment.
         public let characterOffsets: CharacterOffsets?
 
+        @inlinable
         public init(characterOffsets: CharacterOffsets? = nil) {
             self.characterOffsets = characterOffsets
         }
@@ -121,6 +125,7 @@ extension ConnectContactLens {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactId: String? = nil, instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -156,6 +161,7 @@ extension ConnectContactLens {
         /// An analyzed transcript or category.
         public let segments: [RealtimeContactAnalysisSegment]?
 
+        @inlinable
         public init(nextToken: String? = nil, segments: [RealtimeContactAnalysisSegment]? = nil) {
             self.nextToken = nextToken
             self.segments = segments
@@ -173,6 +179,7 @@ extension ConnectContactLens {
         /// The ending offset in milliseconds where the category rule was detected.
         public let endOffsetMillis: Int?
 
+        @inlinable
         public init(beginOffsetMillis: Int? = nil, endOffsetMillis: Int? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis
@@ -192,6 +199,7 @@ extension ConnectContactLens {
         /// Whether the summary was successfully COMPLETED or FAILED to be generated.
         public let status: PostContactSummaryStatus?
 
+        @inlinable
         public init(content: String? = nil, failureCode: PostContactSummaryFailureCode? = nil, status: PostContactSummaryStatus? = nil) {
             self.content = content
             self.failureCode = failureCode
@@ -213,6 +221,7 @@ extension ConnectContactLens {
         /// The analyzed transcript.
         public let transcript: Transcript?
 
+        @inlinable
         public init(categories: Categories? = nil, postContactSummary: PostContactSummary? = nil, transcript: Transcript? = nil) {
             self.categories = categories
             self.postContactSummary = postContactSummary
@@ -244,6 +253,7 @@ extension ConnectContactLens {
         /// The sentiment detected for this piece of transcript.
         public let sentiment: SentimentValue?
 
+        @inlinable
         public init(beginOffsetMillis: Int? = nil, content: String? = nil, endOffsetMillis: Int? = nil, id: String? = nil, issuesDetected: [IssueDetected]? = nil, participantId: String? = nil, participantRole: String? = nil, sentiment: SentimentValue? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.content = content

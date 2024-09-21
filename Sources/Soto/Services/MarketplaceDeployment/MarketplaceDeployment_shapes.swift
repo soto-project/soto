@@ -34,6 +34,7 @@ extension MarketplaceDeployment {
         /// The text to encrypt and store in the secret.
         public let secretString: String
 
+        @inlinable
         public init(name: String, secretString: String) {
             self.name = name
             self.secretString = secretString
@@ -57,6 +58,7 @@ extension MarketplaceDeployment {
         /// The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to list tags on.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -74,6 +76,7 @@ extension MarketplaceDeployment {
         /// A map of key-value pairs, where each pair represents a tag present on the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -99,6 +102,7 @@ extension MarketplaceDeployment {
         /// A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agreementId: String, catalog: String, clientToken: String? = PutDeploymentParameterRequest.idempotencyToken(), deploymentParameter: DeploymentParameterInput, expirationDate: Date? = nil, productId: String, tags: [String: String]? = nil) {
             self.agreementId = agreementId
             self.catalog = catalog
@@ -165,6 +169,7 @@ extension MarketplaceDeployment {
         /// A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agreementId: String, deploymentParameterId: String, resourceArn: String, tags: [String: String]? = nil) {
             self.agreementId = agreementId
             self.deploymentParameterId = deploymentParameterId
@@ -186,6 +191,7 @@ extension MarketplaceDeployment {
         /// A map of key-value pairs, where each pair represents a tag present on the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -213,6 +219,7 @@ extension MarketplaceDeployment {
         /// A list of key names of tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

@@ -319,6 +319,7 @@ extension Bedrock {
         /// Specifies the required elements for an automatic model evaluation job.
         public let datasetMetricConfigs: [EvaluationDatasetMetricConfig]
 
+        @inlinable
         public init(datasetMetricConfigs: [EvaluationDatasetMetricConfig]) {
             self.datasetMetricConfigs = datasetMetricConfigs
         }
@@ -344,6 +345,7 @@ extension Bedrock {
         /// A status message about the model evaluation job deletion.
         public let message: String?
 
+        @inlinable
         public init(code: String, jobIdentifier: String, message: String? = nil) {
             self.code = code
             self.jobIdentifier = jobIdentifier
@@ -363,6 +365,7 @@ extension Bedrock {
         /// The status of the job's deletion.
         public let jobStatus: EvaluationJobStatus
 
+        @inlinable
         public init(jobIdentifier: String, jobStatus: EvaluationJobStatus) {
             self.jobIdentifier = jobIdentifier
             self.jobStatus = jobStatus
@@ -378,6 +381,7 @@ extension Bedrock {
         /// An array of model evaluation job ARNs to be deleted.
         public let jobIdentifiers: [String]
 
+        @inlinable
         public init(jobIdentifiers: [String]) {
             self.jobIdentifiers = jobIdentifiers
         }
@@ -402,6 +406,7 @@ extension Bedrock {
         /// The list of model evaluation jobs to be deleted.
         public let evaluationJobs: [BatchDeleteEvaluationJobItem]
 
+        @inlinable
         public init(errors: [BatchDeleteEvaluationJobError], evaluationJobs: [BatchDeleteEvaluationJobItem]) {
             self.errors = errors
             self.evaluationJobs = evaluationJobs
@@ -421,6 +426,7 @@ extension Bedrock {
         /// The role Amazon Resource Name (ARN).
         public let roleArn: String
 
+        @inlinable
         public init(largeDataDeliveryS3Config: S3Config? = nil, logGroupName: String, roleArn: String) {
             self.largeDataDeliveryS3Config = largeDataDeliveryS3Config
             self.logGroupName = logGroupName
@@ -462,6 +468,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. The service role must have Amazon Bedrock as the service principal, and provide access to any Amazon S3 buckets specified in the EvaluationConfig object. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission. To learn more about the required permissions, see Required permissions.
         public let roleArn: String
 
+        @inlinable
         public init(clientRequestToken: String? = CreateEvaluationJobRequest.idempotencyToken(), customerEncryptionKeyId: String? = nil, evaluationConfig: EvaluationConfig, inferenceConfig: EvaluationInferenceConfig, jobDescription: String? = nil, jobName: String, jobTags: [Tag]? = nil, outputDataConfig: EvaluationOutputDataConfig, roleArn: String) {
             self.clientRequestToken = clientRequestToken
             self.customerEncryptionKeyId = customerEncryptionKeyId
@@ -515,6 +522,7 @@ extension Bedrock {
         /// The ARN of the model evaluation job.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -550,6 +558,7 @@ extension Bedrock {
         /// The word policy you configure for the guardrail.
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
+        @inlinable
         public init(blockedInputMessaging: String, blockedOutputsMessaging: String, clientRequestToken: String? = CreateGuardrailRequest.idempotencyToken(), contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, tags: [Tag]? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
@@ -619,6 +628,7 @@ extension Bedrock {
         /// The version of the guardrail that was created.  This value will always be DRAFT.
         public let version: String
 
+        @inlinable
         public init(createdAt: Date, guardrailArn: String, guardrailId: String, version: String) {
             self.createdAt = createdAt
             self.guardrailArn = guardrailArn
@@ -642,6 +652,7 @@ extension Bedrock {
         /// The unique identifier of the guardrail. This can be an ID or the ARN.
         public let guardrailIdentifier: String
 
+        @inlinable
         public init(clientRequestToken: String? = CreateGuardrailVersionRequest.idempotencyToken(), description: String? = nil, guardrailIdentifier: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -678,6 +689,7 @@ extension Bedrock {
         /// The number of the version of the guardrail.
         public let version: String
 
+        @inlinable
         public init(guardrailId: String, version: String) {
             self.guardrailId = guardrailId
             self.version = version
@@ -701,6 +713,7 @@ extension Bedrock {
         /// Tags to associate with the target model. For more information, see Tag resources in the Amazon Bedrock User Guide.
         public let targetModelTags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateModelCopyJobRequest.idempotencyToken(), modelKmsKeyId: String? = nil, sourceModelArn: String, targetModelName: String, targetModelTags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.modelKmsKeyId = modelKmsKeyId
@@ -741,6 +754,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the model copy job.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -780,6 +794,7 @@ extension Bedrock {
         /// VPC configuration (optional). Configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for this job.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(baseModelIdentifier: String, clientRequestToken: String? = CreateModelCustomizationJobRequest.idempotencyToken(), customizationType: CustomizationType? = nil, customModelKmsKeyId: String? = nil, customModelName: String, customModelTags: [Tag]? = nil, hyperParameters: [String: String], jobName: String, jobTags: [Tag]? = nil, outputDataConfig: OutputDataConfig, roleArn: String, trainingDataConfig: TrainingDataConfig, validationDataConfig: ValidationDataConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseModelIdentifier = baseModelIdentifier
             self.clientRequestToken = clientRequestToken
@@ -851,6 +866,7 @@ extension Bedrock {
         /// Amazon Resource Name (ARN) of the fine tuning job
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -880,6 +896,7 @@ extension Bedrock {
         /// VPC configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for the import job.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, importedModelKmsKeyId: String? = nil, importedModelName: String, importedModelTags: [Tag]? = nil, jobName: String, jobTags: [Tag]? = nil, modelDataSource: ModelDataSource, roleArn: String, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.importedModelKmsKeyId = importedModelKmsKeyId
@@ -936,6 +953,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the model import job.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -963,6 +981,7 @@ extension Bedrock {
         /// The number of hours after which to force the batch inference job to time out.
         public let timeoutDurationInHours: Int?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateModelInvocationJobRequest.idempotencyToken(), inputDataConfig: ModelInvocationJobInputDataConfig, jobName: String, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, tags: [Tag]? = nil, timeoutDurationInHours: Int? = nil) {
             self.clientRequestToken = clientRequestToken
             self.inputDataConfig = inputDataConfig
@@ -1012,6 +1031,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -1035,6 +1055,7 @@ extension Bedrock {
         /// Tags to associate with this Provisioned Throughput.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateProvisionedModelThroughputRequest.idempotencyToken(), commitmentDuration: CommitmentDuration? = nil, modelId: String, modelUnits: Int, provisionedModelName: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.commitmentDuration = commitmentDuration
@@ -1075,6 +1096,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) for this Provisioned Throughput.
         public let provisionedModelArn: String
 
+        @inlinable
         public init(provisionedModelArn: String) {
             self.provisionedModelArn = provisionedModelArn
         }
@@ -1101,6 +1123,7 @@ extension Bedrock {
         /// The unique identifier of the account that owns the model.
         public let ownerAccountId: String?
 
+        @inlinable
         public init(baseModelArn: String, baseModelName: String, creationTime: Date, customizationType: CustomizationType? = nil, modelArn: String, modelName: String, ownerAccountId: String? = nil) {
             self.baseModelArn = baseModelArn
             self.baseModelName = baseModelName
@@ -1126,6 +1149,7 @@ extension Bedrock {
         /// Name of the model to delete.
         public let modelIdentifier: String
 
+        @inlinable
         public init(modelIdentifier: String) {
             self.modelIdentifier = modelIdentifier
         }
@@ -1155,6 +1179,7 @@ extension Bedrock {
         /// The version of the guardrail.
         public let guardrailVersion: String?
 
+        @inlinable
         public init(guardrailIdentifier: String, guardrailVersion: String? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
@@ -1184,6 +1209,7 @@ extension Bedrock {
         /// Name of the imported model to delete.
         public let modelIdentifier: String
 
+        @inlinable
         public init(modelIdentifier: String) {
             self.modelIdentifier = modelIdentifier
         }
@@ -1219,6 +1245,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
         public let provisionedModelId: String
 
+        @inlinable
         public init(provisionedModelId: String) {
             self.provisionedModelId = provisionedModelId
         }
@@ -1246,6 +1273,7 @@ extension Bedrock {
         /// The ARN of the Amazon Bedrock model specified.
         public let modelIdentifier: String
 
+        @inlinable
         public init(inferenceParams: String, modelIdentifier: String) {
             self.inferenceParams = inferenceParams
             self.modelIdentifier = modelIdentifier
@@ -1271,6 +1299,7 @@ extension Bedrock {
         /// Used to specify supported built-in prompt datasets. Valid values are Builtin.Bold, Builtin.BoolQ, Builtin.NaturalQuestions, Builtin.Gigaword, Builtin.RealToxicityPrompts, Builtin.TriviaQA, Builtin.T-Rex, Builtin.WomensEcommerceClothingReviews and Builtin.Wikitext2.
         public let name: String
 
+        @inlinable
         public init(datasetLocation: EvaluationDatasetLocation? = nil, name: String) {
             self.datasetLocation = datasetLocation
             self.name = name
@@ -1297,6 +1326,7 @@ extension Bedrock {
         /// The task type you want the model to carry out.
         public let taskType: EvaluationTaskType
 
+        @inlinable
         public init(dataset: EvaluationDataset, metricNames: [String], taskType: EvaluationTaskType) {
             self.dataset = dataset
             self.metricNames = metricNames
@@ -1325,6 +1355,7 @@ extension Bedrock {
         /// The Amazon S3 URI where the results of model evaluation job are saved.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -1357,6 +1388,7 @@ extension Bedrock {
         /// The current status of the model evaluation job.
         public let status: EvaluationJobStatus
 
+        @inlinable
         public init(creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], jobArn: String, jobName: String, jobType: EvaluationJobType, modelIdentifiers: [String], status: EvaluationJobStatus) {
             self.creationTime = creationTime
             self.evaluationTaskTypes = evaluationTaskTypes
@@ -1400,6 +1432,7 @@ extension Bedrock {
         /// Indicates whether the model supports streaming.
         public let responseStreamingSupported: Bool?
 
+        @inlinable
         public init(customizationsSupported: [ModelCustomization]? = nil, inferenceTypesSupported: [InferenceType]? = nil, inputModalities: [ModelModality]? = nil, modelArn: String, modelId: String, modelLifecycle: FoundationModelLifecycle? = nil, modelName: String? = nil, outputModalities: [ModelModality]? = nil, providerName: String? = nil, responseStreamingSupported: Bool? = nil) {
             self.customizationsSupported = customizationsSupported
             self.inferenceTypesSupported = inferenceTypesSupported
@@ -1431,6 +1464,7 @@ extension Bedrock {
         /// Specifies whether a model version is available (ACTIVE) or deprecated (LEGACY.
         public let status: FoundationModelLifecycleStatus
 
+        @inlinable
         public init(status: FoundationModelLifecycleStatus) {
             self.status = status
         }
@@ -1462,6 +1496,7 @@ extension Bedrock {
         /// Indicates whether the model supports streaming.
         public let responseStreamingSupported: Bool?
 
+        @inlinable
         public init(customizationsSupported: [ModelCustomization]? = nil, inferenceTypesSupported: [InferenceType]? = nil, inputModalities: [ModelModality]? = nil, modelArn: String, modelId: String, modelLifecycle: FoundationModelLifecycle? = nil, modelName: String? = nil, outputModalities: [ModelModality]? = nil, providerName: String? = nil, responseStreamingSupported: Bool? = nil) {
             self.customizationsSupported = customizationsSupported
             self.inferenceTypesSupported = inferenceTypesSupported
@@ -1493,6 +1528,7 @@ extension Bedrock {
         /// Name or Amazon Resource Name (ARN) of the custom model.
         public let modelIdentifier: String
 
+        @inlinable
         public init(modelIdentifier: String) {
             self.modelIdentifier = modelIdentifier
         }
@@ -1543,6 +1579,7 @@ extension Bedrock {
         /// The validation metrics from the job creation.
         public let validationMetrics: [ValidatorMetric]?
 
+        @inlinable
         public init(baseModelArn: String, creationTime: Date, customizationType: CustomizationType? = nil, hyperParameters: [String: String]? = nil, jobArn: String, jobName: String? = nil, modelArn: String, modelKmsKeyArn: String? = nil, modelName: String, outputDataConfig: OutputDataConfig, trainingDataConfig: TrainingDataConfig, trainingMetrics: TrainingMetrics? = nil, validationDataConfig: ValidationDataConfig? = nil, validationMetrics: [ValidatorMetric]? = nil) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
@@ -1582,6 +1619,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the model evaluation job.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -1630,6 +1668,7 @@ extension Bedrock {
         /// The status of the model evaluation job.
         public let status: EvaluationJobStatus
 
+        @inlinable
         public init(creationTime: Date, customerEncryptionKeyId: String? = nil, evaluationConfig: EvaluationConfig, failureMessages: [String]? = nil, inferenceConfig: EvaluationInferenceConfig, jobArn: String, jobDescription: String? = nil, jobName: String, jobType: EvaluationJobType, lastModifiedTime: Date? = nil, outputDataConfig: EvaluationOutputDataConfig, roleArn: String, status: EvaluationJobStatus) {
             self.creationTime = creationTime
             self.customerEncryptionKeyId = customerEncryptionKeyId
@@ -1667,6 +1706,7 @@ extension Bedrock {
         /// The model identifier.
         public let modelIdentifier: String
 
+        @inlinable
         public init(modelIdentifier: String) {
             self.modelIdentifier = modelIdentifier
         }
@@ -1690,6 +1730,7 @@ extension Bedrock {
         /// Information about the foundation model.
         public let modelDetails: FoundationModelDetails?
 
+        @inlinable
         public init(modelDetails: FoundationModelDetails? = nil) {
             self.modelDetails = modelDetails
         }
@@ -1705,6 +1746,7 @@ extension Bedrock {
         /// The version of the guardrail for which to get details. If you don't specify a version, the response returns details for the DRAFT version.
         public let guardrailVersion: String?
 
+        @inlinable
         public init(guardrailIdentifier: String, guardrailVersion: String? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
@@ -1766,6 +1808,7 @@ extension Bedrock {
         /// The word policy that was configured for the guardrail.
         public let wordPolicy: GuardrailWordPolicy?
 
+        @inlinable
         public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicy: GuardrailContentPolicy? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicy? = nil, createdAt: Date, description: String? = nil, failureRecommendations: [String]? = nil, guardrailArn: String, guardrailId: String, kmsKeyArn: String? = nil, name: String, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicy? = nil, status: GuardrailStatus, statusReasons: [String]? = nil, topicPolicy: GuardrailTopicPolicy? = nil, updatedAt: Date, version: String, wordPolicy: GuardrailWordPolicy? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
@@ -1813,6 +1856,7 @@ extension Bedrock {
         /// Name or Amazon Resource Name (ARN) of the imported model.
         public let modelIdentifier: String
 
+        @inlinable
         public init(modelIdentifier: String) {
             self.modelIdentifier = modelIdentifier
         }
@@ -1851,6 +1895,7 @@ extension Bedrock {
         /// The name of the imported model.
         public let modelName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, jobArn: String? = nil, jobName: String? = nil, modelArchitecture: String? = nil, modelArn: String? = nil, modelDataSource: ModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String? = nil) {
             self.creationTime = creationTime
             self.jobArn = jobArn
@@ -1878,6 +1923,7 @@ extension Bedrock {
         /// The unique identifier of the inference profile.
         public let inferenceProfileIdentifier: String
 
+        @inlinable
         public init(inferenceProfileIdentifier: String) {
             self.inferenceProfileIdentifier = inferenceProfileIdentifier
         }
@@ -1919,6 +1965,7 @@ extension Bedrock {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, inferenceProfileArn: String, inferenceProfileId: String, inferenceProfileName: String, models: [InferenceProfileModel], status: InferenceProfileStatus, type: InferenceProfileType, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -1948,6 +1995,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the model copy job.
         public let jobArn: String
 
+        @inlinable
         public init(jobArn: String) {
             self.jobArn = jobArn
         }
@@ -1991,6 +2039,7 @@ extension Bedrock {
         /// The tags associated with the copied model.
         public let targetModelTags: [Tag]?
 
+        @inlinable
         public init(creationTime: Date, failureMessage: String? = nil, jobArn: String, sourceAccountId: String, sourceModelArn: String, sourceModelName: String? = nil, status: ModelCopyJobStatus, targetModelArn: String, targetModelKmsKeyArn: String? = nil, targetModelName: String? = nil, targetModelTags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.failureMessage = failureMessage
@@ -2024,6 +2073,7 @@ extension Bedrock {
         /// Identifier for the customization job.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -2089,6 +2139,7 @@ extension Bedrock {
         /// VPC configuration for the custom model job.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(baseModelArn: String, clientRequestToken: String? = nil, creationTime: Date, customizationType: CustomizationType? = nil, endTime: Date? = nil, failureMessage: String? = nil, hyperParameters: [String: String], jobArn: String, jobName: String, lastModifiedTime: Date? = nil, outputDataConfig: OutputDataConfig, outputModelArn: String? = nil, outputModelKmsKeyArn: String? = nil, outputModelName: String, roleArn: String, status: ModelCustomizationJobStatus? = nil, trainingDataConfig: TrainingDataConfig, trainingMetrics: TrainingMetrics? = nil, validationDataConfig: ValidationDataConfig, validationMetrics: [ValidatorMetric]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseModelArn = baseModelArn
             self.clientRequestToken = clientRequestToken
@@ -2142,6 +2193,7 @@ extension Bedrock {
         /// The identifier of the import job.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -2191,6 +2243,7 @@ extension Bedrock {
         /// The Virtual Private Cloud (VPC) configuration of the import model job.
         public let vpcConfig: VpcConfig?
 
+        @inlinable
         public init(creationTime: Date? = nil, endTime: Date? = nil, failureMessage: String? = nil, importedModelArn: String? = nil, importedModelKmsKeyArn: String? = nil, importedModelName: String? = nil, jobArn: String? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, modelDataSource: ModelDataSource? = nil, roleArn: String? = nil, status: ModelImportJobStatus? = nil, vpcConfig: VpcConfig? = nil) {
             self.creationTime = creationTime
             self.endTime = endTime
@@ -2228,6 +2281,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -2280,6 +2334,7 @@ extension Bedrock {
         /// The number of hours after which batch inference job was set to time out.
         public let timeoutDurationInHours: Int?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
@@ -2323,6 +2378,7 @@ extension Bedrock {
         /// The current configuration values.
         public let loggingConfig: LoggingConfig?
 
+        @inlinable
         public init(loggingConfig: LoggingConfig? = nil) {
             self.loggingConfig = loggingConfig
         }
@@ -2336,6 +2392,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput.
         public let provisionedModelId: String
 
+        @inlinable
         public init(provisionedModelId: String) {
             self.provisionedModelId = provisionedModelId
         }
@@ -2384,6 +2441,7 @@ extension Bedrock {
         /// The status of the Provisioned Throughput.
         public let status: ProvisionedModelStatus
 
+        @inlinable
         public init(commitmentDuration: CommitmentDuration? = nil, commitmentExpirationTime: Date? = nil, creationTime: Date, desiredModelArn: String, desiredModelUnits: Int, failureMessage: String? = nil, foundationModelArn: String, lastModifiedTime: Date, modelArn: String, modelUnits: Int, provisionedModelArn: String, provisionedModelName: String, status: ProvisionedModelStatus) {
             self.commitmentDuration = commitmentDuration
             self.commitmentExpirationTime = commitmentExpirationTime
@@ -2425,6 +2483,7 @@ extension Bedrock {
         /// The harmful category that the content filter is applied to.
         public let type: GuardrailContentFilterType
 
+        @inlinable
         public init(inputStrength: GuardrailFilterStrength, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
             self.inputStrength = inputStrength
             self.outputStrength = outputStrength
@@ -2446,6 +2505,7 @@ extension Bedrock {
         /// The harmful category that the content filter is applied to.
         public let type: GuardrailContentFilterType
 
+        @inlinable
         public init(inputStrength: GuardrailFilterStrength, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
             self.inputStrength = inputStrength
             self.outputStrength = outputStrength
@@ -2463,6 +2523,7 @@ extension Bedrock {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         public let filters: [GuardrailContentFilter]?
 
+        @inlinable
         public init(filters: [GuardrailContentFilter]? = nil) {
             self.filters = filters
         }
@@ -2476,6 +2537,7 @@ extension Bedrock {
         /// Contains the type of the content filter and how strongly it should apply to prompts and model responses.
         public let filtersConfig: [GuardrailContentFilterConfig]
 
+        @inlinable
         public init(filtersConfig: [GuardrailContentFilterConfig]) {
             self.filtersConfig = filtersConfig
         }
@@ -2496,6 +2558,7 @@ extension Bedrock {
         /// The filter type details for the guardrails contextual grounding filter.
         public let type: GuardrailContextualGroundingFilterType
 
+        @inlinable
         public init(threshold: Double, type: GuardrailContextualGroundingFilterType) {
             self.threshold = threshold
             self.type = type
@@ -2513,6 +2576,7 @@ extension Bedrock {
         /// The filter details for the guardrails contextual grounding filter.
         public let type: GuardrailContextualGroundingFilterType
 
+        @inlinable
         public init(threshold: Double, type: GuardrailContextualGroundingFilterType) {
             self.threshold = threshold
             self.type = type
@@ -2528,6 +2592,7 @@ extension Bedrock {
         /// The filter details for the guardrails contextual grounding policy.
         public let filters: [GuardrailContextualGroundingFilter]
 
+        @inlinable
         public init(filters: [GuardrailContextualGroundingFilter]) {
             self.filters = filters
         }
@@ -2541,6 +2606,7 @@ extension Bedrock {
         /// The filter configuration details for the guardrails contextual grounding policy.
         public let filtersConfig: [GuardrailContextualGroundingFilterConfig]
 
+        @inlinable
         public init(filtersConfig: [GuardrailContextualGroundingFilterConfig]) {
             self.filtersConfig = filtersConfig
         }
@@ -2558,6 +2624,7 @@ extension Bedrock {
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         public let type: GuardrailManagedWordsType
 
+        @inlinable
         public init(type: GuardrailManagedWordsType) {
             self.type = type
         }
@@ -2571,6 +2638,7 @@ extension Bedrock {
         /// The managed word type to configure for the guardrail.
         public let type: GuardrailManagedWordsType
 
+        @inlinable
         public init(type: GuardrailManagedWordsType) {
             self.type = type
         }
@@ -2586,6 +2654,7 @@ extension Bedrock {
         /// The type of PII entity. For exampvle, Social Security Number.
         public let type: GuardrailPiiEntityType
 
+        @inlinable
         public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
             self.action = action
             self.type = type
@@ -2603,6 +2672,7 @@ extension Bedrock {
         /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA"  or "Suite #12, Building 123". An address can include information  such as the street, building, location, city, state, country, county,  zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For  example, in the phrase "I am 40 years old," Guarrails recognizes "40 years"  as an age.     NAME  An individual's name. This entity type does not include titles, such as  Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that  are part of organizations or addresses. For example, guardrails recognizes  the "John Doe Organization" as an organization, and it recognizes "Jane Doe  Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name,  nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as  "*very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official  document permitting an individual to operate one or more motorized  vehicles on a public road. A driver's license number consists of  alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where  the vehicle is registered. The format for passenger vehicles is typically  five to eight digits, consisting of upper-case letters and numbers. The  format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle.  VIN content and format are defined in the ISO 3779 specification.  Each country has specific codes and formats for VINs.       Finance     REDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA,  MasterCard, and Discover credit and debit cards. For American Express  credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually  four digits long and is often formatted as month/year or  MM/YY. Guardrails recognizes expiration dates such as  01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16  digits in length. However, Amazon Comprehend also recognizes credit or debit  card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can  access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country.  For more information, see www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify  a particular bank or branch. Banks use these codes for money transfers such as  international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific  branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the  head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier  assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key;  you use the access key ID and secret access key to sign programmatic  Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the  access key ID and secret access key to sign programmatic Amazon Web Services  requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.                                    US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,                                      US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number  that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN  can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric  characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to  US citizens, permanent residents, and temporary working residents.                                        Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier,  required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier,  required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as  123-456-789. A SIN can be validated through a simple  check-digit process called the Luhn algorithm.      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number,  such as 485 777 3456. The current system formats the 10-digit  number with spaces after the third and sixth digits. The final digit is an  error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National  Insurance (social security) benefits. It is also used for some purposes in the UK  tax system. The number is nine digits long and starts with two letters, followed by six  numbers and one letter. A NINO can be formatted with a space or a dash after  the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for a guardrail to recognize and act upon such as serial number, booking ID etc..
         public let type: GuardrailPiiEntityType
 
+        @inlinable
         public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
             self.action = action
             self.type = type
@@ -2624,6 +2694,7 @@ extension Bedrock {
         /// The pattern of the regular expression configured for the guardrail.
         public let pattern: String
 
+        @inlinable
         public init(action: GuardrailSensitiveInformationAction, description: String? = nil, name: String, pattern: String) {
             self.action = action
             self.description = description
@@ -2649,6 +2720,7 @@ extension Bedrock {
         /// The regular expression pattern to configure for the guardrail.
         public let pattern: String
 
+        @inlinable
         public init(action: GuardrailSensitiveInformationAction, description: String? = nil, name: String, pattern: String) {
             self.action = action
             self.description = description
@@ -2670,6 +2742,7 @@ extension Bedrock {
         /// The list of regular expressions configured for the guardrail.
         public let regexes: [GuardrailRegex]?
 
+        @inlinable
         public init(piiEntities: [GuardrailPiiEntity]? = nil, regexes: [GuardrailRegex]? = nil) {
             self.piiEntities = piiEntities
             self.regexes = regexes
@@ -2687,6 +2760,7 @@ extension Bedrock {
         /// A list of regular expressions to configure to the guardrail.
         public let regexesConfig: [GuardrailRegexConfig]?
 
+        @inlinable
         public init(piiEntitiesConfig: [GuardrailPiiEntityConfig]? = nil, regexesConfig: [GuardrailRegexConfig]? = nil) {
             self.piiEntitiesConfig = piiEntitiesConfig
             self.regexesConfig = regexesConfig
@@ -2724,6 +2798,7 @@ extension Bedrock {
         /// The version of the guardrail.
         public let version: String
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, id: String, name: String, status: GuardrailStatus, updatedAt: Date, version: String) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2757,6 +2832,7 @@ extension Bedrock {
         /// Specifies to deny the topic.
         public let type: GuardrailTopicType?
 
+        @inlinable
         public init(definition: String, examples: [String]? = nil, name: String, type: GuardrailTopicType? = nil) {
             self.definition = definition
             self.examples = examples
@@ -2782,6 +2858,7 @@ extension Bedrock {
         /// Specifies to deny the topic.
         public let type: GuardrailTopicType
 
+        @inlinable
         public init(definition: String, examples: [String]? = nil, name: String, type: GuardrailTopicType) {
             self.definition = definition
             self.examples = examples
@@ -2814,6 +2891,7 @@ extension Bedrock {
         /// A list of policies related to topics that the guardrail should deny.
         public let topics: [GuardrailTopic]
 
+        @inlinable
         public init(topics: [GuardrailTopic]) {
             self.topics = topics
         }
@@ -2827,6 +2905,7 @@ extension Bedrock {
         /// A list of policies related to topics that the guardrail should deny.
         public let topicsConfig: [GuardrailTopicConfig]
 
+        @inlinable
         public init(topicsConfig: [GuardrailTopicConfig]) {
             self.topicsConfig = topicsConfig
         }
@@ -2848,6 +2927,7 @@ extension Bedrock {
         /// Text of the word configured for the guardrail to block.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2861,6 +2941,7 @@ extension Bedrock {
         /// Text of the word configured for the guardrail to block.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -2876,6 +2957,7 @@ extension Bedrock {
         /// A list of words configured for the guardrail.
         public let words: [GuardrailWord]?
 
+        @inlinable
         public init(managedWordLists: [GuardrailManagedWords]? = nil, words: [GuardrailWord]? = nil) {
             self.managedWordLists = managedWordLists
             self.words = words
@@ -2893,6 +2975,7 @@ extension Bedrock {
         /// A list of words to configure for the guardrail.
         public let wordsConfig: [GuardrailWordConfig]?
 
+        @inlinable
         public init(managedWordListsConfig: [GuardrailManagedWordsConfig]? = nil, wordsConfig: [GuardrailWordConfig]? = nil) {
             self.managedWordListsConfig = managedWordListsConfig
             self.wordsConfig = wordsConfig
@@ -2917,6 +3000,7 @@ extension Bedrock {
         /// The parameters of the human workflow.
         public let humanWorkflowConfig: HumanWorkflowConfig?
 
+        @inlinable
         public init(customMetrics: [HumanEvaluationCustomMetric]? = nil, datasetMetricConfigs: [EvaluationDatasetMetricConfig], humanWorkflowConfig: HumanWorkflowConfig? = nil) {
             self.customMetrics = customMetrics
             self.datasetMetricConfigs = datasetMetricConfigs
@@ -2952,6 +3036,7 @@ extension Bedrock {
         /// Choose how you want your human workers to evaluation your model. Valid values for rating methods are ThumbsUpDown, IndividualLikertScale,ComparisonLikertScale, ComparisonChoice, and ComparisonRank
         public let ratingMethod: String
 
+        @inlinable
         public init(description: String? = nil, name: String, ratingMethod: String) {
             self.description = description
             self.name = name
@@ -2983,6 +3068,7 @@ extension Bedrock {
         /// Instructions for the flow definition
         public let instructions: String?
 
+        @inlinable
         public init(flowDefinitionArn: String, instructions: String? = nil) {
             self.flowDefinitionArn = flowDefinitionArn
             self.instructions = instructions
@@ -3011,6 +3097,7 @@ extension Bedrock {
         /// Name of the imported model.
         public let modelName: String
 
+        @inlinable
         public init(creationTime: Date, modelArn: String, modelName: String) {
             self.creationTime = creationTime
             self.modelArn = modelArn
@@ -3028,6 +3115,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the model.
         public let modelArn: String?
 
+        @inlinable
         public init(modelArn: String? = nil) {
             self.modelArn = modelArn
         }
@@ -3059,6 +3147,7 @@ extension Bedrock {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, inferenceProfileArn: String, inferenceProfileId: String, inferenceProfileName: String, models: [InferenceProfileModel], status: InferenceProfileStatus, type: InferenceProfileType, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -3108,6 +3197,7 @@ extension Bedrock {
         /// The sort order of the results.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(baseModelArnEquals: String? = nil, creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, foundationModelArnEquals: String? = nil, isOwned: Bool? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
             self.baseModelArnEquals = baseModelArnEquals
             self.creationTimeAfter = creationTimeAfter
@@ -3160,6 +3250,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelSummaries: [CustomModelSummary]? = nil, nextToken: String? = nil) {
             self.modelSummaries = modelSummaries
             self.nextToken = nextToken
@@ -3191,6 +3282,7 @@ extension Bedrock {
         /// Only return jobs where the status condition is met.
         public let statusEquals: EvaluationJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: EvaluationJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3235,6 +3327,7 @@ extension Bedrock {
         /// Continuation token from the previous response, for Amazon Bedrock to list the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaries: [EvaluationSummary]? = nil, nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -3256,6 +3349,7 @@ extension Bedrock {
         /// Return models belonging to the model provider that you specify.
         public let byProvider: String?
 
+        @inlinable
         public init(byCustomizationType: ModelCustomization? = nil, byInferenceType: InferenceType? = nil, byOutputModality: ModelModality? = nil, byProvider: String? = nil) {
             self.byCustomizationType = byCustomizationType
             self.byInferenceType = byInferenceType
@@ -3283,6 +3377,7 @@ extension Bedrock {
         /// A list of Amazon Bedrock foundation models.
         public let modelSummaries: [FoundationModelSummary]?
 
+        @inlinable
         public init(modelSummaries: [FoundationModelSummary]? = nil) {
             self.modelSummaries = modelSummaries
         }
@@ -3300,6 +3395,7 @@ extension Bedrock {
         /// If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(guardrailIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.maxResults = maxResults
@@ -3333,6 +3429,7 @@ extension Bedrock {
         /// If there are more results than were returned in the response, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(guardrails: [GuardrailSummary], nextToken: String? = nil) {
             self.guardrails = guardrails
             self.nextToken = nextToken
@@ -3362,6 +3459,7 @@ extension Bedrock {
         /// Specifies whetehr to sort the results in ascending or descending order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortModelsBy? = nil, sortOrder: SortOrder? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3404,6 +3502,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelSummaries: [ImportedModelSummary]? = nil, nextToken: String? = nil) {
             self.modelSummaries = modelSummaries
             self.nextToken = nextToken
@@ -3421,6 +3520,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3450,6 +3550,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(inferenceProfileSummaries: [InferenceProfileSummary]? = nil, nextToken: String? = nil) {
             self.inferenceProfileSummaries = inferenceProfileSummaries
             self.nextToken = nextToken
@@ -3485,6 +3586,7 @@ extension Bedrock {
         /// Filters for model copy jobs in which the name of the copied model contains the string that you specify.
         public let targetModelNameContains: String?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, sourceAccountEquals: String? = nil, sourceModelArnEquals: String? = nil, statusEquals: ModelCopyJobStatus? = nil, targetModelNameContains: String? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3537,6 +3639,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelCopyJobSummaries: [ModelCopyJobSummary]? = nil, nextToken: String? = nil) {
             self.modelCopyJobSummaries = modelCopyJobSummaries
             self.nextToken = nextToken
@@ -3568,6 +3671,7 @@ extension Bedrock {
         /// Return customization jobs with the specified status.
         public let statusEquals: FineTuningJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: FineTuningJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3612,6 +3716,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelCustomizationJobSummaries: [ModelCustomizationJobSummary]? = nil, nextToken: String? = nil) {
             self.modelCustomizationJobSummaries = modelCustomizationJobSummaries
             self.nextToken = nextToken
@@ -3643,6 +3748,7 @@ extension Bedrock {
         /// Return imported jobs with the specified status.
         public let statusEquals: ModelImportJobStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ModelImportJobStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3687,6 +3793,7 @@ extension Bedrock {
         /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelImportJobSummaries: [ModelImportJobSummary]? = nil, nextToken: String? = nil) {
             self.modelImportJobSummaries = modelImportJobSummaries
             self.nextToken = nextToken
@@ -3718,6 +3825,7 @@ extension Bedrock {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var submitTimeBefore: Date?
 
+        @inlinable
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil, statusEquals: ModelInvocationJobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.maxResults = maxResults
             self.nameContains = nameContains
@@ -3762,6 +3870,7 @@ extension Bedrock {
         /// If there are more results than can fit in the response, a nextToken is returned. Use the nextToken in a request to return the next batch of results.
         public let nextToken: String?
 
+        @inlinable
         public init(invocationJobSummaries: [ModelInvocationJobSummary]? = nil, nextToken: String? = nil) {
             self.invocationJobSummaries = invocationJobSummaries
             self.nextToken = nextToken
@@ -3795,6 +3904,7 @@ extension Bedrock {
         /// A filter that returns Provisioned Throughputs if their statuses matches the value that you specify.
         public let statusEquals: ProvisionedModelStatus?
 
+        @inlinable
         public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, modelArnEquals: String? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: SortByProvisionedModels? = nil, sortOrder: SortOrder? = nil, statusEquals: ProvisionedModelStatus? = nil) {
             self.creationTimeAfter = creationTimeAfter
             self.creationTimeBefore = creationTimeBefore
@@ -3844,6 +3954,7 @@ extension Bedrock {
         /// A list of summaries, one for each Provisioned Throughput in the response.
         public let provisionedModelSummaries: [ProvisionedModelSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, provisionedModelSummaries: [ProvisionedModelSummary]? = nil) {
             self.nextToken = nextToken
             self.provisionedModelSummaries = provisionedModelSummaries
@@ -3859,6 +3970,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -3878,6 +3990,7 @@ extension Bedrock {
         /// An array of the tags associated with this resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3899,6 +4012,7 @@ extension Bedrock {
         /// Set to include text data in the log delivery.
         public let textDataDeliveryEnabled: Bool?
 
+        @inlinable
         public init(cloudWatchConfig: CloudWatchConfig? = nil, embeddingDataDeliveryEnabled: Bool? = nil, imageDataDeliveryEnabled: Bool? = nil, s3Config: S3Config? = nil, textDataDeliveryEnabled: Bool? = nil) {
             self.cloudWatchConfig = cloudWatchConfig
             self.embeddingDataDeliveryEnabled = embeddingDataDeliveryEnabled
@@ -3946,6 +4060,7 @@ extension Bedrock {
         /// Tags associated with the copied model.
         public let targetModelTags: [Tag]?
 
+        @inlinable
         public init(creationTime: Date, failureMessage: String? = nil, jobArn: String, sourceAccountId: String, sourceModelArn: String, sourceModelName: String? = nil, status: ModelCopyJobStatus, targetModelArn: String, targetModelKmsKeyArn: String? = nil, targetModelName: String? = nil, targetModelTags: [Tag]? = nil) {
             self.creationTime = creationTime
             self.failureMessage = failureMessage
@@ -4000,6 +4115,7 @@ extension Bedrock {
         /// Status of the customization job.
         public let status: ModelCustomizationJobStatus
 
+        @inlinable
         public init(baseModelArn: String, creationTime: Date, customizationType: CustomizationType? = nil, customModelArn: String? = nil, customModelName: String? = nil, endTime: Date? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, status: ModelCustomizationJobStatus) {
             self.baseModelArn = baseModelArn
             self.creationTime = creationTime
@@ -4048,6 +4164,7 @@ extension Bedrock {
         /// The status of the imported job.
         public let status: ModelImportJobStatus
 
+        @inlinable
         public init(creationTime: Date, endTime: Date? = nil, importedModelArn: String? = nil, importedModelName: String? = nil, jobArn: String, jobName: String, lastModifiedTime: Date? = nil, status: ModelImportJobStatus) {
             self.creationTime = creationTime
             self.endTime = endTime
@@ -4077,6 +4194,7 @@ extension Bedrock {
         /// The S3 location of the input data.
         public let s3Uri: String
 
+        @inlinable
         public init(s3InputFormat: S3InputFormat? = nil, s3Uri: String) {
             self.s3InputFormat = s3InputFormat
             self.s3Uri = s3Uri
@@ -4100,6 +4218,7 @@ extension Bedrock {
         /// The S3 location of the output data.
         public let s3Uri: String
 
+        @inlinable
         public init(s3EncryptionKeyId: String? = nil, s3Uri: String) {
             self.s3EncryptionKeyId = s3EncryptionKeyId
             self.s3Uri = s3Uri
@@ -4154,6 +4273,7 @@ extension Bedrock {
         /// The number of hours after which the batch inference job was set to time out.
         public let timeoutDurationInHours: Int?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
@@ -4193,6 +4313,7 @@ extension Bedrock {
         /// The S3 URI where the output data is stored.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -4237,6 +4358,7 @@ extension Bedrock {
         /// The status of the Provisioned Throughput.
         public let status: ProvisionedModelStatus
 
+        @inlinable
         public init(commitmentDuration: CommitmentDuration? = nil, commitmentExpirationTime: Date? = nil, creationTime: Date, desiredModelArn: String, desiredModelUnits: Int, foundationModelArn: String, lastModifiedTime: Date, modelArn: String, modelUnits: Int, provisionedModelArn: String, provisionedModelName: String, status: ProvisionedModelStatus) {
             self.commitmentDuration = commitmentDuration
             self.commitmentExpirationTime = commitmentExpirationTime
@@ -4272,6 +4394,7 @@ extension Bedrock {
         /// The logging configuration values to set.
         public let loggingConfig: LoggingConfig
 
+        @inlinable
         public init(loggingConfig: LoggingConfig) {
             self.loggingConfig = loggingConfig
         }
@@ -4295,6 +4418,7 @@ extension Bedrock {
         /// S3 prefix.
         public let keyPrefix: String?
 
+        @inlinable
         public init(bucketName: String, keyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.keyPrefix = keyPrefix
@@ -4316,6 +4440,7 @@ extension Bedrock {
         /// The URI of the Amazon S3 data source.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -4335,6 +4460,7 @@ extension Bedrock {
         /// The ARN of the model evaluation job you want to stop.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -4361,6 +4487,7 @@ extension Bedrock {
         /// Job identifier of the job to stop.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -4387,6 +4514,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) of the batch inference job to stop.
         public let jobIdentifier: String
 
+        @inlinable
         public init(jobIdentifier: String) {
             self.jobIdentifier = jobIdentifier
         }
@@ -4415,6 +4543,7 @@ extension Bedrock {
         /// Value for the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4440,6 +4569,7 @@ extension Bedrock {
         /// Tags to associate with the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4469,6 +4599,7 @@ extension Bedrock {
         /// The S3 URI where the training data is stored.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -4488,6 +4619,7 @@ extension Bedrock {
         /// Loss metric associated with the custom job.
         public let trainingLoss: Float?
 
+        @inlinable
         public init(trainingLoss: Float? = nil) {
             self.trainingLoss = trainingLoss
         }
@@ -4503,6 +4635,7 @@ extension Bedrock {
         /// Tag keys of the tags to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4554,6 +4687,7 @@ extension Bedrock {
         /// The word policy to configure for the guardrail.
         public let wordPolicyConfig: GuardrailWordPolicyConfig?
 
+        @inlinable
         public init(blockedInputMessaging: String, blockedOutputsMessaging: String, contentPolicyConfig: GuardrailContentPolicyConfig? = nil, contextualGroundingPolicyConfig: GuardrailContextualGroundingPolicyConfig? = nil, description: String? = nil, guardrailIdentifier: String, kmsKeyId: String? = nil, name: String, sensitiveInformationPolicyConfig: GuardrailSensitiveInformationPolicyConfig? = nil, topicPolicyConfig: GuardrailTopicPolicyConfig? = nil, wordPolicyConfig: GuardrailWordPolicyConfig? = nil) {
             self.blockedInputMessaging = blockedInputMessaging
             self.blockedOutputsMessaging = blockedOutputsMessaging
@@ -4631,6 +4765,7 @@ extension Bedrock {
         /// The version of the guardrail.
         public let version: String
 
+        @inlinable
         public init(guardrailArn: String, guardrailId: String, updatedAt: Date, version: String) {
             self.guardrailArn = guardrailArn
             self.guardrailId = guardrailId
@@ -4654,6 +4789,7 @@ extension Bedrock {
         /// The Amazon Resource Name (ARN) or name of the Provisioned Throughput to update.
         public let provisionedModelId: String
 
+        @inlinable
         public init(desiredModelId: String? = nil, desiredProvisionedModelName: String? = nil, provisionedModelId: String) {
             self.desiredModelId = desiredModelId
             self.desiredProvisionedModelName = desiredProvisionedModelName
@@ -4692,6 +4828,7 @@ extension Bedrock {
         /// Information about the validators.
         public let validators: [Validator]
 
+        @inlinable
         public init(validators: [Validator]) {
             self.validators = validators
         }
@@ -4712,6 +4849,7 @@ extension Bedrock {
         /// The S3 URI where the validation data is stored.
         public let s3Uri: String
 
+        @inlinable
         public init(s3Uri: String) {
             self.s3Uri = s3Uri
         }
@@ -4731,6 +4869,7 @@ extension Bedrock {
         /// The validation loss associated with this validator.
         public let validationLoss: Float?
 
+        @inlinable
         public init(validationLoss: Float? = nil) {
             self.validationLoss = validationLoss
         }
@@ -4746,6 +4885,7 @@ extension Bedrock {
         /// VPC configuration subnets.
         public let subnetIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -4776,6 +4916,7 @@ extension Bedrock {
         /// The S3 URI of the S3 bucket specified in the job.
         public let s3Uri: String?
 
+        @inlinable
         public init(s3Uri: String? = nil) {
             self.s3Uri = s3Uri
         }
@@ -4795,6 +4936,7 @@ extension Bedrock {
         /// Used to specify the models.
         public let models: [EvaluationModelConfig]?
 
+        @inlinable
         public init(models: [EvaluationModelConfig]? = nil) {
             self.models = models
         }
@@ -4816,6 +4958,7 @@ extension Bedrock {
         /// Defines the Amazon Bedrock model and inference parameters you want used.
         public let bedrockModel: EvaluationBedrockModel?
 
+        @inlinable
         public init(bedrockModel: EvaluationBedrockModel? = nil) {
             self.bedrockModel = bedrockModel
         }
@@ -4833,6 +4976,7 @@ extension Bedrock {
         /// The Amazon S3 data source of the imported model.
         public let s3DataSource: S3DataSource?
 
+        @inlinable
         public init(s3DataSource: S3DataSource? = nil) {
             self.s3DataSource = s3DataSource
         }
@@ -4850,6 +4994,7 @@ extension Bedrock {
         /// Contains the configuration of the S3 location of the input data.
         public let s3InputDataConfig: ModelInvocationJobS3InputDataConfig?
 
+        @inlinable
         public init(s3InputDataConfig: ModelInvocationJobS3InputDataConfig? = nil) {
             self.s3InputDataConfig = s3InputDataConfig
         }
@@ -4867,6 +5012,7 @@ extension Bedrock {
         /// Contains the configuration of the S3 location of the output data.
         public let s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig?
 
+        @inlinable
         public init(s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig? = nil) {
             self.s3OutputDataConfig = s3OutputDataConfig
         }

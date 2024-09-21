@@ -89,6 +89,7 @@ extension LaunchWizard {
         /// The name of the workload. You can use the  ListWorkloads operation to discover supported values for this parameter.
         public let workloadName: String
 
+        @inlinable
         public init(deploymentPatternName: String, dryRun: Bool? = nil, name: String, specifications: [String: String], tags: [String: String]? = nil, workloadName: String) {
             self.deploymentPatternName = deploymentPatternName
             self.dryRun = dryRun
@@ -141,6 +142,7 @@ extension LaunchWizard {
         /// The ID of the deployment.
         public let deploymentId: String?
 
+        @inlinable
         public init(deploymentId: String? = nil) {
             self.deploymentId = deploymentId
         }
@@ -154,6 +156,7 @@ extension LaunchWizard {
         /// The ID of the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
         }
@@ -175,6 +178,7 @@ extension LaunchWizard {
         /// The reason for the deployment status.
         public let statusReason: String?
 
+        @inlinable
         public init(status: DeploymentStatus? = nil, statusReason: String? = nil) {
             self.status = status
             self.statusReason = statusReason
@@ -194,6 +198,7 @@ extension LaunchWizard {
         /// The value of the condition.
         public let value: String?
 
+        @inlinable
         public init(comparator: String? = nil, name: String? = nil, value: String? = nil) {
             self.comparator = comparator
             self.name = name
@@ -231,6 +236,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, deletedAt: Date? = nil, deploymentArn: String? = nil, id: String? = nil, name: String? = nil, patternName: String? = nil, resourceGroup: String? = nil, specifications: [String: String]? = nil, status: DeploymentStatus? = nil, tags: [String: String]? = nil, workloadName: String? = nil) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -274,6 +280,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, patternName: String? = nil, status: DeploymentStatus? = nil, workloadName: String? = nil) {
             self.createdAt = createdAt
             self.id = id
@@ -305,6 +312,7 @@ extension LaunchWizard {
         /// The timestamp of the deployment event.
         public let timestamp: Date?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, status: EventStatus? = nil, statusReason: String? = nil, timestamp: Date? = nil) {
             self.description = description
             self.name = name
@@ -328,6 +336,7 @@ extension LaunchWizard {
         /// The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
         public let values: [String]?
 
+        @inlinable
         public init(name: DeploymentFilterKey? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -351,6 +360,7 @@ extension LaunchWizard {
         /// Indicates if the deployment specification is required.
         public let required: String?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, conditionals: [DeploymentConditionalField]? = nil, description: String? = nil, name: String? = nil, required: String? = nil) {
             self.allowedValues = allowedValues
             self.conditionals = conditionals
@@ -372,6 +382,7 @@ extension LaunchWizard {
         /// The ID of the deployment.
         public let deploymentId: String
 
+        @inlinable
         public init(deploymentId: String) {
             self.deploymentId = deploymentId
         }
@@ -391,6 +402,7 @@ extension LaunchWizard {
         /// An object that details the deployment.
         public let deployment: DeploymentData?
 
+        @inlinable
         public init(deployment: DeploymentData? = nil) {
             self.deployment = deployment
         }
@@ -406,6 +418,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String
 
+        @inlinable
         public init(deploymentPatternName: String, workloadName: String) {
             self.deploymentPatternName = deploymentPatternName
             self.workloadName = workloadName
@@ -430,6 +443,7 @@ extension LaunchWizard {
         /// Details about the workload deployment pattern.
         public let workloadDeploymentPattern: WorkloadDeploymentPatternData?
 
+        @inlinable
         public init(workloadDeploymentPattern: WorkloadDeploymentPatternData? = nil) {
             self.workloadDeploymentPattern = workloadDeploymentPattern
         }
@@ -443,6 +457,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String
 
+        @inlinable
         public init(workloadName: String) {
             self.workloadName = workloadName
         }
@@ -462,6 +477,7 @@ extension LaunchWizard {
         /// Information about the workload.
         public let workload: WorkloadData?
 
+        @inlinable
         public init(workload: WorkloadData? = nil) {
             self.workload = workload
         }
@@ -479,6 +495,7 @@ extension LaunchWizard {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(deploymentId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deploymentId = deploymentId
             self.maxResults = maxResults
@@ -508,6 +525,7 @@ extension LaunchWizard {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(deploymentEvents: [DeploymentEventDataSummary]? = nil, nextToken: String? = nil) {
             self.deploymentEvents = deploymentEvents
             self.nextToken = nextToken
@@ -527,6 +545,7 @@ extension LaunchWizard {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [DeploymentFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -554,6 +573,7 @@ extension LaunchWizard {
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(deployments: [DeploymentDataSummary]? = nil, nextToken: String? = nil) {
             self.deployments = deployments
             self.nextToken = nextToken
@@ -569,6 +589,7 @@ extension LaunchWizard {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -586,6 +607,7 @@ extension LaunchWizard {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -603,6 +625,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workloadName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -632,6 +655,7 @@ extension LaunchWizard {
         /// Describes the workload deployment patterns.
         public let workloadDeploymentPatterns: [WorkloadDeploymentPatternDataSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workloadDeploymentPatterns: [WorkloadDeploymentPatternDataSummary]? = nil) {
             self.nextToken = nextToken
             self.workloadDeploymentPatterns = workloadDeploymentPatterns
@@ -649,6 +673,7 @@ extension LaunchWizard {
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -673,6 +698,7 @@ extension LaunchWizard {
         /// Information about the workloads.
         public let workloads: [WorkloadDataSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workloads: [WorkloadDataSummary]? = nil) {
             self.nextToken = nextToken
             self.workloads = workloads
@@ -690,6 +716,7 @@ extension LaunchWizard {
         /// One or more tags to attach to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -728,6 +755,7 @@ extension LaunchWizard {
         /// Keys identifying the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -773,6 +801,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String?
 
+        @inlinable
         public init(description: String? = nil, displayName: String? = nil, documentationUrl: String? = nil, iconUrl: String? = nil, status: WorkloadStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil) {
             self.description = description
             self.displayName = displayName
@@ -800,6 +829,7 @@ extension LaunchWizard {
         /// The name of the workload.
         public let workloadName: String?
 
+        @inlinable
         public init(displayName: String? = nil, workloadName: String? = nil) {
             self.displayName = displayName
             self.workloadName = workloadName
@@ -829,6 +859,7 @@ extension LaunchWizard {
         /// The workload version name of the deployment pattern.
         public let workloadVersionName: String?
 
+        @inlinable
         public init(deploymentPatternName: String? = nil, description: String? = nil, displayName: String? = nil, specifications: [DeploymentSpecificationsField]? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
             self.deploymentPatternName = deploymentPatternName
             self.description = description
@@ -868,6 +899,7 @@ extension LaunchWizard {
         /// The name of the workload deployment pattern version.
         public let workloadVersionName: String?
 
+        @inlinable
         public init(deploymentPatternName: String? = nil, description: String? = nil, displayName: String? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
             self.deploymentPatternName = deploymentPatternName
             self.description = description

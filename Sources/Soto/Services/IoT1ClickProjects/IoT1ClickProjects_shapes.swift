@@ -38,6 +38,7 @@ extension IoT1ClickProjects {
         /// The name of the project containing the placement in which to associate the device.
         public let projectName: String
 
+        @inlinable
         public init(deviceId: String, deviceTemplateName: String, placementName: String, projectName: String) {
             self.deviceId = deviceId
             self.deviceTemplateName = deviceTemplateName
@@ -85,6 +86,7 @@ extension IoT1ClickProjects {
         /// The name of the project in which to create the placement.
         public let projectName: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, placementName: String, projectName: String) {
             self.attributes = attributes
             self.placementName = placementName
@@ -133,6 +135,7 @@ extension IoT1ClickProjects {
         /// Optional tags (metadata key/value pairs) to be associated with the project. For example, { {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil) {
             self.description = description
             self.placementTemplate = placementTemplate
@@ -174,6 +177,7 @@ extension IoT1ClickProjects {
         /// The project containing the empty placement to delete.
         public let projectName: String
 
+        @inlinable
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
@@ -206,6 +210,7 @@ extension IoT1ClickProjects {
         /// The name of the empty project to delete.
         public let projectName: String
 
+        @inlinable
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -235,6 +240,7 @@ extension IoT1ClickProjects {
         /// The project containing the placement to be described.
         public let projectName: String
 
+        @inlinable
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
@@ -263,6 +269,7 @@ extension IoT1ClickProjects {
         /// An object describing the placement.
         public let placement: PlacementDescription
 
+        @inlinable
         public init(placement: PlacementDescription) {
             self.placement = placement
         }
@@ -276,6 +283,7 @@ extension IoT1ClickProjects {
         /// The name of the project to be described.
         public let projectName: String
 
+        @inlinable
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -299,6 +307,7 @@ extension IoT1ClickProjects {
         /// An object describing the project.
         public let project: ProjectDescription
 
+        @inlinable
         public init(project: ProjectDescription) {
             self.project = project
         }
@@ -314,6 +323,7 @@ extension IoT1ClickProjects {
         /// The device type, which currently must be "button".
         public let deviceType: String?
 
+        @inlinable
         public init(callbackOverrides: [String: String]? = nil, deviceType: String? = nil) {
             self.callbackOverrides = callbackOverrides
             self.deviceType = deviceType
@@ -342,6 +352,7 @@ extension IoT1ClickProjects {
         /// The name of the project that contains the placement.
         public let projectName: String
 
+        @inlinable
         public init(deviceTemplateName: String, placementName: String, projectName: String) {
             self.deviceTemplateName = deviceTemplateName
             self.placementName = placementName
@@ -381,6 +392,7 @@ extension IoT1ClickProjects {
         /// The name of the project containing the placement.
         public let projectName: String
 
+        @inlinable
         public init(placementName: String, projectName: String) {
             self.placementName = placementName
             self.projectName = projectName
@@ -409,6 +421,7 @@ extension IoT1ClickProjects {
         /// An object containing the devices (zero or more) within the placement.
         public let devices: [String: String]
 
+        @inlinable
         public init(devices: [String: String]) {
             self.devices = devices
         }
@@ -426,6 +439,7 @@ extension IoT1ClickProjects {
         /// The project containing the placements to be listed.
         public let projectName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -459,6 +473,7 @@ extension IoT1ClickProjects {
         /// An object listing the requested placements.
         public let placements: [PlacementSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, placements: [PlacementSummary]) {
             self.nextToken = nextToken
             self.placements = placements
@@ -476,6 +491,7 @@ extension IoT1ClickProjects {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -504,6 +520,7 @@ extension IoT1ClickProjects {
         /// An object containing the list of projects.
         public let projects: [ProjectSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [ProjectSummary]) {
             self.nextToken = nextToken
             self.projects = projects
@@ -519,6 +536,7 @@ extension IoT1ClickProjects {
         /// The ARN of the resource whose tags you want to list.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -540,6 +558,7 @@ extension IoT1ClickProjects {
         /// The tags (metadata key/value pairs) which you have assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -561,6 +580,7 @@ extension IoT1ClickProjects {
         /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: Date
 
+        @inlinable
         public init(attributes: [String: String], createdDate: Date, placementName: String, projectName: String, updatedDate: Date) {
             self.attributes = attributes
             self.createdDate = createdDate
@@ -588,6 +608,7 @@ extension IoT1ClickProjects {
         /// The date when the placement was last updated, in UNIX epoch time format. If the placement was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: Date
 
+        @inlinable
         public init(createdDate: Date, placementName: String, projectName: String, updatedDate: Date) {
             self.createdDate = createdDate
             self.placementName = placementName
@@ -609,6 +630,7 @@ extension IoT1ClickProjects {
         /// An object specifying the DeviceTemplate for all placements using this (PlacementTemplate) template.
         public let deviceTemplates: [String: DeviceTemplate]?
 
+        @inlinable
         public init(defaultAttributes: [String: String]? = nil, deviceTemplates: [String: DeviceTemplate]? = nil) {
             self.defaultAttributes = defaultAttributes
             self.deviceTemplates = deviceTemplates
@@ -650,6 +672,7 @@ extension IoT1ClickProjects {
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: Date
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Date, description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String, tags: [String: String]? = nil, updatedDate: Date) {
             self.arn = arn
             self.createdDate = createdDate
@@ -683,6 +706,7 @@ extension IoT1ClickProjects {
         /// The date when the project was last updated, in UNIX epoch time format. If the project was not updated, then createdDate and updatedDate are the same.
         public let updatedDate: Date
 
+        @inlinable
         public init(arn: String? = nil, createdDate: Date, projectName: String, tags: [String: String]? = nil, updatedDate: Date) {
             self.arn = arn
             self.createdDate = createdDate
@@ -706,6 +730,7 @@ extension IoT1ClickProjects {
         /// The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -745,6 +770,7 @@ extension IoT1ClickProjects {
         /// The keys of those tags which you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -783,6 +809,7 @@ extension IoT1ClickProjects {
         /// The name of the project containing the placement to be updated.
         public let projectName: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, placementName: String, projectName: String) {
             self.attributes = attributes
             self.placementName = placementName
@@ -828,6 +855,7 @@ extension IoT1ClickProjects {
         /// The name of the project to be updated.
         public let projectName: String
 
+        @inlinable
         public init(description: String? = nil, placementTemplate: PlacementTemplate? = nil, projectName: String) {
             self.description = description
             self.placementTemplate = placementTemplate

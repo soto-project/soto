@@ -96,6 +96,7 @@ extension TimestreamQuery {
         ///  The ID of the query that needs to be cancelled. QueryID is returned as part of the query result.
         public let queryId: String
 
+        @inlinable
         public init(queryId: String) {
             self.queryId = queryId
         }
@@ -115,6 +116,7 @@ extension TimestreamQuery {
         ///  A CancellationMessage is returned when a CancelQuery request for the query specified by QueryId has already been issued.
         public let cancellationMessage: String?
 
+        @inlinable
         public init(cancellationMessage: String? = nil) {
             self.cancellationMessage = cancellationMessage
         }
@@ -130,6 +132,7 @@ extension TimestreamQuery {
         /// The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, Booleans, and others. Complex data types are types such as arrays, rows, and others.
         public let type: `Type`
 
+        @inlinable
         public init(name: String? = nil, type: `Type`) {
             self.name = name
             self.type = type
@@ -163,6 +166,7 @@ extension TimestreamQuery {
         /// Configuration used for writing the result of a query.
         public let targetConfiguration: TargetConfiguration?
 
+        @inlinable
         public init(clientToken: String? = CreateScheduledQueryRequest.idempotencyToken(), errorReportConfiguration: ErrorReportConfiguration, kmsKeyId: String? = nil, name: String, notificationConfiguration: NotificationConfiguration, queryString: String, scheduleConfiguration: ScheduleConfiguration, scheduledQueryExecutionRoleArn: String, tags: [Tag]? = nil, targetConfiguration: TargetConfiguration? = nil) {
             self.clientToken = clientToken
             self.errorReportConfiguration = errorReportConfiguration
@@ -216,6 +220,7 @@ extension TimestreamQuery {
         /// ARN for the created scheduled query.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -237,6 +242,7 @@ extension TimestreamQuery {
         ///  Indicates if the data point is a timeseries data type.
         public let timeSeriesValue: [TimeSeriesDataPoint]?
 
+        @inlinable
         public init(arrayValue: [Datum]? = nil, nullValue: Bool? = nil, rowValue: Row? = nil, scalarValue: String? = nil, timeSeriesValue: [TimeSeriesDataPoint]? = nil) {
             self.arrayValue = arrayValue
             self.nullValue = nullValue
@@ -258,6 +264,7 @@ extension TimestreamQuery {
         /// The ARN of the scheduled query.
         public let scheduledQueryArn: String
 
+        @inlinable
         public init(scheduledQueryArn: String) {
             self.scheduledQueryArn = scheduledQueryArn
         }
@@ -282,6 +289,7 @@ extension TimestreamQuery {
         /// The pricing model for queries in your account.
         public let queryPricingModel: QueryPricingModel?
 
+        @inlinable
         public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
             self.maxQueryTCU = maxQueryTCU
             self.queryPricingModel = queryPricingModel
@@ -301,6 +309,7 @@ extension TimestreamQuery {
         /// An Endpoints object is returned when a DescribeEndpoints request is made.
         public let endpoints: [Endpoint]
 
+        @inlinable
         public init(endpoints: [Endpoint]) {
             self.endpoints = endpoints
         }
@@ -314,6 +323,7 @@ extension TimestreamQuery {
         /// The ARN of the scheduled query.
         public let scheduledQueryArn: String
 
+        @inlinable
         public init(scheduledQueryArn: String) {
             self.scheduledQueryArn = scheduledQueryArn
         }
@@ -332,6 +342,7 @@ extension TimestreamQuery {
         /// The scheduled query.
         public let scheduledQuery: ScheduledQueryDescription
 
+        @inlinable
         public init(scheduledQuery: ScheduledQueryDescription) {
             self.scheduledQuery = scheduledQuery
         }
@@ -347,6 +358,7 @@ extension TimestreamQuery {
         /// Column name from query result.
         public let name: String
 
+        @inlinable
         public init(dimensionValueType: DimensionValueType, name: String) {
             self.dimensionValueType = dimensionValueType
             self.name = name
@@ -364,6 +376,7 @@ extension TimestreamQuery {
         /// The TTL for the endpoint, in minutes.
         public let cachePeriodInMinutes: Int64
 
+        @inlinable
         public init(address: String, cachePeriodInMinutes: Int64) {
             self.address = address
             self.cachePeriodInMinutes = cachePeriodInMinutes
@@ -379,6 +392,7 @@ extension TimestreamQuery {
         /// The S3 configuration for the error reports.
         public let s3Configuration: S3Configuration
 
+        @inlinable
         public init(s3Configuration: S3Configuration) {
             self.s3Configuration = s3Configuration
         }
@@ -396,6 +410,7 @@ extension TimestreamQuery {
         /// The S3 location where error reports are written.
         public let s3ReportLocation: S3ReportLocation?
 
+        @inlinable
         public init(s3ReportLocation: S3ReportLocation? = nil) {
             self.s3ReportLocation = s3ReportLocation
         }
@@ -413,6 +428,7 @@ extension TimestreamQuery {
         /// ARN of the scheduled query.
         public let scheduledQueryArn: String
 
+        @inlinable
         public init(clientToken: String? = ExecuteScheduledQueryRequest.idempotencyToken(), invocationTime: Date, scheduledQueryArn: String) {
             self.clientToken = clientToken
             self.invocationTime = invocationTime
@@ -447,6 +463,7 @@ extension TimestreamQuery {
         /// The number of records ingested for a single scheduled query run.
         public let recordsIngested: Int64?
 
+        @inlinable
         public init(bytesMetered: Int64? = nil, cumulativeBytesScanned: Int64? = nil, dataWrites: Int64? = nil, executionTimeInMillis: Int64? = nil, queryResultRows: Int64? = nil, recordsIngested: Int64? = nil) {
             self.bytesMetered = bytesMetered
             self.cumulativeBytesScanned = cumulativeBytesScanned
@@ -472,6 +489,7 @@ extension TimestreamQuery {
         ///  A pagination token to resume pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -494,6 +512,7 @@ extension TimestreamQuery {
         /// A list of scheduled queries.
         public let scheduledQueries: [ScheduledQuery]
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledQueries: [ScheduledQuery]) {
             self.nextToken = nextToken
             self.scheduledQueries = scheduledQueries
@@ -513,6 +532,7 @@ extension TimestreamQuery {
         /// The Timestream resource with tags to be listed. This value is an Amazon Resource Name (ARN).
         public let resourceARN: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -539,6 +559,7 @@ extension TimestreamQuery {
         /// The tags currently associated with the Timestream resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]) {
             self.nextToken = nextToken
             self.tags = tags
@@ -562,6 +583,7 @@ extension TimestreamQuery {
         /// Target measure name to be used. If not provided, the target measure name by default would be measure-name if provided, or sourceColumn otherwise.
         public let targetMeasureName: String?
 
+        @inlinable
         public init(measureName: String? = nil, measureValueType: MeasureValueType, multiMeasureAttributeMappings: [MultiMeasureAttributeMapping]? = nil, sourceColumn: String? = nil, targetMeasureName: String? = nil) {
             self.measureName = measureName
             self.measureValueType = measureValueType
@@ -591,6 +613,7 @@ extension TimestreamQuery {
         /// Custom name to be used for attribute name in derived table. If not provided, source column name would be used.
         public let targetMultiMeasureAttributeName: String?
 
+        @inlinable
         public init(measureValueType: ScalarMeasureValueType, sourceColumn: String, targetMultiMeasureAttributeName: String? = nil) {
             self.measureValueType = measureValueType
             self.sourceColumn = sourceColumn
@@ -610,6 +633,7 @@ extension TimestreamQuery {
         /// The name of the target multi-measure name in the derived table. This input is required when measureNameColumn is not provided. If MeasureNameColumn is provided, then value from that column will be used as multi-measure name.
         public let targetMultiMeasureName: String?
 
+        @inlinable
         public init(multiMeasureAttributeMappings: [MultiMeasureAttributeMapping], targetMultiMeasureName: String? = nil) {
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
             self.targetMultiMeasureName = targetMultiMeasureName
@@ -629,6 +653,7 @@ extension TimestreamQuery {
         /// Details on SNS configuration.
         public let snsConfiguration: SnsConfiguration
 
+        @inlinable
         public init(snsConfiguration: SnsConfiguration) {
             self.snsConfiguration = snsConfiguration
         }
@@ -647,6 +672,7 @@ extension TimestreamQuery {
         public let name: String
         public let type: `Type`
 
+        @inlinable
         public init(name: String, type: `Type`) {
             self.name = name
             self.type = type
@@ -664,6 +690,7 @@ extension TimestreamQuery {
         /// By setting this value to true, Timestream will only validate that the query string is a valid Timestream query, and not store the prepared query for later use.
         public let validateOnly: Bool?
 
+        @inlinable
         public init(queryString: String, validateOnly: Bool? = nil) {
             self.queryString = queryString
             self.validateOnly = validateOnly
@@ -688,6 +715,7 @@ extension TimestreamQuery {
         /// The query string that you want prepare.
         public let queryString: String
 
+        @inlinable
         public init(columns: [SelectColumn], parameters: [ParameterMapping], queryString: String) {
             self.columns = columns
             self.parameters = parameters
@@ -711,6 +739,7 @@ extension TimestreamQuery {
         ///  The query to be run by Timestream.
         public let queryString: String
 
+        @inlinable
         public init(clientToken: String? = QueryRequest.idempotencyToken(), maxRows: Int? = nil, nextToken: String? = nil, queryString: String) {
             self.clientToken = clientToken
             self.maxRows = maxRows
@@ -749,6 +778,7 @@ extension TimestreamQuery {
         ///  The result set rows returned by the query.
         public let rows: [Row]
 
+        @inlinable
         public init(columnInfo: [ColumnInfo], nextToken: String? = nil, queryId: String, queryStatus: QueryStatus? = nil, rows: [Row]) {
             self.columnInfo = columnInfo
             self.nextToken = nextToken
@@ -774,6 +804,7 @@ extension TimestreamQuery {
         /// The progress of the query, expressed as a percentage.
         public let progressPercentage: Double?
 
+        @inlinable
         public init(cumulativeBytesMetered: Int64? = nil, cumulativeBytesScanned: Int64? = nil, progressPercentage: Double? = nil) {
             self.cumulativeBytesMetered = cumulativeBytesMetered
             self.cumulativeBytesScanned = cumulativeBytesScanned
@@ -791,6 +822,7 @@ extension TimestreamQuery {
         /// List of data points in a single row of the result set.
         public let data: [Datum]
 
+        @inlinable
         public init(data: [Datum]) {
             self.data = data
         }
@@ -808,6 +840,7 @@ extension TimestreamQuery {
         ///  Prefix for the error report key. Timestream by default adds the following prefix to the error report path.
         public let objectKeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String, encryptionOption: S3EncryptionOption? = nil, objectKeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.encryptionOption = encryptionOption
@@ -836,6 +869,7 @@ extension TimestreamQuery {
         /// S3 key.
         public let objectKey: String?
 
+        @inlinable
         public init(bucketName: String? = nil, objectKey: String? = nil) {
             self.bucketName = bucketName
             self.objectKey = objectKey
@@ -851,6 +885,7 @@ extension TimestreamQuery {
         /// An expression that denotes when to trigger the scheduled query run. This can be a cron expression or a rate expression.
         public let scheduleExpression: String
 
+        @inlinable
         public init(scheduleExpression: String) {
             self.scheduleExpression = scheduleExpression
         }
@@ -885,6 +920,7 @@ extension TimestreamQuery {
         /// Target data source where final scheduled query result will be written.
         public let targetDestination: TargetDestination?
 
+        @inlinable
         public init(arn: String, creationTime: Date? = nil, errorReportConfiguration: ErrorReportConfiguration? = nil, lastRunStatus: ScheduledQueryRunStatus? = nil, name: String, nextInvocationTime: Date? = nil, previousInvocationTime: Date? = nil, state: ScheduledQueryState, targetDestination: TargetDestination? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -942,6 +978,7 @@ extension TimestreamQuery {
         /// Scheduled query target store configuration.
         public let targetConfiguration: TargetConfiguration?
 
+        @inlinable
         public init(arn: String, creationTime: Date? = nil, errorReportConfiguration: ErrorReportConfiguration? = nil, kmsKeyId: String? = nil, lastRunSummary: ScheduledQueryRunSummary? = nil, name: String, nextInvocationTime: Date? = nil, notificationConfiguration: NotificationConfiguration, previousInvocationTime: Date? = nil, queryString: String, recentlyFailedRuns: [ScheduledQueryRunSummary]? = nil, scheduleConfiguration: ScheduleConfiguration, scheduledQueryExecutionRoleArn: String? = nil, state: ScheduledQueryState, targetConfiguration: TargetConfiguration? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -993,6 +1030,7 @@ extension TimestreamQuery {
         /// The actual time when the query was run.
         public let triggerTime: Date?
 
+        @inlinable
         public init(errorReportLocation: ErrorReportLocation? = nil, executionStats: ExecutionStats? = nil, failureReason: String? = nil, invocationTime: Date? = nil, runStatus: ScheduledQueryRunStatus? = nil, triggerTime: Date? = nil) {
             self.errorReportLocation = errorReportLocation
             self.executionStats = executionStats
@@ -1023,6 +1061,7 @@ extension TimestreamQuery {
         public let tableName: String?
         public let type: `Type`?
 
+        @inlinable
         public init(aliased: Bool? = nil, databaseName: String? = nil, name: String? = nil, tableName: String? = nil, type: `Type`? = nil) {
             self.aliased = aliased
             self.databaseName = databaseName
@@ -1044,6 +1083,7 @@ extension TimestreamQuery {
         /// SNS topic ARN that the scheduled query status notifications will be sent to.
         public let topicArn: String
 
+        @inlinable
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -1064,6 +1104,7 @@ extension TimestreamQuery {
         /// The value of the tag. Tag values are case sensitive and can be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1087,6 +1128,7 @@ extension TimestreamQuery {
         /// The tags to be assigned to the Timestream resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1115,6 +1157,7 @@ extension TimestreamQuery {
         /// Configuration needed to write data into the Timestream database and table.
         public let timestreamConfiguration: TimestreamConfiguration
 
+        @inlinable
         public init(timestreamConfiguration: TimestreamConfiguration) {
             self.timestreamConfiguration = timestreamConfiguration
         }
@@ -1132,6 +1175,7 @@ extension TimestreamQuery {
         /// Query result destination details for Timestream data source.
         public let timestreamDestination: TimestreamDestination?
 
+        @inlinable
         public init(timestreamDestination: TimestreamDestination? = nil) {
             self.timestreamDestination = timestreamDestination
         }
@@ -1147,6 +1191,7 @@ extension TimestreamQuery {
         /// The measure value for the data point.
         public let value: Datum
 
+        @inlinable
         public init(time: String, value: Datum) {
             self.time = time
             self.value = value
@@ -1174,6 +1219,7 @@ extension TimestreamQuery {
         /// Column from query result that should be used as the time column in destination table. Column type for this should be TIMESTAMP.
         public let timeColumn: String
 
+        @inlinable
         public init(databaseName: String, dimensionMappings: [DimensionMapping], measureNameColumn: String? = nil, mixedMeasureMappings: [MixedMeasureMapping]? = nil, multiMeasureMappings: MultiMeasureMappings? = nil, tableName: String, timeColumn: String) {
             self.databaseName = databaseName
             self.dimensionMappings = dimensionMappings
@@ -1209,6 +1255,7 @@ extension TimestreamQuery {
         /// Timestream table name.
         public let tableName: String?
 
+        @inlinable
         public init(databaseName: String? = nil, tableName: String? = nil) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -1230,6 +1277,7 @@ extension TimestreamQuery {
         /// Indicates if the column is a timeseries data type.
         public let timeSeriesMeasureValueColumnInfo: ColumnInfo?
 
+        @inlinable
         public init(arrayColumnInfo: ColumnInfo? = nil, rowColumnInfo: [ColumnInfo]? = nil, scalarType: ScalarType? = nil, timeSeriesMeasureValueColumnInfo: ColumnInfo? = nil) {
             self.arrayColumnInfo = arrayColumnInfo
             self.rowColumnInfo = rowColumnInfo
@@ -1251,6 +1299,7 @@ extension TimestreamQuery {
         /// A list of tags keys. Existing tags of the resource whose keys are members of this list will be removed from the Timestream resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1282,6 +1331,7 @@ extension TimestreamQuery {
         /// The pricing model for queries in an account.  The QueryPricingModel parameter is used by several Timestream operations; however, the UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
         public let queryPricingModel: QueryPricingModel?
 
+        @inlinable
         public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
             self.maxQueryTCU = maxQueryTCU
             self.queryPricingModel = queryPricingModel
@@ -1299,6 +1349,7 @@ extension TimestreamQuery {
         /// The pricing model for an account.
         public let queryPricingModel: QueryPricingModel?
 
+        @inlinable
         public init(maxQueryTCU: Int? = nil, queryPricingModel: QueryPricingModel? = nil) {
             self.maxQueryTCU = maxQueryTCU
             self.queryPricingModel = queryPricingModel
@@ -1316,6 +1367,7 @@ extension TimestreamQuery {
         /// State of the scheduled query.
         public let state: ScheduledQueryState
 
+        @inlinable
         public init(scheduledQueryArn: String, state: ScheduledQueryState) {
             self.scheduledQueryArn = scheduledQueryArn
             self.state = state

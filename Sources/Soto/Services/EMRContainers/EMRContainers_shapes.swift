@@ -92,6 +92,7 @@ extension EMRContainers {
         /// Lake Formation related configuration inputs for the security configuration.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.lakeFormationConfiguration = lakeFormationConfiguration
@@ -114,6 +115,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster for which the job run will be canceled.
         public let virtualClusterId: String
 
+        @inlinable
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
@@ -144,6 +146,7 @@ extension EMRContainers {
         /// The output contains the virtual cluster ID for which the job run is cancelled.
         public let virtualClusterId: String?
 
+        @inlinable
         public init(id: String? = nil, virtualClusterId: String? = nil) {
             self.id = id
             self.virtualClusterId = virtualClusterId
@@ -161,6 +164,7 @@ extension EMRContainers {
         /// The base64 encoded PEM certificate data generated for managed endpoint.
         public let certificateData: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateData: String? = nil) {
             self.certificateArn = certificateArn
             self.certificateData = certificateData
@@ -178,6 +182,7 @@ extension EMRContainers {
         /// The specified name prefix for log streams.
         public let logStreamNamePrefix: String?
 
+        @inlinable
         public init(logGroupName: String, logStreamNamePrefix: String? = nil) {
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
@@ -206,6 +211,7 @@ extension EMRContainers {
         /// A set of properties specified within a configuration classification.
         public let properties: [String: String]?
 
+        @inlinable
         public init(classification: String, configurations: [Configuration]? = nil, properties: [String: String]? = nil) {
             self.classification = classification
             self.configurations = configurations
@@ -244,6 +250,7 @@ extension EMRContainers {
         /// The configurations for monitoring.
         public let monitoringConfiguration: MonitoringConfiguration?
 
+        @inlinable
         public init(applicationConfiguration: [Configuration]? = nil, monitoringConfiguration: MonitoringConfiguration? = nil) {
             self.applicationConfiguration = applicationConfiguration
             self.monitoringConfiguration = monitoringConfiguration
@@ -269,6 +276,7 @@ extension EMRContainers {
         /// The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB.
         public let rotationSize: String
 
+        @inlinable
         public init(maxFilesToKeep: Int, rotationSize: String) {
             self.maxFilesToKeep = maxFilesToKeep
             self.rotationSize = rotationSize
@@ -296,6 +304,7 @@ extension EMRContainers {
         /// The type of the container provider. Amazon EKS is the only supported type as of now.
         public let type: ContainerProviderType
 
+        @inlinable
         public init(id: String, info: ContainerInfo? = nil, type: ContainerProviderType) {
             self.id = id
             self.info = info
@@ -328,6 +337,7 @@ extension EMRContainers {
         /// The tags that are associated with the job template.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateJobTemplateRequest.idempotencyToken(), jobTemplateData: JobTemplateData, kmsKeyArn: String? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.jobTemplateData = jobTemplateData
@@ -377,6 +387,7 @@ extension EMRContainers {
         /// This output displays the name of the created job template.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -412,6 +423,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster for which a managed endpoint is created.
         public let virtualClusterId: String
 
+        @inlinable
         public init(clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
             self.certificateArn = nil
             self.clientToken = clientToken
@@ -425,6 +437,7 @@ extension EMRContainers {
         }
 
         @available(*, deprecated, message: "Members certificateArn have been deprecated")
+        @inlinable
         public init(certificateArn: String? = nil, clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
             self.certificateArn = certificateArn
             self.clientToken = clientToken
@@ -506,6 +519,7 @@ extension EMRContainers {
         /// The output contains the ID of the virtual cluster.
         public let virtualClusterId: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.id = id
@@ -531,6 +545,7 @@ extension EMRContainers {
         /// The tags to add to the security configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateSecurityConfigurationRequest.idempotencyToken(), name: String, securityConfigurationData: SecurityConfigurationData, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.name = name
@@ -572,6 +587,7 @@ extension EMRContainers {
         /// The name of the security configuration.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -597,6 +613,7 @@ extension EMRContainers {
         /// The tags assigned to the virtual cluster.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateVirtualClusterRequest.idempotencyToken(), containerProvider: ContainerProvider, name: String, securityConfigurationId: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.containerProvider = containerProvider
@@ -643,6 +660,7 @@ extension EMRContainers {
         /// This output contains the name of the virtual cluster.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -660,6 +678,7 @@ extension EMRContainers {
         /// The ID of the job template that will be deleted.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -683,6 +702,7 @@ extension EMRContainers {
         /// This output contains the ID of the job template that was deleted.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -698,6 +718,7 @@ extension EMRContainers {
         /// The ID of the endpoint's virtual cluster.
         public let virtualClusterId: String
 
+        @inlinable
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
@@ -728,6 +749,7 @@ extension EMRContainers {
         /// The output displays the ID of the endpoint's virtual cluster.
         public let virtualClusterId: String?
 
+        @inlinable
         public init(id: String? = nil, virtualClusterId: String? = nil) {
             self.id = id
             self.virtualClusterId = virtualClusterId
@@ -743,6 +765,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster that will be deleted.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -766,6 +789,7 @@ extension EMRContainers {
         /// This output contains the ID of the virtual cluster that will be deleted.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -781,6 +805,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster for which the job run is submitted.
         public let virtualClusterId: String
 
+        @inlinable
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
@@ -809,6 +834,7 @@ extension EMRContainers {
         /// The output displays information about a job run.
         public let jobRun: JobRun?
 
+        @inlinable
         public init(jobRun: JobRun? = nil) {
             self.jobRun = jobRun
         }
@@ -822,6 +848,7 @@ extension EMRContainers {
         /// The ID of the job template that will be described.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -845,6 +872,7 @@ extension EMRContainers {
         /// This output displays information about the specified job template.
         public let jobTemplate: JobTemplate?
 
+        @inlinable
         public init(jobTemplate: JobTemplate? = nil) {
             self.jobTemplate = jobTemplate
         }
@@ -860,6 +888,7 @@ extension EMRContainers {
         /// The ID of the endpoint's virtual cluster.
         public let virtualClusterId: String
 
+        @inlinable
         public init(id: String, virtualClusterId: String) {
             self.id = id
             self.virtualClusterId = virtualClusterId
@@ -888,6 +917,7 @@ extension EMRContainers {
         /// This output displays information about a managed endpoint.
         public let endpoint: Endpoint?
 
+        @inlinable
         public init(endpoint: Endpoint? = nil) {
             self.endpoint = endpoint
         }
@@ -901,6 +931,7 @@ extension EMRContainers {
         /// The ID of the security configuration.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -924,6 +955,7 @@ extension EMRContainers {
         /// Details of the security configuration.
         public let securityConfiguration: SecurityConfiguration?
 
+        @inlinable
         public init(securityConfiguration: SecurityConfiguration? = nil) {
             self.securityConfiguration = securityConfiguration
         }
@@ -937,6 +969,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster that will be described.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -960,6 +993,7 @@ extension EMRContainers {
         /// This output displays information about the specified virtual cluster.
         public let virtualCluster: VirtualCluster?
 
+        @inlinable
         public init(virtualCluster: VirtualCluster? = nil) {
             self.virtualCluster = virtualCluster
         }
@@ -973,6 +1007,7 @@ extension EMRContainers {
         /// The namespaces of the Amazon EKS cluster.
         public let namespace: String?
 
+        @inlinable
         public init(namespace: String? = nil) {
             self.namespace = namespace
         }
@@ -992,6 +1027,7 @@ extension EMRContainers {
         /// In-transit encryption-related input for the security configuration.
         public let inTransitEncryptionConfiguration: InTransitEncryptionConfiguration?
 
+        @inlinable
         public init(inTransitEncryptionConfiguration: InTransitEncryptionConfiguration? = nil) {
             self.inTransitEncryptionConfiguration = inTransitEncryptionConfiguration
         }
@@ -1044,6 +1080,7 @@ extension EMRContainers {
         /// The ID of the endpoint's virtual cluster.
         public let virtualClusterId: String?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.certificateArn = nil
@@ -1066,6 +1103,7 @@ extension EMRContainers {
         }
 
         @available(*, deprecated, message: "Members certificateArn have been deprecated")
+        @inlinable
         public init(arn: String? = nil, certificateArn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.certificateArn = certificateArn
@@ -1125,6 +1163,7 @@ extension EMRContainers {
         /// The ARN of the Virtual Cluster which the Managed Endpoint belongs to.
         public let virtualClusterIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = GetManagedEndpointSessionCredentialsRequest.idempotencyToken(), credentialType: String, durationInSeconds: Int? = nil, endpointIdentifier: String, executionRoleArn: String, logContext: String? = nil, virtualClusterIdentifier: String) {
             self.clientToken = clientToken
             self.credentialType = credentialType
@@ -1186,6 +1225,7 @@ extension EMRContainers {
         /// The identifier of the session token returned.
         public let id: String?
 
+        @inlinable
         public init(credentials: Credentials? = nil, expiresAt: Date? = nil, id: String? = nil) {
             self.credentials = credentials
             self.expiresAt = expiresAt
@@ -1203,6 +1243,7 @@ extension EMRContainers {
         /// TLS certificate-related configuration input for the security configuration.
         public let tlsCertificateConfiguration: TLSCertificateConfiguration?
 
+        @inlinable
         public init(tlsCertificateConfiguration: TLSCertificateConfiguration? = nil) {
             self.tlsCertificateConfiguration = tlsCertificateConfiguration
         }
@@ -1222,6 +1263,7 @@ extension EMRContainers {
         /// The job driver parameters specified for spark submit.
         public let sparkSubmitJobDriver: SparkSubmitJobDriver?
 
+        @inlinable
         public init(sparkSqlJobDriver: SparkSqlJobDriver? = nil, sparkSubmitJobDriver: SparkSubmitJobDriver? = nil) {
             self.sparkSqlJobDriver = sparkSqlJobDriver
             self.sparkSubmitJobDriver = sparkSubmitJobDriver
@@ -1278,6 +1320,7 @@ extension EMRContainers {
         /// The ID of the job run's virtual cluster.
         public let virtualClusterId: String?
 
+        @inlinable
         public init(arn: String? = nil, clientToken: String? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, createdBy: String? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, finishedAt: Date? = nil, id: String? = nil, jobDriver: JobDriver? = nil, name: String? = nil, releaseLabel: String? = nil, retryPolicyConfiguration: RetryPolicyConfiguration? = nil, retryPolicyExecution: RetryPolicyExecution? = nil, state: JobRunState? = nil, stateDetails: String? = nil, tags: [String: String]? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.clientToken = clientToken
@@ -1342,6 +1385,7 @@ extension EMRContainers {
         /// The tags assigned to the job template.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, decryptionError: String? = nil, id: String? = nil, jobTemplateData: JobTemplateData, kmsKeyArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1380,6 +1424,7 @@ extension EMRContainers {
         ///  The release version of Amazon EMR.
         public let releaseLabel: String
 
+        @inlinable
         public init(configurationOverrides: ParametricConfigurationOverrides? = nil, executionRoleArn: String, jobDriver: JobDriver, jobTags: [String: String]? = nil, parameterConfiguration: [String: TemplateParameterConfiguration]? = nil, releaseLabel: String) {
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
@@ -1433,6 +1478,7 @@ extension EMRContainers {
         /// The namespace input of the system job.
         public let secureNamespaceInfo: SecureNamespaceInfo?
 
+        @inlinable
         public init(authorizedSessionTagValue: String? = nil, queryEngineRoleArn: String? = nil, secureNamespaceInfo: SecureNamespaceInfo? = nil) {
             self.authorizedSessionTagValue = authorizedSessionTagValue
             self.queryEngineRoleArn = queryEngineRoleArn
@@ -1474,6 +1520,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster for which to list the job run.
         public let virtualClusterId: String
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, states: [JobRunState]? = nil, virtualClusterId: String) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -1518,6 +1565,7 @@ extension EMRContainers {
         /// This output displays the token for the next set of job runs.
         public let nextToken: String?
 
+        @inlinable
         public init(jobRuns: [JobRun]? = nil, nextToken: String? = nil) {
             self.jobRuns = jobRuns
             self.nextToken = nextToken
@@ -1541,6 +1589,7 @@ extension EMRContainers {
         ///  The token for the next set of job templates to return.
         public let nextToken: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -1572,6 +1621,7 @@ extension EMRContainers {
         /// This output lists information about the specified job templates.
         public let templates: [JobTemplate]?
 
+        @inlinable
         public init(nextToken: String? = nil, templates: [JobTemplate]? = nil) {
             self.nextToken = nextToken
             self.templates = templates
@@ -1601,6 +1651,7 @@ extension EMRContainers {
         /// The ID of the virtual cluster.
         public let virtualClusterId: String
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, states: [EndpointState]? = nil, types: [String]? = nil, virtualClusterId: String) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -1648,6 +1699,7 @@ extension EMRContainers {
         ///  The token for the next set of endpoints to return.
         public let nextToken: String?
 
+        @inlinable
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -1671,6 +1723,7 @@ extension EMRContainers {
         /// The token for the next set of security configurations to return.
         public let nextToken: String?
 
+        @inlinable
         public init(createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -1702,6 +1755,7 @@ extension EMRContainers {
         /// The list of returned security configurations.
         public let securityConfigurations: [SecurityConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityConfigurations: [SecurityConfiguration]? = nil) {
             self.nextToken = nextToken
             self.securityConfigurations = securityConfigurations
@@ -1717,6 +1771,7 @@ extension EMRContainers {
         /// The ARN of tagged resources.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1740,6 +1795,7 @@ extension EMRContainers {
         /// The tags assigned to resources.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1769,6 +1825,7 @@ extension EMRContainers {
         /// The states of the requested virtual clusters.
         public let states: [VirtualClusterState]?
 
+        @inlinable
         public init(containerProviderId: String? = nil, containerProviderType: ContainerProviderType? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, eksAccessEntryIntegrated: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, states: [VirtualClusterState]? = nil) {
             self.containerProviderId = containerProviderId
             self.containerProviderType = containerProviderType
@@ -1812,6 +1869,7 @@ extension EMRContainers {
         /// This output lists the specified virtual clusters.
         public let virtualClusters: [VirtualCluster]?
 
+        @inlinable
         public init(nextToken: String? = nil, virtualClusters: [VirtualCluster]? = nil) {
             self.nextToken = nextToken
             self.virtualClusters = virtualClusters
@@ -1833,6 +1891,7 @@ extension EMRContainers {
         /// Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: S3MonitoringConfiguration?
 
+        @inlinable
         public init(cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration? = nil, containerLogRotationConfiguration: ContainerLogRotationConfiguration? = nil, persistentAppUI: PersistentAppUI? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
             self.containerLogRotationConfiguration = containerLogRotationConfiguration
@@ -1860,6 +1919,7 @@ extension EMRContainers {
         ///  The specified name prefix for log streams.
         public let logStreamNamePrefix: String?
 
+        @inlinable
         public init(logGroupName: String? = nil, logStreamNamePrefix: String? = nil) {
             self.logGroupName = logGroupName
             self.logStreamNamePrefix = logStreamNamePrefix
@@ -1886,6 +1946,7 @@ extension EMRContainers {
         ///  The configurations for monitoring.
         public let monitoringConfiguration: ParametricMonitoringConfiguration?
 
+        @inlinable
         public init(applicationConfiguration: [Configuration]? = nil, monitoringConfiguration: ParametricMonitoringConfiguration? = nil) {
             self.applicationConfiguration = applicationConfiguration
             self.monitoringConfiguration = monitoringConfiguration
@@ -1913,6 +1974,7 @@ extension EMRContainers {
         ///  Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: ParametricS3MonitoringConfiguration?
 
+        @inlinable
         public init(cloudWatchMonitoringConfiguration: ParametricCloudWatchMonitoringConfiguration? = nil, persistentAppUI: String? = nil, s3MonitoringConfiguration: ParametricS3MonitoringConfiguration? = nil) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
             self.persistentAppUI = persistentAppUI
@@ -1938,6 +2000,7 @@ extension EMRContainers {
         /// Amazon S3 destination URI for log publishing.
         public let logUri: String?
 
+        @inlinable
         public init(logUri: String? = nil) {
             self.logUri = logUri
         }
@@ -1957,6 +2020,7 @@ extension EMRContainers {
         /// The maximum number of attempts on the job's driver.
         public let maxAttempts: Int
 
+        @inlinable
         public init(maxAttempts: Int) {
             self.maxAttempts = maxAttempts
         }
@@ -1970,6 +2034,7 @@ extension EMRContainers {
         /// The current number of attempts made on the driver of the job.
         public let currentAttemptCount: Int
 
+        @inlinable
         public init(currentAttemptCount: Int) {
             self.currentAttemptCount = currentAttemptCount
         }
@@ -1983,6 +2048,7 @@ extension EMRContainers {
         /// Amazon S3 destination URI for log publishing.
         public let logUri: String
 
+        @inlinable
         public init(logUri: String) {
             self.logUri = logUri
         }
@@ -2004,6 +2070,7 @@ extension EMRContainers {
         /// The namespace of the Amazon EKS cluster where the system jobs run.
         public let namespace: String?
 
+        @inlinable
         public init(clusterId: String? = nil, namespace: String? = nil) {
             self.clusterId = clusterId
             self.namespace = namespace
@@ -2041,6 +2108,7 @@ extension EMRContainers {
         /// The tags to assign to the security configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, name: String? = nil, securityConfigurationData: SecurityConfigurationData? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -2066,6 +2134,7 @@ extension EMRContainers {
         /// Authorization-related configuration input for the security configuration.
         public let authorizationConfiguration: AuthorizationConfiguration?
 
+        @inlinable
         public init(authorizationConfiguration: AuthorizationConfiguration? = nil) {
             self.authorizationConfiguration = authorizationConfiguration
         }
@@ -2085,6 +2154,7 @@ extension EMRContainers {
         /// The Spark parameters to be included in the Spark SQL command.
         public let sparkSqlParameters: String?
 
+        @inlinable
         public init(entryPoint: String? = nil, sparkSqlParameters: String? = nil) {
             self.entryPoint = entryPoint
             self.sparkSqlParameters = sparkSqlParameters
@@ -2113,6 +2183,7 @@ extension EMRContainers {
         /// The Spark submit parameters that are used for job runs.
         public let sparkSubmitParameters: String?
 
+        @inlinable
         public init(entryPoint: String, entryPointArguments: [String]? = nil, sparkSubmitParameters: String? = nil) {
             self.entryPoint = entryPoint
             self.entryPointArguments = entryPointArguments
@@ -2164,6 +2235,7 @@ extension EMRContainers {
         /// The virtual cluster ID for which the job run request is submitted.
         public let virtualClusterId: String
 
+        @inlinable
         public init(clientToken: String = StartJobRunRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String? = nil, jobDriver: JobDriver? = nil, jobTemplateId: String? = nil, jobTemplateParameters: [String: String]? = nil, name: String? = nil, releaseLabel: String? = nil, retryPolicyConfiguration: RetryPolicyConfiguration? = nil, tags: [String: String]? = nil, virtualClusterId: String) {
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
@@ -2258,6 +2330,7 @@ extension EMRContainers {
         /// This output displays the virtual cluster ID for which the job run was submitted.
         public let virtualClusterId: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2281,6 +2354,7 @@ extension EMRContainers {
         /// Secrets Manager ARN that contains the public TLS certificate contents, used for communication between the user job and the system job.
         public let publicCertificateSecretArn: String?
 
+        @inlinable
         public init(certificateProviderType: CertificateProviderType? = nil, privateCertificateSecretArn: String? = nil, publicCertificateSecretArn: String? = nil) {
             self.certificateProviderType = certificateProviderType
             self.privateCertificateSecretArn = privateCertificateSecretArn
@@ -2309,6 +2383,7 @@ extension EMRContainers {
         /// The tags assigned to resources.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2350,6 +2425,7 @@ extension EMRContainers {
         /// The type of the job template parameter. Allowed values are: ‘STRING’, ‘NUMBER’.
         public let type: TemplateParameterDataType?
 
+        @inlinable
         public init(defaultValue: String? = nil, type: TemplateParameterDataType? = nil) {
             self.defaultValue = defaultValue
             self.type = type
@@ -2373,6 +2449,7 @@ extension EMRContainers {
         /// The tag keys of the resources.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2423,6 +2500,7 @@ extension EMRContainers {
         /// The assigned tags of the virtual cluster.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, containerProvider: ContainerProvider? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil, securityConfigurationId: String? = nil, state: VirtualClusterState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.containerProvider = containerProvider
@@ -2450,6 +2528,7 @@ extension EMRContainers {
         /// The information about the Amazon EKS cluster.
         public let eksInfo: EksInfo?
 
+        @inlinable
         public init(eksInfo: EksInfo? = nil) {
             self.eksInfo = eksInfo
         }
@@ -2467,6 +2546,7 @@ extension EMRContainers {
         /// The actual session token being returned.
         public let token: String?
 
+        @inlinable
         public init(token: String? = nil) {
             self.token = token
         }

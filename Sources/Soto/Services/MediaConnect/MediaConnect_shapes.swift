@@ -266,6 +266,7 @@ extension MediaConnect {
         /// The name of the flow source. This name is used to reference the source and must be unique among sources in this bridge.
         public let name: String?
 
+        @inlinable
         public init(flowArn: String? = nil, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String? = nil) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
@@ -293,6 +294,7 @@ extension MediaConnect {
         /// The network output TTL.
         public let ttl: Int?
 
+        @inlinable
         public init(ipAddress: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, ttl: Int? = nil) {
             self.ipAddress = ipAddress
             self.name = name
@@ -324,6 +326,7 @@ extension MediaConnect {
         /// The network source protocol.
         public let `protocol`: `Protocol`?
 
+        @inlinable
         public init(multicastIp: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
             self.name = name
@@ -344,6 +347,7 @@ extension MediaConnect {
     public struct AddBridgeOutputRequest: AWSEncodableShape {
         public let networkOutput: AddBridgeNetworkOutputRequest?
 
+        @inlinable
         public init(networkOutput: AddBridgeNetworkOutputRequest? = nil) {
             self.networkOutput = networkOutput
         }
@@ -359,6 +363,7 @@ extension MediaConnect {
         /// The outputs that you want to add to this bridge.
         public let outputs: [AddBridgeOutputRequest]?
 
+        @inlinable
         public init(bridgeArn: String, outputs: [AddBridgeOutputRequest]? = nil) {
             self.bridgeArn = bridgeArn
             self.outputs = outputs
@@ -382,6 +387,7 @@ extension MediaConnect {
         /// The outputs that you added to this bridge.
         public let outputs: [BridgeOutput]?
 
+        @inlinable
         public init(bridgeArn: String? = nil, outputs: [BridgeOutput]? = nil) {
             self.bridgeArn = bridgeArn
             self.outputs = outputs
@@ -397,6 +403,7 @@ extension MediaConnect {
         public let flowSource: AddBridgeFlowSourceRequest?
         public let networkSource: AddBridgeNetworkSourceRequest?
 
+        @inlinable
         public init(flowSource: AddBridgeFlowSourceRequest? = nil, networkSource: AddBridgeNetworkSourceRequest? = nil) {
             self.flowSource = flowSource
             self.networkSource = networkSource
@@ -414,6 +421,7 @@ extension MediaConnect {
         /// The sources that you want to add to this bridge.
         public let sources: [AddBridgeSourceRequest]?
 
+        @inlinable
         public init(bridgeArn: String, sources: [AddBridgeSourceRequest]? = nil) {
             self.bridgeArn = bridgeArn
             self.sources = sources
@@ -437,6 +445,7 @@ extension MediaConnect {
         /// The sources that you added to this bridge.
         public let sources: [BridgeSource]?
 
+        @inlinable
         public init(bridgeArn: String? = nil, sources: [BridgeSource]? = nil) {
             self.bridgeArn = bridgeArn
             self.sources = sources
@@ -452,6 +461,7 @@ extension MediaConnect {
         /// The maximum expected bitrate (in bps).
         public let maxBitrate: Int?
 
+        @inlinable
         public init(maxBitrate: Int? = nil) {
             self.maxBitrate = maxBitrate
         }
@@ -467,6 +477,7 @@ extension MediaConnect {
         /// The media streams that you want to add to the flow.
         public let mediaStreams: [AddMediaStreamRequest]?
 
+        @inlinable
         public init(flowArn: String, mediaStreams: [AddMediaStreamRequest]? = nil) {
             self.flowArn = flowArn
             self.mediaStreams = mediaStreams
@@ -490,6 +501,7 @@ extension MediaConnect {
         /// The media streams that you added to the flow.
         public let mediaStreams: [MediaStream]?
 
+        @inlinable
         public init(flowArn: String? = nil, mediaStreams: [MediaStream]? = nil) {
             self.flowArn = flowArn
             self.mediaStreams = mediaStreams
@@ -507,6 +519,7 @@ extension MediaConnect {
         /// A list of outputs that you want to add.
         public let outputs: [AddOutputRequest]?
 
+        @inlinable
         public init(flowArn: String, outputs: [AddOutputRequest]? = nil) {
             self.flowArn = flowArn
             self.outputs = outputs
@@ -530,6 +543,7 @@ extension MediaConnect {
         /// The details of the newly added outputs.
         public let outputs: [Output]?
 
+        @inlinable
         public init(flowArn: String? = nil, outputs: [Output]? = nil) {
             self.flowArn = flowArn
             self.outputs = outputs
@@ -547,6 +561,7 @@ extension MediaConnect {
         /// A list of sources that you want to add.
         public let sources: [SetSourceRequest]?
 
+        @inlinable
         public init(flowArn: String, sources: [SetSourceRequest]? = nil) {
             self.flowArn = flowArn
             self.sources = sources
@@ -570,6 +585,7 @@ extension MediaConnect {
         /// The details of the newly added sources.
         public let sources: [Source]?
 
+        @inlinable
         public init(flowArn: String? = nil, sources: [Source]? = nil) {
             self.flowArn = flowArn
             self.sources = sources
@@ -587,6 +603,7 @@ extension MediaConnect {
         /// A list of VPC interfaces that you want to add.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
+        @inlinable
         public init(flowArn: String, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.flowArn = flowArn
             self.vpcInterfaces = vpcInterfaces
@@ -610,6 +627,7 @@ extension MediaConnect {
         /// The details of the newly added VPC interfaces.
         public let vpcInterfaces: [VpcInterface]?
 
+        @inlinable
         public init(flowArn: String? = nil, vpcInterfaces: [VpcInterface]? = nil) {
             self.flowArn = flowArn
             self.vpcInterfaces = vpcInterfaces
@@ -627,6 +645,7 @@ extension MediaConnect {
         /// The maximum number of expected outputs.
         public let maxOutputs: Int?
 
+        @inlinable
         public init(maxBitrate: Int? = nil, maxOutputs: Int? = nil) {
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
@@ -644,6 +663,7 @@ extension MediaConnect {
         /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
         public let maintenanceStartHour: String?
 
+        @inlinable
         public init(maintenanceDay: MaintenanceDay? = nil, maintenanceStartHour: String? = nil) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceStartHour = maintenanceStartHour
@@ -671,6 +691,7 @@ extension MediaConnect {
         /// The resolution of the video.
         public let videoFormat: String?
 
+        @inlinable
         public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, mediaStreamId: Int? = nil, mediaStreamName: String? = nil, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
@@ -726,6 +747,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
@@ -782,6 +804,7 @@ extension MediaConnect {
         /// The sources on this bridge.
         public let sources: [BridgeSource]?
 
+        @inlinable
         public init(bridgeArn: String? = nil, bridgeMessages: [MessageDetail]? = nil, bridgeState: BridgeState? = nil, egressGatewayBridge: EgressGatewayBridge? = nil, ingressGatewayBridge: IngressGatewayBridge? = nil, name: String? = nil, outputs: [BridgeOutput]? = nil, placementArn: String? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [BridgeSource]? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgeMessages = bridgeMessages
@@ -817,6 +840,7 @@ extension MediaConnect {
         /// The name of the bridge's output.
         public let name: String?
 
+        @inlinable
         public init(flowArn: String? = nil, flowSourceArn: String? = nil, name: String? = nil) {
             self.flowArn = flowArn
             self.flowSourceArn = flowSourceArn
@@ -840,6 +864,7 @@ extension MediaConnect {
         /// The Amazon Resource Number (ARN) of the output.
         public let outputArn: String?
 
+        @inlinable
         public init(flowArn: String? = nil, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil, name: String? = nil, outputArn: String? = nil) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
@@ -869,6 +894,7 @@ extension MediaConnect {
         /// The network output TTL.
         public let ttl: Int?
 
+        @inlinable
         public init(ipAddress: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, ttl: Int? = nil) {
             self.ipAddress = ipAddress
             self.name = name
@@ -900,6 +926,7 @@ extension MediaConnect {
         /// The network source protocol.
         public let `protocol`: `Protocol`?
 
+        @inlinable
         public init(multicastIp: String? = nil, name: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
             self.name = name
@@ -921,6 +948,7 @@ extension MediaConnect {
         public let flowOutput: BridgeFlowOutput?
         public let networkOutput: BridgeNetworkOutput?
 
+        @inlinable
         public init(flowOutput: BridgeFlowOutput? = nil, networkOutput: BridgeNetworkOutput? = nil) {
             self.flowOutput = flowOutput
             self.networkOutput = networkOutput
@@ -936,6 +964,7 @@ extension MediaConnect {
         public let flowSource: BridgeFlowSource?
         public let networkSource: BridgeNetworkSource?
 
+        @inlinable
         public init(flowSource: BridgeFlowSource? = nil, networkSource: BridgeNetworkSource? = nil) {
             self.flowSource = flowSource
             self.networkSource = networkSource
@@ -963,6 +992,7 @@ extension MediaConnect {
         /// The sources that you want to add to this bridge.
         public let sources: [AddBridgeSourceRequest]?
 
+        @inlinable
         public init(egressGatewayBridge: AddEgressGatewayBridgeRequest? = nil, ingressGatewayBridge: AddIngressGatewayBridgeRequest? = nil, name: String? = nil, outputs: [AddBridgeOutputRequest]? = nil, placementArn: String? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [AddBridgeSourceRequest]? = nil) {
             self.egressGatewayBridge = egressGatewayBridge
             self.ingressGatewayBridge = ingressGatewayBridge
@@ -987,6 +1017,7 @@ extension MediaConnect {
     public struct CreateBridgeResponse: AWSDecodableShape {
         public let bridge: Bridge?
 
+        @inlinable
         public init(bridge: Bridge? = nil) {
             self.bridge = bridge
         }
@@ -1015,6 +1046,7 @@ extension MediaConnect {
         /// The VPC interfaces you want on the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
@@ -1047,6 +1079,7 @@ extension MediaConnect {
     public struct CreateFlowResponse: AWSDecodableShape {
         public let flow: Flow?
 
+        @inlinable
         public init(flow: Flow? = nil) {
             self.flow = flow
         }
@@ -1064,6 +1097,7 @@ extension MediaConnect {
         /// The list of networks that you want to add.
         public let networks: [GatewayNetwork]?
 
+        @inlinable
         public init(egressCidrBlocks: [String]? = nil, name: String? = nil, networks: [GatewayNetwork]? = nil) {
             self.egressCidrBlocks = egressCidrBlocks
             self.name = name
@@ -1080,6 +1114,7 @@ extension MediaConnect {
     public struct CreateGatewayResponse: AWSDecodableShape {
         public let gateway: Gateway?
 
+        @inlinable
         public init(gateway: Gateway? = nil) {
             self.gateway = gateway
         }
@@ -1093,6 +1128,7 @@ extension MediaConnect {
         /// The ARN of the bridge that you want to delete.
         public let bridgeArn: String
 
+        @inlinable
         public init(bridgeArn: String) {
             self.bridgeArn = bridgeArn
         }
@@ -1110,6 +1146,7 @@ extension MediaConnect {
         /// The Amazon Resource Number (ARN) of the deleted bridge.
         public let bridgeArn: String?
 
+        @inlinable
         public init(bridgeArn: String? = nil) {
             self.bridgeArn = bridgeArn
         }
@@ -1123,6 +1160,7 @@ extension MediaConnect {
         /// The ARN of the flow that you want to delete.
         public let flowArn: String
 
+        @inlinable
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -1142,6 +1180,7 @@ extension MediaConnect {
         /// The status of the flow when the DeleteFlow process begins.
         public let status: Status?
 
+        @inlinable
         public init(flowArn: String? = nil, status: Status? = nil) {
             self.flowArn = flowArn
             self.status = status
@@ -1157,6 +1196,7 @@ extension MediaConnect {
         /// The ARN of the gateway that you want to delete.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -1174,6 +1214,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the gateway that was deleted.
         public let gatewayArn: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil) {
             self.gatewayArn = gatewayArn
         }
@@ -1189,6 +1230,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
         public let gatewayInstanceArn: String
 
+        @inlinable
         public init(force: Bool? = nil, gatewayInstanceArn: String) {
             self.force = force
             self.gatewayInstanceArn = gatewayInstanceArn
@@ -1210,6 +1252,7 @@ extension MediaConnect {
         /// The status of the instance.
         public let instanceState: InstanceState?
 
+        @inlinable
         public init(gatewayInstanceArn: String? = nil, instanceState: InstanceState? = nil) {
             self.gatewayInstanceArn = gatewayInstanceArn
             self.instanceState = instanceState
@@ -1225,6 +1268,7 @@ extension MediaConnect {
         /// The ARN of the bridge that you want to describe.
         public let bridgeArn: String
 
+        @inlinable
         public init(bridgeArn: String) {
             self.bridgeArn = bridgeArn
         }
@@ -1241,6 +1285,7 @@ extension MediaConnect {
     public struct DescribeBridgeResponse: AWSDecodableShape {
         public let bridge: Bridge?
 
+        @inlinable
         public init(bridge: Bridge? = nil) {
             self.bridge = bridge
         }
@@ -1254,6 +1299,7 @@ extension MediaConnect {
         /// The ARN of the flow that you want to describe.
         public let flowArn: String
 
+        @inlinable
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -1271,6 +1317,7 @@ extension MediaConnect {
         public let flow: Flow?
         public let messages: Messages?
 
+        @inlinable
         public init(flow: Flow? = nil, messages: Messages? = nil) {
             self.flow = flow
             self.messages = messages
@@ -1286,6 +1333,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
 
+        @inlinable
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -1309,6 +1357,7 @@ extension MediaConnect {
         public var timestamp: Date?
         public let transportMediaInfo: TransportMediaInfo?
 
+        @inlinable
         public init(flowArn: String? = nil, messages: [MessageDetail]? = nil, timestamp: Date? = nil, transportMediaInfo: TransportMediaInfo? = nil) {
             self.flowArn = flowArn
             self.messages = messages
@@ -1328,6 +1377,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
 
+        @inlinable
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -1344,6 +1394,7 @@ extension MediaConnect {
     public struct DescribeFlowSourceThumbnailResponse: AWSDecodableShape {
         public let thumbnailDetails: ThumbnailDetails?
 
+        @inlinable
         public init(thumbnailDetails: ThumbnailDetails? = nil) {
             self.thumbnailDetails = thumbnailDetails
         }
@@ -1357,6 +1408,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
         public let gatewayInstanceArn: String
 
+        @inlinable
         public init(gatewayInstanceArn: String) {
             self.gatewayInstanceArn = gatewayInstanceArn
         }
@@ -1373,6 +1425,7 @@ extension MediaConnect {
     public struct DescribeGatewayInstanceResponse: AWSDecodableShape {
         public let gatewayInstance: GatewayInstance?
 
+        @inlinable
         public init(gatewayInstance: GatewayInstance? = nil) {
             self.gatewayInstance = gatewayInstance
         }
@@ -1386,6 +1439,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
         public let gatewayArn: String
 
+        @inlinable
         public init(gatewayArn: String) {
             self.gatewayArn = gatewayArn
         }
@@ -1402,6 +1456,7 @@ extension MediaConnect {
     public struct DescribeGatewayResponse: AWSDecodableShape {
         public let gateway: Gateway?
 
+        @inlinable
         public init(gateway: Gateway? = nil) {
             self.gateway = gateway
         }
@@ -1415,6 +1470,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the offering.
         public let offeringArn: String
 
+        @inlinable
         public init(offeringArn: String) {
             self.offeringArn = offeringArn
         }
@@ -1431,6 +1487,7 @@ extension MediaConnect {
     public struct DescribeOfferingResponse: AWSDecodableShape {
         public let offering: Offering?
 
+        @inlinable
         public init(offering: Offering? = nil) {
             self.offering = offering
         }
@@ -1444,6 +1501,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the reservation.
         public let reservationArn: String
 
+        @inlinable
         public init(reservationArn: String) {
             self.reservationArn = reservationArn
         }
@@ -1460,6 +1518,7 @@ extension MediaConnect {
     public struct DescribeReservationResponse: AWSDecodableShape {
         public let reservation: Reservation?
 
+        @inlinable
         public init(reservation: Reservation? = nil) {
             self.reservation = reservation
         }
@@ -1479,6 +1538,7 @@ extension MediaConnect {
         /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS protocol.
         public let outboundIp: String?
 
+        @inlinable
         public init(destinationIp: String? = nil, destinationPort: Int? = nil, interface: Interface? = nil, outboundIp: String? = nil) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
@@ -1502,6 +1562,7 @@ extension MediaConnect {
         /// The VPC interface that you want to use for the media stream associated with the output.
         public let interface: InterfaceRequest?
 
+        @inlinable
         public init(destinationIp: String? = nil, destinationPort: Int? = nil, interface: InterfaceRequest? = nil) {
             self.destinationIp = destinationIp
             self.destinationPort = destinationPort
@@ -1521,6 +1582,7 @@ extension MediaConnect {
         /// The maximum expected bitrate (in bps) of the egress bridge.
         public let maxBitrate: Int?
 
+        @inlinable
         public init(instanceId: String? = nil, maxBitrate: Int? = nil) {
             self.instanceId = instanceId
             self.maxBitrate = maxBitrate
@@ -1538,6 +1600,7 @@ extension MediaConnect {
         /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol.
         public let encoderProfile: EncoderProfile?
 
+        @inlinable
         public init(compressionFactor: Double? = nil, encoderProfile: EncoderProfile? = nil) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
@@ -1555,6 +1618,7 @@ extension MediaConnect {
         /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol.
         public let encoderProfile: EncoderProfile?
 
+        @inlinable
         public init(compressionFactor: Double? = nil, encoderProfile: EncoderProfile? = nil) {
             self.compressionFactor = compressionFactor
             self.encoderProfile = encoderProfile
@@ -1586,6 +1650,7 @@ extension MediaConnect {
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
 
+        @inlinable
         public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String? = nil, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
@@ -1627,6 +1692,7 @@ extension MediaConnect {
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
 
+        @inlinable
         public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
@@ -1657,6 +1723,7 @@ extension MediaConnect {
         public let sourcePriority: SourcePriority?
         public let state: State?
 
+        @inlinable
         public init(failoverMode: FailoverMode? = nil, recoveryWindow: Int? = nil, sourcePriority: SourcePriority? = nil, state: State? = nil) {
             self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
@@ -1699,6 +1766,7 @@ extension MediaConnect {
         /// The VPC Interfaces for this flow.
         public let vpcInterfaces: [VpcInterface]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
@@ -1752,6 +1820,7 @@ extension MediaConnect {
         /// The transfer characteristic system (TCS) that is used in the video.
         public let tcs: Tcs?
 
+        @inlinable
         public init(channelOrder: String? = nil, colorimetry: Colorimetry? = nil, exactFramerate: String? = nil, par: String? = nil, range: Range? = nil, scanMode: ScanMode? = nil, tcs: Tcs? = nil) {
             self.channelOrder = channelOrder
             self.colorimetry = colorimetry
@@ -1789,6 +1858,7 @@ extension MediaConnect {
         /// The transfer characteristic system (TCS) that is used in the video.
         public let tcs: Tcs?
 
+        @inlinable
         public init(channelOrder: String? = nil, colorimetry: Colorimetry? = nil, exactFramerate: String? = nil, par: String? = nil, range: Range? = nil, scanMode: ScanMode? = nil, tcs: Tcs? = nil) {
             self.channelOrder = channelOrder
             self.colorimetry = colorimetry
@@ -1816,6 +1886,7 @@ extension MediaConnect {
         /// The number of pixels in the width of the video frame.
         public let frameWidth: Int?
 
+        @inlinable
         public init(frameHeight: Int? = nil, frameWidth: Int? = nil) {
             self.frameHeight = frameHeight
             self.frameWidth = frameWidth
@@ -1840,6 +1911,7 @@ extension MediaConnect {
         /// The list of networks in the gateway.
         public let networks: [GatewayNetwork]?
 
+        @inlinable
         public init(egressCidrBlocks: [String]? = nil, gatewayArn: String? = nil, gatewayMessages: [MessageDetail]? = nil, gatewayState: GatewayState? = nil, name: String? = nil, networks: [GatewayNetwork]? = nil) {
             self.egressCidrBlocks = egressCidrBlocks
             self.gatewayArn = gatewayArn
@@ -1865,6 +1937,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(bridgeArn: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -1893,6 +1966,7 @@ extension MediaConnect {
         /// The running bridge count.
         public let runningBridgeCount: Int?
 
+        @inlinable
         public init(bridgePlacement: BridgePlacement? = nil, connectionStatus: ConnectionStatus? = nil, gatewayArn: String? = nil, gatewayInstanceArn: String? = nil, instanceId: String? = nil, instanceMessages: [MessageDetail]? = nil, instanceState: InstanceState? = nil, runningBridgeCount: Int? = nil) {
             self.bridgePlacement = bridgePlacement
             self.connectionStatus = connectionStatus
@@ -1922,6 +1996,7 @@ extension MediaConnect {
         /// The name of the network. This name is used to reference the network and must be unique among networks in this gateway.
         public let name: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil, name: String? = nil) {
             self.cidrBlock = cidrBlock
             self.name = name
@@ -1947,6 +2022,7 @@ extension MediaConnect {
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]?
 
+        @inlinable
         public init(dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, encryption: Encryption? = nil, entitlementStatus: EntitlementStatus? = nil, name: String? = nil, subscribers: [String]? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
@@ -1972,6 +2048,7 @@ extension MediaConnect {
         /// The flow that you want to grant entitlements on.
         public let flowArn: String
 
+        @inlinable
         public init(entitlements: [GrantEntitlementRequest]? = nil, flowArn: String) {
             self.entitlements = entitlements
             self.flowArn = flowArn
@@ -1995,6 +2072,7 @@ extension MediaConnect {
         /// The ARN of the flow that these entitlements were granted to.
         public let flowArn: String?
 
+        @inlinable
         public init(entitlements: [Entitlement]? = nil, flowArn: String? = nil) {
             self.entitlements = entitlements
             self.flowArn = flowArn
@@ -2014,6 +2092,7 @@ extension MediaConnect {
         /// The maximum number of outputs on the ingress bridge.
         public let maxOutputs: Int?
 
+        @inlinable
         public init(instanceId: String? = nil, maxBitrate: Int? = nil, maxOutputs: Int? = nil) {
             self.instanceId = instanceId
             self.maxBitrate = maxBitrate
@@ -2035,6 +2114,7 @@ extension MediaConnect {
         /// The VPC interface where the media stream comes in from.
         public let interface: Interface?
 
+        @inlinable
         public init(inputIp: String? = nil, inputPort: Int? = nil, interface: Interface? = nil) {
             self.inputIp = inputIp
             self.inputPort = inputPort
@@ -2054,6 +2134,7 @@ extension MediaConnect {
         /// The VPC interface that you want to use for the incoming media stream.
         public let interface: InterfaceRequest?
 
+        @inlinable
         public init(inputPort: Int? = nil, interface: InterfaceRequest? = nil) {
             self.inputPort = inputPort
             self.interface = interface
@@ -2069,6 +2150,7 @@ extension MediaConnect {
         /// The name of the VPC interface.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2082,6 +2164,7 @@ extension MediaConnect {
         /// The name of the VPC interface.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2099,6 +2182,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(filterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterArn = filterArn
             self.maxResults = maxResults
@@ -2127,6 +2211,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(bridges: [ListedBridge]? = nil, nextToken: String? = nil) {
             self.bridges = bridges
             self.nextToken = nextToken
@@ -2144,6 +2229,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2170,6 +2256,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(entitlements: [ListedEntitlement]? = nil, nextToken: String? = nil) {
             self.entitlements = entitlements
             self.nextToken = nextToken
@@ -2187,6 +2274,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2213,6 +2301,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(flows: [ListedFlow]? = nil, nextToken: String? = nil) {
             self.flows = flows
             self.nextToken = nextToken
@@ -2232,6 +2321,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(filterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filterArn = filterArn
             self.maxResults = maxResults
@@ -2260,6 +2350,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [ListedGatewayInstance]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -2277,6 +2368,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2303,6 +2395,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(gateways: [ListedGateway]? = nil, nextToken: String? = nil) {
             self.gateways = gateways
             self.nextToken = nextToken
@@ -2320,6 +2413,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2346,6 +2440,7 @@ extension MediaConnect {
         /// A list of offerings that are available to this account in the current AWS Region.
         public let offerings: [Offering]?
 
+        @inlinable
         public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
             self.nextToken = nextToken
             self.offerings = offerings
@@ -2363,6 +2458,7 @@ extension MediaConnect {
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2389,6 +2485,7 @@ extension MediaConnect {
         /// A list of all reservations that have been purchased by this account in the current AWS Region.
         public let reservations: [Reservation]?
 
+        @inlinable
         public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
             self.nextToken = nextToken
             self.reservations = reservations
@@ -2404,6 +2501,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2421,6 +2519,7 @@ extension MediaConnect {
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2441,6 +2540,7 @@ extension MediaConnect {
         /// The ARN of the gateway associated with the bridge.
         public let placementArn: String?
 
+        @inlinable
         public init(bridgeArn: String? = nil, bridgeState: BridgeState? = nil, bridgeType: String? = nil, name: String? = nil, placementArn: String? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgeState = bridgeState
@@ -2466,6 +2566,7 @@ extension MediaConnect {
         /// The name of the entitlement.
         public let entitlementName: String?
 
+        @inlinable
         public init(dataTransferSubscriberFeePercent: Int? = nil, entitlementArn: String? = nil, entitlementName: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.entitlementArn = entitlementArn
@@ -2494,6 +2595,7 @@ extension MediaConnect {
         /// The current status of the flow.
         public let status: Status?
 
+        @inlinable
         public init(availabilityZone: String? = nil, description: String? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, name: String? = nil, sourceType: SourceType? = nil, status: Status? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
@@ -2522,6 +2624,7 @@ extension MediaConnect {
         /// The name of the gateway.
         public let name: String?
 
+        @inlinable
         public init(gatewayArn: String? = nil, gatewayState: GatewayState? = nil, name: String? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayState = gatewayState
@@ -2545,6 +2648,7 @@ extension MediaConnect {
         /// The status of the instance.
         public let instanceState: InstanceState?
 
+        @inlinable
         public init(gatewayArn: String? = nil, gatewayInstanceArn: String? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil) {
             self.gatewayArn = gatewayArn
             self.gatewayInstanceArn = gatewayInstanceArn
@@ -2570,6 +2674,7 @@ extension MediaConnect {
         /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
         public let maintenanceStartHour: String?
 
+        @inlinable
         public init(maintenanceDay: MaintenanceDay? = nil, maintenanceDeadline: String? = nil, maintenanceScheduledDate: String? = nil, maintenanceStartHour: String? = nil) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceDeadline = maintenanceDeadline
@@ -2603,6 +2708,7 @@ extension MediaConnect {
         /// The resolution of the video.
         public let videoFormat: String?
 
+        @inlinable
         public init(attributes: MediaStreamAttributes? = nil, clockRate: Int? = nil, description: String? = nil, fmt: Int? = nil, mediaStreamId: Int? = nil, mediaStreamName: String? = nil, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
@@ -2632,6 +2738,7 @@ extension MediaConnect {
         /// The audio language, in a format that is recognized by the receiver.
         public let lang: String?
 
+        @inlinable
         public init(fmtp: Fmtp? = nil, lang: String? = nil) {
             self.fmtp = fmtp
             self.lang = lang
@@ -2649,6 +2756,7 @@ extension MediaConnect {
         /// The audio language, in a format that is recognized by the receiver.
         public let lang: String?
 
+        @inlinable
         public init(fmtp: FmtpRequest? = nil, lang: String? = nil) {
             self.fmtp = fmtp
             self.lang = lang
@@ -2670,6 +2778,7 @@ extension MediaConnect {
         /// The name of the media stream.
         public let mediaStreamName: String?
 
+        @inlinable
         public init(destinationConfigurations: [DestinationConfiguration]? = nil, encodingName: EncodingName? = nil, encodingParameters: EncodingParameters? = nil, mediaStreamName: String? = nil) {
             self.destinationConfigurations = destinationConfigurations
             self.encodingName = encodingName
@@ -2695,6 +2804,7 @@ extension MediaConnect {
         /// The name of the media stream that is associated with the output.
         public let mediaStreamName: String?
 
+        @inlinable
         public init(destinationConfigurations: [DestinationConfigurationRequest]? = nil, encodingName: EncodingName? = nil, encodingParameters: EncodingParametersRequest? = nil, mediaStreamName: String? = nil) {
             self.destinationConfigurations = destinationConfigurations
             self.encodingName = encodingName
@@ -2718,6 +2828,7 @@ extension MediaConnect {
         /// The name of the media stream.
         public let mediaStreamName: String?
 
+        @inlinable
         public init(encodingName: EncodingName? = nil, inputConfigurations: [InputConfiguration]? = nil, mediaStreamName: String? = nil) {
             self.encodingName = encodingName
             self.inputConfigurations = inputConfigurations
@@ -2739,6 +2850,7 @@ extension MediaConnect {
         /// The name of the media stream.
         public let mediaStreamName: String?
 
+        @inlinable
         public init(encodingName: EncodingName? = nil, inputConfigurations: [InputConfigurationRequest]? = nil, mediaStreamName: String? = nil) {
             self.encodingName = encodingName
             self.inputConfigurations = inputConfigurations
@@ -2760,6 +2872,7 @@ extension MediaConnect {
         /// The name of the resource.
         public let resourceName: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, resourceName: String? = nil) {
             self.code = code
             self.message = message
@@ -2777,6 +2890,7 @@ extension MediaConnect {
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]?
 
+        @inlinable
         public init(errors: [String]? = nil) {
             self.errors = errors
         }
@@ -2790,6 +2904,7 @@ extension MediaConnect {
         /// The state of thumbnail monitoring.
         public let thumbnailState: ThumbnailState?
 
+        @inlinable
         public init(thumbnailState: ThumbnailState? = nil) {
             self.thumbnailState = thumbnailState
         }
@@ -2817,6 +2932,7 @@ extension MediaConnect {
         /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering.
         public let resourceSpecification: ResourceSpecification?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, durationUnits: DurationUnits? = nil, offeringArn: String? = nil, offeringDescription: String? = nil, pricePerUnit: String? = nil, priceUnits: PriceUnits? = nil, resourceSpecification: ResourceSpecification? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -2874,6 +2990,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(bridgeArn: String? = nil, bridgePorts: [Int]? = nil, dataTransferSubscriberFeePercent: Int? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, entitlementArn: String? = nil, listenerAddress: String? = nil, mediaLiveInputArn: String? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]? = nil, name: String? = nil, outputArn: String? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, transport: Transport? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.bridgePorts = bridgePorts
@@ -2921,6 +3038,7 @@ extension MediaConnect {
         /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
         public let start: String?
 
+        @inlinable
         public init(offeringArn: String, reservationName: String? = nil, start: String? = nil) {
             self.offeringArn = offeringArn
             self.reservationName = reservationName
@@ -2944,6 +3062,7 @@ extension MediaConnect {
     public struct PurchaseOfferingResponse: AWSDecodableShape {
         public let reservation: Reservation?
 
+        @inlinable
         public init(reservation: Reservation? = nil) {
             self.reservation = reservation
         }
@@ -2959,6 +3078,7 @@ extension MediaConnect {
         /// The name of the bridge output that you want to remove.
         public let outputName: String
 
+        @inlinable
         public init(bridgeArn: String, outputName: String) {
             self.bridgeArn = bridgeArn
             self.outputName = outputName
@@ -2978,6 +3098,7 @@ extension MediaConnect {
         public let bridgeArn: String?
         public let outputName: String?
 
+        @inlinable
         public init(bridgeArn: String? = nil, outputName: String? = nil) {
             self.bridgeArn = bridgeArn
             self.outputName = outputName
@@ -2995,6 +3116,7 @@ extension MediaConnect {
         /// The name of the bridge source that you want to remove.
         public let sourceName: String
 
+        @inlinable
         public init(bridgeArn: String, sourceName: String) {
             self.bridgeArn = bridgeArn
             self.sourceName = sourceName
@@ -3014,6 +3136,7 @@ extension MediaConnect {
         public let bridgeArn: String?
         public let sourceName: String?
 
+        @inlinable
         public init(bridgeArn: String? = nil, sourceName: String? = nil) {
             self.bridgeArn = bridgeArn
             self.sourceName = sourceName
@@ -3031,6 +3154,7 @@ extension MediaConnect {
         /// The name of the media stream that you want to remove.
         public let mediaStreamName: String
 
+        @inlinable
         public init(flowArn: String, mediaStreamName: String) {
             self.flowArn = flowArn
             self.mediaStreamName = mediaStreamName
@@ -3052,6 +3176,7 @@ extension MediaConnect {
         /// The name of the media stream that was removed.
         public let mediaStreamName: String?
 
+        @inlinable
         public init(flowArn: String? = nil, mediaStreamName: String? = nil) {
             self.flowArn = flowArn
             self.mediaStreamName = mediaStreamName
@@ -3069,6 +3194,7 @@ extension MediaConnect {
         /// The ARN of the output that you want to remove.
         public let outputArn: String
 
+        @inlinable
         public init(flowArn: String, outputArn: String) {
             self.flowArn = flowArn
             self.outputArn = outputArn
@@ -3090,6 +3216,7 @@ extension MediaConnect {
         /// The ARN of the output that was removed.
         public let outputArn: String?
 
+        @inlinable
         public init(flowArn: String? = nil, outputArn: String? = nil) {
             self.flowArn = flowArn
             self.outputArn = outputArn
@@ -3107,6 +3234,7 @@ extension MediaConnect {
         /// The ARN of the source that you want to remove.
         public let sourceArn: String
 
+        @inlinable
         public init(flowArn: String, sourceArn: String) {
             self.flowArn = flowArn
             self.sourceArn = sourceArn
@@ -3128,6 +3256,7 @@ extension MediaConnect {
         /// The ARN of the source that was removed.
         public let sourceArn: String?
 
+        @inlinable
         public init(flowArn: String? = nil, sourceArn: String? = nil) {
             self.flowArn = flowArn
             self.sourceArn = sourceArn
@@ -3145,6 +3274,7 @@ extension MediaConnect {
         /// The name of the VPC interface that you want to remove.
         public let vpcInterfaceName: String
 
+        @inlinable
         public init(flowArn: String, vpcInterfaceName: String) {
             self.flowArn = flowArn
             self.vpcInterfaceName = vpcInterfaceName
@@ -3168,6 +3298,7 @@ extension MediaConnect {
         /// The name of the VPC interface that was removed.
         public let vpcInterfaceName: String?
 
+        @inlinable
         public init(flowArn: String? = nil, nonDeletedNetworkInterfaceIds: [String]? = nil, vpcInterfaceName: String? = nil) {
             self.flowArn = flowArn
             self.nonDeletedNetworkInterfaceIds = nonDeletedNetworkInterfaceIds
@@ -3209,6 +3340,7 @@ extension MediaConnect {
         /// The day and time that the reservation becomes active. You set this value when you purchase the offering.
         public let start: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, duration: Int? = nil, durationUnits: DurationUnits? = nil, end: String? = nil, offeringArn: String? = nil, offeringDescription: String? = nil, pricePerUnit: String? = nil, priceUnits: PriceUnits? = nil, reservationArn: String? = nil, reservationName: String? = nil, reservationState: ReservationState? = nil, resourceSpecification: ResourceSpecification? = nil, start: String? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
@@ -3248,6 +3380,7 @@ extension MediaConnect {
         /// The type of resource and the unit that is being billed for.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(reservedBitrate: Int? = nil, resourceType: ResourceType? = nil) {
             self.reservedBitrate = reservedBitrate
             self.resourceType = resourceType
@@ -3265,6 +3398,7 @@ extension MediaConnect {
         /// The flow that you want to revoke an entitlement from.
         public let flowArn: String
 
+        @inlinable
         public init(entitlementArn: String, flowArn: String) {
             self.entitlementArn = entitlementArn
             self.flowArn = flowArn
@@ -3286,6 +3420,7 @@ extension MediaConnect {
         /// The ARN of the flow that the entitlement was revoked from.
         public let flowArn: String?
 
+        @inlinable
         public init(entitlementArn: String? = nil, flowArn: String? = nil) {
             self.entitlementArn = entitlementArn
             self.flowArn = flowArn
@@ -3303,6 +3438,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(bridgeArn: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -3354,6 +3490,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
+        @inlinable
         public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
@@ -3431,6 +3568,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
+        @inlinable
         public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: GatewayBridgeSource? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String? = nil, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
@@ -3472,6 +3610,7 @@ extension MediaConnect {
         /// The name of the source you choose as the primary source for this flow.
         public let primarySource: String?
 
+        @inlinable
         public init(primarySource: String? = nil) {
             self.primarySource = primarySource
         }
@@ -3485,6 +3624,7 @@ extension MediaConnect {
         /// The ARN of the flow that you want to start.
         public let flowArn: String
 
+        @inlinable
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -3504,6 +3644,7 @@ extension MediaConnect {
         /// The status of the flow when the StartFlow process begins.
         public let status: Status?
 
+        @inlinable
         public init(flowArn: String? = nil, status: Status? = nil) {
             self.flowArn = flowArn
             self.status = status
@@ -3519,6 +3660,7 @@ extension MediaConnect {
         /// The ARN of the flow that you want to stop.
         public let flowArn: String
 
+        @inlinable
         public init(flowArn: String) {
             self.flowArn = flowArn
         }
@@ -3538,6 +3680,7 @@ extension MediaConnect {
         /// The status of the flow when the StopFlow process begins.
         public let status: Status?
 
+        @inlinable
         public init(flowArn: String? = nil, status: Status? = nil) {
             self.flowArn = flowArn
             self.status = status
@@ -3555,6 +3698,7 @@ extension MediaConnect {
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3585,6 +3729,7 @@ extension MediaConnect {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var timestamp: Date?
 
+        @inlinable
         public init(flowArn: String? = nil, thumbnail: String? = nil, thumbnailMessages: [MessageDetail]? = nil, timecode: String? = nil, timestamp: Date? = nil) {
             self.flowArn = flowArn
             self.thumbnail = thumbnail
@@ -3630,6 +3775,7 @@ extension MediaConnect {
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
 
+        @inlinable
         public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
@@ -3667,6 +3813,7 @@ extension MediaConnect {
         /// The list of transport stream programs in the current flow's source.
         public let programs: [TransportStreamProgram]?
 
+        @inlinable
         public init(programs: [TransportStreamProgram]? = nil) {
             self.programs = programs
         }
@@ -3693,6 +3840,7 @@ extension MediaConnect {
         /// The Stream Type as it is reported in the Program Map Table.
         public let streamType: String?
 
+        @inlinable
         public init(channels: Int? = nil, codec: String? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, pid: Int? = nil, sampleRate: Int? = nil, sampleSize: Int? = nil, streamType: String? = nil) {
             self.channels = channels
             self.codec = codec
@@ -3728,6 +3876,7 @@ extension MediaConnect {
         /// The list of elementary transport streams in the program. The list includes video, audio, and data streams.
         public let streams: [TransportStream]?
 
+        @inlinable
         public init(pcrPid: Int? = nil, programName: String? = nil, programNumber: Int? = nil, programPid: Int? = nil, streams: [TransportStream]? = nil) {
             self.pcrPid = pcrPid
             self.programName = programName
@@ -3751,6 +3900,7 @@ extension MediaConnect {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3772,6 +3922,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this source.
         public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(flowArn: String? = nil, flowVpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.flowArn = flowArn
             self.flowVpcInterfaceAttachment = flowVpcInterfaceAttachment
@@ -3795,6 +3946,7 @@ extension MediaConnect {
         /// The network output TTL.
         public let ttl: Int?
 
+        @inlinable
         public init(ipAddress: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, ttl: Int? = nil) {
             self.ipAddress = ipAddress
             self.networkName = networkName
@@ -3822,6 +3974,7 @@ extension MediaConnect {
         /// The network source protocol.
         public let `protocol`: `Protocol`?
 
+        @inlinable
         public init(multicastIp: String? = nil, networkName: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
             self.multicastIp = multicastIp
             self.networkName = networkName
@@ -3844,6 +3997,7 @@ extension MediaConnect {
         /// The name of the bridge output that you want to update.
         public let outputName: String
 
+        @inlinable
         public init(bridgeArn: String, networkOutput: UpdateBridgeNetworkOutputRequest? = nil, outputName: String) {
             self.bridgeArn = bridgeArn
             self.networkOutput = networkOutput
@@ -3869,6 +4023,7 @@ extension MediaConnect {
         /// The output that you updated.
         public let output: BridgeOutput?
 
+        @inlinable
         public init(bridgeArn: String? = nil, output: BridgeOutput? = nil) {
             self.bridgeArn = bridgeArn
             self.output = output
@@ -3887,6 +4042,7 @@ extension MediaConnect {
         public let ingressGatewayBridge: UpdateIngressGatewayBridgeRequest?
         public let sourceFailoverConfig: UpdateFailoverConfig?
 
+        @inlinable
         public init(bridgeArn: String, egressGatewayBridge: UpdateEgressGatewayBridgeRequest? = nil, ingressGatewayBridge: UpdateIngressGatewayBridgeRequest? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil) {
             self.bridgeArn = bridgeArn
             self.egressGatewayBridge = egressGatewayBridge
@@ -3913,6 +4069,7 @@ extension MediaConnect {
     public struct UpdateBridgeResponse: AWSDecodableShape {
         public let bridge: Bridge?
 
+        @inlinable
         public init(bridge: Bridge? = nil) {
             self.bridge = bridge
         }
@@ -3930,6 +4087,7 @@ extension MediaConnect {
         /// The name of the source that you want to update.
         public let sourceName: String
 
+        @inlinable
         public init(bridgeArn: String, flowSource: UpdateBridgeFlowSourceRequest? = nil, networkSource: UpdateBridgeNetworkSourceRequest? = nil, sourceName: String) {
             self.bridgeArn = bridgeArn
             self.flowSource = flowSource
@@ -3957,6 +4115,7 @@ extension MediaConnect {
         public let bridgeArn: String?
         public let source: BridgeSource?
 
+        @inlinable
         public init(bridgeArn: String? = nil, source: BridgeSource? = nil) {
             self.bridgeArn = bridgeArn
             self.source = source
@@ -3973,6 +4132,7 @@ extension MediaConnect {
         public let bridgeArn: String
         public let desiredState: DesiredState?
 
+        @inlinable
         public init(bridgeArn: String, desiredState: DesiredState? = nil) {
             self.bridgeArn = bridgeArn
             self.desiredState = desiredState
@@ -3996,6 +4156,7 @@ extension MediaConnect {
         /// The state of the bridge. ACTIVE or STANDBY.
         public let desiredState: DesiredState?
 
+        @inlinable
         public init(bridgeArn: String? = nil, desiredState: DesiredState? = nil) {
             self.bridgeArn = bridgeArn
             self.desiredState = desiredState
@@ -4011,6 +4172,7 @@ extension MediaConnect {
         /// Update an existing egress-type bridge.
         public let maxBitrate: Int?
 
+        @inlinable
         public init(maxBitrate: Int? = nil) {
             self.maxBitrate = maxBitrate
         }
@@ -4040,6 +4202,7 @@ extension MediaConnect {
         /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
 
+        @inlinable
         public init(algorithm: Algorithm? = nil, constantInitializationVector: String? = nil, deviceId: String? = nil, keyType: KeyType? = nil, region: String? = nil, resourceId: String? = nil, roleArn: String? = nil, secretArn: String? = nil, url: String? = nil) {
             self.algorithm = algorithm
             self.constantInitializationVector = constantInitializationVector
@@ -4074,6 +4237,7 @@ extension MediaConnect {
         public let sourcePriority: SourcePriority?
         public let state: State?
 
+        @inlinable
         public init(failoverMode: FailoverMode? = nil, recoveryWindow: Int? = nil, sourcePriority: SourcePriority? = nil, state: State? = nil) {
             self.failoverMode = failoverMode
             self.recoveryWindow = recoveryWindow
@@ -4103,6 +4267,7 @@ extension MediaConnect {
         /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
 
+        @inlinable
         public init(description: String? = nil, encryption: UpdateEncryption? = nil, entitlementArn: String, entitlementStatus: EntitlementStatus? = nil, flowArn: String, subscribers: [String]? = nil) {
             self.description = description
             self.encryption = encryption
@@ -4137,6 +4302,7 @@ extension MediaConnect {
         /// The ARN of the flow that this entitlement was granted on.
         public let flowArn: String?
 
+        @inlinable
         public init(entitlement: Entitlement? = nil, flowArn: String? = nil) {
             self.entitlement = entitlement
             self.flowArn = flowArn
@@ -4164,6 +4330,7 @@ extension MediaConnect {
         /// The resolution of the video.
         public let videoFormat: String?
 
+        @inlinable
         public init(attributes: MediaStreamAttributesRequest? = nil, clockRate: Int? = nil, description: String? = nil, flowArn: String, mediaStreamName: String, mediaStreamType: MediaStreamType? = nil, videoFormat: String? = nil) {
             self.attributes = attributes
             self.clockRate = clockRate
@@ -4201,6 +4368,7 @@ extension MediaConnect {
         /// The media stream that you updated.
         public let mediaStream: MediaStream?
 
+        @inlinable
         public init(flowArn: String? = nil, mediaStream: MediaStream? = nil) {
             self.flowArn = flowArn
             self.mediaStream = mediaStream
@@ -4250,6 +4418,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
@@ -4320,6 +4489,7 @@ extension MediaConnect {
         /// The new settings of the output that you updated.
         public let output: Output?
 
+        @inlinable
         public init(flowArn: String? = nil, output: Output? = nil) {
             self.flowArn = flowArn
             self.output = output
@@ -4338,6 +4508,7 @@ extension MediaConnect {
         public let sourceFailoverConfig: UpdateFailoverConfig?
         public let sourceMonitoringConfig: MonitoringConfig?
 
+        @inlinable
         public init(flowArn: String, maintenance: UpdateMaintenance? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
             self.flowArn = flowArn
             self.maintenance = maintenance
@@ -4364,6 +4535,7 @@ extension MediaConnect {
     public struct UpdateFlowResponse: AWSDecodableShape {
         public let flow: Flow?
 
+        @inlinable
         public init(flow: Flow? = nil) {
             self.flow = flow
         }
@@ -4415,6 +4587,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
+        @inlinable
         public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, gatewayBridgeSource: UpdateGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
@@ -4491,6 +4664,7 @@ extension MediaConnect {
         /// The settings for the source of the flow.
         public let source: Source?
 
+        @inlinable
         public init(flowArn: String? = nil, source: Source? = nil) {
             self.flowArn = flowArn
             self.source = source
@@ -4508,6 +4682,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
+        @inlinable
         public init(bridgeArn: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.bridgeArn = bridgeArn
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -4525,6 +4700,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the instance that you want to update.
         public let gatewayInstanceArn: String
 
+        @inlinable
         public init(bridgePlacement: BridgePlacement? = nil, gatewayInstanceArn: String) {
             self.bridgePlacement = bridgePlacement
             self.gatewayInstanceArn = gatewayInstanceArn
@@ -4548,6 +4724,7 @@ extension MediaConnect {
         /// The Amazon Resource Name (ARN) of the instance.
         public let gatewayInstanceArn: String?
 
+        @inlinable
         public init(bridgePlacement: BridgePlacement? = nil, gatewayInstanceArn: String? = nil) {
             self.bridgePlacement = bridgePlacement
             self.gatewayInstanceArn = gatewayInstanceArn
@@ -4565,6 +4742,7 @@ extension MediaConnect {
         /// The maximum number of expected outputs.
         public let maxOutputs: Int?
 
+        @inlinable
         public init(maxBitrate: Int? = nil, maxOutputs: Int? = nil) {
             self.maxBitrate = maxBitrate
             self.maxOutputs = maxOutputs
@@ -4584,6 +4762,7 @@ extension MediaConnect {
         /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
         public let maintenanceStartHour: String?
 
+        @inlinable
         public init(maintenanceDay: MaintenanceDay? = nil, maintenanceScheduledDate: String? = nil, maintenanceStartHour: String? = nil) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceScheduledDate = maintenanceScheduledDate
@@ -4611,6 +4790,7 @@ extension MediaConnect {
         /// Subnet must be in the AZ of the Flow
         public let subnetId: String?
 
+        @inlinable
         public init(name: String? = nil, networkInterfaceIds: [String]? = nil, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
             self.name = name
             self.networkInterfaceIds = networkInterfaceIds
@@ -4634,6 +4814,7 @@ extension MediaConnect {
         /// The name of the VPC interface to use for this resource.
         public let vpcInterfaceName: String?
 
+        @inlinable
         public init(vpcInterfaceName: String? = nil) {
             self.vpcInterfaceName = vpcInterfaceName
         }
@@ -4655,6 +4836,7 @@ extension MediaConnect {
         /// Subnet must be in the AZ of the Flow
         public let subnetId: String?
 
+        @inlinable
         public init(name: String? = nil, networkInterfaceType: NetworkInterfaceType? = nil, roleArn: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil) {
             self.name = name
             self.networkInterfaceType = networkInterfaceType

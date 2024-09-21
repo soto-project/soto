@@ -270,6 +270,7 @@ extension DevOpsGuru {
         ///
         public let insight: AccountInsightHealth?
 
+        @inlinable
         public init(accountId: String? = nil, insight: AccountInsightHealth? = nil) {
             self.accountId = accountId
             self.insight = insight
@@ -289,6 +290,7 @@ extension DevOpsGuru {
         /// 			account.
         public let openReactiveInsights: Int?
 
+        @inlinable
         public init(openProactiveInsights: Int? = nil, openReactiveInsights: Int? = nil) {
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
@@ -305,6 +307,7 @@ extension DevOpsGuru {
         /// 			notification channel to add. The one  	supported notification channel is Amazon Simple Notification Service (Amazon SNS).
         public let config: NotificationChannelConfig
 
+        @inlinable
         public init(config: NotificationChannelConfig) {
             self.config = config
         }
@@ -322,6 +325,7 @@ extension DevOpsGuru {
         ///  The ID of the added notification channel.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -336,6 +340,7 @@ extension DevOpsGuru {
         /// 			consume recommendations that are generated from Amazon CodeGuru Profiler.
         public let status: EventSourceOptInStatus?
 
+        @inlinable
         public init(status: EventSourceOptInStatus? = nil) {
             self.status = status
         }
@@ -362,6 +367,7 @@ extension DevOpsGuru {
         ///
         public let numberOfLogLinesScanned: Int?
 
+        @inlinable
         public init(impactEndTime: Date? = nil, impactStartTime: Date? = nil, logAnomalyShowcases: [LogAnomalyShowcase]? = nil, logGroupName: String? = nil, numberOfLogLinesScanned: Int? = nil) {
             self.impactEndTime = impactEndTime
             self.impactStartTime = impactStartTime
@@ -385,6 +391,7 @@ extension DevOpsGuru {
         ///  The time when an anomaly is opened.
         public let openTime: Date
 
+        @inlinable
         public init(closeTime: Date? = nil, openTime: Date) {
             self.closeTime = closeTime
             self.openTime = openTime
@@ -402,6 +409,7 @@ extension DevOpsGuru {
         /// The type of the Amazon Web Services resource.
         public let type: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil) {
             self.name = name
             self.type = type
@@ -421,6 +429,7 @@ extension DevOpsGuru {
         /// 			information about analyzed Performance Insights metrics that show anomalous behavior.
         public let performanceInsightsMetrics: [PerformanceInsightsMetricsDetail]?
 
+        @inlinable
         public init(cloudWatchMetrics: [CloudWatchMetricsDetail]? = nil, performanceInsightsMetrics: [PerformanceInsightsMetricsDetail]? = nil) {
             self.cloudWatchMetrics = cloudWatchMetrics
             self.performanceInsightsMetrics = performanceInsightsMetrics
@@ -440,6 +449,7 @@ extension DevOpsGuru {
         /// The anomaly's resource type.
         public let sourceResourceType: String?
 
+        @inlinable
         public init(source: String? = nil, sourceResourceName: String? = nil, sourceResourceType: String? = nil) {
             self.source = source
             self.sourceResourceName = sourceResourceName
@@ -459,6 +469,7 @@ extension DevOpsGuru {
         ///  The time when the anomalous behavior started.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -474,6 +485,7 @@ extension DevOpsGuru {
         ///  An array of CloudFormation stack names.
         public let stackNames: [String]?
 
+        @inlinable
         public init(stackNames: [String]? = nil) {
             self.stackNames = stackNames
         }
@@ -495,6 +507,7 @@ extension DevOpsGuru {
         ///  An array of CloudFormation stack names.
         public let stackNames: [String]?
 
+        @inlinable
         public init(stackNames: [String]? = nil) {
             self.stackNames = stackNames
         }
@@ -508,6 +521,7 @@ extension DevOpsGuru {
         /// An array of CloudFormation stack names. Its size is fixed at 1 item.
         public let stackNames: [String]?
 
+        @inlinable
         public init(stackNames: [String]? = nil) {
             self.stackNames = stackNames
         }
@@ -538,6 +552,7 @@ extension DevOpsGuru {
         ///  The name of the CloudFormation stack.
         public let stackName: String?
 
+        @inlinable
         public init(analyzedResourceCount: Int64? = nil, insight: InsightHealth? = nil, stackName: String? = nil) {
             self.analyzedResourceCount = analyzedResourceCount
             self.insight = insight
@@ -558,6 +573,7 @@ extension DevOpsGuru {
         /// This is a list of Amazon CloudWatch metric values at given timestamp.
         public let timestampMetricValuePairList: [TimestampMetricValuePair]?
 
+        @inlinable
         public init(statusCode: CloudWatchMetricDataStatusCode? = nil, timestampMetricValuePairList: [TimestampMetricValuePair]? = nil) {
             self.statusCode = statusCode
             self.timestampMetricValuePairList = timestampMetricValuePairList
@@ -588,6 +604,7 @@ extension DevOpsGuru {
         /// 				Seconds, Count, and Percent.
         public let unit: String?
 
+        @inlinable
         public init(dimensions: [CloudWatchMetricsDimension]? = nil, metricDataSummary: CloudWatchMetricsDataSummary? = nil, metricName: String? = nil, namespace: String? = nil, period: Int? = nil, stat: CloudWatchMetricsStat? = nil, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricDataSummary = metricDataSummary
@@ -615,6 +632,7 @@ extension DevOpsGuru {
         ///  The value of the CloudWatch dimension.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -642,6 +660,7 @@ extension DevOpsGuru {
         /// 			Devops-Guru-production-application/containers.
         public let tags: [TagCostEstimationResourceCollectionFilter]?
 
+        @inlinable
         public init(cloudFormation: CloudFormationCostEstimationResourceCollectionFilter? = nil, tags: [TagCostEstimationResourceCollectionFilter]? = nil) {
             self.cloudFormation = cloudFormation
             self.tags = tags
@@ -666,6 +685,7 @@ extension DevOpsGuru {
         /// The start time of the cost estimation.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -681,6 +701,7 @@ extension DevOpsGuru {
         /// The ID of the insight.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -725,6 +746,7 @@ extension DevOpsGuru {
         /// 			the last hour.
         public let resourceHours: Int64
 
+        @inlinable
         public init(analyzedResourceCount: Int64? = nil, metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
             self.analyzedResourceCount = analyzedResourceCount
             self.metricsAnalyzed = metricsAnalyzed
@@ -752,6 +774,7 @@ extension DevOpsGuru {
         /// 			this is not specified, then the current day is used.
         public let toTime: Date?
 
+        @inlinable
         public init(fromTime: Date, toTime: Date? = nil) {
             self.fromTime = fromTime
             self.toTime = toTime
@@ -774,6 +797,7 @@ extension DevOpsGuru {
         /// 			that were created during the time range passed in.
         public let reactiveInsights: Int
 
+        @inlinable
         public init(meanTimeToRecoverInMilliseconds: Int64, proactiveInsights: Int, reactiveInsights: Int) {
             self.meanTimeToRecoverInMilliseconds = meanTimeToRecoverInMilliseconds
             self.proactiveInsights = proactiveInsights
@@ -793,6 +817,7 @@ extension DevOpsGuru {
         ///  The ID of the anomaly.
         public let id: String
 
+        @inlinable
         public init(accountId: String? = nil, id: String) {
             self.accountId = accountId
             self.id = id
@@ -823,6 +848,7 @@ extension DevOpsGuru {
         ///  A ReactiveAnomaly object that represents the requested anomaly.
         public let reactiveAnomaly: ReactiveAnomaly?
 
+        @inlinable
         public init(proactiveAnomaly: ProactiveAnomaly? = nil, reactiveAnomaly: ReactiveAnomaly? = nil) {
             self.proactiveAnomaly = proactiveAnomaly
             self.reactiveAnomaly = reactiveAnomaly
@@ -842,6 +868,7 @@ extension DevOpsGuru {
         /// Lists the event sources in the configuration.
         public let eventSources: EventSourcesConfig?
 
+        @inlinable
         public init(eventSources: EventSourcesConfig? = nil) {
             self.eventSources = eventSources
         }
@@ -855,6 +882,7 @@ extension DevOpsGuru {
         ///  The ID of the insight for which the feedback was provided.
         public let insightId: String?
 
+        @inlinable
         public init(insightId: String? = nil) {
             self.insightId = insightId
         }
@@ -873,6 +901,7 @@ extension DevOpsGuru {
     public struct DescribeFeedbackResponse: AWSDecodableShape {
         public let insightFeedback: InsightFeedback?
 
+        @inlinable
         public init(insightFeedback: InsightFeedback? = nil) {
             self.insightFeedback = insightFeedback
         }
@@ -888,6 +917,7 @@ extension DevOpsGuru {
         ///  The ID of the insight.
         public let id: String
 
+        @inlinable
         public init(accountId: String? = nil, id: String) {
             self.accountId = accountId
             self.id = id
@@ -918,6 +948,7 @@ extension DevOpsGuru {
         ///  A ReactiveInsight object that represents the requested insight.
         public let reactiveInsight: ReactiveInsight?
 
+        @inlinable
         public init(proactiveInsight: ProactiveInsight? = nil, reactiveInsight: ReactiveInsight? = nil) {
             self.proactiveInsight = proactiveInsight
             self.reactiveInsight = reactiveInsight
@@ -935,6 +966,7 @@ extension DevOpsGuru {
         /// The ID of the organizational unit.
         public let organizationalUnitIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, organizationalUnitIds: [String]? = nil) {
             self.accountIds = accountIds
             self.organizationalUnitIds = organizationalUnitIds
@@ -974,6 +1006,7 @@ extension DevOpsGuru {
         /// 			the last hour.
         public let resourceHours: Int64
 
+        @inlinable
         public init(metricsAnalyzed: Int, openProactiveInsights: Int, openReactiveInsights: Int, resourceHours: Int64) {
             self.metricsAnalyzed = metricsAnalyzed
             self.openProactiveInsights = openProactiveInsights
@@ -1003,6 +1036,7 @@ extension DevOpsGuru {
         /// 			this is not specified, then the current day is used.
         public let toTime: Date?
 
+        @inlinable
         public init(accountIds: [String]? = nil, fromTime: Date, organizationalUnitIds: [String]? = nil, toTime: Date? = nil) {
             self.accountIds = accountIds
             self.fromTime = fromTime
@@ -1040,6 +1074,7 @@ extension DevOpsGuru {
         /// 			account.
         public let reactiveInsights: Int
 
+        @inlinable
         public init(proactiveInsights: Int, reactiveInsights: Int) {
             self.proactiveInsights = proactiveInsights
             self.reactiveInsights = reactiveInsights
@@ -1065,6 +1100,7 @@ extension DevOpsGuru {
         /// 			are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let organizationResourceCollectionType: OrganizationResourceCollectionType
 
+        @inlinable
         public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitIds: [String]? = nil, organizationResourceCollectionType: OrganizationResourceCollectionType) {
             self.accountIds = accountIds
             self.maxResults = maxResults
@@ -1124,6 +1160,7 @@ extension DevOpsGuru {
         /// 			Devops-Guru-production-application/containers.
         public let tags: [TagHealth]?
 
+        @inlinable
         public init(account: [AccountHealth]? = nil, cloudFormation: [CloudFormationHealth]? = nil, nextToken: String? = nil, service: [ServiceHealth]? = nil, tags: [TagHealth]? = nil) {
             self.account = account
             self.cloudFormation = cloudFormation
@@ -1148,6 +1185,7 @@ extension DevOpsGuru {
         /// 			are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resourceCollectionType: ResourceCollectionType
 
+        @inlinable
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
             self.nextToken = nextToken
             self.resourceCollectionType = resourceCollectionType
@@ -1190,6 +1228,7 @@ extension DevOpsGuru {
         /// 			Devops-Guru-production-application/containers.
         public let tags: [TagHealth]?
 
+        @inlinable
         public init(cloudFormation: [CloudFormationHealth]? = nil, nextToken: String? = nil, service: [ServiceHealth]? = nil, tags: [TagHealth]? = nil) {
             self.cloudFormation = cloudFormation
             self.nextToken = nextToken
@@ -1212,6 +1251,7 @@ extension DevOpsGuru {
     public struct DescribeServiceIntegrationResponse: AWSDecodableShape {
         public let serviceIntegration: ServiceIntegrationConfig?
 
+        @inlinable
         public init(serviceIntegration: ServiceIntegrationConfig? = nil) {
             self.serviceIntegration = serviceIntegration
         }
@@ -1227,6 +1267,7 @@ extension DevOpsGuru {
         ///  The latest end time in the time range.
         public let toTime: Date?
 
+        @inlinable
         public init(fromTime: Date? = nil, toTime: Date? = nil) {
             self.fromTime = fromTime
             self.toTime = toTime
@@ -1258,6 +1299,7 @@ extension DevOpsGuru {
         ///  A Timestamp that specifies the time the event occurred.
         public let time: Date?
 
+        @inlinable
         public init(dataSource: EventDataSource? = nil, eventClass: EventClass? = nil, eventSource: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, resources: [EventResource]? = nil, time: Date? = nil) {
             self.dataSource = dataSource
             self.eventClass = eventClass
@@ -1289,6 +1331,7 @@ extension DevOpsGuru {
         ///  The type of resource that emitted an event.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, type: String? = nil) {
             self.arn = arn
             self.name = name
@@ -1307,6 +1350,7 @@ extension DevOpsGuru {
         /// 			are generated from AWS CodeGuru Profiler.
         public let amazonCodeGuruProfiler: AmazonCodeGuruProfilerIntegration?
 
+        @inlinable
         public init(amazonCodeGuruProfiler: AmazonCodeGuruProfilerIntegration? = nil) {
             self.amazonCodeGuruProfiler = amazonCodeGuruProfiler
         }
@@ -1322,6 +1366,7 @@ extension DevOpsGuru {
         ///  The time when the event ended.
         public let toTime: Date
 
+        @inlinable
         public init(fromTime: Date, toTime: Date) {
             self.fromTime = fromTime
             self.toTime = toTime
@@ -1337,6 +1382,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1376,6 +1422,7 @@ extension DevOpsGuru {
         /// 			response.
         public let totalCost: Double?
 
+        @inlinable
         public init(costs: [ServiceResourceCost]? = nil, nextToken: String? = nil, resourceCollection: CostEstimationResourceCollectionFilter? = nil, status: CostEstimationStatus? = nil, timeRange: CostEstimationTimeRange? = nil, totalCost: Double? = nil) {
             self.costs = costs
             self.nextToken = nextToken
@@ -1402,6 +1449,7 @@ extension DevOpsGuru {
         /// 				CLOUD_FORMATION for Amazon Web Services CloudFormation stacks.
         public let resourceCollectionType: ResourceCollectionType
 
+        @inlinable
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
             self.nextToken = nextToken
             self.resourceCollectionType = resourceCollectionType
@@ -1430,6 +1478,7 @@ extension DevOpsGuru {
         /// 			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resourceCollection: ResourceCollectionFilter?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceCollection: ResourceCollectionFilter? = nil) {
             self.nextToken = nextToken
             self.resourceCollection = resourceCollection
@@ -1447,6 +1496,7 @@ extension DevOpsGuru {
         ///  The insight feedback ID.
         public let id: String?
 
+        @inlinable
         public init(feedback: InsightFeedbackOption? = nil, id: String? = nil) {
             self.feedback = feedback
             self.id = id
@@ -1472,6 +1522,7 @@ extension DevOpsGuru {
         ///  The number of open reactive insights.
         public let openReactiveInsights: Int?
 
+        @inlinable
         public init(meanTimeToRecoverInMilliseconds: Int64? = nil, openProactiveInsights: Int? = nil, openReactiveInsights: Int? = nil) {
             self.meanTimeToRecoverInMilliseconds = meanTimeToRecoverInMilliseconds
             self.openProactiveInsights = openProactiveInsights
@@ -1491,6 +1542,7 @@ extension DevOpsGuru {
         ///  The time when the behavior described in an insight started.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -1518,6 +1570,7 @@ extension DevOpsGuru {
         ///
         public let type: ServerSideEncryptionType?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, optInStatus: OptInStatus? = nil, type: ServerSideEncryptionType? = nil) {
             self.kmsKeyId = kmsKeyId
             self.optInStatus = optInStatus
@@ -1546,6 +1599,7 @@ extension DevOpsGuru {
         ///
         public let type: ServerSideEncryptionType?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, optInStatus: OptInStatus? = nil, type: ServerSideEncryptionType? = nil) {
             self.kmsKeyId = kmsKeyId
             self.optInStatus = optInStatus
@@ -1568,6 +1622,7 @@ extension DevOpsGuru {
     public struct ListAnomaliesForInsightFilters: AWSEncodableShape {
         public let serviceCollection: ServiceCollection?
 
+        @inlinable
         public init(serviceCollection: ServiceCollection? = nil) {
             self.serviceCollection = serviceCollection
         }
@@ -1594,6 +1649,7 @@ extension DevOpsGuru {
         /// 			anomalies started during this time range.
         public let startTimeRange: StartTimeRange?
 
+        @inlinable
         public init(accountId: String? = nil, filters: ListAnomaliesForInsightFilters? = nil, insightId: String, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange? = nil) {
             self.accountId = accountId
             self.filters = filters
@@ -1647,6 +1703,7 @@ extension DevOpsGuru {
         /// 			anomalies
         public let reactiveAnomalies: [ReactiveAnomalySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proactiveAnomalies: [ProactiveAnomalySummary]? = nil, reactiveAnomalies: [ReactiveAnomalySummary]? = nil) {
             self.nextToken = nextToken
             self.proactiveAnomalies = proactiveAnomalies
@@ -1670,6 +1727,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(insightId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.insightId = insightId
             self.maxResults = maxResults
@@ -1704,6 +1762,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(anomalousLogGroups: [AnomalousLogGroup], insightId: String, nextToken: String? = nil) {
             self.anomalousLogGroups = anomalousLogGroups
             self.insightId = insightId
@@ -1732,6 +1791,7 @@ extension DevOpsGuru {
         public let insightId: String?
         public let resourceCollection: ResourceCollection?
 
+        @inlinable
         public init(dataSource: EventDataSource? = nil, eventClass: EventClass? = nil, eventSource: String? = nil, eventTimeRange: EventTimeRange? = nil, insightId: String? = nil, resourceCollection: ResourceCollection? = nil) {
             self.dataSource = dataSource
             self.eventClass = eventClass
@@ -1773,6 +1833,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String? = nil, filters: ListEventsFilters, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.filters = filters
@@ -1806,6 +1867,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [Event], nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -1825,6 +1887,7 @@ extension DevOpsGuru {
         ///
         public let type: InsightType
 
+        @inlinable
         public init(startTimeRange: StartTimeRange, type: InsightType) {
             self.startTimeRange = startTimeRange
             self.type = type
@@ -1844,6 +1907,7 @@ extension DevOpsGuru {
         ///
         public let type: InsightType
 
+        @inlinable
         public init(endTimeRange: EndTimeRange, type: InsightType) {
             self.endTimeRange = endTimeRange
             self.type = type
@@ -1860,6 +1924,7 @@ extension DevOpsGuru {
         ///
         public let type: InsightType
 
+        @inlinable
         public init(type: InsightType) {
             self.type = type
         }
@@ -1879,6 +1944,7 @@ extension DevOpsGuru {
         /// 			status filter.
         public let statusFilter: ListInsightsStatusFilter
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, statusFilter: ListInsightsStatusFilter) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1908,6 +1974,7 @@ extension DevOpsGuru {
         ///  The returned list of reactive insights.
         public let reactiveInsights: [ReactiveInsightSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proactiveInsights: [ProactiveInsightSummary]? = nil, reactiveInsights: [ReactiveInsightSummary]? = nil) {
             self.nextToken = nextToken
             self.proactiveInsights = proactiveInsights
@@ -1932,6 +1999,7 @@ extension DevOpsGuru {
         /// 			either REACTIVE or PROACTIVE.
         public let ongoing: ListInsightsOngoingStatusFilter?
 
+        @inlinable
         public init(any: ListInsightsAnyStatusFilter? = nil, closed: ListInsightsClosedStatusFilter? = nil, ongoing: ListInsightsOngoingStatusFilter? = nil) {
             self.any = any
             self.closed = closed
@@ -1953,6 +2021,7 @@ extension DevOpsGuru {
         ///
         public let resourceTypeFilters: [ResourceTypeFilter]
 
+        @inlinable
         public init(resourcePermission: ResourcePermission, resourceTypeFilters: [ResourceTypeFilter]) {
             self.resourcePermission = resourcePermission
             self.resourceTypeFilters = resourceTypeFilters
@@ -1974,6 +2043,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: ListMonitoredResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2002,6 +2072,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(monitoredResourceIdentifiers: [MonitoredResourceIdentifier], nextToken: String? = nil) {
             self.monitoredResourceIdentifiers = monitoredResourceIdentifiers
             self.nextToken = nextToken
@@ -2017,6 +2088,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2038,6 +2110,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [NotificationChannel]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -2061,6 +2134,7 @@ extension DevOpsGuru {
         public let organizationalUnitIds: [String]?
         public let statusFilter: ListInsightsStatusFilter
 
+        @inlinable
         public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitIds: [String]? = nil, statusFilter: ListInsightsStatusFilter) {
             self.accountIds = accountIds
             self.maxResults = maxResults
@@ -2107,6 +2181,7 @@ extension DevOpsGuru {
         /// 			account.
         public let reactiveInsights: [ReactiveOrganizationInsightSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proactiveInsights: [ProactiveOrganizationInsightSummary]? = nil, reactiveInsights: [ReactiveOrganizationInsightSummary]? = nil) {
             self.nextToken = nextToken
             self.proactiveInsights = proactiveInsights
@@ -2130,6 +2205,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String? = nil, insightId: String, locale: Locale? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.insightId = insightId
@@ -2163,6 +2239,7 @@ extension DevOpsGuru {
         ///  An array of the requested recommendations.
         public let recommendations: [Recommendation]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendations: [Recommendation]? = nil) {
             self.nextToken = nextToken
             self.recommendations = recommendations
@@ -2197,6 +2274,7 @@ extension DevOpsGuru {
         ///
         public let numberOfLogLinesOccurrences: Int?
 
+        @inlinable
         public init(explanation: String? = nil, logAnomalyToken: String? = nil, logAnomalyType: LogAnomalyType? = nil, logEventId: String? = nil, logEventTimestamp: Date? = nil, logStreamName: String? = nil, numberOfLogLinesOccurrences: Int? = nil) {
             self.explanation = explanation
             self.logAnomalyToken = logAnomalyToken
@@ -2223,6 +2301,7 @@ extension DevOpsGuru {
         ///
         public let logAnomalyClasses: [LogAnomalyClass]?
 
+        @inlinable
         public init(logAnomalyClasses: [LogAnomalyClass]? = nil) {
             self.logAnomalyClasses = logAnomalyClasses
         }
@@ -2236,6 +2315,7 @@ extension DevOpsGuru {
         /// Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups.
         public let optInStatus: OptInStatus?
 
+        @inlinable
         public init(optInStatus: OptInStatus? = nil) {
             self.optInStatus = optInStatus
         }
@@ -2249,6 +2329,7 @@ extension DevOpsGuru {
         /// Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups.
         public let optInStatus: OptInStatus?
 
+        @inlinable
         public init(optInStatus: OptInStatus? = nil) {
             self.optInStatus = optInStatus
         }
@@ -2273,6 +2354,7 @@ extension DevOpsGuru {
         ///
         public let type: String?
 
+        @inlinable
         public init(lastUpdated: Date? = nil, monitoredResourceName: String? = nil, resourceCollection: ResourceCollection? = nil, resourcePermission: ResourcePermission? = nil, type: String? = nil) {
             self.lastUpdated = lastUpdated
             self.monitoredResourceName = monitoredResourceName
@@ -2297,6 +2379,7 @@ extension DevOpsGuru {
         ///  The ID of a notification channel.
         public let id: String?
 
+        @inlinable
         public init(config: NotificationChannelConfig? = nil, id: String? = nil) {
             self.config = config
             self.id = id
@@ -2322,6 +2405,7 @@ extension DevOpsGuru {
         /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
         public let sns: SnsChannelConfig
 
+        @inlinable
         public init(filters: NotificationFilterConfig? = nil, sns: SnsChannelConfig) {
             self.filters = filters
             self.sns = sns
@@ -2347,6 +2431,7 @@ extension DevOpsGuru {
         ///
         public let severities: [InsightSeverity]?
 
+        @inlinable
         public init(messageTypes: [NotificationMessageType]? = nil, severities: [InsightSeverity]? = nil) {
             self.messageTypes = messageTypes
             self.severities = severities
@@ -2368,6 +2453,7 @@ extension DevOpsGuru {
         /// 			insight.
         public let optInStatus: OptInStatus?
 
+        @inlinable
         public init(optInStatus: OptInStatus? = nil) {
             self.optInStatus = optInStatus
         }
@@ -2382,6 +2468,7 @@ extension DevOpsGuru {
         /// 			insight.
         public let optInStatus: OptInStatus?
 
+        @inlinable
         public init(optInStatus: OptInStatus? = nil) {
             self.optInStatus = optInStatus
         }
@@ -2422,6 +2509,7 @@ extension DevOpsGuru {
         /// The maximum number of items to fetch for this dimension group.
         public let limit: Int?
 
+        @inlinable
         public init(dimensions: [String]? = nil, group: String? = nil, limit: Int? = nil) {
             self.dimensions = dimensions
             self.group = group
@@ -2458,6 +2546,7 @@ extension DevOpsGuru {
         /// 			only.
         public let metric: String?
 
+        @inlinable
         public init(filter: [String: String]? = nil, groupBy: PerformanceInsightsMetricDimensionGroup? = nil, metric: String? = nil) {
             self.filter = filter
             self.groupBy = groupBy
@@ -2487,6 +2576,7 @@ extension DevOpsGuru {
         /// The unit of measure for a metric. For example, a session or a process.
         public let unit: String?
 
+        @inlinable
         public init(metricDisplayName: String? = nil, metricQuery: PerformanceInsightsMetricQuery? = nil, referenceData: [PerformanceInsightsReferenceData]? = nil, statsAtAnomaly: [PerformanceInsightsStat]? = nil, statsAtBaseline: [PerformanceInsightsStat]? = nil, unit: String? = nil) {
             self.metricDisplayName = metricDisplayName
             self.metricQuery = metricQuery
@@ -2515,6 +2605,7 @@ extension DevOpsGuru {
         /// 			anomalous.
         public let referenceScalar: PerformanceInsightsReferenceScalar?
 
+        @inlinable
         public init(referenceMetric: PerformanceInsightsReferenceMetric? = nil, referenceScalar: PerformanceInsightsReferenceScalar? = nil) {
             self.referenceMetric = referenceMetric
             self.referenceScalar = referenceScalar
@@ -2533,6 +2624,7 @@ extension DevOpsGuru {
         /// The name of the reference data.
         public let name: String?
 
+        @inlinable
         public init(comparisonValues: PerformanceInsightsReferenceComparisonValues? = nil, name: String? = nil) {
             self.comparisonValues = comparisonValues
             self.name = name
@@ -2548,6 +2640,7 @@ extension DevOpsGuru {
         /// A query to be processed on the metric.
         public let metricQuery: PerformanceInsightsMetricQuery?
 
+        @inlinable
         public init(metricQuery: PerformanceInsightsMetricQuery? = nil) {
             self.metricQuery = metricQuery
         }
@@ -2561,6 +2654,7 @@ extension DevOpsGuru {
         /// The reference value.
         public let value: Double?
 
+        @inlinable
         public init(value: Double? = nil) {
             self.value = value
         }
@@ -2576,6 +2670,7 @@ extension DevOpsGuru {
         /// The value of the statistic.
         public let value: Double?
 
+        @inlinable
         public init(type: String? = nil, value: Double? = nil) {
             self.type = type
             self.value = value
@@ -2594,6 +2689,7 @@ extension DevOpsGuru {
         /// 			to proactive insights only.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -2640,6 +2736,7 @@ extension DevOpsGuru {
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
+        @inlinable
         public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, description: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
@@ -2710,6 +2807,7 @@ extension DevOpsGuru {
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
+        @inlinable
         public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, description: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
@@ -2765,6 +2863,7 @@ extension DevOpsGuru {
         /// The status of the proactive insight.
         public let status: InsightStatus?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: InsightSeverity? = nil, ssmOpsItemId: String? = nil, status: InsightStatus? = nil) {
             self.description = description
             self.id = id
@@ -2810,6 +2909,7 @@ extension DevOpsGuru {
         /// The status of the proactive insight.
         public let status: InsightStatus?
 
+        @inlinable
         public init(associatedResourceArns: [String]? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
             self.associatedResourceArns = associatedResourceArns
             self.id = id
@@ -2856,6 +2956,7 @@ extension DevOpsGuru {
         ///  An array of status values used to search for insights.
         public let status: InsightStatus?
 
+        @inlinable
         public init(accountId: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, organizationalUnitId: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
             self.accountId = accountId
             self.id = id
@@ -2887,6 +2988,7 @@ extension DevOpsGuru {
         ///  The feedback from customers is about the recommendations in this insight.
         public let insightFeedback: InsightFeedback?
 
+        @inlinable
         public init(insightFeedback: InsightFeedback? = nil) {
             self.insightFeedback = insightFeedback
         }
@@ -2936,6 +3038,7 @@ extension DevOpsGuru {
         /// The type of the reactive anomaly. It can be one of the following types.    CAUSAL - the anomaly can cause a new insight.    CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
         public let type: AnomalyType?
 
+        @inlinable
         public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, causalAnomalyId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, type: AnomalyType? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
@@ -3001,6 +3104,7 @@ extension DevOpsGuru {
         /// The type of the reactive anomaly. It can be one of the following types.    CAUSAL - the anomaly can cause a new insight.    CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
         public let type: AnomalyType?
 
+        @inlinable
         public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, causalAnomalyId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, type: AnomalyType? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
             self.anomalyResources = anomalyResources
@@ -3053,6 +3157,7 @@ extension DevOpsGuru {
         ///  The status of a reactive insight.
         public let status: InsightStatus?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: InsightSeverity? = nil, ssmOpsItemId: String? = nil, status: InsightStatus? = nil) {
             self.description = description
             self.id = id
@@ -3095,6 +3200,7 @@ extension DevOpsGuru {
         ///  The status of a reactive insight.
         public let status: InsightStatus?
 
+        @inlinable
         public init(associatedResourceArns: [String]? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
             self.associatedResourceArns = associatedResourceArns
             self.id = id
@@ -3138,6 +3244,7 @@ extension DevOpsGuru {
         ///  An array of status values used to search for insights.
         public let status: InsightStatus?
 
+        @inlinable
         public init(accountId: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, organizationalUnitId: String? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
             self.accountId = accountId
             self.id = id
@@ -3181,6 +3288,7 @@ extension DevOpsGuru {
         /// 			happening and to help address the issue.
         public let relatedEvents: [RecommendationRelatedEvent]?
 
+        @inlinable
         public init(category: String? = nil, description: String? = nil, link: String? = nil, name: String? = nil, reason: String? = nil, relatedAnomalies: [RecommendationRelatedAnomaly]? = nil, relatedEvents: [RecommendationRelatedEvent]? = nil) {
             self.category = category
             self.description = description
@@ -3212,6 +3320,7 @@ extension DevOpsGuru {
         /// 			For example, details in Amazon CloudWatch metrics.
         public let sourceDetails: [RecommendationRelatedAnomalySourceDetail]?
 
+        @inlinable
         public init(anomalyId: String? = nil, resources: [RecommendationRelatedAnomalyResource]? = nil, sourceDetails: [RecommendationRelatedAnomalySourceDetail]? = nil) {
             self.anomalyId = anomalyId
             self.resources = resources
@@ -3235,6 +3344,7 @@ extension DevOpsGuru {
         /// 				Guide.
         public let type: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil) {
             self.name = name
             self.type = type
@@ -3251,6 +3361,7 @@ extension DevOpsGuru {
         /// 			about the analyzed metrics that displayed anomalous behavior.
         public let cloudWatchMetrics: [RecommendationRelatedCloudWatchMetricsSourceDetail]?
 
+        @inlinable
         public init(cloudWatchMetrics: [RecommendationRelatedCloudWatchMetricsSourceDetail]? = nil) {
             self.cloudWatchMetrics = cloudWatchMetrics
         }
@@ -3266,6 +3377,7 @@ extension DevOpsGuru {
         /// The namespace of the CloudWatch metric. A namespace is a container for CloudWatch metrics.
         public let namespace: String?
 
+        @inlinable
         public init(metricName: String? = nil, namespace: String? = nil) {
             self.metricName = metricName
             self.namespace = namespace
@@ -3285,6 +3397,7 @@ extension DevOpsGuru {
         /// 			CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resources: [RecommendationRelatedEventResource]?
 
+        @inlinable
         public init(name: String? = nil, resources: [RecommendationRelatedEventResource]? = nil) {
             self.name = name
             self.resources = resources
@@ -3304,6 +3417,7 @@ extension DevOpsGuru {
         /// 				Type field in an EventResource object.
         public let type: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil) {
             self.name = name
             self.type = type
@@ -3319,6 +3433,7 @@ extension DevOpsGuru {
         ///  The ID of the notification channel to be removed.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3357,6 +3472,7 @@ extension DevOpsGuru {
         /// 			Devops-Guru-production-application/containers.
         public let tags: [TagCollection]?
 
+        @inlinable
         public init(cloudFormation: CloudFormationCollection? = nil, tags: [TagCollection]? = nil) {
             self.cloudFormation = cloudFormation
             self.tags = tags
@@ -3392,6 +3508,7 @@ extension DevOpsGuru {
         /// 			Devops-Guru-production-application/containers.
         public let tags: [TagCollectionFilter]?
 
+        @inlinable
         public init(cloudFormation: CloudFormationCollectionFilter? = nil, tags: [TagCollectionFilter]? = nil) {
             self.cloudFormation = cloudFormation
             self.tags = tags
@@ -3412,6 +3529,7 @@ extension DevOpsGuru {
         ///  An array of status values used to search for insights.
         public let statuses: [InsightStatus]?
 
+        @inlinable
         public init(resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severities: [InsightSeverity]? = nil, statuses: [InsightStatus]? = nil) {
             self.resourceCollection = resourceCollection
             self.serviceCollection = serviceCollection
@@ -3449,6 +3567,7 @@ extension DevOpsGuru {
         /// 				PROACTIVE).
         public let type: InsightType
 
+        @inlinable
         public init(filters: SearchInsightsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange, type: InsightType) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3483,6 +3602,7 @@ extension DevOpsGuru {
         ///  The returned reactive insights.
         public let reactiveInsights: [ReactiveInsightSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proactiveInsights: [ProactiveInsightSummary]? = nil, reactiveInsights: [ReactiveInsightSummary]? = nil) {
             self.nextToken = nextToken
             self.proactiveInsights = proactiveInsights
@@ -3504,6 +3624,7 @@ extension DevOpsGuru {
         ///  An array of status values used to search for insights.
         public let statuses: [InsightStatus]?
 
+        @inlinable
         public init(resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severities: [InsightSeverity]? = nil, statuses: [InsightStatus]? = nil) {
             self.resourceCollection = resourceCollection
             self.serviceCollection = serviceCollection
@@ -3541,6 +3662,7 @@ extension DevOpsGuru {
         /// 				PROACTIVE).
         public let type: InsightType
 
+        @inlinable
         public init(accountIds: [String], filters: SearchOrganizationInsightsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange, type: InsightType) {
             self.accountIds = accountIds
             self.filters = filters
@@ -3586,6 +3708,7 @@ extension DevOpsGuru {
         /// 			account.
         public let reactiveInsights: [ReactiveInsightSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, proactiveInsights: [ProactiveInsightSummary]? = nil, reactiveInsights: [ReactiveInsightSummary]? = nil) {
             self.nextToken = nextToken
             self.proactiveInsights = proactiveInsights
@@ -3603,6 +3726,7 @@ extension DevOpsGuru {
         /// An array of strings that each specifies the name of an Amazon Web Services service.
         public let serviceNames: [ServiceName]?
 
+        @inlinable
         public init(serviceNames: [ServiceName]? = nil) {
             self.serviceNames = serviceNames
         }
@@ -3623,6 +3747,7 @@ extension DevOpsGuru {
         /// The name of the Amazon Web Services service.
         public let serviceName: ServiceName?
 
+        @inlinable
         public init(analyzedResourceCount: Int64? = nil, insight: ServiceInsightHealth? = nil, serviceName: ServiceName? = nil) {
             self.analyzedResourceCount = analyzedResourceCount
             self.insight = insight
@@ -3642,6 +3767,7 @@ extension DevOpsGuru {
         /// The number of open reactive insights in the Amazon Web Services service
         public let openReactiveInsights: Int?
 
+        @inlinable
         public init(openProactiveInsights: Int? = nil, openReactiveInsights: Int? = nil) {
             self.openProactiveInsights = openProactiveInsights
             self.openReactiveInsights = openReactiveInsights
@@ -3664,6 +3790,7 @@ extension DevOpsGuru {
         /// 			OpsCenter for each created insight.
         public let opsCenter: OpsCenterIntegration?
 
+        @inlinable
         public init(kmsServerSideEncryption: KMSServerSideEncryptionIntegration? = nil, logsAnomalyDetection: LogsAnomalyDetectionIntegration? = nil, opsCenter: OpsCenterIntegration? = nil) {
             self.kmsServerSideEncryption = kmsServerSideEncryption
             self.logsAnomalyDetection = logsAnomalyDetection
@@ -3698,6 +3825,7 @@ extension DevOpsGuru {
         /// 			Amazon DevOps Guru pricing.
         public let unitCost: Double?
 
+        @inlinable
         public init(cost: Double? = nil, count: Int? = nil, state: CostEstimationServiceResourceState? = nil, type: String? = nil, unitCost: Double? = nil) {
             self.cost = cost
             self.count = count
@@ -3719,6 +3847,7 @@ extension DevOpsGuru {
         ///  The Amazon Resource Name (ARN) of an Amazon Simple Notification Service topic.
         public let topicArn: String?
 
+        @inlinable
         public init(topicArn: String? = nil) {
             self.topicArn = topicArn
         }
@@ -3740,6 +3869,7 @@ extension DevOpsGuru {
         /// The collection of Amazon Web Services resources used to create a monthly DevOps Guru cost estimate.
         public let resourceCollection: CostEstimationResourceCollectionFilter
 
+        @inlinable
         public init(clientToken: String? = StartCostEstimationRequest.idempotencyToken(), resourceCollection: CostEstimationResourceCollectionFilter) {
             self.clientToken = clientToken
             self.resourceCollection = resourceCollection
@@ -3768,6 +3898,7 @@ extension DevOpsGuru {
         ///  The end time of the time range.
         public let toTime: Date?
 
+        @inlinable
         public init(fromTime: Date? = nil, toTime: Date? = nil) {
             self.fromTime = fromTime
             self.toTime = toTime
@@ -3794,6 +3925,7 @@ extension DevOpsGuru {
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
+        @inlinable
         public init(appBoundaryKey: String, tagValues: [String]) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
@@ -3830,6 +3962,7 @@ extension DevOpsGuru {
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
+        @inlinable
         public init(appBoundaryKey: String, tagValues: [String]) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
@@ -3856,6 +3989,7 @@ extension DevOpsGuru {
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
+        @inlinable
         public init(appBoundaryKey: String, tagValues: [String]) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues
@@ -3901,6 +4035,7 @@ extension DevOpsGuru {
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValue: String?
 
+        @inlinable
         public init(analyzedResourceCount: Int64? = nil, appBoundaryKey: String? = nil, insight: InsightHealth? = nil, tagValue: String? = nil) {
             self.analyzedResourceCount = analyzedResourceCount
             self.appBoundaryKey = appBoundaryKey
@@ -3922,6 +4057,7 @@ extension DevOpsGuru {
         /// A Timestamp that specifies the time the event occurred.
         public let timestamp: Date?
 
+        @inlinable
         public init(metricValue: Double? = nil, timestamp: Date? = nil) {
             self.metricValue = metricValue
             self.timestamp = timestamp
@@ -3938,6 +4074,7 @@ extension DevOpsGuru {
         ///
         public let stackNames: [String]?
 
+        @inlinable
         public init(stackNames: [String]? = nil) {
             self.stackNames = stackNames
         }
@@ -3961,6 +4098,7 @@ extension DevOpsGuru {
         /// 			EventBridge with another AWS Service.
         public let eventSources: EventSourcesConfig?
 
+        @inlinable
         public init(eventSources: EventSourcesConfig? = nil) {
             self.eventSources = eventSources
         }
@@ -3988,6 +4126,7 @@ extension DevOpsGuru {
         /// 			Devops-Guru-production-application/containers.
         public let tags: [UpdateTagCollectionFilter]?
 
+        @inlinable
         public init(cloudFormation: UpdateCloudFormationCollectionFilter? = nil, tags: [UpdateTagCollectionFilter]? = nil) {
             self.cloudFormation = cloudFormation
             self.tags = tags
@@ -4012,6 +4151,7 @@ extension DevOpsGuru {
         public let action: UpdateResourceCollectionAction
         public let resourceCollection: UpdateResourceCollectionFilter
 
+        @inlinable
         public init(action: UpdateResourceCollectionAction, resourceCollection: UpdateResourceCollectionFilter) {
             self.action = action
             self.resourceCollection = resourceCollection
@@ -4040,6 +4180,7 @@ extension DevOpsGuru {
         public let logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig?
         public let opsCenter: OpsCenterIntegrationConfig?
 
+        @inlinable
         public init(kmsServerSideEncryption: KMSServerSideEncryptionIntegrationConfig? = nil, logsAnomalyDetection: LogsAnomalyDetectionIntegrationConfig? = nil, opsCenter: OpsCenterIntegrationConfig? = nil) {
             self.kmsServerSideEncryption = kmsServerSideEncryption
             self.logsAnomalyDetection = logsAnomalyDetection
@@ -4062,6 +4203,7 @@ extension DevOpsGuru {
         /// 			you want to update, and whether you want to update it to enabled or disabled.
         public let serviceIntegration: UpdateServiceIntegrationConfig
 
+        @inlinable
         public init(serviceIntegration: UpdateServiceIntegrationConfig) {
             self.serviceIntegration = serviceIntegration
         }
@@ -4094,6 +4236,7 @@ extension DevOpsGuru {
         /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
         public let tagValues: [String]
 
+        @inlinable
         public init(appBoundaryKey: String, tagValues: [String]) {
             self.appBoundaryKey = appBoundaryKey
             self.tagValues = tagValues

@@ -297,6 +297,7 @@ extension ServiceCatalog {
         /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the management account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS
         public let portfolioShareType: PortfolioShareType?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -327,6 +328,7 @@ extension ServiceCatalog {
         /// The user to which the access level applies. The only supported value is self.
         public let value: String?
 
+        @inlinable
         public init(key: AccessLevelFilterKey? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -344,6 +346,7 @@ extension ServiceCatalog {
         ///  The resource identifier. Either a portfolio-id or a product-id.
         public let resourceId: String
 
+        @inlinable
         public init(budgetName: String, resourceId: String) {
             self.budgetName = budgetName
             self.resourceId = resourceId
@@ -377,6 +380,7 @@ extension ServiceCatalog {
         /// The principal type. The supported value is IAM if you use a fully defined Amazon Resource Name  (ARN), or IAM_PATTERN if you use an ARN with no accountID,  with or without wildcard characters.
         public let principalType: PrincipalType
 
+        @inlinable
         public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String, principalType: PrincipalType) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -415,6 +419,7 @@ extension ServiceCatalog {
         /// The identifier of the source portfolio.
         public let sourcePortfolioId: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, portfolioId: String, productId: String, sourcePortfolioId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -459,6 +464,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String? = AssociateServiceActionWithProvisioningArtifactInput.idempotencyToken(), productId: String, provisioningArtifactId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -502,6 +508,7 @@ extension ServiceCatalog {
         /// The TagOption identifier.
         public let tagOptionId: String
 
+        @inlinable
         public init(resourceId: String, tagOptionId: String) {
             self.resourceId = resourceId
             self.tagOptionId = tagOptionId
@@ -528,6 +535,7 @@ extension ServiceCatalog {
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
 
+        @inlinable
         public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
             self.acceptLanguage = acceptLanguage
             self.serviceActionAssociations = serviceActionAssociations
@@ -552,6 +560,7 @@ extension ServiceCatalog {
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
 
+        @inlinable
         public init(failedServiceActionAssociations: [FailedServiceActionAssociation]? = nil) {
             self.failedServiceActionAssociations = failedServiceActionAssociations
         }
@@ -567,6 +576,7 @@ extension ServiceCatalog {
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
 
+        @inlinable
         public init(acceptLanguage: String? = nil, serviceActionAssociations: [ServiceActionAssociation]) {
             self.acceptLanguage = acceptLanguage
             self.serviceActionAssociations = serviceActionAssociations
@@ -591,6 +601,7 @@ extension ServiceCatalog {
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
 
+        @inlinable
         public init(failedServiceActionAssociations: [FailedServiceActionAssociation]? = nil) {
             self.failedServiceActionAssociations = failedServiceActionAssociations
         }
@@ -604,6 +615,7 @@ extension ServiceCatalog {
         /// Name of the associated budget.
         public let budgetName: String?
 
+        @inlinable
         public init(budgetName: String? = nil) {
             self.budgetName = budgetName
         }
@@ -617,6 +629,7 @@ extension ServiceCatalog {
         /// The name of the CloudWatch dashboard.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -636,6 +649,7 @@ extension ServiceCatalog {
         /// The specific repository where the product’s artifact-to-be-synced resides, formatted as  "Account/Repo."
         public let repository: String
 
+        @inlinable
         public init(artifactPath: String, branch: String, connectionArn: String, repository: String) {
             self.artifactPath = artifactPath
             self.branch = branch
@@ -677,6 +691,7 @@ extension ServiceCatalog {
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE
         public let type: String?
 
+        @inlinable
         public init(constraintId: String? = nil, description: String? = nil, owner: String? = nil, portfolioId: String? = nil, productId: String? = nil, type: String? = nil) {
             self.constraintId = constraintId
             self.description = description
@@ -702,6 +717,7 @@ extension ServiceCatalog {
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE
         public let type: String?
 
+        @inlinable
         public init(description: String? = nil, type: String? = nil) {
             self.description = description
             self.type = type
@@ -729,6 +745,7 @@ extension ServiceCatalog {
         /// A name for the target product. The default is the name of the source product.
         public let targetProductName: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, copyOptions: [CopyOption]? = nil, idempotencyToken: String = CopyProductInput.idempotencyToken(), sourceProductArn: String, sourceProvisioningArtifactIdentifiers: [[ProvisioningArtifactPropertyName: String]]? = nil, targetProductId: String? = nil, targetProductName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.copyOptions = copyOptions
@@ -768,6 +785,7 @@ extension ServiceCatalog {
         /// The token to use to track the progress of the operation.
         public let copyProductToken: String?
 
+        @inlinable
         public init(copyProductToken: String? = nil) {
             self.copyProductToken = copyProductToken
         }
@@ -793,6 +811,7 @@ extension ServiceCatalog {
         /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE
         public let type: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String = CreateConstraintInput.idempotencyToken(), parameters: String, portfolioId: String, productId: String, type: String) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -838,6 +857,7 @@ extension ServiceCatalog {
         /// The status of the current request.
         public let status: Status?
 
+        @inlinable
         public init(constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil, status: Status? = nil) {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
@@ -865,6 +885,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, description: String? = nil, displayName: String, idempotencyToken: String = CreatePortfolioInput.idempotencyToken(), providerName: String, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -906,6 +927,7 @@ extension ServiceCatalog {
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
 
+        @inlinable
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
@@ -931,6 +953,7 @@ extension ServiceCatalog {
         /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not  provided, TagOptions sharing is disabled.
         public let shareTagOptions: Bool?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, sharePrincipals: Bool? = nil, shareTagOptions: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
@@ -963,6 +986,7 @@ extension ServiceCatalog {
         /// The portfolio shares a unique identifier that only returns if the portfolio is shared to an organization node.
         public let portfolioShareToken: String?
 
+        @inlinable
         public init(portfolioShareToken: String? = nil) {
             self.portfolioShareToken = portfolioShareToken
         }
@@ -1000,6 +1024,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, description: String? = nil, distributor: String? = nil, idempotencyToken: String = CreateProductInput.idempotencyToken(), name: String, owner: String, productType: ProductType, provisioningArtifactParameters: ProvisioningArtifactProperties? = nil, sourceConnection: SourceConnection? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -1061,6 +1086,7 @@ extension ServiceCatalog {
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
 
+        @inlinable
         public init(productViewDetail: ProductViewDetail? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, tags: [Tag]? = nil) {
             self.productViewDetail = productViewDetail
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -1098,6 +1124,7 @@ extension ServiceCatalog {
         /// One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
         public let tags: [Tag]?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String = CreateProvisionedProductPlanInput.idempotencyToken(), notificationArns: [String]? = nil, pathId: String? = nil, planName: String, planType: ProvisionedProductPlanType, productId: String, provisionedProductName: String, provisioningArtifactId: String, provisioningParameters: [UpdateProvisioningParameter]? = nil, tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -1171,6 +1198,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let provisionProductId: String?
 
+        @inlinable
         public init(planId: String? = nil, planName: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisionProductId: String? = nil) {
             self.planId = planId
             self.planName = planName
@@ -1198,6 +1226,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String = CreateProvisioningArtifactInput.idempotencyToken(), parameters: ProvisioningArtifactProperties, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -1232,6 +1261,7 @@ extension ServiceCatalog {
         /// The status of the current request.
         public let status: Status?
 
+        @inlinable
         public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -1259,6 +1289,7 @@ extension ServiceCatalog {
         /// The self-service action name.
         public let name: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, definition: [ServiceActionDefinitionKey: String], definitionType: ServiceActionDefinitionType, description: String? = nil, idempotencyToken: String = CreateServiceActionInput.idempotencyToken(), name: String) {
             self.acceptLanguage = acceptLanguage
             self.definition = definition
@@ -1299,6 +1330,7 @@ extension ServiceCatalog {
         /// An object containing information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
 
+        @inlinable
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
         }
@@ -1314,6 +1346,7 @@ extension ServiceCatalog {
         /// The TagOption value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1338,6 +1371,7 @@ extension ServiceCatalog {
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
+        @inlinable
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
         }
@@ -1353,6 +1387,7 @@ extension ServiceCatalog {
         /// The identifier of the constraint.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1381,6 +1416,7 @@ extension ServiceCatalog {
         /// The portfolio identifier.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1413,6 +1449,7 @@ extension ServiceCatalog {
         /// The portfolio identifier.
         public let portfolioId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
@@ -1441,6 +1478,7 @@ extension ServiceCatalog {
         /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
         public let portfolioShareToken: String?
 
+        @inlinable
         public init(portfolioShareToken: String? = nil) {
             self.portfolioShareToken = portfolioShareToken
         }
@@ -1456,6 +1494,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1486,6 +1525,7 @@ extension ServiceCatalog {
         /// The plan identifier.
         public let planId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, planId: String) {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
@@ -1518,6 +1558,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -1553,6 +1594,7 @@ extension ServiceCatalog {
         /// A unique identifier that you provide to ensure idempotency. If multiple requests from the same Amazon Web Services account use the same idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String, idempotencyToken: String? = DeleteServiceActionInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1584,6 +1626,7 @@ extension ServiceCatalog {
         /// The TagOption identifier.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1612,6 +1655,7 @@ extension ServiceCatalog {
         /// The identifier of the constraint.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1638,6 +1682,7 @@ extension ServiceCatalog {
         /// The status of the current request.
         public let status: Status?
 
+        @inlinable
         public init(constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil, status: Status? = nil) {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
@@ -1657,6 +1702,7 @@ extension ServiceCatalog {
         /// The token for the copy product operation. This token is returned by CopyProduct.
         public let copyProductToken: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, copyProductToken: String) {
             self.acceptLanguage = acceptLanguage
             self.copyProductToken = copyProductToken
@@ -1683,6 +1729,7 @@ extension ServiceCatalog {
         /// The identifier of the copied product.
         public let targetProductId: String?
 
+        @inlinable
         public init(copyProductStatus: CopyProductStatus? = nil, statusDetail: String? = nil, targetProductId: String? = nil) {
             self.copyProductStatus = copyProductStatus
             self.statusDetail = statusDetail
@@ -1702,6 +1749,7 @@ extension ServiceCatalog {
         /// The portfolio identifier.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1730,6 +1778,7 @@ extension ServiceCatalog {
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
 
+        @inlinable
         public init(budgets: [BudgetDetail]? = nil, portfolioDetail: PortfolioDetail? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
             self.budgets = budgets
             self.portfolioDetail = portfolioDetail
@@ -1749,6 +1798,7 @@ extension ServiceCatalog {
         /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
         public let portfolioShareToken: String
 
+        @inlinable
         public init(portfolioShareToken: String) {
             self.portfolioShareToken = portfolioShareToken
         }
@@ -1776,6 +1826,7 @@ extension ServiceCatalog {
         /// Status of the portfolio share operation.
         public let status: ShareStatus?
 
+        @inlinable
         public init(organizationNodeValue: String? = nil, portfolioId: String? = nil, portfolioShareToken: String? = nil, shareDetails: ShareDetails? = nil, status: ShareStatus? = nil) {
             self.organizationNodeValue = organizationNodeValue
             self.portfolioId = portfolioId
@@ -1803,6 +1854,7 @@ extension ServiceCatalog {
         /// The type of portfolio share to summarize. This field acts as a filter on the type of portfolio share, which can be one of the following: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization.
         public let type: DescribePortfolioShareType
 
+        @inlinable
         public init(pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String, type: DescribePortfolioShareType) {
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -1834,6 +1886,7 @@ extension ServiceCatalog {
         /// Summaries about each of the portfolio shares.
         public let portfolioShareDetails: [PortfolioShareDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, portfolioShareDetails: [PortfolioShareDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioShareDetails = portfolioShareDetails
@@ -1855,6 +1908,7 @@ extension ServiceCatalog {
         /// The unique identifier of the shared portfolio that the specified product is associated with. You can provide this parameter to retrieve the shared TagOptions associated with the product. If this parameter is provided and if TagOptions sharing is enabled in the portfolio share, the API returns both local and shared TagOptions associated with the product. Otherwise only local TagOptions will be returned.
         public let sourcePortfolioId: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil, sourcePortfolioId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1893,6 +1947,7 @@ extension ServiceCatalog {
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
 
+        @inlinable
         public init(budgets: [BudgetDetail]? = nil, productViewDetail: ProductViewDetail? = nil, provisioningArtifactSummaries: [ProvisioningArtifactSummary]? = nil, tagOptions: [TagOptionDetail]? = nil, tags: [Tag]? = nil) {
             self.budgets = budgets
             self.productViewDetail = productViewDetail
@@ -1918,6 +1973,7 @@ extension ServiceCatalog {
         /// The product name.
         public let name: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1949,6 +2005,7 @@ extension ServiceCatalog {
         /// Information about the provisioning artifacts for the specified product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
+        @inlinable
         public init(budgets: [BudgetDetail]? = nil, launchPaths: [LaunchPath]? = nil, productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.budgets = budgets
             self.launchPaths = launchPaths
@@ -1970,6 +2027,7 @@ extension ServiceCatalog {
         /// The product view identifier.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -1994,6 +2052,7 @@ extension ServiceCatalog {
         /// Information about the provisioning artifacts for the product.
         public let provisioningArtifacts: [ProvisioningArtifact]?
 
+        @inlinable
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifacts: [ProvisioningArtifact]? = nil) {
             self.productViewSummary = productViewSummary
             self.provisioningArtifacts = provisioningArtifacts
@@ -2013,6 +2072,7 @@ extension ServiceCatalog {
         /// The name of the provisioned product. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
         public let name: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2042,6 +2102,7 @@ extension ServiceCatalog {
         /// Information about the provisioned product.
         public let provisionedProductDetail: ProvisionedProductDetail?
 
+        @inlinable
         public init(cloudWatchDashboards: [CloudWatchDashboard]? = nil, provisionedProductDetail: ProvisionedProductDetail? = nil) {
             self.cloudWatchDashboards = cloudWatchDashboards
             self.provisionedProductDetail = provisionedProductDetail
@@ -2063,6 +2124,7 @@ extension ServiceCatalog {
         /// The plan identifier.
         public let planId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, planId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -2097,6 +2159,7 @@ extension ServiceCatalog {
         /// Information about the resource changes that will occur when the plan is executed.
         public let resourceChanges: [ResourceChange]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, provisionedProductPlanDetails: ProvisionedProductPlanDetails? = nil, resourceChanges: [ResourceChange]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProductPlanDetails = provisionedProductPlanDetails
@@ -2126,6 +2189,7 @@ extension ServiceCatalog {
         /// Indicates whether a verbose level of detail is enabled.
         public let verbose: Bool?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, includeProvisioningArtifactParameters: Bool? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, verbose: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.includeProvisioningArtifactParameters = includeProvisioningArtifactParameters
@@ -2169,6 +2233,7 @@ extension ServiceCatalog {
         /// The status of the current request.
         public let status: Status?
 
+        @inlinable
         public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -2200,6 +2265,7 @@ extension ServiceCatalog {
         /// The name of the provisioning artifact. You must provide the name or ID, but not both.
         public let provisioningArtifactName: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
@@ -2254,6 +2320,7 @@ extension ServiceCatalog {
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
 
+        @inlinable
         public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputKeys: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
             self.constraintSummaries = constraintSummaries
             self.provisioningArtifactOutputKeys = provisioningArtifactOutputKeys
@@ -2265,6 +2332,7 @@ extension ServiceCatalog {
         }
 
         @available(*, deprecated, message: "Members provisioningArtifactOutputs have been deprecated")
+        @inlinable
         public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputKeys: [ProvisioningArtifactOutput]? = nil, provisioningArtifactOutputs: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
             self.constraintSummaries = constraintSummaries
             self.provisioningArtifactOutputKeys = provisioningArtifactOutputKeys
@@ -2296,6 +2364,7 @@ extension ServiceCatalog {
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2330,6 +2399,7 @@ extension ServiceCatalog {
         /// Information about the product created as the result of a request. For example, the output for   a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
         public let recordOutputs: [RecordOutput]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, recordDetail: RecordDetail? = nil, recordOutputs: [RecordOutput]? = nil) {
             self.nextPageToken = nextPageToken
             self.recordDetail = recordDetail
@@ -2351,6 +2421,7 @@ extension ServiceCatalog {
         /// The self-service action identifier.
         public let serviceActionId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, provisionedProductId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.provisionedProductId = provisionedProductId
@@ -2378,6 +2449,7 @@ extension ServiceCatalog {
         /// The parameters of the self-service action.
         public let serviceActionParameters: [ExecutionParameter]?
 
+        @inlinable
         public init(serviceActionParameters: [ExecutionParameter]? = nil) {
             self.serviceActionParameters = serviceActionParameters
         }
@@ -2393,6 +2465,7 @@ extension ServiceCatalog {
         /// The self-service action identifier.
         public let id: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, id: String) {
             self.acceptLanguage = acceptLanguage
             self.id = id
@@ -2415,6 +2488,7 @@ extension ServiceCatalog {
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
 
+        @inlinable
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
         }
@@ -2428,6 +2502,7 @@ extension ServiceCatalog {
         /// The TagOption identifier.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2450,6 +2525,7 @@ extension ServiceCatalog {
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
+        @inlinable
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
         }
@@ -2473,6 +2549,7 @@ extension ServiceCatalog {
         /// The resource identifier you want to disassociate from. Either a portfolio-id or a product-id.
         public let resourceId: String
 
+        @inlinable
         public init(budgetName: String, resourceId: String) {
             self.budgetName = budgetName
             self.resourceId = resourceId
@@ -2506,6 +2583,7 @@ extension ServiceCatalog {
         /// The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you specify an IAM ARN with no AccountId, with or without wildcard characters.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, portfolioId: String, principalARN: String, principalType: PrincipalType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -2542,6 +2620,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, portfolioId: String, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -2581,6 +2660,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String? = DisassociateServiceActionFromProvisioningArtifactInput.idempotencyToken(), productId: String, provisioningArtifactId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -2624,6 +2704,7 @@ extension ServiceCatalog {
         /// The TagOption identifier.
         public let tagOptionId: String
 
+        @inlinable
         public init(resourceId: String, tagOptionId: String) {
             self.resourceId = resourceId
             self.tagOptionId = tagOptionId
@@ -2660,6 +2741,7 @@ extension ServiceCatalog {
         ///  The unique key-value pair  for a tag  that identifies provisioned product resources.
         public let uniqueTag: UniqueTagResourceIdentifier?
 
+        @inlinable
         public init(uniqueTag: UniqueTagResourceIdentifier? = nil) {
             self.uniqueTag = uniqueTag
         }
@@ -2681,6 +2763,7 @@ extension ServiceCatalog {
         /// The plan identifier.
         public let planId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String = ExecuteProvisionedProductPlanInput.idempotencyToken(), planId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -2708,6 +2791,7 @@ extension ServiceCatalog {
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
+        @inlinable
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -2729,6 +2813,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, executeToken: String = ExecuteProvisionedProductServiceActionInput.idempotencyToken(), parameters: [String: [String]]? = nil, provisionedProductId: String, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.executeToken = executeToken
@@ -2770,6 +2855,7 @@ extension ServiceCatalog {
         /// An object containing detailed information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
+        @inlinable
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -2787,6 +2873,7 @@ extension ServiceCatalog {
         /// The execution parameter type.
         public let type: String?
 
+        @inlinable
         public init(defaultValues: [String]? = nil, name: String? = nil, type: String? = nil) {
             self.defaultValues = defaultValues
             self.name = name
@@ -2812,6 +2899,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String?
 
+        @inlinable
         public init(errorCode: ServiceActionAssociationErrorCode? = nil, errorMessage: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, serviceActionId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2837,6 +2925,7 @@ extension ServiceCatalog {
         /// The status of the portfolio share feature.
         public let accessStatus: AccessStatus?
 
+        @inlinable
         public init(accessStatus: AccessStatus? = nil) {
             self.accessStatus = accessStatus
         }
@@ -2860,6 +2949,7 @@ extension ServiceCatalog {
         /// The name of the provisioned product that you want the outputs from.
         public let provisionedProductName: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, outputKeys: [String]? = nil, pageSize: Int? = nil, pageToken: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.outputKeys = outputKeys
@@ -2900,6 +2990,7 @@ extension ServiceCatalog {
         /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL.
         public let outputs: [RecordOutput]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, outputs: [RecordOutput]? = nil) {
             self.nextPageToken = nextPageToken
             self.outputs = outputs
@@ -2925,6 +3016,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String = ImportAsProvisionedProductInput.idempotencyToken(), physicalId: String, productId: String, provisionedProductName: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -2963,6 +3055,7 @@ extension ServiceCatalog {
     public struct ImportAsProvisionedProductOutput: AWSDecodableShape {
         public let recordDetail: RecordDetail?
 
+        @inlinable
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -2984,6 +3077,7 @@ extension ServiceCatalog {
         /// The time of the last attempted sync from the repository to the Service Catalog product.
         public let lastSyncTime: Date?
 
+        @inlinable
         public init(lastSuccessfulSyncProvisioningArtifactId: String? = nil, lastSuccessfulSyncTime: Date? = nil, lastSyncStatus: LastSyncStatus? = nil, lastSyncStatusMessage: String? = nil, lastSyncTime: Date? = nil) {
             self.lastSuccessfulSyncProvisioningArtifactId = lastSuccessfulSyncProvisioningArtifactId
             self.lastSuccessfulSyncTime = lastSuccessfulSyncTime
@@ -3007,6 +3101,7 @@ extension ServiceCatalog {
         /// The name of the launch path.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -3028,6 +3123,7 @@ extension ServiceCatalog {
         /// The tags associated with this product path.
         public let tags: [Tag]?
 
+        @inlinable
         public init(constraintSummaries: [ConstraintSummary]? = nil, id: String? = nil, name: String? = nil, tags: [Tag]? = nil) {
             self.constraintSummaries = constraintSummaries
             self.id = id
@@ -3053,6 +3149,7 @@ extension ServiceCatalog {
         /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios accepted and shared via organizational sharing by the management account or delegated administrator of your organization.    AWS_SERVICECATALOG - Deprecated type.    IMPORTED - List imported portfolios that have been accepted and shared through account-to-account sharing.
         public let portfolioShareType: PortfolioShareType?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3082,6 +3179,7 @@ extension ServiceCatalog {
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
@@ -3103,6 +3201,7 @@ extension ServiceCatalog {
         /// The resource identifier.
         public let resourceId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, resourceId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3135,6 +3234,7 @@ extension ServiceCatalog {
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
+        @inlinable
         public init(budgets: [BudgetDetail]? = nil, nextPageToken: String? = nil) {
             self.budgets = budgets
             self.nextPageToken = nextPageToken
@@ -3158,6 +3258,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String, productId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3195,6 +3296,7 @@ extension ServiceCatalog {
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
+        @inlinable
         public init(constraintDetails: [ConstraintDetail]? = nil, nextPageToken: String? = nil) {
             self.constraintDetails = constraintDetails
             self.nextPageToken = nextPageToken
@@ -3216,6 +3318,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3248,6 +3351,7 @@ extension ServiceCatalog {
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
+        @inlinable
         public init(launchPathSummaries: [LaunchPathSummary]? = nil, nextPageToken: String? = nil) {
             self.launchPathSummaries = launchPathSummaries
             self.nextPageToken = nextPageToken
@@ -3271,6 +3375,7 @@ extension ServiceCatalog {
         /// The portfolio identifier. For example, port-2abcdext3y5fk.
         public let portfolioId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, organizationNodeType: OrganizationNodeType, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.organizationNodeType = organizationNodeType
@@ -3305,6 +3410,7 @@ extension ServiceCatalog {
         /// Displays information about the organization nodes.
         public let organizationNodes: [OrganizationNode]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, organizationNodes: [OrganizationNode]? = nil) {
             self.nextPageToken = nextPageToken
             self.organizationNodes = organizationNodes
@@ -3328,6 +3434,7 @@ extension ServiceCatalog {
         /// The portfolio identifier.
         public let portfolioId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, organizationParentId: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.organizationParentId = organizationParentId
@@ -3365,6 +3472,7 @@ extension ServiceCatalog {
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, nextPageToken: String? = nil) {
             self.accountIds = accountIds
             self.nextPageToken = nextPageToken
@@ -3386,6 +3494,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3418,6 +3527,7 @@ extension ServiceCatalog {
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
@@ -3437,6 +3547,7 @@ extension ServiceCatalog {
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3464,6 +3575,7 @@ extension ServiceCatalog {
         /// Information about the portfolios.
         public let portfolioDetails: [PortfolioDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, portfolioDetails: [PortfolioDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.portfolioDetails = portfolioDetails
@@ -3485,6 +3597,7 @@ extension ServiceCatalog {
         /// The portfolio identifier.
         public let portfolioId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3517,6 +3630,7 @@ extension ServiceCatalog {
         /// The PrincipalARNs and corresponding PrincipalTypes associated with the portfolio.
         public let principals: [Principal]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, principals: [Principal]? = nil) {
             self.nextPageToken = nextPageToken
             self.principals = principals
@@ -3540,6 +3654,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let provisionProductId: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int? = nil, pageToken: String? = nil, provisionProductId: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -3574,6 +3689,7 @@ extension ServiceCatalog {
         /// Information about the plans.
         public let provisionedProductPlans: [ProvisionedProductPlanSummary]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, provisionedProductPlans: [ProvisionedProductPlanSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProductPlans = provisionedProductPlans
@@ -3595,6 +3711,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, serviceActionId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3627,6 +3744,7 @@ extension ServiceCatalog {
         /// An array of objects with information about product views and provisioning artifacts.
         public let provisioningArtifactViews: [ProvisioningArtifactView]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, provisioningArtifactViews: [ProvisioningArtifactView]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisioningArtifactViews = provisioningArtifactViews
@@ -3644,6 +3762,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, productId: String) {
             self.acceptLanguage = acceptLanguage
             self.productId = productId
@@ -3668,6 +3787,7 @@ extension ServiceCatalog {
         /// Information about the provisioning artifacts.
         public let provisioningArtifactDetails: [ProvisioningArtifactDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, provisioningArtifactDetails: [ProvisioningArtifactDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisioningArtifactDetails = provisioningArtifactDetails
@@ -3691,6 +3811,7 @@ extension ServiceCatalog {
         /// The search filter to scope the results.
         public let searchFilter: ListRecordHistorySearchFilter?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int? = nil, pageToken: String? = nil, searchFilter: ListRecordHistorySearchFilter? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -3722,6 +3843,7 @@ extension ServiceCatalog {
         /// The records, in reverse chronological order.
         public let recordDetails: [RecordDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, recordDetails: [RecordDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.recordDetails = recordDetails
@@ -3739,6 +3861,7 @@ extension ServiceCatalog {
         /// The filter value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3760,6 +3883,7 @@ extension ServiceCatalog {
         /// The TagOption identifier.
         public let tagOptionId: String
 
+        @inlinable
         public init(pageSize: Int? = nil, pageToken: String? = nil, resourceType: String? = nil, tagOptionId: String) {
             self.pageSize = pageSize
             self.pageToken = pageToken
@@ -3794,6 +3918,7 @@ extension ServiceCatalog {
         /// Information about the resources.
         public let resourceDetails: [ResourceDetail]?
 
+        @inlinable
         public init(pageToken: String? = nil, resourceDetails: [ResourceDetail]? = nil) {
             self.pageToken = pageToken
             self.resourceDetails = resourceDetails
@@ -3817,6 +3942,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
         public let provisioningArtifactId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3854,6 +3980,7 @@ extension ServiceCatalog {
         /// An object containing information about the self-service actions associated with the provisioning artifact.
         public let serviceActionSummaries: [ServiceActionSummary]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.serviceActionSummaries = serviceActionSummaries
@@ -3873,6 +4000,7 @@ extension ServiceCatalog {
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3900,6 +4028,7 @@ extension ServiceCatalog {
         /// An object containing information about the service actions associated with the provisioning artifact.
         public let serviceActionSummaries: [ServiceActionSummary]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, serviceActionSummaries: [ServiceActionSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.serviceActionSummaries = serviceActionSummaries
@@ -3921,6 +4050,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, provisionedProductId: String) {
             self.acceptLanguage = acceptLanguage
             self.pageSize = pageSize
@@ -3953,6 +4083,7 @@ extension ServiceCatalog {
         /// List of stack instances.
         public let stackInstances: [StackInstance]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, stackInstances: [StackInstance]? = nil) {
             self.nextPageToken = nextPageToken
             self.stackInstances = stackInstances
@@ -3972,6 +4103,7 @@ extension ServiceCatalog {
         /// The TagOption value.
         public let value: String?
 
+        @inlinable
         public init(active: Bool? = nil, key: String? = nil, value: String? = nil) {
             self.active = active
             self.key = key
@@ -4002,6 +4134,7 @@ extension ServiceCatalog {
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
+        @inlinable
         public init(filters: ListTagOptionsFilters? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.filters = filters
             self.pageSize = pageSize
@@ -4029,6 +4162,7 @@ extension ServiceCatalog {
         /// Information about the TagOptions.
         public let tagOptionDetails: [TagOptionDetail]?
 
+        @inlinable
         public init(pageToken: String? = nil, tagOptionDetails: [TagOptionDetail]? = nil) {
             self.pageToken = pageToken
             self.tagOptionDetails = tagOptionDetails
@@ -4056,6 +4190,7 @@ extension ServiceCatalog {
         ///  The encrypted contents  of the provisioning engine execution payload  that Service Catalog sends  after the Terraform product provisioning workflow starts.
         public let workflowToken: String
 
+        @inlinable
         public init(failureReason: String? = nil, idempotencyToken: String = NotifyProvisionProductEngineWorkflowResultInput.idempotencyToken(), outputs: [RecordOutput]? = nil, recordId: String, resourceIdentifier: EngineWorkflowResourceIdentifier? = nil, status: EngineWorkflowStatus, workflowToken: String) {
             self.failureReason = failureReason
             self.idempotencyToken = idempotencyToken
@@ -4109,6 +4244,7 @@ extension ServiceCatalog {
         ///  The encrypted contents  of the terminate engine execution payload  that Service Catalog sends  after the Terraform product terminate workflow starts.
         public let workflowToken: String
 
+        @inlinable
         public init(failureReason: String? = nil, idempotencyToken: String = NotifyTerminateProvisionedProductEngineWorkflowResultInput.idempotencyToken(), recordId: String, status: EngineWorkflowStatus, workflowToken: String) {
             self.failureReason = failureReason
             self.idempotencyToken = idempotencyToken
@@ -4159,6 +4295,7 @@ extension ServiceCatalog {
         ///  The encrypted contents  of the update engine execution payload  that Service Catalog sends  after the Terraform product update workflow starts.
         public let workflowToken: String
 
+        @inlinable
         public init(failureReason: String? = nil, idempotencyToken: String = NotifyUpdateProvisionedProductEngineWorkflowResultInput.idempotencyToken(), outputs: [RecordOutput]? = nil, recordId: String, status: EngineWorkflowStatus, workflowToken: String) {
             self.failureReason = failureReason
             self.idempotencyToken = idempotencyToken
@@ -4203,6 +4340,7 @@ extension ServiceCatalog {
         /// The identifier of the organization node.
         public let value: String?
 
+        @inlinable
         public init(type: OrganizationNodeType? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -4234,6 +4372,7 @@ extension ServiceCatalog {
         /// A numeric value that determines the smallest numeric value you want to allow for Number types.
         public let minValue: String?
 
+        @inlinable
         public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, maxLength: String? = nil, maxValue: String? = nil, minLength: String? = nil, minValue: String? = nil) {
             self.allowedPattern = allowedPattern
             self.allowedValues = allowedValues
@@ -4269,6 +4408,7 @@ extension ServiceCatalog {
         /// The name of the portfolio provider.
         public let providerName: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, id: String? = nil, providerName: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -4300,6 +4440,7 @@ extension ServiceCatalog {
         /// The type of the portfolio share.
         public let type: DescribePortfolioShareType?
 
+        @inlinable
         public init(accepted: Bool? = nil, principalId: String? = nil, sharePrincipals: Bool? = nil, shareTagOptions: Bool? = nil, type: DescribePortfolioShareType? = nil) {
             self.accepted = accepted
             self.principalId = principalId
@@ -4323,6 +4464,7 @@ extension ServiceCatalog {
         /// The principal type. The supported value is IAM if you use a fully defined ARN, or IAM_PATTERN if you use an ARN with no accountID, with or without wildcard characters.
         public let principalType: PrincipalType?
 
+        @inlinable
         public init(principalARN: String? = nil, principalType: PrincipalType? = nil) {
             self.principalARN = principalARN
             self.principalType = principalType
@@ -4340,6 +4482,7 @@ extension ServiceCatalog {
         /// The value of the product view aggregation.
         public let value: String?
 
+        @inlinable
         public init(approximateCount: Int? = nil, value: String? = nil) {
             self.approximateCount = approximateCount
             self.value = value
@@ -4363,6 +4506,7 @@ extension ServiceCatalog {
         /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.
         public let status: Status?
 
+        @inlinable
         public init(createdTime: Date? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, sourceConnection: SourceConnectionDetail? = nil, status: Status? = nil) {
             self.createdTime = createdTime
             self.productARN = productARN
@@ -4404,6 +4548,7 @@ extension ServiceCatalog {
         /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by Amazon Web Services Marketplace.
         public let type: ProductType?
 
+        @inlinable
         public init(distributor: String? = nil, hasDefaultPath: Bool? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, productId: String? = nil, shortDescription: String? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, type: ProductType? = nil) {
             self.distributor = distributor
             self.hasDefaultPath = hasDefaultPath
@@ -4461,6 +4606,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, notificationArns: [String]? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisionedProductName: String, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, provisioningParameters: [ProvisioningParameter]? = nil, provisioningPreferences: ProvisioningPreferences? = nil, provisionToken: String = ProvisionProductInput.idempotencyToken(), tags: [Tag]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.notificationArns = notificationArns
@@ -4535,6 +4681,7 @@ extension ServiceCatalog {
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
+        @inlinable
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -4584,6 +4731,7 @@ extension ServiceCatalog {
         /// The ARN of the user in the session. This ARN might contain a session ID.
         public let userArnSession: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, physicalId: String? = nil, productId: String? = nil, productName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, type: String? = nil, userArn: String? = nil, userArnSession: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -4659,6 +4807,7 @@ extension ServiceCatalog {
         /// The type of provisioned product.  The supported values are CFN_STACK, CFN_STACKSET, TERRAFORM_OPEN_SOURCE,  TERRAFORM_CLOUD, and EXTERNAL.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, launchRoleArn: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -4726,6 +4875,7 @@ extension ServiceCatalog {
         /// The UTC time stamp when the plan was last updated.
         public let updatedTime: Date?
 
+        @inlinable
         public init(createdTime: Date? = nil, notificationArns: [String]? = nil, pathId: String? = nil, planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil, status: ProvisionedProductPlanStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil, updatedTime: Date? = nil) {
             self.createdTime = createdTime
             self.notificationArns = notificationArns
@@ -4777,6 +4927,7 @@ extension ServiceCatalog {
         /// The user-friendly name of the provisioned product.
         public let provisionProductName: String?
 
+        @inlinable
         public init(planId: String? = nil, planName: String? = nil, planType: ProvisionedProductPlanType? = nil, provisioningArtifactId: String? = nil, provisionProductId: String? = nil, provisionProductName: String? = nil) {
             self.planId = planId
             self.planName = planName
@@ -4808,6 +4959,7 @@ extension ServiceCatalog {
         /// The name of the provisioning artifact.
         public let name: String?
 
+        @inlinable
         public init(createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -4843,6 +4995,7 @@ extension ServiceCatalog {
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file    TERRAFORM_CLOUD - Terraform Cloud configuration file    EXTERNAL - External configuration file
         public let type: ProvisioningArtifactType?
 
+        @inlinable
         public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, sourceRevision: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.active = active
             self.createdTime = createdTime
@@ -4872,6 +5025,7 @@ extension ServiceCatalog {
         /// The provisioning artifact output key.
         public let key: String?
 
+        @inlinable
         public init(description: String? = nil, key: String? = nil) {
             self.description = description
             self.key = key
@@ -4897,6 +5051,7 @@ extension ServiceCatalog {
         /// The parameter type.
         public let parameterType: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, isNoEcho: Bool? = nil, parameterConstraints: ParameterConstraints? = nil, parameterKey: String? = nil, parameterType: String? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -4922,6 +5077,7 @@ extension ServiceCatalog {
         /// One or more Amazon Web Services Regions where stack instances are deployed from the stack set. These Regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
         public let stackSetRegions: [String]?
 
+        @inlinable
         public init(stackSetAccounts: [String]? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetRegions = stackSetRegions
@@ -4945,6 +5101,7 @@ extension ServiceCatalog {
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - CloudFormation template    TERRAFORM_OPEN_SOURCE - Terraform Open Source configuration file    TERRAFORM_CLOUD - Terraform Cloud configuration file    EXTERNAL - External configuration file
         public let type: ProvisioningArtifactType?
 
+        @inlinable
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String]? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.description = description
             self.disableTemplateValidation = disableTemplateValidation
@@ -4981,6 +5138,7 @@ extension ServiceCatalog {
         /// The metadata for the provisioning artifact. This is used with Amazon Web Services Marketplace products.
         public let provisioningArtifactMetadata: [String: String]?
 
+        @inlinable
         public init(createdTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, provisioningArtifactMetadata: [String: String]? = nil) {
             self.createdTime = createdTime
             self.description = description
@@ -5004,6 +5162,7 @@ extension ServiceCatalog {
         /// Information about a provisioning artifact. A provisioning artifact is also known as a product version.
         public let provisioningArtifact: ProvisioningArtifact?
 
+        @inlinable
         public init(productViewSummary: ProductViewSummary? = nil, provisioningArtifact: ProvisioningArtifact? = nil) {
             self.productViewSummary = productViewSummary
             self.provisioningArtifact = provisioningArtifact
@@ -5021,6 +5180,7 @@ extension ServiceCatalog {
         /// The parameter value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5052,6 +5212,7 @@ extension ServiceCatalog {
         /// One or more Amazon Web Services Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified Regions should be within the list of Regions from the STACKSET constraint. To get the list of Regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all Regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
 
+        @inlinable
         public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int? = nil, stackSetFailureTolerancePercentage: Int? = nil, stackSetMaxConcurrencyCount: Int? = nil, stackSetMaxConcurrencyPercentage: Int? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
@@ -5113,6 +5274,7 @@ extension ServiceCatalog {
         /// The time when the record was last updated.
         public let updatedTime: Date?
 
+        @inlinable
         public init(createdTime: Date? = nil, launchRoleArn: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisionedProductType: String? = nil, provisioningArtifactId: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, recordType: String? = nil, status: RecordStatus? = nil, updatedTime: Date? = nil) {
             self.createdTime = createdTime
             self.launchRoleArn = launchRoleArn
@@ -5154,6 +5316,7 @@ extension ServiceCatalog {
         /// The description of the error.
         public let description: String?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil) {
             self.code = code
             self.description = description
@@ -5173,6 +5336,7 @@ extension ServiceCatalog {
         /// The output value.
         public let outputValue: String?
 
+        @inlinable
         public init(description: String? = nil, outputKey: String? = nil, outputValue: String? = nil) {
             self.description = description
             self.outputKey = outputKey
@@ -5192,6 +5356,7 @@ extension ServiceCatalog {
         /// The value for this tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5211,6 +5376,7 @@ extension ServiceCatalog {
         /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the management account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS
         public let portfolioShareType: PortfolioShareType?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
             self.acceptLanguage = acceptLanguage
             self.portfolioId = portfolioId
@@ -5251,6 +5417,7 @@ extension ServiceCatalog {
         /// The change scope.
         public let scope: [ResourceAttribute]?
 
+        @inlinable
         public init(action: ChangeAction? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.action = action
             self.details = details
@@ -5280,6 +5447,7 @@ extension ServiceCatalog {
         /// Information about the resource attribute to be modified.
         public let target: ResourceTargetDefinition?
 
+        @inlinable
         public init(causingEntity: String? = nil, evaluation: EvaluationType? = nil, target: ResourceTargetDefinition? = nil) {
             self.causingEntity = causingEntity
             self.evaluation = evaluation
@@ -5305,6 +5473,7 @@ extension ServiceCatalog {
         /// The name of the resource.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -5330,6 +5499,7 @@ extension ServiceCatalog {
         /// If the attribute is Properties, indicates whether a change to this property causes the resource to be re-created.
         public let requiresRecreation: RequiresRecreation?
 
+        @inlinable
         public init(attribute: ResourceAttribute? = nil, name: String? = nil, requiresRecreation: RequiresRecreation? = nil) {
             self.attribute = attribute
             self.name = name
@@ -5353,6 +5523,7 @@ extension ServiceCatalog {
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, pageSize: Int? = nil, pageToken: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -5382,6 +5553,7 @@ extension ServiceCatalog {
         /// Information about the provisioned products.
         public let provisionedProducts: [ProvisionedProductDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProducts = provisionedProducts
@@ -5411,6 +5583,7 @@ extension ServiceCatalog {
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioId: String? = nil, productSource: ProductSource? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.filters = filters
@@ -5451,6 +5624,7 @@ extension ServiceCatalog {
         /// Information about the product views.
         public let productViewDetails: [ProductViewDetail]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, productViewDetails: [ProductViewDetail]? = nil) {
             self.nextPageToken = nextPageToken
             self.productViewDetails = productViewDetails
@@ -5476,6 +5650,7 @@ extension ServiceCatalog {
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, filters: [ProductViewFilterBy: [String]]? = nil, pageSize: Int? = nil, pageToken: String? = nil, sortBy: ProductViewSortBy? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.filters = filters
@@ -5511,6 +5686,7 @@ extension ServiceCatalog {
         /// Information about the product views.
         public let productViewSummaries: [ProductViewSummary]?
 
+        @inlinable
         public init(nextPageToken: String? = nil, productViewAggregations: [String: [ProductViewAggregationValue]]? = nil, productViewSummaries: [ProductViewSummary]? = nil) {
             self.nextPageToken = nextPageToken
             self.productViewAggregations = productViewAggregations
@@ -5540,6 +5716,7 @@ extension ServiceCatalog {
         /// The sort order. If no value is specified, the results are not sorted.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accessLevelFilter: AccessLevelFilter? = nil, filters: [ProvisionedProductViewFilterBy: [String]]? = nil, pageSize: Int? = nil, pageToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accessLevelFilter = accessLevelFilter
@@ -5577,6 +5754,7 @@ extension ServiceCatalog {
         /// The number of provisioned products found.
         public let totalResultsCount: Int?
 
+        @inlinable
         public init(nextPageToken: String? = nil, provisionedProducts: [ProvisionedProductAttribute]? = nil, totalResultsCount: Int? = nil) {
             self.nextPageToken = nextPageToken
             self.provisionedProducts = provisionedProducts
@@ -5598,6 +5776,7 @@ extension ServiceCatalog {
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let serviceActionId: String
 
+        @inlinable
         public init(productId: String, provisioningArtifactId: String, serviceActionId: String) {
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -5629,6 +5808,7 @@ extension ServiceCatalog {
         /// Summary information about the self-service action.
         public let serviceActionSummary: ServiceActionSummary?
 
+        @inlinable
         public init(definition: [ServiceActionDefinitionKey: String]? = nil, serviceActionSummary: ServiceActionSummary? = nil) {
             self.definition = definition
             self.serviceActionSummary = serviceActionSummary
@@ -5650,6 +5830,7 @@ extension ServiceCatalog {
         /// The self-service action name.
         public let name: String?
 
+        @inlinable
         public init(definitionType: ServiceActionDefinitionType? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.definitionType = definitionType
             self.description = description
@@ -5671,6 +5852,7 @@ extension ServiceCatalog {
         /// List of accounts for whom the operation succeeded.
         public let successfulShares: [String]?
 
+        @inlinable
         public init(shareErrors: [ShareError]? = nil, successfulShares: [String]? = nil) {
             self.shareErrors = shareErrors
             self.successfulShares = successfulShares
@@ -5690,6 +5872,7 @@ extension ServiceCatalog {
         /// Information about the error.
         public let message: String?
 
+        @inlinable
         public init(accounts: [String]? = nil, error: String? = nil, message: String? = nil) {
             self.accounts = accounts
             self.error = error
@@ -5709,6 +5892,7 @@ extension ServiceCatalog {
         /// The only supported SourceConnection type is Codestar.
         public let type: SourceType?
 
+        @inlinable
         public init(connectionParameters: SourceConnectionParameters, type: SourceType? = nil) {
             self.connectionParameters = connectionParameters
             self.type = type
@@ -5732,6 +5916,7 @@ extension ServiceCatalog {
         /// The only supported SourceConnection type is Codestar.
         public let type: SourceType?
 
+        @inlinable
         public init(connectionParameters: SourceConnectionParameters? = nil, lastSync: LastSync? = nil, type: SourceType? = nil) {
             self.connectionParameters = connectionParameters
             self.lastSync = lastSync
@@ -5749,6 +5934,7 @@ extension ServiceCatalog {
         /// Provides ConnectionType details.
         public let codeStar: CodeStarParameters?
 
+        @inlinable
         public init(codeStar: CodeStarParameters? = nil) {
             self.codeStar = codeStar
         }
@@ -5770,6 +5956,7 @@ extension ServiceCatalog {
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.     INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.     OUTDATED: The stack isn't currently up to date with the stack set because either             the associated stack failed during a CreateStackSet or UpdateStackSet operation,            or the stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.    CURRENT: The stack is currently up to date with the stack set.
         public let stackInstanceStatus: StackInstanceStatus?
 
+        @inlinable
         public init(account: String? = nil, region: String? = nil, stackInstanceStatus: StackInstanceStatus? = nil) {
             self.account = account
             self.region = region
@@ -5789,6 +5976,7 @@ extension ServiceCatalog {
         /// The value for this key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -5821,6 +6009,7 @@ extension ServiceCatalog {
         /// The TagOption value.
         public let value: String?
 
+        @inlinable
         public init(active: Bool? = nil, id: String? = nil, key: String? = nil, owner: String? = nil, value: String? = nil) {
             self.active = active
             self.id = id
@@ -5844,6 +6033,7 @@ extension ServiceCatalog {
         /// The TagOption value.
         public let values: [String]?
 
+        @inlinable
         public init(key: String? = nil, values: [String]? = nil) {
             self.key = key
             self.values = values
@@ -5869,6 +6059,7 @@ extension ServiceCatalog {
         /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
         public let terminateToken: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, ignoreErrors: Bool? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, retainPhysicalResources: Bool? = nil, terminateToken: String = TerminateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.ignoreErrors = ignoreErrors
@@ -5905,6 +6096,7 @@ extension ServiceCatalog {
         /// Information about the result of this request.
         public let recordDetail: RecordDetail?
 
+        @inlinable
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -5920,6 +6112,7 @@ extension ServiceCatalog {
         ///  A unique value  that's attached  to a resource.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -5950,6 +6143,7 @@ extension ServiceCatalog {
         /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be  account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
         public let parameters: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, description: String? = nil, id: String, parameters: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.description = description
@@ -5981,6 +6175,7 @@ extension ServiceCatalog {
         /// The status of the current request.
         public let status: Status?
 
+        @inlinable
         public init(constraintDetail: ConstraintDetail? = nil, constraintParameters: String? = nil, status: Status? = nil) {
             self.constraintDetail = constraintDetail
             self.constraintParameters = constraintParameters
@@ -6010,6 +6205,7 @@ extension ServiceCatalog {
         /// The tags to remove.
         public let removeTags: [String]?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, addTags: [Tag]? = nil, description: String? = nil, displayName: String? = nil, id: String, providerName: String? = nil, removeTags: [String]? = nil) {
             self.acceptLanguage = acceptLanguage
             self.addTags = addTags
@@ -6058,6 +6254,7 @@ extension ServiceCatalog {
         /// Information about the tags associated with the portfolio.
         public let tags: [Tag]?
 
+        @inlinable
         public init(portfolioDetail: PortfolioDetail? = nil, tags: [Tag]? = nil) {
             self.portfolioDetail = portfolioDetail
             self.tags = tags
@@ -6082,6 +6279,7 @@ extension ServiceCatalog {
         /// Enables or disables TagOptions sharing for the portfolio share. If this field is not provided, the current state of  TagOptions sharing on the portfolio share will not be modified.
         public let shareTagOptions: Bool?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, accountId: String? = nil, organizationNode: OrganizationNode? = nil, portfolioId: String, sharePrincipals: Bool? = nil, shareTagOptions: Bool? = nil) {
             self.acceptLanguage = acceptLanguage
             self.accountId = accountId
@@ -6116,6 +6314,7 @@ extension ServiceCatalog {
         /// The status of UpdatePortfolioShare operation. You can also obtain the operation status using DescribePortfolioShareStatus API.
         public let status: ShareStatus?
 
+        @inlinable
         public init(portfolioShareToken: String? = nil, status: ShareStatus? = nil) {
             self.portfolioShareToken = portfolioShareToken
             self.status = status
@@ -6153,6 +6352,7 @@ extension ServiceCatalog {
         /// The updated support URL for the product.
         public let supportUrl: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, addTags: [Tag]? = nil, description: String? = nil, distributor: String? = nil, id: String, name: String? = nil, owner: String? = nil, removeTags: [String]? = nil, sourceConnection: SourceConnection? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.addTags = addTags
@@ -6214,6 +6414,7 @@ extension ServiceCatalog {
         /// Information about the tags associated with the product.
         public let tags: [Tag]?
 
+        @inlinable
         public init(productViewDetail: ProductViewDetail? = nil, tags: [Tag]? = nil) {
             self.productViewDetail = productViewDetail
             self.tags = tags
@@ -6253,6 +6454,7 @@ extension ServiceCatalog {
         /// The idempotency token that uniquely identifies the provisioning update request.
         public let updateToken: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, pathId: String? = nil, pathName: String? = nil, productId: String? = nil, productName: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisioningArtifactId: String? = nil, provisioningArtifactName: String? = nil, provisioningParameters: [UpdateProvisioningParameter]? = nil, provisioningPreferences: UpdateProvisioningPreferences? = nil, tags: [Tag]? = nil, updateToken: String = UpdateProvisionedProductInput.idempotencyToken()) {
             self.acceptLanguage = acceptLanguage
             self.pathId = pathId
@@ -6324,6 +6526,7 @@ extension ServiceCatalog {
         /// Information about the result of the request.
         public let recordDetail: RecordDetail?
 
+        @inlinable
         public init(recordDetail: RecordDetail? = nil) {
             self.recordDetail = recordDetail
         }
@@ -6343,6 +6546,7 @@ extension ServiceCatalog {
         /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.  The OWNER key accepts user ARNs, IAM role ARNs, and STS  assumed-role ARNs. The owner is the user that has permission to see, update, terminate, and  execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM or STS entity within the  same account. Both end user owners and administrators can see ownership history of the provisioned  product using the ListRecordHistory API. The new owner can describe all past records  for the provisioned product using the DescribeRecord API. The previous owner can no  longer use DescribeRecord, but can still see the product's history from when he was  an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or  Service Catalog console such as update, terminate, and execute service actions.  If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through  API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
+        @inlinable
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {
             self.acceptLanguage = acceptLanguage
             self.idempotencyToken = idempotencyToken
@@ -6383,6 +6587,7 @@ extension ServiceCatalog {
         /// The status of the request.
         public let status: RecordStatus?
 
+        @inlinable
         public init(provisionedProductId: String? = nil, provisionedProductProperties: [PropertyKey: String]? = nil, recordId: String? = nil, status: RecordStatus? = nil) {
             self.provisionedProductId = provisionedProductId
             self.provisionedProductProperties = provisionedProductProperties
@@ -6414,6 +6619,7 @@ extension ServiceCatalog {
         /// The identifier of the provisioning artifact.
         public let provisioningArtifactId: String
 
+        @inlinable
         public init(acceptLanguage: String? = nil, active: Bool? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, name: String? = nil, productId: String, provisioningArtifactId: String) {
             self.acceptLanguage = acceptLanguage
             self.active = active
@@ -6455,6 +6661,7 @@ extension ServiceCatalog {
         /// The status of the current request.
         public let status: Status?
 
+        @inlinable
         public init(info: [String: String]? = nil, provisioningArtifactDetail: ProvisioningArtifactDetail? = nil, status: Status? = nil) {
             self.info = info
             self.provisioningArtifactDetail = provisioningArtifactDetail
@@ -6476,6 +6683,7 @@ extension ServiceCatalog {
         /// The parameter value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, usePreviousValue: Bool? = nil, value: String? = nil) {
             self.key = key
             self.usePreviousValue = usePreviousValue
@@ -6511,6 +6719,7 @@ extension ServiceCatalog {
         /// One or more Amazon Web Services Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified Regions should be within the list of Regions from the STACKSET constraint. To get the list of Regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all Regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
 
+        @inlinable
         public init(stackSetAccounts: [String]? = nil, stackSetFailureToleranceCount: Int? = nil, stackSetFailureTolerancePercentage: Int? = nil, stackSetMaxConcurrencyCount: Int? = nil, stackSetMaxConcurrencyPercentage: Int? = nil, stackSetOperationType: StackSetOperationType? = nil, stackSetRegions: [String]? = nil) {
             self.stackSetAccounts = stackSetAccounts
             self.stackSetFailureToleranceCount = stackSetFailureToleranceCount
@@ -6556,6 +6765,7 @@ extension ServiceCatalog {
         /// The self-service action name.
         public let name: String?
 
+        @inlinable
         public init(acceptLanguage: String? = nil, definition: [ServiceActionDefinitionKey: String]? = nil, description: String? = nil, id: String, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.definition = definition
@@ -6594,6 +6804,7 @@ extension ServiceCatalog {
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
 
+        @inlinable
         public init(serviceActionDetail: ServiceActionDetail? = nil) {
             self.serviceActionDetail = serviceActionDetail
         }
@@ -6611,6 +6822,7 @@ extension ServiceCatalog {
         /// The updated value.
         public let value: String?
 
+        @inlinable
         public init(active: Bool? = nil, id: String, value: String? = nil) {
             self.active = active
             self.id = id
@@ -6636,6 +6848,7 @@ extension ServiceCatalog {
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
+        @inlinable
         public init(tagOptionDetail: TagOptionDetail? = nil) {
             self.tagOptionDetail = tagOptionDetail
         }
@@ -6651,6 +6864,7 @@ extension ServiceCatalog {
         /// The usage instruction value for this type.
         public let value: String?
 
+        @inlinable
         public init(type: String? = nil, value: String? = nil) {
             self.type = type
             self.value = value

@@ -58,6 +58,7 @@ extension EBS {
         /// The block token for the block index.
         public let blockToken: String?
 
+        @inlinable
         public init(blockIndex: Int? = nil, blockToken: String? = nil) {
             self.blockIndex = blockIndex
             self.blockToken = blockToken
@@ -77,6 +78,7 @@ extension EBS {
         /// The block token for the block index of the SecondSnapshotId specified in the ListChangedBlocks operation.
         public let secondBlockToken: String?
 
+        @inlinable
         public init(blockIndex: Int? = nil, firstBlockToken: String? = nil, secondBlockToken: String? = nil) {
             self.blockIndex = blockIndex
             self.firstBlockToken = firstBlockToken
@@ -102,6 +104,7 @@ extension EBS {
         /// The ID of the snapshot.
         public let snapshotId: String
 
+        @inlinable
         public init(changedBlocksCount: Int, checksum: String? = nil, checksumAggregationMethod: ChecksumAggregationMethod? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, snapshotId: String) {
             self.changedBlocksCount = changedBlocksCount
             self.checksum = checksum
@@ -136,6 +139,7 @@ extension EBS {
         /// The status of the snapshot.
         public let status: Status?
 
+        @inlinable
         public init(status: Status? = nil) {
             self.status = status
         }
@@ -153,6 +157,7 @@ extension EBS {
         /// The ID of the snapshot containing the block from which to get data.  If the specified snapshot is encrypted, you must have permission to use the  KMS key that was used to encrypt the snapshot. For more information, see   Using encryption in the Amazon Elastic Compute Cloud User  Guide.
         public let snapshotId: String
 
+        @inlinable
         public init(blockIndex: Int, blockToken: String, snapshotId: String) {
             self.blockIndex = blockIndex
             self.blockToken = blockToken
@@ -190,6 +195,7 @@ extension EBS {
         /// The size of the data in the block.
         public let dataLength: Int?
 
+        @inlinable
         public init(blockData: AWSHTTPBody, checksum: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, dataLength: Int? = nil) {
             self.blockData = blockData
             self.checksum = checksum
@@ -221,6 +227,7 @@ extension EBS {
         /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots. If you specify NextToken, then  StartingBlockIndex is ignored.
         public let startingBlockIndex: Int?
 
+        @inlinable
         public init(firstSnapshotId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, secondSnapshotId: String, startingBlockIndex: Int? = nil) {
             self.firstSnapshotId = firstSnapshotId
             self.maxResults = maxResults
@@ -268,6 +275,7 @@ extension EBS {
         /// The size of the volume in GB.
         public let volumeSize: Int64?
 
+        @inlinable
         public init(blockSize: Int? = nil, changedBlocks: [ChangedBlock]? = nil, expiryTime: Date? = nil, nextToken: String? = nil, volumeSize: Int64? = nil) {
             self.blockSize = blockSize
             self.changedBlocks = changedBlocks
@@ -295,6 +303,7 @@ extension EBS {
         /// The block index from which the list should start. The list in the response will start from this block index or the next valid block index in the snapshot. If you specify NextToken, then  StartingBlockIndex is ignored.
         public let startingBlockIndex: Int?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, snapshotId: String, startingBlockIndex: Int? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -337,6 +346,7 @@ extension EBS {
         /// The size of the volume in GB.
         public let volumeSize: Int64?
 
+        @inlinable
         public init(blocks: [Block]? = nil, blockSize: Int? = nil, expiryTime: Date? = nil, nextToken: String? = nil, volumeSize: Int64? = nil) {
             self.blocks = blocks
             self.blockSize = blockSize
@@ -371,6 +381,7 @@ extension EBS {
         /// The ID of the snapshot.  If the specified snapshot is encrypted, you must have permission to use  the KMS key that was used to encrypt the snapshot. For more information,  see  Using encryption in the Amazon Elastic Compute Cloud User  Guide..
         public let snapshotId: String
 
+        @inlinable
         public init(blockData: AWSHTTPBody, blockIndex: Int, checksum: String, checksumAlgorithm: ChecksumAlgorithm, dataLength: Int, progress: Int? = nil, snapshotId: String) {
             self.blockData = blockData
             self.blockIndex = blockIndex
@@ -413,6 +424,7 @@ extension EBS {
         /// The algorithm used by Amazon EBS to generate the checksum.
         public let checksumAlgorithm: ChecksumAlgorithm?
 
+        @inlinable
         public init(checksum: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil) {
             self.checksum = checksum
             self.checksumAlgorithm = checksumAlgorithm
@@ -445,6 +457,7 @@ extension EBS {
         /// The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB).
         public let volumeSize: Int64
 
+        @inlinable
         public init(clientToken: String? = StartSnapshotRequest.idempotencyToken(), description: String? = nil, encrypted: Bool? = nil, kmsKeyArn: String? = nil, parentSnapshotId: String? = nil, tags: [Tag]? = nil, timeout: Int? = nil, volumeSize: Int64) {
             self.clientToken = clientToken
             self.description = description
@@ -511,6 +524,7 @@ extension EBS {
         /// The size of the volume, in GiB.
         public let volumeSize: Int64?
 
+        @inlinable
         public init(blockSize: Int? = nil, description: String? = nil, kmsKeyArn: String? = nil, ownerId: String? = nil, parentSnapshotId: String? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, status: Status? = nil, tags: [Tag]? = nil, volumeSize: Int64? = nil) {
             self.blockSize = blockSize
             self.description = description
@@ -546,6 +560,7 @@ extension EBS {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value

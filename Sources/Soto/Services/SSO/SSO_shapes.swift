@@ -36,6 +36,7 @@ extension SSO {
         /// The email address of the AWS account that is assigned to the user.
         public let emailAddress: String?
 
+        @inlinable
         public init(accountId: String? = nil, accountName: String? = nil, emailAddress: String? = nil) {
             self.accountId = accountId
             self.accountName = accountName
@@ -57,6 +58,7 @@ extension SSO {
         /// The friendly name of the role that is assigned to the user.
         public let roleName: String
 
+        @inlinable
         public init(accessToken: String, accountId: String, roleName: String) {
             self.accessToken = accessToken
             self.accountId = accountId
@@ -78,6 +80,7 @@ extension SSO {
         /// The credentials for the role that is assigned to the user.
         public let roleCredentials: RoleCredentials?
 
+        @inlinable
         public init(roleCredentials: RoleCredentials? = nil) {
             self.roleCredentials = roleCredentials
         }
@@ -97,6 +100,7 @@ extension SSO {
         /// The page token from the previous response output when you request subsequent pages.
         public let nextToken: String?
 
+        @inlinable
         public init(accessToken: String, accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accessToken = accessToken
             self.accountId = accountId
@@ -127,6 +131,7 @@ extension SSO {
         /// A paginated response with the list of roles and the next token if more results are available.
         public let roleList: [RoleInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, roleList: [RoleInfo]? = nil) {
             self.nextToken = nextToken
             self.roleList = roleList
@@ -146,6 +151,7 @@ extension SSO {
         /// (Optional) When requesting subsequent pages, this is the page token from the previous response output.
         public let nextToken: String?
 
+        @inlinable
         public init(accessToken: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accessToken = accessToken
             self.maxResults = maxResults
@@ -174,6 +180,7 @@ extension SSO {
         /// The page token client that is used to retrieve the list of accounts.
         public let nextToken: String?
 
+        @inlinable
         public init(accountList: [AccountInfo]? = nil, nextToken: String? = nil) {
             self.accountList = accountList
             self.nextToken = nextToken
@@ -189,6 +196,7 @@ extension SSO {
         /// The token issued by the CreateToken API call. For more information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
         public let accessToken: String
 
+        @inlinable
         public init(accessToken: String) {
             self.accessToken = accessToken
         }
@@ -212,6 +220,7 @@ extension SSO {
         /// The token used for temporary credentials. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Int64? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -233,6 +242,7 @@ extension SSO {
         /// The friendly name of the role that is assigned to the user.
         public let roleName: String?
 
+        @inlinable
         public init(accountId: String? = nil, roleName: String? = nil) {
             self.accountId = accountId
             self.roleName = roleName

@@ -177,6 +177,7 @@ extension DataBrew {
         /// One or more column statistics to allow for columns that contain detected entities.
         public let statistics: [String]
 
+        @inlinable
         public init(statistics: [String]) {
             self.statistics = statistics
         }
@@ -201,6 +202,7 @@ extension DataBrew {
         /// An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
         public let recipeVersions: [String]
 
+        @inlinable
         public init(name: String, recipeVersions: [String]) {
             self.name = name
             self.recipeVersions = recipeVersions
@@ -235,6 +237,7 @@ extension DataBrew {
         /// The name of the recipe that was modified.
         public let name: String
 
+        @inlinable
         public init(errors: [RecipeVersionErrorDetail]? = nil, name: String) {
             self.errors = errors
             self.name = name
@@ -252,6 +255,7 @@ extension DataBrew {
         /// A regular expression for selecting a column from a dataset.
         public let regex: String?
 
+        @inlinable
         public init(name: String? = nil, regex: String? = nil) {
             self.name = name
             self.regex = regex
@@ -276,6 +280,7 @@ extension DataBrew {
         /// Configuration for evaluations. Statistics can be used to select evaluations and override  parameters of evaluations.
         public let statistics: StatisticsConfiguration
 
+        @inlinable
         public init(selectors: [ColumnSelector]? = nil, statistics: StatisticsConfiguration) {
             self.selectors = selectors
             self.statistics = statistics
@@ -303,6 +308,7 @@ extension DataBrew {
         /// A value that the condition must evaluate to for the condition to succeed.
         public let value: String?
 
+        @inlinable
         public init(condition: String, targetColumn: String, value: String? = nil) {
             self.condition = condition
             self.targetColumn = targetColumn
@@ -337,6 +343,7 @@ extension DataBrew {
         /// Metadata tags to apply to this dataset.
         public let tags: [String: String]?
 
+        @inlinable
         public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, pathOptions: PathOptions? = nil, tags: [String: String]? = nil) {
             self.format = format
             self.formatOptions = formatOptions
@@ -375,6 +382,7 @@ extension DataBrew {
         /// The name of the dataset that you created.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -413,6 +421,7 @@ extension DataBrew {
         /// List of validation configurations that are applied to the profile job.
         public let validationConfigurations: [ValidationConfiguration]?
 
+        @inlinable
         public init(configuration: ProfileConfiguration? = nil, datasetName: String, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.configuration = configuration
             self.datasetName = datasetName
@@ -478,6 +487,7 @@ extension DataBrew {
         /// The name of the job that was created.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -500,6 +510,7 @@ extension DataBrew {
         /// Metadata tags to apply to this project.
         public let tags: [String: String]?
 
+        @inlinable
         public init(datasetName: String, name: String, recipeName: String, roleArn: String, sample: Sample? = nil, tags: [String: String]? = nil) {
             self.datasetName = datasetName
             self.name = name
@@ -542,6 +553,7 @@ extension DataBrew {
         /// The name of the project that you created.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -582,6 +594,7 @@ extension DataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
+        @inlinable
         public init(databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, roleArn: String, tags: [String: String]? = nil, timeout: Int? = nil) {
             self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
@@ -658,6 +671,7 @@ extension DataBrew {
         /// The name of the job that you created.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -677,6 +691,7 @@ extension DataBrew {
         /// Metadata tags to apply to this recipe.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, steps: [RecipeStep], tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -712,6 +727,7 @@ extension DataBrew {
         /// The name of the recipe that you created.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -733,6 +749,7 @@ extension DataBrew {
         /// The Amazon Resource Name (ARN) of a resource (dataset) that the  ruleset is associated with.
         public let targetArn: String
 
+        @inlinable
         public init(description: String? = nil, name: String, rules: [Rule], tags: [String: String]? = nil, targetArn: String) {
             self.description = description
             self.name = name
@@ -773,6 +790,7 @@ extension DataBrew {
         /// The unique name of the created ruleset.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -792,6 +810,7 @@ extension DataBrew {
         /// Metadata tags to apply to this schedule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(cronExpression: String, jobNames: [String]? = nil, name: String, tags: [String: String]? = nil) {
             self.cronExpression = cronExpression
             self.jobNames = jobNames
@@ -830,6 +849,7 @@ extension DataBrew {
         /// The name of the schedule that was created.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -845,6 +865,7 @@ extension DataBrew {
         /// A variable that specifies whether the first row in the file is parsed as the header. If this value is false, column names are auto-generated.
         public let headerRow: Bool?
 
+        @inlinable
         public init(delimiter: String? = nil, headerRow: Bool? = nil) {
             self.delimiter = delimiter
             self.headerRow = headerRow
@@ -865,6 +886,7 @@ extension DataBrew {
         /// A single character that specifies the delimiter used to create CSV job output.
         public let delimiter: String?
 
+        @inlinable
         public init(delimiter: String? = nil) {
             self.delimiter = delimiter
         }
@@ -889,6 +911,7 @@ extension DataBrew {
         /// Represents an Amazon location where DataBrew can store intermediate results.
         public let tempDirectory: S3Location?
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, tableName: String, tempDirectory: S3Location? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -928,6 +951,7 @@ extension DataBrew {
         /// The name of a table in the Data Catalog.
         public let tableName: String
 
+        @inlinable
         public init(catalogId: String? = nil, databaseName: String, databaseOptions: DatabaseTableOutputOptions? = nil, overwrite: Bool? = nil, s3Options: S3TableOutputOptions? = nil, tableName: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
@@ -967,6 +991,7 @@ extension DataBrew {
         public let queryString: String?
         public let tempDirectory: S3Location?
 
+        @inlinable
         public init(databaseTableName: String? = nil, glueConnectionName: String, queryString: String? = nil, tempDirectory: S3Location? = nil) {
             self.databaseTableName = databaseTableName
             self.glueConnectionName = glueConnectionName
@@ -1000,6 +1025,7 @@ extension DataBrew {
         /// The Glue connection that stores the connection information for the  target database.
         public let glueConnectionName: String
 
+        @inlinable
         public init(databaseOptions: DatabaseTableOutputOptions, databaseOutputMode: DatabaseOutputMode? = nil, glueConnectionName: String) {
             self.databaseOptions = databaseOptions
             self.databaseOutputMode = databaseOutputMode
@@ -1025,6 +1051,7 @@ extension DataBrew {
         /// Represents an Amazon S3 location (bucket name and object key) where DataBrew can store  intermediate results.
         public let tempDirectory: S3Location?
 
+        @inlinable
         public init(tableName: String, tempDirectory: S3Location? = nil) {
             self.tableName = tableName
             self.tempDirectory = tempDirectory
@@ -1070,6 +1097,7 @@ extension DataBrew {
         /// Metadata tags that have been applied to the dataset.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, pathOptions: PathOptions? = nil, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
@@ -1115,6 +1143,7 @@ extension DataBrew {
         /// The type of the dataset parameter, can be one of a 'String', 'Number' or 'Datetime'.
         public let type: ParameterType
 
+        @inlinable
         public init(createColumn: Bool? = nil, datetimeOptions: DatetimeOptions? = nil, filter: FilterExpression? = nil, name: String, type: ParameterType) {
             self.createColumn = createColumn
             self.datetimeOptions = datetimeOptions
@@ -1147,6 +1176,7 @@ extension DataBrew {
         /// Optional value for a timezone offset of the datetime parameter value in the Amazon S3  path. Shouldn't be used if Format for this parameter includes timezone fields. If no offset specified, UTC is assumed.
         public let timezoneOffset: String?
 
+        @inlinable
         public init(format: String, localeCode: String? = nil, timezoneOffset: String? = nil) {
             self.format = format
             self.localeCode = localeCode
@@ -1175,6 +1205,7 @@ extension DataBrew {
         /// The name of the dataset to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1197,6 +1228,7 @@ extension DataBrew {
         /// The name of the dataset that you deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1210,6 +1242,7 @@ extension DataBrew {
         /// The name of the job to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1232,6 +1265,7 @@ extension DataBrew {
         /// The name of the job that you deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1245,6 +1279,7 @@ extension DataBrew {
         /// The name of the project to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1267,6 +1302,7 @@ extension DataBrew {
         /// The name of the project that you deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1282,6 +1318,7 @@ extension DataBrew {
         /// The version of the recipe to be deleted. You can specify a numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
         public let recipeVersion: String
 
+        @inlinable
         public init(name: String, recipeVersion: String) {
             self.name = name
             self.recipeVersion = recipeVersion
@@ -1310,6 +1347,7 @@ extension DataBrew {
         /// The version of the recipe that was deleted.
         public let recipeVersion: String
 
+        @inlinable
         public init(name: String, recipeVersion: String) {
             self.name = name
             self.recipeVersion = recipeVersion
@@ -1325,6 +1363,7 @@ extension DataBrew {
         /// The name of the ruleset to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1347,6 +1386,7 @@ extension DataBrew {
         /// The name of the deleted ruleset.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1360,6 +1400,7 @@ extension DataBrew {
         /// The name of the schedule to be deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1382,6 +1423,7 @@ extension DataBrew {
         /// The name of the schedule that was deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1395,6 +1437,7 @@ extension DataBrew {
         /// The name of the dataset to be described.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1437,6 +1480,7 @@ extension DataBrew {
         /// Metadata tags associated with this dataset.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, pathOptions: PathOptions? = nil, resourceArn: String? = nil, source: Source? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -1472,6 +1516,7 @@ extension DataBrew {
         /// The name of the job to be described.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1539,6 +1584,7 @@ extension DataBrew {
         /// List of validation configurations that are applied to the profile job.
         public let validationConfigurations: [ValidationConfiguration]?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -1600,6 +1646,7 @@ extension DataBrew {
         /// The unique identifier of the job run.
         public let runId: String
 
+        @inlinable
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
@@ -1661,6 +1708,7 @@ extension DataBrew {
         /// List of validation configurations that are applied to the profile job.
         public let validationConfigurations: [ValidationConfiguration]?
 
+        @inlinable
         public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, profileConfiguration: ProfileConfiguration? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
@@ -1710,6 +1758,7 @@ extension DataBrew {
         /// The name of the project to be described.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1757,6 +1806,7 @@ extension DataBrew {
         /// Metadata tags associated with this project.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, openDate: Date? = nil, openedBy: String? = nil, recipeName: String? = nil, resourceArn: String? = nil, roleArn: String? = nil, sample: Sample? = nil, sessionStatus: SessionStatus? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -1798,6 +1848,7 @@ extension DataBrew {
         /// The recipe version identifier. If this parameter isn't specified, then the latest published version is returned.
         public let recipeVersion: String?
 
+        @inlinable
         public init(name: String, recipeVersion: String? = nil) {
             self.name = name
             self.recipeVersion = recipeVersion
@@ -1848,6 +1899,7 @@ extension DataBrew {
         /// Metadata tags associated with this project.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, projectName: String? = nil, publishedBy: String? = nil, publishedDate: Date? = nil, recipeVersion: String? = nil, resourceArn: String? = nil, steps: [RecipeStep]? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -1885,6 +1937,7 @@ extension DataBrew {
         /// The name of the ruleset to be described.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1925,6 +1978,7 @@ extension DataBrew {
         /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is  associated with.
         public let targetArn: String?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, rules: [Rule]? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -1956,6 +2010,7 @@ extension DataBrew {
         /// The name of the schedule to be described.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1994,6 +2049,7 @@ extension DataBrew {
         /// Metadata tags associated with this schedule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, cronExpression: String? = nil, jobNames: [String]? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -2025,6 +2081,7 @@ extension DataBrew {
         /// Entity types to detect. Can be any of the following:   USA_SSN   EMAIL   USA_ITIN   USA_PASSPORT_NUMBER   PHONE_NUMBER   USA_DRIVING_LICENSE   BANK_ACCOUNT   CREDIT_CARD   IP_ADDRESS   MAC_ADDRESS   USA_DEA_NUMBER   USA_HCPCS_CODE   USA_NATIONAL_PROVIDER_IDENTIFIER   USA_NATIONAL_DRUG_CODE   USA_HEALTH_INSURANCE_CLAIM_NUMBER   USA_MEDICARE_BENEFICIARY_IDENTIFIER   USA_CPT_CODE   PERSON_NAME   DATE   The Entity type group USA_ALL is also supported, and includes all of the  above entity types except PERSON_NAME and DATE.
         public let entityTypes: [String]
 
+        @inlinable
         public init(allowedStatistics: [AllowedStatistics]? = nil, entityTypes: [String]) {
             self.allowedStatistics = allowedStatistics
             self.entityTypes = entityTypes
@@ -2057,6 +2114,7 @@ extension DataBrew {
         /// One or more named sheets in the Excel file that will be included in the dataset.
         public let sheetNames: [String]?
 
+        @inlinable
         public init(headerRow: Bool? = nil, sheetIndexes: [Int]? = nil, sheetNames: [String]? = nil) {
             self.headerRow = headerRow
             self.sheetIndexes = sheetIndexes
@@ -2093,6 +2151,7 @@ extension DataBrew {
         /// A criteria to use for Amazon S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as  a sorting criteria. Currently it's the only allowed value.
         public let orderedBy: OrderedBy?
 
+        @inlinable
         public init(maxFiles: Int, order: Order? = nil, orderedBy: OrderedBy? = nil) {
             self.maxFiles = maxFiles
             self.order = order
@@ -2116,6 +2175,7 @@ extension DataBrew {
         /// The map of substitution variable names to their values used in this filter expression.
         public let valuesMap: [String: String]
 
+        @inlinable
         public init(expression: String, valuesMap: [String: String]) {
             self.expression = expression
             self.valuesMap = valuesMap
@@ -2147,6 +2207,7 @@ extension DataBrew {
         /// Options that define how JSON input is to be interpreted by DataBrew.
         public let json: JsonOptions?
 
+        @inlinable
         public init(csv: CsvOptions? = nil, excel: ExcelOptions? = nil, json: JsonOptions? = nil) {
             self.csv = csv
             self.excel = excel
@@ -2175,6 +2236,7 @@ extension DataBrew {
         /// The Amazon S3 location where the data is stored.
         public let s3InputDefinition: S3Location?
 
+        @inlinable
         public init(databaseInputDefinition: DatabaseInputDefinition? = nil, dataCatalogInputDefinition: DataCatalogInputDefinition? = nil, metadata: Metadata? = nil, s3InputDefinition: S3Location? = nil) {
             self.databaseInputDefinition = databaseInputDefinition
             self.dataCatalogInputDefinition = dataCatalogInputDefinition
@@ -2247,6 +2309,7 @@ extension DataBrew {
         /// List of validation configurations that are applied to the profile job.
         public let validationConfigurations: [ValidationConfiguration]?
 
+        @inlinable
         public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, projectName: String? = nil, recipeReference: RecipeReference? = nil, resourceArn: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, type: JobType? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
@@ -2340,6 +2403,7 @@ extension DataBrew {
         /// List of validation configurations that are applied to the profile job run.
         public let validationConfigurations: [ValidationConfiguration]?
 
+        @inlinable
         public init(attempt: Int? = nil, completedOn: Date? = nil, databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, datasetName: String? = nil, errorMessage: String? = nil, executionTime: Int? = nil, jobName: String? = nil, jobSample: JobSample? = nil, logGroupName: String? = nil, logSubscription: LogSubscription? = nil, outputs: [Output]? = nil, recipeReference: RecipeReference? = nil, runId: String? = nil, startedBy: String? = nil, startedOn: Date? = nil, state: JobRunState? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.attempt = attempt
             self.completedOn = completedOn
@@ -2389,6 +2453,7 @@ extension DataBrew {
         /// The Size parameter is only required when the mode is CUSTOM_ROWS. The profile job is run on the specified number of rows. The maximum value for size is Long.MAX_VALUE. Long.MAX_VALUE = 9223372036854775807
         public let size: Int64?
 
+        @inlinable
         public init(mode: SampleMode? = nil, size: Int64? = nil) {
             self.mode = mode
             self.size = size
@@ -2404,6 +2469,7 @@ extension DataBrew {
         /// A value that specifies whether JSON input contains embedded new line characters.
         public let multiLine: Bool?
 
+        @inlinable
         public init(multiLine: Bool? = nil) {
             self.multiLine = multiLine
         }
@@ -2419,6 +2485,7 @@ extension DataBrew {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2447,6 +2514,7 @@ extension DataBrew {
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(datasets: [Dataset], nextToken: String? = nil) {
             self.datasets = datasets
             self.nextToken = nextToken
@@ -2466,6 +2534,7 @@ extension DataBrew {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2498,6 +2567,7 @@ extension DataBrew {
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobRuns: [JobRun], nextToken: String? = nil) {
             self.jobRuns = jobRuns
             self.nextToken = nextToken
@@ -2519,6 +2589,7 @@ extension DataBrew {
         /// The name of a project. Using this parameter indicates to return only those jobs that are associated with the specified project.
         public let projectName: String?
 
+        @inlinable
         public init(datasetName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectName: String? = nil) {
             self.datasetName = datasetName
             self.maxResults = maxResults
@@ -2555,6 +2626,7 @@ extension DataBrew {
         /// A token that you can use in a subsequent call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [Job], nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -2572,6 +2644,7 @@ extension DataBrew {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2600,6 +2673,7 @@ extension DataBrew {
         /// A list of projects that are defined .
         public let projects: [Project]
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [Project]) {
             self.nextToken = nextToken
             self.projects = projects
@@ -2619,6 +2693,7 @@ extension DataBrew {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -2651,6 +2726,7 @@ extension DataBrew {
         /// A list of versions for the specified recipe.
         public let recipes: [Recipe]
 
+        @inlinable
         public init(nextToken: String? = nil, recipes: [Recipe]) {
             self.nextToken = nextToken
             self.recipes = recipes
@@ -2670,6 +2746,7 @@ extension DataBrew {
         /// Return only those recipes with a version identifier of LATEST_WORKING or LATEST_PUBLISHED. If RecipeVersion is omitted, ListRecipes returns all of the LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
         public let recipeVersion: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, recipeVersion: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2702,6 +2779,7 @@ extension DataBrew {
         /// A list of recipes that are defined.
         public let recipes: [Recipe]
 
+        @inlinable
         public init(nextToken: String? = nil, recipes: [Recipe]) {
             self.nextToken = nextToken
             self.recipes = recipes
@@ -2721,6 +2799,7 @@ extension DataBrew {
         /// The Amazon Resource Name (ARN) of a resource (dataset). Using this parameter  indicates to return only those rulesets that are associated with the specified resource.
         public let targetArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, targetArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2753,6 +2832,7 @@ extension DataBrew {
         /// A list of RulesetItem. RulesetItem contains meta data of a ruleset.
         public let rulesets: [RulesetItem]
 
+        @inlinable
         public init(nextToken: String? = nil, rulesets: [RulesetItem]) {
             self.nextToken = nextToken
             self.rulesets = rulesets
@@ -2772,6 +2852,7 @@ extension DataBrew {
         /// The token returned by a previous call to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.jobName = jobName
             self.maxResults = maxResults
@@ -2804,6 +2885,7 @@ extension DataBrew {
         /// A list of schedules that are defined.
         public let schedules: [Schedule]
 
+        @inlinable
         public init(nextToken: String? = nil, schedules: [Schedule]) {
             self.nextToken = nextToken
             self.schedules = schedules
@@ -2819,6 +2901,7 @@ extension DataBrew {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2841,6 +2924,7 @@ extension DataBrew {
         /// A list of tags associated with the DataBrew resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2854,6 +2938,7 @@ extension DataBrew {
         /// The Amazon Resource Name (ARN) associated with the dataset. Currently, DataBrew  only supports ARNs from Amazon AppFlow.
         public let sourceArn: String?
 
+        @inlinable
         public init(sourceArn: String? = nil) {
             self.sourceArn = sourceArn
         }
@@ -2884,6 +2969,7 @@ extension DataBrew {
         /// The names of one or more partition columns for the output of the job.
         public let partitionColumns: [String]?
 
+        @inlinable
         public init(compressionFormat: CompressionFormat? = nil, format: OutputFormat? = nil, formatOptions: OutputFormatOptions? = nil, location: S3Location, maxOutputFiles: Int? = nil, overwrite: Bool? = nil, partitionColumns: [String]? = nil) {
             self.compressionFormat = compressionFormat
             self.format = format
@@ -2921,6 +3007,7 @@ extension DataBrew {
         /// Represents a set of options that define the structure of comma-separated value (CSV) job output.
         public let csv: CsvOutputOptions?
 
+        @inlinable
         public init(csv: CsvOutputOptions? = nil) {
             self.csv = csv
         }
@@ -2942,6 +3029,7 @@ extension DataBrew {
         /// A structure that maps names of parameters used in the Amazon S3 path of a dataset to their definitions.
         public let parameters: [String: DatasetParameter]?
 
+        @inlinable
         public init(filesLimit: FilesLimit? = nil, lastModifiedDateCondition: FilterExpression? = nil, parameters: [String: DatasetParameter]? = nil) {
             self.filesLimit = filesLimit
             self.lastModifiedDateCondition = lastModifiedDateCondition
@@ -2977,6 +3065,7 @@ extension DataBrew {
         /// List of column selectors. ProfileColumns can be used to select columns from the dataset. When  ProfileColumns is undefined, the profile job will profile all supported columns.
         public let profileColumns: [ColumnSelector]?
 
+        @inlinable
         public init(columnStatisticsConfigurations: [ColumnStatisticsConfiguration]? = nil, datasetStatisticsConfiguration: StatisticsConfiguration? = nil, entityDetectorConfiguration: EntityDetectorConfiguration? = nil, profileColumns: [ColumnSelector]? = nil) {
             self.columnStatisticsConfigurations = columnStatisticsConfigurations
             self.datasetStatisticsConfiguration = datasetStatisticsConfiguration
@@ -3035,6 +3124,7 @@ extension DataBrew {
         /// Metadata tags that have been applied to the project.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, datasetName: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, openDate: Date? = nil, openedBy: String? = nil, recipeName: String, resourceArn: String? = nil, roleArn: String? = nil, sample: Sample? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
@@ -3076,6 +3166,7 @@ extension DataBrew {
         /// The name of the recipe to be published.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name
@@ -3103,6 +3194,7 @@ extension DataBrew {
         /// The name of the recipe that you published.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3140,6 +3232,7 @@ extension DataBrew {
         /// Metadata tags that have been applied to the recipe.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createDate: Date? = nil, createdBy: String? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, projectName: String? = nil, publishedBy: String? = nil, publishedDate: Date? = nil, recipeVersion: String? = nil, resourceArn: String? = nil, steps: [RecipeStep]? = nil, tags: [String: String]? = nil) {
             self.createDate = createDate
             self.createdBy = createdBy
@@ -3179,6 +3272,7 @@ extension DataBrew {
         /// Contextual parameters for the transformation.
         public let parameters: [String: String]?
 
+        @inlinable
         public init(operation: String, parameters: [String: String]? = nil) {
             self.operation = operation
             self.parameters = parameters
@@ -3209,6 +3303,7 @@ extension DataBrew {
         /// The identifier for the version for the recipe.
         public let recipeVersion: String?
 
+        @inlinable
         public init(name: String, recipeVersion: String? = nil) {
             self.name = name
             self.recipeVersion = recipeVersion
@@ -3233,6 +3328,7 @@ extension DataBrew {
         /// One or more conditions that must be met for the recipe step to succeed.  All of the conditions in the array must be met. In other words, all of the conditions must be combined using a logical AND operation.
         public let conditionExpressions: [ConditionExpression]?
 
+        @inlinable
         public init(action: RecipeAction, conditionExpressions: [ConditionExpression]? = nil) {
             self.action = action
             self.conditionExpressions = conditionExpressions
@@ -3259,6 +3355,7 @@ extension DataBrew {
         /// The identifier for the recipe version associated with this error.
         public let recipeVersion: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, recipeVersion: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3286,6 +3383,7 @@ extension DataBrew {
         /// The threshold used with a non-aggregate check expression. Non-aggregate check expressions  will be applied to each row in a specific column, and the threshold will be used to determine  whether the validation succeeds.
         public let threshold: Threshold?
 
+        @inlinable
         public init(checkExpression: String, columnSelectors: [ColumnSelector]? = nil, disabled: Bool? = nil, name: String, substitutionMap: [String: String]? = nil, threshold: Threshold? = nil) {
             self.checkExpression = checkExpression
             self.columnSelectors = columnSelectors
@@ -3348,6 +3446,7 @@ extension DataBrew {
         /// The Amazon Resource Name (ARN) of a resource (dataset) that the ruleset is  associated with.
         public let targetArn: String
 
+        @inlinable
         public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, description: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, ruleCount: Int? = nil, tags: [String: String]? = nil, targetArn: String) {
             self.accountId = accountId
             self.createDate = createDate
@@ -3385,6 +3484,7 @@ extension DataBrew {
         /// The unique name of the object in the bucket.
         public let key: String?
 
+        @inlinable
         public init(bucket: String, bucketOwner: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.bucketOwner = bucketOwner
@@ -3412,6 +3512,7 @@ extension DataBrew {
         /// Represents an Amazon S3 location (bucket name and object key) where DataBrew can write output  from a job.
         public let location: S3Location
 
+        @inlinable
         public init(location: S3Location) {
             self.location = location
         }
@@ -3431,6 +3532,7 @@ extension DataBrew {
         /// The way in which DataBrew obtains rows from a dataset.
         public let type: SampleType
 
+        @inlinable
         public init(size: Int? = nil, type: SampleType) {
             self.size = size
             self.type = type
@@ -3469,6 +3571,7 @@ extension DataBrew {
         /// Metadata tags that have been applied to the schedule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountId: String? = nil, createDate: Date? = nil, createdBy: String? = nil, cronExpression: String? = nil, jobNames: [String]? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, name: String, resourceArn: String? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.createDate = createDate
@@ -3508,6 +3611,7 @@ extension DataBrew {
         public let stepIndex: Int?
         public let viewFrame: ViewFrame?
 
+        @inlinable
         public init(clientSessionId: String? = nil, name: String, preview: Bool? = nil, recipeStep: RecipeStep? = nil, stepIndex: Int? = nil, viewFrame: ViewFrame? = nil) {
             self.clientSessionId = clientSessionId
             self.name = name
@@ -3556,6 +3660,7 @@ extension DataBrew {
         /// A message indicating the result of performing the action.
         public let result: String?
 
+        @inlinable
         public init(actionId: Int? = nil, name: String, result: String? = nil) {
             self.actionId = actionId
             self.name = name
@@ -3573,6 +3678,7 @@ extension DataBrew {
         /// The name of the job to be run.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3595,6 +3701,7 @@ extension DataBrew {
         /// A system-generated identifier for this particular job run.
         public let runId: String
 
+        @inlinable
         public init(runId: String) {
             self.runId = runId
         }
@@ -3610,6 +3717,7 @@ extension DataBrew {
         /// The name of the project to act upon.
         public let name: String
 
+        @inlinable
         public init(assumeControl: Bool? = nil, name: String) {
             self.assumeControl = assumeControl
             self.name = name
@@ -3638,6 +3746,7 @@ extension DataBrew {
         /// The name of the project to be acted upon.
         public let name: String
 
+        @inlinable
         public init(clientSessionId: String? = nil, name: String) {
             self.clientSessionId = clientSessionId
             self.name = name
@@ -3655,6 +3764,7 @@ extension DataBrew {
         /// The name of an evaluation
         public let statistic: String
 
+        @inlinable
         public init(parameters: [String: String], statistic: String) {
             self.parameters = parameters
             self.statistic = statistic
@@ -3685,6 +3795,7 @@ extension DataBrew {
         /// List of overrides for evaluations.
         public let overrides: [StatisticOverride]?
 
+        @inlinable
         public init(includedStatistics: [String]? = nil, overrides: [StatisticOverride]? = nil) {
             self.includedStatistics = includedStatistics
             self.overrides = overrides
@@ -3715,6 +3826,7 @@ extension DataBrew {
         /// The ID of the job run to be stopped.
         public let runId: String
 
+        @inlinable
         public init(name: String, runId: String) {
             self.name = name
             self.runId = runId
@@ -3741,6 +3853,7 @@ extension DataBrew {
         /// The ID of the job run that you stopped.
         public let runId: String
 
+        @inlinable
         public init(runId: String) {
             self.runId = runId
         }
@@ -3756,6 +3869,7 @@ extension DataBrew {
         /// One or more tags to be assigned to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3797,6 +3911,7 @@ extension DataBrew {
         /// The value of a threshold.
         public let value: Double
 
+        @inlinable
         public init(type: ThresholdType? = nil, unit: ThresholdUnit? = nil, value: Double) {
             self.type = type
             self.unit = unit
@@ -3820,6 +3935,7 @@ extension DataBrew {
         /// The tag keys (names) of one or more tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3860,6 +3976,7 @@ extension DataBrew {
         /// A set of options that defines how DataBrew interprets an Amazon S3 path of the dataset.
         public let pathOptions: PathOptions?
 
+        @inlinable
         public init(format: InputFormat? = nil, formatOptions: FormatOptions? = nil, input: Input, name: String, pathOptions: PathOptions? = nil) {
             self.format = format
             self.formatOptions = formatOptions
@@ -3898,6 +4015,7 @@ extension DataBrew {
         /// The name of the dataset that you updated.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3932,6 +4050,7 @@ extension DataBrew {
         /// List of validation configurations that are applied to the profile job.
         public let validationConfigurations: [ValidationConfiguration]?
 
+        @inlinable
         public init(configuration: ProfileConfiguration? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, jobSample: JobSample? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputLocation: S3Location, roleArn: String, timeout: Int? = nil, validationConfigurations: [ValidationConfiguration]? = nil) {
             self.configuration = configuration
             self.encryptionKeyArn = encryptionKeyArn
@@ -4000,6 +4119,7 @@ extension DataBrew {
         /// The name of the job that was updated.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -4016,6 +4136,7 @@ extension DataBrew {
         public let roleArn: String
         public let sample: Sample?
 
+        @inlinable
         public init(name: String, roleArn: String, sample: Sample? = nil) {
             self.name = name
             self.roleArn = roleArn
@@ -4050,6 +4171,7 @@ extension DataBrew {
         /// The name of the project that you updated.
         public let name: String
 
+        @inlinable
         public init(lastModifiedDate: Date? = nil, name: String) {
             self.lastModifiedDate = lastModifiedDate
             self.name = name
@@ -4085,6 +4207,7 @@ extension DataBrew {
         /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
         public let timeout: Int?
 
+        @inlinable
         public init(databaseOutputs: [DatabaseOutput]? = nil, dataCatalogOutputs: [DataCatalogOutput]? = nil, encryptionKeyArn: String? = nil, encryptionMode: EncryptionMode? = nil, logSubscription: LogSubscription? = nil, maxCapacity: Int? = nil, maxRetries: Int? = nil, name: String, outputs: [Output]? = nil, roleArn: String, timeout: Int? = nil) {
             self.databaseOutputs = databaseOutputs
             self.dataCatalogOutputs = dataCatalogOutputs
@@ -4156,6 +4279,7 @@ extension DataBrew {
         /// The name of the job that you updated.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -4173,6 +4297,7 @@ extension DataBrew {
         /// One or more steps to be performed by the recipe. Each step consists of an action, and the conditions under which the action should succeed.
         public let steps: [RecipeStep]?
 
+        @inlinable
         public init(description: String? = nil, name: String, steps: [RecipeStep]? = nil) {
             self.description = description
             self.name = name
@@ -4206,6 +4331,7 @@ extension DataBrew {
         /// The name of the recipe that was updated.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -4223,6 +4349,7 @@ extension DataBrew {
         /// A list of rules that are defined with the ruleset. A rule includes one or more  checks to be validated on a DataBrew dataset.
         public let rules: [Rule]
 
+        @inlinable
         public init(description: String? = nil, name: String, rules: [Rule]) {
             self.description = description
             self.name = name
@@ -4257,6 +4384,7 @@ extension DataBrew {
         /// The name of the updated ruleset.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -4274,6 +4402,7 @@ extension DataBrew {
         /// The name of the schedule to update.
         public let name: String
 
+        @inlinable
         public init(cronExpression: String, jobNames: [String]? = nil, name: String) {
             self.cronExpression = cronExpression
             self.jobNames = jobNames
@@ -4310,6 +4439,7 @@ extension DataBrew {
         /// The name of the schedule that was updated.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -4325,6 +4455,7 @@ extension DataBrew {
         /// Mode of data quality validation. Default mode is “CHECK_ALL” which verifies all rules  defined in the selected ruleset.
         public let validationMode: ValidationMode?
 
+        @inlinable
         public init(rulesetArn: String, validationMode: ValidationMode? = nil) {
             self.rulesetArn = rulesetArn
             self.validationMode = validationMode
@@ -4355,6 +4486,7 @@ extension DataBrew {
         /// The starting index for the range of rows to return in the view frame.
         public let startRowIndex: Int?
 
+        @inlinable
         public init(analytics: AnalyticsMode? = nil, columnRange: Int? = nil, hiddenColumns: [String]? = nil, rowRange: Int? = nil, startColumnIndex: Int, startRowIndex: Int? = nil) {
             self.analytics = analytics
             self.columnRange = columnRange

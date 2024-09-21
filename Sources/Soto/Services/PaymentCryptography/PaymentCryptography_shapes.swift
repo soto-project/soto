@@ -225,6 +225,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key associated with the alias.
         public let keyArn: String?
 
+        @inlinable
         public init(aliasName: String, keyArn: String? = nil) {
             self.aliasName = aliasName
             self.keyArn = keyArn
@@ -242,6 +243,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key to associate with the alias.
         public let keyArn: String?
 
+        @inlinable
         public init(aliasName: String, keyArn: String? = nil) {
             self.aliasName = aliasName
             self.keyArn = keyArn
@@ -266,6 +268,7 @@ extension PaymentCryptography {
         /// The alias for the key.
         public let alias: Alias
 
+        @inlinable
         public init(alias: Alias) {
             self.alias = alias
         }
@@ -287,6 +290,7 @@ extension PaymentCryptography {
         /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key.   Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
         public let tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, exportable: Bool, keyAttributes: KeyAttributes, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.exportable = exportable
@@ -315,6 +319,7 @@ extension PaymentCryptography {
         /// The key material that contains all the key attributes.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -328,6 +333,7 @@ extension PaymentCryptography {
         /// A friendly name that you can use to refer Amazon Web Services Payment Cryptography key. This value must begin with alias/ followed by a name, such as alias/ExampleAlias.
         public let aliasName: String
 
+        @inlinable
         public init(aliasName: String) {
             self.aliasName = aliasName
         }
@@ -353,6 +359,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key that is scheduled for deletion.
         public let keyIdentifier: String
 
+        @inlinable
         public init(deleteKeyInDays: Int? = nil, keyIdentifier: String) {
             self.deleteKeyInDays = deleteKeyInDays
             self.keyIdentifier = keyIdentifier
@@ -374,6 +381,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key that is scheduled for deletion.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -389,6 +397,7 @@ extension PaymentCryptography {
         /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. Specify KCV for IPEK export only. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
 
+        @inlinable
         public init(exportDukptInitialKey: ExportDukptInitialKey? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil) {
             self.exportDukptInitialKey = exportDukptInitialKey
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
@@ -408,6 +417,7 @@ extension PaymentCryptography {
         /// The KSN for IPEK generation using DUKPT.  KSN must be padded before sending to Amazon Web Services Payment Cryptography. KSN hex length should be 20 for a TDES_2KEY key or 24 for an AES key.
         public let keySerialNumber: String
 
+        @inlinable
         public init(keySerialNumber: String) {
             self.keySerialNumber = keySerialNumber
         }
@@ -431,6 +441,7 @@ extension PaymentCryptography {
         /// The wrapping spec for the key under export.
         public let wrappingSpec: WrappingKeySpec?
 
+        @inlinable
         public init(certificateAuthorityPublicKeyIdentifier: String, wrappingKeyCertificate: String, wrappingSpec: WrappingKeySpec? = nil) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.wrappingKeyCertificate = wrappingKeyCertificate
@@ -461,6 +472,7 @@ extension PaymentCryptography {
         /// The key block format type, for example, TR-34 or TR-31, to use during key material export.
         public let keyMaterial: ExportKeyMaterial
 
+        @inlinable
         public init(exportAttributes: ExportAttributes? = nil, exportKeyIdentifier: String, keyMaterial: ExportKeyMaterial) {
             self.exportAttributes = exportAttributes
             self.exportKeyIdentifier = exportKeyIdentifier
@@ -486,6 +498,7 @@ extension PaymentCryptography {
         /// The key material under export as a TR-34 WrappedKeyBlock or a TR-31 WrappedKeyBlock. or a RSA WrappedKeyCryptogram.
         public let wrappedKey: WrappedKey?
 
+        @inlinable
         public init(wrappedKey: WrappedKey? = nil) {
             self.wrappedKey = wrappedKey
         }
@@ -501,6 +514,7 @@ extension PaymentCryptography {
         /// The KeyARN of the the wrapping key. This key encrypts or wraps the key under export for TR-31 key block generation.
         public let wrappingKeyIdentifier: String
 
+        @inlinable
         public init(keyBlockHeaders: KeyBlockHeaders? = nil, wrappingKeyIdentifier: String) {
             self.keyBlockHeaders = keyBlockHeaders
             self.wrappingKeyIdentifier = wrappingKeyIdentifier
@@ -533,6 +547,7 @@ extension PaymentCryptography {
         /// The KeyARN of the wrapping key certificate. Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
         public let wrappingKeyCertificate: String
 
+        @inlinable
         public init(certificateAuthorityPublicKeyIdentifier: String, exportToken: String, keyBlockFormat: Tr34KeyBlockFormat, keyBlockHeaders: KeyBlockHeaders? = nil, randomNonce: String? = nil, wrappingKeyCertificate: String) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.exportToken = exportToken
@@ -570,6 +585,7 @@ extension PaymentCryptography {
         /// The alias of the Amazon Web Services Payment Cryptography key.
         public let aliasName: String
 
+        @inlinable
         public init(aliasName: String) {
             self.aliasName = aliasName
         }
@@ -589,6 +605,7 @@ extension PaymentCryptography {
         /// The alias of the Amazon Web Services Payment Cryptography key.
         public let alias: Alias
 
+        @inlinable
         public init(alias: Alias) {
             self.alias = alias
         }
@@ -602,6 +619,7 @@ extension PaymentCryptography {
         /// The KeyARN of the Amazon Web Services Payment Cryptography key.
         public let keyIdentifier: String
 
+        @inlinable
         public init(keyIdentifier: String) {
             self.keyIdentifier = keyIdentifier
         }
@@ -621,6 +639,7 @@ extension PaymentCryptography {
         /// The key material, including the immutable and mutable data for the key.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -636,6 +655,7 @@ extension PaymentCryptography {
         /// The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block. RSA_2048 is the only signing key algorithm allowed.
         public let signingKeyAlgorithm: KeyAlgorithm
 
+        @inlinable
         public init(keyMaterialType: KeyMaterialType, signingKeyAlgorithm: KeyAlgorithm) {
             self.keyMaterialType = keyMaterialType
             self.signingKeyAlgorithm = signingKeyAlgorithm
@@ -659,6 +679,7 @@ extension PaymentCryptography {
         /// The root certificate authority (CA) that signed the signing key certificate in PEM format (base64 encoded).
         public let signingKeyCertificateChain: String
 
+        @inlinable
         public init(exportToken: String, parametersValidUntilTimestamp: Date, signingKeyAlgorithm: KeyAlgorithm, signingKeyCertificate: String, signingKeyCertificateChain: String) {
             self.exportToken = exportToken
             self.parametersValidUntilTimestamp = parametersValidUntilTimestamp
@@ -682,6 +703,7 @@ extension PaymentCryptography {
         /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048, RSA_3072, RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import.
         public let wrappingKeyAlgorithm: KeyAlgorithm
 
+        @inlinable
         public init(keyMaterialType: KeyMaterialType, wrappingKeyAlgorithm: KeyAlgorithm) {
             self.keyMaterialType = keyMaterialType
             self.wrappingKeyAlgorithm = wrappingKeyAlgorithm
@@ -705,6 +727,7 @@ extension PaymentCryptography {
         /// The Amazon Web Services Payment Cryptography root certificate authority (CA) that signed the wrapping key certificate in PEM format (base64 encoded).
         public let wrappingKeyCertificateChain: String
 
+        @inlinable
         public init(importToken: String, parametersValidUntilTimestamp: Date, wrappingKeyAlgorithm: KeyAlgorithm, wrappingKeyCertificate: String, wrappingKeyCertificateChain: String) {
             self.importToken = importToken
             self.parametersValidUntilTimestamp = parametersValidUntilTimestamp
@@ -726,6 +749,7 @@ extension PaymentCryptography {
         /// The KeyARN of the asymmetric key pair.
         public let keyIdentifier: String
 
+        @inlinable
         public init(keyIdentifier: String) {
             self.keyIdentifier = keyIdentifier
         }
@@ -747,6 +771,7 @@ extension PaymentCryptography {
         /// The root certificate authority (CA) that signed the public key certificate in PEM format (base64 encoded) of the asymmetric key pair.
         public let keyCertificateChain: String
 
+        @inlinable
         public init(keyCertificate: String, keyCertificateChain: String) {
             self.keyCertificate = keyCertificate
             self.keyCertificateChain = keyCertificateChain
@@ -769,6 +794,7 @@ extension PaymentCryptography {
         /// The wrapping spec for the wrapped key cryptogram.
         public let wrappingSpec: WrappingKeySpec?
 
+        @inlinable
         public init(exportable: Bool, importToken: String, keyAttributes: KeyAttributes, wrappedKeyCryptogram: String, wrappingSpec: WrappingKeySpec? = nil) {
             self.exportable = exportable
             self.importToken = importToken
@@ -803,6 +829,7 @@ extension PaymentCryptography {
         /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
         public let tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, keyMaterial: ImportKeyMaterial, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
@@ -830,6 +857,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key material imported within Amazon Web Services Payment Cryptography.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -845,6 +873,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key that will decrypt or unwrap a TR-31 key block during import.
         public let wrappingKeyIdentifier: String
 
+        @inlinable
         public init(wrappedKeyBlock: String, wrappingKeyIdentifier: String) {
             self.wrappedKeyBlock = wrappedKeyBlock
             self.wrappingKeyIdentifier = wrappingKeyIdentifier
@@ -879,6 +908,7 @@ extension PaymentCryptography {
         /// The TR-34 wrapped key block to import.
         public let wrappedKeyBlock: String
 
+        @inlinable
         public init(certificateAuthorityPublicKeyIdentifier: String, importToken: String, keyBlockFormat: Tr34KeyBlockFormat, randomNonce: String? = nil, signingKeyCertificate: String, wrappedKeyBlock: String) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.importToken = importToken
@@ -942,6 +972,7 @@ extension PaymentCryptography {
         /// The date and time after which Amazon Web Services Payment Cryptography will stop using the key material for cryptographic operations.
         public let usageStopTimestamp: Date?
 
+        @inlinable
         public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil) {
             self.createTimestamp = createTimestamp
             self.deletePendingTimestamp = deletePendingTimestamp
@@ -985,6 +1016,7 @@ extension PaymentCryptography {
         /// The cryptographic usage of an Amazon Web Services Payment Cryptography key as deﬁned in section A.5.2 of the TR-31 spec.
         public let keyUsage: KeyUsage
 
+        @inlinable
         public init(keyAlgorithm: KeyAlgorithm, keyClass: KeyClass, keyModesOfUse: KeyModesOfUse, keyUsage: KeyUsage) {
             self.keyAlgorithm = keyAlgorithm
             self.keyClass = keyClass
@@ -1009,6 +1041,7 @@ extension PaymentCryptography {
         /// Parameter used to indicate the type of optional data in key block headers. Refer to ANSI X9.143-2022 for information on allowed data type for optional blocks. Optional block character limit is 112 characters. For each optional block, 2 characters are reserved for optional block ID and 2 characters reserved for optional block length. More than one optional blocks can be included as long as the combined length does not increase 112 characters.
         public let optionalBlocks: [String: String]?
 
+        @inlinable
         public init(keyExportability: KeyExportability? = nil, keyModesOfUse: KeyModesOfUse? = nil, keyVersion: String? = nil, optionalBlocks: [String: String]? = nil) {
             self.keyExportability = keyExportability
             self.keyModesOfUse = keyModesOfUse
@@ -1058,6 +1091,7 @@ extension PaymentCryptography {
         /// Speciﬁes whether an Amazon Web Services Payment Cryptography key can be used to wrap other keys.
         public let wrap: Bool?
 
+        @inlinable
         public init(decrypt: Bool? = nil, deriveKey: Bool? = nil, encrypt: Bool? = nil, generate: Bool? = nil, noRestrictions: Bool? = nil, sign: Bool? = nil, unwrap: Bool? = nil, verify: Bool? = nil, wrap: Bool? = nil) {
             self.decrypt = decrypt
             self.deriveKey = deriveKey
@@ -1097,6 +1131,7 @@ extension PaymentCryptography {
         /// The state of an Amazon Web Services Payment Cryptography that is being created or deleted.
         public let keyState: KeyState
 
+        @inlinable
         public init(enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyState: KeyState) {
             self.enabled = enabled
             self.exportable = exportable
@@ -1122,6 +1157,7 @@ extension PaymentCryptography {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1146,6 +1182,7 @@ extension PaymentCryptography {
         /// The token for the next set of results, or an empty or null value if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(aliases: [Alias], nextToken: String? = nil) {
             self.aliases = aliases
             self.nextToken = nextToken
@@ -1165,6 +1202,7 @@ extension PaymentCryptography {
         /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the truncated response you just received.
         public let nextToken: String?
 
+        @inlinable
         public init(keyState: KeyState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.keyState = keyState
             self.maxResults = maxResults
@@ -1191,6 +1229,7 @@ extension PaymentCryptography {
         /// The token for the next set of results, or an empty or null value if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(keys: [KeySummary], nextToken: String? = nil) {
             self.keys = keys
             self.nextToken = nextToken
@@ -1210,6 +1249,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key whose tags you are getting.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1239,6 +1279,7 @@ extension PaymentCryptography {
         /// The list of tags associated with a ResourceArn. Each tag will list the key-value pair contained within that tag.
         public let tags: [Tag]
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1254,6 +1295,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key to be restored within Amazon Web Services Payment Cryptography.
         public let keyIdentifier: String
 
+        @inlinable
         public init(keyIdentifier: String) {
             self.keyIdentifier = keyIdentifier
         }
@@ -1273,6 +1315,7 @@ extension PaymentCryptography {
         /// The key material of the restored key. The KeyState will change to CREATE_COMPLETE and value for DeletePendingTimestamp gets removed.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -1288,6 +1331,7 @@ extension PaymentCryptography {
         /// Parameter information for root public key certificate import.
         public let publicKeyCertificate: String
 
+        @inlinable
         public init(keyAttributes: KeyAttributes, publicKeyCertificate: String) {
             self.keyAttributes = keyAttributes
             self.publicKeyCertificate = publicKeyCertificate
@@ -1309,6 +1353,7 @@ extension PaymentCryptography {
         /// The KeyArn of the key.
         public let keyIdentifier: String
 
+        @inlinable
         public init(keyIdentifier: String) {
             self.keyIdentifier = keyIdentifier
         }
@@ -1328,6 +1373,7 @@ extension PaymentCryptography {
         /// The KeyARN of the Amazon Web Services Payment Cryptography key activated for use.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -1341,6 +1387,7 @@ extension PaymentCryptography {
         /// The KeyArn of the key.
         public let keyIdentifier: String
 
+        @inlinable
         public init(keyIdentifier: String) {
             self.keyIdentifier = keyIdentifier
         }
@@ -1360,6 +1407,7 @@ extension PaymentCryptography {
         /// The KeyARN of the key.
         public let key: Key
 
+        @inlinable
         public init(key: Key) {
             self.key = key
         }
@@ -1375,6 +1423,7 @@ extension PaymentCryptography {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1398,6 +1447,7 @@ extension PaymentCryptography {
         /// One or more tags. Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the new one.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  To use this parameter, you must have TagResource permission in an IAM policy.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1431,6 +1481,7 @@ extension PaymentCryptography {
         /// Parameter information for trusted public key certificate import.
         public let publicKeyCertificate: String
 
+        @inlinable
         public init(certificateAuthorityPublicKeyIdentifier: String, keyAttributes: KeyAttributes, publicKeyCertificate: String) {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.keyAttributes = keyAttributes
@@ -1459,6 +1510,7 @@ extension PaymentCryptography {
         /// One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the operation succeeded, use the ListTagsForResource operation.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1491,6 +1543,7 @@ extension PaymentCryptography {
         /// The KeyARN for the key that you are updating or removing from the alias.
         public let keyArn: String?
 
+        @inlinable
         public init(aliasName: String, keyArn: String? = nil) {
             self.aliasName = aliasName
             self.keyArn = keyArn
@@ -1515,6 +1568,7 @@ extension PaymentCryptography {
         /// The alias name.
         public let alias: Alias
 
+        @inlinable
         public init(alias: Alias) {
             self.alias = alias
         }
@@ -1536,6 +1590,7 @@ extension PaymentCryptography {
         /// The KeyARN of the wrapped key.
         public let wrappingKeyArn: String
 
+        @inlinable
         public init(keyCheckValue: String? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, keyMaterial: String, wrappedKeyMaterialFormat: WrappedKeyMaterialFormat, wrappingKeyArn: String) {
             self.keyCheckValue = keyCheckValue
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm

@@ -146,6 +146,7 @@ extension ChimeSDKMessaging {
         /// The type of ChannelMembership.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(readMarkerTimestamp: Date? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.readMarkerTimestamp = readMarkerTimestamp
             self.subChannelId = subChannelId
@@ -167,6 +168,7 @@ extension ChimeSDKMessaging {
         /// The AppInstanceUserArn of the user making the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, channelFlowArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
@@ -210,6 +212,7 @@ extension ChimeSDKMessaging {
         /// The membership types set for the channel members.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String? = nil, invitedBy: Identity? = nil, members: [Identity]? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.invitedBy = invitedBy
@@ -235,6 +238,7 @@ extension ChimeSDKMessaging {
         /// The AppInstanceUserArn of the member that the service couldn't add.
         public let memberArn: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, memberArn: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -260,6 +264,7 @@ extension ChimeSDKMessaging {
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArns: [String], subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -310,6 +315,7 @@ extension ChimeSDKMessaging {
         /// If the action fails for one or more of the memberships in the request, a list of the memberships is returned, along with error codes and error messages.
         public let errors: [BatchCreateChannelMembershipError]?
 
+        @inlinable
         public init(batchChannelMemberships: BatchChannelMemberships? = nil, errors: [BatchCreateChannelMembershipError]? = nil) {
             self.batchChannelMemberships = batchChannelMemberships
             self.errors = errors
@@ -347,6 +353,7 @@ extension ChimeSDKMessaging {
         /// The channel's privacy setting.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(channelArn: String? = nil, channelFlowArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, elasticChannelConfiguration: ElasticChannelConfiguration? = nil, expirationSettings: ExpirationSettings? = nil, lastMessageTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
@@ -390,6 +397,7 @@ extension ChimeSDKMessaging {
         /// The channel's privacy setting.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(channelArn: String? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
             self.metadata = metadata
@@ -417,6 +425,7 @@ extension ChimeSDKMessaging {
         /// The member being banned from the channel.
         public let member: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, member: Identity? = nil) {
             self.channelArn = channelArn
             self.createdBy = createdBy
@@ -436,6 +445,7 @@ extension ChimeSDKMessaging {
         /// The member being banned from a channel.
         public let member: Identity?
 
+        @inlinable
         public init(member: Identity? = nil) {
             self.member = member
         }
@@ -457,6 +467,7 @@ extension ChimeSDKMessaging {
         /// Information about the processor Lambda functions.
         public let processors: [Processor]?
 
+        @inlinable
         public init(channelFlowArn: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, name: String? = nil, processors: [Processor]? = nil) {
             self.channelFlowArn = channelFlowArn
             self.createdTimestamp = createdTimestamp
@@ -484,6 +495,7 @@ extension ChimeSDKMessaging {
         /// When a processor determines that a message needs to be DENIED, pass this parameter with a value of true.
         public let deleteResource: Bool?
 
+        @inlinable
         public init(callbackId: String = ChannelFlowCallbackRequest.idempotencyToken(), channelArn: String, channelMessage: ChannelMessageCallback, deleteResource: Bool? = nil) {
             self.callbackId = callbackId
             self.channelArn = channelArn
@@ -522,6 +534,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(callbackId: String? = nil, channelArn: String? = nil) {
             self.callbackId = callbackId
             self.channelArn = channelArn
@@ -541,6 +554,7 @@ extension ChimeSDKMessaging {
         /// Information about the processor Lambda functions.
         public let processors: [Processor]?
 
+        @inlinable
         public init(channelFlowArn: String? = nil, name: String? = nil, processors: [Processor]? = nil) {
             self.channelFlowArn = channelFlowArn
             self.name = name
@@ -570,6 +584,7 @@ extension ChimeSDKMessaging {
         /// The membership type set for the channel member.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String? = nil, createdTimestamp: Date? = nil, invitedBy: Identity? = nil, lastUpdatedTimestamp: Date? = nil, member: Identity? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.createdTimestamp = createdTimestamp
@@ -597,6 +612,7 @@ extension ChimeSDKMessaging {
         /// Returns the channel data for an AppInstance.
         public let channelSummary: ChannelSummary?
 
+        @inlinable
         public init(appInstanceUserMembershipSummary: AppInstanceUserMembershipSummary? = nil, channelSummary: ChannelSummary? = nil) {
             self.appInstanceUserMembershipSummary = appInstanceUserMembershipSummary
             self.channelSummary = channelSummary
@@ -612,6 +628,7 @@ extension ChimeSDKMessaging {
         /// The push notification configuration of a message.
         public let pushNotifications: PushNotificationPreferences?
 
+        @inlinable
         public init(pushNotifications: PushNotificationPreferences? = nil) {
             self.pushNotifications = pushNotifications
         }
@@ -629,6 +646,7 @@ extension ChimeSDKMessaging {
         /// A member's summary data.
         public let member: Identity?
 
+        @inlinable
         public init(member: Identity? = nil) {
             self.member = member
         }
@@ -672,6 +690,7 @@ extension ChimeSDKMessaging {
         /// The message type.
         public let type: ChannelMessageType?
 
+        @inlinable
         public init(channelArn: String? = nil, content: String? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil, target: [Target]? = nil, type: ChannelMessageType? = nil) {
             self.channelArn = channelArn
             self.content = content
@@ -727,6 +746,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel.
         public let subChannelId: String?
 
+        @inlinable
         public init(content: String? = nil, contentType: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String, metadata: String? = nil, pushNotification: PushNotificationConfiguration? = nil, subChannelId: String? = nil) {
             self.content = content
             self.contentType = contentType
@@ -776,6 +796,7 @@ extension ChimeSDKMessaging {
         /// The message status value.
         public let value: ChannelMessageStatus?
 
+        @inlinable
         public init(detail: String? = nil, value: ChannelMessageStatus? = nil) {
             self.detail = detail
             self.value = value
@@ -815,6 +836,7 @@ extension ChimeSDKMessaging {
         /// The type of message.
         public let type: ChannelMessageType?
 
+        @inlinable
         public init(content: String? = nil, contentType: String? = nil, createdTimestamp: Date? = nil, lastEditedTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, metadata: String? = nil, redacted: Bool? = nil, sender: Identity? = nil, status: ChannelMessageStatusStructure? = nil, target: [Target]? = nil, type: ChannelMessageType? = nil) {
             self.content = content
             self.contentType = contentType
@@ -852,6 +874,7 @@ extension ChimeSDKMessaging {
         /// Summary of the details of a Channel.
         public let channelSummary: ChannelSummary?
 
+        @inlinable
         public init(channelSummary: ChannelSummary? = nil) {
             self.channelSummary = channelSummary
         }
@@ -871,6 +894,7 @@ extension ChimeSDKMessaging {
         /// The moderator's data.
         public let moderator: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, createdBy: Identity? = nil, createdTimestamp: Date? = nil, moderator: Identity? = nil) {
             self.channelArn = channelArn
             self.createdBy = createdBy
@@ -890,6 +914,7 @@ extension ChimeSDKMessaging {
         /// The data for a moderator.
         public let moderator: Identity?
 
+        @inlinable
         public init(moderator: Identity? = nil) {
             self.moderator = moderator
         }
@@ -913,6 +938,7 @@ extension ChimeSDKMessaging {
         /// The privacy setting of the channel.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(channelArn: String? = nil, lastMessageTimestamp: Date? = nil, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.channelArn = channelArn
             self.lastMessageTimestamp = lastMessageTimestamp
@@ -940,6 +966,7 @@ extension ChimeSDKMessaging {
         /// The AppInstanceUserArn of the member being banned.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -977,6 +1004,7 @@ extension ChimeSDKMessaging {
         /// The ChannelArn and BannedIdentity of the member in the ban response.
         public let member: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, member: Identity? = nil) {
             self.channelArn = channelArn
             self.member = member
@@ -1000,6 +1028,7 @@ extension ChimeSDKMessaging {
         /// The tags for the creation request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appInstanceArn: String, clientRequestToken: String = CreateChannelFlowRequest.idempotencyToken(), name: String, processors: [Processor], tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.clientRequestToken = clientRequestToken
@@ -1043,6 +1072,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel flow.
         public let channelFlowArn: String?
 
+        @inlinable
         public init(channelFlowArn: String? = nil) {
             self.channelFlowArn = channelFlowArn
         }
@@ -1064,6 +1094,7 @@ extension ChimeSDKMessaging {
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
         public let type: ChannelMembershipType
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String, subChannelId: String? = nil, type: ChannelMembershipType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1112,6 +1143,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the response.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, member: Identity? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.member = member
@@ -1133,6 +1165,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, channelModeratorArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
@@ -1170,6 +1203,7 @@ extension ChimeSDKMessaging {
         /// The ARNs of the channel and the moderator.
         public let channelModerator: Identity?
 
+        @inlinable
         public init(channelArn: String? = nil, channelModerator: Identity? = nil) {
             self.channelArn = channelArn
             self.channelModerator = channelModerator
@@ -1209,6 +1243,7 @@ extension ChimeSDKMessaging {
         /// The tags for the creation request.
         public let tags: [Tag]?
 
+        @inlinable
         public init(appInstanceArn: String, channelId: String? = nil, chimeBearer: String, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), elasticChannelConfiguration: ElasticChannelConfiguration? = nil, expirationSettings: ExpirationSettings? = nil, memberArns: [String]? = nil, metadata: String? = nil, mode: ChannelMode? = nil, moderatorArns: [String]? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
             self.channelId = channelId
@@ -1304,6 +1339,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(channelArn: String? = nil) {
             self.channelArn = channelArn
         }
@@ -1321,6 +1357,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser that you want to reinstate.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1354,6 +1391,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel flow.
         public let channelFlowArn: String
 
+        @inlinable
         public init(channelFlowArn: String) {
             self.channelFlowArn = channelFlowArn
         }
@@ -1383,6 +1421,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.  Only for use by moderators.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1427,6 +1466,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.  Only required when deleting messages in a SubChannel that the user belongs to.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1469,6 +1509,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, channelModeratorArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
@@ -1504,6 +1545,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1532,6 +1574,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the streaming configurations being deleted.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -1559,6 +1602,7 @@ extension ChimeSDKMessaging {
         /// The AppInstanceUserArn of the member being banned.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1592,6 +1636,7 @@ extension ChimeSDKMessaging {
         /// The details of the ban.
         public let channelBan: ChannelBan?
 
+        @inlinable
         public init(channelBan: ChannelBan? = nil) {
             self.channelBan = channelBan
         }
@@ -1605,6 +1650,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel flow.
         public let channelFlowArn: String
 
+        @inlinable
         public init(channelFlowArn: String) {
             self.channelFlowArn = channelFlowArn
         }
@@ -1628,6 +1674,7 @@ extension ChimeSDKMessaging {
         /// The channel flow details.
         public let channelFlow: ChannelFlow?
 
+        @inlinable
         public init(channelFlow: ChannelFlow? = nil) {
             self.channelFlow = channelFlow
         }
@@ -1645,6 +1692,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(appInstanceUserArn: String, channelArn: String, chimeBearer: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
@@ -1678,6 +1726,7 @@ extension ChimeSDKMessaging {
         /// The channel to which a user belongs.
         public let channelMembership: ChannelMembershipForAppInstanceUserSummary?
 
+        @inlinable
         public init(channelMembership: ChannelMembershipForAppInstanceUserSummary? = nil) {
             self.channelMembership = channelMembership
         }
@@ -1697,6 +1746,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request. The response contains an ElasticChannelConfiguration object.  Only required to get a user’s SubChannel membership details.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1735,6 +1785,7 @@ extension ChimeSDKMessaging {
         /// The details of the membership.
         public let channelMembership: ChannelMembership?
 
+        @inlinable
         public init(channelMembership: ChannelMembership? = nil) {
             self.channelMembership = channelMembership
         }
@@ -1752,6 +1803,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(appInstanceUserArn: String, channelArn: String, chimeBearer: String) {
             self.appInstanceUserArn = appInstanceUserArn
             self.channelArn = channelArn
@@ -1785,6 +1837,7 @@ extension ChimeSDKMessaging {
         /// The moderated channel.
         public let channel: ChannelModeratedByAppInstanceUserSummary?
 
+        @inlinable
         public init(channel: ChannelModeratedByAppInstanceUserSummary? = nil) {
             self.channel = channel
         }
@@ -1802,6 +1855,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, channelModeratorArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.channelModeratorArn = channelModeratorArn
@@ -1835,6 +1889,7 @@ extension ChimeSDKMessaging {
         /// The details of the channel moderator.
         public let channelModerator: ChannelModerator?
 
+        @inlinable
         public init(channelModerator: ChannelModerator? = nil) {
             self.channelModerator = channelModerator
         }
@@ -1850,6 +1905,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot that makes the  API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -1878,6 +1934,7 @@ extension ChimeSDKMessaging {
         /// The channel details.
         public let channel: Channel?
 
+        @inlinable
         public init(channel: Channel? = nil) {
             self.channel = channel
         }
@@ -1895,6 +1952,7 @@ extension ChimeSDKMessaging {
         /// The AppInstanceUserArn of the user making the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, channelFlowArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.channelFlowArn = channelFlowArn
@@ -1932,6 +1990,7 @@ extension ChimeSDKMessaging {
         /// The maximum number of members allowed in a SubChannel.
         public let targetMembershipsPerSubChannel: Int
 
+        @inlinable
         public init(maximumSubChannels: Int, minimumMembershipPercentage: Int, targetMembershipsPerSubChannel: Int) {
             self.maximumSubChannels = maximumSubChannels
             self.minimumMembershipPercentage = minimumMembershipPercentage
@@ -1958,6 +2017,7 @@ extension ChimeSDKMessaging {
         /// The period in days after which the system automatically deletes a channel.
         public let expirationDays: Int
 
+        @inlinable
         public init(expirationCriterion: ExpirationCriterion, expirationDays: Int) {
             self.expirationCriterion = expirationCriterion
             self.expirationDays = expirationDays
@@ -1982,6 +2042,7 @@ extension ChimeSDKMessaging {
         /// The AppInstanceUserArn of the member retrieving the preferences.
         public let memberArn: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2019,6 +2080,7 @@ extension ChimeSDKMessaging {
         /// The channel membership preferences for an AppInstanceUser .
         public let preferences: ChannelMembershipPreferences?
 
+        @inlinable
         public init(channelArn: String? = nil, member: Identity? = nil, preferences: ChannelMembershipPreferences? = nil) {
             self.channelArn = channelArn
             self.member = member
@@ -2042,6 +2104,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.  Only required when getting messages in a SubChannel that the user belongs to.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2080,6 +2143,7 @@ extension ChimeSDKMessaging {
         /// The details of and content in the message.
         public let channelMessage: ChannelMessage?
 
+        @inlinable
         public init(channelMessage: ChannelMessage? = nil) {
             self.channelMessage = channelMessage
         }
@@ -2099,6 +2163,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.  Only required when getting message status in a SubChannel that the user belongs to.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2137,6 +2202,7 @@ extension ChimeSDKMessaging {
         /// The message status and details.
         public let status: ChannelMessageStatusStructure?
 
+        @inlinable
         public init(status: ChannelMessageStatusStructure? = nil) {
             self.status = status
         }
@@ -2154,6 +2220,7 @@ extension ChimeSDKMessaging {
         /// The endpoint returned in the response.
         public let endpoint: MessagingSessionEndpoint?
 
+        @inlinable
         public init(endpoint: MessagingSessionEndpoint? = nil) {
             self.endpoint = endpoint
         }
@@ -2167,6 +2234,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the streaming configurations.
         public let appInstanceArn: String
 
+        @inlinable
         public init(appInstanceArn: String) {
             self.appInstanceArn = appInstanceArn
         }
@@ -2190,6 +2258,7 @@ extension ChimeSDKMessaging {
         /// The streaming settings.
         public let streamingConfigurations: [StreamingConfiguration]?
 
+        @inlinable
         public init(streamingConfigurations: [StreamingConfiguration]? = nil) {
             self.streamingConfigurations = streamingConfigurations
         }
@@ -2205,6 +2274,7 @@ extension ChimeSDKMessaging {
         /// The name in an Identity.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -2222,6 +2292,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the Lambda message processing function.
         public let resourceArn: String
 
+        @inlinable
         public init(invocationType: InvocationType, resourceArn: String) {
             self.invocationType = invocationType
             self.resourceArn = resourceArn
@@ -2249,6 +2320,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested bans are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2289,6 +2361,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested bans are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelBans: [ChannelBanSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelBans = channelBans
@@ -2310,6 +2383,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested channel flows are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceArn = appInstanceArn
             self.maxResults = maxResults
@@ -2343,6 +2417,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested channels are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelFlows: [ChannelFlowSummary]? = nil, nextToken: String? = nil) {
             self.channelFlows = channelFlows
             self.nextToken = nextToken
@@ -2364,6 +2439,7 @@ extension ChimeSDKMessaging {
         /// The token returned from previous API requests until the number of channel memberships is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.chimeBearer = chimeBearer
@@ -2402,6 +2478,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelMemberships: [ChannelMembershipForAppInstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.channelMemberships = channelMemberships
             self.nextToken = nextToken
@@ -2427,6 +2504,7 @@ extension ChimeSDKMessaging {
         /// The membership type of a user, DEFAULT or HIDDEN. Default members are returned as part of ListChannelMemberships if no type is specified. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN.
         public let type: ChannelMembershipType?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, subChannelId: String? = nil, type: ChannelMembershipType? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2474,6 +2552,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested channel memberships are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelMemberships: [ChannelMembershipSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelMemberships = channelMemberships
@@ -2505,6 +2584,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.  Only required when listing the messages in a SubChannel that the user belongs to.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, notAfter: Date? = nil, notBefore: Date? = nil, sortOrder: SortOrder? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2558,6 +2638,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the response.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelMessages: [ChannelMessageSummary]? = nil, nextToken: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.channelMessages = channelMessages
@@ -2583,6 +2664,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested moderators are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2623,6 +2705,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested moderators are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String? = nil, channelModerators: [ChannelModeratorSummary]? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.channelModerators = channelModerators
@@ -2644,6 +2727,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested channels are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelFlowArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelFlowArn = channelFlowArn
             self.maxResults = maxResults
@@ -2677,6 +2761,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested channels are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelAssociatedWithFlowSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -2698,6 +2783,7 @@ extension ChimeSDKMessaging {
         /// The token returned from previous API requests until the number of channels moderated by the user is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(appInstanceUserArn: String? = nil, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appInstanceUserArn = appInstanceUserArn
             self.chimeBearer = chimeBearer
@@ -2736,6 +2822,7 @@ extension ChimeSDKMessaging {
         /// The token returned from previous API requests until the number of channels moderated by the user is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelModeratedByAppInstanceUserSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -2759,6 +2846,7 @@ extension ChimeSDKMessaging {
         /// The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
         public let privacy: ChannelPrivacy?
 
+        @inlinable
         public init(appInstanceArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, privacy: ChannelPrivacy? = nil) {
             self.appInstanceArn = appInstanceArn
             self.chimeBearer = chimeBearer
@@ -2799,6 +2887,7 @@ extension ChimeSDKMessaging {
         /// The token returned from previous API requests until the number of channels is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -2820,6 +2909,7 @@ extension ChimeSDKMessaging {
         /// The token passed by previous API calls until all requested sub-channels are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -2860,6 +2950,7 @@ extension ChimeSDKMessaging {
         /// The information about each sub-channel.
         public let subChannels: [SubChannelSummary]?
 
+        @inlinable
         public init(channelArn: String? = nil, nextToken: String? = nil, subChannels: [SubChannelSummary]? = nil) {
             self.channelArn = channelArn
             self.nextToken = nextToken
@@ -2877,6 +2968,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -2900,6 +2992,7 @@ extension ChimeSDKMessaging {
         /// The tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2913,6 +3006,7 @@ extension ChimeSDKMessaging {
         /// The strings in a message attribute value.
         public let stringValues: [String]?
 
+        @inlinable
         public init(stringValues: [String]? = nil) {
             self.stringValues = stringValues
         }
@@ -2934,6 +3028,7 @@ extension ChimeSDKMessaging {
         /// The endpoint to which you establish a websocket connection.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2953,6 +3048,7 @@ extension ChimeSDKMessaging {
         /// The name of the channel flow.
         public let name: String
 
+        @inlinable
         public init(configuration: ProcessorConfiguration, executionOrder: Int, fallbackAction: FallbackAction, name: String) {
             self.configuration = configuration
             self.executionOrder = executionOrder
@@ -2981,6 +3077,7 @@ extension ChimeSDKMessaging {
         /// Indicates that the processor is of type Lambda.
         public let lambda: LambdaConfiguration
 
+        @inlinable
         public init(lambda: LambdaConfiguration) {
             self.lambda = lambda
         }
@@ -3002,6 +3099,7 @@ extension ChimeSDKMessaging {
         /// Enum value that indicates the type of the push notification for a message. DEFAULT: Normal mobile push notification. VOIP: VOIP mobile push notification.
         public let type: PushNotificationType?
 
+        @inlinable
         public init(body: String? = nil, title: String? = nil, type: PushNotificationType? = nil) {
             self.body = body
             self.title = title
@@ -3030,6 +3128,7 @@ extension ChimeSDKMessaging {
         /// The simple JSON object used to send a subset of a push notification to the requested member.
         public let filterRule: String?
 
+        @inlinable
         public init(allowNotifications: AllowNotifications, filterRule: String? = nil) {
             self.allowNotifications = allowNotifications
             self.filterRule = filterRule
@@ -3054,6 +3153,7 @@ extension ChimeSDKMessaging {
         /// Settings that control the interval after which a channel is deleted.
         public let expirationSettings: ExpirationSettings?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String? = nil, expirationSettings: ExpirationSettings? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3089,6 +3189,7 @@ extension ChimeSDKMessaging {
         /// Settings that control the interval after which a channel is deleted.
         public let expirationSettings: ExpirationSettings?
 
+        @inlinable
         public init(channelArn: String? = nil, expirationSettings: ExpirationSettings? = nil) {
             self.channelArn = channelArn
             self.expirationSettings = expirationSettings
@@ -3110,6 +3211,7 @@ extension ChimeSDKMessaging {
         /// The channel membership preferences of an AppInstanceUser .
         public let preferences: ChannelMembershipPreferences
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, memberArn: String, preferences: ChannelMembershipPreferences) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3152,6 +3254,7 @@ extension ChimeSDKMessaging {
         /// The ARN and metadata of the member being added.
         public let preferences: ChannelMembershipPreferences?
 
+        @inlinable
         public init(channelArn: String? = nil, member: Identity? = nil, preferences: ChannelMembershipPreferences? = nil) {
             self.channelArn = channelArn
             self.member = member
@@ -3171,6 +3274,7 @@ extension ChimeSDKMessaging {
         /// The streaming configurations.
         public let streamingConfigurations: [StreamingConfiguration]
 
+        @inlinable
         public init(appInstanceArn: String, streamingConfigurations: [StreamingConfiguration]) {
             self.appInstanceArn = appInstanceArn
             self.streamingConfigurations = streamingConfigurations
@@ -3203,6 +3307,7 @@ extension ChimeSDKMessaging {
         /// The requested streaming configurations.
         public let streamingConfigurations: [StreamingConfiguration]?
 
+        @inlinable
         public init(streamingConfigurations: [StreamingConfiguration]? = nil) {
             self.streamingConfigurations = streamingConfigurations
         }
@@ -3222,6 +3327,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, messageId: String, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3266,6 +3372,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the response.  Only required when redacting messages in a SubChannel that the user belongs to.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, messageId: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
@@ -3289,6 +3396,7 @@ extension ChimeSDKMessaging {
         /// The token returned from previous API requests until the number of channels is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(chimeBearer: String? = nil, fields: [SearchField], maxResults: Int? = nil, nextToken: String? = nil) {
             self.chimeBearer = chimeBearer
             self.fields = fields
@@ -3331,6 +3439,7 @@ extension ChimeSDKMessaging {
         /// The token returned from previous API responses until the number of channels is reached.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -3350,6 +3459,7 @@ extension ChimeSDKMessaging {
         /// The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings.  This operation isn't supported for AppInstanceUsers with large number of memberships.
         public let values: [String]
 
+        @inlinable
         public init(key: SearchFieldKey, operator: SearchFieldOperator, values: [String]) {
             self.key = key
             self.`operator` = `operator`
@@ -3399,6 +3509,7 @@ extension ChimeSDKMessaging {
         /// The type of message, STANDARD or CONTROL.  STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary,  and you can use it in a variety of ways, such as containing a link to an attachment.  CONTROL messages are limited to 30 bytes and do not contain metadata.
         public let type: ChannelMessageType
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, clientRequestToken: String = SendChannelMessageRequest.idempotencyToken(), content: String, contentType: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, metadata: String? = nil, persistence: ChannelMessagePersistenceType, pushNotification: PushNotificationConfiguration? = nil, subChannelId: String? = nil, target: [Target]? = nil, type: ChannelMessageType) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3488,6 +3599,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the response.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
@@ -3509,6 +3621,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the resource in the configuration.
         public let resourceArn: String
 
+        @inlinable
         public init(dataType: MessagingDataType, resourceArn: String) {
             self.dataType = dataType
             self.resourceArn = resourceArn
@@ -3532,6 +3645,7 @@ extension ChimeSDKMessaging {
         /// The unique ID of a SubChannel.
         public let subChannelId: String?
 
+        @inlinable
         public init(membershipCount: Int? = nil, subChannelId: String? = nil) {
             self.membershipCount = membershipCount
             self.subChannelId = subChannelId
@@ -3549,6 +3663,7 @@ extension ChimeSDKMessaging {
         /// The value in a tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3573,6 +3688,7 @@ extension ChimeSDKMessaging {
         /// The tag key-value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -3599,6 +3715,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the target channel member.
         public let memberArn: String?
 
+        @inlinable
         public init(memberArn: String? = nil) {
             self.memberArn = memberArn
         }
@@ -3620,6 +3737,7 @@ extension ChimeSDKMessaging {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -3651,6 +3769,7 @@ extension ChimeSDKMessaging {
         /// Information about the processor Lambda functions
         public let processors: [Processor]
 
+        @inlinable
         public init(channelFlowArn: String, name: String, processors: [Processor]) {
             self.channelFlowArn = channelFlowArn
             self.name = name
@@ -3689,6 +3808,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel flow.
         public let channelFlowArn: String?
 
+        @inlinable
         public init(channelFlowArn: String? = nil) {
             self.channelFlowArn = channelFlowArn
         }
@@ -3714,6 +3834,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the request.  Only required when updating messages in a SubChannel that the user belongs to.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, content: String, contentType: String? = nil, messageId: String, metadata: String? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3775,6 +3896,7 @@ extension ChimeSDKMessaging {
         /// The ID of the SubChannel in the response.
         public let subChannelId: String?
 
+        @inlinable
         public init(channelArn: String? = nil, messageId: String? = nil, status: ChannelMessageStatusStructure? = nil, subChannelId: String? = nil) {
             self.channelArn = channelArn
             self.messageId = messageId
@@ -3796,6 +3918,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the AppInstanceUser or AppInstanceBot  that makes the API call.
         public let chimeBearer: String
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3824,6 +3947,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(channelArn: String? = nil) {
             self.channelArn = channelArn
         }
@@ -3845,6 +3969,7 @@ extension ChimeSDKMessaging {
         /// The name of the channel.
         public let name: String?
 
+        @inlinable
         public init(channelArn: String, chimeBearer: String, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
@@ -3888,6 +4013,7 @@ extension ChimeSDKMessaging {
         /// The ARN of the channel.
         public let channelArn: String?
 
+        @inlinable
         public init(channelArn: String? = nil) {
             self.channelArn = channelArn
         }

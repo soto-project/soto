@@ -337,6 +337,7 @@ extension TranscribeStreaming {
         /// Contains transcribed text.
         public let transcript: String?
 
+        @inlinable
         public init(entities: [Entity]? = nil, items: [Item]? = nil, transcript: String? = nil) {
             self.entities = entities
             self.items = items
@@ -354,6 +355,7 @@ extension TranscribeStreaming {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
         public let audioChunk: AWSEventPayload?
 
+        @inlinable
         public init(audioChunk: AWSEventPayload? = nil) {
             self.audioChunk = audioChunk
         }
@@ -364,6 +366,7 @@ extension TranscribeStreaming {
     public struct BadRequestException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -387,6 +390,7 @@ extension TranscribeStreaming {
         /// The type of PII identified. For example, NAME or  CREDIT_DEBIT_NUMBER.
         public let type: String?
 
+        @inlinable
         public init(beginOffsetMillis: Int64? = nil, category: String? = nil, confidence: Double? = nil, content: String? = nil, endOffsetMillis: Int64? = nil, type: String? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.category = category
@@ -422,6 +426,7 @@ extension TranscribeStreaming {
         /// Indicates whether the specified item matches a word in the vocabulary filter included in your Call Analytics request. If true, there is a vocabulary filter match.
         public let vocabularyFilterMatch: Bool?
 
+        @inlinable
         public init(beginOffsetMillis: Int64? = nil, confidence: Double? = nil, content: String? = nil, endOffsetMillis: Int64? = nil, stable: Bool? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.confidence = confidence
@@ -449,6 +454,7 @@ extension TranscribeStreaming {
         /// Contains information about the matched categories, including category names and timestamps.
         public let matchedDetails: [String: PointsOfInterest]?
 
+        @inlinable
         public init(matchedCategories: [String]? = nil, matchedDetails: [String: PointsOfInterest]? = nil) {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
@@ -466,6 +472,7 @@ extension TranscribeStreaming {
         /// Specify the speaker you want to define. Omitting this parameter is equivalent to specifying both participants.
         public let participantRole: ParticipantRole
 
+        @inlinable
         public init(channelId: Int = 0, participantRole: ParticipantRole) {
             self.channelId = channelId
             self.participantRole = participantRole
@@ -488,6 +495,7 @@ extension TranscribeStreaming {
         /// Provides the character count of the last character where a match is identified. For example, the last  character associated with an issue or a category match in a segment transcript.
         public let end: Int?
 
+        @inlinable
         public init(begin: Int? = nil, end: Int? = nil) {
             self.begin = begin
             self.end = end
@@ -505,6 +513,7 @@ extension TranscribeStreaming {
         /// Provides additional optional settings for your Call Analytics post-call request, including  encryption and output locations for your redacted and unredacted transcript.
         public let postCallAnalyticsSettings: PostCallAnalyticsSettings?
 
+        @inlinable
         public init(channelDefinitions: [ChannelDefinition]? = nil, postCallAnalyticsSettings: PostCallAnalyticsSettings? = nil) {
             self.channelDefinitions = channelDefinitions
             self.postCallAnalyticsSettings = postCallAnalyticsSettings
@@ -527,6 +536,7 @@ extension TranscribeStreaming {
     public struct ConflictException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -550,6 +560,7 @@ extension TranscribeStreaming {
         /// The type of PII identified. For example, NAME or  CREDIT_DEBIT_NUMBER.
         public let type: String?
 
+        @inlinable
         public init(category: String? = nil, confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, startTime: Double? = nil, type: String? = nil) {
             self.category = category
             self.confidence = confidence
@@ -572,6 +583,7 @@ extension TranscribeStreaming {
     public struct InternalFailureException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -585,6 +597,7 @@ extension TranscribeStreaming {
         /// Provides the timestamps that identify when in an audio segment the specified issue occurs.
         public let characterOffsets: CharacterOffsets?
 
+        @inlinable
         public init(characterOffsets: CharacterOffsets? = nil) {
             self.characterOffsets = characterOffsets
         }
@@ -612,6 +625,7 @@ extension TranscribeStreaming {
         /// Indicates whether the specified item matches a word in the vocabulary filter included in your request. If true, there is a vocabulary filter match.
         public let vocabularyFilterMatch: Bool?
 
+        @inlinable
         public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, stable: Bool? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
             self.confidence = confidence
             self.content = content
@@ -641,6 +655,7 @@ extension TranscribeStreaming {
         /// The confidence score associated with the identified language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
         public let score: Double?
 
+        @inlinable
         public init(languageCode: LanguageCode? = nil, score: Double? = nil) {
             self.languageCode = languageCode
             self.score = score
@@ -655,6 +670,7 @@ extension TranscribeStreaming {
     public struct LimitExceededException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -672,6 +688,7 @@ extension TranscribeStreaming {
         /// Contains transcribed text.
         public let transcript: String?
 
+        @inlinable
         public init(entities: [MedicalEntity]? = nil, items: [MedicalItem]? = nil, transcript: String? = nil) {
             self.entities = entities
             self.items = items
@@ -697,6 +714,7 @@ extension TranscribeStreaming {
         /// The start time, in milliseconds, of the utterance that was identified as PHI.
         public let startTime: Double?
 
+        @inlinable
         public init(category: String? = nil, confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, startTime: Double? = nil) {
             self.category = category
             self.confidence = confidence
@@ -728,6 +746,7 @@ extension TranscribeStreaming {
         /// The type of item identified. Options are: PRONUNCIATION (spoken  words) and PUNCTUATION.
         public let type: ItemType?
 
+        @inlinable
         public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, startTime: Double? = nil, type: ItemType? = nil) {
             self.confidence = confidence
             self.content = content
@@ -761,6 +780,7 @@ extension TranscribeStreaming {
         /// The start time, in milliseconds, of the Result.
         public let startTime: Double?
 
+        @inlinable
         public init(alternatives: [MedicalAlternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, resultId: String? = nil, startTime: Double? = nil) {
             self.alternatives = alternatives
             self.channelId = channelId
@@ -784,6 +804,7 @@ extension TranscribeStreaming {
         /// Contains a set of transcription results from one or more audio segments, along with  additional information per your request parameters. This can include information relating to  alternative transcriptions, channel identification, partial result stabilization, language  identification, and other transcription-related data.
         public let results: [MedicalResult]?
 
+        @inlinable
         public init(results: [MedicalResult]? = nil) {
             self.results = results
         }
@@ -797,6 +818,7 @@ extension TranscribeStreaming {
         /// Contains Results, which contains a set of transcription results from one or  more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result  stabilization, language identification, and other transcription-related data.
         public let transcript: MedicalTranscript?
 
+        @inlinable
         public init(transcript: MedicalTranscript? = nil) {
             self.transcript = transcript
         }
@@ -810,6 +832,7 @@ extension TranscribeStreaming {
         /// Contains the timestamp ranges (start time through end time) of matched categories and rules.
         public let timestampRanges: [TimestampRange]?
 
+        @inlinable
         public init(timestampRanges: [TimestampRange]? = nil) {
             self.timestampRanges = timestampRanges
         }
@@ -829,6 +852,7 @@ extension TranscribeStreaming {
         /// The Amazon S3 location where you want your Call Analytics post-call  transcription output stored. You can use any of the following formats to specify the output  location:   s3://DOC-EXAMPLE-BUCKET   s3://DOC-EXAMPLE-BUCKET/my-output-folder/   s3://DOC-EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json
         public let outputLocation: String
 
+        @inlinable
         public init(contentRedactionOutput: ContentRedactionOutput? = nil, dataAccessRoleArn: String, outputEncryptionKMSKeyId: String? = nil, outputLocation: String) {
             self.contentRedactionOutput = contentRedactionOutput
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -862,6 +886,7 @@ extension TranscribeStreaming {
         /// The start time, in milliseconds, of the Result.
         public let startTime: Double?
 
+        @inlinable
         public init(alternatives: [Alternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, languageCode: LanguageCode? = nil, languageIdentification: [LanguageWithScore]? = nil, resultId: String? = nil, startTime: Double? = nil) {
             self.alternatives = alternatives
             self.channelId = channelId
@@ -888,6 +913,7 @@ extension TranscribeStreaming {
     public struct ServiceUnavailableException: AWSDecodableShape {
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -926,6 +952,7 @@ extension TranscribeStreaming {
         /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If the language of the specified custom vocabulary doesn't match the language identified in your media, the custom vocabulary is not applied to your transcription. For more information, see Custom vocabularies.
         public let vocabularyName: String?
 
+        @inlinable
         public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode, languageModelName: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
@@ -1018,6 +1045,7 @@ extension TranscribeStreaming {
         /// Provides the name of the custom vocabulary that you specified in your Call Analytics request.
         public let vocabularyName: String?
 
+        @inlinable
         public init(callAnalyticsTranscriptResultStream: AWSEventStream<CallAnalyticsTranscriptResultStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: CallAnalyticsLanguageCode? = nil, languageModelName: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, requestId: String? = nil, sessionId: String? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStream
             self.contentIdentificationType = contentIdentificationType
@@ -1084,6 +1112,7 @@ extension TranscribeStreaming {
         /// Specify the name of the custom vocabulary that you want to use when processing your transcription. Note that vocabulary names are case sensitive.
         public let vocabularyName: String?
 
+        @inlinable
         public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty, type: `Type`, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
@@ -1160,6 +1189,7 @@ extension TranscribeStreaming {
         /// Provides the name of the custom vocabulary that you specified in your request.
         public let vocabularyName: String?
 
+        @inlinable
         public init(contentIdentificationType: MedicalContentIdentificationType? = nil, enableChannelIdentification: Bool? = nil, languageCode: LanguageCode? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, specialty: Specialty? = nil, transcriptResultStream: AWSEventStream<MedicalTranscriptResultStream>, type: `Type`? = nil, vocabularyName: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.enableChannelIdentification = enableChannelIdentification
@@ -1245,6 +1275,7 @@ extension TranscribeStreaming {
         /// Specify the names of the custom vocabularies that you want to use when processing your transcription. Note that vocabulary names are case sensitive. If none of the languages of the specified custom vocabularies match the language identified in  your media, your job fails.  This parameter is only intended for use with the IdentifyLanguage parameter. If you're not including IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the VocabularyName parameter instead.  For more information, see Custom vocabularies.
         public let vocabularyNames: String?
 
+        @inlinable
         public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
@@ -1383,6 +1414,7 @@ extension TranscribeStreaming {
         /// Provides the names of the custom vocabularies that you specified in your request.
         public let vocabularyNames: String?
 
+        @inlinable
         public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: AWSEventStream<TranscriptResultStream>, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -1448,6 +1480,7 @@ extension TranscribeStreaming {
         /// The time, in milliseconds, from the beginning of the audio stream to the end of the category  match.
         public let endOffsetMillis: Int64?
 
+        @inlinable
         public init(beginOffsetMillis: Int64? = nil, endOffsetMillis: Int64? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis
@@ -1463,6 +1496,7 @@ extension TranscribeStreaming {
         /// Contains a set of transcription results from one or more audio segments, along with additional  information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public let results: [Result]?
 
+        @inlinable
         public init(results: [Result]? = nil) {
             self.results = results
         }
@@ -1476,6 +1510,7 @@ extension TranscribeStreaming {
         /// Contains Results, which contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         public let transcript: Transcript?
 
+        @inlinable
         public init(transcript: Transcript? = nil) {
             self.transcript = transcript
         }
@@ -1507,6 +1542,7 @@ extension TranscribeStreaming {
         /// The unique identifier that is associated with the specified UtteranceEvent.
         public let utteranceId: String?
 
+        @inlinable
         public init(beginOffsetMillis: Int64? = nil, endOffsetMillis: Int64? = nil, entities: [CallAnalyticsEntity]? = nil, isPartial: Bool? = nil, issuesDetected: [IssueDetected]? = nil, items: [CallAnalyticsItem]? = nil, participantRole: ParticipantRole? = nil, sentiment: Sentiment? = nil, transcript: String? = nil, utteranceId: String? = nil) {
             self.beginOffsetMillis = beginOffsetMillis
             self.endOffsetMillis = endOffsetMillis

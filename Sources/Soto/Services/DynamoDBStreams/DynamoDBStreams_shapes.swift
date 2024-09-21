@@ -152,6 +152,7 @@ extension DynamoDBStreams {
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
 
+        @inlinable
         public init(exclusiveStartShardId: String? = nil, limit: Int? = nil, streamArn: String) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.limit = limit
@@ -177,6 +178,7 @@ extension DynamoDBStreams {
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
         public let streamDescription: StreamDescription?
 
+        @inlinable
         public init(streamDescription: StreamDescription? = nil) {
             self.streamDescription = streamDescription
         }
@@ -192,6 +194,7 @@ extension DynamoDBStreams {
         /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
         public let shardIterator: String
 
+        @inlinable
         public init(limit: Int? = nil, shardIterator: String) {
             self.limit = limit
             self.shardIterator = shardIterator
@@ -215,6 +218,7 @@ extension DynamoDBStreams {
         /// The stream records from the shard, which were retrieved using the shard iterator.
         public let records: [Record]?
 
+        @inlinable
         public init(nextShardIterator: String? = nil, records: [Record]? = nil) {
             self.nextShardIterator = nextShardIterator
             self.records = records
@@ -236,6 +240,7 @@ extension DynamoDBStreams {
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
 
+        @inlinable
         public init(sequenceNumber: String? = nil, shardId: String, shardIteratorType: ShardIteratorType, streamArn: String) {
             self.sequenceNumber = sequenceNumber
             self.shardId = shardId
@@ -264,6 +269,7 @@ extension DynamoDBStreams {
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
         public let shardIterator: String?
 
+        @inlinable
         public init(shardIterator: String? = nil) {
             self.shardIterator = shardIterator
         }
@@ -279,6 +285,7 @@ extension DynamoDBStreams {
         /// The type of the identity. For Time To Live, the type is "Service".
         public let type: String?
 
+        @inlinable
         public init(principalId: String? = nil, type: String? = nil) {
             self.principalId = principalId
             self.type = type
@@ -296,6 +303,7 @@ extension DynamoDBStreams {
         /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
         public let keyType: KeyType
 
+        @inlinable
         public init(attributeName: String, keyType: KeyType) {
             self.attributeName = attributeName
             self.keyType = keyType
@@ -315,6 +323,7 @@ extension DynamoDBStreams {
         /// If this parameter is provided, then only the streams associated with this table name are returned.
         public let tableName: String?
 
+        @inlinable
         public init(exclusiveStartStreamArn: String? = nil, limit: Int? = nil, tableName: String? = nil) {
             self.exclusiveStartStreamArn = exclusiveStartStreamArn
             self.limit = limit
@@ -343,6 +352,7 @@ extension DynamoDBStreams {
         /// A list of stream descriptors associated with the current account and endpoint.
         public let streams: [Stream]?
 
+        @inlinable
         public init(lastEvaluatedStreamArn: String? = nil, streams: [Stream]? = nil) {
             self.lastEvaluatedStreamArn = lastEvaluatedStreamArn
             self.streams = streams
@@ -370,6 +380,7 @@ extension DynamoDBStreams {
         /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"
         public let userIdentity: Identity?
 
+        @inlinable
         public init(awsRegion: String? = nil, dynamodb: StreamRecord? = nil, eventID: String? = nil, eventName: OperationType? = nil, eventSource: String? = nil, eventVersion: String? = nil, userIdentity: Identity? = nil) {
             self.awsRegion = awsRegion
             self.dynamodb = dynamodb
@@ -397,6 +408,7 @@ extension DynamoDBStreams {
         /// The first sequence number for the stream records contained within a shard. String contains numeric characters only.
         public let startingSequenceNumber: String?
 
+        @inlinable
         public init(endingSequenceNumber: String? = nil, startingSequenceNumber: String? = nil) {
             self.endingSequenceNumber = endingSequenceNumber
             self.startingSequenceNumber = startingSequenceNumber
@@ -416,6 +428,7 @@ extension DynamoDBStreams {
         /// The system-generated identifier for this shard.
         public let shardId: String?
 
+        @inlinable
         public init(parentShardId: String? = nil, sequenceNumberRange: SequenceNumberRange? = nil, shardId: String? = nil) {
             self.parentShardId = parentShardId
             self.sequenceNumberRange = sequenceNumberRange
@@ -437,6 +450,7 @@ extension DynamoDBStreams {
         /// The DynamoDB table with which the stream is associated.
         public let tableName: String?
 
+        @inlinable
         public init(streamArn: String? = nil, streamLabel: String? = nil, tableName: String? = nil) {
             self.streamArn = streamArn
             self.streamLabel = streamLabel
@@ -470,6 +484,7 @@ extension DynamoDBStreams {
         /// The DynamoDB table with which the stream is associated.
         public let tableName: String?
 
+        @inlinable
         public init(creationRequestDateTime: Date? = nil, keySchema: [KeySchemaElement]? = nil, lastEvaluatedShardId: String? = nil, shards: [Shard]? = nil, streamArn: String? = nil, streamLabel: String? = nil, streamStatus: StreamStatus? = nil, streamViewType: StreamViewType? = nil, tableName: String? = nil) {
             self.creationRequestDateTime = creationRequestDateTime
             self.keySchema = keySchema
@@ -511,6 +526,7 @@ extension DynamoDBStreams {
         /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.
         public let streamViewType: StreamViewType?
 
+        @inlinable
         public init(approximateCreationDateTime: Date? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, oldImage: [String: AttributeValue]? = nil, sequenceNumber: String? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil) {
             self.approximateCreationDateTime = approximateCreationDateTime
             self.keys = keys

@@ -54,6 +54,7 @@ extension IoTSecureTunneling {
         /// The ID of the tunnel to close.
         public let tunnelId: String
 
+        @inlinable
         public init(delete: Bool? = nil, tunnelId: String) {
             self.delete = delete
             self.tunnelId = tunnelId
@@ -84,6 +85,7 @@ extension IoTSecureTunneling {
         /// 				DISCONNECTED.
         public let status: ConnectionStatus?
 
+        @inlinable
         public init(lastUpdatedAt: Date? = nil, status: ConnectionStatus? = nil) {
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -99,6 +101,7 @@ extension IoTSecureTunneling {
         /// The tunnel to describe.
         public let tunnelId: String
 
+        @inlinable
         public init(tunnelId: String) {
             self.tunnelId = tunnelId
         }
@@ -120,6 +123,7 @@ extension IoTSecureTunneling {
         /// The tunnel being described.
         public let tunnel: Tunnel?
 
+        @inlinable
         public init(tunnel: Tunnel? = nil) {
             self.tunnel = tunnel
         }
@@ -138,6 +142,7 @@ extension IoTSecureTunneling {
         /// The name of the IoT thing to which you want to connect.
         public let thingName: String?
 
+        @inlinable
         public init(services: [String], thingName: String? = nil) {
             self.services = services
             self.thingName = thingName
@@ -165,6 +170,7 @@ extension IoTSecureTunneling {
         /// The resource ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -187,6 +193,7 @@ extension IoTSecureTunneling {
         /// The tags for the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -205,6 +212,7 @@ extension IoTSecureTunneling {
         /// The name of the IoT thing associated with the destination device.
         public let thingName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, thingName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -238,6 +246,7 @@ extension IoTSecureTunneling {
         /// A short description of the tunnels in an Amazon Web Services account.
         public let tunnelSummaries: [TunnelSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, tunnelSummaries: [TunnelSummary]? = nil) {
             self.nextToken = nextToken
             self.tunnelSummaries = tunnelSummaries
@@ -259,6 +268,7 @@ extension IoTSecureTunneling {
         /// Timeout configuration for a tunnel.
         public let timeoutConfig: TimeoutConfig?
 
+        @inlinable
         public init(description: String? = nil, destinationConfig: DestinationConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.description = description
             self.destinationConfig = destinationConfig
@@ -297,6 +307,7 @@ extension IoTSecureTunneling {
         /// A unique alpha-numeric tunnel ID.
         public let tunnelId: String?
 
+        @inlinable
         public init(destinationAccessToken: String? = nil, sourceAccessToken: String? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
             self.destinationAccessToken = destinationAccessToken
             self.sourceAccessToken = sourceAccessToken
@@ -320,6 +331,7 @@ extension IoTSecureTunneling {
         /// The tunnel for which you want to rotate the access tokens.
         public let tunnelId: String
 
+        @inlinable
         public init(clientMode: ClientMode, destinationConfig: DestinationConfig? = nil, tunnelId: String) {
             self.clientMode = clientMode
             self.destinationConfig = destinationConfig
@@ -355,6 +367,7 @@ extension IoTSecureTunneling {
         /// The Amazon Resource Name for the tunnel.
         public let tunnelArn: String?
 
+        @inlinable
         public init(destinationAccessToken: String? = nil, sourceAccessToken: String? = nil, tunnelArn: String? = nil) {
             self.destinationAccessToken = destinationAccessToken
             self.sourceAccessToken = sourceAccessToken
@@ -374,6 +387,7 @@ extension IoTSecureTunneling {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -399,6 +413,7 @@ extension IoTSecureTunneling {
         /// The tags for the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -430,6 +445,7 @@ extension IoTSecureTunneling {
         /// 			hours (720 minutes)
         public let maxLifetimeTimeoutMinutes: Int?
 
+        @inlinable
         public init(maxLifetimeTimeoutMinutes: Int? = nil) {
             self.maxLifetimeTimeoutMinutes = maxLifetimeTimeoutMinutes
         }
@@ -470,6 +486,7 @@ extension IoTSecureTunneling {
         /// A unique alpha-numeric ID that identifies a tunnel.
         public let tunnelId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, destinationConfig: DestinationConfig? = nil, destinationConnectionState: ConnectionState? = nil, lastUpdatedAt: Date? = nil, sourceConnectionState: ConnectionState? = nil, status: TunnelStatus? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -513,6 +530,7 @@ extension IoTSecureTunneling {
         /// The unique alpha-numeric identifier for the tunnel.
         public let tunnelId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, lastUpdatedAt: Date? = nil, status: TunnelStatus? = nil, tunnelArn: String? = nil, tunnelId: String? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -538,6 +556,7 @@ extension IoTSecureTunneling {
         /// The keys of the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys

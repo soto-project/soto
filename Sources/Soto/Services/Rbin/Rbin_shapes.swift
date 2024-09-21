@@ -71,6 +71,7 @@ extension Rbin {
         /// Information about the tags to assign to the retention rule.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, lockConfiguration: LockConfiguration? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType, retentionPeriod: RetentionPeriod, tags: [Tag]? = nil) {
             self.description = description
             self.lockConfiguration = lockConfiguration
@@ -125,6 +126,7 @@ extension Rbin {
         /// Information about the tags assigned to the retention rule.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.identifier = identifier
@@ -156,6 +158,7 @@ extension Rbin {
         /// The unique ID of the retention rule.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -181,6 +184,7 @@ extension Rbin {
         /// The unique ID of the retention rule.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -220,6 +224,7 @@ extension Rbin {
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
+        @inlinable
         public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
@@ -260,6 +265,7 @@ extension Rbin {
         /// The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
         public let resourceType: ResourceType
 
+        @inlinable
         public init(lockState: LockState? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType) {
             self.lockState = lockState
             self.maxResults = maxResults
@@ -293,6 +299,7 @@ extension Rbin {
         /// Information about the retention rules.
         public let rules: [RuleSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, rules: [RuleSummary]? = nil) {
             self.nextToken = nextToken
             self.rules = rules
@@ -308,6 +315,7 @@ extension Rbin {
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -330,6 +338,7 @@ extension Rbin {
         /// Information about the tags assigned to the retention rule.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -343,6 +352,7 @@ extension Rbin {
         /// Information about the retention rule unlock delay.
         public let unlockDelay: UnlockDelay
 
+        @inlinable
         public init(unlockDelay: UnlockDelay) {
             self.unlockDelay = unlockDelay
         }
@@ -362,6 +372,7 @@ extension Rbin {
         /// Information about the retention rule lock configuration.
         public let lockConfiguration: LockConfiguration
 
+        @inlinable
         public init(identifier: String, lockConfiguration: LockConfiguration) {
             self.identifier = identifier
             self.lockConfiguration = lockConfiguration
@@ -403,6 +414,7 @@ extension Rbin {
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
+        @inlinable
         public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
@@ -434,6 +446,7 @@ extension Rbin {
         /// The tag value.
         public let resourceTagValue: String?
 
+        @inlinable
         public init(resourceTagKey: String, resourceTagValue: String? = nil) {
             self.resourceTagKey = resourceTagKey
             self.resourceTagValue = resourceTagValue
@@ -456,6 +469,7 @@ extension Rbin {
         /// The period value for which the retention rule is to retain resources. The period is measured using  the unit specified for RetentionPeriodUnit.
         public let retentionPeriodValue: Int
 
+        @inlinable
         public init(retentionPeriodUnit: RetentionPeriodUnit, retentionPeriodValue: Int) {
             self.retentionPeriodUnit = retentionPeriodUnit
             self.retentionPeriodValue = retentionPeriodValue
@@ -484,6 +498,7 @@ extension Rbin {
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(description: String? = nil, identifier: String? = nil, lockState: LockState? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil) {
             self.description = description
             self.identifier = identifier
@@ -507,6 +522,7 @@ extension Rbin {
         /// The tag value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -532,6 +548,7 @@ extension Rbin {
         /// Information about the tags to assign to the retention rule.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -568,6 +585,7 @@ extension Rbin {
         /// The unlock delay period, measured in the unit specified for  UnlockDelayUnit.
         public let unlockDelayValue: Int
 
+        @inlinable
         public init(unlockDelayUnit: UnlockDelayUnit, unlockDelayValue: Int) {
             self.unlockDelayUnit = unlockDelayUnit
             self.unlockDelayValue = unlockDelayValue
@@ -588,6 +606,7 @@ extension Rbin {
         /// The unique ID of the retention rule.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -626,6 +645,7 @@ extension Rbin {
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
+        @inlinable
         public init(description: String? = nil, identifier: String? = nil, lockConfiguration: LockConfiguration? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
@@ -659,6 +679,7 @@ extension Rbin {
         /// The tag keys of the tags to unassign. All tags that have the specified tag key are unassigned.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -701,6 +722,7 @@ extension Rbin {
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(description: String? = nil, identifier: String, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.description = description
             self.identifier = identifier
@@ -756,6 +778,7 @@ extension Rbin {
         /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
+        @inlinable
         public init(description: String? = nil, identifier: String? = nil, lockEndTime: Date? = nil, lockState: LockState? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, ruleArn: String? = nil, status: RuleStatus? = nil) {
             self.description = description
             self.identifier = identifier
