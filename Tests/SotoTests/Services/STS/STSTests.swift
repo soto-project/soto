@@ -15,7 +15,8 @@
 import NIOConcurrencyHelpers
 import SotoS3
 import SotoSNS
-@testable import SotoSTS
+import SotoSTS
+import SotoSTSExtension
 import XCTest
 
 // testing query service

@@ -16,7 +16,8 @@ import AsyncHTTPClient
 import NIOFoundationCompat
 import NIOPosix
 @testable import SotoCore
-@testable import SotoS3
+import SotoS3
+@testable import SotoS3Extension
 import XCTest
 
 extension S3Tests {

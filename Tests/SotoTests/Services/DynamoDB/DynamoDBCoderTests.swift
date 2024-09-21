@@ -14,6 +14,7 @@
 
 import SotoCore
 import SotoDynamoDB
+import SotoDynamoDBExtension
 import XCTest
 
 final class DynamoDBCoderTests: XCTestCase {

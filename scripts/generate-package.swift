@@ -14,7 +14,7 @@
 //===----------------------------------------------------------------------===//
 
 import Files // JohnSundell/Files
-import HummingbirdMustache // hummingbird-project/hummingbird-mustache
+import HummingbirdMustache // hummingbird-project/swift-mustache
 
 struct GeneratePackage {
     struct Target {
@@ -34,18 +34,36 @@ struct GeneratePackage {
 
         let extensionSubfolders = extensionsFolder.subfolders
         // construct list of services along with a flag to say if they have an extension
-        let srcFolders = servicesFolder.subfolders.map { folder -> Target in
+        let srcTargets = servicesFolder.subfolders.map { folder -> Target in
             let hasExtension = extensionSubfolders.first { $0.name == folder.name } != nil
             let dependencies: [String]
             dependencies = [#".product(name: "SotoCore", package: "soto-core")"#]
             return Target(name: folder.name, hasExtension: hasExtension, dependencies: dependencies)
         }
-        // construct list of tests, plus the ones used in AWSRequestTests.swift
+        let extensionTargets = extensionSubfolders.map { folder -> Target in
+            return Target(name: folder.name, hasExtension: false, dependencies: ["\"Soto\(folder.name)\""])
+        }
+        // construct list of tests, plus extensions and the ones used in AWSRequestTests.swift
         var testFolders = Set<String>(testFolder.subfolders.map(\.name))
-        ["ACM", "CloudFront", "EC2", "IAM", "Route53", "S3", "S3Control", "SES", "SNS"].forEach { testFolders.insert($0) }
+        [
+            "ACM",
+            "CloudFront",
+            "EC2",
+            "IAM",
+            "Route53",
+            "S3",
+            "S3Control",
+            "SES",
+            "SNS",
+            "CognitoIdentityExtension",
+            "DynamoDBExtension",
+            "S3Extension",
+            "STSExtension",
+        ].forEach { testFolders.insert($0) }
 
         let context: [String: Any] = [
-            "targets": srcFolders,
+            "targets": srcTargets,
+            "extensionTargets": extensionTargets,
             "testTargets": testFolders.map { $0 }.sorted(),
         ]
         if let package = library.render(context, withTemplate: "Package") {

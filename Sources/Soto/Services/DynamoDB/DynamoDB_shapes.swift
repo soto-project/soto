@@ -6465,3 +6465,32 @@ extension DynamoDBErrorType: CustomStringConvertible {
         return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }
+
+extension DynamoDB.AttributeValue: Equatable {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.b(let lhs), .b(let rhs)):
+            return lhs == rhs
+        case (.bool(let lhs), .bool(let rhs)):
+            return lhs == rhs
+        case (.bs(let lhs), .bs(let rhs)):
+            return lhs == rhs
+        case (.l(let lhs), .l(let rhs)):
+            return lhs == rhs
+        case (.m(let lhs), .m(let rhs)):
+            return lhs == rhs
+        case (.n(let lhs), .n(let rhs)):
+            return lhs == rhs
+        case (.ns(let lhs), .ns(let rhs)):
+            return lhs == rhs
+        case (.null(let lhs), .null(let rhs)):
+            return lhs == rhs
+        case (.s(let lhs), .s(let rhs)):
+            return lhs == rhs
+        case (.ss(let lhs), .ss(let rhs)):
+            return lhs == rhs
+        default:
+            return false
+        }
+    }
+}
