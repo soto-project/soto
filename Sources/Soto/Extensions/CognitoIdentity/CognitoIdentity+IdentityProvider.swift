@@ -14,6 +14,7 @@
 
 import Logging
 import NIOCore
+import SotoCognitoIdentity
 import SotoCore
 
 /// Protocol providing a Cognito Identity id and tokens
@@ -41,7 +42,7 @@ public struct IdentityProviderFactory: Sendable {
         self.cb = cb
     }
 
-    internal func createProvider(context: Context) -> IdentityProvider {
+    func createProvider(context: Context) -> IdentityProvider {
         self.cb(context)
     }
 }

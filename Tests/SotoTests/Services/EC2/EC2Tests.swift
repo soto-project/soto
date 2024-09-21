@@ -30,8 +30,8 @@ class EC2Tests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        Self.ec2 = EC2(
+        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
+        self.ec2 = EC2(
             client: EC2Tests.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
@@ -39,7 +39,7 @@ class EC2Tests: XCTestCase {
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     func testDescribeImages() async throws {
@@ -79,7 +79,13 @@ class EC2Tests: XCTestCase {
     }
 }
 
-extension AWSResponseError: Equatable {
+#if hasFeature(RetroactiveAttribute)
+extension AWSResponseError: @retroactive Equatable {}
+#else
+extension AWSResponseError: Equatable {}
+#endif
+
+extension AWSResponseError {
     public static func == (lhs: SotoCore.AWSResponseError, rhs: SotoCore.AWSResponseError) -> Bool {
         return lhs.errorCode == rhs.errorCode
     }

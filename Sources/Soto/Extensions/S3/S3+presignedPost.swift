@@ -14,6 +14,7 @@
 
 import Foundation
 import Logging
+import SotoS3
 
 import Crypto
 @_spi(SotoInternal) import SotoSignerV4

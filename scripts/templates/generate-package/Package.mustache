@@ -30,7 +30,7 @@ let package = Package(
     ],
     products: [
 {{#targets}}
-        .library(name: "Soto{{name}}", targets: ["Soto{{name}}"]){{^last()}},{{/last()}}
+        .library(name: "Soto{{name}}", targets: ["Soto{{name}}"{{#hasExtension}}, "Soto{{name}}Extension"{{/hasExtension}}]){{^last()}},{{/last()}}
 {{/targets}}
     ],
     dependencies: [
@@ -38,14 +38,12 @@ let package = Package(
     ],
     targets: [
 {{#targets}}
-{{#hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"], swiftSettings: swiftSettings){{^last()}},{{/last()}}
-{{/hasExtension}}
-{{^hasExtension}}
         .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}", swiftSettings: swiftSettings),
-{{/hasExtension}}
 {{/targets}}
-
+        // Service extensions
+{{#extensionTargets}}
+        .target(name: "Soto{{name}}Extension", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Extensions/{{name}}", swiftSettings: swiftSettings),
+{{/extensionTargets}}
         .testTarget(
             name: "SotoTests",
             dependencies: [

@@ -19,6 +19,7 @@ import struct Foundation.UUID
 import NIOCore
 import NIOPosix
 import SotoCore
+import SotoSTS
 
 /// Credential Provider that holds an AWSClient
 protocol CredentialProviderWithClient: CredentialProvider {

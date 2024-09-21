@@ -18,6 +18,7 @@ import NIOConcurrencyHelpers
 import NIOCore
 import NIOPosix
 import SotoCore
+import SotoS3
 
 extension S3ErrorType {
     public enum MultipartError: Error {

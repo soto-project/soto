@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import Foundation
+import SotoDynamoDB
 
 public class DynamoDBDecoder {
     public var userInfo: [CodingUserInfoKey: Any] = [:]
