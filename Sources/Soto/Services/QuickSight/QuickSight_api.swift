@@ -1127,6 +1127,19 @@ public struct QuickSight: AWSService {
         )
     }
 
+    /// Describes a personalization configuration.
+    @Sendable
+    public func describeQPersonalizationConfiguration(_ input: DescribeQPersonalizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQPersonalizationConfigurationResponse {
+        return try await self.client.execute(
+            operation: "DescribeQPersonalizationConfiguration", 
+            path: "/accounts/{AwsAccountId}/q-personalization-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides a summary of a refresh schedule.
     @Sendable
     public func describeRefreshSchedule(_ input: DescribeRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRefreshScheduleResponse {
@@ -1487,6 +1500,19 @@ public struct QuickSight: AWSService {
         return try await self.client.execute(
             operation: "ListFolders", 
             path: "/accounts/{AwsAccountId}/folders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// List all folders that a resource is a member of.
+    @Sendable
+    public func listFoldersForResource(_ input: ListFoldersForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFoldersForResourceResponse {
+        return try await self.client.execute(
+            operation: "ListFoldersForResource", 
+            path: "/accounts/{AwsAccountId}/resource/{ResourceArn}/folders", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -2241,6 +2267,19 @@ public struct QuickSight: AWSService {
         )
     }
 
+    /// Updates a personalization configuration.
+    @Sendable
+    public func updateQPersonalizationConfiguration(_ input: UpdateQPersonalizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQPersonalizationConfigurationResponse {
+        return try await self.client.execute(
+            operation: "UpdateQPersonalizationConfiguration", 
+            path: "/accounts/{AwsAccountId}/q-personalization-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Updates a refresh schedule for a dataset.
     @Sendable
     public func updateRefreshSchedule(_ input: UpdateRefreshScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRefreshScheduleResponse {
@@ -2644,6 +2683,25 @@ extension QuickSight {
             command: self.listFolders,
             inputKey: \ListFoldersRequest.nextToken,
             outputKey: \ListFoldersResponse.nextToken,
+            logger: logger
+        )
+    }
+
+    /// List all folders that a resource is a member of.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listFoldersForResourcePaginator(
+        _ input: ListFoldersForResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFoldersForResourceRequest, ListFoldersForResourceResponse> {
+        return .init(
+            input: input,
+            command: self.listFoldersForResource,
+            inputKey: \ListFoldersForResourceRequest.nextToken,
+            outputKey: \ListFoldersForResourceResponse.nextToken,
             logger: logger
         )
     }
@@ -3178,6 +3236,17 @@ extension QuickSight.ListFolderMembersRequest: AWSPaginateToken {
             folderId: self.folderId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListFoldersForResourceRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListFoldersForResourceRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
         )
     }
 }

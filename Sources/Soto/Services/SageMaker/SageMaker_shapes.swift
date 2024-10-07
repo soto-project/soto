@@ -130,6 +130,14 @@ extension SageMaker {
         case mlG648Xlarge = "ml.g6.48xlarge"
         case mlG64Xlarge = "ml.g6.4xlarge"
         case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6E12Xlarge = "ml.g6e.12xlarge"
+        case mlG6E16Xlarge = "ml.g6e.16xlarge"
+        case mlG6E24Xlarge = "ml.g6e.24xlarge"
+        case mlG6E2Xlarge = "ml.g6e.2xlarge"
+        case mlG6E48Xlarge = "ml.g6e.48xlarge"
+        case mlG6E4Xlarge = "ml.g6e.4xlarge"
+        case mlG6E8Xlarge = "ml.g6e.8xlarge"
+        case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
         case mlGeospatialInteractive = "ml.geospatial.interactive"
         case mlM512Xlarge = "ml.m5.12xlarge"
@@ -1513,6 +1521,7 @@ extension SageMaker {
         case jumpStart = "JumpStart"
         case modelEvaluation = "ModelEvaluation"
         case models = "Models"
+        case performanceEvaluation = "PerformanceEvaluation"
         case pipelines = "Pipelines"
         case projects = "Projects"
         case training = "Training"
@@ -2376,6 +2385,11 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SageMakerImageName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sagemakerDistribution = "sagemaker_distribution"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SagemakerServicecatalogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -2605,6 +2619,12 @@ extension SageMaker {
         case `default` = "Default"
         case glue = "Glue"
         case iceberg = "Iceberg"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagPropagation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -5846,7 +5866,7 @@ extension SageMaker {
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 1)
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, min: 1)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
@@ -6098,14 +6118,17 @@ extension SageMaker {
     public struct CodeEditorAppSettings: AWSEncodableShape & AWSDecodableShape {
         /// Settings that are used to configure and manage the lifecycle of CodeEditor applications.
         public let appLifecycleManagement: AppLifecycleManagement?
+        /// The lifecycle configuration that runs before the default lifecycle configuration. It can override changes made in the default  lifecycle configuration.
+        public let builtInLifecycleConfigArn: String?
         /// A list of custom SageMaker images that are configured to run as a Code Editor app.
         public let customImages: [CustomImage]?
         public let defaultResourceSpec: ResourceSpec?
         /// The Amazon Resource Name (ARN) of the Code Editor application  lifecycle configuration.
         public let lifecycleConfigArns: [String]?
 
-        public init(appLifecycleManagement: AppLifecycleManagement? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
+        public init(appLifecycleManagement: AppLifecycleManagement? = nil, builtInLifecycleConfigArn: String? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, lifecycleConfigArns: [String]? = nil) {
             self.appLifecycleManagement = appLifecycleManagement
+            self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
             self.lifecycleConfigArns = lifecycleConfigArns
@@ -6113,6 +6136,8 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.appLifecycleManagement?.validate(name: "\(name).appLifecycleManagement")
+            try self.validate(self.builtInLifecycleConfigArn, name: "builtInLifecycleConfigArn", parent: name, max: 256)
+            try self.validate(self.builtInLifecycleConfigArn, name: "builtInLifecycleConfigArn", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             try self.customImages?.forEach {
                 try $0.validate(name: "\(name).customImages[]")
             }
@@ -6126,6 +6151,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case appLifecycleManagement = "AppLifecycleManagement"
+            case builtInLifecycleConfigArn = "BuiltInLifecycleConfigArn"
             case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
             case lifecycleConfigArns = "LifecycleConfigArns"
@@ -7485,12 +7511,14 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The VPC subnets that the domain uses for communication.
         public let subnetIds: [String]?
+        /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
+        public let tagPropagation: TagPropagation?
         /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
         public let tags: [Tag]?
         /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
         public let vpcId: String?
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, kmsKeyId: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, kmsKeyId: String? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
@@ -7501,12 +7529,13 @@ extension SageMaker {
             self.homeEfsFileSystemKmsKeyId = nil
             self.kmsKeyId = kmsKeyId
             self.subnetIds = subnetIds
+            self.tagPropagation = tagPropagation
             self.tags = tags
             self.vpcId = vpcId
         }
 
         @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
@@ -7517,6 +7546,7 @@ extension SageMaker {
             self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
             self.kmsKeyId = kmsKeyId
             self.subnetIds = subnetIds
+            self.tagPropagation = tagPropagation
             self.tags = tags
             self.vpcId = vpcId
         }
@@ -7556,6 +7586,7 @@ extension SageMaker {
             case homeEfsFileSystemKmsKeyId = "HomeEfsFileSystemKmsKeyId"
             case kmsKeyId = "KmsKeyId"
             case subnetIds = "SubnetIds"
+            case tagPropagation = "TagPropagation"
             case tags = "Tags"
             case vpcId = "VpcId"
         }
@@ -13149,6 +13180,8 @@ extension SageMaker {
         public let appName: String?
         /// The type of app.
         public let appType: AppType?
+        /// The lifecycle configuration that runs before the default lifecycle configuration
+        public let builtInLifecycleConfigArn: String?
         /// The creation time of the application.  After an application has been shut down for 24 hours, SageMaker deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
         public let creationTime: Date?
         /// The domain ID.
@@ -13168,10 +13201,11 @@ extension SageMaker {
         /// The user profile name.
         public let userProfileName: String?
 
-        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, builtInLifecycleConfigArn: String? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appArn = appArn
             self.appName = appName
             self.appType = appType
+            self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.creationTime = creationTime
             self.domainId = domainId
             self.failureReason = failureReason
@@ -13187,6 +13221,7 @@ extension SageMaker {
             case appArn = "AppArn"
             case appName = "AppName"
             case appType = "AppType"
+            case builtInLifecycleConfigArn = "BuiltInLifecycleConfigArn"
             case creationTime = "CreationTime"
             case domainId = "DomainId"
             case failureReason = "FailureReason"
@@ -14089,12 +14124,14 @@ extension SageMaker {
         public let status: DomainStatus?
         /// The VPC subnets that the domain uses for communication.
         public let subnetIds: [String]?
+        /// Indicates whether custom tag propagation is supported for the domain.
+        public let tagPropagation: TagPropagation?
         /// The domain's URL.
         public let url: String?
         /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
         public let vpcId: String?
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnApplicationArn: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnApplicationArn: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
@@ -14115,12 +14152,13 @@ extension SageMaker {
             self.singleSignOnManagedApplicationInstanceId = singleSignOnManagedApplicationInstanceId
             self.status = status
             self.subnetIds = subnetIds
+            self.tagPropagation = tagPropagation
             self.url = url
             self.vpcId = vpcId
         }
 
         @available(*, deprecated, message: "Members homeEfsFileSystemKmsKeyId have been deprecated")
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnApplicationArn: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, authMode: AuthMode? = nil, creationTime: Date? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, domainSettings: DomainSettings? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, securityGroupIdForDomainBoundary: String? = nil, singleSignOnApplicationArn: String? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil, url: String? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.authMode = authMode
@@ -14141,6 +14179,7 @@ extension SageMaker {
             self.singleSignOnManagedApplicationInstanceId = singleSignOnManagedApplicationInstanceId
             self.status = status
             self.subnetIds = subnetIds
+            self.tagPropagation = tagPropagation
             self.url = url
             self.vpcId = vpcId
         }
@@ -14166,6 +14205,7 @@ extension SageMaker {
             case singleSignOnManagedApplicationInstanceId = "SingleSignOnManagedApplicationInstanceId"
             case status = "Status"
             case subnetIds = "SubnetIds"
+            case tagPropagation = "TagPropagation"
             case url = "Url"
             case vpcId = "VpcId"
         }
@@ -20246,6 +20286,32 @@ extension SageMaker {
         }
     }
 
+    public struct HiddenSageMakerImage: AWSEncodableShape & AWSDecodableShape {
+        ///  The SageMaker image name that you are hiding from the Studio user interface.
+        public let sageMakerImageName: SageMakerImageName?
+        ///  The version aliases you are hiding from the Studio user interface.
+        public let versionAliases: [String]?
+
+        public init(sageMakerImageName: SageMakerImageName? = nil, versionAliases: [String]? = nil) {
+            self.sageMakerImageName = sageMakerImageName
+            self.versionAliases = versionAliases
+        }
+
+        public func validate(name: String) throws {
+            try self.versionAliases?.forEach {
+                try validate($0, name: "versionAliases[]", parent: name, max: 128)
+                try validate($0, name: "versionAliases[]", parent: name, min: 1)
+                try validate($0, name: "versionAliases[]", parent: name, pattern: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$")
+            }
+            try self.validate(self.versionAliases, name: "versionAliases", parent: name, max: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sageMakerImageName = "SageMakerImageName"
+            case versionAliases = "VersionAliases"
+        }
+    }
+
     public struct HolidayConfigAttributes: AWSEncodableShape & AWSDecodableShape {
         /// The country code for the holiday calendar. For the list of public holiday calendars supported by AutoML job V2, see Country Codes. Use the country code corresponding to the country of your choice.
         public let countryCode: String?
@@ -22282,6 +22348,8 @@ extension SageMaker {
     public struct JupyterLabAppSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether idle shutdown is activated for JupyterLab applications.
         public let appLifecycleManagement: AppLifecycleManagement?
+        /// The lifecycle configuration that runs before the default lifecycle configuration. It can override changes made in the default  lifecycle configuration.
+        public let builtInLifecycleConfigArn: String?
         /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterLab application.
         public let codeRepositories: [CodeRepository]?
         /// A list of custom SageMaker images that are configured to run as a JupyterLab app.
@@ -22292,8 +22360,9 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the lifecycle configurations attached to the user profile or domain. To remove a lifecycle config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
 
-        public init(appLifecycleManagement: AppLifecycleManagement? = nil, codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, emrSettings: EmrSettings? = nil, lifecycleConfigArns: [String]? = nil) {
+        public init(appLifecycleManagement: AppLifecycleManagement? = nil, builtInLifecycleConfigArn: String? = nil, codeRepositories: [CodeRepository]? = nil, customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil, emrSettings: EmrSettings? = nil, lifecycleConfigArns: [String]? = nil) {
             self.appLifecycleManagement = appLifecycleManagement
+            self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
             self.codeRepositories = codeRepositories
             self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
@@ -22303,6 +22372,8 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.appLifecycleManagement?.validate(name: "\(name).appLifecycleManagement")
+            try self.validate(self.builtInLifecycleConfigArn, name: "builtInLifecycleConfigArn", parent: name, max: 256)
+            try self.validate(self.builtInLifecycleConfigArn, name: "builtInLifecycleConfigArn", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:studio-lifecycle-config/.*|None)$")
             try self.codeRepositories?.forEach {
                 try $0.validate(name: "\(name).codeRepositories[]")
             }
@@ -22321,6 +22392,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case appLifecycleManagement = "AppLifecycleManagement"
+            case builtInLifecycleConfigArn = "BuiltInLifecycleConfigArn"
             case codeRepositories = "CodeRepositories"
             case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
@@ -34374,6 +34446,8 @@ extension SageMaker {
         public let compressionType: ModelCompressionType?
         /// Configuration information for hub access.
         public let hubAccessConfig: InferenceHubAccessConfig?
+        /// The Amazon S3 URI of the manifest file. The manifest file is a CSV file that stores the artifact locations.
+        public let manifestS3Uri: String?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
         public let modelAccessConfig: ModelAccessConfig?
         /// Specifies the type of ML model data to deploy. If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix as part of the ML model data to deploy. A valid key name prefix identified by S3Uri always ends with a forward slash (/). If you choose S3Object, S3Uri identifies an object that is the ML model data to deploy.
@@ -34381,9 +34455,10 @@ extension SageMaker {
         /// Specifies the S3 path of ML model data to deploy.
         public let s3Uri: String?
 
-        public init(compressionType: ModelCompressionType? = nil, hubAccessConfig: InferenceHubAccessConfig? = nil, modelAccessConfig: ModelAccessConfig? = nil, s3DataType: S3ModelDataType? = nil, s3Uri: String? = nil) {
+        public init(compressionType: ModelCompressionType? = nil, hubAccessConfig: InferenceHubAccessConfig? = nil, manifestS3Uri: String? = nil, modelAccessConfig: ModelAccessConfig? = nil, s3DataType: S3ModelDataType? = nil, s3Uri: String? = nil) {
             self.compressionType = compressionType
             self.hubAccessConfig = hubAccessConfig
+            self.manifestS3Uri = manifestS3Uri
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -34391,6 +34466,8 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.hubAccessConfig?.validate(name: "\(name).hubAccessConfig")
+            try self.validate(self.manifestS3Uri, name: "manifestS3Uri", parent: name, max: 1024)
+            try self.validate(self.manifestS3Uri, name: "manifestS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
@@ -34398,6 +34475,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case compressionType = "CompressionType"
             case hubAccessConfig = "HubAccessConfig"
+            case manifestS3Uri = "ManifestS3Uri"
             case modelAccessConfig = "ModelAccessConfig"
             case s3DataType = "S3DataType"
             case s3Uri = "S3Uri"
@@ -36020,17 +36098,32 @@ extension SageMaker {
     public struct StudioWebPortalSettings: AWSEncodableShape & AWSDecodableShape {
         /// The Applications supported in Studio that are hidden from the Studio left navigation pane.
         public let hiddenAppTypes: [AppType]?
+        ///  The instance types you are hiding from the Studio user interface.
+        public let hiddenInstanceTypes: [AppInstanceType]?
         /// The machine learning tools that are hidden from the Studio left navigation pane.
         public let hiddenMlTools: [MlTools]?
+        ///  The version aliases you are hiding from the Studio user interface.
+        public let hiddenSageMakerImageVersionAliases: [HiddenSageMakerImage]?
 
-        public init(hiddenAppTypes: [AppType]? = nil, hiddenMlTools: [MlTools]? = nil) {
+        public init(hiddenAppTypes: [AppType]? = nil, hiddenInstanceTypes: [AppInstanceType]? = nil, hiddenMlTools: [MlTools]? = nil, hiddenSageMakerImageVersionAliases: [HiddenSageMakerImage]? = nil) {
             self.hiddenAppTypes = hiddenAppTypes
+            self.hiddenInstanceTypes = hiddenInstanceTypes
             self.hiddenMlTools = hiddenMlTools
+            self.hiddenSageMakerImageVersionAliases = hiddenSageMakerImageVersionAliases
+        }
+
+        public func validate(name: String) throws {
+            try self.hiddenSageMakerImageVersionAliases?.forEach {
+                try $0.validate(name: "\(name).hiddenSageMakerImageVersionAliases[]")
+            }
+            try self.validate(self.hiddenSageMakerImageVersionAliases, name: "hiddenSageMakerImageVersionAliases", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
             case hiddenAppTypes = "HiddenAppTypes"
+            case hiddenInstanceTypes = "HiddenInstanceTypes"
             case hiddenMlTools = "HiddenMlTools"
+            case hiddenSageMakerImageVersionAliases = "HiddenSageMakerImageVersionAliases"
         }
     }
 
@@ -38357,8 +38450,10 @@ extension SageMaker {
         public let domainSettingsForUpdate: DomainSettingsForUpdate?
         /// The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
         public let subnetIds: [String]?
+        /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
+        public let tagPropagation: TagPropagation?
 
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainId: String? = nil, domainSettingsForUpdate: DomainSettingsForUpdate? = nil, subnetIds: [String]? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainId: String? = nil, domainSettingsForUpdate: DomainSettingsForUpdate? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.defaultSpaceSettings = defaultSpaceSettings
@@ -38366,6 +38461,7 @@ extension SageMaker {
             self.domainId = domainId
             self.domainSettingsForUpdate = domainSettingsForUpdate
             self.subnetIds = subnetIds
+            self.tagPropagation = tagPropagation
         }
 
         public func validate(name: String) throws {
@@ -38390,6 +38486,7 @@ extension SageMaker {
             case domainId = "DomainId"
             case domainSettingsForUpdate = "DomainSettingsForUpdate"
             case subnetIds = "SubnetIds"
+            case tagPropagation = "TagPropagation"
         }
     }
 
@@ -40099,6 +40196,7 @@ extension SageMaker {
             try self.validate(self.securityGroups, name: "securityGroups", parent: name, max: 5)
             try self.sharingSettings?.validate(name: "\(name).sharingSettings")
             try self.spaceStorageSettings?.validate(name: "\(name).spaceStorageSettings")
+            try self.studioWebPortalSettings?.validate(name: "\(name).studioWebPortalSettings")
             try self.tensorBoardAppSettings?.validate(name: "\(name).tensorBoardAppSettings")
         }
 

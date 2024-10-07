@@ -113,7 +113,20 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Creates a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or XML file that is used to generate the EDI. If you do not provide a sample EDI file, then the service can generate a mapping template based on the EDI settings in the templateDetails parameter.  Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
+    @Sendable
+    public func createStarterMappingTemplate(_ input: CreateStarterMappingTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStarterMappingTemplateResponse {
+        return try await self.client.execute(
+            operation: "CreateStarterMappingTemplate", 
+            path: "/createmappingstarttemplate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios:    Inbound EDI: the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange  converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires.    Outbound EDI: the Amazon Web Services customer has a JSON or XML file containing data that they wish to use in an EDI file. A mapping template, provided by the customer (in either JSONata or XSLT format) is applied to this file to generate a JSON or XML file in the service-defined structure. This file is then converted to an EDI file.    The following fields are provided for backwards compatibility only: fileFormat, mappingTemplate, ediType, and sampleDocument.   Use the mapping data type in place of mappingTemplate and fileFormat    Use the sampleDocuments data type in place of sampleDocument    Use either the inputConversion or outputConversion in place of ediType
     @Sendable
     public func createTransformer(_ input: CreateTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransformerResponse {
         return try await self.client.execute(
@@ -165,7 +178,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Deletes the specified transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     @Sendable
     public func deleteTransformer(_ input: DeleteTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -217,7 +230,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Retrieves the details for the transformer specified by the transformer ID. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     @Sendable
     public func getTransformer(_ input: GetTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransformerResponse {
         return try await self.client.execute(
@@ -295,7 +308,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Lists the available transformers. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     @Sendable
     public func listTransformers(_ input: ListTransformersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTransformersResponse {
         return try await self.client.execute(
@@ -308,7 +321,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2BI Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files.
     @Sendable
     public func startTransformerJob(_ input: StartTransformerJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTransformerJobResponse {
         return try await self.client.execute(
@@ -327,6 +340,19 @@ public struct B2bi: AWSService {
         return try await self.client.execute(
             operation: "TagResource", 
             path: "/tags/{ResourceARN}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
+    @Sendable
+    public func testConversion(_ input: TestConversionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestConversionResponse {
+        return try await self.client.execute(
+            operation: "TestConversion", 
+            path: "/testconversion", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -412,7 +438,7 @@ public struct B2bi: AWSService {
         )
     }
 
-    /// Updates the specified parameters for a transformer. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     @Sendable
     public func updateTransformer(_ input: UpdateTransformerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTransformerResponse {
         return try await self.client.execute(
@@ -496,7 +522,7 @@ extension B2bi {
         )
     }
 
-    /// Lists the available transformers. A transformer describes how to process the incoming EDI documents and extract the necessary information to the output file.
+    /// Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

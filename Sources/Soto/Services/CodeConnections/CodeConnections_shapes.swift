@@ -59,6 +59,12 @@ extension CodeConnections {
         public var description: String { return self.rawValue }
     }
 
+    public enum PullRequestComment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RepositorySyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -90,7 +96,7 @@ extension CodeConnections {
     // MARK: Shapes
 
     public struct Connection: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services.  The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Servicesservices.  The ARN is never reused if the connection is deleted.
         public let connectionArn: String?
         /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public let connectionName: String?
@@ -303,6 +309,8 @@ extension CodeConnections {
         public let configFile: String
         /// Whether to enable or disable publishing of deployment status to source providers.
         public let publishDeploymentStatus: PublishDeploymentStatus?
+        /// A toggle that specifies whether to enable or disable pull request comments for the sync configuration to be created.
+        public let pullRequestComment: PullRequestComment?
         /// The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
         public let repositoryLinkId: String
         /// The name of the Amazon Web Services resource (for example, a CloudFormation stack in the case of CFN_STACK_SYNC) that will be synchronized from the linked repository.
@@ -314,10 +322,11 @@ extension CodeConnections {
         /// When to trigger Git sync to begin the stack update.
         public let triggerResourceUpdateOn: TriggerResourceUpdateOn?
 
-        public init(branch: String, configFile: String, publishDeploymentStatus: PublishDeploymentStatus? = nil, repositoryLinkId: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
+        public init(branch: String, configFile: String, publishDeploymentStatus: PublishDeploymentStatus? = nil, pullRequestComment: PullRequestComment? = nil, repositoryLinkId: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
             self.branch = branch
             self.configFile = configFile
             self.publishDeploymentStatus = publishDeploymentStatus
+            self.pullRequestComment = pullRequestComment
             self.repositoryLinkId = repositoryLinkId
             self.resourceName = resourceName
             self.roleArn = roleArn
@@ -342,6 +351,7 @@ extension CodeConnections {
             case branch = "Branch"
             case configFile = "ConfigFile"
             case publishDeploymentStatus = "PublishDeploymentStatus"
+            case pullRequestComment = "PullRequestComment"
             case repositoryLinkId = "RepositoryLinkId"
             case resourceName = "ResourceName"
             case roleArn = "RoleArn"
@@ -1303,6 +1313,8 @@ extension CodeConnections {
         public let providerType: ProviderType
         /// Whether to enable or disable publishing of deployment status to source providers.
         public let publishDeploymentStatus: PublishDeploymentStatus?
+        /// A toggle that specifies whether to enable or disable pull request comments for the sync configuration to be created.
+        public let pullRequestComment: PullRequestComment?
         /// The ID of the repository link associated with a specific sync configuration.
         public let repositoryLinkId: String
         /// The name of the repository associated with a specific sync configuration.
@@ -1316,12 +1328,13 @@ extension CodeConnections {
         /// When to trigger Git sync to begin the stack update.
         public let triggerResourceUpdateOn: TriggerResourceUpdateOn?
 
-        public init(branch: String, configFile: String? = nil, ownerId: String, providerType: ProviderType, publishDeploymentStatus: PublishDeploymentStatus? = nil, repositoryLinkId: String, repositoryName: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
+        public init(branch: String, configFile: String? = nil, ownerId: String, providerType: ProviderType, publishDeploymentStatus: PublishDeploymentStatus? = nil, pullRequestComment: PullRequestComment? = nil, repositoryLinkId: String, repositoryName: String, resourceName: String, roleArn: String, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
             self.branch = branch
             self.configFile = configFile
             self.ownerId = ownerId
             self.providerType = providerType
             self.publishDeploymentStatus = publishDeploymentStatus
+            self.pullRequestComment = pullRequestComment
             self.repositoryLinkId = repositoryLinkId
             self.repositoryName = repositoryName
             self.resourceName = resourceName
@@ -1336,6 +1349,7 @@ extension CodeConnections {
             case ownerId = "OwnerId"
             case providerType = "ProviderType"
             case publishDeploymentStatus = "PublishDeploymentStatus"
+            case pullRequestComment = "PullRequestComment"
             case repositoryLinkId = "RepositoryLinkId"
             case repositoryName = "RepositoryName"
             case resourceName = "ResourceName"
@@ -1574,6 +1588,8 @@ extension CodeConnections {
         public let configFile: String?
         /// Whether to enable or disable publishing of deployment status to source providers.
         public let publishDeploymentStatus: PublishDeploymentStatus?
+        /// TA toggle that specifies whether to enable or disable pull request comments for the sync configuration to be updated.
+        public let pullRequestComment: PullRequestComment?
         /// The ID of the repository link for the sync configuration to be updated.
         public let repositoryLinkId: String?
         /// The name of the Amazon Web Services resource for the sync configuration to be updated.
@@ -1585,10 +1601,11 @@ extension CodeConnections {
         /// When to trigger Git sync to begin the stack update.
         public let triggerResourceUpdateOn: TriggerResourceUpdateOn?
 
-        public init(branch: String? = nil, configFile: String? = nil, publishDeploymentStatus: PublishDeploymentStatus? = nil, repositoryLinkId: String? = nil, resourceName: String, roleArn: String? = nil, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
+        public init(branch: String? = nil, configFile: String? = nil, publishDeploymentStatus: PublishDeploymentStatus? = nil, pullRequestComment: PullRequestComment? = nil, repositoryLinkId: String? = nil, resourceName: String, roleArn: String? = nil, syncType: SyncConfigurationType, triggerResourceUpdateOn: TriggerResourceUpdateOn? = nil) {
             self.branch = branch
             self.configFile = configFile
             self.publishDeploymentStatus = publishDeploymentStatus
+            self.pullRequestComment = pullRequestComment
             self.repositoryLinkId = repositoryLinkId
             self.resourceName = resourceName
             self.roleArn = roleArn
@@ -1613,6 +1630,7 @@ extension CodeConnections {
             case branch = "Branch"
             case configFile = "ConfigFile"
             case publishDeploymentStatus = "PublishDeploymentStatus"
+            case pullRequestComment = "PullRequestComment"
             case repositoryLinkId = "RepositoryLinkId"
             case resourceName = "ResourceName"
             case roleArn = "RoleArn"

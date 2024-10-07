@@ -158,6 +158,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum HttpsPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optional = "OPTIONAL"
+        case require = "REQUIRE"
+        case requireOpenOnly = "REQUIRE_OPEN_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
@@ -4384,10 +4391,12 @@ extension SESv2 {
         public let configurationSetName: String
         /// The domain to use to track open and click events.
         public let customRedirectDomain: String?
+        public let httpsPolicy: HttpsPolicy?
 
-        public init(configurationSetName: String, customRedirectDomain: String? = nil) {
+        public init(configurationSetName: String, customRedirectDomain: String? = nil, httpsPolicy: HttpsPolicy? = nil) {
             self.configurationSetName = configurationSetName
             self.customRedirectDomain = customRedirectDomain
+            self.httpsPolicy = httpsPolicy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4395,10 +4404,12 @@ extension SESv2 {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
             try container.encodeIfPresent(self.customRedirectDomain, forKey: .customRedirectDomain)
+            try container.encodeIfPresent(self.httpsPolicy, forKey: .httpsPolicy)
         }
 
         private enum CodingKeys: String, CodingKey {
             case customRedirectDomain = "CustomRedirectDomain"
+            case httpsPolicy = "HttpsPolicy"
         }
     }
 
@@ -5367,13 +5378,17 @@ extension SESv2 {
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The domain to use for tracking open and click events.
         public let customRedirectDomain: String
+        /// The https policy to use for tracking open and click events.
+        public let httpsPolicy: HttpsPolicy?
 
-        public init(customRedirectDomain: String) {
+        public init(customRedirectDomain: String, httpsPolicy: HttpsPolicy? = nil) {
             self.customRedirectDomain = customRedirectDomain
+            self.httpsPolicy = httpsPolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case customRedirectDomain = "CustomRedirectDomain"
+            case httpsPolicy = "HttpsPolicy"
         }
     }
 

@@ -425,6 +425,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Deletes the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    @Sendable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResult {
+        return try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
     @Sendable
     public func deleteTextMessageSpendLimitOverride(_ input: DeleteTextMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTextMessageSpendLimitOverrideResult {
@@ -763,6 +776,19 @@ public struct PinpointSMSVoiceV2: AWSService {
         )
     }
 
+    /// Retrieves the JSON text of the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    @Sendable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResult {
+        return try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Lists all associated origination identities in your pool. If you specify filters, the output includes information for only those origination identities that meet the filter criteria.
     @Sendable
     public func listPoolOriginationIdentities(_ input: ListPoolOriginationIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPoolOriginationIdentitiesResult {
@@ -833,6 +859,19 @@ public struct PinpointSMSVoiceV2: AWSService {
     public func putRegistrationFieldValue(_ input: PutRegistrationFieldValueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRegistrationFieldValueResult {
         return try await self.client.execute(
             operation: "PutRegistrationFieldValue", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Attaches a resource-based policy to a AWS End User Messaging SMS and Voice resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the AWS End User Messaging SMS User Guide.
+    @Sendable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResult {
+        return try await self.client.execute(
+            operation: "PutResourcePolicy", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 

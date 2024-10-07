@@ -445,6 +445,19 @@ public struct WorkSpacesWeb: AWSService {
         )
     }
 
+    /// Expires an active secure browser session.
+    @Sendable
+    public func expireSession(_ input: ExpireSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExpireSessionResponse {
+        return try await self.client.execute(
+            operation: "ExpireSession", 
+            path: "/portals/{portalId}/sessions/{sessionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Gets browser settings.
     @Sendable
     public func getBrowserSettings(_ input: GetBrowserSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBrowserSettingsResponse {
@@ -516,6 +529,19 @@ public struct WorkSpacesWeb: AWSService {
         return try await self.client.execute(
             operation: "GetPortalServiceProviderMetadata", 
             path: "/portalIdp/{portalArn+}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Gets information for a secure browser session.
+    @Sendable
+    public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionResponse {
+        return try await self.client.execute(
+            operation: "GetSession", 
+            path: "/portals/{portalId}/sessions/{sessionId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -633,6 +659,19 @@ public struct WorkSpacesWeb: AWSService {
         return try await self.client.execute(
             operation: "ListPortals", 
             path: "/portals", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Lists information for multiple secure browser sessions from a specific portal.
+    @Sendable
+    public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsResponse {
+        return try await self.client.execute(
+            operation: "ListSessions", 
+            path: "/portals/{portalId}/sessions", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -944,6 +983,25 @@ extension WorkSpacesWeb {
         )
     }
 
+    /// Lists information for multiple secure browser sessions from a specific portal.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSessionsPaginator(
+        _ input: ListSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSessionsRequest, ListSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of trust store certificates.
     /// Return PaginatorSequence for operation.
     ///
@@ -1063,6 +1121,20 @@ extension WorkSpacesWeb.ListPortalsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension WorkSpacesWeb.ListSessionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WorkSpacesWeb.ListSessionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            portalId: self.portalId,
+            sessionId: self.sessionId,
+            sortBy: self.sortBy,
+            status: self.status,
+            username: self.username
         )
     }
 }

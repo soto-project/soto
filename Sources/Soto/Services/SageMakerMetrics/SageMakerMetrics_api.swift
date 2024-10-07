@@ -73,7 +73,20 @@ public struct SageMakerMetrics: AWSService {
 
     // MARK: API Calls
 
-    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio and retrieved with the GetMetrics API.
+    /// Used to retrieve training metrics from SageMaker.
+    @Sendable
+    public func batchGetMetrics(_ input: BatchGetMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetMetricsResponse {
+        return try await self.client.execute(
+            operation: "BatchGetMetrics", 
+            path: "/BatchGetMetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
     @Sendable
     public func batchPutMetrics(_ input: BatchPutMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutMetricsResponse {
         return try await self.client.execute(

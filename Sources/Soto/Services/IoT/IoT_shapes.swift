@@ -51,6 +51,14 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case https = "HTTPS"
+        case mqttWss = "MQTT_WSS"
+        case secureMqtt = "SECURE_MQTT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canceled = "CANCELED"
         case completedCompliant = "COMPLETED_COMPLIANT"
@@ -118,6 +126,15 @@ extension IoT {
         case allowed = "ALLOWED"
         case explicitDeny = "EXPLICIT_DENY"
         case implicitDeny = "IMPLICIT_DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case awsSigv4 = "AWS_SIGV4"
+        case awsX509 = "AWS_X509"
+        case customAuth = "CUSTOM_AUTH"
+        case customAuthX509 = "CUSTOM_AUTH_X509"
         public var description: String { return self.rawValue }
     }
 
@@ -495,6 +512,25 @@ extension IoT {
         case all = "ALL"
         case failed = "FAILED"
         case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SbomValidationErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fileSizeLimitExceeded = "FILE_SIZE_LIMIT_EXCEEDED"
+        case incompatibleFormat = "INCOMPATIBLE_FORMAT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SbomValidationResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SbomValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -1105,6 +1141,73 @@ extension IoT {
             case quality = "quality"
             case timestamp = "timestamp"
             case value = "value"
+        }
+    }
+
+    public struct AssociateSbomWithPackageVersionRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The name of the new software package.
+        public let packageName: String
+        public let sbom: Sbom
+        /// The name of the new package version.
+        public let versionName: String
+
+        public init(clientToken: String? = AssociateSbomWithPackageVersionRequest.idempotencyToken(), packageName: String, sbom: Sbom, versionName: String) {
+            self.clientToken = clientToken
+            self.packageName = packageName
+            self.sbom = sbom
+            self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.packageName, key: "packageName")
+            try container.encode(self.sbom, forKey: .sbom)
+            request.encodePath(self.versionName, key: "versionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.sbom.validate(name: "\(name).sbom")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sbom = "sbom"
+        }
+    }
+
+    public struct AssociateSbomWithPackageVersionResponse: AWSDecodableShape {
+        /// The name of the new software package.
+        public let packageName: String?
+        public let sbom: Sbom?
+        /// The status of the initial validation for the software bill of materials against the Software Package Data Exchange (SPDX) and CycloneDX industry standard formats.
+        public let sbomValidationStatus: SbomValidationStatus?
+        /// The name of the new package version.
+        public let versionName: String?
+
+        public init(packageName: String? = nil, sbom: Sbom? = nil, sbomValidationStatus: SbomValidationStatus? = nil, versionName: String? = nil) {
+            self.packageName = packageName
+            self.sbom = sbom
+            self.sbomValidationStatus = sbomValidationStatus
+            self.versionName = versionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case packageName = "packageName"
+            case sbom = "sbom"
+            case sbomValidationStatus = "sbomValidationStatus"
+            case versionName = "versionName"
         }
     }
 
@@ -2516,6 +2619,24 @@ extension IoT {
         public init() {}
     }
 
+    public struct ClientCertificateConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the Lambda function that IoT invokes after mutual TLS authentication during the connection.
+        public let clientCertificateCallbackArn: String?
+
+        public init(clientCertificateCallbackArn: String? = nil) {
+            self.clientCertificateCallbackArn = clientCertificateCallbackArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientCertificateCallbackArn, name: "clientCertificateCallbackArn", parent: name, max: 2048)
+            try self.validate(self.clientCertificateCallbackArn, name: "clientCertificateCallbackArn", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientCertificateCallbackArn = "clientCertificateCallbackArn"
+        }
+    }
+
     public struct CloudwatchAlarmAction: AWSEncodableShape & AWSDecodableShape {
         /// The CloudWatch alarm name.
         public let alarmName: String
@@ -3149,8 +3270,14 @@ extension IoT {
     }
 
     public struct CreateDomainConfigurationRequest: AWSEncodableShape {
+        /// An enumerated string that speciﬁes the application-layer protocol.    SECURE_MQTT - MQTT over TLS.      MQTT_WSS - MQTT over WebSocket.      HTTPS - HTTP over TLS.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol.  For more information, see Device communication protocols.
+        public let applicationProtocol: ApplicationProtocol?
+        /// An enumerated string that speciﬁes the authentication type.    CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.      CUSTOM_AUTH - Use custom authentication and authorization. For more information, see Custom authentication and authorization.      AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see X.509 client certificates.      AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see IAM users, groups, and roles.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see Device communication protocols.
+        public let authenticationType: AuthenticationType?
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
+        /// An object that speciﬁes the client certificate conﬁguration for a domain.
+        public let clientCertificateConfig: ClientCertificateConfig?
         /// The name of the domain configuration. This value must be unique to a region.
         public let domainConfigurationName: String
         /// The name of the domain.
@@ -3168,8 +3295,11 @@ extension IoT {
         /// The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority.  This value is not required for Amazon Web Services-managed domains.
         public let validationCertificateArn: String?
 
-        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, serviceType: ServiceType? = nil, tags: [Tag]? = nil, tlsConfig: TlsConfig? = nil, validationCertificateArn: String? = nil) {
+        public init(applicationProtocol: ApplicationProtocol? = nil, authenticationType: AuthenticationType? = nil, authorizerConfig: AuthorizerConfig? = nil, clientCertificateConfig: ClientCertificateConfig? = nil, domainConfigurationName: String, domainName: String? = nil, serverCertificateArns: [String]? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, serviceType: ServiceType? = nil, tags: [Tag]? = nil, tlsConfig: TlsConfig? = nil, validationCertificateArn: String? = nil) {
+            self.applicationProtocol = applicationProtocol
+            self.authenticationType = authenticationType
             self.authorizerConfig = authorizerConfig
+            self.clientCertificateConfig = clientCertificateConfig
             self.domainConfigurationName = domainConfigurationName
             self.domainName = domainName
             self.serverCertificateArns = serverCertificateArns
@@ -3183,7 +3313,10 @@ extension IoT {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applicationProtocol, forKey: .applicationProtocol)
+            try container.encodeIfPresent(self.authenticationType, forKey: .authenticationType)
             try container.encodeIfPresent(self.authorizerConfig, forKey: .authorizerConfig)
+            try container.encodeIfPresent(self.clientCertificateConfig, forKey: .clientCertificateConfig)
             request.encodePath(self.domainConfigurationName, key: "domainConfigurationName")
             try container.encodeIfPresent(self.domainName, forKey: .domainName)
             try container.encodeIfPresent(self.serverCertificateArns, forKey: .serverCertificateArns)
@@ -3196,6 +3329,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.authorizerConfig?.validate(name: "\(name).authorizerConfig")
+            try self.clientCertificateConfig?.validate(name: "\(name).clientCertificateConfig")
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "^[\\w.-]+$")
@@ -3218,7 +3352,10 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationProtocol = "applicationProtocol"
+            case authenticationType = "authenticationType"
             case authorizerConfig = "authorizerConfig"
+            case clientCertificateConfig = "clientCertificateConfig"
             case domainName = "domainName"
             case serverCertificateArns = "serverCertificateArns"
             case serverCertificateConfig = "serverCertificateConfig"
@@ -4021,6 +4158,8 @@ extension IoT {
     }
 
     public struct CreatePackageVersionRequest: AWSEncodableShape {
+        /// The various build components created during the build process such as libraries and configuration files that make up a software package version.
+        public let artifact: PackageVersionArtifact?
         /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
         public let attributes: [String: String]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
@@ -4029,16 +4168,20 @@ extension IoT {
         public let description: String?
         /// The name of the associated software package.
         public let packageName: String
+        /// The inline job document associated with a software package version used for a quick job deployment.
+        public let recipe: String?
         /// Metadata that can be used to manage the package version.
         public let tags: [String: String]?
         /// The name of the new package version.
         public let versionName: String
 
-        public init(attributes: [String: String]? = nil, clientToken: String? = CreatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, tags: [String: String]? = nil, versionName: String) {
+        public init(artifact: PackageVersionArtifact? = nil, attributes: [String: String]? = nil, clientToken: String? = CreatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, recipe: String? = nil, tags: [String: String]? = nil, versionName: String) {
+            self.artifact = artifact
             self.attributes = attributes
             self.clientToken = clientToken
             self.description = description
             self.packageName = packageName
+            self.recipe = recipe
             self.tags = tags
             self.versionName = versionName
         }
@@ -4046,15 +4189,18 @@ extension IoT {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.artifact, forKey: .artifact)
             try container.encodeIfPresent(self.attributes, forKey: .attributes)
             request.encodeQuery(self.clientToken, key: "clientToken")
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.packageName, key: "packageName")
+            try container.encodeIfPresent(self.recipe, forKey: .recipe)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             request.encodePath(self.versionName, key: "versionName")
         }
 
         public func validate(name: String) throws {
+            try self.artifact?.validate(name: "\(name).artifact")
             try self.attributes?.forEach {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
@@ -4069,6 +4215,7 @@ extension IoT {
             try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
             try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
             try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.recipe, name: "recipe", parent: name, max: 3072)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -4083,8 +4230,10 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifact = "artifact"
             case attributes = "attributes"
             case description = "description"
+            case recipe = "recipe"
             case tags = "tags"
         }
     }
@@ -6665,8 +6814,14 @@ extension IoT {
     }
 
     public struct DescribeDomainConfigurationResponse: AWSDecodableShape {
+        /// An enumerated string that speciﬁes the application-layer protocol.    SECURE_MQTT - MQTT over TLS.      MQTT_WSS - MQTT over WebSocket.      HTTPS - HTTP over TLS.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol.  For more information, see Device communication protocols.
+        public let applicationProtocol: ApplicationProtocol?
+        /// An enumerated string that speciﬁes the authentication type.    CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.      CUSTOM_AUTH - Use custom authentication and authorization. For more information, see Custom authentication and authorization.      AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see X.509 client certificates.      AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see IAM users, groups, and roles.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see Device communication protocols.
+        public let authenticationType: AuthenticationType?
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
+        /// An object that speciﬁes the client certificate conﬁguration for a domain.
+        public let clientCertificateConfig: ClientCertificateConfig?
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
         /// The name of the domain configuration.
@@ -6688,8 +6843,11 @@ extension IoT {
         /// An object that specifies the TLS configuration for a domain.
         public let tlsConfig: TlsConfig?
 
-        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, domainConfigurationStatus: DomainConfigurationStatus? = nil, domainName: String? = nil, domainType: DomainType? = nil, lastStatusChangeDate: Date? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, serverCertificates: [ServerCertificateSummary]? = nil, serviceType: ServiceType? = nil, tlsConfig: TlsConfig? = nil) {
+        public init(applicationProtocol: ApplicationProtocol? = nil, authenticationType: AuthenticationType? = nil, authorizerConfig: AuthorizerConfig? = nil, clientCertificateConfig: ClientCertificateConfig? = nil, domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, domainConfigurationStatus: DomainConfigurationStatus? = nil, domainName: String? = nil, domainType: DomainType? = nil, lastStatusChangeDate: Date? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, serverCertificates: [ServerCertificateSummary]? = nil, serviceType: ServiceType? = nil, tlsConfig: TlsConfig? = nil) {
+            self.applicationProtocol = applicationProtocol
+            self.authenticationType = authenticationType
             self.authorizerConfig = authorizerConfig
+            self.clientCertificateConfig = clientCertificateConfig
             self.domainConfigurationArn = domainConfigurationArn
             self.domainConfigurationName = domainConfigurationName
             self.domainConfigurationStatus = domainConfigurationStatus
@@ -6703,7 +6861,10 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationProtocol = "applicationProtocol"
+            case authenticationType = "authenticationType"
             case authorizerConfig = "authorizerConfig"
+            case clientCertificateConfig = "clientCertificateConfig"
             case domainConfigurationArn = "domainConfigurationArn"
             case domainConfigurationName = "domainConfigurationName"
             case domainConfigurationStatus = "domainConfigurationStatus"
@@ -6953,16 +7114,20 @@ extension IoT {
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
+        /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+        public let beforeSubstitution: Bool?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
 
-        public init(jobId: String) {
+        public init(beforeSubstitution: Bool? = nil, jobId: String) {
+            self.beforeSubstitution = beforeSubstitution
             self.jobId = jobId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.beforeSubstitution, key: "beforeSubstitution")
             request.encodePath(self.jobId, key: "jobId")
         }
 
@@ -8131,6 +8296,47 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateSbomFromPackageVersionRequest: AWSEncodableShape {
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The name of the new software package.
+        public let packageName: String
+        /// The name of the new package version.
+        public let versionName: String
+
+        public init(clientToken: String? = DisassociateSbomFromPackageVersionRequest.idempotencyToken(), packageName: String, versionName: String) {
+            self.clientToken = clientToken
+            self.packageName = packageName
+            self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.packageName, key: "packageName")
+            request.encodePath(self.versionName, key: "versionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateSbomFromPackageVersionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DocumentParameter: AWSDecodableShape {
         /// Description of the map field containing the patterns that need to be replaced in a  managed template job document schema.
         public let description: String?
@@ -8727,16 +8933,20 @@ extension IoT {
     }
 
     public struct GetJobDocumentRequest: AWSEncodableShape {
+        /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+        public let beforeSubstitution: Bool?
         /// The unique identifier you assigned to this job when it was created.
         public let jobId: String
 
-        public init(jobId: String) {
+        public init(beforeSubstitution: Bool? = nil, jobId: String) {
+            self.beforeSubstitution = beforeSubstitution
             self.jobId = jobId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.beforeSubstitution, key: "beforeSubstitution")
             request.encodePath(self.jobId, key: "jobId")
         }
 
@@ -8923,6 +9133,8 @@ extension IoT {
     }
 
     public struct GetPackageVersionResponse: AWSDecodableShape {
+        /// The various components that make up a software package version.
+        public let artifact: PackageVersionArtifact?
         /// Metadata that were added to the package version that can be used to define a package version’s configuration.
         public let attributes: [String: String]?
         /// The date when the package version was created.
@@ -8937,12 +9149,19 @@ extension IoT {
         public let packageName: String?
         /// The ARN for the package version.
         public let packageVersionArn: String?
+        /// The inline job document associated with a software package version used for a quick job deployment.
+        public let recipe: String?
+        /// The software bill of materials for a software package version.
+        public let sbom: Sbom?
+        /// The status of the validation for a new software bill of materials added to a software package version.
+        public let sbomValidationStatus: SbomValidationStatus?
         /// The status associated to the package version. For more information, see Package version lifecycle.
         public let status: PackageVersionStatus?
         /// The name of the package version.
         public let versionName: String?
 
-        public init(attributes: [String: String]? = nil, creationDate: Date? = nil, description: String? = nil, errorReason: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil, packageVersionArn: String? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
+        public init(artifact: PackageVersionArtifact? = nil, attributes: [String: String]? = nil, creationDate: Date? = nil, description: String? = nil, errorReason: String? = nil, lastModifiedDate: Date? = nil, packageName: String? = nil, packageVersionArn: String? = nil, recipe: String? = nil, sbom: Sbom? = nil, sbomValidationStatus: SbomValidationStatus? = nil, status: PackageVersionStatus? = nil, versionName: String? = nil) {
+            self.artifact = artifact
             self.attributes = attributes
             self.creationDate = creationDate
             self.description = description
@@ -8950,11 +9169,15 @@ extension IoT {
             self.lastModifiedDate = lastModifiedDate
             self.packageName = packageName
             self.packageVersionArn = packageVersionArn
+            self.recipe = recipe
+            self.sbom = sbom
+            self.sbomValidationStatus = sbomValidationStatus
             self.status = status
             self.versionName = versionName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case artifact = "artifact"
             case attributes = "attributes"
             case creationDate = "creationDate"
             case description = "description"
@@ -8962,6 +9185,9 @@ extension IoT {
             case lastModifiedDate = "lastModifiedDate"
             case packageName = "packageName"
             case packageVersionArn = "packageVersionArn"
+            case recipe = "recipe"
+            case sbom = "sbom"
+            case sbomValidationStatus = "sbomValidationStatus"
             case status = "status"
             case versionName = "versionName"
         }
@@ -12238,6 +12464,67 @@ extension IoT {
         }
     }
 
+    public struct ListSbomValidationResultsRequest: AWSEncodableShape {
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// The name of the new software package.
+        public let packageName: String
+        /// The end result of the
+        public let validationResult: SbomValidationResult?
+        /// The name of the new package version.
+        public let versionName: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, packageName: String, validationResult: SbomValidationResult? = nil, versionName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.packageName = packageName
+            self.validationResult = validationResult
+            self.versionName = versionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.packageName, key: "packageName")
+            request.encodeQuery(self.validationResult, key: "validationResult")
+            request.encodePath(self.versionName, key: "versionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
+            try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
+            try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSbomValidationResultsResponse: AWSDecodableShape {
+        /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A summary of the validation results for each software bill of materials attached to a software package version.
+        public let validationResultSummaries: [SbomValidationResultSummary]?
+
+        public init(nextToken: String? = nil, validationResultSummaries: [SbomValidationResultSummary]? = nil) {
+            self.nextToken = nextToken
+            self.validationResultSummaries = validationResultSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case validationResultSummaries = "validationResultSummaries"
+        }
+    }
+
     public struct ListScheduledAuditsRequest: AWSEncodableShape {
         /// The maximum number of results to return at one time. The default is 25.
         public let maxResults: Int?
@@ -14015,6 +14302,22 @@ extension IoT {
         }
     }
 
+    public struct PackageVersionArtifact: AWSEncodableShape & AWSDecodableShape {
+        public let s3Location: S3Location?
+
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
     public struct PackageVersionSummary: AWSDecodableShape {
         /// The date that the package version was created.
         public let creationDate: Date?
@@ -15036,6 +15339,47 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case token = "token"
             case url = "url"
+        }
+    }
+
+    public struct Sbom: AWSEncodableShape & AWSDecodableShape {
+        public let s3Location: S3Location?
+
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "s3Location"
+        }
+    }
+
+    public struct SbomValidationResultSummary: AWSDecodableShape {
+        /// The errorCode representing the validation failure error if the SBOM validation failed.
+        public let errorCode: SbomValidationErrorCode?
+        /// The errorMessage representing the validation failure error if the SBOM validation failed.
+        public let errorMessage: String?
+        /// The name of the SBOM file.
+        public let fileName: String?
+        /// The end result of the SBOM validation.
+        public let validationResult: SbomValidationResult?
+
+        public init(errorCode: SbomValidationErrorCode? = nil, errorMessage: String? = nil, fileName: String? = nil, validationResult: SbomValidationResult? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.fileName = fileName
+            self.validationResult = validationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case fileName = "fileName"
+            case validationResult = "validationResult"
         }
     }
 
@@ -16271,7 +16615,7 @@ extension IoT {
         public let deviceDefender: String?
         /// The unnamed shadow and named shadow. For more information about shadows, see IoT Device Shadow service.
         public let shadow: String?
-        /// Thing group names.
+        /// Thing group and billing group names.
         public let thingGroupNames: [String]?
         /// The thing ID.
         public let thingId: String?
@@ -17431,8 +17775,14 @@ extension IoT {
     }
 
     public struct UpdateDomainConfigurationRequest: AWSEncodableShape {
+        /// An enumerated string that speciﬁes the application-layer protocol.    SECURE_MQTT - MQTT over TLS.      MQTT_WSS - MQTT over WebSocket.      HTTPS - HTTP over TLS.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol.  For more information, see Device communication protocols.
+        public let applicationProtocol: ApplicationProtocol?
+        /// An enumerated string that speciﬁes the authentication type.    CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.      CUSTOM_AUTH - Use custom authentication and authorization. For more information, see Custom authentication and authorization.      AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see X.509 client certificates.      AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see IAM users, groups, and roles.      DEFAULT  - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see Device communication protocols.
+        public let authenticationType: AuthenticationType?
         /// An object that specifies the authorization service for a domain.
         public let authorizerConfig: AuthorizerConfig?
+        /// An object that speciﬁes the client certificate conﬁguration for a domain.
+        public let clientCertificateConfig: ClientCertificateConfig?
         /// The name of the domain configuration to be updated.
         public let domainConfigurationName: String
         /// The status to which the domain configuration should be updated.
@@ -17444,8 +17794,11 @@ extension IoT {
         /// An object that specifies the TLS configuration for a domain.
         public let tlsConfig: TlsConfig?
 
-        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationName: String, domainConfigurationStatus: DomainConfigurationStatus? = nil, removeAuthorizerConfig: Bool? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, tlsConfig: TlsConfig? = nil) {
+        public init(applicationProtocol: ApplicationProtocol? = nil, authenticationType: AuthenticationType? = nil, authorizerConfig: AuthorizerConfig? = nil, clientCertificateConfig: ClientCertificateConfig? = nil, domainConfigurationName: String, domainConfigurationStatus: DomainConfigurationStatus? = nil, removeAuthorizerConfig: Bool? = nil, serverCertificateConfig: ServerCertificateConfig? = nil, tlsConfig: TlsConfig? = nil) {
+            self.applicationProtocol = applicationProtocol
+            self.authenticationType = authenticationType
             self.authorizerConfig = authorizerConfig
+            self.clientCertificateConfig = clientCertificateConfig
             self.domainConfigurationName = domainConfigurationName
             self.domainConfigurationStatus = domainConfigurationStatus
             self.removeAuthorizerConfig = removeAuthorizerConfig
@@ -17456,7 +17809,10 @@ extension IoT {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.applicationProtocol, forKey: .applicationProtocol)
+            try container.encodeIfPresent(self.authenticationType, forKey: .authenticationType)
             try container.encodeIfPresent(self.authorizerConfig, forKey: .authorizerConfig)
+            try container.encodeIfPresent(self.clientCertificateConfig, forKey: .clientCertificateConfig)
             request.encodePath(self.domainConfigurationName, key: "domainConfigurationName")
             try container.encodeIfPresent(self.domainConfigurationStatus, forKey: .domainConfigurationStatus)
             try container.encodeIfPresent(self.removeAuthorizerConfig, forKey: .removeAuthorizerConfig)
@@ -17466,6 +17822,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.authorizerConfig?.validate(name: "\(name).authorizerConfig")
+            try self.clientCertificateConfig?.validate(name: "\(name).clientCertificateConfig")
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, max: 128)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, min: 1)
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "^[\\w.:-]+$")
@@ -17473,7 +17830,10 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationProtocol = "applicationProtocol"
+            case authenticationType = "authenticationType"
             case authorizerConfig = "authorizerConfig"
+            case clientCertificateConfig = "clientCertificateConfig"
             case domainConfigurationStatus = "domainConfigurationStatus"
             case removeAuthorizerConfig = "removeAuthorizerConfig"
             case serverCertificateConfig = "serverCertificateConfig"
@@ -17897,6 +18257,8 @@ extension IoT {
     public struct UpdatePackageVersionRequest: AWSEncodableShape {
         /// The status that the package version should be assigned. For more information, see Package version lifecycle.
         public let action: PackageVersionAction?
+        /// The various components that make up a software package version.
+        public let artifact: PackageVersionArtifact?
         /// Metadata that can be used to define a package version’s configuration. For example, the Amazon S3 file location, configuration options that are being sent to the device or fleet.   Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
         public let attributes: [String: String]?
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
@@ -17905,15 +18267,19 @@ extension IoT {
         public let description: String?
         /// The name of the associated software package.
         public let packageName: String
+        /// The inline job document associated with a software package version used for a quick job deployment.
+        public let recipe: String?
         /// The name of the target package version.
         public let versionName: String
 
-        public init(action: PackageVersionAction? = nil, attributes: [String: String]? = nil, clientToken: String? = UpdatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, versionName: String) {
+        public init(action: PackageVersionAction? = nil, artifact: PackageVersionArtifact? = nil, attributes: [String: String]? = nil, clientToken: String? = UpdatePackageVersionRequest.idempotencyToken(), description: String? = nil, packageName: String, recipe: String? = nil, versionName: String) {
             self.action = action
+            self.artifact = artifact
             self.attributes = attributes
             self.clientToken = clientToken
             self.description = description
             self.packageName = packageName
+            self.recipe = recipe
             self.versionName = versionName
         }
 
@@ -17921,14 +18287,17 @@ extension IoT {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.action, forKey: .action)
+            try container.encodeIfPresent(self.artifact, forKey: .artifact)
             try container.encodeIfPresent(self.attributes, forKey: .attributes)
             request.encodeQuery(self.clientToken, key: "clientToken")
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.packageName, key: "packageName")
+            try container.encodeIfPresent(self.recipe, forKey: .recipe)
             request.encodePath(self.versionName, key: "versionName")
         }
 
         public func validate(name: String) throws {
+            try self.artifact?.validate(name: "\(name).artifact")
             try self.attributes?.forEach {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
@@ -17943,6 +18312,7 @@ extension IoT {
             try self.validate(self.packageName, name: "packageName", parent: name, max: 128)
             try self.validate(self.packageName, name: "packageName", parent: name, min: 1)
             try self.validate(self.packageName, name: "packageName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
+            try self.validate(self.recipe, name: "recipe", parent: name, max: 3072)
             try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
             try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
@@ -17950,8 +18320,10 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case artifact = "artifact"
             case attributes = "attributes"
             case description = "description"
+            case recipe = "recipe"
         }
     }
 

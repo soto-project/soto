@@ -60,6 +60,7 @@ public struct TranscribeStreaming: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: TranscribeStreamingErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -71,6 +72,17 @@ public struct TranscribeStreaming: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "transcribestreaming-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "transcribestreaming-fips.us-east-1.amazonaws.com",
+            "us-east-2": "transcribestreaming-fips.us-east-2.amazonaws.com",
+            "us-gov-east-1": "transcribestreaming-fips.us-gov-east-1.amazonaws.com",
+            "us-gov-west-1": "transcribestreaming-fips.us-gov-west-1.amazonaws.com",
+            "us-west-2": "transcribestreaming-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

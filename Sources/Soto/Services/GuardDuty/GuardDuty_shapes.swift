@@ -2880,6 +2880,8 @@ extension GuardDuty {
         public let definitionArn: String?
         /// The name of the task group that's associated with the task.
         public let group: String?
+        /// A capacity on which the task is running. For example, Fargate and EC2.
+        public let launchType: String?
         /// The Unix timestamp for the time when the task started.
         public let startedAt: Date?
         /// Contains the tag specified when a task is started.
@@ -2893,11 +2895,12 @@ extension GuardDuty {
         /// The list of data volume definitions for the task.
         public let volumes: [Volume]?
 
-        public init(arn: String? = nil, containers: [Container]? = nil, definitionArn: String? = nil, group: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskCreatedAt: Date? = nil, version: String? = nil, volumes: [Volume]? = nil) {
+        public init(arn: String? = nil, containers: [Container]? = nil, definitionArn: String? = nil, group: String? = nil, launchType: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskCreatedAt: Date? = nil, version: String? = nil, volumes: [Volume]? = nil) {
             self.arn = arn
             self.containers = containers
             self.definitionArn = definitionArn
             self.group = group
+            self.launchType = launchType
             self.startedAt = startedAt
             self.startedBy = startedBy
             self.tags = tags
@@ -2911,6 +2914,7 @@ extension GuardDuty {
             case containers = "containers"
             case definitionArn = "definitionArn"
             case group = "group"
+            case launchType = "launchType"
             case startedAt = "startedAt"
             case startedBy = "startedBy"
             case tags = "tags"
@@ -4368,7 +4372,7 @@ extension GuardDuty {
             case requestUri = "requestUri"
             case resource = "resource"
             case resourceName = "resourceName"
-            case sourceIps = "sourceIps"
+            case sourceIps = "sourceIPs"
             case statusCode = "statusCode"
             case subresource = "subresource"
             case userAgent = "userAgent"
