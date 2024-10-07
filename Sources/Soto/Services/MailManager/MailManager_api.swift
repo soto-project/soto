@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS MailManager service.
 ///
-/// AWS SES Mail Manager API  AWS SES Mail Manager API contains operations and data types that comprise the Mail Manager feature of Amazon Simple Email Service. Mail Manager is a set of Amazon SES email gateway features designed to help you strengthen your organization's email infrastructure, simplify email workflow management, and streamline email compliance control. To learn more, see the Mail Manager chapter in the Amazon SES Developer Guide.
+/// Amazon SES Mail Manager API The Amazon SES Mail Manager API contains operations and data types that comprise the Mail Manager feature of Amazon Simple Email Service (SES). Mail Manager is a set of Amazon SES email gateway features designed to help you strengthen your organization's email infrastructure, simplify email workflow management, and streamline email compliance control. To learn more, see the Mail Manager chapter in the Amazon SES Developer Guide.
 /// API Reference: https://w.amazon.com/bin/view/AWS/Border
 public struct MailManager: AWSService {
     // MARK: Member variables
@@ -661,7 +661,7 @@ public struct MailManager: AWSService {
         )
     }
 
-    /// &gt;Update attributes of an already provisioned rule set.
+    /// Update attributes of an already provisioned rule set.
     @Sendable
     public func updateRuleSet(_ input: UpdateRuleSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRuleSetResponse {
         return try await self.client.execute(

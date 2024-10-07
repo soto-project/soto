@@ -675,6 +675,56 @@ extension MailManager {
         }
     }
 
+    public enum RuleStringToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The email attribute to evaluate in a string condition expression.
+        case attribute(RuleStringEmailAttribute)
+        /// The email MIME X-Header attribute to evaluate in a string condition expression.
+        case mimeHeaderAttribute(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .attribute:
+                let value = try container.decode(RuleStringEmailAttribute.self, forKey: .attribute)
+                self = .attribute(value)
+            case .mimeHeaderAttribute:
+                let value = try container.decode(String.self, forKey: .mimeHeaderAttribute)
+                self = .mimeHeaderAttribute(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .attribute(let value):
+                try container.encode(value, forKey: .attribute)
+            case .mimeHeaderAttribute(let value):
+                try container.encode(value, forKey: .mimeHeaderAttribute)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .mimeHeaderAttribute(let value):
+                try self.validate(value, name: "mimeHeaderAttribute", parent: name, pattern: "^X-[a-zA-Z0-9-]{1,256}$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case mimeHeaderAttribute = "MimeHeaderAttribute"
+        }
+    }
+
     public enum RuleVerdictToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The Add On ARN and its returned value to evaluate in a verdict condition expression.
         case analysis(Analysis)
@@ -938,6 +988,10 @@ extension MailManager {
         }
 
         public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 2048)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
         }
@@ -3095,6 +3149,7 @@ extension MailManager {
         }
 
         public func validate(name: String) throws {
+            try self.evaluate.validate(name: "\(name).evaluate")
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, max: 4096)
                 try validate($0, name: "values[]", parent: name, min: 1)
@@ -3878,19 +3933,6 @@ extension MailManager {
         public let attribute: RuleNumberEmailAttribute?
 
         public init(attribute: RuleNumberEmailAttribute? = nil) {
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "Attribute"
-        }
-    }
-
-    public struct RuleStringToEvaluate: AWSEncodableShape & AWSDecodableShape {
-        /// The email attribute to evaluate in a string condition expression.
-        public let attribute: RuleStringEmailAttribute?
-
-        public init(attribute: RuleStringEmailAttribute? = nil) {
             self.attribute = attribute
         }
 

@@ -425,7 +425,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information,  see Work with NAT gateways in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment.  For more information, see Elastic IP address quotas in the Amazon VPC User Guide.  When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs  must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same,  the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information  about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
     @Sendable
     public func associateNatGatewayAddress(_ input: AssociateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateNatGatewayAddressResult {
         return try await self.client.execute(
@@ -600,7 +600,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Attaches a virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
+    /// Attaches an available virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see Amazon Web Services Site-to-Site VPN in the Amazon Web Services Site-to-Site VPN User Guide.
     @Sendable
     public func attachVpnGateway(_ input: AttachVpnGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachVpnGatewayResult {
         return try await self.client.execute(
@@ -713,7 +713,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception. For more information, see Importing a Virtual Machine Using the Amazon EC2 CLI.
+    /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception.
     @Sendable
     public func cancelConversionTask(_ input: CancelConversionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1326,7 +1326,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.  When you create a public NAT gateway and assign it an EIP or secondary EIPs, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see Allocate an Elastic IP address in the Amazon VPC User Guide.
+    /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see NAT gateways in the Amazon VPC User Guide.  When you create a public NAT gateway and assign it an EIP or secondary EIPs,  the network border group of the EIPs must match the network border group of the Availability Zone (AZ)  that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch.  You can see the network border group for the subnet's AZ by viewing the details of the subnet.  Similarly, you can view the network border group of an EIP by viewing the details of the EIP address.  For more information about network border groups and EIPs, see Allocate an Elastic IP address  in the Amazon VPC User Guide.
     @Sendable
     public func createNatGateway(_ input: CreateNatGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNatGatewayResult {
         return try await self.client.execute(
@@ -1604,7 +1604,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Assign prefixes  to network interfaces in the Amazon EC2 User Guide.
+    /// Creates a subnet CIDR reservation. For more information, see Subnet CIDR reservations  in the Amazon VPC User Guide and Manage prefixes  for your network interfaces in the Amazon EC2 User Guide.
     @Sendable
     public func createSubnetCidrReservation(_ input: CreateSubnetCidrReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubnetCidrReservationResult {
         return try await self.client.execute(
@@ -2880,7 +2880,11 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the VPC's default security group, network ACL, and route table.
+    /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated
+    /// 		  with the VPC before you can delete it. For example, you must terminate all instances running in the VPC,
+    /// 		  delete all security groups associated with the VPC (except the default one), delete all route tables
+    /// 		  associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the
+    /// 		  default security group, network ACL, and route table for the VPC. If you created a flow log for the VPC that you are deleting, note that flow logs for deleted  VPCs are eventually automatically removed.
     @Sendable
     public func deleteVpc(_ input: DeleteVpcRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -3764,7 +3768,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     @Sendable
     public func describeInstanceTopology(_ input: DescribeInstanceTopologyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTopologyResult {
         return try await self.client.execute(
@@ -6558,7 +6562,7 @@ public struct EC2: AWSService {
         )
     }
 
-    ///  We recommend that you use the  ImportImage  API. For more information, see Importing a VM as an image using VM Import/Export in the VM Import/Export User Guide.  Creates an import instance task using metadata from the specified disk image. This API action is not supported by the Command Line Interface (CLI). For information about using the Amazon EC2 CLI, which is deprecated, see Importing a VM to Amazon EC2 in the Amazon EC2 CLI Reference PDF file. This API action supports only single-volume VMs. To import multi-volume VMs, use ImportImage instead. For information about the import manifest referenced by this API action, see VM Import Manifest.
+    ///  We recommend that you use the  ImportImage  API instead. For more information, see Importing a VM as an image using VM Import/Export in the VM Import/Export User Guide.  Creates an import instance task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use ImportImage instead. For information about the import manifest referenced by this API action, see VM Import Manifest. This API action is not supported by the Command Line Interface (CLI).
     @Sendable
     public func importInstance(_ input: ImportInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportInstanceResult {
         return try await self.client.execute(
@@ -6598,7 +6602,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Creates an import volume task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use  ImportImage instead. To import a disk to a snapshot, use ImportSnapshot instead. This API action is not supported by the Command Line Interface (CLI). For  information about using the Amazon EC2 CLI, which is deprecated, see Importing Disks to Amazon EBS in the Amazon EC2 CLI Reference PDF file. For information about the import manifest referenced by this API action, see VM Import Manifest.
+    ///  This API action supports only single-volume VMs. To import multi-volume VMs, use  ImportImage instead. To import a disk to a snapshot, use ImportSnapshot instead.  Creates an import volume task using metadata from the specified disk image. For information about the import manifest referenced by this API action, see VM Import Manifest. This API action is not supported by the Command Line Interface (CLI).
     @Sendable
     public func importVolume(_ input: ImportVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportVolumeResult {
         return try await self.client.execute(
@@ -6845,6 +6849,24 @@ public struct EC2: AWSService {
     public func modifyInstanceCapacityReservationAttributes(_ input: ModifyInstanceCapacityReservationAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceCapacityReservationAttributesResult {
         return try await self.client.execute(
             operation: "ModifyInstanceCapacityReservationAttributes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// By default, all vCPUs for the instance type are active when you launch an instance. When you
+    /// 			configure the number of active vCPUs for the instance, it can help you save on licensing costs and
+    /// 			optimize performance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number
+    /// 			of cores.  Some instance type options do not support this capability. For more information, see
+    /// 				Supported CPU
+    /// 					options in the Amazon EC2 User Guide.
+    @Sendable
+    public func modifyInstanceCpuOptions(_ input: ModifyInstanceCpuOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceCpuOptionsResult {
+        return try await self.client.execute(
+            operation: "ModifyInstanceCpuOptions", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -8365,7 +8387,7 @@ public struct EC2: AWSService {
         )
     }
 
-    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see Edit secondary IP address associations in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
+    /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information,  see Edit secondary IP address associations  in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
     @Sendable
     public func unassignPrivateNatGatewayAddress(_ input: UnassignPrivateNatGatewayAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnassignPrivateNatGatewayAddressResult {
         return try await self.client.execute(
@@ -9118,7 +9140,7 @@ extension EC2 {
         )
     }
 
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

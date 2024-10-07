@@ -379,6 +379,7 @@ extension CodeBuild {
     public enum WebhookScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case githubGlobal = "GITHUB_GLOBAL"
         case githubOrganization = "GITHUB_ORGANIZATION"
+        case gitlabGroup = "GITLAB_GROUP"
         public var description: String { return self.rawValue }
     }
 
@@ -3686,11 +3687,11 @@ extension CodeBuild {
     }
 
     public struct ScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The domain of the GitHub Enterprise organization. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE
+        /// The domain of the GitHub Enterprise organization or the GitLab Self Managed group. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE or GITLAB_SELF_MANAGED.
         public let domain: String?
-        /// The name of either the enterprise or organization that will send webhook events to CodeBuild, depending on if the webhook is a global or organization webhook respectively.
+        /// The name of either the group, enterprise, or organization that will send webhook events to CodeBuild, depending on the type of webhook.
         public let name: String
-        /// The type of scope for a GitHub webhook.
+        /// The type of scope for a GitHub or GitLab webhook.
         public let scope: WebhookScopeType
 
         public init(domain: String? = nil, name: String, scope: WebhookScopeType) {

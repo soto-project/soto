@@ -774,7 +774,9 @@ extension EC2 {
     }
 
     public enum FleetCapacityReservationUsageStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "none"
         case useCapacityReservationsFirst = "use-capacity-reservations-first"
+        case useCapacityReservationsOnly = "use-capacity-reservations-only"
         public var description: String { return self.rawValue }
     }
 
@@ -1335,6 +1337,14 @@ extension EC2 {
         public static var g64Xlarge: Self { .init(rawValue: "g6.4xlarge") }
         public static var g68Xlarge: Self { .init(rawValue: "g6.8xlarge") }
         public static var g6Xlarge: Self { .init(rawValue: "g6.xlarge") }
+        public static var g6e12Xlarge: Self { .init(rawValue: "g6e.12xlarge") }
+        public static var g6e16Xlarge: Self { .init(rawValue: "g6e.16xlarge") }
+        public static var g6e24Xlarge: Self { .init(rawValue: "g6e.24xlarge") }
+        public static var g6e2Xlarge: Self { .init(rawValue: "g6e.2xlarge") }
+        public static var g6e48Xlarge: Self { .init(rawValue: "g6e.48xlarge") }
+        public static var g6e4Xlarge: Self { .init(rawValue: "g6e.4xlarge") }
+        public static var g6e8Xlarge: Self { .init(rawValue: "g6e.8xlarge") }
+        public static var g6eXlarge: Self { .init(rawValue: "g6e.xlarge") }
         public static var gr64Xlarge: Self { .init(rawValue: "gr6.4xlarge") }
         public static var gr68Xlarge: Self { .init(rawValue: "gr6.8xlarge") }
         public static var h116Xlarge: Self { .init(rawValue: "h1.16xlarge") }
@@ -4199,7 +4209,7 @@ extension EC2 {
         public let domain: DomainType?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of an IPAM pool.
+        /// The ID of an IPAM pool which has an Amazon-provided or BYOIP public IPv4 CIDR provisioned to it. For more information, see Allocate sequential Elastic IP addresses from an IPAM pool in the Amazon VPC IPAM User Guide.
         public let ipamPoolId: String?
         ///  A unique set of Availability Zones, Local Zones, or Wavelength Zones from which Amazon Web Services advertises IP addresses. Use this parameter to limit the IP address to this location. IP addresses cannot move between network border groups.
         public let networkBorderGroup: String?
@@ -8174,7 +8184,7 @@ extension EC2 {
     }
 
     public struct ConfirmProductInstanceRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
         public let instanceId: String?
@@ -9511,7 +9521,7 @@ extension EC2 {
         public let launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse?
         /// Indicates if the instance that was launched is a Spot Instance or On-Demand Instance.
         public let lifecycle: InstanceLifecycle?
-        /// The value is Windows for Windows instances. Otherwise, the value is blank.
+        /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public let platform: PlatformValues?
 
         public init(instanceIds: [String]? = nil, instanceType: InstanceType? = nil, launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse? = nil, lifecycle: InstanceLifecycle? = nil, platform: PlatformValues? = nil) {
@@ -9652,7 +9662,7 @@ extension EC2 {
         public let logDestination: String?
         /// The type of destination for the flow log data. Default: cloud-watch-logs
         public let logDestinationType: LogDestinationType?
-        /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see Flow log records in the Amazon VPC User Guide or Transit Gateway Flow Log records in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
+        /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see Flow log records  in the Amazon VPC User Guide or Transit Gateway Flow Log records in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
         public let logFormat: String?
         /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
         public let logGroupName: String?
@@ -10101,7 +10111,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The ID of the scope in which you would like to create the IPAM pool.
         public let ipamScopeId: String?
-        /// The locale for the pool should be one of the following:   An Amazon Web Services Region where you want this IPAM pool to be available for allocations.   The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (supported Local Zones). This option is only available for IPAM IPv4 pools in the public scope.   If you do not choose a locale, resources in Regions others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local Zone.
+        /// The locale for the pool should be one of the following:   An Amazon Web Services Region where you want this IPAM pool to be available for allocations.   The network border group for an Amazon Web Services Local Zone where you want this IPAM pool to be available for allocations (supported Local Zones). This option is only available for IPAM IPv4 pools in the public scope.   If you do not choose a locale, resources in Regions others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any Amazon Web Services Region or supported Amazon Web Services Local Zone. Default is none and means any locale.
         public let locale: String?
         /// The IP address source for pools in the public scope. Only used for provisioning IP address CIDRs to pools in the public scope. Default is byoip. For more information, see Create IPv6 pools in the Amazon VPC IPAM User Guide.  By default, you can add only one Amazon-provided IPv6 CIDR block to a top-level IPv6 pool if PublicIpSource is amazon. For information on increasing the default limit, see  Quotas for your IPAM in the Amazon VPC IPAM User Guide.
         public let publicIpSource: IpamPoolPublicIpSource?
@@ -11188,7 +11198,7 @@ extension EC2 {
     public struct CreatePlacementGroupRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// A name for the placement group. Must be unique within the scope of your account for the Region. Constraints: Up to 255 ASCII characters
         public let groupName: String?
@@ -11686,7 +11696,7 @@ extension EC2 {
     }
 
     public struct CreateSpotDatafeedSubscriptionRequest: AWSEncodableShape {
-        /// The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Rules for bucket naming in the Amazon S3 Developer Guide.
+        /// The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Bucket naming rules  in the Amazon S3 User Guide.
         public let bucket: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -12687,7 +12697,7 @@ extension EC2 {
         public let dnsSupport: DnsSupportValue?
         /// Enable or disable IPv6 support.  The default is disable.
         public let ipv6Support: Ipv6SupportValue?
-        ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature. If you don't enable or disable SecurityGroupReferencingSupport in the request, the attachment will inherit the security group referencing support setting on the transit gateway.
+        /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is enabled by default. However, security group referencing is disabled by default at the transit gateway level. For more information about security group referencing, see  Security group referencing  in the Amazon Web Services Transit Gateways Guide.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
 
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil) {
@@ -15011,7 +15021,7 @@ extension EC2 {
     }
 
     public struct DeletePlacementGroupRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The name of the placement group.
         public let groupName: String?
@@ -18233,7 +18243,7 @@ extension EC2 {
         public let launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse?
         /// Indicates if the instance that was launched is a Spot Instance or On-Demand Instance.
         public let lifecycle: InstanceLifecycle?
-        /// The value is Windows for Windows instances. Otherwise, the value is blank.
+        /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public let platform: PlatformValues?
 
         public init(instanceIds: [String]? = nil, instanceType: InstanceType? = nil, launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse? = nil, lifecycle: InstanceLifecycle? = nil, platform: PlatformValues? = nil) {
@@ -18954,7 +18964,7 @@ extension EC2 {
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
         /// The instance attribute. Note: The enaSupport attribute is not supported at this time.
         public let attribute: InstanceAttributeName?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
         public let instanceId: String?
@@ -19036,7 +19046,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    instance-id - The ID of the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
@@ -19181,7 +19191,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    availability-zone - The Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
@@ -19239,7 +19249,7 @@ extension EC2 {
     public struct DescribeInstanceTopologyRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    availability-zone - The name of the Availability Zone (for example, us-west-2a) or Local Zone (for example, us-west-2-lax-1b) that the instance is in.    instance-type - The instance type (for example, p4d.24xlarge) or instance family (for example, p4d*). You can use the * wildcard to match zero or more characters, or the ? wildcard to match zero or one character.    zone-id - The ID of the Availability Zone (for example, usw2-az2) or Local Zone (for example, usw2-lax1-az1) that the instance is in.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
@@ -19422,7 +19432,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    iam-instance-profile.name - The instance profile associated with the instance. Specified as an name.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
@@ -21382,7 +21392,7 @@ extension EC2 {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _GroupIdsEncoding: ArrayCoderProperties { public static let member = "GroupId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The filters.    group-name - The name of the placement group.    group-arn - The Amazon Resource Name (ARN) of the placement group.    spread-level - The spread level for the placement group (host | rack).     state - The state of the placement group (pending | available | deleting | deleted).    strategy - The strategy of the placement group (cluster | spread | partition).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
@@ -29875,7 +29885,7 @@ extension EC2 {
     }
 
     public struct GetConsoleOutputRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
         public let instanceId: String?
@@ -29917,7 +29927,7 @@ extension EC2 {
     }
 
     public struct GetConsoleScreenshotRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
         public let instanceId: String?
@@ -29955,7 +29965,7 @@ extension EC2 {
     }
 
     public struct GetDefaultCreditSpecificationRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance family.
         public let instanceFamily: UnlimitedSupportedInstanceFamily?
@@ -30210,7 +30220,7 @@ extension EC2 {
     }
 
     public struct GetInstanceMetadataDefaultsRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
 
         public init(dryRun: Bool? = nil) {
@@ -30351,7 +30361,7 @@ extension EC2 {
     }
 
     public struct GetInstanceUefiDataRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance from which to retrieve the UEFI data.
         public let instanceId: String?
@@ -31057,7 +31067,7 @@ extension EC2 {
     }
 
     public struct GetPasswordDataRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the Windows instance.
         public let instanceId: String?
@@ -36003,10 +36013,12 @@ extension EC2 {
         public let resourceType: IpamResourceType?
         /// The last successful resource discovery time.
         public let sampleTime: Date?
+        /// The subnet ID.
+        public let subnetId: String?
         /// The VPC ID.
         public let vpcId: String?
 
-        public init(availabilityZoneId: String? = nil, ipamResourceDiscoveryId: String? = nil, ipSource: IpamResourceCidrIpSource? = nil, ipUsage: Double? = nil, networkInterfaceAttachmentStatus: IpamNetworkInterfaceAttachmentStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, sampleTime: Date? = nil, vpcId: String? = nil) {
+        public init(availabilityZoneId: String? = nil, ipamResourceDiscoveryId: String? = nil, ipSource: IpamResourceCidrIpSource? = nil, ipUsage: Double? = nil, networkInterfaceAttachmentStatus: IpamNetworkInterfaceAttachmentStatus? = nil, resourceCidr: String? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, resourceTags: [IpamResourceTag]? = nil, resourceType: IpamResourceType? = nil, sampleTime: Date? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
             self.ipSource = ipSource
@@ -36019,6 +36031,7 @@ extension EC2 {
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.sampleTime = sampleTime
+            self.subnetId = subnetId
             self.vpcId = vpcId
         }
 
@@ -36035,6 +36048,7 @@ extension EC2 {
             case resourceTags = "resourceTagSet"
             case resourceType = "resourceType"
             case sampleTime = "sampleTime"
+            case subnetId = "subnetId"
             case vpcId = "vpcId"
         }
     }
@@ -39392,7 +39406,7 @@ extension EC2 {
     public struct ModifyDefaultCreditSpecificationRequest: AWSEncodableShape {
         /// The credit option for CPU usage of the instance family. Valid Values: standard | unlimited
         public let cpuCredits: String?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance family.
         public let instanceFamily: UnlimitedSupportedInstanceFamily?
@@ -39762,7 +39776,7 @@ extension EC2 {
         public let disableApiStop: AttributeBooleanValue?
         /// If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for Spot Instances.
         public let disableApiTermination: AttributeBooleanValue?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Specifies whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
         public let ebsOptimized: AttributeBooleanValue?
@@ -39865,12 +39879,60 @@ extension EC2 {
         }
     }
 
+    public struct ModifyInstanceCpuOptionsRequest: AWSEncodableShape {
+        /// The number of CPU cores to activate for the specified instance.
+        public let coreCount: Int?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the instance to update.
+        public let instanceId: String?
+        /// The number of threads to run for each CPU core.
+        public let threadsPerCore: Int?
+
+        public init(coreCount: Int? = nil, dryRun: Bool? = nil, instanceId: String? = nil, threadsPerCore: Int? = nil) {
+            self.coreCount = coreCount
+            self.dryRun = dryRun
+            self.instanceId = instanceId
+            self.threadsPerCore = threadsPerCore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreCount = "CoreCount"
+            case dryRun = "DryRun"
+            case instanceId = "InstanceId"
+            case threadsPerCore = "ThreadsPerCore"
+        }
+    }
+
+    public struct ModifyInstanceCpuOptionsResult: AWSDecodableShape {
+        /// The number of CPU cores that are running for the specified instance after the
+        /// 			update.
+        public let coreCount: Int?
+        /// The ID of the instance that was updated.
+        public let instanceId: String?
+        /// The number of threads that are running per CPU core for the specified
+        /// 			instance after the update.
+        public let threadsPerCore: Int?
+
+        public init(coreCount: Int? = nil, instanceId: String? = nil, threadsPerCore: Int? = nil) {
+            self.coreCount = coreCount
+            self.instanceId = instanceId
+            self.threadsPerCore = threadsPerCore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreCount = "coreCount"
+            case instanceId = "instanceId"
+            case threadsPerCore = "threadsPerCore"
+        }
+    }
+
     public struct ModifyInstanceCreditSpecificationRequest: AWSEncodableShape {
         public struct _InstanceCreditSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
         public let clientToken: String?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Information about the credit option for CPU usage.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceCreditSpecificationsEncoding, InstanceCreditSpecificationRequest>>
@@ -39912,7 +39974,7 @@ extension EC2 {
     }
 
     public struct ModifyInstanceEventStartTimeRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the event whose date and time you are modifying.
         public let instanceEventId: String?
@@ -40037,7 +40099,7 @@ extension EC2 {
     }
 
     public struct ModifyInstanceMetadataDefaultsRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Enables or disables the IMDS endpoint on an instance. When disabled, the instance metadata can't be accessed.
         public let httpEndpoint: DefaultInstanceMetadataEndpointState?
@@ -40918,7 +40980,7 @@ extension EC2 {
         public let customerOwnedIpv4Pool: String?
         ///  Specify true to indicate that local network interfaces at the current  position should be disabled.
         public let disableLniAtDeviceIndex: AttributeBooleanValue?
-        /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet  should return synthetic IPv6 addresses for IPv4-only destinations.  You must first configure a NAT gateway in a public subnet (separate from the subnet containing the IPv6-only workloads). For example, the subnet containing the NAT gateway should have a 0.0.0.0/0 route pointing to the internet gateway. For more information, see Configure DNS64 and NAT64 in the Amazon VPC User Guide.
+        /// Indicates whether DNS queries made to the Amazon-provided DNS Resolver in this subnet  should return synthetic IPv6 addresses for IPv4-only destinations. You must first configure a NAT gateway in a public subnet (separate from the subnet  containing the IPv6-only workloads). For example, the subnet containing the NAT gateway  should have a 0.0.0.0/0 route pointing to the internet gateway. For more  information, see Configure DNS64 and NAT64 in the Amazon VPC User Guide.
         public let enableDns64: AttributeBooleanValue?
         ///  Indicates the device position for local network interfaces in this subnet. For example,  1 indicates local network interfaces in this subnet are the secondary  network interface (eth1). A local network interface cannot be the primary network interface (eth0).
         public let enableLniAtDeviceIndex: Int?
@@ -41162,7 +41224,8 @@ extension EC2 {
         /// Removes CIDR blocks for the transit gateway.
         @OptionalCustomCoding<EC2ArrayCoder<_RemoveTransitGatewayCidrBlocksEncoding, String>>
         public var removeTransitGatewayCidrBlocks: [String]?
-        ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
+        /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management.
+        ///  This option is disabled by default. For more information about security group referencing, see  Security group referencing in the Amazon Web Services Transit Gateways Guide.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
         /// Enable or disable Equal Cost Multipath Protocol support.
         public let vpnEcmpSupport: VpnEcmpSupportValue?
@@ -41317,7 +41380,8 @@ extension EC2 {
         public let dnsSupport: DnsSupportValue?
         /// Enable or disable IPv6 support. The default is enable.
         public let ipv6Support: Ipv6SupportValue?
-        ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
+        /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management.
+        ///  This option is disabled by default. For more information about security group referencing, see  Security group referencing in the Amazon Web Services Transit Gateways Guide.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
 
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil) {
@@ -42534,7 +42598,7 @@ extension EC2 {
     public struct MonitorInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
@@ -45517,7 +45581,7 @@ extension EC2 {
     public struct RebootInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The instance IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
@@ -46504,7 +46568,7 @@ extension EC2 {
 
         /// Descriptive text about the health state of your instance.
         public let description: String?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The time at which the reported instance health state ended.
         public let endTime: Date?
@@ -46519,6 +46583,17 @@ extension EC2 {
         /// The status of all instances listed.
         public let status: ReportStatusType?
 
+        public init(dryRun: Bool? = nil, endTime: Date? = nil, instances: [String]? = nil, reasonCodes: [ReportInstanceReasonCodes]? = nil, startTime: Date? = nil, status: ReportStatusType? = nil) {
+            self.description = nil
+            self.dryRun = dryRun
+            self.endTime = endTime
+            self.instances = instances
+            self.reasonCodes = reasonCodes
+            self.startTime = startTime
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members description have been deprecated")
         public init(description: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, instances: [String]? = nil, reasonCodes: [ReportInstanceReasonCodes]? = nil, startTime: Date? = nil, status: ReportStatusType? = nil) {
             self.description = description
             self.dryRun = dryRun
@@ -47532,7 +47607,7 @@ extension EC2 {
     public struct ResetInstanceAttributeRequest: AWSEncodableShape {
         /// The attribute to reset.  You can only reset the following attributes: kernel | ramdisk | sourceDestCheck.
         public let attribute: InstanceAttributeName?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
         public let instanceId: String?
@@ -48490,7 +48565,7 @@ extension EC2 {
         public let disableApiStop: Bool?
         /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false
         public let disableApiTermination: Bool?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal Amazon EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance. Default: false
         public let ebsOptimized: Bool?
@@ -49647,7 +49722,7 @@ extension EC2 {
     }
 
     public struct SendDiagnosticInterruptRequest: AWSEncodableShape {
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the instance.
         public let instanceId: String?
@@ -50124,7 +50199,7 @@ extension EC2 {
     }
 
     public struct SnapshotTaskDetail: AWSDecodableShape {
-        /// The description of the snapshot.
+        /// The description of the disk image being imported.
         public let description: String?
         /// The size of the disk in the snapshot, in GiB.
         public let diskImageSize: Double?
@@ -50983,7 +51058,7 @@ extension EC2 {
 
         /// Reserved.
         public let additionalInfo: String?
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
@@ -51169,7 +51244,7 @@ extension EC2 {
     public struct StopInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false
         public let force: Bool?
@@ -51871,7 +51946,7 @@ extension EC2 {
     public struct TerminateInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances. Constraints: Up to 1000 instance IDs. We recommend breaking up this request into smaller batches.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
@@ -52818,7 +52893,8 @@ extension EC2 {
         public let multicastSupport: MulticastSupportValue?
         /// The ID of the default propagation route table.
         public let propagationDefaultRouteTableId: String?
-        ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
+        /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management.
+        ///  This option is disabled by default.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
         /// The transit gateway CIDR blocks.
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayCidrBlocksEncoding, String>>
@@ -53150,7 +53226,8 @@ extension EC2 {
         public let dnsSupport: DnsSupportValue?
         /// Indicates whether multicast is enabled on the transit gateway
         public let multicastSupport: MulticastSupportValue?
-        ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
+        /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management.
+        ///  This option is disabled by default. For more information about security group referencing, see  Security group referencing in the Amazon Web Services Transit Gateways Guide.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
         /// One or more IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6.
         @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayCidrBlocksEncoding, String>>
@@ -53484,7 +53561,7 @@ extension EC2 {
         public let dnsSupport: DnsSupportValue?
         /// Indicates whether IPv6 support is disabled.
         public let ipv6Support: Ipv6SupportValue?
-        ///  This parameter is in preview and may not be available for your account.  Enables you to reference a security group across VPCs attached to a transit gateway. Use this option to simplify security group management and control of instance-to-instance traffic across VPCs that are connected by transit gateway. You can also use this option to migrate from VPC peering (which was the only option that supported security group referencing) to transit gateways (which now also support security group referencing). This option is disabled by default and there are no additional costs to use this feature.
+        /// Enables you to reference a security group across VPCs attached to a transit gateway to simplify security group management. This option is enabled by default. For more information about security group referencing, see  Security group referencing in the Amazon Web Services Transit Gateways Guide.
         public let securityGroupReferencingSupport: SecurityGroupReferencingSupportValue?
 
         public init(applianceModeSupport: ApplianceModeSupportValue? = nil, dnsSupport: DnsSupportValue? = nil, ipv6Support: Ipv6SupportValue? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil) {
@@ -53814,7 +53891,7 @@ extension EC2 {
     public struct UnmonitorInstancesRequest: AWSEncodableShape {
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
 
-        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The IDs of the instances.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>

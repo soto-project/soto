@@ -82,6 +82,9 @@ public struct DirectoryService: AWSService {
             "us-east-2": "ds-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ds-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "ds-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "ds-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "ds-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "ds-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "ds-fips.us-west-1.amazonaws.com",
             "us-west-2": "ds-fips.us-west-2.amazonaws.com"
         ])
@@ -414,6 +417,19 @@ public struct DirectoryService: AWSService {
         )
     }
 
+    /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory.
+    @Sendable
+    public func describeDirectoryDataAccess(_ input: DescribeDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDirectoryDataAccessResult {
+        return try await self.client.execute(
+            operation: "DescribeDirectoryDataAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Provides information about any domain controllers in your directory.
     @Sendable
     public func describeDomainControllers(_ input: DescribeDomainControllersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDomainControllersResult {
@@ -544,6 +560,19 @@ public struct DirectoryService: AWSService {
         )
     }
 
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    @Sendable
+    public func disableDirectoryDataAccess(_ input: DisableDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDirectoryDataAccessResult {
+        return try await self.client.execute(
+            operation: "DisableDirectoryDataAccess", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Deactivates LDAP secure calls for the specified directory.
     @Sendable
     public func disableLDAPS(_ input: DisableLDAPSRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableLDAPSResult {
@@ -588,6 +617,19 @@ public struct DirectoryService: AWSService {
     public func enableClientAuthentication(_ input: EnableClientAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableClientAuthenticationResult {
         return try await self.client.execute(
             operation: "EnableClientAuthentication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    @Sendable
+    public func enableDirectoryDataAccess(_ input: EnableDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDirectoryDataAccessResult {
+        return try await self.client.execute(
+            operation: "EnableDirectoryDataAccess", 
             path: "/", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
@@ -804,7 +846,7 @@ public struct DirectoryService: AWSService {
         )
     }
 
-    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see What Gets Created in the Directory Service Administration Guide.
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions:   For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user.   For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see What Gets Created in the Directory Service Administration Guide.
     @Sendable
     public func resetUserPassword(_ input: ResetUserPasswordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetUserPasswordResult {
         return try await self.client.execute(

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ResourceGroups service.
 ///
-/// Resource Groups lets you organize Amazon Web Services resources such as Amazon Elastic Compute Cloud instances, Amazon Relational Database Service databases, and Amazon Simple Storage Service buckets into groups using criteria that you define as tags. A resource group is a collection of resources that match the resource types specified in a query, and share one or more tags or portions of tags. You can create a group of resources based on their roles in your cloud infrastructure, lifecycle stages, regions, application layers, or virtually any criteria. Resource Groups enable you to automate management tasks, such as those in Amazon Web Services Systems Manager Automation documents, on tag-related resources in Amazon Web Services Systems Manager. Groups of tagged resources also let you quickly view a custom console in Amazon Web Services Systems Manager that shows Config compliance and other monitoring data about member resources. To create a resource group, build a resource query, and specify tags that identify the criteria that members of the group have in common. Tags are key-value pairs. For more information about Resource Groups, see the Resource Groups User Guide. Resource Groups uses a REST-compliant API that you can use to perform the following types of operations.   Create, Read, Update, and Delete (CRUD) operations on resource groups and resource query entities   Applying, editing, and removing tags from resource groups   Resolving resource group member ARNs so they can be returned as search results   Getting data about resources that are members of a group   Searching Amazon Web Services resources based on a resource query
+/// Resource Groups lets you organize Amazon Web Services resources such as Amazon Elastic Compute Cloud instances, Amazon Relational Database Service databases, and Amazon Simple Storage Service buckets into groups using criteria that you define as tags. A resource group is a collection of resources that match the resource types specified in a query, and share one or more tags or portions of tags. You can create a group of resources based on their roles in your cloud infrastructure, lifecycle stages, regions, application layers, or virtually any criteria. Resource Groups enable you to automate management tasks, such as those in Amazon Web Services Systems Manager Automation documents, on tag-related resources in Amazon Web Services Systems Manager. Groups of tagged resources also let you quickly view a custom console in Amazon Web Services Systems Manager that shows Config compliance and other monitoring data about member resources. To create a resource group, build a resource query, and specify tags that identify the criteria that members of the group have in common. Tags are key-value pairs. For more information about Resource Groups, see the Resource Groups User Guide. Resource Groups uses a REST-compliant API that you can use to perform the following types of operations.   Create, Read, Update, and Delete (CRUD) operations on resource groups and resource query entities   Applying, editing, and removing tags from resource groups   Resolving resource group member Amazon resource names (ARN)s so they can be returned as search results   Getting data about resources that are members of a group   Searching Amazon Web Services resources based on a resource query
 public struct ResourceGroups: AWSService {
     // MARK: Member variables
 
@@ -84,6 +84,19 @@ public struct ResourceGroups: AWSService {
     ]}
 
     // MARK: API Calls
+
+    /// Cancels the specified tag-sync task.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:CancelTagSyncTask on the application group    resource-groups:DeleteGroup
+    @Sendable
+    public func cancelTagSyncTask(_ input: CancelTagSyncTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        return try await self.client.execute(
+            operation: "CancelTagSyncTask", 
+            path: "/cancel-tag-sync-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
 
     /// Creates a resource group with the specified name and description. You can optionally include either a resource query or a service configuration. For more information about constructing a resource query, see Build queries and groups in Resource Groups in the Resource Groups User Guide. For more information about service-linked groups and service configurations, see Service configurations for Resource Groups.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:CreateGroup
     @Sendable
@@ -162,7 +175,20 @@ public struct ResourceGroups: AWSService {
         )
     }
 
-    /// Returns a list of tags that are associated with a resource group, specified by an ARN.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetTags
+    /// Returns information about a specified tag-sync task.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetTagSyncTask on the application group
+    @Sendable
+    public func getTagSyncTask(_ input: GetTagSyncTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTagSyncTaskOutput {
+        return try await self.client.execute(
+            operation: "GetTagSyncTask", 
+            path: "/get-tag-sync-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of tags that are associated with a resource group, specified by an Amazon resource name (ARN).  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GetTags
     @Sendable
     public func getTags(_ input: GetTagsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTagsOutput {
         return try await self.client.execute(
@@ -175,7 +201,7 @@ public struct ResourceGroups: AWSService {
         )
     }
 
-    /// Adds the specified resources to the specified group.  You can use this operation with only resource groups that are configured with the following types:    AWS::EC2::HostManagement     AWS::EC2::CapacityReservationPool    Other resource group type and resource types aren't currently supported by this operation.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GroupResources
+    /// Adds the specified resources to the specified group.  You can only use this operation with the following groups:    AWS::EC2::HostManagement     AWS::EC2::CapacityReservationPool     AWS::ResourceGroups::ApplicationGroup    Other resource group types and resource types are not currently supported by this operation.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:GroupResources
     @Sendable
     public func groupResources(_ input: GroupResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GroupResourcesOutput {
         return try await self.client.execute(
@@ -188,12 +214,25 @@ public struct ResourceGroups: AWSService {
         )
     }
 
-    /// Returns a list of ARNs of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources     cloudformation:DescribeStacks     cloudformation:ListStackResources     tag:GetResources
+    /// Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources     cloudformation:DescribeStacks     cloudformation:ListStackResources     tag:GetResources
     @Sendable
     public func listGroupResources(_ input: ListGroupResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupResourcesOutput {
         return try await self.client.execute(
             operation: "ListGroupResources", 
             path: "/list-group-resources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns the status of the last grouping or ungrouping action for  each resource in the specified application group.
+    @Sendable
+    public func listGroupingStatuses(_ input: ListGroupingStatusesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupingStatusesOutput {
+        return try await self.client.execute(
+            operation: "ListGroupingStatuses", 
+            path: "/list-grouping-statuses", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -207,6 +246,19 @@ public struct ResourceGroups: AWSService {
         return try await self.client.execute(
             operation: "ListGroups", 
             path: "/groups-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of tag-sync tasks.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListTagSyncTasks with the group passed in the filters as the resource  or * if using no filters
+    @Sendable
+    public func listTagSyncTasks(_ input: ListTagSyncTasksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagSyncTasksOutput {
+        return try await self.client.execute(
+            operation: "ListTagSyncTasks", 
+            path: "/list-tag-sync-tasks", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -240,7 +292,20 @@ public struct ResourceGroups: AWSService {
         )
     }
 
-    /// Adds tags to a resource group with the specified ARN. Existing tags on a resource group are not changed if they are not specified in the request parameters.  Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:Tag
+    /// Creates a new tag-sync task to onboard and sync resources tagged with a specific tag key-value pair to an  application.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:StartTagSyncTask on the application group    resource-groups:CreateGroup     iam:PassRole on the role provided in the request
+    @Sendable
+    public func startTagSyncTask(_ input: StartTagSyncTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTagSyncTaskOutput {
+        return try await self.client.execute(
+            operation: "StartTagSyncTask", 
+            path: "/start-tag-sync-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Adds tags to a resource group with the specified Amazon resource name (ARN). Existing tags on a resource group are not changed if they are not specified in the request parameters.  Do not store personally identifiable information (PII) or other confidential or sensitive information in tags. We use tags to provide you with billing and administration services. Tags are not intended to be used for private or sensitive data.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:Tag
     @Sendable
     public func tag(_ input: TagInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagOutput {
         return try await self.client.execute(
@@ -332,7 +397,7 @@ extension ResourceGroups {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ResourceGroups {
-    /// Returns a list of ARNs of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources     cloudformation:DescribeStacks     cloudformation:ListStackResources     tag:GetResources
+    /// Returns a list of Amazon resource names (ARNs) of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources     cloudformation:DescribeStacks     cloudformation:ListStackResources     tag:GetResources
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -347,6 +412,25 @@ extension ResourceGroups {
             command: self.listGroupResources,
             inputKey: \ListGroupResourcesInput.nextToken,
             outputKey: \ListGroupResourcesOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns the status of the last grouping or ungrouping action for  each resource in the specified application group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listGroupingStatusesPaginator(
+        _ input: ListGroupingStatusesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGroupingStatusesInput, ListGroupingStatusesOutput> {
+        return .init(
+            input: input,
+            command: self.listGroupingStatuses,
+            inputKey: \ListGroupingStatusesInput.nextToken,
+            outputKey: \ListGroupingStatusesOutput.nextToken,
             logger: logger
         )
     }
@@ -366,6 +450,25 @@ extension ResourceGroups {
             command: self.listGroups,
             inputKey: \ListGroupsInput.nextToken,
             outputKey: \ListGroupsOutput.nextToken,
+            logger: logger
+        )
+    }
+
+    /// Returns a list of tag-sync tasks.   Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListTagSyncTasks with the group passed in the filters as the resource  or * if using no filters
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listTagSyncTasksPaginator(
+        _ input: ListTagSyncTasksInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTagSyncTasksInput, ListTagSyncTasksOutput> {
+        return .init(
+            input: input,
+            command: self.listTagSyncTasks,
+            inputKey: \ListTagSyncTasksInput.nextToken,
+            outputKey: \ListTagSyncTasksOutput.nextToken,
             logger: logger
         )
     }
@@ -401,8 +504,29 @@ extension ResourceGroups.ListGroupResourcesInput: AWSPaginateToken {
     }
 }
 
+extension ResourceGroups.ListGroupingStatusesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupingStatusesInput {
+        return .init(
+            filters: self.filters,
+            group: self.group,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension ResourceGroups.ListGroupsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ResourceGroups.ListGroupsInput {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ResourceGroups.ListTagSyncTasksInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ResourceGroups.ListTagSyncTasksInput {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,

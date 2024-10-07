@@ -125,6 +125,19 @@ public struct IoT: AWSService {
         )
     }
 
+    /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the AssociateSbomWithPackageVersion action.
+    @Sendable
+    public func associateSbomWithPackageVersion(_ input: AssociateSbomWithPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSbomWithPackageVersionResponse {
+        return try await self.client.execute(
+            operation: "AssociateSbomWithPackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}/sbom", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.   Requires permission to access the AssociateTargetsWithJob action.
     @Sendable
     public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateTargetsWithJobResponse {
@@ -321,7 +334,9 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Creates a billing group. Requires permission to access the CreateBillingGroup action.
+    /// Creates a billing group. If this call is made multiple times using
+    /// 			the same billing group name and configuration, the call will succeed. If this call is made with
+    /// 			the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action.
     @Sendable
     public func createBillingGroup(_ input: CreateBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBillingGroupResponse {
         return try await self.client.execute(
@@ -581,7 +596,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Creates a role alias. Requires permission to access the CreateRoleAlias action.
+    /// Creates a role alias. Requires permission to access the CreateRoleAlias action.  The value of  credentialDurationSeconds must be less than or equal to the maximum session  duration of the IAM role that the role alias references. For more information, see   Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
     @Sendable
     public func createRoleAlias(_ input: CreateRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoleAliasResponse {
         return try await self.client.execute(
@@ -666,7 +681,10 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Creates a new thing type. Requires permission to access the CreateThingType action.
+    /// Creates a new thing type. If this call is made multiple times using
+    /// 			the same thing type name and configuration, the call will succeed. If this call is made with
+    /// 			the same thing type name but different configuration a ResourceAlreadyExistsException is thrown.
+    /// 		 Requires permission to access the CreateThingType action.
     @Sendable
     public func createThingType(_ input: CreateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThingTypeResponse {
         return try await self.client.execute(
@@ -1674,6 +1692,19 @@ public struct IoT: AWSService {
         )
     }
 
+    /// Disassociates the selected software bill of materials (SBOM) from a specific software package version. Requires permission to access the DisassociateSbomWithPackageVersion action.
+    @Sendable
+    public func disassociateSbomFromPackageVersion(_ input: DisassociateSbomFromPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSbomFromPackageVersionResponse {
+        return try await self.client.execute(
+            operation: "DisassociateSbomFromPackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}/sbom", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
     /// Enables the rule. Requires permission to access the EnableTopicRule action.
     @Sendable
     public func enableTopicRule(_ input: EnableTopicRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2449,6 +2480,19 @@ public struct IoT: AWSService {
         return try await self.client.execute(
             operation: "ListRoleAliases", 
             path: "/role-aliases", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the ListSbomValidationResults action.
+    @Sendable
+    public func listSbomValidationResults(_ input: ListSbomValidationResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSbomValidationResultsResponse {
+        return try await self.client.execute(
+            operation: "ListSbomValidationResults", 
+            path: "/packages/{packageName}/versions/{versionName}/sbom-validation-results", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -3312,7 +3356,7 @@ public struct IoT: AWSService {
         )
     }
 
-    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.
+    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.  The value of  credentialDurationSeconds must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see  Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
     @Sendable
     public func updateRoleAlias(_ input: UpdateRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoleAliasResponse {
         return try await self.client.execute(
@@ -4186,6 +4230,25 @@ extension IoT {
         )
     }
 
+    /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the ListSbomValidationResults action.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listSbomValidationResultsPaginator(
+        _ input: ListSbomValidationResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSbomValidationResultsRequest, ListSbomValidationResultsResponse> {
+        return .init(
+            input: input,
+            command: self.listSbomValidationResults,
+            inputKey: \ListSbomValidationResultsRequest.nextToken,
+            outputKey: \ListSbomValidationResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+
     /// Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits action.
     /// Return PaginatorSequence for operation.
     ///
@@ -4997,6 +5060,18 @@ extension IoT.ListRoleAliasesRequest: AWSPaginateToken {
             ascendingOrder: self.ascendingOrder,
             marker: token,
             pageSize: self.pageSize
+        )
+    }
+}
+
+extension IoT.ListSbomValidationResultsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListSbomValidationResultsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageName: self.packageName,
+            validationResult: self.validationResult,
+            versionName: self.versionName
         )
     }
 }

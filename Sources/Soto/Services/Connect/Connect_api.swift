@@ -95,7 +95,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
+    /// Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
     @Sendable
     public func associateAnalyticsDataSet(_ input: AssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAnalyticsDataSetResponse {
         return try await self.client.execute(
@@ -277,7 +277,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
+    /// Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
     @Sendable
     public func batchAssociateAnalyticsDataSet(_ input: BatchAssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateAnalyticsDataSetResponse {
         return try await self.client.execute(
@@ -290,7 +290,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
+    /// Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
     @Sendable
     public func batchDisassociateAnalyticsDataSet(_ input: BatchDisassociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateAnalyticsDataSetResponse {
         return try await self.client.execute(
@@ -1025,7 +1025,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Contact information remains available in Amazon Connect for 24 months, and then it is deleted. Only data from November 12, 2021, and later is returned by this API.
+    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API
     @Sendable
     public func describeContact(_ input: DescribeContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactResponse {
         return try await self.client.execute(
@@ -1324,7 +1324,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Removes the dataset ID associated with a given Amazon Connect instance.
+    /// Removes the dataset ID associated with a given Amazon Connect instance.
     @Sendable
     public func disassociateAnalyticsDataSet(_ input: DisassociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
         return try await self.client.execute(
@@ -1675,7 +1675,7 @@ public struct Connect: AWSService {
         )
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the association status of requested dataset ID for a given Amazon Connect instance.
+    /// Lists the association status of requested dataset ID for a given Amazon Connect instance.
     @Sendable
     public func listAnalyticsDataAssociations(_ input: ListAnalyticsDataAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalyticsDataAssociationsResponse {
         return try await self.client.execute(
@@ -2619,6 +2619,19 @@ public struct Connect: AWSService {
             operation: "StartContactStreaming", 
             path: "/contact/start-streaming", 
             httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent or it can also deflect an ongoing contact to an outbound SMS contact by using the StartOutboundChatContact Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through AWS End User Messaging SMS
+    @Sendable
+    public func startOutboundChatContact(_ input: StartOutboundChatContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOutboundChatContactResponse {
+        return try await self.client.execute(
+            operation: "StartOutboundChatContact", 
+            path: "/contact/outbound-chat", 
+            httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger

@@ -163,7 +163,7 @@ public struct ResourceExplorer2: AWSService {
         )
     }
 
-    /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account or a delegated administrator with service access enabled can invoke this API call.
+    /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
     @Sendable
     public func getAccountLevelServiceConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountLevelServiceConfigurationOutput {
         return try await self.client.execute(
@@ -231,6 +231,19 @@ public struct ResourceExplorer2: AWSService {
         return try await self.client.execute(
             operation: "ListIndexesForMembers", 
             path: "/ListIndexesForMembers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+
+    /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
+    @Sendable
+    public func listResources(_ input: ListResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcesOutput {
+        return try await self.client.execute(
+            operation: "ListResources", 
+            path: "/ListResources", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -398,6 +411,25 @@ extension ResourceExplorer2 {
         )
     }
 
+    /// Returns a list of resources and their details that match the specified criteria. This query must  use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region  in which you call this operation.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    public func listResourcesPaginator(
+        _ input: ListResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourcesInput, ListResourcesOutput> {
+        return .init(
+            input: input,
+            command: self.listResources,
+            inputKey: \ListResourcesInput.nextToken,
+            outputKey: \ListResourcesOutput.nextToken,
+            logger: logger
+        )
+    }
+
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     /// Return PaginatorSequence for operation.
     ///
@@ -477,6 +509,17 @@ extension ResourceExplorer2.ListIndexesInput: AWSPaginateToken {
             nextToken: token,
             regions: self.regions,
             type: self.type
+        )
+    }
+}
+
+extension ResourceExplorer2.ListResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ResourceExplorer2.ListResourcesInput {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            viewArn: self.viewArn
         )
     }
 }

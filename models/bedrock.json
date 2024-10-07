@@ -1051,7 +1051,7 @@
                 "clientRequestToken": {
                     "target": "com.amazonaws.bedrock#IdempotencyToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request,\n         Amazon Bedrock ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a>.</p>",
+                        "smithy.api#documentation": "<p>A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request,\n      Amazon Bedrock ignores the request, but does not return an error. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html\">Ensuring idempotency</a>.</p>",
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -1084,7 +1084,7 @@
                 "inferenceConfig": {
                     "target": "com.amazonaws.bedrock#EvaluationInferenceConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model, and model evaluation job that use human workers support two models.</p>",
+                        "smithy.api#documentation": "<p>Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model or <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html\">inference profile</a>, and model evaluation job that use human workers support two models or inference profiles.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1593,7 +1593,7 @@
                 "vpcConfig": {
                     "target": "com.amazonaws.bedrock#VpcConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>VPC configuration (optional). Configuration parameters for the\n           private Virtual Private Cloud (VPC) that contains the resources you are using for this job.</p>"
+                        "smithy.api#documentation": "<p>The configuration of the Virtual Private Cloud (VPC) that contains the resources that you're using for this job. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/vpc-model-customization.html\">Protect your model customization jobs using a VPC</a>.</p>"
                     }
                 }
             },
@@ -1825,6 +1825,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Details about the location of the output of the batch inference job.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "vpcConfig": {
+                    "target": "com.amazonaws.bedrock#VpcConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc\">Protect batch inference jobs using a VPC</a>.</p>"
                     }
                 },
                 "timeoutDurationInHours": {
@@ -2380,7 +2386,7 @@
                 "modelIdentifier": {
                     "target": "com.amazonaws.bedrock#EvaluationModelIdentifier",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ARN of the Amazon Bedrock model specified.</p>",
+                        "smithy.api#documentation": "<p>The ARN of the Amazon Bedrock model or inference profile specified.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2393,7 +2399,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains the ARN of the Amazon Bedrock models specified in your model evaluation job. Each Amazon Bedrock model supports different <code>inferenceParams</code>. To learn more about supported inference parameters for Amazon Bedrock models, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters for foundation models</a>.</p>\n         <p>The <code>inferenceParams</code> are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, <code>\"temperature\":\"0.25\"</code> key value pair would need to be formatted as <code>\\\"temperature\\\":\\\"0.25\\\"</code> to successfully accepted in the request.</p>"
+                "smithy.api#documentation": "<p>Contains the ARN of the Amazon Bedrock model or <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html\">inference profile</a> specified in your model evaluation job. Each Amazon Bedrock model supports different <code>inferenceParams</code>. To learn more about supported inference parameters for Amazon Bedrock models, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html\">Inference parameters for foundation models</a>.</p>\n         <p>The <code>inferenceParams</code> are specified using JSON. To successfully insert JSON as string make sure that all quotations are properly escaped. For example, <code>\"temperature\":\"0.25\"</code> key value pair would need to be formatted as <code>\\\"temperature\\\":\\\"0.25\\\"</code> to successfully accepted in the request.</p>"
             }
         },
         "com.amazonaws.bedrock#EvaluationConfig": {
@@ -2687,7 +2693,7 @@
                 "bedrockModel": {
                     "target": "com.amazonaws.bedrock#EvaluationBedrockModel",
                     "traits": {
-                        "smithy.api#documentation": "<p>Defines the Amazon Bedrock model and inference parameters you want used.</p>"
+                        "smithy.api#documentation": "<p>Defines the Amazon Bedrock model or inference profile and inference parameters you want used.</p>"
                     }
                 }
             },
@@ -2714,7 +2720,7 @@
                     "min": 1,
                     "max": 2048
                 },
-                "smithy.api#pattern": "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+)$"
+                "smithy.api#pattern": "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z]{2}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))$"
             }
         },
         "com.amazonaws.bedrock#EvaluationModelIdentifiers": {
@@ -4469,6 +4475,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Details about the location of the output of the batch inference job.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "vpcConfig": {
+                    "target": "com.amazonaws.bedrock#VpcConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc\">Protect batch inference jobs using a VPC</a>.</p>"
                     }
                 },
                 "timeoutDurationInHours": {
@@ -8422,10 +8434,16 @@
                         "smithy.api#documentation": "<p>The S3 location of the input data.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "s3BucketOwner": {
+                    "target": "com.amazonaws.bedrock#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that owns the S3 bucket containing the input data.</p>"
+                    }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains the configuration of the S3 location of the output data.</p>"
+                "smithy.api#documentation": "<p>Contains the configuration of the S3 location of the input data.</p>"
             }
         },
         "com.amazonaws.bedrock#ModelInvocationJobS3OutputDataConfig": {
@@ -8442,6 +8460,12 @@
                     "target": "com.amazonaws.bedrock#KmsKeyId",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier of the key that encrypts the S3 location of the output data.</p>"
+                    }
+                },
+                "s3BucketOwner": {
+                    "target": "com.amazonaws.bedrock#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the Amazon Web Services account that owns the S3 bucket containing the output data.</p>"
                     }
                 }
             },
@@ -8600,6 +8624,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Details about the location of the output of the batch inference job.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "vpcConfig": {
+                    "target": "com.amazonaws.bedrock#VpcConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc\">Protect batch inference jobs using a VPC</a>.</p>"
                     }
                 },
                 "timeoutDurationInHours": {
@@ -9940,20 +9970,20 @@
                 "subnetIds": {
                     "target": "com.amazonaws.bedrock#SubnetIds",
                     "traits": {
-                        "smithy.api#documentation": "<p>VPC configuration subnets.</p>",
+                        "smithy.api#documentation": "<p>An array of IDs for each subnet in the VPC to use.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "securityGroupIds": {
                     "target": "com.amazonaws.bedrock#SecurityGroupIds",
                     "traits": {
-                        "smithy.api#documentation": "<p>VPC configuration security group Ids.</p>",
+                        "smithy.api#documentation": "<p>An array of IDs for each security group in the VPC to use.</p>",
                         "smithy.api#required": {}
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>VPC configuration.</p>"
+                "smithy.api#documentation": "<p>The configuration of a virtual private cloud (VPC). For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/usingVPC.html\">Protect your data using Amazon Virtual Private Cloud and Amazon Web Services PrivateLink</a>.</p>"
             }
         }
     }
