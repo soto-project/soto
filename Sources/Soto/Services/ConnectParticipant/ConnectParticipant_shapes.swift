@@ -88,6 +88,7 @@ extension ConnectParticipant {
         /// Status of the attachment.
         public let status: ArtifactStatus?
 
+        @inlinable
         public init(attachmentId: String? = nil, attachmentName: String? = nil, contentType: String? = nil, status: ArtifactStatus? = nil) {
             self.attachmentId = attachmentId
             self.attachmentName = attachmentName
@@ -111,6 +112,7 @@ extension ConnectParticipant {
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
 
+        @inlinable
         public init(attachmentIds: [String], clientToken: String = CompleteAttachmentUploadRequest.idempotencyToken(), connectionToken: String) {
             self.attachmentIds = attachmentIds
             self.clientToken = clientToken
@@ -154,6 +156,7 @@ extension ConnectParticipant {
         /// The expiration of the token. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let expiry: String?
 
+        @inlinable
         public init(connectionToken: String? = nil, expiry: String? = nil) {
             self.connectionToken = connectionToken
             self.expiry = expiry
@@ -173,6 +176,7 @@ extension ConnectParticipant {
         /// Type of connection information required. If you need CONNECTION_CREDENTIALS along with marking participant as connected, pass CONNECTION_CREDENTIALS in Type.
         public let type: [ConnectionType]?
 
+        @inlinable
         public init(connectParticipant: Bool? = nil, participantToken: String, type: [ConnectionType]? = nil) {
             self.connectParticipant = connectParticipant
             self.participantToken = participantToken
@@ -205,6 +209,7 @@ extension ConnectParticipant {
         /// Creates the participant's websocket connection.
         public let websocket: Websocket?
 
+        @inlinable
         public init(connectionCredentials: ConnectionCredentials? = nil, websocket: Websocket? = nil) {
             self.connectionCredentials = connectionCredentials
             self.websocket = websocket
@@ -222,6 +227,7 @@ extension ConnectParticipant {
         /// An encrypted token originating from the interactive message of a ShowView block operation. Represents the desired view.
         public let viewToken: String
 
+        @inlinable
         public init(connectionToken: String, viewToken: String) {
             self.connectionToken = connectionToken
             self.viewToken = viewToken
@@ -248,6 +254,7 @@ extension ConnectParticipant {
         /// A view resource object. Contains metadata and content necessary to render the view.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -263,6 +270,7 @@ extension ConnectParticipant {
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
 
+        @inlinable
         public init(clientToken: String? = DisconnectParticipantRequest.idempotencyToken(), connectionToken: String) {
             self.clientToken = clientToken
             self.connectionToken = connectionToken
@@ -296,6 +304,7 @@ extension ConnectParticipant {
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
 
+        @inlinable
         public init(attachmentId: String, connectionToken: String) {
             self.attachmentId = attachmentId
             self.connectionToken = connectionToken
@@ -327,6 +336,7 @@ extension ConnectParticipant {
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiry: String?
 
+        @inlinable
         public init(url: String? = nil, urlExpiry: String? = nil) {
             self.url = url
             self.urlExpiry = urlExpiry
@@ -354,6 +364,7 @@ extension ConnectParticipant {
         /// A filtering option for where to start.
         public let startPosition: StartPosition?
 
+        @inlinable
         public init(connectionToken: String, contactId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, scanDirection: ScanDirection? = nil, sortOrder: SortKey? = nil, startPosition: StartPosition? = nil) {
             self.connectionToken = connectionToken
             self.contactId = contactId
@@ -406,6 +417,7 @@ extension ConnectParticipant {
         /// The list of messages in the session.
         public let transcript: [Item]?
 
+        @inlinable
         public init(initialContactId: String? = nil, nextToken: String? = nil, transcript: [Item]? = nil) {
             self.initialContactId = initialContactId
             self.nextToken = nextToken
@@ -445,6 +457,7 @@ extension ConnectParticipant {
         /// Type of the item: message or event.
         public let type: ChatItemType?
 
+        @inlinable
         public init(absoluteTime: String? = nil, attachments: [AttachmentItem]? = nil, contactId: String? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, messageMetadata: MessageMetadata? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, relatedContactId: String? = nil, type: ChatItemType? = nil) {
             self.absoluteTime = absoluteTime
             self.attachments = attachments
@@ -482,6 +495,7 @@ extension ConnectParticipant {
         /// The list of receipt information for a message for different recipients.
         public let receipts: [Receipt]?
 
+        @inlinable
         public init(messageId: String? = nil, receipts: [Receipt]? = nil) {
             self.messageId = messageId
             self.receipts = receipts
@@ -501,6 +515,7 @@ extension ConnectParticipant {
         /// The identifier of the recipient of the message.
         public let recipientParticipantId: String?
 
+        @inlinable
         public init(deliveredTimestamp: String? = nil, readTimestamp: String? = nil, recipientParticipantId: String? = nil) {
             self.deliveredTimestamp = deliveredTimestamp
             self.readTimestamp = readTimestamp
@@ -524,6 +539,7 @@ extension ConnectParticipant {
         /// The content type of the request. Supported types are:   application/vnd.amazonaws.connect.event.typing   application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on December 31, 2024)    application/vnd.amazonaws.connect.event.message.delivered   application/vnd.amazonaws.connect.event.message.read
         public let contentType: String
 
+        @inlinable
         public init(clientToken: String? = SendEventRequest.idempotencyToken(), connectionToken: String, content: String? = nil, contentType: String) {
             self.clientToken = clientToken
             self.connectionToken = connectionToken
@@ -563,6 +579,7 @@ extension ConnectParticipant {
         /// The ID of the response.
         public let id: String?
 
+        @inlinable
         public init(absoluteTime: String? = nil, id: String? = nil) {
             self.absoluteTime = absoluteTime
             self.id = id
@@ -584,6 +601,7 @@ extension ConnectParticipant {
         /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
         public let contentType: String
 
+        @inlinable
         public init(clientToken: String? = SendMessageRequest.idempotencyToken(), connectionToken: String, content: String, contentType: String) {
             self.clientToken = clientToken
             self.connectionToken = connectionToken
@@ -623,6 +641,7 @@ extension ConnectParticipant {
         /// The ID of the message.
         public let id: String?
 
+        @inlinable
         public init(absoluteTime: String? = nil, id: String? = nil) {
             self.absoluteTime = absoluteTime
             self.id = id
@@ -646,6 +665,7 @@ extension ConnectParticipant {
         /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide.
         public let contentType: String
 
+        @inlinable
         public init(attachmentName: String, attachmentSizeInBytes: Int64 = 0, clientToken: String = StartAttachmentUploadRequest.idempotencyToken(), connectionToken: String, contentType: String) {
             self.attachmentName = attachmentName
             self.attachmentSizeInBytes = attachmentSizeInBytes
@@ -690,6 +710,7 @@ extension ConnectParticipant {
         /// Fields to be used while uploading the attachment.
         public let uploadMetadata: UploadMetadata?
 
+        @inlinable
         public init(attachmentId: String? = nil, uploadMetadata: UploadMetadata? = nil) {
             self.attachmentId = attachmentId
             self.uploadMetadata = uploadMetadata
@@ -709,6 +730,7 @@ extension ConnectParticipant {
         /// The start position of the most recent message where you want to start.
         public let mostRecent: Int?
 
+        @inlinable
         public init(absoluteTime: String? = nil, id: String? = nil, mostRecent: Int? = nil) {
             self.absoluteTime = absoluteTime
             self.id = id
@@ -740,6 +762,7 @@ extension ConnectParticipant {
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiry: String?
 
+        @inlinable
         public init(headersToInclude: [String: String]? = nil, url: String? = nil, urlExpiry: String? = nil) {
             self.headersToInclude = headersToInclude
             self.url = url
@@ -765,6 +788,7 @@ extension ConnectParticipant {
         /// The current version of the view.
         public let version: Int?
 
+        @inlinable
         public init(arn: String? = nil, content: ViewContent? = nil, id: String? = nil, name: String? = nil, version: Int? = nil) {
             self.arn = arn
             self.content = content
@@ -790,6 +814,7 @@ extension ConnectParticipant {
         /// The view template representing the structure of the view.
         public let template: String?
 
+        @inlinable
         public init(actions: [String]? = nil, inputSchema: String? = nil, template: String? = nil) {
             self.actions = actions
             self.inputSchema = inputSchema
@@ -809,6 +834,7 @@ extension ConnectParticipant {
         /// The URL of the websocket.
         public let url: String?
 
+        @inlinable
         public init(connectionExpiry: String? = nil, url: String? = nil) {
             self.connectionExpiry = connectionExpiry
             self.url = url

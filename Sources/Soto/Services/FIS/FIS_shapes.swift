@@ -98,6 +98,7 @@ extension FIS {
         /// The supported targets for the action.
         public let targets: [String: ActionTarget]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, parameters: [String: ActionParameter]? = nil, tags: [String: String]? = nil, targets: [String: ActionTarget]? = nil) {
             self.arn = arn
             self.description = description
@@ -123,6 +124,7 @@ extension FIS {
         /// Indicates whether the parameter is required.
         public let required: Bool?
 
+        @inlinable
         public init(description: String? = nil, required: Bool? = nil) {
             self.description = description
             self.required = required
@@ -146,6 +148,7 @@ extension FIS {
         /// The targets for the action.
         public let targets: [String: ActionTarget]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, tags: [String: String]? = nil, targets: [String: ActionTarget]? = nil) {
             self.arn = arn
             self.description = description
@@ -167,6 +170,7 @@ extension FIS {
         /// The resource type of the target.
         public let resourceType: String?
 
+        @inlinable
         public init(resourceType: String? = nil) {
             self.resourceType = resourceType
         }
@@ -188,6 +192,7 @@ extension FIS {
         /// The targets for the action.
         public let targets: [String: String]?
 
+        @inlinable
         public init(actionId: String, description: String? = nil, parameters: [String: String]? = nil, startAfter: [String]? = nil, targets: [String: String]? = nil) {
             self.actionId = actionId
             self.description = description
@@ -234,6 +239,7 @@ extension FIS {
         /// Specifies the empty target resolution mode for experiment options.
         public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
 
+        @inlinable
         public init(accountTargeting: AccountTargeting? = nil, emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
             self.accountTargeting = accountTargeting
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
@@ -253,6 +259,7 @@ extension FIS {
         /// The configuration for experiment logging to Amazon S3.
         public let s3Configuration: ExperimentTemplateS3LogConfigurationInput?
 
+        @inlinable
         public init(cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput? = nil, logSchemaVersion: Int, s3Configuration: ExperimentTemplateS3LogConfigurationInput? = nil) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
@@ -291,6 +298,7 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: CreateExperimentTemplateTargetInput]?
 
+        @inlinable
         public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, experimentOptions: CreateExperimentTemplateExperimentOptionsInput? = nil, logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.clientToken = clientToken
@@ -352,6 +360,7 @@ extension FIS {
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
+        @inlinable
         public init(experimentTemplate: ExperimentTemplate? = nil) {
             self.experimentTemplate = experimentTemplate
         }
@@ -367,6 +376,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm. This is required if the source is a CloudWatch alarm.
         public let value: String?
 
+        @inlinable
         public init(source: String, value: String? = nil) {
             self.source = source
             self.value = value
@@ -400,6 +410,7 @@ extension FIS {
         /// Scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target.   ALL - Run the action on all identified targets. This is the default.   COUNT(n) - Run the action on the specified number of targets, chosen from the identified targets at random. For example, COUNT(1) selects one of the targets.   PERCENT(n) - Run the action on the specified percentage of targets, chosen from the identified targets  at random. For example, PERCENT(25) selects 25% of the targets.
         public let selectionMode: String
 
+        @inlinable
         public init(filters: [ExperimentTemplateTargetInputFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String, selectionMode: String) {
             self.filters = filters
             self.parameters = parameters
@@ -461,6 +472,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of an IAM role for the target account.
         public let roleArn: String
 
+        @inlinable
         public init(accountId: String, clientToken: String? = CreateTargetAccountConfigurationRequest.idempotencyToken(), description: String? = nil, experimentTemplateId: String, roleArn: String) {
             self.accountId = accountId
             self.clientToken = clientToken
@@ -506,6 +518,7 @@ extension FIS {
         /// Information about the target account configuration.
         public let targetAccountConfiguration: TargetAccountConfiguration?
 
+        @inlinable
         public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
             self.targetAccountConfiguration = targetAccountConfiguration
         }
@@ -519,6 +532,7 @@ extension FIS {
         /// The ID of the experiment template.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -541,6 +555,7 @@ extension FIS {
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
+        @inlinable
         public init(experimentTemplate: ExperimentTemplate? = nil) {
             self.experimentTemplate = experimentTemplate
         }
@@ -556,6 +571,7 @@ extension FIS {
         /// The ID of the experiment template.
         public let experimentTemplateId: String
 
+        @inlinable
         public init(accountId: String, experimentTemplateId: String) {
             self.accountId = accountId
             self.experimentTemplateId = experimentTemplateId
@@ -583,6 +599,7 @@ extension FIS {
         /// Information about the target account configuration.
         public let targetAccountConfiguration: TargetAccountConfiguration?
 
+        @inlinable
         public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
             self.targetAccountConfiguration = targetAccountConfiguration
         }
@@ -624,6 +641,7 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: ExperimentTarget]?
 
+        @inlinable
         public init(actions: [String: ExperimentAction]? = nil, arn: String? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentOptions: ExperimentOptions? = nil, experimentTemplateId: String? = nil, id: String? = nil, logConfiguration: ExperimentLogConfiguration? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTarget]? = nil) {
             self.actions = actions
             self.arn = arn
@@ -679,6 +697,7 @@ extension FIS {
         /// The targets for the action.
         public let targets: [String: String]?
 
+        @inlinable
         public init(actionId: String? = nil, description: String? = nil, endTime: Date? = nil, parameters: [String: String]? = nil, startAfter: [String]? = nil, startTime: Date? = nil, state: ExperimentActionState? = nil, targets: [String: String]? = nil) {
             self.actionId = actionId
             self.description = description
@@ -708,6 +727,7 @@ extension FIS {
         /// The state of the action.
         public let status: ExperimentActionStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: ExperimentActionStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -723,6 +743,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -740,6 +761,7 @@ extension FIS {
         /// Context for the section of the experiment template that failed.
         public let location: String?
 
+        @inlinable
         public init(accountId: String? = nil, code: String? = nil, location: String? = nil) {
             self.accountId = accountId
             self.code = code
@@ -761,6 +783,7 @@ extension FIS {
         /// The configuration for experiment logging to Amazon S3.
         public let s3Configuration: ExperimentS3LogConfiguration?
 
+        @inlinable
         public init(cloudWatchLogsConfiguration: ExperimentCloudWatchLogsLogConfiguration? = nil, logSchemaVersion: Int? = nil, s3Configuration: ExperimentS3LogConfiguration? = nil) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
@@ -782,6 +805,7 @@ extension FIS {
         /// The empty target resolution mode for an experiment.
         public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
 
+        @inlinable
         public init(accountTargeting: AccountTargeting? = nil, actionsMode: ActionsMode? = nil, emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
             self.accountTargeting = accountTargeting
             self.actionsMode = actionsMode
@@ -801,6 +825,7 @@ extension FIS {
         /// The bucket prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -820,6 +845,7 @@ extension FIS {
         /// The state of the experiment.
         public let status: ExperimentStatus?
 
+        @inlinable
         public init(error: ExperimentError? = nil, reason: String? = nil, status: ExperimentStatus? = nil) {
             self.error = error
             self.reason = reason
@@ -839,6 +865,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
         public let value: String?
 
+        @inlinable
         public init(source: String? = nil, value: String? = nil) {
             self.source = source
             self.value = value
@@ -866,6 +893,7 @@ extension FIS {
         /// The tags for the experiment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, experimentOptions: ExperimentOptions? = nil, experimentTemplateId: String? = nil, id: String? = nil, state: ExperimentState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -901,6 +929,7 @@ extension FIS {
         /// Scopes the identified resources to a specific count or percentage.
         public let selectionMode: String?
 
+        @inlinable
         public init(filters: [ExperimentTargetFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String? = nil, selectionMode: String? = nil) {
             self.filters = filters
             self.parameters = parameters
@@ -928,6 +957,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of an IAM role for the target account.
         public let roleArn: String?
 
+        @inlinable
         public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
             self.accountId = accountId
             self.description = description
@@ -949,6 +979,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of an IAM role for the target account.
         public let roleArn: String?
 
+        @inlinable
         public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
             self.accountId = accountId
             self.description = description
@@ -968,6 +999,7 @@ extension FIS {
         /// The attribute values for the filter.
         public let values: [String]?
 
+        @inlinable
         public init(path: String? = nil, values: [String]? = nil) {
             self.path = path
             self.values = values
@@ -1007,6 +1039,7 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: ExperimentTemplateTarget]?
 
+        @inlinable
         public init(actions: [String: ExperimentTemplateAction]? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, experimentOptions: ExperimentTemplateExperimentOptions? = nil, id: String? = nil, lastUpdateTime: Date? = nil, logConfiguration: ExperimentTemplateLogConfiguration? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targetAccountConfigurationsCount: Int64? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
             self.actions = actions
             self.arn = arn
@@ -1052,6 +1085,7 @@ extension FIS {
         /// The targets for the action.
         public let targets: [String: String]?
 
+        @inlinable
         public init(actionId: String? = nil, description: String? = nil, parameters: [String: String]? = nil, startAfter: [String]? = nil, targets: [String: String]? = nil) {
             self.actionId = actionId
             self.description = description
@@ -1073,6 +1107,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -1086,6 +1121,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
         public let logGroupArn: String
 
+        @inlinable
         public init(logGroupArn: String) {
             self.logGroupArn = logGroupArn
         }
@@ -1107,6 +1143,7 @@ extension FIS {
         /// The empty target resolution mode for an experiment template.
         public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
 
+        @inlinable
         public init(accountTargeting: AccountTargeting? = nil, emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
             self.accountTargeting = accountTargeting
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
@@ -1126,6 +1163,7 @@ extension FIS {
         /// The configuration for experiment logging to Amazon S3.
         public let s3Configuration: ExperimentTemplateS3LogConfiguration?
 
+        @inlinable
         public init(cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfiguration? = nil, logSchemaVersion: Int? = nil, s3Configuration: ExperimentTemplateS3LogConfiguration? = nil) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
@@ -1145,6 +1183,7 @@ extension FIS {
         /// The bucket prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -1162,6 +1201,7 @@ extension FIS {
         /// The bucket prefix.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String, prefix: String? = nil) {
             self.bucketName = bucketName
             self.prefix = prefix
@@ -1188,6 +1228,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
         public let value: String?
 
+        @inlinable
         public init(source: String? = nil, value: String? = nil) {
             self.source = source
             self.value = value
@@ -1213,6 +1254,7 @@ extension FIS {
         /// The tags for the experiment template.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1246,6 +1288,7 @@ extension FIS {
         /// Scopes the identified resources to a specific count or percentage.
         public let selectionMode: String?
 
+        @inlinable
         public init(filters: [ExperimentTemplateTargetFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String? = nil, selectionMode: String? = nil) {
             self.filters = filters
             self.parameters = parameters
@@ -1271,6 +1314,7 @@ extension FIS {
         /// The attribute values for the filter.
         public let values: [String]?
 
+        @inlinable
         public init(path: String? = nil, values: [String]? = nil) {
             self.path = path
             self.values = values
@@ -1288,6 +1332,7 @@ extension FIS {
         /// The attribute values for the filter.
         public let values: [String]
 
+        @inlinable
         public init(path: String, values: [String]) {
             self.path = path
             self.values = values
@@ -1312,6 +1357,7 @@ extension FIS {
         /// The ID of the action.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1334,6 +1380,7 @@ extension FIS {
         /// Information about the action.
         public let action: Action?
 
+        @inlinable
         public init(action: Action? = nil) {
             self.action = action
         }
@@ -1347,6 +1394,7 @@ extension FIS {
         /// The ID of the experiment.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1369,6 +1417,7 @@ extension FIS {
         /// Information about the experiment.
         public let experiment: Experiment?
 
+        @inlinable
         public init(experiment: Experiment? = nil) {
             self.experiment = experiment
         }
@@ -1384,6 +1433,7 @@ extension FIS {
         /// The ID of the experiment.
         public let experimentId: String
 
+        @inlinable
         public init(accountId: String, experimentId: String) {
             self.accountId = accountId
             self.experimentId = experimentId
@@ -1411,6 +1461,7 @@ extension FIS {
         /// Information about the target account configuration.
         public let targetAccountConfiguration: ExperimentTargetAccountConfiguration?
 
+        @inlinable
         public init(targetAccountConfiguration: ExperimentTargetAccountConfiguration? = nil) {
             self.targetAccountConfiguration = targetAccountConfiguration
         }
@@ -1424,6 +1475,7 @@ extension FIS {
         /// The ID of the experiment template.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1446,6 +1498,7 @@ extension FIS {
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
+        @inlinable
         public init(experimentTemplate: ExperimentTemplate? = nil) {
             self.experimentTemplate = experimentTemplate
         }
@@ -1459,6 +1512,7 @@ extension FIS {
         ///  The ID of the safety lever.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1481,6 +1535,7 @@ extension FIS {
         ///  Information about the safety lever.
         public let safetyLever: SafetyLever?
 
+        @inlinable
         public init(safetyLever: SafetyLever? = nil) {
             self.safetyLever = safetyLever
         }
@@ -1496,6 +1551,7 @@ extension FIS {
         /// The ID of the experiment template.
         public let experimentTemplateId: String
 
+        @inlinable
         public init(accountId: String, experimentTemplateId: String) {
             self.accountId = accountId
             self.experimentTemplateId = experimentTemplateId
@@ -1523,6 +1579,7 @@ extension FIS {
         /// Information about the target account configuration.
         public let targetAccountConfiguration: TargetAccountConfiguration?
 
+        @inlinable
         public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
             self.targetAccountConfiguration = targetAccountConfiguration
         }
@@ -1536,6 +1593,7 @@ extension FIS {
         /// The resource type.
         public let resourceType: String
 
+        @inlinable
         public init(resourceType: String) {
             self.resourceType = resourceType
         }
@@ -1558,6 +1616,7 @@ extension FIS {
         /// Information about the resource type.
         public let targetResourceType: TargetResourceType?
 
+        @inlinable
         public init(targetResourceType: TargetResourceType? = nil) {
             self.targetResourceType = targetResourceType
         }
@@ -1573,6 +1632,7 @@ extension FIS {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1602,6 +1662,7 @@ extension FIS {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(actions: [ActionSummary]? = nil, nextToken: String? = nil) {
             self.actions = actions
             self.nextToken = nextToken
@@ -1623,6 +1684,7 @@ extension FIS {
         /// The name of the target.
         public let targetName: String?
 
+        @inlinable
         public init(experimentId: String, maxResults: Int? = nil, nextToken: String? = nil, targetName: String? = nil) {
             self.experimentId = experimentId
             self.maxResults = maxResults
@@ -1660,6 +1722,7 @@ extension FIS {
         /// The resolved targets.
         public let resolvedTargets: [ResolvedTarget]?
 
+        @inlinable
         public init(nextToken: String? = nil, resolvedTargets: [ResolvedTarget]? = nil) {
             self.nextToken = nextToken
             self.resolvedTargets = resolvedTargets
@@ -1677,6 +1740,7 @@ extension FIS {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(experimentId: String, nextToken: String? = nil) {
             self.experimentId = experimentId
             self.nextToken = nextToken
@@ -1706,6 +1770,7 @@ extension FIS {
         /// The target account configurations.
         public let targetAccountConfigurations: [ExperimentTargetAccountConfigurationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, targetAccountConfigurations: [ExperimentTargetAccountConfigurationSummary]? = nil) {
             self.nextToken = nextToken
             self.targetAccountConfigurations = targetAccountConfigurations
@@ -1723,6 +1788,7 @@ extension FIS {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1752,6 +1818,7 @@ extension FIS {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(experimentTemplates: [ExperimentTemplateSummary]? = nil, nextToken: String? = nil) {
             self.experimentTemplates = experimentTemplates
             self.nextToken = nextToken
@@ -1771,6 +1838,7 @@ extension FIS {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(experimentTemplateId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.experimentTemplateId = experimentTemplateId
             self.maxResults = maxResults
@@ -1804,6 +1872,7 @@ extension FIS {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(experiments: [ExperimentSummary]? = nil, nextToken: String? = nil) {
             self.experiments = experiments
             self.nextToken = nextToken
@@ -1819,6 +1888,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1842,6 +1912,7 @@ extension FIS {
         /// The tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1859,6 +1930,7 @@ extension FIS {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(experimentTemplateId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.experimentTemplateId = experimentTemplateId
             self.maxResults = maxResults
@@ -1892,6 +1964,7 @@ extension FIS {
         /// The target account configurations.
         public let targetAccountConfigurations: [TargetAccountConfigurationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, targetAccountConfigurations: [TargetAccountConfigurationSummary]? = nil) {
             self.nextToken = nextToken
             self.targetAccountConfigurations = targetAccountConfigurations
@@ -1909,6 +1982,7 @@ extension FIS {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1938,6 +2012,7 @@ extension FIS {
         /// The target resource types.
         public let targetResourceTypes: [TargetResourceTypeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, targetResourceTypes: [TargetResourceTypeSummary]? = nil) {
             self.nextToken = nextToken
             self.targetResourceTypes = targetResourceTypes
@@ -1957,6 +2032,7 @@ extension FIS {
         /// The name of the target.
         public let targetName: String?
 
+        @inlinable
         public init(resourceType: String? = nil, targetInformation: [String: String]? = nil, targetName: String? = nil) {
             self.resourceType = resourceType
             self.targetInformation = targetInformation
@@ -1978,6 +2054,7 @@ extension FIS {
         ///  The state of the safety lever.
         public let state: SafetyLeverState?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, state: SafetyLeverState? = nil) {
             self.arn = arn
             self.id = id
@@ -1997,6 +2074,7 @@ extension FIS {
         ///  The state of the safety lever.
         public let status: SafetyLeverStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: SafetyLeverStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -2012,6 +2090,7 @@ extension FIS {
         /// Specifies the actions mode for experiment options.
         public let actionsMode: ActionsMode?
 
+        @inlinable
         public init(actionsMode: ActionsMode? = nil) {
             self.actionsMode = actionsMode
         }
@@ -2031,6 +2110,7 @@ extension FIS {
         /// The tags to apply to the experiment.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = StartExperimentRequest.idempotencyToken(), experimentOptions: StartExperimentExperimentOptionsInput? = nil, experimentTemplateId: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.experimentOptions = experimentOptions
@@ -2065,6 +2145,7 @@ extension FIS {
         /// Information about the experiment.
         public let experiment: Experiment?
 
+        @inlinable
         public init(experiment: Experiment? = nil) {
             self.experiment = experiment
         }
@@ -2078,6 +2159,7 @@ extension FIS {
         /// The ID of the experiment.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2100,6 +2182,7 @@ extension FIS {
         /// Information about the experiment.
         public let experiment: Experiment?
 
+        @inlinable
         public init(experiment: Experiment? = nil) {
             self.experiment = experiment
         }
@@ -2115,6 +2198,7 @@ extension FIS {
         /// The tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2157,6 +2241,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of an IAM role for the target account.
         public let roleArn: String?
 
+        @inlinable
         public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
             self.accountId = accountId
             self.description = description
@@ -2178,6 +2263,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of an IAM role for the target account.
         public let roleArn: String?
 
+        @inlinable
         public init(accountId: String? = nil, description: String? = nil, roleArn: String? = nil) {
             self.accountId = accountId
             self.description = description
@@ -2199,6 +2285,7 @@ extension FIS {
         /// The resource type.
         public let resourceType: String?
 
+        @inlinable
         public init(description: String? = nil, parameters: [String: TargetResourceTypeParameter]? = nil, resourceType: String? = nil) {
             self.description = description
             self.parameters = parameters
@@ -2218,6 +2305,7 @@ extension FIS {
         /// Indicates whether the parameter is required.
         public let required: Bool?
 
+        @inlinable
         public init(description: String? = nil, required: Bool? = nil) {
             self.description = description
             self.required = required
@@ -2235,6 +2323,7 @@ extension FIS {
         /// The resource type.
         public let resourceType: String?
 
+        @inlinable
         public init(description: String? = nil, resourceType: String? = nil) {
             self.description = description
             self.resourceType = resourceType
@@ -2252,6 +2341,7 @@ extension FIS {
         /// The tag keys to remove.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2293,6 +2383,7 @@ extension FIS {
         /// The targets for the action.
         public let targets: [String: String]?
 
+        @inlinable
         public init(actionId: String? = nil, description: String? = nil, parameters: [String: String]? = nil, startAfter: [String]? = nil, targets: [String: String]? = nil) {
             self.actionId = actionId
             self.description = description
@@ -2337,6 +2428,7 @@ extension FIS {
         /// The empty target resolution mode of the experiment template.
         public let emptyTargetResolutionMode: EmptyTargetResolutionMode?
 
+        @inlinable
         public init(emptyTargetResolutionMode: EmptyTargetResolutionMode? = nil) {
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
@@ -2354,6 +2446,7 @@ extension FIS {
         /// The configuration for experiment logging to Amazon S3.
         public let s3Configuration: ExperimentTemplateS3LogConfigurationInput?
 
+        @inlinable
         public init(cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput? = nil, logSchemaVersion: Int? = nil, s3Configuration: ExperimentTemplateS3LogConfigurationInput? = nil) {
             self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
             self.logSchemaVersion = logSchemaVersion
@@ -2390,6 +2483,7 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: UpdateExperimentTemplateTargetInput]?
 
+        @inlinable
         public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, experimentOptions: UpdateExperimentTemplateExperimentOptionsInput? = nil, id: String, logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.description = description
@@ -2453,6 +2547,7 @@ extension FIS {
         /// Information about the experiment template.
         public let experimentTemplate: ExperimentTemplate?
 
+        @inlinable
         public init(experimentTemplate: ExperimentTemplate? = nil) {
             self.experimentTemplate = experimentTemplate
         }
@@ -2468,6 +2563,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of the CloudWatch alarm.
         public let value: String?
 
+        @inlinable
         public init(source: String, value: String? = nil) {
             self.source = source
             self.value = value
@@ -2501,6 +2597,7 @@ extension FIS {
         /// Scopes the identified resources to a specific count or percentage.
         public let selectionMode: String
 
+        @inlinable
         public init(filters: [ExperimentTemplateTargetInputFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String, selectionMode: String) {
             self.filters = filters
             self.parameters = parameters
@@ -2556,6 +2653,7 @@ extension FIS {
         ///  The updated state of the safety lever.
         public let status: SafetyLeverStatusInput
 
+        @inlinable
         public init(reason: String, status: SafetyLeverStatusInput) {
             self.reason = reason
             self.status = status
@@ -2573,6 +2671,7 @@ extension FIS {
         ///  The state of the safety lever.
         public let state: UpdateSafetyLeverStateInput
 
+        @inlinable
         public init(id: String, state: UpdateSafetyLeverStateInput) {
             self.id = id
             self.state = state
@@ -2599,6 +2698,7 @@ extension FIS {
         ///  Information about the safety lever.
         public let safetyLever: SafetyLever?
 
+        @inlinable
         public init(safetyLever: SafetyLever? = nil) {
             self.safetyLever = safetyLever
         }
@@ -2618,6 +2718,7 @@ extension FIS {
         /// The Amazon Resource Name (ARN) of an IAM role for the target account.
         public let roleArn: String?
 
+        @inlinable
         public init(accountId: String, description: String? = nil, experimentTemplateId: String, roleArn: String? = nil) {
             self.accountId = accountId
             self.description = description
@@ -2657,6 +2758,7 @@ extension FIS {
         /// Information about the target account configuration.
         public let targetAccountConfiguration: TargetAccountConfiguration?
 
+        @inlinable
         public init(targetAccountConfiguration: TargetAccountConfiguration? = nil) {
             self.targetAccountConfiguration = targetAccountConfiguration
         }

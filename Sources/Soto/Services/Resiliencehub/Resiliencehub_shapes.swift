@@ -329,6 +329,7 @@ extension Resiliencehub {
         /// Indicates the identifier of the grouping recommendation.
         public let groupingRecommendationId: String
 
+        @inlinable
         public init(groupingRecommendationId: String) {
             self.groupingRecommendationId = groupingRecommendationId
         }
@@ -351,6 +352,7 @@ extension Resiliencehub {
         /// Indicates the list of resource grouping recommendations you want to include in your application.
         public let entries: [AcceptGroupingRecommendationEntry]
 
+        @inlinable
         public init(appArn: String, entries: [AcceptGroupingRecommendationEntry]) {
             self.appArn = appArn
             self.entries = entries
@@ -379,6 +381,7 @@ extension Resiliencehub {
         /// Indicates the list of resource grouping recommendations that could not be included in your application.
         public let failedEntries: [FailedGroupingRecommendationEntry]
 
+        @inlinable
         public init(appArn: String, failedEntries: [FailedGroupingRecommendationEntry]) {
             self.appArn = appArn
             self.failedEntries = failedEntries
@@ -398,6 +401,7 @@ extension Resiliencehub {
         /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
         public let resourceMappings: [ResourceMapping]
 
+        @inlinable
         public init(appArn: String, resourceMappings: [ResourceMapping]) {
             self.appArn = appArn
             self.resourceMappings = resourceMappings
@@ -426,6 +430,7 @@ extension Resiliencehub {
         /// List of sources that are used to map a logical resource from the template to a physical resource. You can use sources such as CloudFormation, Terraform state files, AppRegistry applications, or Amazon EKS.
         public let resourceMappings: [ResourceMapping]
 
+        @inlinable
         public init(appArn: String, appVersion: String, resourceMappings: [ResourceMapping]) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -461,6 +466,7 @@ extension Resiliencehub {
         /// Type of alarm recommendation.
         public let type: AlarmType
 
+        @inlinable
         public init(appComponentNames: [String]? = nil, description: String? = nil, items: [RecommendationItem]? = nil, name: String, prerequisite: String? = nil, recommendationId: String, recommendationStatus: RecommendationStatus? = nil, referenceId: String, type: AlarmType) {
             self.appComponentName = nil
             self.appComponentNames = appComponentNames
@@ -475,6 +481,7 @@ extension Resiliencehub {
         }
 
         @available(*, deprecated, message: "Members appComponentName have been deprecated")
+        @inlinable
         public init(appComponentName: String? = nil, appComponentNames: [String]? = nil, description: String? = nil, items: [RecommendationItem]? = nil, name: String, prerequisite: String? = nil, recommendationId: String, recommendationStatus: RecommendationStatus? = nil, referenceId: String, type: AlarmType) {
             self.appComponentName = appComponentName
             self.appComponentNames = appComponentNames
@@ -545,6 +552,7 @@ extension Resiliencehub {
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, driftStatus: AppDriftStatusType? = nil, eventSubscriptions: [EventSubscription]? = nil, lastAppComplianceEvaluationTime: Date? = nil, lastDriftEvaluationTime: Date? = nil, lastResiliencyScoreEvaluationTime: Date? = nil, name: String, permissionModel: PermissionModel? = nil, policyArn: String? = nil, resiliencyScore: Double? = nil, rpoInSecs: Int? = nil, rtoInSecs: Int? = nil, status: AppStatusType? = nil, tags: [String: String]? = nil) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
@@ -633,6 +641,7 @@ extension Resiliencehub {
         /// Version name of the published application.
         public let versionName: String?
 
+        @inlinable
         public init(appArn: String? = nil, appVersion: String? = nil, assessmentArn: String, assessmentName: String? = nil, assessmentStatus: AssessmentStatus, compliance: [DisruptionType: DisruptionCompliance]? = nil, complianceStatus: ComplianceStatus? = nil, cost: Cost? = nil, driftStatus: DriftStatus? = nil, endTime: Date? = nil, invoker: AssessmentInvoker, message: String? = nil, policy: ResiliencyPolicy? = nil, resiliencyScore: ResiliencyScore? = nil, resourceErrorsDetails: ResourceErrorsDetails? = nil, startTime: Date? = nil, summary: AssessmentSummary? = nil, tags: [String: String]? = nil, versionName: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -712,6 +721,7 @@ extension Resiliencehub {
         /// Name of an application version.
         public let versionName: String?
 
+        @inlinable
         public init(appArn: String? = nil, appVersion: String? = nil, assessmentArn: String, assessmentName: String? = nil, assessmentStatus: AssessmentStatus, complianceStatus: ComplianceStatus? = nil, cost: Cost? = nil, driftStatus: DriftStatus? = nil, endTime: Date? = nil, invoker: AssessmentInvoker? = nil, message: String? = nil, resiliencyScore: Double? = nil, startTime: Date? = nil, versionName: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -757,6 +767,7 @@ extension Resiliencehub {
         /// The type of Application Component.
         public let type: String
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, id: String? = nil, name: String, type: String) {
             self.additionalInfo = additionalInfo
             self.id = id
@@ -786,6 +797,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: ComplianceStatus?
 
+        @inlinable
         public init(appComponentName: String? = nil, compliance: [DisruptionType: DisruptionCompliance]? = nil, cost: Cost? = nil, message: String? = nil, resiliencyScore: ResiliencyScore? = nil, status: ComplianceStatus? = nil) {
             self.appComponentName = appComponentName
             self.compliance = compliance
@@ -820,6 +832,7 @@ extension Resiliencehub {
         /// The name of the Terraform s3 state ﬁle.
         public let terraformSource: TerraformSource?
 
+        @inlinable
         public init(eksSourceClusterNamespace: EksSourceClusterNamespace? = nil, importType: ResourceMappingType, resourceCount: Int? = nil, sourceArn: String? = nil, sourceName: String? = nil, terraformSource: TerraformSource? = nil) {
             self.eksSourceClusterNamespace = eksSourceClusterNamespace
             self.importType = importType
@@ -867,6 +880,7 @@ extension Resiliencehub {
         /// Status of the application.
         public let status: AppStatusType?
 
+        @inlinable
         public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, driftStatus: AppDriftStatusType? = nil, lastAppComplianceEvaluationTime: Date? = nil, name: String, resiliencyScore: Double? = nil, rpoInSecs: Int? = nil, rtoInSecs: Int? = nil, status: AppStatusType? = nil) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
@@ -908,6 +922,7 @@ extension Resiliencehub {
         /// Name of the application version.
         public let versionName: String?
 
+        @inlinable
         public init(appVersion: String, creationTime: Date? = nil, identifier: Int64? = nil, versionName: String? = nil) {
             self.appVersion = appVersion
             self.creationTime = creationTime
@@ -931,6 +946,7 @@ extension Resiliencehub {
         /// Indicates the description of the potential risk identified in the application as part of the Resilience Hub assessment.  This property is available only in the US East (N. Virginia) Region.
         public let risk: String?
 
+        @inlinable
         public init(appComponents: [String]? = nil, recommendation: String? = nil, risk: String? = nil) {
             self.appComponents = appComponents
             self.recommendation = recommendation
@@ -950,6 +966,7 @@ extension Resiliencehub {
         /// Indicates a concise summary that provides an overview of the Resilience Hub assessment.  This property is available only in the US East (N. Virginia) Region.
         public let summary: String?
 
+        @inlinable
         public init(riskRecommendations: [AssessmentRiskRecommendation]? = nil, summary: String? = nil) {
             self.riskRecommendations = riskRecommendations
             self.summary = summary
@@ -967,6 +984,7 @@ extension Resiliencehub {
         /// Indicates the error that occurred while excluding an operational recommendation.
         public let errorMessage: String
 
+        @inlinable
         public init(entryId: String, errorMessage: String) {
             self.entryId = entryId
             self.errorMessage = errorMessage
@@ -986,6 +1004,7 @@ extension Resiliencehub {
         /// Defines the list of operational recommendations that need to be included or excluded.
         public let requestEntries: [UpdateRecommendationStatusRequestEntry]
 
+        @inlinable
         public init(appArn: String, requestEntries: [UpdateRecommendationStatusRequestEntry]) {
             self.appArn = appArn
             self.requestEntries = requestEntries
@@ -1016,6 +1035,7 @@ extension Resiliencehub {
         /// A list of items that were included or excluded.
         public let successfulEntries: [BatchUpdateRecommendationStatusSuccessfulEntry]
 
+        @inlinable
         public init(appArn: String, failedEntries: [BatchUpdateRecommendationStatusFailedEntry], successfulEntries: [BatchUpdateRecommendationStatusSuccessfulEntry]) {
             self.appArn = appArn
             self.failedEntries = failedEntries
@@ -1041,6 +1061,7 @@ extension Resiliencehub {
         /// Reference identifier of the operational recommendation.
         public let referenceId: String
 
+        @inlinable
         public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem, referenceId: String) {
             self.entryId = entryId
             self.excluded = excluded
@@ -1080,6 +1101,7 @@ extension Resiliencehub {
         /// The expected compliance value of an entity.
         public let expectedValue: [DisruptionType: DisruptionCompliance]?
 
+        @inlinable
         public init(actualReferenceId: String? = nil, actualValue: [DisruptionType: DisruptionCompliance]? = nil, appId: String? = nil, appVersion: String? = nil, diffType: DifferenceType? = nil, driftType: DriftType? = nil, entityId: String? = nil, entityType: String? = nil, expectedReferenceId: String? = nil, expectedValue: [DisruptionType: DisruptionCompliance]? = nil) {
             self.actualReferenceId = actualReferenceId
             self.actualValue = actualValue
@@ -1115,6 +1137,7 @@ extension Resiliencehub {
         /// Status of the recommendation.
         public let recommendationStatus: RecommendationComplianceStatus
 
+        @inlinable
         public init(appComponentName: String, configRecommendations: [ConfigRecommendation], recommendationStatus: RecommendationComplianceStatus) {
             self.appComponentName = appComponentName
             self.configRecommendations = configRecommendations
@@ -1150,6 +1173,7 @@ extension Resiliencehub {
         /// List of the suggested configuration changes.
         public let suggestedChanges: [String]?
 
+        @inlinable
         public init(appComponentName: String? = nil, compliance: [DisruptionType: DisruptionCompliance]? = nil, cost: Cost? = nil, description: String? = nil, haArchitecture: HaArchitecture? = nil, name: String, optimizationType: ConfigRecommendationOptimizationType, recommendationCompliance: [DisruptionType: RecommendationDisruptionCompliance]? = nil, referenceId: String, suggestedChanges: [String]? = nil) {
             self.appComponentName = appComponentName
             self.compliance = compliance
@@ -1185,6 +1209,7 @@ extension Resiliencehub {
         /// The cost frequency.
         public let frequency: CostFrequency
 
+        @inlinable
         public init(amount: Double, currency: String, frequency: CostFrequency) {
             self.amount = amount
             self.currency = currency
@@ -1220,6 +1245,7 @@ extension Resiliencehub {
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assessmentSchedule: AppAssessmentScheduleType? = nil, clientToken: String? = CreateAppRequest.idempotencyToken(), description: String? = nil, eventSubscriptions: [EventSubscription]? = nil, name: String, permissionModel: PermissionModel? = nil, policyArn: String? = nil, tags: [String: String]? = nil) {
             self.assessmentSchedule = assessmentSchedule
             self.clientToken = clientToken
@@ -1270,6 +1296,7 @@ extension Resiliencehub {
         /// The created application returned as an object with details including compliance status, creation time, description, resiliency score, and more.
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -1296,6 +1323,7 @@ extension Resiliencehub {
         /// Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent.
         public let type: String
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String, clientToken: String? = CreateAppVersionAppComponentRequest.idempotencyToken(), id: String? = nil, name: String, type: String) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -1343,6 +1371,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appComponent: AppComponent? = nil, appVersion: String) {
             self.appArn = appArn
             self.appComponent = appComponent
@@ -1381,6 +1410,7 @@ extension Resiliencehub {
         /// Type of resource.
         public let resourceType: String
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String, appComponents: [String], awsAccountId: String? = nil, awsRegion: String? = nil, clientToken: String? = CreateAppVersionResourceRequest.idempotencyToken(), logicalResourceId: LogicalResourceId, physicalResourceId: String, resourceName: String? = nil, resourceType: String) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -1442,6 +1472,7 @@ extension Resiliencehub {
         /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
         public let physicalResource: PhysicalResource?
 
+        @inlinable
         public init(appArn: String, appVersion: String, physicalResource: PhysicalResource? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -1477,6 +1508,7 @@ extension Resiliencehub {
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(assessmentArn: String, bucketName: String? = nil, clientToken: String? = CreateRecommendationTemplateRequest.idempotencyToken(), format: TemplateFormat? = nil, name: String, recommendationIds: [String]? = nil, recommendationTypes: [RenderRecommendationType]? = nil, tags: [String: String]? = nil) {
             self.assessmentArn = assessmentArn
             self.bucketName = bucketName
@@ -1529,6 +1561,7 @@ extension Resiliencehub {
         /// The newly created recommendation template, returned as an object. This object includes the template's name, format, status, tags, Amazon S3 bucket location, and more.
         public let recommendationTemplate: RecommendationTemplate?
 
+        @inlinable
         public init(recommendationTemplate: RecommendationTemplate? = nil) {
             self.recommendationTemplate = recommendationTemplate
         }
@@ -1556,6 +1589,7 @@ extension Resiliencehub {
         /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
         public let tier: ResiliencyPolicyTier
 
+        @inlinable
         public init(clientToken: String? = CreateResiliencyPolicyRequest.idempotencyToken(), dataLocationConstraint: DataLocationConstraint? = nil, policy: [DisruptionType: FailurePolicy], policyDescription: String? = nil, policyName: String, tags: [String: String]? = nil, tier: ResiliencyPolicyTier) {
             self.clientToken = clientToken
             self.dataLocationConstraint = dataLocationConstraint
@@ -1601,6 +1635,7 @@ extension Resiliencehub {
         /// The type of resiliency policy that was created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: ResiliencyPolicy
 
+        @inlinable
         public init(policy: ResiliencyPolicy) {
             self.policy = policy
         }
@@ -1619,6 +1654,7 @@ extension Resiliencehub {
         /// You should not reuse the same client token for other API requests.
         public let clientToken: String?
 
+        @inlinable
         public init(assessmentArn: String, clientToken: String? = DeleteAppAssessmentRequest.idempotencyToken()) {
             self.assessmentArn = assessmentArn
             self.clientToken = clientToken
@@ -1645,6 +1681,7 @@ extension Resiliencehub {
         /// The current status of the assessment for the resiliency policy.
         public let assessmentStatus: AssessmentStatus
 
+        @inlinable
         public init(assessmentArn: String, assessmentStatus: AssessmentStatus) {
             self.assessmentArn = assessmentArn
             self.assessmentStatus = assessmentStatus
@@ -1672,6 +1709,7 @@ extension Resiliencehub {
         /// The imported Terraform s3 state ﬁle you want to remove from the Resilience Hub application.
         public let terraformSource: TerraformSource?
 
+        @inlinable
         public init(appArn: String, clientToken: String? = DeleteAppInputSourceRequest.idempotencyToken(), eksSourceClusterNamespace: EksSourceClusterNamespace? = nil, sourceArn: String? = nil, terraformSource: TerraformSource? = nil) {
             self.appArn = appArn
             self.clientToken = clientToken
@@ -1707,6 +1745,7 @@ extension Resiliencehub {
         /// Name of the input source from where the application resource is imported from.
         public let appInputSource: AppInputSource?
 
+        @inlinable
         public init(appArn: String? = nil, appInputSource: AppInputSource? = nil) {
             self.appArn = appArn
             self.appInputSource = appInputSource
@@ -1729,6 +1768,7 @@ extension Resiliencehub {
         /// A boolean option to force the deletion of an Resilience Hub application.
         public let forceDelete: Bool?
 
+        @inlinable
         public init(appArn: String, clientToken: String? = DeleteAppRequest.idempotencyToken(), forceDelete: Bool? = nil) {
             self.appArn = appArn
             self.clientToken = clientToken
@@ -1755,6 +1795,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
 
+        @inlinable
         public init(appArn: String) {
             self.appArn = appArn
         }
@@ -1775,6 +1816,7 @@ extension Resiliencehub {
         /// Identifier of the Application Component.
         public let id: String
 
+        @inlinable
         public init(appArn: String, clientToken: String? = DeleteAppVersionAppComponentRequest.idempotencyToken(), id: String) {
             self.appArn = appArn
             self.clientToken = clientToken
@@ -1807,6 +1849,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appComponent: AppComponent? = nil, appVersion: String) {
             self.appArn = appArn
             self.appComponent = appComponent
@@ -1839,6 +1882,7 @@ extension Resiliencehub {
         /// Name of the resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appArn: String, awsAccountId: String? = nil, awsRegion: String? = nil, clientToken: String? = DeleteAppVersionResourceRequest.idempotencyToken(), logicalResourceId: LogicalResourceId? = nil, physicalResourceId: String? = nil, resourceName: String? = nil) {
             self.appArn = appArn
             self.awsAccountId = awsAccountId
@@ -1883,6 +1927,7 @@ extension Resiliencehub {
         /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
         public let physicalResource: PhysicalResource?
 
+        @inlinable
         public init(appArn: String, appVersion: String, physicalResource: PhysicalResource? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -1903,6 +1948,7 @@ extension Resiliencehub {
         /// The Amazon Resource Name (ARN) for a recommendation template.
         public let recommendationTemplateArn: String
 
+        @inlinable
         public init(clientToken: String? = DeleteRecommendationTemplateRequest.idempotencyToken(), recommendationTemplateArn: String) {
             self.clientToken = clientToken
             self.recommendationTemplateArn = recommendationTemplateArn
@@ -1927,6 +1973,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: RecommendationTemplateStatus
 
+        @inlinable
         public init(recommendationTemplateArn: String, status: RecommendationTemplateStatus) {
             self.recommendationTemplateArn = recommendationTemplateArn
             self.status = status
@@ -1947,6 +1994,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let policyArn: String
 
+        @inlinable
         public init(clientToken: String? = DeleteResiliencyPolicyRequest.idempotencyToken(), policyArn: String) {
             self.clientToken = clientToken
             self.policyArn = policyArn
@@ -1971,6 +2019,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let policyArn: String
 
+        @inlinable
         public init(policyArn: String) {
             self.policyArn = policyArn
         }
@@ -1986,6 +2035,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let assessmentArn: String
 
+        @inlinable
         public init(assessmentArn: String) {
             self.assessmentArn = assessmentArn
         }
@@ -2003,6 +2053,7 @@ extension Resiliencehub {
         /// The assessment for an Resilience Hub application, returned as an object. This object includes Amazon Resource Names (ARNs), compliance information, compliance status, cost, messages, resiliency scores, and more.
         public let assessment: AppAssessment
 
+        @inlinable
         public init(assessment: AppAssessment) {
             self.assessment = assessment
         }
@@ -2018,6 +2069,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
 
+        @inlinable
         public init(appArn: String) {
             self.appArn = appArn
         }
@@ -2035,6 +2087,7 @@ extension Resiliencehub {
         /// The specified application, returned as an object with details including compliance status, creation time, description, resiliency score, and more.
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -2054,6 +2107,7 @@ extension Resiliencehub {
         /// Identifier of the Application Component.
         public let id: String
 
+        @inlinable
         public init(appArn: String, appVersion: String, id: String) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2084,6 +2138,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appComponent: AppComponent? = nil, appVersion: String) {
             self.appArn = appArn
             self.appComponent = appComponent
@@ -2105,6 +2160,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appVersion: String) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2139,6 +2195,7 @@ extension Resiliencehub {
         /// Name of the resource.
         public let resourceName: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, awsAccountId: String? = nil, awsRegion: String? = nil, logicalResourceId: LogicalResourceId? = nil, physicalResourceId: String? = nil, resourceName: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2181,6 +2238,7 @@ extension Resiliencehub {
         /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
         public let physicalResource: PhysicalResource?
 
+        @inlinable
         public init(appArn: String, appVersion: String, physicalResource: PhysicalResource? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2204,6 +2262,7 @@ extension Resiliencehub {
         /// The identifier for a specific resolution.
         public let resolutionId: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, resolutionId: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2238,6 +2297,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: ResourceResolutionStatusType
 
+        @inlinable
         public init(appArn: String, appVersion: String, errorMessage: String? = nil, resolutionId: String, status: ResourceResolutionStatusType) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2265,6 +2325,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String, appVersion: String) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -2286,6 +2347,7 @@ extension Resiliencehub {
         /// The version of the application.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appVersion: String) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2312,6 +2374,7 @@ extension Resiliencehub {
         /// The version of the application.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appTemplateBody: String, appVersion: String) {
             self.appArn = appArn
             self.appTemplateBody = appTemplateBody
@@ -2331,6 +2394,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
 
+        @inlinable
         public init(appArn: String) {
             self.appArn = appArn
         }
@@ -2358,6 +2422,7 @@ extension Resiliencehub {
         /// The time when the status last changed.
         public let statusChangeTime: Date
 
+        @inlinable
         public init(appArn: String, appVersion: String, errorMessage: String? = nil, status: ResourceImportStatusType, statusChangeTime: Date) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2381,6 +2446,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let policyArn: String
 
+        @inlinable
         public init(policyArn: String) {
             self.policyArn = policyArn
         }
@@ -2398,6 +2464,7 @@ extension Resiliencehub {
         /// Information about the specific resiliency policy, returned as an object. This object includes creation time, data location constraints, its name, description, tags, the recovery time objective (RTO) and recovery point objective (RPO) in seconds, and more.
         public let policy: ResiliencyPolicy
 
+        @inlinable
         public init(policy: ResiliencyPolicy) {
             self.policy = policy
         }
@@ -2415,6 +2482,7 @@ extension Resiliencehub {
         /// Indicates the identifier of the grouping recommendation task.
         public let groupingId: String?
 
+        @inlinable
         public init(appArn: String, groupingId: String? = nil) {
             self.appArn = appArn
             self.groupingId = groupingId
@@ -2440,6 +2508,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: ResourcesGroupingRecGenStatusType
 
+        @inlinable
         public init(errorMessage: String? = nil, groupingId: String, status: ResourcesGroupingRecGenStatusType) {
             self.errorMessage = errorMessage
             self.groupingId = groupingId
@@ -2475,6 +2544,7 @@ extension Resiliencehub {
         /// Reference identifier of the RTO.
         public let rtoReferenceId: String?
 
+        @inlinable
         public init(achievableRpoInSecs: Int? = nil, achievableRtoInSecs: Int? = nil, complianceStatus: ComplianceStatus, currentRpoInSecs: Int? = nil, currentRtoInSecs: Int? = nil, message: String? = nil, rpoDescription: String? = nil, rpoReferenceId: String? = nil, rtoDescription: String? = nil, rtoReferenceId: String? = nil) {
             self.achievableRpoInSecs = achievableRpoInSecs
             self.achievableRtoInSecs = achievableRtoInSecs
@@ -2510,6 +2580,7 @@ extension Resiliencehub {
         /// The list of namespaces located on your Amazon Elastic Kubernetes Service cluster.
         public let namespaces: [String]
 
+        @inlinable
         public init(eksClusterArn: String, namespaces: [String]) {
             self.eksClusterArn = eksClusterArn
             self.namespaces = namespaces
@@ -2538,6 +2609,7 @@ extension Resiliencehub {
         /// Name of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
         public let namespace: String
 
+        @inlinable
         public init(eksClusterArn: String, namespace: String) {
             self.eksClusterArn = eksClusterArn
             self.namespace = namespace
@@ -2565,6 +2637,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(eventType: EventType, name: String, snsTopicArn: String? = nil) {
             self.eventType = eventType
             self.name = name
@@ -2590,6 +2663,7 @@ extension Resiliencehub {
         /// Indicates the identifier of the grouping recommendation.
         public let groupingRecommendationId: String
 
+        @inlinable
         public init(errorMessage: String, groupingRecommendationId: String) {
             self.errorMessage = errorMessage
             self.groupingRecommendationId = groupingRecommendationId
@@ -2607,6 +2681,7 @@ extension Resiliencehub {
         /// Recovery Time Objective (RTO) in seconds.
         public let rtoInSecs: Int
 
+        @inlinable
         public init(rpoInSecs: Int, rtoInSecs: Int) {
             self.rpoInSecs = rpoInSecs
             self.rtoInSecs = rtoInSecs
@@ -2631,6 +2706,7 @@ extension Resiliencehub {
         /// Indicates the type of an AppComponent.
         public let appComponentType: String
 
+        @inlinable
         public init(appComponentId: String, appComponentName: String, appComponentType: String) {
             self.appComponentId = appComponentId
             self.appComponentName = appComponentName
@@ -2664,6 +2740,7 @@ extension Resiliencehub {
         /// Indicates the status of grouping resources into AppComponents.
         public let status: GroupingRecommendationStatusType
 
+        @inlinable
         public init(confidenceLevel: GroupingRecommendationConfidenceLevel, creationTime: Date, groupingAppComponent: GroupingAppComponent, groupingRecommendationId: String, recommendationReasons: [String], rejectionReason: GroupingRecommendationRejectionReason? = nil, resources: [GroupingResource], score: Double, status: GroupingRecommendationStatusType) {
             self.confidenceLevel = confidenceLevel
             self.creationTime = creationTime
@@ -2701,6 +2778,7 @@ extension Resiliencehub {
         /// Indicates the identifier of the source AppComponents in which the resources were previously grouped into.
         public let sourceAppComponentIds: [String]
 
+        @inlinable
         public init(logicalResourceId: LogicalResourceId, physicalResourceId: PhysicalResourceId, resourceName: String, resourceType: String, sourceAppComponentIds: [String]) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
@@ -2732,6 +2810,7 @@ extension Resiliencehub {
         ///  A list of terraform file s3 URLs you need to import.
         public let terraformSources: [TerraformSource]?
 
+        @inlinable
         public init(appArn: String, eksSources: [EksSource]? = nil, importStrategy: ResourceImportStrategyType? = nil, sourceArns: [String]? = nil, terraformSources: [TerraformSource]? = nil) {
             self.appArn = appArn
             self.eksSources = eksSources
@@ -2778,6 +2857,7 @@ extension Resiliencehub {
         ///  A list of terraform file s3 URLs you have imported.
         public let terraformSources: [TerraformSource]?
 
+        @inlinable
         public init(appArn: String, appVersion: String, eksSources: [EksSource]? = nil, sourceArns: [String]? = nil, status: ResourceImportStatusType, terraformSources: [TerraformSource]? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -2808,6 +2888,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -2834,6 +2915,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(alarmRecommendations: [AlarmRecommendation], nextToken: String? = nil) {
             self.alarmRecommendations = alarmRecommendations
             self.nextToken = nextToken
@@ -2855,6 +2937,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -2881,6 +2964,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(complianceDrifts: [ComplianceDrift], nextToken: String? = nil) {
             self.complianceDrifts = complianceDrifts
             self.nextToken = nextToken
@@ -2902,6 +2986,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -2928,6 +3013,7 @@ extension Resiliencehub {
         /// Indicates all the resource drifts detected for an assessed entity.
         public let resourceDrifts: [ResourceDrift]
 
+        @inlinable
         public init(nextToken: String? = nil, resourceDrifts: [ResourceDrift]) {
             self.nextToken = nextToken
             self.resourceDrifts = resourceDrifts
@@ -2961,6 +3047,7 @@ extension Resiliencehub {
         /// To sort by descending startTime, set reverseOrder to true.
         public let reverseOrder: Bool?
 
+        @inlinable
         public init(appArn: String? = nil, assessmentName: String? = nil, assessmentStatus: [AssessmentStatus]? = nil, complianceStatus: ComplianceStatus? = nil, invoker: AssessmentInvoker? = nil, maxResults: Int? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil) {
             self.appArn = appArn
             self.assessmentName = assessmentName
@@ -3004,6 +3091,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentSummaries: [AppAssessmentSummary], nextToken: String? = nil) {
             self.assessmentSummaries = assessmentSummaries
             self.nextToken = nextToken
@@ -3026,6 +3114,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -3052,6 +3141,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(componentCompliances: [AppComponentCompliance], nextToken: String? = nil) {
             self.componentCompliances = componentCompliances
             self.nextToken = nextToken
@@ -3074,6 +3164,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -3100,6 +3191,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(componentRecommendations: [ComponentRecommendation], nextToken: String? = nil) {
             self.componentRecommendations = componentRecommendations
             self.nextToken = nextToken
@@ -3123,6 +3215,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -3152,6 +3245,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(appInputSources: [AppInputSource], nextToken: String? = nil) {
             self.appInputSources = appInputSources
             self.nextToken = nextToken
@@ -3175,6 +3269,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -3210,6 +3305,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(appArn: String, appComponents: [AppComponent]? = nil, appVersion: String, nextToken: String? = nil) {
             self.appArn = appArn
             self.appComponents = appComponents
@@ -3238,6 +3334,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -3267,6 +3364,7 @@ extension Resiliencehub {
         /// Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
         public let resourceMappings: [ResourceMapping]
 
+        @inlinable
         public init(nextToken: String? = nil, resourceMappings: [ResourceMapping]) {
             self.nextToken = nextToken
             self.resourceMappings = resourceMappings
@@ -3293,6 +3391,7 @@ extension Resiliencehub {
         /// The identifier for a specific resolution.
         public let resolutionId: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, maxResults: Int? = nil, nextToken: String? = nil, resolutionId: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -3328,6 +3427,7 @@ extension Resiliencehub {
         /// The ID for a specific resolution.
         public let resolutionId: String
 
+        @inlinable
         public init(nextToken: String? = nil, physicalResources: [PhysicalResource], resolutionId: String) {
             self.nextToken = nextToken
             self.physicalResources = physicalResources
@@ -3356,6 +3456,7 @@ extension Resiliencehub {
         /// Lower limit of the time range to filter the application versions.
         public let startTime: Date?
 
+        @inlinable
         public init(appArn: String, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.appArn = appArn
             self.endTime = endTime
@@ -3386,6 +3487,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(appVersions: [AppVersionSummary], nextToken: String? = nil) {
             self.appVersions = appVersions
             self.nextToken = nextToken
@@ -3416,6 +3518,7 @@ extension Resiliencehub {
         /// Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
         public let toLastAssessmentTime: Date?
 
+        @inlinable
         public init(appArn: String? = nil, fromLastAssessmentTime: Date? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil, toLastAssessmentTime: Date? = nil) {
             self.appArn = appArn
             self.fromLastAssessmentTime = fromLastAssessmentTime
@@ -3455,6 +3558,7 @@ extension Resiliencehub {
         /// Token for the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(appSummaries: [AppSummary], nextToken: String? = nil) {
             self.appSummaries = appSummaries
             self.nextToken = nextToken
@@ -3486,6 +3590,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: [RecommendationTemplateStatus]?
 
+        @inlinable
         public init(assessmentArn: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, recommendationTemplateArn: String? = nil, reverseOrder: Bool? = nil, status: [RecommendationTemplateStatus]? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -3528,6 +3633,7 @@ extension Resiliencehub {
         /// The recommendation templates for the Resilience Hub applications.
         public let recommendationTemplates: [RecommendationTemplate]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationTemplates: [RecommendationTemplate]? = nil) {
             self.nextToken = nextToken
             self.recommendationTemplates = recommendationTemplates
@@ -3548,6 +3654,7 @@ extension Resiliencehub {
         /// The name of the policy
         public let policyName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, policyName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3578,6 +3685,7 @@ extension Resiliencehub {
         /// The resiliency policies for the Resilience Hub applications.
         public let resiliencyPolicies: [ResiliencyPolicy]
 
+        @inlinable
         public init(nextToken: String? = nil, resiliencyPolicies: [ResiliencyPolicy]) {
             self.nextToken = nextToken
             self.resiliencyPolicies = resiliencyPolicies
@@ -3599,6 +3707,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(appArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.appArn = appArn
             self.maxResults = maxResults
@@ -3629,6 +3738,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(groupingRecommendations: [GroupingRecommendation], nextToken: String? = nil) {
             self.groupingRecommendations = groupingRecommendations
             self.nextToken = nextToken
@@ -3651,6 +3761,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -3677,6 +3788,7 @@ extension Resiliencehub {
         /// The standard operating procedure (SOP) recommendations for the Resilience Hub applications.
         public let sopRecommendations: [SopRecommendation]
 
+        @inlinable
         public init(nextToken: String? = nil, sopRecommendations: [SopRecommendation]) {
             self.nextToken = nextToken
             self.sopRecommendations = sopRecommendations
@@ -3695,6 +3807,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3722,6 +3835,7 @@ extension Resiliencehub {
         /// The suggested resiliency policies for the Resilience Hub applications.
         public let resiliencyPolicies: [ResiliencyPolicy]
 
+        @inlinable
         public init(nextToken: String? = nil, resiliencyPolicies: [ResiliencyPolicy]) {
             self.nextToken = nextToken
             self.resiliencyPolicies = resiliencyPolicies
@@ -3737,6 +3851,7 @@ extension Resiliencehub {
         /// The Amazon Resource Name (ARN) for a specific resource in your Resilience Hub application.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3759,6 +3874,7 @@ extension Resiliencehub {
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3779,6 +3895,7 @@ extension Resiliencehub {
         /// Null, or the token from a previous call to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(assessmentArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.assessmentArn = assessmentArn
             self.maxResults = maxResults
@@ -3805,6 +3922,7 @@ extension Resiliencehub {
         /// The test recommendations for the Resilience Hub application.
         public let testRecommendations: [TestRecommendation]
 
+        @inlinable
         public init(nextToken: String? = nil, testRecommendations: [TestRecommendation]) {
             self.nextToken = nextToken
             self.testRecommendations = testRecommendations
@@ -3831,6 +3949,7 @@ extension Resiliencehub {
         /// The identifier for a specific resolution.
         public let resolutionId: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String, maxResults: Int? = nil, nextToken: String? = nil, resolutionId: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -3866,6 +3985,7 @@ extension Resiliencehub {
         /// The unsupported resources for the application.
         public let unsupportedResources: [UnsupportedResource]
 
+        @inlinable
         public init(nextToken: String? = nil, resolutionId: String, unsupportedResources: [UnsupportedResource]) {
             self.nextToken = nextToken
             self.resolutionId = resolutionId
@@ -3891,6 +4011,7 @@ extension Resiliencehub {
         ///  The name of the Terraform S3 state file this resource belongs to.
         public let terraformSourceName: String?
 
+        @inlinable
         public init(eksSourceName: String? = nil, identifier: String, logicalStackName: String? = nil, resourceGroupName: String? = nil, terraformSourceName: String? = nil) {
             self.eksSourceName = eksSourceName
             self.identifier = identifier
@@ -3928,6 +4049,7 @@ extension Resiliencehub {
         /// Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user.
         public let type: PermissionModelType
 
+        @inlinable
         public init(crossAccountRoleArns: [String]? = nil, invokerRoleName: String? = nil, type: PermissionModelType) {
             self.crossAccountRoleArns = crossAccountRoleArns
             self.invokerRoleName = invokerRoleName
@@ -3969,6 +4091,7 @@ extension Resiliencehub {
         /// Type of input source.
         public let sourceType: ResourceSourceType?
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appComponents: [AppComponent]? = nil, excluded: Bool? = nil, logicalResourceId: LogicalResourceId, parentResourceName: String? = nil, physicalResourceId: PhysicalResourceId, resourceName: String? = nil, resourceType: String, sourceType: ResourceSourceType? = nil) {
             self.additionalInfo = additionalInfo
             self.appComponents = appComponents
@@ -4004,6 +4127,7 @@ extension Resiliencehub {
         /// Specifies the type of physical resource identifier.  Arn  The resource identifier is an Amazon Resource Name (ARN) and it can identify the following list of resources:    AWS::ECS::Service     AWS::EFS::FileSystem     AWS::ElasticLoadBalancingV2::LoadBalancer     AWS::Lambda::Function     AWS::SNS::Topic     Native  The resource identifier is an Resilience Hub-native identifier and it can identify the following list of resources:    AWS::ApiGateway::RestApi     AWS::ApiGatewayV2::Api     AWS::AutoScaling::AutoScalingGroup     AWS::DocDB::DBCluster     AWS::DocDB::DBGlobalCluster     AWS::DocDB::DBInstance     AWS::DynamoDB::GlobalTable     AWS::DynamoDB::Table     AWS::EC2::EC2Fleet     AWS::EC2::Instance     AWS::EC2::NatGateway     AWS::EC2::Volume     AWS::ElasticLoadBalancing::LoadBalancer     AWS::RDS::DBCluster     AWS::RDS::DBInstance     AWS::RDS::GlobalCluster     AWS::Route53::RecordSet     AWS::S3::Bucket     AWS::SQS::Queue
         public let type: PhysicalIdentifierType
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsRegion: String? = nil, identifier: String, type: PhysicalIdentifierType) {
             self.awsAccountId = awsAccountId
             self.awsRegion = awsRegion
@@ -4034,6 +4158,7 @@ extension Resiliencehub {
         /// Name of the application version.
         public let versionName: String?
 
+        @inlinable
         public init(appArn: String, versionName: String? = nil) {
             self.appArn = appArn
             self.versionName = versionName
@@ -4062,6 +4187,7 @@ extension Resiliencehub {
         /// Name of the application version.
         public let versionName: String?
 
+        @inlinable
         public init(appArn: String, appVersion: String? = nil, identifier: Int64? = nil, versionName: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4085,6 +4211,7 @@ extension Resiliencehub {
         /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:     resources   The list of logical resources that must be included in the Resilience Hub application. Type: Array  Don't add the resources that you want to exclude.  Each resources array item includes the following fields:     logicalResourceId   Logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:    identifier  Identifier of the resource. Type: String    logicalStackName  The name of the CloudFormation stack this resource belongs to. Type: String    resourceGroupName  The name of the resource group this resource belongs to. Type: String    terraformSourceName  The name of the Terraform S3 state file this resource belongs to. Type: String    eksSourceName  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to.  This parameter accepts values in "eks-cluster/namespace" format.  Type: String       type   The type of resource. Type: string     name   The name of the resource. Type: String    additionalInfo  Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters.  Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions"  Value: "[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"         appComponents   List of Application Components that this resource belongs to. If an Application Component is not part of the Resilience Hub application, it will be added. Type: Array Each appComponents array item includes the following fields:    name  Name of the Application Component. Type: String    type  Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent. Type: String    resourceNames  The list of included resources that are assigned to the Application Component. Type: Array of strings    additionalInfo  Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters.  Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions"  Value: "[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"         excludedResources   The list of logical resource identifiers to be excluded from the application. Type: Array  Don't add the resources that you want to include.  Each excludedResources array item includes the following fields:     logicalResourceIds   Logical identifier of the resource. Type: Object  You can configure only one of the following fields:    logicalStackName     resourceGroupName     terraformSourceName     eksSourceName     Each logicalResourceIds object includes the following fields:    identifier  Identifier of the resource. Type: String    logicalStackName  The name of the CloudFormation stack this resource belongs to. Type: String    resourceGroupName  The name of the resource group this resource belongs to. Type: String    terraformSourceName  The name of the Terraform S3 state file this resource belongs to. Type: String    eksSourceName  Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to.  This parameter accepts values in "eks-cluster/namespace" format.  Type: String         version   Resilience Hub application version.    additionalInfo  Additional configuration parameters for an Resilience Hub application. If you want to implement additionalInfo through the Resilience Hub console rather than using an API call, see Configure the application configuration parameters.  Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions"  Value: "[{"region":"&lt;REGION&gt;", "accounts":[{"id":"&lt;ACCOUNT_ID&gt;"}]}]"
         public let appTemplateBody: String
 
+        @inlinable
         public init(appArn: String, appTemplateBody: String) {
             self.appArn = appArn
             self.appTemplateBody = appTemplateBody
@@ -4110,6 +4237,7 @@ extension Resiliencehub {
         /// The version of the application.
         public let appVersion: String?
 
+        @inlinable
         public init(appArn: String? = nil, appVersion: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4133,6 +4261,7 @@ extension Resiliencehub {
         /// The expected RTO after applying the recommended configuration change.
         public let expectedRtoInSecs: Int?
 
+        @inlinable
         public init(expectedComplianceStatus: ComplianceStatus, expectedRpoDescription: String? = nil, expectedRpoInSecs: Int? = nil, expectedRtoDescription: String? = nil, expectedRtoInSecs: Int? = nil) {
             self.expectedComplianceStatus = expectedComplianceStatus
             self.expectedRpoDescription = expectedRpoDescription
@@ -4164,6 +4293,7 @@ extension Resiliencehub {
         /// The target region.
         public let targetRegion: String?
 
+        @inlinable
         public init(alreadyImplemented: Bool? = nil, excluded: Bool? = nil, excludeReason: ExcludeRecommendationReason? = nil, resourceId: String? = nil, targetAccountId: String? = nil, targetRegion: String? = nil) {
             self.alreadyImplemented = alreadyImplemented
             self.excluded = excluded
@@ -4218,6 +4348,7 @@ extension Resiliencehub {
         /// The file location of the template.
         public let templatesLocation: S3Location?
 
+        @inlinable
         public init(appArn: String? = nil, assessmentArn: String, endTime: Date? = nil, format: TemplateFormat, message: String? = nil, name: String, needsReplacements: Bool? = nil, recommendationIds: [String]? = nil, recommendationTemplateArn: String, recommendationTypes: [RenderRecommendationType], startTime: Date? = nil, status: RecommendationTemplateStatus, tags: [String: String]? = nil, templatesLocation: S3Location? = nil) {
             self.appArn = appArn
             self.assessmentArn = assessmentArn
@@ -4259,6 +4390,7 @@ extension Resiliencehub {
         /// Indicates the reason you had selected while rejecting a grouping recommendation.
         public let rejectionReason: GroupingRecommendationRejectionReason?
 
+        @inlinable
         public init(groupingRecommendationId: String, rejectionReason: GroupingRecommendationRejectionReason? = nil) {
             self.groupingRecommendationId = groupingRecommendationId
             self.rejectionReason = rejectionReason
@@ -4283,6 +4415,7 @@ extension Resiliencehub {
         /// Indicates the list of resource grouping recommendations you have selected to exclude from your application.
         public let entries: [RejectGroupingRecommendationEntry]
 
+        @inlinable
         public init(appArn: String, entries: [RejectGroupingRecommendationEntry]) {
             self.appArn = appArn
             self.entries = entries
@@ -4311,6 +4444,7 @@ extension Resiliencehub {
         /// Indicates the list of resource grouping recommendations that failed to get excluded in your application.
         public let failedEntries: [FailedGroupingRecommendationEntry]
 
+        @inlinable
         public init(appArn: String, failedEntries: [FailedGroupingRecommendationEntry]) {
             self.appArn = appArn
             self.failedEntries = failedEntries
@@ -4340,6 +4474,7 @@ extension Resiliencehub {
         /// The names of the Terraform sources you want to remove from the resource mappings.
         public let terraformSourceNames: [String]?
 
+        @inlinable
         public init(appArn: String, appRegistryAppNames: [String]? = nil, eksSourceNames: [String]? = nil, logicalStackNames: [String]? = nil, resourceGroupNames: [String]? = nil, resourceNames: [String]? = nil, terraformSourceNames: [String]? = nil) {
             self.appArn = appArn
             self.appRegistryAppNames = appRegistryAppNames
@@ -4394,6 +4529,7 @@ extension Resiliencehub {
         /// The version of the application.
         public let appVersion: String?
 
+        @inlinable
         public init(appArn: String? = nil, appVersion: String? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4428,6 +4564,7 @@ extension Resiliencehub {
         /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
         public let tier: ResiliencyPolicyTier?
 
+        @inlinable
         public init(creationTime: Date? = nil, dataLocationConstraint: DataLocationConstraint? = nil, estimatedCostTier: EstimatedCostTier? = nil, policy: [DisruptionType: FailurePolicy]? = nil, policyArn: String? = nil, policyDescription: String? = nil, policyName: String? = nil, tags: [String: String]? = nil, tier: ResiliencyPolicyTier? = nil) {
             self.creationTime = creationTime
             self.dataLocationConstraint = dataLocationConstraint
@@ -4461,6 +4598,7 @@ extension Resiliencehub {
         /// The outage score for a valid key.
         public let score: Double
 
+        @inlinable
         public init(componentScore: [ResiliencyScoreType: ScoringComponentResiliencyScore]? = nil, disruptionScore: [DisruptionType: Double], score: Double) {
             self.componentScore = componentScore
             self.disruptionScore = disruptionScore
@@ -4482,6 +4620,7 @@ extension Resiliencehub {
         /// The version of the application.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appVersion: String) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4510,6 +4649,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: ResourceResolutionStatusType
 
+        @inlinable
         public init(appArn: String, appVersion: String, resolutionId: String, status: ResourceResolutionStatusType) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4539,6 +4679,7 @@ extension Resiliencehub {
         /// Identifier of the drifted resource.
         public let resourceIdentifier: ResourceIdentifier?
 
+        @inlinable
         public init(appArn: String? = nil, appVersion: String? = nil, diffType: DifferenceType? = nil, referenceId: String? = nil, resourceIdentifier: ResourceIdentifier? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4564,6 +4705,7 @@ extension Resiliencehub {
         ///  This is the error message.
         public let reason: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, physicalResourceId: String? = nil, reason: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
@@ -4583,6 +4725,7 @@ extension Resiliencehub {
         ///  A list of errors retrieving an application's resources.
         public let resourceErrors: [ResourceError]?
 
+        @inlinable
         public init(hasMoreErrors: Bool? = nil, resourceErrors: [ResourceError]? = nil) {
             self.hasMoreErrors = hasMoreErrors
             self.resourceErrors = resourceErrors
@@ -4600,6 +4743,7 @@ extension Resiliencehub {
         /// Type of the drifted resource.
         public let resourceType: String?
 
+        @inlinable
         public init(logicalResourceId: LogicalResourceId? = nil, resourceType: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.resourceType = resourceType
@@ -4629,6 +4773,7 @@ extension Resiliencehub {
         /// Name of the Terraform source that this resource is mapped to when the mappingType is Terraform.
         public let terraformSourceName: String?
 
+        @inlinable
         public init(appRegistryAppName: String? = nil, eksSourceName: String? = nil, logicalStackName: String? = nil, mappingType: ResourceMappingType, physicalResourceId: PhysicalResourceId, resourceGroupName: String? = nil, resourceName: String? = nil, terraformSourceName: String? = nil) {
             self.appRegistryAppName = appRegistryAppName
             self.eksSourceName = eksSourceName
@@ -4671,6 +4816,7 @@ extension Resiliencehub {
         /// The prefix for the Amazon S3 bucket.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -4692,6 +4838,7 @@ extension Resiliencehub {
         /// Resiliency score points given for the scoring component. The score is always less than or equal to the possibleScore.
         public let score: Double?
 
+        @inlinable
         public init(excludedCount: Int64? = nil, outstandingCount: Int64? = nil, possibleScore: Double? = nil, score: Double? = nil) {
             self.excludedCount = excludedCount
             self.outstandingCount = outstandingCount
@@ -4727,6 +4874,7 @@ extension Resiliencehub {
         /// The service type.
         public let serviceType: SopServiceType
 
+        @inlinable
         public init(appComponentName: String? = nil, description: String? = nil, items: [RecommendationItem]? = nil, name: String? = nil, prerequisite: String? = nil, recommendationId: String, recommendationStatus: RecommendationStatus? = nil, referenceId: String, serviceType: SopServiceType) {
             self.appComponentName = appComponentName
             self.description = description
@@ -4768,6 +4916,7 @@ extension Resiliencehub {
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appArn: String, appVersion: String, assessmentName: String, clientToken: String? = StartAppAssessmentRequest.idempotencyToken(), tags: [String: String]? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -4807,6 +4956,7 @@ extension Resiliencehub {
         /// The assessment created.
         public let assessment: AppAssessment
 
+        @inlinable
         public init(assessment: AppAssessment) {
             self.assessment = assessment
         }
@@ -4822,6 +4972,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
 
+        @inlinable
         public init(appArn: String) {
             self.appArn = appArn
         }
@@ -4847,6 +4998,7 @@ extension Resiliencehub {
         /// Status of the action.
         public let status: ResourcesGroupingRecGenStatusType
 
+        @inlinable
         public init(appArn: String, errorMessage: String? = nil, groupingId: String, status: ResourcesGroupingRecGenStatusType) {
             self.appArn = appArn
             self.errorMessage = errorMessage
@@ -4868,6 +5020,7 @@ extension Resiliencehub {
         /// The tags to assign to the resource. Each tag consists of a key/value pair.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -4906,6 +5059,7 @@ extension Resiliencehub {
         ///  The URL of the Terraform s3 state file you need to import.
         public let s3StateFileUrl: String
 
+        @inlinable
         public init(s3StateFileUrl: String) {
             self.s3StateFileUrl = s3StateFileUrl
         }
@@ -4946,6 +5100,7 @@ extension Resiliencehub {
         /// Type of test recommendation.
         public let type: TestType?
 
+        @inlinable
         public init(appComponentName: String? = nil, dependsOnAlarms: [String]? = nil, description: String? = nil, intent: String? = nil, items: [RecommendationItem]? = nil, name: String? = nil, prerequisite: String? = nil, recommendationId: String? = nil, recommendationStatus: RecommendationStatus? = nil, referenceId: String, risk: TestRisk? = nil, type: TestType? = nil) {
             self.appComponentName = appComponentName
             self.dependsOnAlarms = dependsOnAlarms
@@ -4987,6 +5142,7 @@ extension Resiliencehub {
         /// The status of the unsupported resource.
         public let unsupportedResourceStatus: String?
 
+        @inlinable
         public init(logicalResourceId: LogicalResourceId, physicalResourceId: PhysicalResourceId, resourceType: String, unsupportedResourceStatus: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
@@ -5008,6 +5164,7 @@ extension Resiliencehub {
         /// The keys of the tags you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5058,6 +5215,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let policyArn: String?
 
+        @inlinable
         public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, clearResiliencyPolicyArn: Bool? = nil, description: String? = nil, eventSubscriptions: [EventSubscription]? = nil, permissionModel: PermissionModel? = nil, policyArn: String? = nil) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
@@ -5094,6 +5252,7 @@ extension Resiliencehub {
         /// The specified application, returned as an object with details including compliance status, creation time, description, resiliency score, and more.
         public let app: App
 
+        @inlinable
         public init(app: App) {
             self.app = app
         }
@@ -5117,6 +5276,7 @@ extension Resiliencehub {
         /// Type of Application Component. For more information about the types of Application Component, see Grouping resources in an AppComponent.
         public let type: String?
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String, id: String, name: String? = nil, type: String? = nil) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -5159,6 +5319,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(appArn: String, appComponent: AppComponent? = nil, appVersion: String) {
             self.appArn = appArn
             self.appComponent = appComponent
@@ -5180,6 +5341,7 @@ extension Resiliencehub {
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -5224,6 +5386,7 @@ extension Resiliencehub {
         /// Type of resource.
         public let resourceType: String?
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String, appComponents: [String]? = nil, awsAccountId: String? = nil, awsRegion: String? = nil, excluded: Bool? = nil, logicalResourceId: LogicalResourceId? = nil, physicalResourceId: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -5282,6 +5445,7 @@ extension Resiliencehub {
         /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or a Resilience Hub-native identifier.
         public let physicalResource: PhysicalResource?
 
+        @inlinable
         public init(appArn: String, appVersion: String, physicalResource: PhysicalResource? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
@@ -5305,6 +5469,7 @@ extension Resiliencehub {
         /// Resilience Hub application version.
         public let appVersion: String
 
+        @inlinable
         public init(additionalInfo: [String: [String]]? = nil, appArn: String, appVersion: String) {
             self.additionalInfo = additionalInfo
             self.appArn = appArn
@@ -5326,6 +5491,7 @@ extension Resiliencehub {
         /// Identifier of the target Amazon Web Services Region.
         public let targetRegion: String?
 
+        @inlinable
         public init(resourceId: String? = nil, targetAccountId: String? = nil, targetRegion: String? = nil) {
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
@@ -5358,6 +5524,7 @@ extension Resiliencehub {
         /// Reference identifier of the operational recommendation item.
         public let referenceId: String
 
+        @inlinable
         public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem, referenceId: String) {
             self.entryId = entryId
             self.excluded = excluded
@@ -5399,6 +5566,7 @@ extension Resiliencehub {
         /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
         public let tier: ResiliencyPolicyTier?
 
+        @inlinable
         public init(dataLocationConstraint: DataLocationConstraint? = nil, policy: [DisruptionType: FailurePolicy]? = nil, policyArn: String, policyDescription: String? = nil, policyName: String? = nil, tier: ResiliencyPolicyTier? = nil) {
             self.dataLocationConstraint = dataLocationConstraint
             self.policy = policy
@@ -5431,6 +5599,7 @@ extension Resiliencehub {
         /// The type of resiliency policy that was updated, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: ResiliencyPolicy
 
+        @inlinable
         public init(policy: ResiliencyPolicy) {
             self.policy = policy
         }

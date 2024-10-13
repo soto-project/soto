@@ -431,6 +431,7 @@ extension Route53Domains {
         /// The password that was returned by the TransferDomainToAnotherAwsAccount request.
         public let password: String
 
+        @inlinable
         public init(domainName: String, password: String) {
             self.domainName = domainName
             self.password = password
@@ -451,6 +452,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -467,6 +469,7 @@ extension Route53Domains {
         /// 			flags.
         public let signingAttributes: DnssecSigningAttributes
 
+        @inlinable
         public init(domainName: String, signingAttributes: DnssecSigningAttributes) {
             self.domainName = domainName
             self.signingAttributes = signingAttributes
@@ -488,6 +491,7 @@ extension Route53Domains {
         /// 			status, use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -513,6 +517,7 @@ extension Route53Domains {
         /// The price that you were charged for the operation, in US dollars. Example value: 12.0
         public let price: Double?
 
+        @inlinable
         public init(billDate: Date? = nil, domainName: String? = nil, invoiceId: String? = nil, operation: OperationType? = nil, price: Double? = nil) {
             self.billDate = billDate
             self.domainName = domainName
@@ -534,6 +539,7 @@ extension Route53Domains {
         /// The name of the domain for which you want to cancel the transfer to another Amazon Web Services account.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -554,6 +560,7 @@ extension Route53Domains {
         /// 			status.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -578,6 +585,7 @@ extension Route53Domains {
         /// Reserved for future use.
         public let idnLangCode: String?
 
+        @inlinable
         public init(domainName: String, idnLangCode: String? = nil) {
             self.domainName = domainName
             self.idnLangCode = idnLangCode
@@ -604,6 +612,7 @@ extension Route53Domains {
         /// 						organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.
         public let availability: DomainAvailability?
 
+        @inlinable
         public init(availability: DomainAvailability? = nil) {
             self.availability = availability
         }
@@ -627,6 +636,7 @@ extension Route53Domains {
         /// 						example.com.
         public let domainName: String
 
+        @inlinable
         public init(authCode: String? = nil, domainName: String) {
             self.authCode = authCode
             self.domainName = domainName
@@ -650,6 +660,7 @@ extension Route53Domains {
         /// 			transferred to Route 53.
         public let transferability: DomainTransferability?
 
+        @inlinable
         public init(message: String? = nil, transferability: DomainTransferability? = nil) {
             self.message = message
             self.transferability = transferability
@@ -667,6 +678,7 @@ extension Route53Domains {
         ///  Maximum amount the customer agreed to accept.
         public let maxPrice: Double
 
+        @inlinable
         public init(currency: String, maxPrice: Double = 0) {
             self.currency = currency
             self.maxPrice = maxPrice
@@ -725,6 +737,7 @@ extension Route53Domains {
         /// The zip or postal code of the contact's address.
         public let zipCode: String?
 
+        @inlinable
         public init(addressLine1: String? = nil, addressLine2: String? = nil, city: String? = nil, contactType: ContactType? = nil, countryCode: CountryCode? = nil, email: String? = nil, extraParams: [ExtraParam]? = nil, fax: String? = nil, firstName: String? = nil, lastName: String? = nil, organizationName: String? = nil, phoneNumber: String? = nil, state: String? = nil, zipCode: String? = nil) {
             self.addressLine1 = addressLine1
             self.addressLine2 = addressLine2
@@ -781,6 +794,7 @@ extension Route53Domains {
         /// Name of the domain to be deleted.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -799,6 +813,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -814,6 +829,7 @@ extension Route53Domains {
         /// A list of tag keys to delete.
         public let tagsToDelete: [String]
 
+        @inlinable
         public init(domainName: String, tagsToDelete: [String]) {
             self.domainName = domainName
             self.tagsToDelete = tagsToDelete
@@ -841,6 +857,7 @@ extension Route53Domains {
         /// The name of the domain that you want to disable automatic renewal for.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -862,6 +879,7 @@ extension Route53Domains {
         /// The name of the domain that you want to remove the transfer lock for.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -880,6 +898,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -896,6 +915,7 @@ extension Route53Domains {
         /// 			can retrieve it as part of DNSSEC information returned by GetDomainDetail.
         public let id: String
 
+        @inlinable
         public init(domainName: String, id: String) {
             self.domainName = domainName
             self.id = id
@@ -916,6 +936,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -948,6 +969,7 @@ extension Route53Domains {
         /// 			.
         public let publicKey: String?
 
+        @inlinable
         public init(algorithm: Int? = nil, digest: String? = nil, digestType: Int? = nil, flags: Int? = nil, id: String? = nil, keyTag: Int? = nil, publicKey: String? = nil) {
             self.algorithm = algorithm
             self.digest = digest
@@ -981,6 +1003,7 @@ extension Route53Domains {
         ///
         public let publicKey: String?
 
+        @inlinable
         public init(algorithm: Int? = nil, flags: Int? = nil, publicKey: String? = nil) {
             self.algorithm = algorithm
             self.flags = flags
@@ -1012,6 +1035,7 @@ extension Route53Domains {
         /// The price for transferring the domain registration to Route 53.
         public let transferPrice: PriceWithCurrency?
 
+        @inlinable
         public init(changeOwnershipPrice: PriceWithCurrency? = nil, name: String? = nil, registrationPrice: PriceWithCurrency? = nil, renewalPrice: PriceWithCurrency? = nil, restorationPrice: PriceWithCurrency? = nil, transferPrice: PriceWithCurrency? = nil) {
             self.changeOwnershipPrice = changeOwnershipPrice
             self.name = name
@@ -1044,6 +1068,7 @@ extension Route53Domains {
         /// A suggested domain name.
         public let domainName: String?
 
+        @inlinable
         public init(availability: String? = nil, domainName: String? = nil) {
             self.availability = availability
             self.domainName = domainName
@@ -1067,6 +1092,7 @@ extension Route53Domains {
         /// 			party.
         public let transferLock: Bool?
 
+        @inlinable
         public init(autoRenew: Bool? = nil, domainName: String? = nil, expiry: Date? = nil, transferLock: Bool? = nil) {
             self.autoRenew = autoRenew
             self.domainName = domainName
@@ -1085,6 +1111,7 @@ extension Route53Domains {
     public struct DomainTransferability: AWSDecodableShape {
         public let transferable: Transferable?
 
+        @inlinable
         public init(transferable: Transferable? = nil) {
             self.transferable = transferable
         }
@@ -1098,6 +1125,7 @@ extension Route53Domains {
         /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1119,6 +1147,7 @@ extension Route53Domains {
         /// The name of the domain that you want to set the transfer lock for.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1137,6 +1166,7 @@ extension Route53Domains {
         /// 			operation status, use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1189,6 +1219,7 @@ extension Route53Domains {
         /// The value that corresponds with the name of an extra parameter.
         public let value: String
 
+        @inlinable
         public init(name: ExtraParamName, value: String) {
             self.name = name
             self.value = value
@@ -1213,6 +1244,7 @@ extension Route53Domains {
         /// 			currently supported.
         public let values: [String]
 
+        @inlinable
         public init(name: ListDomainsAttributeName, operator: Operator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -1240,6 +1272,7 @@ extension Route53Domains {
         /// 			confirmed that the email address is valid.
         public let domainName: String?
 
+        @inlinable
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -1259,6 +1292,7 @@ extension Route53Domains {
         /// Whether the registrant contact has responded. Values include the following:  PENDING  We sent the confirmation email and haven't received a response yet.  DONE  We sent the email and got confirmation from the registrant contact.  EXPIRED  The time limit expired before the registrant contact responded.
         public let status: ReachabilityStatus?
 
+        @inlinable
         public init(domainName: String? = nil, status: ReachabilityStatus? = nil) {
             self.domainName = domainName
             self.status = status
@@ -1274,6 +1308,7 @@ extension Route53Domains {
         /// The name of the domain that you want to get detailed information about.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1368,6 +1403,7 @@ extension Route53Domains {
         /// 			domain.
         public let whoIsServer: String?
 
+        @inlinable
         public init(abuseContactEmail: String? = nil, abuseContactPhone: String? = nil, adminContact: ContactDetail? = nil, adminPrivacy: Bool? = nil, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, billingPrivacy: Bool? = nil, creationDate: Date? = nil, dnsSec: String? = nil, dnssecKeys: [DnssecKey]? = nil, domainName: String? = nil, expirationDate: Date? = nil, nameservers: [Nameserver]? = nil, registrantContact: ContactDetail? = nil, registrantPrivacy: Bool? = nil, registrarName: String? = nil, registrarUrl: String? = nil, registryDomainId: String? = nil, reseller: String? = nil, statusList: [String]? = nil, techContact: ContactDetail? = nil, techPrivacy: Bool? = nil, updatedDate: Date? = nil, whoIsServer: String? = nil) {
             self.abuseContactEmail = abuseContactEmail
             self.abuseContactPhone = abuseContactPhone
@@ -1445,6 +1481,7 @@ extension Route53Domains {
         /// 			between 1 and 50.
         public let suggestionCount: Int
 
+        @inlinable
         public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int = 0) {
             self.domainName = domainName
             self.onlyAvailable = onlyAvailable
@@ -1468,6 +1505,7 @@ extension Route53Domains {
         /// 			available for registration.
         public let suggestionsList: [DomainSuggestion]?
 
+        @inlinable
         public init(suggestionsList: [DomainSuggestion]? = nil) {
             self.suggestionsList = suggestionsList
         }
@@ -1482,6 +1520,7 @@ extension Route53Domains {
         /// 			returned the identifier in the response to the original request.
         public let operationId: String
 
+        @inlinable
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -1519,6 +1558,7 @@ extension Route53Domains {
         /// The type of operation that was requested.
         public let type: OperationType?
 
+        @inlinable
         public init(domainName: String? = nil, lastUpdatedDate: Date? = nil, message: String? = nil, operationId: String? = nil, status: OperationStatus? = nil, statusFlag: StatusFlag? = nil, submittedDate: Date? = nil, type: OperationType? = nil) {
             self.domainName = domainName
             self.lastUpdatedDate = lastUpdatedDate
@@ -1560,6 +1600,7 @@ extension Route53Domains {
         /// 			the returned list.
         public let sortCondition: SortCondition?
 
+        @inlinable
         public init(filterConditions: [FilterCondition]? = nil, marker: String? = nil, maxItems: Int? = nil, sortCondition: SortCondition? = nil) {
             self.filterConditions = filterConditions
             self.marker = marker
@@ -1591,6 +1632,7 @@ extension Route53Domains {
         /// 			of Marker.
         public let nextPageMarker: String?
 
+        @inlinable
         public init(domains: [DomainSummary]? = nil, nextPageMarker: String? = nil) {
             self.domains = domains
             self.nextPageMarker = nextPageMarker
@@ -1625,6 +1667,7 @@ extension Route53Domains {
         ///  An arrays of the domains operation types.
         public let type: [OperationType]?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, sortBy: ListOperationsSortAttributeName? = nil, sortOrder: SortOrder? = nil, status: [OperationStatus]? = nil, submittedSince: Date? = nil, type: [OperationType]? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -1661,6 +1704,7 @@ extension Route53Domains {
         /// Lists summaries of the operations.
         public let operations: [OperationSummary]?
 
+        @inlinable
         public init(nextPageMarker: String? = nil, operations: [OperationSummary]? = nil) {
             self.nextPageMarker = nextPageMarker
             self.operations = operations
@@ -1689,6 +1733,7 @@ extension Route53Domains {
         /// 			by Route 53 is returned.
         public let tld: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, tld: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -1719,6 +1764,7 @@ extension Route53Domains {
         /// 			array contains only the pricing for that TLD.
         public let prices: [DomainPrice]?
 
+        @inlinable
         public init(nextPageMarker: String? = nil, prices: [DomainPrice]? = nil) {
             self.nextPageMarker = nextPageMarker
             self.prices = prices
@@ -1734,6 +1780,7 @@ extension Route53Domains {
         /// The domain for which you want to get a list of tags.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -1751,6 +1798,7 @@ extension Route53Domains {
         /// A list of the tags that are associated with the specified domain.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -1769,6 +1817,7 @@ extension Route53Domains {
         /// The fully qualified host name of the name server. Constraint: Maximum 255 characters
         public let name: String
 
+        @inlinable
         public init(glueIps: [String]? = nil, name: String) {
             self.glueIps = glueIps
             self.name = name
@@ -1813,6 +1862,7 @@ extension Route53Domains {
         /// Type of the action requested.
         public let type: OperationType?
 
+        @inlinable
         public init(domainName: String? = nil, lastUpdatedDate: Date? = nil, message: String? = nil, operationId: String? = nil, status: OperationStatus? = nil, statusFlag: StatusFlag? = nil, submittedDate: Date? = nil, type: OperationType? = nil) {
             self.domainName = domainName
             self.lastUpdatedDate = lastUpdatedDate
@@ -1842,6 +1892,7 @@ extension Route53Domains {
         /// The price of a domain, in a specific currency.
         public let price: Double
 
+        @inlinable
         public init(currency: String, price: Double) {
             self.currency = currency
             self.price = price
@@ -1859,6 +1910,7 @@ extension Route53Domains {
         ///  New IPS tag for the domain.
         public let target: String
 
+        @inlinable
         public init(domainName: String, target: String) {
             self.domainName = domainName
             self.target = target
@@ -1939,6 +1991,7 @@ extension Route53Domains {
         /// 			specify for each element, see ContactDetail.
         public let techContact: ContactDetail
 
+        @inlinable
         public init(adminContact: ContactDetail, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.autoRenew = autoRenew
@@ -1986,6 +2039,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2000,6 +2054,7 @@ extension Route53Domains {
         /// 			submitted a TransferDomainToAnotherAwsAccount request.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2020,6 +2075,7 @@ extension Route53Domains {
         /// 			status.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2042,6 +2098,7 @@ extension Route53Domains {
         /// 				Guide. Default: 1
         public let durationInYears: Int?
 
+        @inlinable
         public init(currentExpiryYear: Int = 0, domainName: String, durationInYears: Int? = nil) {
             self.currentExpiryYear = currentExpiryYear
             self.domainName = domainName
@@ -2066,6 +2123,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2080,6 +2138,7 @@ extension Route53Domains {
         /// 			the registrant contact.
         public let domainName: String?
 
+        @inlinable
         public init(domainName: String? = nil) {
             self.domainName = domainName
         }
@@ -2104,6 +2163,7 @@ extension Route53Domains {
         /// 			verified, we don't send another confirmation email.
         public let isAlreadyVerified: Bool?
 
+        @inlinable
         public init(domainName: String? = nil, emailAddress: String? = nil, isAlreadyVerified: Bool? = nil) {
             self.domainName = domainName
             self.emailAddress = emailAddress
@@ -2121,6 +2181,7 @@ extension Route53Domains {
         ///  Operation ID.
         public let operationId: String
 
+        @inlinable
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -2138,6 +2199,7 @@ extension Route53Domains {
         /// The name of the domain that you want to get an authorization code for.
         public let domainName: String
 
+        @inlinable
         public init(domainName: String) {
             self.domainName = domainName
         }
@@ -2155,6 +2217,7 @@ extension Route53Domains {
         /// The authorization code for the domain.
         public let authCode: String?
 
+        @inlinable
         public init(authCode: String? = nil) {
             self.authCode = authCode
         }
@@ -2175,6 +2238,7 @@ extension Route53Domains {
         /// 			(DES).
         public let sortOrder: SortOrder
 
+        @inlinable
         public init(name: ListDomainsAttributeName, sortOrder: SortOrder) {
             self.name = name
             self.sortOrder = sortOrder
@@ -2192,6 +2256,7 @@ extension Route53Domains {
         /// The value of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each value can be 0-256 characters long.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2268,6 +2333,7 @@ extension Route53Domains {
         /// Provides detailed contact information.
         public let techContact: ContactDetail
 
+        @inlinable
         public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.authCode = authCode
@@ -2323,6 +2389,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2339,6 +2406,7 @@ extension Route53Domains {
         /// The name of the domain that you want to transfer from the current Amazon Web Services account to another account.
         public let domainName: String
 
+        @inlinable
         public init(accountId: String, domainName: String) {
             self.accountId = accountId
             self.domainName = domainName
@@ -2367,6 +2435,7 @@ extension Route53Domains {
         /// 				TransferDomainToAnotherAwsAccount response.
         public let password: String?
 
+        @inlinable
         public init(operationId: String? = nil, password: String? = nil) {
             self.operationId = operationId
             self.password = password
@@ -2411,6 +2480,7 @@ extension Route53Domains {
         /// 				technical contacts.
         public let techPrivacy: Bool?
 
+        @inlinable
         public init(adminPrivacy: Bool? = nil, billingPrivacy: Bool? = nil, domainName: String, registrantPrivacy: Bool? = nil, techPrivacy: Bool? = nil) {
             self.adminPrivacy = adminPrivacy
             self.billingPrivacy = billingPrivacy
@@ -2437,6 +2507,7 @@ extension Route53Domains {
         /// 			operation status, use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2460,6 +2531,7 @@ extension Route53Domains {
         /// Provides detailed contact information.
         public let techContact: ContactDetail?
 
+        @inlinable
         public init(adminContact: ContactDetail? = nil, billingContact: ContactDetail? = nil, consent: Consent? = nil, domainName: String, registrantContact: ContactDetail? = nil, techContact: ContactDetail? = nil) {
             self.adminContact = adminContact
             self.billingContact = billingContact
@@ -2493,6 +2565,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2510,6 +2583,7 @@ extension Route53Domains {
         /// A list of new name servers for the domain.
         public let nameservers: [Nameserver]
 
+        @inlinable
         public init(domainName: String, nameservers: [Nameserver]) {
             self.domainName = domainName
             self.fiAuthKey = nil
@@ -2517,6 +2591,7 @@ extension Route53Domains {
         }
 
         @available(*, deprecated, message: "Members fiAuthKey have been deprecated")
+        @inlinable
         public init(domainName: String, fiAuthKey: String? = nil, nameservers: [Nameserver]) {
             self.domainName = domainName
             self.fiAuthKey = fiAuthKey
@@ -2543,6 +2618,7 @@ extension Route53Domains {
         /// 			use GetOperationDetail.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2559,6 +2635,7 @@ extension Route53Domains {
         /// 			that already exists, the corresponding value will be replaced.
         public let tagsToUpdate: [Tag]?
 
+        @inlinable
         public init(domainName: String, tagsToUpdate: [Tag]? = nil) {
             self.domainName = domainName
             self.tagsToUpdate = tagsToUpdate
@@ -2602,6 +2679,7 @@ extension Route53Domains {
         /// 			(UTC).
         public let start: Date?
 
+        @inlinable
         public init(end: Date? = nil, marker: String? = nil, maxItems: Int? = nil, start: Date? = nil) {
             self.end = end
             self.marker = marker
@@ -2630,6 +2708,7 @@ extension Route53Domains {
         /// 			the value of Marker.
         public let nextPageMarker: String?
 
+        @inlinable
         public init(billingRecords: [BillingRecord]? = nil, nextPageMarker: String? = nil) {
             self.billingRecords = billingRecords
             self.nextPageMarker = nextPageMarker

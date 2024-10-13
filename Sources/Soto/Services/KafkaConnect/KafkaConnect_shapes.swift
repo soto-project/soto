@@ -77,6 +77,7 @@ extension KafkaConnect {
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
         public let vpc: Vpc
 
+        @inlinable
         public init(bootstrapServers: String, vpc: Vpc) {
             self.bootstrapServers = bootstrapServers
             self.vpc = vpc
@@ -94,6 +95,7 @@ extension KafkaConnect {
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
         public let vpc: VpcDescription?
 
+        @inlinable
         public init(bootstrapServers: String? = nil, vpc: VpcDescription? = nil) {
             self.bootstrapServers = bootstrapServers
             self.vpc = vpc
@@ -117,6 +119,7 @@ extension KafkaConnect {
         /// The sacle-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicy?
 
+        @inlinable
         public init(maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicy? = nil, scaleOutPolicy: ScaleOutPolicy? = nil) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
@@ -157,6 +160,7 @@ extension KafkaConnect {
         /// The sacle-out policy for the connector.&gt;
         public let scaleOutPolicy: ScaleOutPolicyDescription?
 
+        @inlinable
         public init(maxWorkerCount: Int? = nil, mcuCount: Int? = nil, minWorkerCount: Int? = nil, scaleInPolicy: ScaleInPolicyDescription? = nil, scaleOutPolicy: ScaleOutPolicyDescription? = nil) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
@@ -186,6 +190,7 @@ extension KafkaConnect {
         /// The target sacle-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicyUpdate
 
+        @inlinable
         public init(maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicyUpdate, scaleOutPolicy: ScaleOutPolicyUpdate) {
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
@@ -220,6 +225,7 @@ extension KafkaConnect {
         /// Details about a fixed capacity allocated to a connector.
         public let provisionedCapacity: ProvisionedCapacity?
 
+        @inlinable
         public init(autoScaling: AutoScaling? = nil, provisionedCapacity: ProvisionedCapacity? = nil) {
             self.autoScaling = autoScaling
             self.provisionedCapacity = provisionedCapacity
@@ -242,6 +248,7 @@ extension KafkaConnect {
         /// Describes a connector's provisioned capacity.
         public let provisionedCapacity: ProvisionedCapacityDescription?
 
+        @inlinable
         public init(autoScaling: AutoScalingDescription? = nil, provisionedCapacity: ProvisionedCapacityDescription? = nil) {
             self.autoScaling = autoScaling
             self.provisionedCapacity = provisionedCapacity
@@ -259,6 +266,7 @@ extension KafkaConnect {
         /// The target settings for provisioned capacity.
         public let provisionedCapacity: ProvisionedCapacityUpdate?
 
+        @inlinable
         public init(autoScaling: AutoScalingUpdate? = nil, provisionedCapacity: ProvisionedCapacityUpdate? = nil) {
             self.autoScaling = autoScaling
             self.provisionedCapacity = provisionedCapacity
@@ -281,6 +289,7 @@ extension KafkaConnect {
         /// The name of the CloudWatch log group that is the destination for log delivery.
         public let logGroup: String?
 
+        @inlinable
         public init(enabled: Bool = false, logGroup: String? = nil) {
             self.enabled = enabled
             self.logGroup = logGroup
@@ -298,6 +307,7 @@ extension KafkaConnect {
         /// The name of the CloudWatch log group that is the destination for log delivery.
         public let logGroup: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, logGroup: String? = nil) {
             self.enabled = enabled
             self.logGroup = logGroup
@@ -342,6 +352,7 @@ extension KafkaConnect {
         /// The worker configurations that are in use with the connector.
         public let workerConfiguration: WorkerConfigurationDescription?
 
+        @inlinable
         public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
@@ -407,6 +418,7 @@ extension KafkaConnect {
         /// Specifies which worker configuration to use with the connector.
         public let workerConfiguration: WorkerConfiguration?
 
+        @inlinable
         public init(capacity: Capacity, connectorConfiguration: [String: String], connectorDescription: String? = nil, connectorName: String, kafkaCluster: KafkaCluster, kafkaClusterClientAuthentication: KafkaClusterClientAuthentication, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit, kafkaConnectVersion: String, logDelivery: LogDelivery? = nil, plugins: [Plugin], serviceExecutionRoleArn: String, tags: [String: String]? = nil, workerConfiguration: WorkerConfiguration? = nil) {
             self.capacity = capacity
             self.connectorConfiguration = connectorConfiguration
@@ -465,6 +477,7 @@ extension KafkaConnect {
         /// The state of the connector.
         public let connectorState: ConnectorState?
 
+        @inlinable
         public init(connectorArn: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil) {
             self.connectorArn = connectorArn
             self.connectorName = connectorName
@@ -490,6 +503,7 @@ extension KafkaConnect {
         /// The tags you want to attach to the custom plugin.
         public let tags: [String: String]?
 
+        @inlinable
         public init(contentType: CustomPluginContentType, description: String? = nil, location: CustomPluginLocation, name: String, tags: [String: String]? = nil) {
             self.contentType = contentType
             self.description = description
@@ -529,6 +543,7 @@ extension KafkaConnect {
         /// The revision of the custom plugin.
         public let revision: Int64?
 
+        @inlinable
         public init(customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil, name: String? = nil, revision: Int64? = nil) {
             self.customPluginArn = customPluginArn
             self.customPluginState = customPluginState
@@ -554,6 +569,7 @@ extension KafkaConnect {
         /// The tags you want to attach to the worker configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, propertiesFileContent: String, tags: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -594,6 +610,7 @@ extension KafkaConnect {
         /// The state of the worker configuration.
         public let workerConfigurationState: WorkerConfigurationState?
 
+        @inlinable
         public init(creationTime: Date? = nil, latestRevision: WorkerConfigurationRevisionSummary? = nil, name: String? = nil, workerConfigurationArn: String? = nil, workerConfigurationState: WorkerConfigurationState? = nil) {
             self.creationTime = creationTime
             self.latestRevision = latestRevision
@@ -617,6 +634,7 @@ extension KafkaConnect {
         /// The revision of the custom plugin.
         public let revision: Int64
 
+        @inlinable
         public init(customPluginArn: String, revision: Int64 = 0) {
             self.customPluginArn = customPluginArn
             self.revision = revision
@@ -639,6 +657,7 @@ extension KafkaConnect {
         /// The revision of the custom plugin.
         public let revision: Int64?
 
+        @inlinable
         public init(customPluginArn: String? = nil, revision: Int64? = nil) {
             self.customPluginArn = customPluginArn
             self.revision = revision
@@ -656,6 +675,7 @@ extension KafkaConnect {
         /// The size in bytes of the custom plugin file. You can use it to validate the file.
         public let fileSize: Int64?
 
+        @inlinable
         public init(fileMd5: String? = nil, fileSize: Int64? = nil) {
             self.fileMd5 = fileMd5
             self.fileSize = fileSize
@@ -671,6 +691,7 @@ extension KafkaConnect {
         /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of the plugin file stored in Amazon S3.
         public let s3Location: S3Location
 
+        @inlinable
         public init(s3Location: S3Location) {
             self.s3Location = s3Location
         }
@@ -684,6 +705,7 @@ extension KafkaConnect {
         /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of the plugin file stored in Amazon S3.
         public let s3Location: S3LocationDescription?
 
+        @inlinable
         public init(s3Location: S3LocationDescription? = nil) {
             self.s3Location = s3Location
         }
@@ -708,6 +730,7 @@ extension KafkaConnect {
         /// The revision of the custom plugin.
         public let revision: Int64?
 
+        @inlinable
         public init(contentType: CustomPluginContentType? = nil, creationTime: Date? = nil, description: String? = nil, fileDescription: CustomPluginFileDescription? = nil, location: CustomPluginLocationDescription? = nil, revision: Int64? = nil) {
             self.contentType = contentType
             self.creationTime = creationTime
@@ -742,6 +765,7 @@ extension KafkaConnect {
         /// The name of the custom plugin.
         public let name: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil, description: String? = nil, latestRevision: CustomPluginRevisionSummary? = nil, name: String? = nil) {
             self.creationTime = creationTime
             self.customPluginArn = customPluginArn
@@ -767,6 +791,7 @@ extension KafkaConnect {
         /// The current version of the connector that you want to delete.
         public let currentVersion: String?
 
+        @inlinable
         public init(connectorArn: String, currentVersion: String? = nil) {
             self.connectorArn = connectorArn
             self.currentVersion = currentVersion
@@ -788,6 +813,7 @@ extension KafkaConnect {
         /// The state of the connector that you requested to delete.
         public let connectorState: ConnectorState?
 
+        @inlinable
         public init(connectorArn: String? = nil, connectorState: ConnectorState? = nil) {
             self.connectorArn = connectorArn
             self.connectorState = connectorState
@@ -803,6 +829,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the custom plugin that you want to delete.
         public let customPluginArn: String
 
+        @inlinable
         public init(customPluginArn: String) {
             self.customPluginArn = customPluginArn
         }
@@ -822,6 +849,7 @@ extension KafkaConnect {
         /// The state of the custom plugin.
         public let customPluginState: CustomPluginState?
 
+        @inlinable
         public init(customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil) {
             self.customPluginArn = customPluginArn
             self.customPluginState = customPluginState
@@ -837,6 +865,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the worker configuration that you want to delete.
         public let workerConfigurationArn: String
 
+        @inlinable
         public init(workerConfigurationArn: String) {
             self.workerConfigurationArn = workerConfigurationArn
         }
@@ -856,6 +885,7 @@ extension KafkaConnect {
         /// The state of the worker configuration.
         public let workerConfigurationState: WorkerConfigurationState?
 
+        @inlinable
         public init(workerConfigurationArn: String? = nil, workerConfigurationState: WorkerConfigurationState? = nil) {
             self.workerConfigurationArn = workerConfigurationArn
             self.workerConfigurationState = workerConfigurationState
@@ -871,6 +901,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the connector that you want to describe.
         public let connectorArn: String
 
+        @inlinable
         public init(connectorArn: String) {
             self.connectorArn = connectorArn
         }
@@ -921,6 +952,7 @@ extension KafkaConnect {
         /// Specifies which worker configuration was used for the connector.
         public let workerConfiguration: WorkerConfigurationDescription?
 
+        @inlinable
         public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorConfiguration: [String: String]? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, stateDescription: StateDescription? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
@@ -966,6 +998,7 @@ extension KafkaConnect {
         /// Returns information about a custom plugin.
         public let customPluginArn: String
 
+        @inlinable
         public init(customPluginArn: String) {
             self.customPluginArn = customPluginArn
         }
@@ -996,6 +1029,7 @@ extension KafkaConnect {
         /// Details about the state of a custom plugin.
         public let stateDescription: StateDescription?
 
+        @inlinable
         public init(creationTime: Date? = nil, customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil, description: String? = nil, latestRevision: CustomPluginRevisionSummary? = nil, name: String? = nil, stateDescription: StateDescription? = nil) {
             self.creationTime = creationTime
             self.customPluginArn = customPluginArn
@@ -1021,6 +1055,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the worker configuration that you want to get information about.
         public let workerConfigurationArn: String
 
+        @inlinable
         public init(workerConfigurationArn: String) {
             self.workerConfigurationArn = workerConfigurationArn
         }
@@ -1049,6 +1084,7 @@ extension KafkaConnect {
         /// The state of the worker configuration.
         public let workerConfigurationState: WorkerConfigurationState?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, latestRevision: WorkerConfigurationRevisionDescription? = nil, name: String? = nil, workerConfigurationArn: String? = nil, workerConfigurationState: WorkerConfigurationState? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1074,6 +1110,7 @@ extension KafkaConnect {
         /// Specifies whether connector logs get delivered to Amazon Kinesis Data Firehose.
         public let enabled: Bool
 
+        @inlinable
         public init(deliveryStream: String? = nil, enabled: Bool = false) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
@@ -1091,6 +1128,7 @@ extension KafkaConnect {
         /// Specifies whether connector logs get delivered to Amazon Kinesis Data Firehose.
         public let enabled: Bool?
 
+        @inlinable
         public init(deliveryStream: String? = nil, enabled: Bool? = nil) {
             self.deliveryStream = deliveryStream
             self.enabled = enabled
@@ -1106,6 +1144,7 @@ extension KafkaConnect {
         /// The Apache Kafka cluster to which the connector is connected.
         public let apacheKafkaCluster: ApacheKafkaCluster
 
+        @inlinable
         public init(apacheKafkaCluster: ApacheKafkaCluster) {
             self.apacheKafkaCluster = apacheKafkaCluster
         }
@@ -1119,6 +1158,7 @@ extension KafkaConnect {
         /// The type of client authentication used to connect to the Apache Kafka cluster. Value NONE means that no client authentication is used.
         public let authenticationType: KafkaClusterClientAuthenticationType
 
+        @inlinable
         public init(authenticationType: KafkaClusterClientAuthenticationType) {
             self.authenticationType = authenticationType
         }
@@ -1132,6 +1172,7 @@ extension KafkaConnect {
         /// The type of client authentication used to connect to the Apache Kafka cluster. Value NONE means that no client authentication is used.
         public let authenticationType: KafkaClusterClientAuthenticationType?
 
+        @inlinable
         public init(authenticationType: KafkaClusterClientAuthenticationType? = nil) {
             self.authenticationType = authenticationType
         }
@@ -1145,6 +1186,7 @@ extension KafkaConnect {
         /// The Apache Kafka cluster to which the connector is connected.
         public let apacheKafkaCluster: ApacheKafkaClusterDescription?
 
+        @inlinable
         public init(apacheKafkaCluster: ApacheKafkaClusterDescription? = nil) {
             self.apacheKafkaCluster = apacheKafkaCluster
         }
@@ -1158,6 +1200,7 @@ extension KafkaConnect {
         /// The type of encryption in transit to the Apache Kafka cluster.
         public let encryptionType: KafkaClusterEncryptionInTransitType
 
+        @inlinable
         public init(encryptionType: KafkaClusterEncryptionInTransitType) {
             self.encryptionType = encryptionType
         }
@@ -1171,6 +1214,7 @@ extension KafkaConnect {
         /// The type of encryption in transit to the Apache Kafka cluster.
         public let encryptionType: KafkaClusterEncryptionInTransitType?
 
+        @inlinable
         public init(encryptionType: KafkaClusterEncryptionInTransitType? = nil) {
             self.encryptionType = encryptionType
         }
@@ -1188,6 +1232,7 @@ extension KafkaConnect {
         /// If the response of a ListConnectors operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectorNamePrefix = connectorNamePrefix
             self.maxResults = maxResults
@@ -1216,6 +1261,7 @@ extension KafkaConnect {
         /// If the response of a ListConnectors operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where it left off.
         public let nextToken: String?
 
+        @inlinable
         public init(connectors: [ConnectorSummary]? = nil, nextToken: String? = nil) {
             self.connectors = connectors
             self.nextToken = nextToken
@@ -1235,6 +1281,7 @@ extension KafkaConnect {
         /// If the response of a ListCustomPlugins operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namePrefix = namePrefix
@@ -1263,6 +1310,7 @@ extension KafkaConnect {
         /// If the response of a ListCustomPlugins operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
         public let nextToken: String?
 
+        @inlinable
         public init(customPlugins: [CustomPluginSummary]? = nil, nextToken: String? = nil) {
             self.customPlugins = customPlugins
             self.nextToken = nextToken
@@ -1278,6 +1326,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the resource for which you want to list all attached tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1295,6 +1344,7 @@ extension KafkaConnect {
         /// Lists the tags attached to the specified resource in the corresponding request.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1312,6 +1362,7 @@ extension KafkaConnect {
         /// If the response of a ListWorkerConfigurations operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.namePrefix = namePrefix
@@ -1340,6 +1391,7 @@ extension KafkaConnect {
         /// An array of worker configuration descriptions.
         public let workerConfigurations: [WorkerConfigurationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workerConfigurations: [WorkerConfigurationSummary]? = nil) {
             self.nextToken = nextToken
             self.workerConfigurations = workerConfigurations
@@ -1355,6 +1407,7 @@ extension KafkaConnect {
         /// The workers can send worker logs to different destination types. This configuration specifies the details of these destinations.
         public let workerLogDelivery: WorkerLogDelivery
 
+        @inlinable
         public init(workerLogDelivery: WorkerLogDelivery) {
             self.workerLogDelivery = workerLogDelivery
         }
@@ -1368,6 +1421,7 @@ extension KafkaConnect {
         /// The workers can send worker logs to different destination types. This configuration specifies the details of these destinations.
         public let workerLogDelivery: WorkerLogDeliveryDescription?
 
+        @inlinable
         public init(workerLogDelivery: WorkerLogDeliveryDescription? = nil) {
             self.workerLogDelivery = workerLogDelivery
         }
@@ -1381,6 +1435,7 @@ extension KafkaConnect {
         /// Details about a custom plugin.
         public let customPlugin: CustomPlugin
 
+        @inlinable
         public init(customPlugin: CustomPlugin) {
             self.customPlugin = customPlugin
         }
@@ -1398,6 +1453,7 @@ extension KafkaConnect {
         /// Details about a custom plugin.
         public let customPlugin: CustomPluginDescription?
 
+        @inlinable
         public init(customPlugin: CustomPluginDescription? = nil) {
             self.customPlugin = customPlugin
         }
@@ -1413,6 +1469,7 @@ extension KafkaConnect {
         /// The number of workers that are allocated to the connector.
         public let workerCount: Int
 
+        @inlinable
         public init(mcuCount: Int = 0, workerCount: Int = 0) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
@@ -1437,6 +1494,7 @@ extension KafkaConnect {
         /// The number of workers that are allocated to the connector.
         public let workerCount: Int?
 
+        @inlinable
         public init(mcuCount: Int? = nil, workerCount: Int? = nil) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
@@ -1454,6 +1512,7 @@ extension KafkaConnect {
         /// The number of workers that are allocated to the connector.
         public let workerCount: Int
 
+        @inlinable
         public init(mcuCount: Int = 0, workerCount: Int = 0) {
             self.mcuCount = mcuCount
             self.workerCount = workerCount
@@ -1480,6 +1539,7 @@ extension KafkaConnect {
         /// The version of an object in an S3 bucket.
         public let objectVersion: String?
 
+        @inlinable
         public init(bucketArn: String, fileKey: String, objectVersion: String? = nil) {
             self.bucketArn = bucketArn
             self.fileKey = fileKey
@@ -1501,6 +1561,7 @@ extension KafkaConnect {
         /// The version of an object in an S3 bucket.
         public let objectVersion: String?
 
+        @inlinable
         public init(bucketArn: String? = nil, fileKey: String? = nil, objectVersion: String? = nil) {
             self.bucketArn = bucketArn
             self.fileKey = fileKey
@@ -1522,6 +1583,7 @@ extension KafkaConnect {
         /// The S3 prefix that is the destination for log delivery.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, enabled: Bool = false, prefix: String? = nil) {
             self.bucket = bucket
             self.enabled = enabled
@@ -1543,6 +1605,7 @@ extension KafkaConnect {
         /// The S3 prefix that is the destination for log delivery.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, enabled: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.enabled = enabled
@@ -1560,6 +1623,7 @@ extension KafkaConnect {
         /// Specifies the CPU utilization percentage threshold at which you want connector scale in to be triggered.
         public let cpuUtilizationPercentage: Int
 
+        @inlinable
         public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
@@ -1578,6 +1642,7 @@ extension KafkaConnect {
         /// Specifies the CPU utilization percentage threshold at which you want connector scale in to be triggered.
         public let cpuUtilizationPercentage: Int?
 
+        @inlinable
         public init(cpuUtilizationPercentage: Int? = nil) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
@@ -1591,6 +1656,7 @@ extension KafkaConnect {
         /// The target CPU utilization percentage threshold at which you want connector scale in to be triggered.
         public let cpuUtilizationPercentage: Int
 
+        @inlinable
         public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
@@ -1609,6 +1675,7 @@ extension KafkaConnect {
         /// The CPU utilization percentage threshold at which you want connector scale out to be triggered.
         public let cpuUtilizationPercentage: Int
 
+        @inlinable
         public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
@@ -1627,6 +1694,7 @@ extension KafkaConnect {
         /// The CPU utilization percentage threshold at which you want connector scale out to be triggered.
         public let cpuUtilizationPercentage: Int?
 
+        @inlinable
         public init(cpuUtilizationPercentage: Int? = nil) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
@@ -1640,6 +1708,7 @@ extension KafkaConnect {
         /// The target CPU utilization percentage threshold at which you want connector scale out to be triggered.
         public let cpuUtilizationPercentage: Int
 
+        @inlinable
         public init(cpuUtilizationPercentage: Int = 0) {
             self.cpuUtilizationPercentage = cpuUtilizationPercentage
         }
@@ -1660,6 +1729,7 @@ extension KafkaConnect {
         /// A message that describes the state of a resource.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -1677,6 +1747,7 @@ extension KafkaConnect {
         /// The tags that you want to attach to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1713,6 +1784,7 @@ extension KafkaConnect {
         /// The keys of the tags that you want to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1748,6 +1820,7 @@ extension KafkaConnect {
         /// The current version of the connector that you want to update.
         public let currentVersion: String
 
+        @inlinable
         public init(capacity: CapacityUpdate, connectorArn: String, currentVersion: String) {
             self.capacity = capacity
             self.connectorArn = connectorArn
@@ -1777,6 +1850,7 @@ extension KafkaConnect {
         /// The state of the connector.
         public let connectorState: ConnectorState?
 
+        @inlinable
         public init(connectorArn: String? = nil, connectorState: ConnectorState? = nil) {
             self.connectorArn = connectorArn
             self.connectorState = connectorState
@@ -1794,6 +1868,7 @@ extension KafkaConnect {
         /// The subnets for the connector.
         public let subnets: [String]
 
+        @inlinable
         public init(securityGroups: [String]? = nil, subnets: [String]) {
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -1811,6 +1886,7 @@ extension KafkaConnect {
         /// The subnets for the connector.
         public let subnets: [String]?
 
+        @inlinable
         public init(securityGroups: [String]? = nil, subnets: [String]? = nil) {
             self.securityGroups = securityGroups
             self.subnets = subnets
@@ -1828,6 +1904,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the worker configuration.
         public let workerConfigurationArn: String
 
+        @inlinable
         public init(revision: Int64 = 0, workerConfigurationArn: String) {
             self.revision = revision
             self.workerConfigurationArn = workerConfigurationArn
@@ -1850,6 +1927,7 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the worker configuration.
         public let workerConfigurationArn: String?
 
+        @inlinable
         public init(revision: Int64? = nil, workerConfigurationArn: String? = nil) {
             self.revision = revision
             self.workerConfigurationArn = workerConfigurationArn
@@ -1872,6 +1950,7 @@ extension KafkaConnect {
         /// The description of a revision of the worker configuration.
         public let revision: Int64?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, propertiesFileContent: String? = nil, revision: Int64? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1896,6 +1975,7 @@ extension KafkaConnect {
         /// The revision of a worker configuration.
         public let revision: Int64?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, revision: Int64? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1924,6 +2004,7 @@ extension KafkaConnect {
         /// The state of the worker configuration.
         public let workerConfigurationState: WorkerConfigurationState?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, latestRevision: WorkerConfigurationRevisionSummary? = nil, name: String? = nil, workerConfigurationArn: String? = nil, workerConfigurationState: WorkerConfigurationState? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1951,6 +2032,7 @@ extension KafkaConnect {
         /// Details about delivering logs to Amazon S3.
         public let s3: S3LogDelivery?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsLogDelivery? = nil, firehose: FirehoseLogDelivery? = nil, s3: S3LogDelivery? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.firehose = firehose
@@ -1972,6 +2054,7 @@ extension KafkaConnect {
         /// Details about delivering logs to Amazon S3.
         public let s3: S3LogDeliveryDescription?
 
+        @inlinable
         public init(cloudWatchLogs: CloudWatchLogsLogDeliveryDescription? = nil, firehose: FirehoseLogDeliveryDescription? = nil, s3: S3LogDeliveryDescription? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.firehose = firehose

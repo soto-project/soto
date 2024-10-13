@@ -167,6 +167,7 @@ extension ECR {
         /// The value assigned to the attribute key.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -186,6 +187,7 @@ extension ECR {
         /// The registry URL to use for this authorization token in a docker login command. The Amazon ECR registry URL format is https://aws_account_id.dkr.ecr.region.amazonaws.com. For example, https://012345678910.dkr.ecr.us-east-1.amazonaws.com..
         public let proxyEndpoint: String?
 
+        @inlinable
         public init(authorizationToken: String? = nil, expiresAt: Date? = nil, proxyEndpoint: String? = nil) {
             self.authorizationToken = authorizationToken
             self.expiresAt = expiresAt
@@ -217,6 +219,7 @@ extension ECR {
         /// The name of the repository the Amazon ECR container image resides in.
         public let repositoryName: String?
 
+        @inlinable
         public init(architecture: String? = nil, author: String? = nil, imageHash: String? = nil, imageTags: [String]? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String? = nil, repositoryName: String? = nil) {
             self.architecture = architecture
             self.author = author
@@ -248,6 +251,7 @@ extension ECR {
         /// The name of the repository that is associated with the image layers to check.
         public let repositoryName: String
 
+        @inlinable
         public init(layerDigests: [String], registryId: String? = nil, repositoryName: String) {
             self.layerDigests = layerDigests
             self.registryId = registryId
@@ -279,6 +283,7 @@ extension ECR {
         /// A list of image layer objects corresponding to the image layer references in the request.
         public let layers: [Layer]?
 
+        @inlinable
         public init(failures: [LayerFailure]? = nil, layers: [Layer]? = nil) {
             self.failures = failures
             self.layers = layers
@@ -298,6 +303,7 @@ extension ECR {
         /// The repository that contains the image to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(imageIds: [ImageIdentifier], registryId: String? = nil, repositoryName: String) {
             self.imageIds = imageIds
             self.registryId = registryId
@@ -329,6 +335,7 @@ extension ECR {
         /// The image IDs of the deleted images.
         public let imageIds: [ImageIdentifier]?
 
+        @inlinable
         public init(failures: [ImageFailure]? = nil, imageIds: [ImageIdentifier]? = nil) {
             self.failures = failures
             self.imageIds = imageIds
@@ -350,6 +357,7 @@ extension ECR {
         /// The repository that contains the images to describe.
         public let repositoryName: String
 
+        @inlinable
         public init(acceptedMediaTypes: [String]? = nil, imageIds: [ImageIdentifier], registryId: String? = nil, repositoryName: String) {
             self.acceptedMediaTypes = acceptedMediaTypes
             self.imageIds = imageIds
@@ -385,6 +393,7 @@ extension ECR {
         /// A list of image objects corresponding to the image references in the request.
         public let images: [Image]?
 
+        @inlinable
         public init(failures: [ImageFailure]? = nil, images: [Image]? = nil) {
             self.failures = failures
             self.images = images
@@ -400,6 +409,7 @@ extension ECR {
         /// One or more repository names to get the scanning configuration for.
         public let repositoryNames: [String]
 
+        @inlinable
         public init(repositoryNames: [String]) {
             self.repositoryNames = repositoryNames
         }
@@ -425,6 +435,7 @@ extension ECR {
         /// The scanning configuration for the requested repositories.
         public let scanningConfigurations: [RepositoryScanningConfiguration]?
 
+        @inlinable
         public init(failures: [RepositoryScanningConfigurationFailure]? = nil, scanningConfigurations: [RepositoryScanningConfiguration]? = nil) {
             self.failures = failures
             self.scanningConfigurations = scanningConfigurations
@@ -446,6 +457,7 @@ extension ECR {
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
         public let uploadId: String
 
+        @inlinable
         public init(layerDigests: [String], registryId: String? = nil, repositoryName: String, uploadId: String) {
             self.layerDigests = layerDigests
             self.registryId = registryId
@@ -484,6 +496,7 @@ extension ECR {
         /// The upload ID associated with the layer.
         public let uploadId: String?
 
+        @inlinable
         public init(layerDigest: String? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
             self.layerDigest = layerDigest
             self.registryId = registryId
@@ -511,6 +524,7 @@ extension ECR {
         /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
         public let upstreamRegistryUrl: String
 
+        @inlinable
         public init(credentialArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String) {
             self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -552,6 +566,7 @@ extension ECR {
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
@@ -591,6 +606,7 @@ extension ECR {
         /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let resourceTags: [Tag]?
 
+        @inlinable
         public init(appliedFor: [RCTAppliedFor], customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
             self.appliedFor = appliedFor
             self.customRoleArn = customRoleArn
@@ -633,6 +649,7 @@ extension ECR {
         /// The details of the repository creation template associated with the request.
         public let repositoryCreationTemplate: RepositoryCreationTemplate?
 
+        @inlinable
         public init(registryId: String? = nil, repositoryCreationTemplate: RepositoryCreationTemplate? = nil) {
             self.registryId = registryId
             self.repositoryCreationTemplate = repositoryCreationTemplate
@@ -658,6 +675,7 @@ extension ECR {
         /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryName: String, tags: [Tag]? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.imageScanningConfiguration = imageScanningConfiguration
@@ -689,6 +707,7 @@ extension ECR {
         /// The repository that was created.
         public let repository: Repository?
 
+        @inlinable
         public init(repository: Repository? = nil) {
             self.repository = repository
         }
@@ -708,6 +727,7 @@ extension ECR {
         /// The version of CVSS used for the score.
         public let version: String?
 
+        @inlinable
         public init(baseScore: Double? = nil, scoringVector: String? = nil, source: String? = nil, version: String? = nil) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
@@ -729,6 +749,7 @@ extension ECR {
         /// The reason the CVSS score has been adjustment.
         public let reason: String?
 
+        @inlinable
         public init(metric: String? = nil, reason: String? = nil) {
             self.metric = metric
             self.reason = reason
@@ -752,6 +773,7 @@ extension ECR {
         /// The CVSS version used in scoring.
         public let version: String?
 
+        @inlinable
         public init(adjustments: [CvssScoreAdjustment]? = nil, score: Double? = nil, scoreSource: String? = nil, scoringVector: String? = nil, version: String? = nil) {
             self.adjustments = adjustments
             self.score = score
@@ -775,6 +797,7 @@ extension ECR {
         /// The name of the repository.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -803,6 +826,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(lastEvaluatedAt: Date? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.lastEvaluatedAt = lastEvaluatedAt
             self.lifecyclePolicyText = lifecyclePolicyText
@@ -824,6 +848,7 @@ extension ECR {
         /// The Amazon Web Services account ID associated with the registry that contains the pull through cache rule. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
 
+        @inlinable
         public init(ecrRepositoryPrefix: String, registryId: String? = nil) {
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
@@ -854,6 +879,7 @@ extension ECR {
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
@@ -881,6 +907,7 @@ extension ECR {
         /// The registry ID associated with the request.
         public let registryId: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -896,6 +923,7 @@ extension ECR {
         /// The repository namespace prefix associated with the repository creation template.
         public let prefix: String
 
+        @inlinable
         public init(prefix: String) {
             self.prefix = prefix
         }
@@ -917,6 +945,7 @@ extension ECR {
         /// The details of the repository creation template that was deleted.
         public let repositoryCreationTemplate: RepositoryCreationTemplate?
 
+        @inlinable
         public init(registryId: String? = nil, repositoryCreationTemplate: RepositoryCreationTemplate? = nil) {
             self.registryId = registryId
             self.repositoryCreationTemplate = repositoryCreationTemplate
@@ -934,6 +963,7 @@ extension ECR {
         /// The name of the repository that is associated with the repository policy to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -960,6 +990,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -981,6 +1012,7 @@ extension ECR {
         /// The name of the repository to delete.
         public let repositoryName: String
 
+        @inlinable
         public init(force: Bool? = nil, registryId: String? = nil, repositoryName: String) {
             self.force = force
             self.registryId = registryId
@@ -1005,6 +1037,7 @@ extension ECR {
         /// The repository that was deleted.
         public let repository: Repository?
 
+        @inlinable
         public init(repository: Repository? = nil) {
             self.repository = repository
         }
@@ -1021,6 +1054,7 @@ extension ECR {
         /// The name of the repository that the image is in.
         public let repositoryName: String
 
+        @inlinable
         public init(imageId: ImageIdentifier, registryId: String? = nil, repositoryName: String) {
             self.imageId = imageId
             self.registryId = registryId
@@ -1049,6 +1083,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageId: ImageIdentifier? = nil, replicationStatuses: [ImageReplicationStatus]? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.replicationStatuses = replicationStatuses
@@ -1073,6 +1108,7 @@ extension ECR {
         /// The repository for the image for which to describe the scan findings.
         public let repositoryName: String
 
+        @inlinable
         public init(imageId: ImageIdentifier, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.imageId = imageId
             self.maxResults = maxResults
@@ -1113,6 +1149,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageId: ImageIdentifier? = nil, imageScanFindings: ImageScanFindings? = nil, imageScanStatus: ImageScanStatus? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.imageScanFindings = imageScanFindings
@@ -1136,6 +1173,7 @@ extension ECR {
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
 
+        @inlinable
         public init(tagStatus: TagStatus? = nil) {
             self.tagStatus = tagStatus
         }
@@ -1159,6 +1197,7 @@ extension ECR {
         /// The repository that contains the images to describe.
         public let repositoryName: String
 
+        @inlinable
         public init(filter: DescribeImagesFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.filter = filter
             self.imageIds = imageIds
@@ -1198,6 +1237,7 @@ extension ECR {
         /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(imageDetails: [ImageDetail]? = nil, nextToken: String? = nil) {
             self.imageDetails = imageDetails
             self.nextToken = nextToken
@@ -1219,6 +1259,7 @@ extension ECR {
         /// The Amazon Web Services account ID associated with the registry to return the pull through cache rules for. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
 
+        @inlinable
         public init(ecrRepositoryPrefixes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil) {
             self.ecrRepositoryPrefixes = ecrRepositoryPrefixes
             self.maxResults = maxResults
@@ -1253,6 +1294,7 @@ extension ECR {
         /// The details of the pull through cache rules.
         public let pullThroughCacheRules: [PullThroughCacheRule]?
 
+        @inlinable
         public init(nextToken: String? = nil, pullThroughCacheRules: [PullThroughCacheRule]? = nil) {
             self.nextToken = nextToken
             self.pullThroughCacheRules = pullThroughCacheRules
@@ -1274,6 +1316,7 @@ extension ECR {
         /// The replication configuration for the registry.
         public let replicationConfiguration: ReplicationConfiguration?
 
+        @inlinable
         public init(registryId: String? = nil, replicationConfiguration: ReplicationConfiguration? = nil) {
             self.registryId = registryId
             self.replicationConfiguration = replicationConfiguration
@@ -1295,6 +1338,7 @@ extension ECR {
         /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
         public let repositoryNames: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryNames: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1329,6 +1373,7 @@ extension ECR {
         /// A list of repository objects corresponding to valid repositories.
         public let repositories: [Repository]?
 
+        @inlinable
         public init(nextToken: String? = nil, repositories: [Repository]? = nil) {
             self.nextToken = nextToken
             self.repositories = repositories
@@ -1348,6 +1393,7 @@ extension ECR {
         /// The repository namespace prefixes associated with the repository creation templates to describe. If this value is not specified, all repository creation templates are returned.
         public let prefixes: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, prefixes: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1379,6 +1425,7 @@ extension ECR {
         /// The details of the repository creation templates.
         public let repositoryCreationTemplates: [RepositoryCreationTemplate]?
 
+        @inlinable
         public init(nextToken: String? = nil, registryId: String? = nil, repositoryCreationTemplates: [RepositoryCreationTemplate]? = nil) {
             self.nextToken = nextToken
             self.registryId = registryId
@@ -1398,6 +1445,7 @@ extension ECR {
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
         public let kmsKey: String?
 
+        @inlinable
         public init(encryptionType: EncryptionType, kmsKey: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsKey = kmsKey
@@ -1420,6 +1468,7 @@ extension ECR {
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The full ARN of the KMS key must be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
         public let kmsKey: String?
 
+        @inlinable
         public init(encryptionType: EncryptionType, kmsKey: String? = nil) {
             self.encryptionType = encryptionType
             self.kmsKey = kmsKey
@@ -1468,6 +1517,7 @@ extension ECR {
         /// The date and time the finding was last updated at.
         public let updatedAt: Date?
 
+        @inlinable
         public init(awsAccountId: String? = nil, description: String? = nil, findingArn: String? = nil, firstObservedAt: Date? = nil, lastObservedAt: Date? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, score: Double? = nil, scoreDetails: ScoreDetails? = nil, severity: String? = nil, status: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.description = description
@@ -1509,6 +1559,7 @@ extension ECR {
         /// Basic scan type version name.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1529,6 +1580,7 @@ extension ECR {
         /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1544,11 +1596,13 @@ extension ECR {
         /// A list of Amazon Web Services account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
         public let registryIds: [String]?
 
+        @inlinable
         public init() {
             self.registryIds = nil
         }
 
         @available(*, deprecated, message: "Members registryIds have been deprecated")
+        @inlinable
         public init(registryIds: [String]? = nil) {
             self.registryIds = registryIds
         }
@@ -1570,6 +1624,7 @@ extension ECR {
         /// A list of authorization token data objects that correspond to the registryIds values in the request.
         public let authorizationData: [AuthorizationData]?
 
+        @inlinable
         public init(authorizationData: [AuthorizationData]? = nil) {
             self.authorizationData = authorizationData
         }
@@ -1587,6 +1642,7 @@ extension ECR {
         /// The name of the repository that is associated with the image layer to download.
         public let repositoryName: String
 
+        @inlinable
         public init(layerDigest: String, registryId: String? = nil, repositoryName: String) {
             self.layerDigest = layerDigest
             self.registryId = registryId
@@ -1614,6 +1670,7 @@ extension ECR {
         /// The digest of the image layer to download.
         public let layerDigest: String?
 
+        @inlinable
         public init(downloadUrl: String? = nil, layerDigest: String? = nil) {
             self.downloadUrl = downloadUrl
             self.layerDigest = layerDigest
@@ -1639,6 +1696,7 @@ extension ECR {
         /// The name of the repository.
         public let repositoryName: String
 
+        @inlinable
         public init(filter: LifecyclePolicyPreviewFilter? = nil, imageIds: [ImageIdentifier]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.filter = filter
             self.imageIds = imageIds
@@ -1688,6 +1746,7 @@ extension ECR {
         /// The list of images that is returned as a result of the action.
         public let summary: LifecyclePolicyPreviewSummary?
 
+        @inlinable
         public init(lifecyclePolicyText: String? = nil, nextToken: String? = nil, previewResults: [LifecyclePolicyPreviewResult]? = nil, registryId: String? = nil, repositoryName: String? = nil, status: LifecyclePolicyPreviewStatus? = nil, summary: LifecyclePolicyPreviewSummary? = nil) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.nextToken = nextToken
@@ -1715,6 +1774,7 @@ extension ECR {
         /// The name of the repository.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -1743,6 +1803,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(lastEvaluatedAt: Date? = nil, lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.lastEvaluatedAt = lastEvaluatedAt
             self.lifecyclePolicyText = lifecyclePolicyText
@@ -1768,6 +1829,7 @@ extension ECR {
         /// The registry ID associated with the request.
         public let registryId: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -1789,6 +1851,7 @@ extension ECR {
         /// The scanning configuration for the registry.
         public let scanningConfiguration: RegistryScanningConfiguration?
 
+        @inlinable
         public init(registryId: String? = nil, scanningConfiguration: RegistryScanningConfiguration? = nil) {
             self.registryId = registryId
             self.scanningConfiguration = scanningConfiguration
@@ -1806,6 +1869,7 @@ extension ECR {
         /// The name of the repository with the policy to retrieve.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -1832,6 +1896,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -1857,6 +1922,7 @@ extension ECR {
         /// The name of the repository associated with the image.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageId: ImageIdentifier? = nil, imageManifest: String? = nil, imageManifestMediaType: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.imageManifest = imageManifest
@@ -1898,6 +1964,7 @@ extension ECR {
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
 
+        @inlinable
         public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, lastRecordedPullTime: Date? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
@@ -1935,6 +2002,7 @@ extension ECR {
         /// The image ID associated with the failure.
         public let imageId: ImageIdentifier?
 
+        @inlinable
         public init(failureCode: ImageFailureCode? = nil, failureReason: String? = nil, imageId: ImageIdentifier? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -1954,6 +2022,7 @@ extension ECR {
         /// The tag used for the image.
         public let imageTag: String?
 
+        @inlinable
         public init(imageDigest: String? = nil, imageTag: String? = nil) {
             self.imageDigest = imageDigest
             self.imageTag = imageTag
@@ -1980,6 +2049,7 @@ extension ECR {
         /// The image replication status.
         public let status: ReplicationStatus?
 
+        @inlinable
         public init(failureCode: String? = nil, region: String? = nil, registryId: String? = nil, status: ReplicationStatus? = nil) {
             self.failureCode = failureCode
             self.region = region
@@ -2007,6 +2077,7 @@ extension ECR {
         /// A link containing additional details about the security vulnerability.
         public let uri: String?
 
+        @inlinable
         public init(attributes: [Attribute]? = nil, description: String? = nil, name: String? = nil, severity: FindingSeverity? = nil, uri: String? = nil) {
             self.attributes = attributes
             self.description = description
@@ -2036,6 +2107,7 @@ extension ECR {
         /// The time when the vulnerability data was last scanned.
         public let vulnerabilitySourceUpdatedAt: Date?
 
+        @inlinable
         public init(enhancedFindings: [EnhancedImageScanFinding]? = nil, findings: [ImageScanFinding]? = nil, findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: Date? = nil, vulnerabilitySourceUpdatedAt: Date? = nil) {
             self.enhancedFindings = enhancedFindings
             self.findings = findings
@@ -2061,6 +2133,7 @@ extension ECR {
         /// The time when the vulnerability data was last scanned.
         public let vulnerabilitySourceUpdatedAt: Date?
 
+        @inlinable
         public init(findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: Date? = nil, vulnerabilitySourceUpdatedAt: Date? = nil) {
             self.findingSeverityCounts = findingSeverityCounts
             self.imageScanCompletedAt = imageScanCompletedAt
@@ -2080,6 +2153,7 @@ extension ECR {
         /// The current state of an image scan.
         public let status: ScanStatus?
 
+        @inlinable
         public init(description: String? = nil, status: ScanStatus? = nil) {
             self.description = description
             self.status = status
@@ -2095,6 +2169,7 @@ extension ECR {
         /// The setting that determines whether images are scanned after being pushed to a repository. If set to true, images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API.
         public let scanOnPush: Bool?
 
+        @inlinable
         public init(scanOnPush: Bool? = nil) {
             self.scanOnPush = scanOnPush
         }
@@ -2110,6 +2185,7 @@ extension ECR {
         /// The name of the repository to which you intend to upload layers.
         public let repositoryName: String
 
+        @inlinable
         public init(registryId: String? = nil, repositoryName: String) {
             self.registryId = registryId
             self.repositoryName = repositoryName
@@ -2134,6 +2210,7 @@ extension ECR {
         /// The upload ID for the layer upload. This parameter is passed to further UploadLayerPart and CompleteLayerUpload operations.
         public let uploadId: String?
 
+        @inlinable
         public init(partSize: Int64? = nil, uploadId: String? = nil) {
             self.partSize = partSize
             self.uploadId = uploadId
@@ -2155,6 +2232,7 @@ extension ECR {
         /// The media type of the layer, such as application/vnd.docker.image.rootfs.diff.tar.gzip or application/vnd.oci.image.layer.v1.tar+gzip.
         public let mediaType: String?
 
+        @inlinable
         public init(layerAvailability: LayerAvailability? = nil, layerDigest: String? = nil, layerSize: Int64? = nil, mediaType: String? = nil) {
             self.layerAvailability = layerAvailability
             self.layerDigest = layerDigest
@@ -2178,6 +2256,7 @@ extension ECR {
         /// The layer digest associated with the failure.
         public let layerDigest: String?
 
+        @inlinable
         public init(failureCode: LayerFailureCode? = nil, failureReason: String? = nil, layerDigest: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -2195,6 +2274,7 @@ extension ECR {
         /// The tag status of the image.
         public let tagStatus: TagStatus?
 
+        @inlinable
         public init(tagStatus: TagStatus? = nil) {
             self.tagStatus = tagStatus
         }
@@ -2216,6 +2296,7 @@ extension ECR {
         /// The list of tags associated with this image.
         public let imageTags: [String]?
 
+        @inlinable
         public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int? = nil, imageDigest: String? = nil, imagePushedAt: Date? = nil, imageTags: [String]? = nil) {
             self.action = action
             self.appliedRulePriority = appliedRulePriority
@@ -2237,6 +2318,7 @@ extension ECR {
         /// The number of expiring images.
         public let expiringImageTotalCount: Int?
 
+        @inlinable
         public init(expiringImageTotalCount: Int? = nil) {
             self.expiringImageTotalCount = expiringImageTotalCount
         }
@@ -2250,6 +2332,7 @@ extension ECR {
         /// The type of action to be taken.
         public let type: ImageActionType?
 
+        @inlinable
         public init(type: ImageActionType? = nil) {
             self.type = type
         }
@@ -2263,6 +2346,7 @@ extension ECR {
         /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
 
+        @inlinable
         public init(tagStatus: TagStatus? = nil) {
             self.tagStatus = tagStatus
         }
@@ -2284,6 +2368,7 @@ extension ECR {
         /// The repository with image IDs to be listed.
         public let repositoryName: String
 
+        @inlinable
         public init(filter: ListImagesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2316,6 +2401,7 @@ extension ECR {
         /// The nextToken value to include in a future ListImages request. When the results of a ListImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(imageIds: [ImageIdentifier]? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
             self.nextToken = nextToken
@@ -2331,6 +2417,7 @@ extension ECR {
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2344,6 +2431,7 @@ extension ECR {
         /// The tags for the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2375,6 +2463,7 @@ extension ECR {
         /// The packages impacted by this vulnerability.
         public let vulnerablePackages: [VulnerablePackage]?
 
+        @inlinable
         public init(cvss: [CvssScore]? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: String? = nil, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil, vulnerabilityId: String? = nil, vulnerablePackages: [VulnerablePackage]? = nil) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
@@ -2418,6 +2507,7 @@ extension ECR {
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
@@ -2445,6 +2535,7 @@ extension ECR {
         /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -2467,6 +2558,7 @@ extension ECR {
         /// Retrieves the basic scan type value, either AWS_NATIVE or -.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2492,6 +2584,7 @@ extension ECR {
         /// The name of the repository in which to put the image.
         public let repositoryName: String
 
+        @inlinable
         public init(imageDigest: String? = nil, imageManifest: String, imageManifestMediaType: String? = nil, imageTag: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.imageDigest = imageDigest
             self.imageManifest = imageManifest
@@ -2526,6 +2619,7 @@ extension ECR {
         /// Details of the image uploaded.
         public let image: Image?
 
+        @inlinable
         public init(image: Image? = nil) {
             self.image = image
         }
@@ -2543,6 +2637,7 @@ extension ECR {
         /// The name of the repository in which to update the image scanning configuration setting.
         public let repositoryName: String
 
+        @inlinable
         public init(imageScanningConfiguration: ImageScanningConfiguration, registryId: String? = nil, repositoryName: String) {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.registryId = registryId
@@ -2571,6 +2666,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageScanningConfiguration: ImageScanningConfiguration? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.registryId = registryId
@@ -2592,6 +2688,7 @@ extension ECR {
         /// The name of the repository in which to update the image tag mutability settings.
         public let repositoryName: String
 
+        @inlinable
         public init(imageTagMutability: ImageTagMutability, registryId: String? = nil, repositoryName: String) {
             self.imageTagMutability = imageTagMutability
             self.registryId = registryId
@@ -2620,6 +2717,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageTagMutability = imageTagMutability
             self.registryId = registryId
@@ -2641,6 +2739,7 @@ extension ECR {
         /// The name of the repository to receive the policy.
         public let repositoryName: String
 
+        @inlinable
         public init(lifecyclePolicyText: String, registryId: String? = nil, repositoryName: String) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -2671,6 +2770,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -2688,6 +2788,7 @@ extension ECR {
         /// The JSON policy text to apply to your registry. The policy text follows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide.
         public let policyText: String
 
+        @inlinable
         public init(policyText: String) {
             self.policyText = policyText
         }
@@ -2707,6 +2808,7 @@ extension ECR {
         /// The registry ID associated with the request.
         public let registryId: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -2724,6 +2826,7 @@ extension ECR {
         /// The scanning type to set for the registry. When a registry scanning configuration is not defined, by default the BASIC scan type is used. When basic scanning is used, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed to those repositories. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides automated vulnerability scanning. You may choose between continuous scanning or scan on push and you may specify filters to determine which individual repositories, or all repositories, are scanned.
         public let scanType: ScanType?
 
+        @inlinable
         public init(rules: [RegistryScanningRule]? = nil, scanType: ScanType? = nil) {
             self.rules = rules
             self.scanType = scanType
@@ -2746,6 +2849,7 @@ extension ECR {
         /// The scanning configuration for your registry.
         public let registryScanningConfiguration: RegistryScanningConfiguration?
 
+        @inlinable
         public init(registryScanningConfiguration: RegistryScanningConfiguration? = nil) {
             self.registryScanningConfiguration = registryScanningConfiguration
         }
@@ -2759,6 +2863,7 @@ extension ECR {
         /// An object representing the replication configuration for a registry.
         public let replicationConfiguration: ReplicationConfiguration
 
+        @inlinable
         public init(replicationConfiguration: ReplicationConfiguration) {
             self.replicationConfiguration = replicationConfiguration
         }
@@ -2776,6 +2881,7 @@ extension ECR {
         /// The contents of the replication configuration for the registry.
         public let replicationConfiguration: ReplicationConfiguration?
 
+        @inlinable
         public init(replicationConfiguration: ReplicationConfiguration? = nil) {
             self.replicationConfiguration = replicationConfiguration
         }
@@ -2791,6 +2897,7 @@ extension ECR {
         /// The URL address to the CVE remediation recommendations.
         public let url: String?
 
+        @inlinable
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
@@ -2808,6 +2915,7 @@ extension ECR {
         /// The type of scanning configured for the registry.
         public let scanType: ScanType?
 
+        @inlinable
         public init(rules: [RegistryScanningRule]? = nil, scanType: ScanType? = nil) {
             self.rules = rules
             self.scanType = scanType
@@ -2825,6 +2933,7 @@ extension ECR {
         /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH scan frequency is supported. If scan on push is not specified, then the MANUAL scan frequency is set by default.
         public let scanFrequency: ScanFrequency
 
+        @inlinable
         public init(repositoryFilters: [ScanningRepositoryFilter], scanFrequency: ScanFrequency) {
             self.repositoryFilters = repositoryFilters
             self.scanFrequency = scanFrequency
@@ -2847,6 +2956,7 @@ extension ECR {
         /// An object that contains information about the recommended course of action to remediate the finding.
         public let recommendation: Recommendation?
 
+        @inlinable
         public init(recommendation: Recommendation? = nil) {
             self.recommendation = recommendation
         }
@@ -2860,6 +2970,7 @@ extension ECR {
         /// An array of objects representing the replication destinations and repository filters for a replication configuration.
         public let rules: [ReplicationRule]
 
+        @inlinable
         public init(rules: [ReplicationRule]) {
             self.rules = rules
         }
@@ -2882,6 +2993,7 @@ extension ECR {
         /// The Amazon Web Services account ID of the Amazon ECR private registry to replicate to. When configuring cross-Region replication within your own registry, specify your own account ID.
         public let registryId: String
 
+        @inlinable
         public init(region: String, registryId: String) {
             self.region = region
             self.registryId = registryId
@@ -2906,6 +3018,7 @@ extension ECR {
         /// An array of objects representing the filters for a replication rule. Specifying a repository filter for a replication rule provides a method for controlling which repositories in a private registry are replicated.
         public let repositoryFilters: [RepositoryFilter]?
 
+        @inlinable
         public init(destinations: [ReplicationDestination], repositoryFilters: [RepositoryFilter]? = nil) {
             self.destinations = destinations
             self.repositoryFilters = repositoryFilters
@@ -2946,6 +3059,7 @@ extension ECR {
         /// The URI for the repository. You can use this URI for container image push and pull operations.
         public let repositoryUri: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTagMutability: ImageTagMutability? = nil, registryId: String? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, repositoryUri: String? = nil) {
             self.createdAt = createdAt
             self.encryptionConfiguration = encryptionConfiguration
@@ -2993,6 +3107,7 @@ extension ECR {
         /// The date and time, in JavaScript date format, when the repository creation template was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(appliedFor: [RCTAppliedFor]? = nil, createdAt: Date? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String? = nil, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil, updatedAt: Date? = nil) {
             self.appliedFor = appliedFor
             self.createdAt = createdAt
@@ -3028,6 +3143,7 @@ extension ECR {
         /// The repository filter type. The only supported value is PREFIX_MATCH, which is a repository name prefix specified with the filter parameter.
         public let filterType: RepositoryFilterType
 
+        @inlinable
         public init(filter: String, filterType: RepositoryFilterType) {
             self.filter = filter
             self.filterType = filterType
@@ -3057,6 +3173,7 @@ extension ECR {
         /// Whether or not scan on push is configured for the repository.
         public let scanOnPush: Bool?
 
+        @inlinable
         public init(appliedScanFilters: [ScanningRepositoryFilter]? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, scanFrequency: ScanFrequency? = nil, scanOnPush: Bool? = nil) {
             self.appliedScanFilters = appliedScanFilters
             self.repositoryArn = repositoryArn
@@ -3082,6 +3199,7 @@ extension ECR {
         /// The name of the repository.
         public let repositoryName: String?
 
+        @inlinable
         public init(failureCode: ScanningConfigurationFailureCode? = nil, failureReason: String? = nil, repositoryName: String? = nil) {
             self.failureCode = failureCode
             self.failureReason = failureReason
@@ -3105,6 +3223,7 @@ extension ECR {
         /// The type of resource.
         public let type: String?
 
+        @inlinable
         public init(details: ResourceDetails? = nil, id: String? = nil, tags: [String: String]? = nil, type: String? = nil) {
             self.details = details
             self.id = id
@@ -3124,6 +3243,7 @@ extension ECR {
         /// An object that contains details about the Amazon ECR container image involved in the finding.
         public let awsEcrContainerImage: AwsEcrContainerImageDetails?
 
+        @inlinable
         public init(awsEcrContainerImage: AwsEcrContainerImageDetails? = nil) {
             self.awsEcrContainerImage = awsEcrContainerImage
         }
@@ -3139,6 +3259,7 @@ extension ECR {
         /// The type associated with the filter.
         public let filterType: ScanningRepositoryFilterType
 
+        @inlinable
         public init(filter: String, filterType: ScanningRepositoryFilterType) {
             self.filter = filter
             self.filterType = filterType
@@ -3160,6 +3281,7 @@ extension ECR {
         /// An object that contains details about the CVSS score given to a finding.
         public let cvss: CvssScoreDetails?
 
+        @inlinable
         public init(cvss: CvssScoreDetails? = nil) {
             self.cvss = cvss
         }
@@ -3179,6 +3301,7 @@ extension ECR {
         /// The name of the repository to receive the policy.
         public let repositoryName: String
 
+        @inlinable
         public init(force: Bool? = nil, policyText: String, registryId: String? = nil, repositoryName: String) {
             self.force = force
             self.policyText = policyText
@@ -3210,6 +3333,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(policyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.policyText = policyText
             self.registryId = registryId
@@ -3230,6 +3354,7 @@ extension ECR {
         /// The name of the repository that contains the images to scan.
         public let repositoryName: String
 
+        @inlinable
         public init(imageId: ImageIdentifier, registryId: String? = nil, repositoryName: String) {
             self.imageId = imageId
             self.registryId = registryId
@@ -3260,6 +3385,7 @@ extension ECR {
         /// The repository name associated with the request.
         public let repositoryName: String?
 
+        @inlinable
         public init(imageId: ImageIdentifier? = nil, imageScanStatus: ImageScanStatus? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.imageId = imageId
             self.imageScanStatus = imageScanStatus
@@ -3283,6 +3409,7 @@ extension ECR {
         /// The name of the repository to be evaluated.
         public let repositoryName: String
 
+        @inlinable
         public init(lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -3315,6 +3442,7 @@ extension ECR {
         /// The status of the lifecycle policy preview request.
         public let status: LifecyclePolicyPreviewStatus?
 
+        @inlinable
         public init(lifecyclePolicyText: String? = nil, registryId: String? = nil, repositoryName: String? = nil, status: LifecyclePolicyPreviewStatus? = nil) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -3336,6 +3464,7 @@ extension ECR {
         /// A value acts as a descriptor within a tag category (key).
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3353,6 +3482,7 @@ extension ECR {
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3374,6 +3504,7 @@ extension ECR {
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3397,6 +3528,7 @@ extension ECR {
         /// The Amazon Web Services account ID associated with the registry associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
 
+        @inlinable
         public init(credentialArn: String, ecrRepositoryPrefix: String, registryId: String? = nil) {
             self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -3430,6 +3562,7 @@ extension ECR {
         /// The date and time, in JavaScript date format, when the pull through cache rule was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil) {
             self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -3464,6 +3597,7 @@ extension ECR {
         /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let resourceTags: [Tag]?
 
+        @inlinable
         public init(appliedFor: [RCTAppliedFor]? = nil, customRoleArn: String? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate? = nil, imageTagMutability: ImageTagMutability? = nil, lifecyclePolicy: String? = nil, prefix: String, repositoryPolicy: String? = nil, resourceTags: [Tag]? = nil) {
             self.appliedFor = appliedFor
             self.customRoleArn = customRoleArn
@@ -3506,6 +3640,7 @@ extension ECR {
         /// The details of the repository creation template associated with the request.
         public let repositoryCreationTemplate: RepositoryCreationTemplate?
 
+        @inlinable
         public init(registryId: String? = nil, repositoryCreationTemplate: RepositoryCreationTemplate? = nil) {
             self.registryId = registryId
             self.repositoryCreationTemplate = repositoryCreationTemplate
@@ -3531,6 +3666,7 @@ extension ECR {
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
         public let uploadId: String
 
+        @inlinable
         public init(layerPartBlob: AWSBase64Data, partFirstByte: Int64, partLastByte: Int64, registryId: String? = nil, repositoryName: String, uploadId: String) {
             self.layerPartBlob = layerPartBlob
             self.partFirstByte = partFirstByte
@@ -3571,6 +3707,7 @@ extension ECR {
         /// The upload ID associated with the request.
         public let uploadId: String?
 
+        @inlinable
         public init(lastByteReceived: Int64? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
             self.lastByteReceived = lastByteReceived
             self.registryId = registryId
@@ -3592,6 +3729,7 @@ extension ECR {
         /// The registry ID associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
 
+        @inlinable
         public init(ecrRepositoryPrefix: String, registryId: String? = nil) {
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
@@ -3624,6 +3762,7 @@ extension ECR {
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
 
+        @inlinable
         public init(credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, failure: String? = nil, isValid: Bool? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
             self.credentialArn = credentialArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
@@ -3661,6 +3800,7 @@ extension ECR {
         /// The version of the vulnerable package.
         public let version: String?
 
+        @inlinable
         public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
             self.arch = arch
             self.epoch = epoch

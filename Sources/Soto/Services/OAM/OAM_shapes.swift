@@ -49,6 +49,7 @@ extension OAM {
         /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(labelTemplate: String, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [ResourceType], sinkIdentifier: String, tags: [String: String]? = nil) {
             self.labelTemplate = labelTemplate
             self.linkConfiguration = linkConfiguration
@@ -99,6 +100,7 @@ extension OAM {
         /// The tags assigned to the link.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -128,6 +130,7 @@ extension OAM {
         /// Assigns one or more tags (key-value pairs) to the link.  Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. For more information about using tags to control access, see  Controlling access to Amazon Web Services resources using tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String, tags: [String: String]? = nil) {
             self.name = name
             self.tags = tags
@@ -159,6 +162,7 @@ extension OAM {
         /// The tags assigned to the sink.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -178,6 +182,7 @@ extension OAM {
         /// The ARN of the link to delete.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -199,6 +204,7 @@ extension OAM {
         /// The ARN of the sink to delete.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -220,6 +226,7 @@ extension OAM {
         /// The ARN of the link to retrieve information for.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -251,6 +258,7 @@ extension OAM {
         /// The tags assigned to the link.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -278,6 +286,7 @@ extension OAM {
         /// The ARN of the sink to retrieve information for.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -301,6 +310,7 @@ extension OAM {
         /// The tags assigned to the sink.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id
@@ -320,6 +330,7 @@ extension OAM {
         /// The ARN of the sink to retrieve the policy of.
         public let sinkIdentifier: String
 
+        @inlinable
         public init(sinkIdentifier: String) {
             self.sinkIdentifier = sinkIdentifier
         }
@@ -341,6 +352,7 @@ extension OAM {
         /// The random ID string that Amazon Web Services generated as part of the sink ARN.
         public let sinkId: String?
 
+        @inlinable
         public init(policy: String? = nil, sinkArn: String? = nil, sinkId: String? = nil) {
             self.policy = policy
             self.sinkArn = sinkArn
@@ -360,6 +372,7 @@ extension OAM {
         /// Use this structure to filter which metric namespaces are to be shared from  the source account to the monitoring account.
         public let metricConfiguration: MetricConfiguration?
 
+        @inlinable
         public init(logGroupConfiguration: LogGroupConfiguration? = nil, metricConfiguration: MetricConfiguration? = nil) {
             self.logGroupConfiguration = logGroupConfiguration
             self.metricConfiguration = metricConfiguration
@@ -384,6 +397,7 @@ extension OAM {
         /// The ARN of the sink that you want to retrieve links for.
         public let sinkIdentifier: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sinkIdentifier: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -411,6 +425,7 @@ extension OAM {
         /// The resource types supported by this link.
         public let resourceTypes: [String]?
 
+        @inlinable
         public init(label: String? = nil, linkArn: String? = nil, resourceTypes: [String]? = nil) {
             self.label = label
             self.linkArn = linkArn
@@ -430,6 +445,7 @@ extension OAM {
         /// The token to use when requesting the next set of links.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListAttachedLinksItem], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -447,6 +463,7 @@ extension OAM {
         /// The token for the next set of items to return. You received this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -475,6 +492,7 @@ extension OAM {
         /// The ARN of the sink that this link is attached to.
         public let sinkArn: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, label: String? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil) {
             self.arn = arn
             self.id = id
@@ -498,6 +516,7 @@ extension OAM {
         /// The token to use when requesting the next set of links.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListLinksItem], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -515,6 +534,7 @@ extension OAM {
         /// The token for the next set of items to return. You received this token from a previous call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -539,6 +559,7 @@ extension OAM {
         /// The name of the sink.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -558,6 +579,7 @@ extension OAM {
         /// The token to use when requesting the next set of sinks.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ListSinksItem], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -573,6 +595,7 @@ extension OAM {
         /// The ARN of the  resource that you want to view tags for. The ARN format of a sink is  arn:aws:oam:Region:account-id:sink/sink-id   The ARN format of a link is  arn:aws:oam:Region:account-id:link/link-id   For more information about ARN format, see CloudWatch Logs  resources and operations.  Unlike tagging permissions in other Amazon Web Services services, to retrieve the list of tags for links or sinks you must have the oam:RequestTag permission. The aws:ReguestTag permission does not allow you to tag and untag links and sinks.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -594,6 +617,7 @@ extension OAM {
         /// The list of tags associated with the requested resource.&gt;
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -607,6 +631,7 @@ extension OAM {
         /// Use this field to specify which log groups are to share their log events with the monitoring account. Use the term LogGroupName and one or more of the following operands.  Use single quotation marks (')  around log group names. The matching of log group names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    LogGroupName IN ('This-Log-Group', 'Other-Log-Group') includes only the log groups with names This-Log-Group and  Other-Log-Group.    LogGroupName NOT IN ('Private-Log-Group', 'Private-Log-Group-2') includes all log groups except the log groups with names Private-Log-Group and  Private-Log-Group-2.    LogGroupName LIKE 'aws/lambda/%' OR LogGroupName LIKE 'AWSLogs%' includes all log groups that have names that start with aws/lambda/ or  AWSLogs.    If you are updating a link that uses filters, you can specify * as the only value for the  filter parameter to delete the filter and share all log groups with the monitoring account.
         public let filter: String
 
+        @inlinable
         public init(filter: String) {
             self.filter = filter
         }
@@ -625,6 +650,7 @@ extension OAM {
         /// Use this field to specify which metrics are to be shared with the monitoring account. Use the term Namespace and one or more of the following operands. Use single quotation marks (') around namespace names. The matching of namespace names is case sensitive. Each filter has a limit of five conditional operands. Conditional operands are AND and OR.    = and !=     AND     OR     LIKE and NOT LIKE. These can be used only as prefix searches. Include a % at the end of the string that you want to search for and include.    IN and NOT IN, using parentheses ( )    Examples:    Namespace NOT LIKE 'AWS/%' includes only namespaces that don't start with AWS/, such as custom namespaces.    Namespace IN ('AWS/EC2', 'AWS/ELB', 'AWS/S3') includes only the metrics in the EC2, Elastic Load Balancing, and Amazon S3 namespaces.     Namespace = 'AWS/EC2' OR Namespace NOT LIKE 'AWS/%' includes only the EC2 namespace and your custom namespaces.    If you are updating a link that uses filters, you can specify * as the only value for the  filter parameter to delete the filter and share all metric namespaces with the monitoring account.
         public let filter: String
 
+        @inlinable
         public init(filter: String) {
             self.filter = filter
         }
@@ -645,6 +671,7 @@ extension OAM {
         /// The ARN of the sink to attach this policy to.
         public let sinkIdentifier: String
 
+        @inlinable
         public init(policy: String, sinkIdentifier: String) {
             self.policy = policy
             self.sinkIdentifier = sinkIdentifier
@@ -668,6 +695,7 @@ extension OAM {
         /// The random ID string that Amazon Web Services generated as part of the sink ARN.
         public let sinkId: String?
 
+        @inlinable
         public init(policy: String? = nil, sinkArn: String? = nil, sinkId: String? = nil) {
             self.policy = policy
             self.sinkArn = sinkArn
@@ -687,6 +715,7 @@ extension OAM {
         /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -724,6 +753,7 @@ extension OAM {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -759,6 +789,7 @@ extension OAM {
         /// An array of strings that define which types of data that the source account will send to the monitoring  account. Your input here replaces the current set of data types that are shared.
         public let resourceTypes: [ResourceType]
 
+        @inlinable
         public init(identifier: String, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [ResourceType]) {
             self.identifier = identifier
             self.linkConfiguration = linkConfiguration
@@ -797,6 +828,7 @@ extension OAM {
         /// The tags assigned to the link.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, label: String? = nil, labelTemplate: String? = nil, linkConfiguration: LinkConfiguration? = nil, resourceTypes: [String]? = nil, sinkArn: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.id = id

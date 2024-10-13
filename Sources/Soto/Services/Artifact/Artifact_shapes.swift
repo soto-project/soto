@@ -67,6 +67,7 @@ extension Artifact {
         /// Notification subscription status of the customer.
         public let notificationSubscriptionStatus: NotificationSubscriptionStatus?
 
+        @inlinable
         public init(notificationSubscriptionStatus: NotificationSubscriptionStatus? = nil) {
             self.notificationSubscriptionStatus = notificationSubscriptionStatus
         }
@@ -83,6 +84,7 @@ extension Artifact {
     public struct GetAccountSettingsResponse: AWSDecodableShape {
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -98,6 +100,7 @@ extension Artifact {
         /// Version for the report resource.
         public let reportVersion: Int64?
 
+        @inlinable
         public init(reportId: String, reportVersion: Int64? = nil) {
             self.reportId = reportId
             self.reportVersion = reportVersion
@@ -122,6 +125,7 @@ extension Artifact {
         /// Report resource detail.
         public let reportDetails: ReportDetail?
 
+        @inlinable
         public init(reportDetails: ReportDetail? = nil) {
             self.reportDetails = reportDetails
         }
@@ -139,6 +143,7 @@ extension Artifact {
         /// Unique download token provided by GetTermForReport API.
         public let termToken: String
 
+        @inlinable
         public init(reportId: String, reportVersion: Int64? = nil, termToken: String) {
             self.reportId = reportId
             self.reportVersion = reportVersion
@@ -168,6 +173,7 @@ extension Artifact {
         /// Presigned S3 url to access the report content.
         public let documentPresignedUrl: String?
 
+        @inlinable
         public init(documentPresignedUrl: String? = nil) {
             self.documentPresignedUrl = documentPresignedUrl
         }
@@ -183,6 +189,7 @@ extension Artifact {
         /// Version for the report resource.
         public let reportVersion: Int64?
 
+        @inlinable
         public init(reportId: String, reportVersion: Int64? = nil) {
             self.reportId = reportId
             self.reportVersion = reportVersion
@@ -209,6 +216,7 @@ extension Artifact {
         /// Unique token representing this request event.
         public let termToken: String?
 
+        @inlinable
         public init(documentPresignedUrl: String? = nil, termToken: String? = nil) {
             self.documentPresignedUrl = documentPresignedUrl
             self.termToken = termToken
@@ -226,6 +234,7 @@ extension Artifact {
         /// Pagination token to request the next page of resources.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -254,6 +263,7 @@ extension Artifact {
         /// List of report resources.
         public let reports: [ReportSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, reports: [ReportSummary]? = nil) {
             self.nextToken = nextToken
             self.reports = reports
@@ -269,6 +279,7 @@ extension Artifact {
         /// Desired notification subscription status.
         public let notificationSubscriptionStatus: NotificationSubscriptionStatus?
 
+        @inlinable
         public init(notificationSubscriptionStatus: NotificationSubscriptionStatus? = nil) {
             self.notificationSubscriptionStatus = notificationSubscriptionStatus
         }
@@ -281,6 +292,7 @@ extension Artifact {
     public struct PutAccountSettingsResponse: AWSDecodableShape {
         public let accountSettings: AccountSettings?
 
+        @inlinable
         public init(accountSettings: AccountSettings? = nil) {
             self.accountSettings = accountSettings
         }
@@ -337,6 +349,7 @@ extension Artifact {
         /// Version for the report resource.
         public let version: Int64?
 
+        @inlinable
         public init(acceptanceType: AcceptanceType? = nil, arn: String? = nil, category: String? = nil, companyName: String? = nil, createdAt: Date? = nil, deletedAt: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedAt: Date? = nil, name: String? = nil, periodEnd: Date? = nil, periodStart: Date? = nil, productName: String? = nil, sequenceNumber: Int64? = nil, series: String? = nil, state: PublishedState? = nil, statusMessage: String? = nil, termArn: String? = nil, uploadState: UploadState? = nil, version: Int64? = nil) {
             self.acceptanceType = acceptanceType
             self.arn = arn
@@ -418,6 +431,7 @@ extension Artifact {
         /// Version for the report resource.
         public let version: Int64?
 
+        @inlinable
         public init(acceptanceType: AcceptanceType? = nil, arn: String? = nil, category: String? = nil, companyName: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, periodEnd: Date? = nil, periodStart: Date? = nil, productName: String? = nil, series: String? = nil, state: PublishedState? = nil, statusMessage: String? = nil, uploadState: UploadState? = nil, version: Int64? = nil) {
             self.acceptanceType = acceptanceType
             self.arn = arn

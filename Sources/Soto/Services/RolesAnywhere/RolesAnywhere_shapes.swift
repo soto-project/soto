@@ -100,6 +100,7 @@ extension RolesAnywhere {
         /// A list of mapping entries for every supported specifier or sub-field.
         public let mappingRules: [MappingRule]?
 
+        @inlinable
         public init(certificateField: CertificateField? = nil, mappingRules: [MappingRule]? = nil) {
             self.certificateField = certificateField
             self.mappingRules = mappingRules
@@ -133,6 +134,7 @@ extension RolesAnywhere {
         /// The tags to attach to the profile.
         public let tags: [Tag]?
 
+        @inlinable
         public init(acceptRoleSessionName: Bool? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String, requireInstanceProperties: Bool? = nil, roleArns: [String], sessionPolicy: String? = nil, tags: [Tag]? = nil) {
             self.acceptRoleSessionName = acceptRoleSessionName
             self.durationSeconds = durationSeconds
@@ -187,6 +189,7 @@ extension RolesAnywhere {
         /// The tags to attach to the trust anchor.
         public let tags: [Tag]?
 
+        @inlinable
         public init(enabled: Bool? = nil, name: String, notificationSettings: [NotificationSetting]? = nil, source: Source, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.name = name
@@ -229,6 +232,7 @@ extension RolesAnywhere {
         /// The PEM-encoded data of the certificate.
         public let x509CertificateData: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, failed: Bool? = nil, issuer: String? = nil, seenAt: Date? = nil, serialNumber: String? = nil, x509CertificateData: String? = nil) {
             self.enabled = enabled
             self.failed = failed
@@ -266,6 +270,7 @@ extension RolesAnywhere {
         /// The ISO-8601 timestamp when the certificate revocation list (CRL) was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, crlArn: String? = nil, crlData: AWSBase64Data? = nil, crlId: String? = nil, enabled: Bool? = nil, name: String? = nil, trustAnchorArn: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.crlArn = crlArn
@@ -293,6 +298,7 @@ extension RolesAnywhere {
         /// The state of the certificate revocation list (CRL) after a read or write operation.
         public let crl: CrlDetail
 
+        @inlinable
         public init(crl: CrlDetail) {
             self.crl = crl
         }
@@ -310,6 +316,7 @@ extension RolesAnywhere {
         /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject.
         public let specifiers: [String]?
 
+        @inlinable
         public init(certificateField: CertificateField, profileId: String, specifiers: [String]? = nil) {
             self.certificateField = certificateField
             self.profileId = profileId
@@ -337,6 +344,7 @@ extension RolesAnywhere {
         /// The state of the profile after a read or write operation.
         public let profile: ProfileDetail
 
+        @inlinable
         public init(profile: ProfileDetail) {
             self.profile = profile
         }
@@ -358,6 +366,7 @@ extension RolesAnywhere {
         /// The ARN of the TrustAnchor the certificate revocation list (CRL) will provide revocation for.
         public let trustAnchorArn: String
 
+        @inlinable
         public init(crlData: AWSBase64Data, enabled: Bool? = nil, name: String, tags: [Tag]? = nil, trustAnchorArn: String) {
             self.crlData = crlData
             self.enabled = enabled
@@ -396,6 +405,7 @@ extension RolesAnywhere {
         /// The ISO-8601 time stamp of when the certificate was last used in a temporary credential request.
         public let seenAt: Date?
 
+        @inlinable
         public init(failed: Bool? = nil, properties: [String: String]? = nil, seenAt: Date? = nil) {
             self.failed = failed
             self.properties = properties
@@ -415,6 +425,7 @@ extension RolesAnywhere {
         /// A token that indicates where the output should continue from, if a previous request did not show all results. To get the next results, make the request again with this value.
         public let nextToken: String?
 
+        @inlinable
         public init(crls: [CrlDetail]? = nil, nextToken: String? = nil) {
             self.crls = crls
             self.nextToken = nextToken
@@ -432,6 +443,7 @@ extension RolesAnywhere {
         /// A list of profiles.
         public let profiles: [ProfileDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, profiles: [ProfileDetail]? = nil) {
             self.nextToken = nextToken
             self.profiles = profiles
@@ -449,6 +461,7 @@ extension RolesAnywhere {
         /// The number of resources in the paginated list.
         public let pageSize: Int?
 
+        @inlinable
         public init(nextToken: String? = nil, pageSize: Int? = nil) {
             self.nextToken = nextToken
             self.pageSize = pageSize
@@ -470,6 +483,7 @@ extension RolesAnywhere {
         /// A list of subjects.
         public let subjects: [SubjectSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, subjects: [SubjectSummary]? = nil) {
             self.nextToken = nextToken
             self.subjects = subjects
@@ -485,6 +499,7 @@ extension RolesAnywhere {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -507,6 +522,7 @@ extension RolesAnywhere {
         /// A list of tags attached to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -522,6 +538,7 @@ extension RolesAnywhere {
         /// A list of trust anchors.
         public let trustAnchors: [TrustAnchorDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, trustAnchors: [TrustAnchorDetail]? = nil) {
             self.nextToken = nextToken
             self.trustAnchors = trustAnchors
@@ -537,6 +554,7 @@ extension RolesAnywhere {
         /// Specifier within a certificate field, such as CN, OU, or UID from the Subject field.
         public let specifier: String
 
+        @inlinable
         public init(specifier: String) {
             self.specifier = specifier
         }
@@ -556,6 +574,7 @@ extension RolesAnywhere {
         /// The number of days before a notification event. This value is required for a notification setting that is enabled.
         public let threshold: Int?
 
+        @inlinable
         public init(channel: NotificationChannel? = nil, enabled: Bool, event: NotificationEvent, threshold: Int? = nil) {
             self.channel = channel
             self.enabled = enabled
@@ -583,6 +602,7 @@ extension RolesAnywhere {
         /// The number of days before a notification event.
         public let threshold: Int?
 
+        @inlinable
         public init(channel: NotificationChannel? = nil, configuredBy: String? = nil, enabled: Bool, event: NotificationEvent, threshold: Int? = nil) {
             self.channel = channel
             self.configuredBy = configuredBy
@@ -606,6 +626,7 @@ extension RolesAnywhere {
         /// The notification setting event to reset.
         public let event: NotificationEvent
 
+        @inlinable
         public init(channel: NotificationChannel? = nil, event: NotificationEvent) {
             self.channel = channel
             self.event = event
@@ -649,6 +670,7 @@ extension RolesAnywhere {
         /// The ISO-8601 timestamp when the profile was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(acceptRoleSessionName: Bool? = nil, attributeMappings: [AttributeMapping]? = nil, createdAt: Date? = nil, createdBy: String? = nil, durationSeconds: Int? = nil, enabled: Bool? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileArn: String? = nil, profileId: String? = nil, requireInstanceProperties: Bool? = nil, roleArns: [String]? = nil, sessionPolicy: String? = nil, updatedAt: Date? = nil) {
             self.acceptRoleSessionName = acceptRoleSessionName
             self.attributeMappings = attributeMappings
@@ -688,6 +710,7 @@ extension RolesAnywhere {
         /// The state of the profile after a read or write operation.
         public let profile: ProfileDetail?
 
+        @inlinable
         public init(profile: ProfileDetail? = nil) {
             self.profile = profile
         }
@@ -705,6 +728,7 @@ extension RolesAnywhere {
         /// The unique identifier of the profile.
         public let profileId: String
 
+        @inlinable
         public init(certificateField: CertificateField, mappingRules: [MappingRule], profileId: String) {
             self.certificateField = certificateField
             self.mappingRules = mappingRules
@@ -735,6 +759,7 @@ extension RolesAnywhere {
         /// The state of the profile after a read or write operation.
         public let profile: ProfileDetail
 
+        @inlinable
         public init(profile: ProfileDetail) {
             self.profile = profile
         }
@@ -750,6 +775,7 @@ extension RolesAnywhere {
         /// The unique identifier of the trust anchor.
         public let trustAnchorId: String
 
+        @inlinable
         public init(notificationSettings: [NotificationSetting], trustAnchorId: String) {
             self.notificationSettings = notificationSettings
             self.trustAnchorId = trustAnchorId
@@ -771,6 +797,7 @@ extension RolesAnywhere {
     public struct PutNotificationSettingsResponse: AWSDecodableShape {
         public let trustAnchor: TrustAnchorDetail
 
+        @inlinable
         public init(trustAnchor: TrustAnchorDetail) {
             self.trustAnchor = trustAnchor
         }
@@ -786,6 +813,7 @@ extension RolesAnywhere {
         /// The unique identifier of the trust anchor.
         public let trustAnchorId: String
 
+        @inlinable
         public init(notificationSettingKeys: [NotificationSettingKey], trustAnchorId: String) {
             self.notificationSettingKeys = notificationSettingKeys
             self.trustAnchorId = trustAnchorId
@@ -807,6 +835,7 @@ extension RolesAnywhere {
     public struct ResetNotificationSettingsResponse: AWSDecodableShape {
         public let trustAnchor: TrustAnchorDetail
 
+        @inlinable
         public init(trustAnchor: TrustAnchorDetail) {
             self.trustAnchor = trustAnchor
         }
@@ -820,6 +849,7 @@ extension RolesAnywhere {
         /// The unique identifier of the certificate revocation list (CRL).
         public let crlId: String
 
+        @inlinable
         public init(crlId: String) {
             self.crlId = crlId
         }
@@ -843,6 +873,7 @@ extension RolesAnywhere {
         /// The unique identifier of the profile.
         public let profileId: String
 
+        @inlinable
         public init(profileId: String) {
             self.profileId = profileId
         }
@@ -866,6 +897,7 @@ extension RolesAnywhere {
         /// The unique identifier of the subject.
         public let subjectId: String
 
+        @inlinable
         public init(subjectId: String) {
             self.subjectId = subjectId
         }
@@ -889,6 +921,7 @@ extension RolesAnywhere {
         /// The unique identifier of the trust anchor.
         public let trustAnchorId: String
 
+        @inlinable
         public init(trustAnchorId: String) {
             self.trustAnchorId = trustAnchorId
         }
@@ -914,6 +947,7 @@ extension RolesAnywhere {
         /// The type of the trust anchor.
         public let sourceType: TrustAnchorType?
 
+        @inlinable
         public init(sourceData: SourceData? = nil, sourceType: TrustAnchorType? = nil) {
             self.sourceData = sourceData
             self.sourceType = sourceType
@@ -945,6 +979,7 @@ extension RolesAnywhere {
         /// The x509 principal identifier of the authenticating certificate.
         public let x509Subject: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, credentials: [CredentialSummary]? = nil, enabled: Bool? = nil, instanceProperties: [InstanceProperty]? = nil, lastSeenAt: Date? = nil, subjectArn: String? = nil, subjectId: String? = nil, updatedAt: Date? = nil, x509Subject: String? = nil) {
             self.createdAt = createdAt
             self.credentials = credentials
@@ -974,6 +1009,7 @@ extension RolesAnywhere {
         /// The state of the subject after a read or write operation.
         public let subject: SubjectDetail?
 
+        @inlinable
         public init(subject: SubjectDetail? = nil) {
             self.subject = subject
         }
@@ -999,6 +1035,7 @@ extension RolesAnywhere {
         /// The x509 principal identifier of the authenticating certificate.
         public let x509Subject: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, enabled: Bool? = nil, lastSeenAt: Date? = nil, subjectArn: String? = nil, subjectId: String? = nil, updatedAt: Date? = nil, x509Subject: String? = nil) {
             self.createdAt = createdAt
             self.enabled = enabled
@@ -1026,6 +1063,7 @@ extension RolesAnywhere {
         /// The tag value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1051,6 +1089,7 @@ extension RolesAnywhere {
         /// The tags to attach to the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1093,6 +1132,7 @@ extension RolesAnywhere {
         /// The ISO-8601 timestamp when the trust anchor was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, enabled: Bool? = nil, name: String? = nil, notificationSettings: [NotificationSettingDetail]? = nil, source: Source? = nil, trustAnchorArn: String? = nil, trustAnchorId: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.enabled = enabled
@@ -1120,6 +1160,7 @@ extension RolesAnywhere {
         /// The state of the trust anchor after a read or write operation.
         public let trustAnchor: TrustAnchorDetail
 
+        @inlinable
         public init(trustAnchor: TrustAnchorDetail) {
             self.trustAnchor = trustAnchor
         }
@@ -1135,6 +1176,7 @@ extension RolesAnywhere {
         /// A list of keys. Tag keys are the unique identifiers of tags.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1169,6 +1211,7 @@ extension RolesAnywhere {
         /// The name of the Crl.
         public let name: String?
 
+        @inlinable
         public init(crlData: AWSBase64Data? = nil, crlId: String, name: String? = nil) {
             self.crlData = crlData
             self.crlId = crlId
@@ -1216,6 +1259,7 @@ extension RolesAnywhere {
         /// A session policy that applies to the trust boundary of the vended session credentials.
         public let sessionPolicy: String?
 
+        @inlinable
         public init(acceptRoleSessionName: Bool? = nil, durationSeconds: Int? = nil, managedPolicyArns: [String]? = nil, name: String? = nil, profileId: String, roleArns: [String]? = nil, sessionPolicy: String? = nil) {
             self.acceptRoleSessionName = acceptRoleSessionName
             self.durationSeconds = durationSeconds
@@ -1272,6 +1316,7 @@ extension RolesAnywhere {
         /// The unique identifier of the trust anchor.
         public let trustAnchorId: String
 
+        @inlinable
         public init(name: String? = nil, source: Source? = nil, trustAnchorId: String) {
             self.name = name
             self.source = source

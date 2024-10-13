@@ -34,6 +34,7 @@ extension Support {
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
 
+        @inlinable
         public init(attachments: [Attachment], attachmentSetId: String? = nil) {
             self.attachments = attachments
             self.attachmentSetId = attachmentSetId
@@ -51,6 +52,7 @@ extension Support {
         /// The time and date when the attachment set expires.
         public let expiryTime: String?
 
+        @inlinable
         public init(attachmentSetId: String? = nil, expiryTime: String? = nil) {
             self.attachmentSetId = attachmentSetId
             self.expiryTime = expiryTime
@@ -72,6 +74,7 @@ extension Support {
         /// The body of an email communication to add to the support case.
         public let communicationBody: String
 
+        @inlinable
         public init(attachmentSetId: String? = nil, caseId: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String) {
             self.attachmentSetId = attachmentSetId
             self.caseId = caseId
@@ -97,6 +100,7 @@ extension Support {
         /// True if AddCommunicationToCase succeeds. Otherwise, returns an error.
         public let result: Bool?
 
+        @inlinable
         public init(result: Bool? = nil) {
             self.result = result
         }
@@ -112,6 +116,7 @@ extension Support {
         /// The name of the attachment file.
         public let fileName: String?
 
+        @inlinable
         public init(data: AWSBase64Data? = nil, fileName: String? = nil) {
             self.data = data
             self.fileName = fileName
@@ -129,6 +134,7 @@ extension Support {
         /// The file name of the attachment.
         public let fileName: String?
 
+        @inlinable
         public init(attachmentId: String? = nil, fileName: String? = nil) {
             self.attachmentId = attachmentId
             self.fileName = fileName
@@ -168,6 +174,7 @@ extension Support {
         /// The time that the case was created in the Amazon Web Services Support Center.
         public let timeCreated: String?
 
+        @inlinable
         public init(caseId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, displayId: String? = nil, language: String? = nil, recentCommunications: RecentCaseCommunications? = nil, serviceCode: String? = nil, severityCode: String? = nil, status: String? = nil, subject: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
             self.caseId = caseId
             self.categoryCode = categoryCode
@@ -205,6 +212,7 @@ extension Support {
         /// The category name for the support case.
         public let name: String?
 
+        @inlinable
         public init(code: String? = nil, name: String? = nil) {
             self.code = code
             self.name = name
@@ -228,6 +236,7 @@ extension Support {
         /// The time the communication was created.
         public let timeCreated: String?
 
+        @inlinable
         public init(attachmentSet: [AttachmentDetails]? = nil, body: String? = nil, caseId: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
             self.attachmentSet = attachmentSet
             self.body = body
@@ -253,6 +262,7 @@ extension Support {
         ///  A string value indicating the communication type. At the moment the type value can assume one of 3 values at the moment chat, web and call.
         public let type: String?
 
+        @inlinable
         public init(datesWithoutSupport: [DateInterval]? = nil, supportedHours: [SupportedHour]? = nil, type: String? = nil) {
             self.datesWithoutSupport = datesWithoutSupport
             self.supportedHours = supportedHours
@@ -288,6 +298,7 @@ extension Support {
         /// The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center Create Case page.
         public let subject: String
 
+        @inlinable
         public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String) {
             self.attachmentSetId = attachmentSetId
             self.categoryCode = categoryCode
@@ -324,6 +335,7 @@ extension Support {
         /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
 
+        @inlinable
         public init(caseId: String? = nil) {
             self.caseId = caseId
         }
@@ -339,6 +351,7 @@ extension Support {
         ///  A JSON object containing start and date time (UTC). Date and time format is RFC 3339 : 'yyyy-MM-dd'T'HH:mm:ss.SSSZZ'.
         public let startDateTime: String?
 
+        @inlinable
         public init(endDateTime: String? = nil, startDateTime: String? = nil) {
             self.endDateTime = endDateTime
             self.startDateTime = startDateTime
@@ -354,6 +367,7 @@ extension Support {
         /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
         public let attachmentId: String
 
+        @inlinable
         public init(attachmentId: String) {
             self.attachmentId = attachmentId
         }
@@ -367,6 +381,7 @@ extension Support {
         /// This object includes the attachment content and file name. In the previous response syntax, the value for the data parameter appears as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
         public let attachment: Attachment?
 
+        @inlinable
         public init(attachment: Attachment? = nil) {
             self.attachment = attachment
         }
@@ -398,6 +413,7 @@ extension Support {
         /// A resumption point for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(afterTime: String? = nil, beforeTime: String? = nil, caseIdList: [String]? = nil, displayId: String? = nil, includeCommunications: Bool? = nil, includeResolvedCases: Bool? = nil, language: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
@@ -435,6 +451,7 @@ extension Support {
         /// A resumption point for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(cases: [CaseDetails]? = nil, nextToken: String? = nil) {
             self.cases = cases
             self.nextToken = nextToken
@@ -458,6 +475,7 @@ extension Support {
         /// A resumption point for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(afterTime: String? = nil, beforeTime: String? = nil, caseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
@@ -486,6 +504,7 @@ extension Support {
         /// A resumption point for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(communications: [Communication]? = nil, nextToken: String? = nil) {
             self.communications = communications
             self.nextToken = nextToken
@@ -509,6 +528,7 @@ extension Support {
         /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String
 
+        @inlinable
         public init(categoryCode: String, issueType: String, language: String, serviceCode: String) {
             self.categoryCode = categoryCode
             self.issueType = issueType
@@ -534,6 +554,7 @@ extension Support {
         /// Language availability can be any of the following:    available     best_effort     unavailable
         public let languageAvailability: String?
 
+        @inlinable
         public init(communicationTypes: [CommunicationTypeOptions]? = nil, languageAvailability: String? = nil) {
             self.communicationTypes = communicationTypes
             self.languageAvailability = languageAvailability
@@ -553,6 +574,7 @@ extension Support {
         /// A JSON-formatted list of service codes available for Amazon Web Services services.
         public let serviceCodeList: [String]?
 
+        @inlinable
         public init(language: String? = nil, serviceCodeList: [String]? = nil) {
             self.language = language
             self.serviceCodeList = serviceCodeList
@@ -575,6 +597,7 @@ extension Support {
         /// A JSON-formatted list of Amazon Web Services services.
         public let services: [Service]?
 
+        @inlinable
         public init(services: [Service]? = nil) {
             self.services = services
         }
@@ -590,6 +613,7 @@ extension Support {
         /// code for the language parameter if you want support in that language.
         public let language: String?
 
+        @inlinable
         public init(language: String? = nil) {
             self.language = language
         }
@@ -603,6 +627,7 @@ extension Support {
         /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with Amazon Web Services.
         public let severityLevels: [SeverityLevel]?
 
+        @inlinable
         public init(severityLevels: [SeverityLevel]? = nil) {
             self.severityLevels = severityLevels
         }
@@ -620,6 +645,7 @@ extension Support {
         /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String
 
+        @inlinable
         public init(categoryCode: String, issueType: String, serviceCode: String) {
             self.categoryCode = categoryCode
             self.issueType = issueType
@@ -644,6 +670,7 @@ extension Support {
         ///  A JSON-formatted array that contains the available ISO 639-1 language codes.
         public let supportedLanguages: [SupportedLanguage]?
 
+        @inlinable
         public init(supportedLanguages: [SupportedLanguage]? = nil) {
             self.supportedLanguages = supportedLanguages
         }
@@ -657,6 +684,7 @@ extension Support {
         /// The IDs of the Trusted Advisor checks to get the status.  If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error.
         public let checkIds: [String]
 
+        @inlinable
         public init(checkIds: [String]) {
             self.checkIds = checkIds
         }
@@ -670,6 +698,7 @@ extension Support {
         /// The refresh status of the specified Trusted Advisor checks.
         public let statuses: [TrustedAdvisorCheckRefreshStatus]
 
+        @inlinable
         public init(statuses: [TrustedAdvisorCheckRefreshStatus]) {
             self.statuses = statuses
         }
@@ -685,6 +714,7 @@ extension Support {
         /// The ISO 639-1 code for the language that you want your check results to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor:   Chinese, Simplified - zh    Chinese, Traditional - zh_TW    English - en    French - fr    German - de    Indonesian - id    Italian - it    Japanese - ja    Korean - ko    Portuguese, Brazilian - pt_BR    Spanish - es
         public let language: String?
 
+        @inlinable
         public init(checkId: String, language: String? = nil) {
             self.checkId = checkId
             self.language = language
@@ -700,6 +730,7 @@ extension Support {
         /// The detailed results of the Trusted Advisor check.
         public let result: TrustedAdvisorCheckResult?
 
+        @inlinable
         public init(result: TrustedAdvisorCheckResult? = nil) {
             self.result = result
         }
@@ -713,6 +744,7 @@ extension Support {
         /// The IDs of the Trusted Advisor checks.
         public let checkIds: [String]
 
+        @inlinable
         public init(checkIds: [String]) {
             self.checkIds = checkIds
         }
@@ -726,6 +758,7 @@ extension Support {
         /// The summary information for the requested Trusted Advisor checks.
         public let summaries: [TrustedAdvisorCheckSummary]
 
+        @inlinable
         public init(summaries: [TrustedAdvisorCheckSummary]) {
             self.summaries = summaries
         }
@@ -739,6 +772,7 @@ extension Support {
         /// The ISO 639-1 code for the language that you want your checks to appear in. The Amazon Web Services Support API currently supports the following languages for Trusted Advisor:   Chinese, Simplified - zh    Chinese, Traditional - zh_TW    English - en    French - fr    German - de    Indonesian - id    Italian - it    Japanese - ja    Korean - ko    Portuguese, Brazilian - pt_BR    Spanish - es
         public let language: String
 
+        @inlinable
         public init(language: String) {
             self.language = language
         }
@@ -752,6 +786,7 @@ extension Support {
         /// Information about all available Trusted Advisor checks.
         public let checks: [TrustedAdvisorCheckDescription]
 
+        @inlinable
         public init(checks: [TrustedAdvisorCheckDescription]) {
             self.checks = checks
         }
@@ -767,6 +802,7 @@ extension Support {
         /// A resumption point for pagination.
         public let nextToken: String?
 
+        @inlinable
         public init(communications: [Communication]? = nil, nextToken: String? = nil) {
             self.communications = communications
             self.nextToken = nextToken
@@ -782,6 +818,7 @@ extension Support {
         /// The unique identifier for the Trusted Advisor check to refresh.  Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
         public let checkId: String
 
+        @inlinable
         public init(checkId: String) {
             self.checkId = checkId
         }
@@ -795,6 +832,7 @@ extension Support {
         /// The current refresh status for a check, including the amount of time until the check is eligible for refresh.
         public let status: TrustedAdvisorCheckRefreshStatus
 
+        @inlinable
         public init(status: TrustedAdvisorCheckRefreshStatus) {
             self.status = status
         }
@@ -808,6 +846,7 @@ extension Support {
         /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
 
+        @inlinable
         public init(caseId: String? = nil) {
             self.caseId = caseId
         }
@@ -823,6 +862,7 @@ extension Support {
         /// The status of the case when the ResolveCase request was sent.
         public let initialCaseStatus: String?
 
+        @inlinable
         public init(finalCaseStatus: String? = nil, initialCaseStatus: String? = nil) {
             self.finalCaseStatus = finalCaseStatus
             self.initialCaseStatus = initialCaseStatus
@@ -842,6 +882,7 @@ extension Support {
         /// The friendly name for an Amazon Web Services service. The code element contains the corresponding code.
         public let name: String?
 
+        @inlinable
         public init(categories: [Category]? = nil, code: String? = nil, name: String? = nil) {
             self.categories = categories
             self.code = code
@@ -861,6 +902,7 @@ extension Support {
         /// The name of the severity level that corresponds to the severity level code.  The values returned by the API are different from the values that appear in the Amazon Web Services Support Center. For example, the API uses the code low, but the name appears as General guidance in Support Center.  The following are the API code names and how they appear in the console:    low - General guidance    normal - System impaired    high - Production system impaired    urgent - Production system down    critical - Business-critical system down    For more information, see Choosing a severity in the Amazon Web Services Support User Guide.
         public let name: String?
 
+        @inlinable
         public init(code: String? = nil, name: String? = nil) {
             self.code = code
             self.name = name
@@ -878,6 +920,7 @@ extension Support {
         ///  Start Time. RFC 3339 format 'HH:mm:ss.SSS'.
         public let startTime: String?
 
+        @inlinable
         public init(endTime: String? = nil, startTime: String? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -897,6 +940,7 @@ extension Support {
         ///  Full language description e.g. ENGLISH
         public let language: String?
 
+        @inlinable
         public init(code: String? = nil, display: String? = nil, language: String? = nil) {
             self.code = code
             self.display = display
@@ -914,6 +958,7 @@ extension Support {
         /// The summary information about cost savings for a Trusted Advisor check that is in the Cost Optimizing category.
         public let costOptimizing: TrustedAdvisorCostOptimizingSummary?
 
+        @inlinable
         public init(costOptimizing: TrustedAdvisorCostOptimizingSummary? = nil) {
             self.costOptimizing = costOptimizing
         }
@@ -935,6 +980,7 @@ extension Support {
         /// The display name for the Trusted Advisor check.
         public let name: String
 
+        @inlinable
         public init(category: String, description: String, id: String, metadata: [String], name: String) {
             self.category = category
             self.description = description
@@ -960,6 +1006,7 @@ extension Support {
         /// The status of the Trusted Advisor check for which a refresh has been requested:     none - The check is not refreshed or the non-success status exceeds the timeout    enqueued - The check refresh requests has entered the refresh queue    processing - The check refresh request is picked up by the rule processing engine    success - The check is successfully refreshed    abandoned - The check refresh has failed
         public let status: String
 
+        @inlinable
         public init(checkId: String, millisUntilNextRefreshable: Int64, status: String) {
             self.checkId = checkId
             self.millisUntilNextRefreshable = millisUntilNextRefreshable
@@ -986,6 +1033,7 @@ extension Support {
         /// The time of the last refresh of the check.
         public let timestamp: String
 
+        @inlinable
         public init(categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, checkId: String, flaggedResources: [TrustedAdvisorResourceDetail], resourcesSummary: TrustedAdvisorResourcesSummary, status: String, timestamp: String) {
             self.categorySpecificSummary = categorySpecificSummary
             self.checkId = checkId
@@ -1018,6 +1066,7 @@ extension Support {
         /// The time of the last refresh of the check.
         public let timestamp: String
 
+        @inlinable
         public init(categorySpecificSummary: TrustedAdvisorCategorySpecificSummary, checkId: String, hasFlaggedResources: Bool? = nil, resourcesSummary: TrustedAdvisorResourcesSummary, status: String, timestamp: String) {
             self.categorySpecificSummary = categorySpecificSummary
             self.checkId = checkId
@@ -1043,6 +1092,7 @@ extension Support {
         /// The estimated percentage of savings that might be realized if the recommended operations are taken.
         public let estimatedPercentMonthlySavings: Double
 
+        @inlinable
         public init(estimatedMonthlySavings: Double, estimatedPercentMonthlySavings: Double) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.estimatedPercentMonthlySavings = estimatedPercentMonthlySavings
@@ -1066,6 +1116,7 @@ extension Support {
         /// The status code for the resource identified in the Trusted Advisor check.
         public let status: String
 
+        @inlinable
         public init(isSuppressed: Bool? = nil, metadata: [String], region: String? = nil, resourceId: String, status: String) {
             self.isSuppressed = isSuppressed
             self.metadata = metadata
@@ -1093,6 +1144,7 @@ extension Support {
         /// The number of Amazon Web Services resources ignored by Trusted Advisor because they were marked as suppressed by the user.
         public let resourcesSuppressed: Int64
 
+        @inlinable
         public init(resourcesFlagged: Int64, resourcesIgnored: Int64, resourcesProcessed: Int64, resourcesSuppressed: Int64) {
             self.resourcesFlagged = resourcesFlagged
             self.resourcesIgnored = resourcesIgnored

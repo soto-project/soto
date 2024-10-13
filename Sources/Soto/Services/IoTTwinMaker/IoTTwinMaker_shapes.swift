@@ -476,6 +476,7 @@ extension IoTTwinMaker {
         /// The error message.
         public let errorMessage: String
 
+        @inlinable
         public init(entry: PropertyValueEntry, errorCode: String, errorMessage: String) {
             self.entry = entry
             self.errorCode = errorCode
@@ -493,6 +494,7 @@ extension IoTTwinMaker {
         /// A list of objects that contain information about errors returned by the BatchPutProperty action.
         public let errors: [BatchPutPropertyError]
 
+        @inlinable
         public init(errors: [BatchPutPropertyError]) {
             self.errors = errors
         }
@@ -508,6 +510,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the properties to set.
         public let workspaceId: String
 
+        @inlinable
         public init(entries: [PropertyValueEntry], workspaceId: String) {
             self.entries = entries
             self.workspaceId = workspaceId
@@ -540,6 +543,7 @@ extension IoTTwinMaker {
         /// Entries that caused errors in the batch put operation.
         public let errorEntries: [BatchPutPropertyErrorEntry]
 
+        @inlinable
         public init(errorEntries: [BatchPutPropertyErrorEntry]) {
             self.errorEntries = errorEntries
         }
@@ -555,6 +559,7 @@ extension IoTTwinMaker {
         /// The pricing tier.
         public let pricingTier: PricingTier?
 
+        @inlinable
         public init(bundleNames: [String], pricingTier: PricingTier? = nil) {
             self.bundleNames = bundleNames
             self.pricingTier = pricingTier
@@ -570,6 +575,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job Id.
         public let metadataTransferJobId: String
 
+        @inlinable
         public init(metadataTransferJobId: String) {
             self.metadataTransferJobId = metadataTransferJobId
         }
@@ -601,6 +607,7 @@ extension IoTTwinMaker {
         /// Used to update the DateTime property.
         public let updateDateTime: Date
 
+        @inlinable
         public init(arn: String, metadataTransferJobId: String, progress: MetadataTransferJobProgress? = nil, status: MetadataTransferJobStatus, updateDateTime: Date) {
             self.arn = arn
             self.metadataTransferJobId = metadataTransferJobId
@@ -624,6 +631,7 @@ extension IoTTwinMaker {
         /// The type of the column description.
         public let type: ColumnType?
 
+        @inlinable
         public init(name: String? = nil, type: ColumnType? = nil) {
             self.name = name
             self.type = type
@@ -643,6 +651,7 @@ extension IoTTwinMaker {
         /// The update type.
         public let updateType: PropertyGroupUpdateType?
 
+        @inlinable
         public init(groupType: GroupType? = nil, propertyNames: [String]? = nil, updateType: PropertyGroupUpdateType? = nil) {
             self.groupType = groupType
             self.propertyNames = propertyNames
@@ -672,6 +681,7 @@ extension IoTTwinMaker {
         /// The names of properties
         public let propertyNames: [String]
 
+        @inlinable
         public init(groupType: GroupType, isInherited: Bool, propertyNames: [String]) {
             self.groupType = groupType
             self.isInherited = isInherited
@@ -695,6 +705,7 @@ extension IoTTwinMaker {
         /// The property groups.
         public let propertyGroups: [String: ComponentPropertyGroupRequest]?
 
+        @inlinable
         public init(componentTypeId: String? = nil, description: String? = nil, properties: [String: PropertyRequest]? = nil, propertyGroups: [String: ComponentPropertyGroupRequest]? = nil) {
             self.componentTypeId = componentTypeId
             self.description = description
@@ -754,6 +765,7 @@ extension IoTTwinMaker {
         /// The syncSource of the sync job, if this entity was created by a sync job.
         public let syncSource: String?
 
+        @inlinable
         public init(areAllCompositeComponentsReturned: Bool? = nil, areAllPropertiesReturned: Bool? = nil, componentName: String? = nil, componentTypeId: String? = nil, compositeComponents: [String: ComponentSummary]? = nil, definedIn: String? = nil, description: String? = nil, properties: [String: PropertyResponse]? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil) {
             self.areAllCompositeComponentsReturned = areAllCompositeComponentsReturned
             self.areAllPropertiesReturned = areAllPropertiesReturned
@@ -801,6 +813,7 @@ extension IoTTwinMaker {
         /// The syncSource of the sync job, if this entity was created by a sync job.
         public let syncSource: String?
 
+        @inlinable
         public init(componentName: String, componentPath: String? = nil, componentTypeId: String, definedIn: String? = nil, description: String? = nil, propertyGroups: [String: ComponentPropertyGroupResponse]? = nil, status: Status, syncSource: String? = nil) {
             self.componentName = componentName
             self.componentPath = componentPath
@@ -840,6 +853,7 @@ extension IoTTwinMaker {
         /// The date and time when the component type was last updated.
         public let updateDateTime: Date
 
+        @inlinable
         public init(arn: String, componentTypeId: String, componentTypeName: String? = nil, creationDateTime: Date, description: String? = nil, status: Status? = nil, updateDateTime: Date) {
             self.arn = arn
             self.componentTypeId = componentTypeId
@@ -873,6 +887,7 @@ extension IoTTwinMaker {
         /// The update type of the component update request.
         public let updateType: ComponentUpdateType?
 
+        @inlinable
         public init(componentTypeId: String? = nil, description: String? = nil, propertyGroupUpdates: [String: ComponentPropertyGroupRequest]? = nil, propertyUpdates: [String: PropertyRequest]? = nil, updateType: ComponentUpdateType? = nil) {
             self.componentTypeId = componentTypeId
             self.description = description
@@ -918,6 +933,7 @@ extension IoTTwinMaker {
         /// The property groups.
         public let propertyGroups: [String: ComponentPropertyGroupRequest]?
 
+        @inlinable
         public init(description: String? = nil, properties: [String: PropertyRequest]? = nil, propertyGroups: [String: ComponentPropertyGroupRequest]? = nil) {
             self.description = description
             self.properties = properties
@@ -952,6 +968,7 @@ extension IoTTwinMaker {
         /// This is the componentTypeId that the compositeComponentType refers to.
         public let componentTypeId: String?
 
+        @inlinable
         public init(componentTypeId: String? = nil) {
             self.componentTypeId = componentTypeId
         }
@@ -973,6 +990,7 @@ extension IoTTwinMaker {
         /// This boolean indicates whether this compositeComponentType is inherited from its parent.
         public let isInherited: Bool?
 
+        @inlinable
         public init(componentTypeId: String? = nil, isInherited: Bool? = nil) {
             self.componentTypeId = componentTypeId
             self.isInherited = isInherited
@@ -994,6 +1012,7 @@ extension IoTTwinMaker {
         /// The update type of the component update request.
         public let updateType: ComponentUpdateType?
 
+        @inlinable
         public init(description: String? = nil, propertyGroupUpdates: [String: ComponentPropertyGroupRequest]? = nil, propertyUpdates: [String: PropertyRequest]? = nil, updateType: ComponentUpdateType? = nil) {
             self.description = description
             self.propertyGroupUpdates = propertyGroupUpdates
@@ -1049,6 +1068,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
+        @inlinable
         public init(componentTypeId: String, componentTypeName: String? = nil, compositeComponentTypes: [String: CompositeComponentTypeRequest]? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.componentTypeName = componentTypeName
@@ -1151,6 +1171,7 @@ extension IoTTwinMaker {
         /// The current state of the component type.
         public let state: State
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, state: State) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1182,6 +1203,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the entity.
         public let workspaceId: String
 
+        @inlinable
         public init(components: [String: ComponentRequest]? = nil, compositeComponents: [String: CompositeComponentRequest]? = nil, description: String? = nil, entityId: String? = nil, entityName: String, parentEntityId: String? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.components = components
             self.compositeComponents = compositeComponents
@@ -1265,6 +1287,7 @@ extension IoTTwinMaker {
         /// The current state of the entity.
         public let state: State
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, entityId: String, state: State) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1290,6 +1313,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job sources.
         public let sources: [SourceConfiguration]
 
+        @inlinable
         public init(description: String? = nil, destination: DestinationConfiguration, metadataTransferJobId: String? = nil, sources: [SourceConfiguration]) {
             self.description = description
             self.destination = destination
@@ -1329,6 +1353,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job response status.
         public let status: MetadataTransferJobStatus
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, metadataTransferJobId: String, status: MetadataTransferJobStatus) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1360,6 +1385,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
+        @inlinable
         public init(capabilities: [String]? = nil, contentLocation: String, description: String? = nil, sceneId: String, sceneMetadata: [String: String]? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.capabilities = capabilities
             self.contentLocation = contentLocation
@@ -1433,6 +1459,7 @@ extension IoTTwinMaker {
         /// The date and time when the scene was created.
         public let creationDateTime: Date
 
+        @inlinable
         public init(arn: String, creationDateTime: Date) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1454,6 +1481,7 @@ extension IoTTwinMaker {
         /// The workspace ID.
         public let workspaceId: String
 
+        @inlinable
         public init(syncRole: String, syncSource: String, tags: [String: String]? = nil, workspaceId: String) {
             self.syncRole = syncRole
             self.syncSource = syncSource
@@ -1503,6 +1531,7 @@ extension IoTTwinMaker {
         /// The SyncJob response state.
         public let state: SyncJobState
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, state: SyncJobState) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1528,6 +1557,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(description: String? = nil, role: String? = nil, s3Location: String? = nil, tags: [String: String]? = nil, workspaceId: String) {
             self.description = description
             self.role = role
@@ -1582,6 +1612,7 @@ extension IoTTwinMaker {
         /// The date and time when the workspace was created.
         public let creationDateTime: Date
 
+        @inlinable
         public init(arn: String, creationDateTime: Date) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -1599,6 +1630,7 @@ extension IoTTwinMaker {
         /// The Lambda function associated with this data connector.
         public let lambda: LambdaFunction?
 
+        @inlinable
         public init(isNative: Bool? = nil, lambda: LambdaFunction? = nil) {
             self.isNative = isNative
             self.lambda = lambda
@@ -1626,6 +1658,7 @@ extension IoTTwinMaker {
         /// The unit of measure used in this data type.
         public let unitOfMeasure: String?
 
+        @inlinable
         public init(allowedValues: [DataValue]? = nil, nestedType: DataType? = nil, relationship: Relationship? = nil, type: `Type`, unitOfMeasure: String? = nil) {
             self.allowedValues = allowedValues
             self.nestedType = nestedType
@@ -1675,6 +1708,7 @@ extension IoTTwinMaker {
         /// A string value.
         public let stringValue: String?
 
+        @inlinable
         public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, expression: String? = nil, integerValue: Int? = nil, listValue: [DataValue]? = nil, longValue: Int64? = nil, mapValue: [String: DataValue]? = nil, relationshipValue: RelationshipValue? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
@@ -1727,6 +1761,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
+        @inlinable
         public init(componentTypeId: String, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.workspaceId = workspaceId
@@ -1755,6 +1790,7 @@ extension IoTTwinMaker {
         /// The current state of the component type to be deleted.
         public let state: State
 
+        @inlinable
         public init(state: State) {
             self.state = state
         }
@@ -1772,6 +1808,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the entity to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(entityId: String, isRecursive: Bool? = nil, workspaceId: String) {
             self.entityId = entityId
             self.isRecursive = isRecursive
@@ -1802,6 +1839,7 @@ extension IoTTwinMaker {
         /// The current state of the deleted entity.
         public let state: State
 
+        @inlinable
         public init(state: State) {
             self.state = state
         }
@@ -1817,6 +1855,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(sceneId: String, workspaceId: String) {
             self.sceneId = sceneId
             self.workspaceId = workspaceId
@@ -1851,6 +1890,7 @@ extension IoTTwinMaker {
         /// The workspace ID.
         public let workspaceId: String
 
+        @inlinable
         public init(syncSource: String, workspaceId: String) {
             self.syncSource = syncSource
             self.workspaceId = workspaceId
@@ -1877,6 +1917,7 @@ extension IoTTwinMaker {
         /// The SyncJob response state.
         public let state: SyncJobState
 
+        @inlinable
         public init(state: SyncJobState) {
             self.state = state
         }
@@ -1890,6 +1931,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace to delete.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -1913,6 +1955,7 @@ extension IoTTwinMaker {
         /// The string that specifies the delete result for the workspace.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -1930,6 +1973,7 @@ extension IoTTwinMaker {
         /// The destination type.
         public let type: DestinationType
 
+        @inlinable
         public init(iotTwinMakerConfiguration: IotTwinMakerDestinationConfiguration? = nil, s3Configuration: S3DestinationConfiguration? = nil, type: DestinationType) {
             self.iotTwinMakerConfiguration = iotTwinMakerConfiguration
             self.s3Configuration = s3Configuration
@@ -1960,6 +2004,7 @@ extension IoTTwinMaker {
         /// The name of the property.
         public let propertyName: String
 
+        @inlinable
         public init(componentName: String? = nil, componentPath: String? = nil, entityId: String? = nil, externalIdProperty: [String: String]? = nil, propertyName: String) {
             self.componentName = componentName
             self.componentPath = componentPath
@@ -2020,6 +2065,7 @@ extension IoTTwinMaker {
         /// The last date and time when the entity was updated.
         public let updateDateTime: Date
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, description: String? = nil, entityId: String, entityName: String, hasChildEntities: Bool? = nil, parentEntityId: String? = nil, status: Status, updateDateTime: Date) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -2051,6 +2097,7 @@ extension IoTTwinMaker {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(code: ErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -2072,6 +2119,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, queryStatement: String, workspaceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2108,6 +2156,7 @@ extension IoTTwinMaker {
         /// Represents a single row in the query results.
         public let rows: [Row]?
 
+        @inlinable
         public init(columnDescriptions: [ColumnDescription]? = nil, nextToken: String? = nil, rows: [Row]? = nil) {
             self.columnDescriptions = columnDescriptions
             self.nextToken = nextToken
@@ -2131,6 +2180,7 @@ extension IoTTwinMaker {
         /// Includes sub-assets.[need description hekp for this]
         public let includeOffspring: Bool?
 
+        @inlinable
         public init(assetExternalId: String? = nil, assetId: String? = nil, includeAssetModel: Bool? = nil, includeOffspring: Bool? = nil) {
             self.assetExternalId = assetExternalId
             self.assetId = assetId
@@ -2165,6 +2215,7 @@ extension IoTTwinMaker {
         /// Include asset offspring. [need desc.]
         public let includeOffspring: Bool?
 
+        @inlinable
         public init(assetModelExternalId: String? = nil, assetModelId: String? = nil, includeAssets: Bool? = nil, includeOffspring: Bool? = nil) {
             self.assetModelExternalId = assetModelExternalId
             self.assetModelId = assetModelId
@@ -2193,6 +2244,7 @@ extension IoTTwinMaker {
         /// The component type Id.
         public let componentTypeId: String
 
+        @inlinable
         public init(componentTypeId: String) {
             self.componentTypeId = componentTypeId
         }
@@ -2212,6 +2264,7 @@ extension IoTTwinMaker {
         /// The entity Id.
         public let entityId: String
 
+        @inlinable
         public init(entityId: String) {
             self.entityId = entityId
         }
@@ -2235,6 +2288,7 @@ extension IoTTwinMaker {
         /// The scope of the function.
         public let scope: Scope?
 
+        @inlinable
         public init(implementedBy: DataConnector? = nil, requiredProperties: [String]? = nil, scope: Scope? = nil) {
             self.implementedBy = implementedBy
             self.requiredProperties = requiredProperties
@@ -2267,6 +2321,7 @@ extension IoTTwinMaker {
         /// The scope of the function.
         public let scope: Scope?
 
+        @inlinable
         public init(implementedBy: DataConnector? = nil, isInherited: Bool? = nil, requiredProperties: [String]? = nil, scope: Scope? = nil) {
             self.implementedBy = implementedBy
             self.isInherited = isInherited
@@ -2288,6 +2343,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
+        @inlinable
         public init(componentTypeId: String, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.workspaceId = workspaceId
@@ -2348,6 +2404,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, componentTypeId: String, componentTypeName: String? = nil, compositeComponentTypes: [String: CompositeComponentTypeResponse]? = nil, creationDateTime: Date, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionResponse]? = nil, isAbstract: Bool? = nil, isSchemaInitialized: Bool? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionResponse]? = nil, propertyGroups: [String: PropertyGroupResponse]? = nil, status: Status? = nil, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.componentTypeId = componentTypeId
@@ -2395,6 +2452,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(entityId: String, workspaceId: String) {
             self.entityId = entityId
             self.workspaceId = workspaceId
@@ -2447,6 +2505,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(areAllComponentsReturned: Bool? = nil, arn: String, components: [String: ComponentResponse]? = nil, creationDateTime: Date, description: String? = nil, entityId: String, entityName: String, hasChildEntities: Bool, parentEntityId: String, status: Status, syncSource: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.areAllComponentsReturned = areAllComponentsReturned
             self.arn = arn
@@ -2484,6 +2543,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job Id.
         public let metadataTransferJobId: String
 
+        @inlinable
         public init(metadataTransferJobId: String) {
             self.metadataTransferJobId = metadataTransferJobId
         }
@@ -2527,6 +2587,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job's update DateTime property.
         public let updateDateTime: Date
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, description: String? = nil, destination: DestinationConfiguration, metadataTransferJobId: String, metadataTransferJobRole: String, progress: MetadataTransferJobProgress? = nil, reportUrl: String? = nil, sources: [SourceConfiguration], status: MetadataTransferJobStatus, updateDateTime: Date) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -2566,6 +2627,7 @@ extension IoTTwinMaker {
         /// The pending pricing plan.
         public let pendingPricingPlan: PricingPlan?
 
+        @inlinable
         public init(currentPricingPlan: PricingPlan, pendingPricingPlan: PricingPlan? = nil) {
             self.currentPricingPlan = currentPricingPlan
             self.pendingPricingPlan = pendingPricingPlan
@@ -2609,6 +2671,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(componentName: String? = nil, componentPath: String? = nil, componentTypeId: String? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startTime: String? = nil, workspaceId: String) {
             self.componentName = componentName
             self.componentPath = componentPath
@@ -2628,6 +2691,7 @@ extension IoTTwinMaker {
         }
 
         @available(*, deprecated, message: "Members endDateTime, startDateTime have been deprecated")
+        @inlinable
         public init(componentName: String? = nil, componentPath: String? = nil, componentTypeId: String? = nil, endDateTime: Date? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startDateTime: Date? = nil, startTime: String? = nil, workspaceId: String) {
             self.componentName = componentName
             self.componentPath = componentPath
@@ -2728,6 +2792,7 @@ extension IoTTwinMaker {
         /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
         public let propertyValues: [PropertyValueHistory]
 
+        @inlinable
         public init(nextToken: String? = nil, propertyValues: [PropertyValueHistory]) {
             self.nextToken = nextToken
             self.propertyValues = propertyValues
@@ -2761,6 +2826,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace whose values the operation returns.
         public let workspaceId: String
 
+        @inlinable
         public init(componentName: String? = nil, componentPath: String? = nil, componentTypeId: String? = nil, entityId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyGroupName: String? = nil, selectedProperties: [String], tabularConditions: TabularConditions? = nil, workspaceId: String) {
             self.componentName = componentName
             self.componentPath = componentPath
@@ -2843,6 +2909,7 @@ extension IoTTwinMaker {
         /// A table of property values.
         public let tabularPropertyValues: [[[String: DataValue]]]?
 
+        @inlinable
         public init(nextToken: String? = nil, propertyValues: [String: PropertyLatestValue]? = nil, tabularPropertyValues: [[[String: DataValue]]]? = nil) {
             self.nextToken = nextToken
             self.propertyValues = propertyValues
@@ -2862,6 +2929,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
+        @inlinable
         public init(sceneId: String, workspaceId: String) {
             self.sceneId = sceneId
             self.workspaceId = workspaceId
@@ -2910,6 +2978,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, capabilities: [String]? = nil, contentLocation: String, creationDateTime: Date, description: String? = nil, error: SceneError? = nil, generatedSceneMetadata: [String: String]? = nil, sceneId: String, sceneMetadata: [String: String]? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.capabilities = capabilities
@@ -2945,6 +3014,7 @@ extension IoTTwinMaker {
         /// The workspace ID.
         public let workspaceId: String?
 
+        @inlinable
         public init(syncSource: String, workspaceId: String? = nil) {
             self.syncSource = syncSource
             self.workspaceId = workspaceId
@@ -2983,6 +3053,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the sync job.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, status: SyncJobStatus, syncRole: String, syncSource: String, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -3008,6 +3079,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -3045,6 +3117,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, description: String? = nil, linkedServices: [String]? = nil, role: String? = nil, s3Location: String? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -3074,6 +3147,7 @@ extension IoTTwinMaker {
         /// The interpolation time interval in seconds.
         public let intervalInSeconds: Int64?
 
+        @inlinable
         public init(interpolationType: InterpolationType? = nil, intervalInSeconds: Int64? = nil) {
             self.interpolationType = interpolationType
             self.intervalInSeconds = intervalInSeconds
@@ -3089,6 +3163,7 @@ extension IoTTwinMaker {
         /// The AWS IoT SiteWise soucre configuration filters.
         public let filters: [IotSiteWiseSourceConfigurationFilter]?
 
+        @inlinable
         public init(filters: [IotSiteWiseSourceConfigurationFilter]? = nil) {
             self.filters = filters
         }
@@ -3108,6 +3183,7 @@ extension IoTTwinMaker {
         /// The IoT TwinMaker workspace.
         public let workspace: String
 
+        @inlinable
         public init(workspace: String) {
             self.workspace = workspace
         }
@@ -3129,6 +3205,7 @@ extension IoTTwinMaker {
         /// The IoT TwinMaker workspace.
         public let workspace: String
 
+        @inlinable
         public init(filters: [IotTwinMakerSourceConfigurationFilter]? = nil, workspace: String) {
             self.filters = filters
             self.workspace = workspace
@@ -3153,6 +3230,7 @@ extension IoTTwinMaker {
         /// The ARN of the Lambda function.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -3178,6 +3256,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(filters: [ListComponentTypesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3224,6 +3303,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(componentTypeSummaries: [ComponentTypeSummary], maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.componentTypeSummaries = componentTypeSummaries
             self.maxResults = maxResults
@@ -3251,6 +3331,7 @@ extension IoTTwinMaker {
         /// The workspace ID.
         public let workspaceId: String
 
+        @inlinable
         public init(componentPath: String? = nil, entityId: String, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.componentPath = componentPath
             self.entityId = entityId
@@ -3298,6 +3379,7 @@ extension IoTTwinMaker {
         /// The string that specifies the next page of component results.
         public let nextToken: String?
 
+        @inlinable
         public init(componentSummaries: [ComponentSummary], nextToken: String? = nil) {
             self.componentSummaries = componentSummaries
             self.nextToken = nextToken
@@ -3319,6 +3401,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(filters: [ListEntitiesFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3361,6 +3444,7 @@ extension IoTTwinMaker {
         /// The string that specifies the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(entitySummaries: [EntitySummary]? = nil, nextToken: String? = nil) {
             self.entitySummaries = entitySummaries
             self.nextToken = nextToken
@@ -3384,6 +3468,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job's source type.
         public let sourceType: SourceType
 
+        @inlinable
         public init(destinationType: DestinationType, filters: [ListMetadataTransferJobsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sourceType: SourceType) {
             self.destinationType = destinationType
             self.filters = filters
@@ -3417,6 +3502,7 @@ extension IoTTwinMaker {
         /// The string that specifies the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(metadataTransferJobSummaries: [MetadataTransferJobSummary], nextToken: String? = nil) {
             self.metadataTransferJobSummaries = metadataTransferJobSummaries
             self.nextToken = nextToken
@@ -3442,6 +3528,7 @@ extension IoTTwinMaker {
         /// The workspace ID.
         public let workspaceId: String
 
+        @inlinable
         public init(componentName: String? = nil, componentPath: String? = nil, entityId: String, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.componentName = componentName
             self.componentPath = componentPath
@@ -3496,6 +3583,7 @@ extension IoTTwinMaker {
         /// A list of objects that contain information about the properties.
         public let propertySummaries: [PropertySummary]
 
+        @inlinable
         public init(nextToken: String? = nil, propertySummaries: [PropertySummary]) {
             self.nextToken = nextToken
             self.propertySummaries = propertySummaries
@@ -3515,6 +3603,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the scenes.
         public let workspaceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3551,6 +3640,7 @@ extension IoTTwinMaker {
         /// A list of objects that contain information about the scenes.
         public let sceneSummaries: [SceneSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, sceneSummaries: [SceneSummary]? = nil) {
             self.nextToken = nextToken
             self.sceneSummaries = sceneSummaries
@@ -3570,6 +3660,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the sync job.
         public let workspaceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3606,6 +3697,7 @@ extension IoTTwinMaker {
         /// The listed SyncJob summaries.
         public let syncJobSummaries: [SyncJobSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, syncJobSummaries: [SyncJobSummary]? = nil) {
             self.nextToken = nextToken
             self.syncJobSummaries = syncJobSummaries
@@ -3629,6 +3721,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the sync job.
         public let workspaceId: String
 
+        @inlinable
         public init(filters: [SyncResourceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, syncSource: String, workspaceId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3674,6 +3767,7 @@ extension IoTTwinMaker {
         /// The sync resources.
         public let syncResources: [SyncResourceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, syncResources: [SyncResourceSummary]? = nil) {
             self.nextToken = nextToken
             self.syncResources = syncResources
@@ -3693,6 +3787,7 @@ extension IoTTwinMaker {
         /// The ARN of the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3722,6 +3817,7 @@ extension IoTTwinMaker {
         /// Metadata that you can use to manage a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -3739,6 +3835,7 @@ extension IoTTwinMaker {
         /// The string that specifies the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3763,6 +3860,7 @@ extension IoTTwinMaker {
         /// A list of objects that contain information about the workspaces.
         public let workspaceSummaries: [WorkspaceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workspaceSummaries: [WorkspaceSummary]? = nil) {
             self.nextToken = nextToken
             self.workspaceSummaries = workspaceSummaries
@@ -3784,6 +3882,7 @@ extension IoTTwinMaker {
         /// The total count. [of what]
         public let totalCount: Int?
 
+        @inlinable
         public init(failedCount: Int? = nil, skippedCount: Int? = nil, succeededCount: Int? = nil, totalCount: Int? = nil) {
             self.failedCount = failedCount
             self.skippedCount = skippedCount
@@ -3807,6 +3906,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job state.
         public let state: MetadataTransferJobState?
 
+        @inlinable
         public init(error: ErrorDetails? = nil, queuedPosition: Int? = nil, state: MetadataTransferJobState? = nil) {
             self.error = error
             self.queuedPosition = queuedPosition
@@ -3834,6 +3934,7 @@ extension IoTTwinMaker {
         /// The metadata transfer job summary update DateTime object
         public let updateDateTime: Date
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, metadataTransferJobId: String, progress: MetadataTransferJobProgress? = nil, status: MetadataTransferJobStatus, updateDateTime: Date) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -3859,6 +3960,7 @@ extension IoTTwinMaker {
         /// The property name.
         public let propertyName: String
 
+        @inlinable
         public init(order: Order? = nil, propertyName: String) {
             self.order = order
             self.propertyName = propertyName
@@ -3882,6 +3984,7 @@ extension IoTTwinMaker {
         /// The type of the update.
         public let updateType: ParentEntityUpdateType
 
+        @inlinable
         public init(parentEntityId: String? = nil, updateType: ParentEntityUpdateType) {
             self.parentEntityId = parentEntityId
             self.updateType = updateType
@@ -3913,6 +4016,7 @@ extension IoTTwinMaker {
         /// The update reason for changing a pricing plan.
         public let updateReason: UpdateReason
 
+        @inlinable
         public init(billableEntityCount: Int64? = nil, bundleInformation: BundleInformation? = nil, effectiveDateTime: Date, pricingMode: PricingMode, updateDateTime: Date, updateReason: UpdateReason) {
             self.billableEntityCount = billableEntityCount
             self.bundleInformation = bundleInformation
@@ -3950,6 +4054,7 @@ extension IoTTwinMaker {
         /// A Boolean value that specifies whether the property consists of time series data.
         public let isTimeSeries: Bool?
 
+        @inlinable
         public init(configuration: [String: String]? = nil, dataType: DataType? = nil, defaultValue: DataValue? = nil, displayName: String? = nil, isExternalId: Bool? = nil, isRequiredInEntity: Bool? = nil, isStoredExternally: Bool? = nil, isTimeSeries: Bool? = nil) {
             self.configuration = configuration
             self.dataType = dataType
@@ -4010,6 +4115,7 @@ extension IoTTwinMaker {
         /// A Boolean value that specifies whether the property consists of time series data.
         public let isTimeSeries: Bool
 
+        @inlinable
         public init(configuration: [String: String]? = nil, dataType: DataType, defaultValue: DataValue? = nil, displayName: String? = nil, isExternalId: Bool, isFinal: Bool, isImported: Bool, isInherited: Bool, isRequiredInEntity: Bool, isStoredExternally: Bool, isTimeSeries: Bool) {
             self.configuration = configuration
             self.dataType = dataType
@@ -4047,6 +4153,7 @@ extension IoTTwinMaker {
         /// The value associated with this property filter.
         public let value: DataValue?
 
+        @inlinable
         public init(operator: String? = nil, propertyName: String? = nil, value: DataValue? = nil) {
             self.`operator` = `operator`
             self.propertyName = propertyName
@@ -4076,6 +4183,7 @@ extension IoTTwinMaker {
         /// The names of properties.
         public let propertyNames: [String]?
 
+        @inlinable
         public init(groupType: GroupType? = nil, propertyNames: [String]? = nil) {
             self.groupType = groupType
             self.propertyNames = propertyNames
@@ -4103,6 +4211,7 @@ extension IoTTwinMaker {
         /// The names of properties.
         public let propertyNames: [String]
 
+        @inlinable
         public init(groupType: GroupType, isInherited: Bool, propertyNames: [String]) {
             self.groupType = groupType
             self.isInherited = isInherited
@@ -4122,6 +4231,7 @@ extension IoTTwinMaker {
         /// The value of the property.
         public let propertyValue: DataValue?
 
+        @inlinable
         public init(propertyReference: EntityPropertyReference, propertyValue: DataValue? = nil) {
             self.propertyReference = propertyReference
             self.propertyValue = propertyValue
@@ -4141,6 +4251,7 @@ extension IoTTwinMaker {
         /// The value of the property.
         public let value: DataValue?
 
+        @inlinable
         public init(definition: PropertyDefinitionRequest? = nil, updateType: PropertyUpdateType? = nil, value: DataValue? = nil) {
             self.definition = definition
             self.updateType = updateType
@@ -4167,6 +4278,7 @@ extension IoTTwinMaker {
         /// The value of the property.
         public let value: DataValue?
 
+        @inlinable
         public init(areAllPropertyValuesReturned: Bool? = nil, definition: PropertyDefinitionResponse? = nil, value: DataValue? = nil) {
             self.areAllPropertyValuesReturned = areAllPropertyValuesReturned
             self.definition = definition
@@ -4190,6 +4302,7 @@ extension IoTTwinMaker {
         /// This is the value for the property.
         public let value: DataValue?
 
+        @inlinable
         public init(areAllPropertyValuesReturned: Bool? = nil, definition: PropertyDefinitionResponse? = nil, propertyName: String, value: DataValue? = nil) {
             self.areAllPropertyValuesReturned = areAllPropertyValuesReturned
             self.definition = definition
@@ -4213,6 +4326,7 @@ extension IoTTwinMaker {
         /// An object that specifies a value for a time series property.
         public let value: DataValue
 
+        @inlinable
         public init(time: String? = nil, value: DataValue) {
             self.time = time
             self.timestamp = nil
@@ -4220,6 +4334,7 @@ extension IoTTwinMaker {
         }
 
         @available(*, deprecated, message: "Members timestamp have been deprecated")
+        @inlinable
         public init(time: String? = nil, timestamp: Date? = nil, value: DataValue) {
             self.time = time
             self.timestamp = timestamp
@@ -4245,6 +4360,7 @@ extension IoTTwinMaker {
         /// A list of objects that specify time series property values.
         public let propertyValues: [PropertyValue]?
 
+        @inlinable
         public init(entityPropertyReference: EntityPropertyReference, propertyValues: [PropertyValue]? = nil) {
             self.entityPropertyReference = entityPropertyReference
             self.propertyValues = propertyValues
@@ -4271,6 +4387,7 @@ extension IoTTwinMaker {
         /// A list of objects that contain information about the values in the history of a time series property.
         public let values: [PropertyValue]?
 
+        @inlinable
         public init(entityPropertyReference: EntityPropertyReference, values: [PropertyValue]? = nil) {
             self.entityPropertyReference = entityPropertyReference
             self.values = values
@@ -4288,6 +4405,7 @@ extension IoTTwinMaker {
         /// The ID of the target component type associated with this relationship.
         public let targetComponentTypeId: String?
 
+        @inlinable
         public init(relationshipType: String? = nil, targetComponentTypeId: String? = nil) {
             self.relationshipType = relationshipType
             self.targetComponentTypeId = targetComponentTypeId
@@ -4314,6 +4432,7 @@ extension IoTTwinMaker {
         /// The ID of the target entity associated with this relationship value.
         public let targetEntityId: String?
 
+        @inlinable
         public init(targetComponentName: String? = nil, targetEntityId: String? = nil) {
             self.targetComponentName = targetComponentName
             self.targetEntityId = targetEntityId
@@ -4338,6 +4457,7 @@ extension IoTTwinMaker {
         /// The data in a row of query results.
         public let rowData: [String]?
 
+        @inlinable
         public init(rowData: [String]? = nil) {
             self.rowData = rowData
         }
@@ -4351,6 +4471,7 @@ extension IoTTwinMaker {
         /// The S3 destination configuration location.
         public let location: String
 
+        @inlinable
         public init(location: String) {
             self.location = location
         }
@@ -4368,6 +4489,7 @@ extension IoTTwinMaker {
         /// The S3 destination source configuration location.
         public let location: String
 
+        @inlinable
         public init(location: String) {
             self.location = location
         }
@@ -4387,6 +4509,7 @@ extension IoTTwinMaker {
         /// The SceneError message.
         public let message: String?
 
+        @inlinable
         public init(code: SceneErrorCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -4412,6 +4535,7 @@ extension IoTTwinMaker {
         /// The date and time when the scene was last updated.
         public let updateDateTime: Date
 
+        @inlinable
         public init(arn: String, contentLocation: String, creationDateTime: Date, description: String? = nil, sceneId: String, updateDateTime: Date) {
             self.arn = arn
             self.contentLocation = contentLocation
@@ -4441,6 +4565,7 @@ extension IoTTwinMaker {
         /// The source configuration type.
         public let type: SourceType
 
+        @inlinable
         public init(iotSiteWiseConfiguration: IotSiteWiseSourceConfiguration? = nil, iotTwinMakerConfiguration: IotTwinMakerSourceConfiguration? = nil, s3Configuration: S3SourceConfiguration? = nil, type: SourceType) {
             self.iotSiteWiseConfiguration = iotSiteWiseConfiguration
             self.iotTwinMakerConfiguration = iotTwinMakerConfiguration
@@ -4468,6 +4593,7 @@ extension IoTTwinMaker {
         /// The current state of the entity, component, component type, or workspace.
         public let state: State?
 
+        @inlinable
         public init(error: ErrorDetails? = nil, state: State? = nil) {
             self.error = error
             self.state = state
@@ -4485,6 +4611,7 @@ extension IoTTwinMaker {
         /// The SyncJob status state.
         public let state: SyncJobState?
 
+        @inlinable
         public init(error: ErrorDetails? = nil, state: SyncJobState? = nil) {
             self.error = error
             self.state = state
@@ -4510,6 +4637,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the sync job.
         public let workspaceId: String?
 
+        @inlinable
         public init(arn: String? = nil, creationDateTime: Date? = nil, status: SyncJobStatus? = nil, syncSource: String? = nil, updateDateTime: Date? = nil, workspaceId: String? = nil) {
             self.arn = arn
             self.creationDateTime = creationDateTime
@@ -4535,6 +4663,7 @@ extension IoTTwinMaker {
         /// The sync resource status state.
         public let state: SyncResourceState?
 
+        @inlinable
         public init(error: ErrorDetails? = nil, state: SyncResourceState? = nil) {
             self.error = error
             self.state = state
@@ -4558,6 +4687,7 @@ extension IoTTwinMaker {
         /// The update date and time.
         public let updateDateTime: Date?
 
+        @inlinable
         public init(externalId: String? = nil, resourceId: String? = nil, resourceType: SyncResourceType? = nil, status: SyncResourceStatus? = nil, updateDateTime: Date? = nil) {
             self.externalId = externalId
             self.resourceId = resourceId
@@ -4581,6 +4711,7 @@ extension IoTTwinMaker {
         /// You can filter the request using various logical operators and a key-value format. For example:  {"key": "serverType", "value": "webServer"}
         public let propertyFilters: [PropertyFilter]?
 
+        @inlinable
         public init(orderBy: [OrderBy]? = nil, propertyFilters: [PropertyFilter]? = nil) {
             self.orderBy = orderBy
             self.propertyFilters = propertyFilters
@@ -4611,6 +4742,7 @@ extension IoTTwinMaker {
         /// Metadata to add to this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceARN: String, tags: [String: String]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4647,6 +4779,7 @@ extension IoTTwinMaker {
         /// A list of tag key names to remove from the resource. You don't specify the value. Both the key and its associated value are removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4700,6 +4833,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(componentTypeId: String, componentTypeName: String? = nil, compositeComponentTypes: [String: CompositeComponentTypeRequest]? = nil, description: String? = nil, extendsFrom: [String]? = nil, functions: [String: FunctionRequest]? = nil, isSingleton: Bool? = nil, propertyDefinitions: [String: PropertyDefinitionRequest]? = nil, propertyGroups: [String: PropertyGroupRequest]? = nil, workspaceId: String) {
             self.componentTypeId = componentTypeId
             self.componentTypeName = componentTypeName
@@ -4792,6 +4926,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the component type.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, componentTypeId: String, state: State, workspaceId: String) {
             self.arn = arn
             self.componentTypeId = componentTypeId
@@ -4823,6 +4958,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the entity.
         public let workspaceId: String
 
+        @inlinable
         public init(componentUpdates: [String: ComponentUpdateRequest]? = nil, compositeComponentUpdates: [String: CompositeComponentUpdateRequest]? = nil, description: String? = nil, entityId: String, entityName: String? = nil, parentEntityUpdate: ParentEntityUpdateRequest? = nil, workspaceId: String) {
             self.componentUpdates = componentUpdates
             self.compositeComponentUpdates = compositeComponentUpdates
@@ -4887,6 +5023,7 @@ extension IoTTwinMaker {
         /// The date and time when the entity was last updated.
         public let updateDateTime: Date
 
+        @inlinable
         public init(state: State, updateDateTime: Date) {
             self.state = state
             self.updateDateTime = updateDateTime
@@ -4904,6 +5041,7 @@ extension IoTTwinMaker {
         /// The pricing mode.
         public let pricingMode: PricingMode
 
+        @inlinable
         public init(bundleNames: [String]? = nil, pricingMode: PricingMode) {
             self.bundleNames = bundleNames
             self.pricingMode = pricingMode
@@ -4931,6 +5069,7 @@ extension IoTTwinMaker {
         /// Update the pending pricing plan.
         public let pendingPricingPlan: PricingPlan?
 
+        @inlinable
         public init(currentPricingPlan: PricingPlan, pendingPricingPlan: PricingPlan? = nil) {
             self.currentPricingPlan = currentPricingPlan
             self.pendingPricingPlan = pendingPricingPlan
@@ -4956,6 +5095,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace that contains the scene.
         public let workspaceId: String
 
+        @inlinable
         public init(capabilities: [String]? = nil, contentLocation: String? = nil, description: String? = nil, sceneId: String, sceneMetadata: [String: String]? = nil, workspaceId: String) {
             self.capabilities = capabilities
             self.contentLocation = contentLocation
@@ -5014,6 +5154,7 @@ extension IoTTwinMaker {
         /// The date and time when the scene was last updated.
         public let updateDateTime: Date
 
+        @inlinable
         public init(updateDateTime: Date) {
             self.updateDateTime = updateDateTime
         }
@@ -5033,6 +5174,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(description: String? = nil, role: String? = nil, s3Location: String? = nil, workspaceId: String) {
             self.description = description
             self.role = role
@@ -5073,6 +5215,7 @@ extension IoTTwinMaker {
         /// The date and time of the current update.
         public let updateDateTime: Date
 
+        @inlinable
         public init(updateDateTime: Date) {
             self.updateDateTime = updateDateTime
         }
@@ -5096,6 +5239,7 @@ extension IoTTwinMaker {
         /// The ID of the workspace.
         public let workspaceId: String
 
+        @inlinable
         public init(arn: String, creationDateTime: Date, description: String? = nil, linkedServices: [String]? = nil, updateDateTime: Date, workspaceId: String) {
             self.arn = arn
             self.creationDateTime = creationDateTime

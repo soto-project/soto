@@ -195,6 +195,7 @@ extension MedicalImaging {
         /// The latest version identifier for the destination image set.
         public let latestVersionId: String
 
+        @inlinable
         public init(imageSetId: String, latestVersionId: String) {
             self.imageSetId = imageSetId
             self.latestVersionId = latestVersionId
@@ -227,6 +228,7 @@ extension MedicalImaging {
         /// The timestamp when the destination image set properties were last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState? = nil, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, latestVersionId: String, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.imageSetArn = imageSetArn
@@ -254,6 +256,7 @@ extension MedicalImaging {
         /// The source image set.
         public let sourceImageSet: CopySourceImageSetInformation
 
+        @inlinable
         public init(destinationImageSet: CopyDestinationImageSet? = nil, sourceImageSet: CopySourceImageSetInformation) {
             self.destinationImageSet = destinationImageSet
             self.sourceImageSet = sourceImageSet
@@ -280,6 +283,7 @@ extension MedicalImaging {
         /// The source image set identifier.
         public let sourceImageSetId: String
 
+        @inlinable
         public init(copyImageSetInformation: CopyImageSetInformation, datastoreId: String, force: Bool? = nil, sourceImageSetId: String) {
             self.copyImageSetInformation = copyImageSetInformation
             self.datastoreId = datastoreId
@@ -313,6 +317,7 @@ extension MedicalImaging {
         /// The properties of the source image set.
         public let sourceImageSetProperties: CopySourceImageSetProperties
 
+        @inlinable
         public init(datastoreId: String, destinationImageSetProperties: CopyDestinationImageSetProperties, sourceImageSetProperties: CopySourceImageSetProperties) {
             self.datastoreId = datastoreId
             self.destinationImageSetProperties = destinationImageSetProperties
@@ -332,6 +337,7 @@ extension MedicalImaging {
         /// The latest version identifier for the source image set.
         public let latestVersionId: String
 
+        @inlinable
         public init(dicomCopies: MetadataCopies? = nil, latestVersionId: String) {
             self.dicomCopies = dicomCopies
             self.latestVersionId = latestVersionId
@@ -364,6 +370,7 @@ extension MedicalImaging {
         /// The timestamp when the source image set properties were updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState? = nil, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, latestVersionId: String, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.imageSetArn = imageSetArn
@@ -395,6 +402,7 @@ extension MedicalImaging {
         /// The tags provided when creating a data store.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.datastoreName = datastoreName
@@ -434,6 +442,7 @@ extension MedicalImaging {
         /// The data store status.
         public let datastoreStatus: DatastoreStatus
 
+        @inlinable
         public init(datastoreId: String, datastoreStatus: DatastoreStatus) {
             self.datastoreId = datastoreId
             self.datastoreStatus = datastoreStatus
@@ -467,6 +476,7 @@ extension MedicalImaging {
         /// The timestamp for when the import job was submitted.
         public let submittedAt: Date?
 
+        @inlinable
         public init(dataAccessRoleArn: String, datastoreId: String, endedAt: Date? = nil, inputS3Uri: String, jobId: String, jobName: String, jobStatus: JobStatus, message: String? = nil, outputS3Uri: String, submittedAt: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -512,6 +522,7 @@ extension MedicalImaging {
         /// The timestamp when an import job was submitted.
         public let submittedAt: Date?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, datastoreId: String, endedAt: Date? = nil, jobId: String, jobName: String, jobStatus: JobStatus, message: String? = nil, submittedAt: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -541,6 +552,7 @@ extension MedicalImaging {
         /// The DICOM study time provided in HHmmss.FFFFFF format.
         public let dicomStudyTime: String?
 
+        @inlinable
         public init(dicomStudyDate: String, dicomStudyTime: String? = nil) {
             self.dicomStudyDate = dicomStudyDate
             self.dicomStudyTime = dicomStudyTime
@@ -591,6 +603,7 @@ extension MedicalImaging {
         /// The study time.
         public let dicomStudyTime: String?
 
+        @inlinable
         public init(dicomAccessionNumber: String? = nil, dicomNumberOfStudyRelatedInstances: Int? = nil, dicomNumberOfStudyRelatedSeries: Int? = nil, dicomPatientBirthDate: String? = nil, dicomPatientId: String? = nil, dicomPatientName: String? = nil, dicomPatientSex: String? = nil, dicomSeriesBodyPart: String? = nil, dicomSeriesInstanceUID: String? = nil, dicomSeriesModality: String? = nil, dicomSeriesNumber: Int? = nil, dicomStudyDate: String? = nil, dicomStudyDescription: String? = nil, dicomStudyId: String? = nil, dicomStudyInstanceUID: String? = nil, dicomStudyTime: String? = nil) {
             self.dicomAccessionNumber = dicomAccessionNumber
             self.dicomNumberOfStudyRelatedInstances = dicomNumberOfStudyRelatedInstances
@@ -636,6 +649,7 @@ extension MedicalImaging {
         /// The DICOM tags that need to be updated in ImageSetMetadata.
         public let updatableAttributes: AWSBase64Data?
 
+        @inlinable
         public init(removableAttributes: AWSBase64Data? = nil, updatableAttributes: AWSBase64Data? = nil) {
             self.removableAttributes = removableAttributes
             self.updatableAttributes = updatableAttributes
@@ -670,6 +684,7 @@ extension MedicalImaging {
         /// The timestamp when the data store was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, datastoreArn: String? = nil, datastoreId: String, datastoreName: String, datastoreStatus: DatastoreStatus, kmsKeyArn: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
@@ -705,6 +720,7 @@ extension MedicalImaging {
         /// The timestamp when the data store was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, datastoreArn: String? = nil, datastoreId: String, datastoreName: String, datastoreStatus: DatastoreStatus, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
@@ -728,6 +744,7 @@ extension MedicalImaging {
         /// The data store identifier.
         public let datastoreId: String
 
+        @inlinable
         public init(datastoreId: String) {
             self.datastoreId = datastoreId
         }
@@ -751,6 +768,7 @@ extension MedicalImaging {
         /// The data store status.
         public let datastoreStatus: DatastoreStatus
 
+        @inlinable
         public init(datastoreId: String, datastoreStatus: DatastoreStatus) {
             self.datastoreId = datastoreId
             self.datastoreStatus = datastoreStatus
@@ -768,6 +786,7 @@ extension MedicalImaging {
         /// The image set identifier.
         public let imageSetId: String
 
+        @inlinable
         public init(datastoreId: String, imageSetId: String) {
             self.datastoreId = datastoreId
             self.imageSetId = imageSetId
@@ -798,6 +817,7 @@ extension MedicalImaging {
         /// The image set workflow status.
         public let imageSetWorkflowStatus: ImageSetWorkflowStatus
 
+        @inlinable
         public init(datastoreId: String, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus) {
             self.datastoreId = datastoreId
             self.imageSetId = imageSetId
@@ -819,6 +839,7 @@ extension MedicalImaging {
         /// The import job identifier.
         public let jobId: String
 
+        @inlinable
         public init(datastoreId: String, jobId: String) {
             self.datastoreId = datastoreId
             self.jobId = jobId
@@ -845,6 +866,7 @@ extension MedicalImaging {
         /// The properties of the import job.
         public let jobProperties: DICOMImportJobProperties
 
+        @inlinable
         public init(jobProperties: DICOMImportJobProperties) {
             self.jobProperties = jobProperties
         }
@@ -858,6 +880,7 @@ extension MedicalImaging {
         /// The data store identifier.
         public let datastoreId: String
 
+        @inlinable
         public init(datastoreId: String) {
             self.datastoreId = datastoreId
         }
@@ -879,6 +902,7 @@ extension MedicalImaging {
         /// The data store properties.
         public let datastoreProperties: DatastoreProperties
 
+        @inlinable
         public init(datastoreProperties: DatastoreProperties) {
             self.datastoreProperties = datastoreProperties
         }
@@ -896,6 +920,7 @@ extension MedicalImaging {
         /// The image set identifier.
         public let imageSetId: String
 
+        @inlinable
         public init(datastoreId: String, imageFrameInformation: ImageFrameInformation, imageSetId: String) {
             self.datastoreId = datastoreId
             self.imageFrameInformation = imageFrameInformation
@@ -926,6 +951,7 @@ extension MedicalImaging {
         /// The blob containing the aggregated image frame information.
         public let imageFrameBlob: AWSHTTPBody
 
+        @inlinable
         public init(contentType: String? = nil, imageFrameBlob: AWSHTTPBody) {
             self.contentType = contentType
             self.imageFrameBlob = imageFrameBlob
@@ -949,6 +975,7 @@ extension MedicalImaging {
         /// The image set version identifier.
         public let versionId: String?
 
+        @inlinable
         public init(datastoreId: String, imageSetId: String, versionId: String? = nil) {
             self.datastoreId = datastoreId
             self.imageSetId = imageSetId
@@ -981,6 +1008,7 @@ extension MedicalImaging {
         /// The blob containing the aggregated metadata information for the image set.
         public let imageSetMetadataBlob: AWSHTTPBody
 
+        @inlinable
         public init(contentEncoding: String? = nil, contentType: String? = nil, imageSetMetadataBlob: AWSHTTPBody) {
             self.contentEncoding = contentEncoding
             self.contentType = contentType
@@ -1006,6 +1034,7 @@ extension MedicalImaging {
         /// The image set version identifier.
         public let versionId: String?
 
+        @inlinable
         public init(datastoreId: String, imageSetId: String, versionId: String? = nil) {
             self.datastoreId = datastoreId
             self.imageSetId = imageSetId
@@ -1053,6 +1082,7 @@ extension MedicalImaging {
         /// The image set version identifier.
         public let versionId: String
 
+        @inlinable
         public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.datastoreId = datastoreId
@@ -1086,6 +1116,7 @@ extension MedicalImaging {
         /// The image frame (pixel data) identifier.
         public let imageFrameId: String
 
+        @inlinable
         public init(imageFrameId: String) {
             self.imageFrameId = imageFrameId
         }
@@ -1119,6 +1150,7 @@ extension MedicalImaging {
         /// The image set version identifier.
         public let versionId: String
 
+        @inlinable
         public init(createdAt: Date? = nil, deletedAt: Date? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.deletedAt = deletedAt
@@ -1156,6 +1188,7 @@ extension MedicalImaging {
         /// The image set version.
         public let version: Int?
 
+        @inlinable
         public init(createdAt: Date? = nil, dicomTags: DICOMTags? = nil, imageSetId: String, updatedAt: Date? = nil, version: Int? = nil) {
             self.createdAt = createdAt
             self.dicomTags = dicomTags
@@ -1183,6 +1216,7 @@ extension MedicalImaging {
         /// The pagination token used to request the list of import jobs on the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(datastoreId: String, jobStatus: JobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datastoreId = datastoreId
             self.jobStatus = jobStatus
@@ -1215,6 +1249,7 @@ extension MedicalImaging {
         /// The pagination token used to retrieve the list of import jobs on the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(jobSummaries: [DICOMImportJobSummary], nextToken: String? = nil) {
             self.jobSummaries = jobSummaries
             self.nextToken = nextToken
@@ -1234,6 +1269,7 @@ extension MedicalImaging {
         /// The pagination token used to request the list of data stores on the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(datastoreStatus: DatastoreStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datastoreStatus = datastoreStatus
             self.maxResults = maxResults
@@ -1263,6 +1299,7 @@ extension MedicalImaging {
         /// The pagination token used to retrieve the list of data stores on the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(datastoreSummaries: [DatastoreSummary]? = nil, nextToken: String? = nil) {
             self.datastoreSummaries = datastoreSummaries
             self.nextToken = nextToken
@@ -1284,6 +1321,7 @@ extension MedicalImaging {
         /// The pagination token used to request the list of image set versions on the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(datastoreId: String, imageSetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.datastoreId = datastoreId
             self.imageSetId = imageSetId
@@ -1317,6 +1355,7 @@ extension MedicalImaging {
         /// The pagination token used to retrieve the list of image set versions on the next page.
         public let nextToken: String?
 
+        @inlinable
         public init(imageSetPropertiesList: [ImageSetProperties], nextToken: String? = nil) {
             self.imageSetPropertiesList = imageSetPropertiesList
             self.nextToken = nextToken
@@ -1332,6 +1371,7 @@ extension MedicalImaging {
         /// The Amazon Resource Name (ARN) of the medical imaging resource to list tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1353,6 +1393,7 @@ extension MedicalImaging {
         /// A list of all tags associated with a medical imaging resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(tags: [String: String]) {
             self.tags = tags
         }
@@ -1366,6 +1407,7 @@ extension MedicalImaging {
         /// The JSON string used to specify a subset of SOP Instances to copy from source to destination image set.
         public let copiableAttributes: String
 
+        @inlinable
         public init(copiableAttributes: String) {
             self.copiableAttributes = copiableAttributes
         }
@@ -1384,6 +1426,7 @@ extension MedicalImaging {
         /// Setting this flag will force the CopyImageSet and UpdateImageSetMetadata operations, even if Patient, Study, or Series level metadata are mismatched.
         public let forced: Bool?
 
+        @inlinable
         public init(forced: Bool? = nil) {
             self.forced = forced
         }
@@ -1399,6 +1442,7 @@ extension MedicalImaging {
         /// The sort input for search criteria.
         public let sort: Sort?
 
+        @inlinable
         public init(filters: [SearchFilter]? = nil, sort: Sort? = nil) {
             self.filters = filters
             self.sort = sort
@@ -1422,6 +1466,7 @@ extension MedicalImaging {
         /// The search filter values.
         public let values: [SearchByAttributeValue]
 
+        @inlinable
         public init(operator: Operator, values: [SearchByAttributeValue]) {
             self.`operator` = `operator`
             self.values = values
@@ -1449,6 +1494,7 @@ extension MedicalImaging {
         /// The search criteria that filters by applying a maximum of 1 item to SearchByAttribute.
         public let searchCriteria: SearchCriteria?
 
+        @inlinable
         public init(datastoreId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: SearchCriteria? = nil) {
             self.datastoreId = datastoreId
             self.maxResults = maxResults
@@ -1484,6 +1530,7 @@ extension MedicalImaging {
         /// The sort order for image set search results.
         public let sort: Sort?
 
+        @inlinable
         public init(imageSetsMetadataSummaries: [ImageSetsMetadataSummary], nextToken: String? = nil, sort: Sort? = nil) {
             self.imageSetsMetadataSummaries = imageSetsMetadataSummaries
             self.nextToken = nextToken
@@ -1503,6 +1550,7 @@ extension MedicalImaging {
         /// The sort order for search criteria.
         public let sortOrder: SortOrder
 
+        @inlinable
         public init(sortField: SortField, sortOrder: SortOrder) {
             self.sortField = sortField
             self.sortOrder = sortOrder
@@ -1530,6 +1578,7 @@ extension MedicalImaging {
         /// The output prefix of the S3 bucket to upload the results of the DICOM import job.
         public let outputS3Uri: String
 
+        @inlinable
         public init(clientToken: String = StartDICOMImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputOwnerAccountId: String? = nil, inputS3Uri: String, jobName: String? = nil, outputS3Uri: String) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1594,6 +1643,7 @@ extension MedicalImaging {
         /// The timestamp when the import job was submitted.
         public let submittedAt: Date
 
+        @inlinable
         public init(datastoreId: String, jobId: String, jobStatus: JobStatus, submittedAt: Date) {
             self.datastoreId = datastoreId
             self.jobId = jobId
@@ -1615,6 +1665,7 @@ extension MedicalImaging {
         /// The user-specified key and value tag pairs added to a medical imaging resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1652,6 +1703,7 @@ extension MedicalImaging {
         /// The keys for the tags to be removed from the medical imaging resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1693,6 +1745,7 @@ extension MedicalImaging {
         /// Update image set metadata updates.
         public let updateImageSetMetadataUpdates: MetadataUpdates
 
+        @inlinable
         public init(datastoreId: String, force: Bool? = nil, imageSetId: String, latestVersionId: String, updateImageSetMetadataUpdates: MetadataUpdates) {
             self.datastoreId = datastoreId
             self.force = force
@@ -1739,6 +1792,7 @@ extension MedicalImaging {
         /// The timestamp when image set metadata was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, datastoreId: String, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, latestVersionId: String, message: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.datastoreId = datastoreId

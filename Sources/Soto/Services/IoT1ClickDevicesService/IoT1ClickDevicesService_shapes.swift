@@ -36,6 +36,7 @@ extension IoT1ClickDevicesService {
         /// The claim code, starting with "C-", as provided by the device manufacturer.
         public let claimCode: String
 
+        @inlinable
         public init(claimCode: String) {
             self.claimCode = claimCode
         }
@@ -55,6 +56,7 @@ extension IoT1ClickDevicesService {
         /// The total number of devices associated with the claim code that has been processed in the claim request.
         public let total: Int?
 
+        @inlinable
         public init(claimCode: String? = nil, total: Int? = nil) {
             self.claimCode = claimCode
             self.total = total
@@ -70,6 +72,7 @@ extension IoT1ClickDevicesService {
         /// The unique identifier of the device.
         public let deviceId: String
 
+        @inlinable
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -87,6 +90,7 @@ extension IoT1ClickDevicesService {
         /// Device details.
         public let deviceDescription: DeviceDescription?
 
+        @inlinable
         public init(deviceDescription: DeviceDescription? = nil) {
             self.deviceDescription = deviceDescription
         }
@@ -104,6 +108,7 @@ extension IoT1ClickDevicesService {
         /// The device type, such as "button".
         public let type: String?
 
+        @inlinable
         public init(attributes: Attributes? = nil, deviceId: String? = nil, type: String? = nil) {
             self.attributes = attributes
             self.deviceId = deviceId
@@ -133,6 +138,7 @@ extension IoT1ClickDevicesService {
         /// The type of the device, such as "button".
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, attributes: [String: String]? = nil, deviceId: String? = nil, enabled: Bool? = nil, remainingLife: Double? = nil, tags: [String: String]? = nil, type: String? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -160,6 +166,7 @@ extension IoT1ClickDevicesService {
         /// A serialized JSON object representing the device-type specific event.
         public let stdEvent: String?
 
+        @inlinable
         public init(device: Device? = nil, stdEvent: String? = nil) {
             self.device = device
             self.stdEvent = stdEvent
@@ -177,6 +184,7 @@ extension IoT1ClickDevicesService {
         /// The name of the method applicable to the deviceType.
         public let methodName: String?
 
+        @inlinable
         public init(deviceType: String? = nil, methodName: String? = nil) {
             self.deviceType = deviceType
             self.methodName = methodName
@@ -194,6 +202,7 @@ extension IoT1ClickDevicesService {
         /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deviceId: String, tags: [String: String]? = nil) {
             self.deviceId = deviceId
             self.tags = tags
@@ -215,6 +224,7 @@ extension IoT1ClickDevicesService {
         /// The device's final claim state.
         public let state: String?
 
+        @inlinable
         public init(state: String? = nil) {
             self.state = state
         }
@@ -228,6 +238,7 @@ extension IoT1ClickDevicesService {
         /// The unique identifier of the device.
         public let deviceId: String
 
+        @inlinable
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -245,6 +256,7 @@ extension IoT1ClickDevicesService {
         /// List of available device APIs.
         public let deviceMethods: [DeviceMethod]?
 
+        @inlinable
         public init(deviceMethods: [DeviceMethod]? = nil) {
             self.deviceMethods = deviceMethods
         }
@@ -258,6 +270,7 @@ extension IoT1ClickDevicesService {
         /// The unique identifier of the device.
         public let deviceId: String
 
+        @inlinable
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -275,6 +288,7 @@ extension IoT1ClickDevicesService {
         /// The device's final claim state.
         public let state: String?
 
+        @inlinable
         public init(state: String? = nil) {
             self.state = state
         }
@@ -292,6 +306,7 @@ extension IoT1ClickDevicesService {
         /// A JSON encoded string containing the device method request parameters.
         public let deviceMethodParameters: String?
 
+        @inlinable
         public init(deviceId: String, deviceMethod: DeviceMethod? = nil, deviceMethodParameters: String? = nil) {
             self.deviceId = deviceId
             self.deviceMethod = deviceMethod
@@ -316,6 +331,7 @@ extension IoT1ClickDevicesService {
         /// A JSON encoded string containing the device method response.
         public let deviceMethodResponse: String?
 
+        @inlinable
         public init(deviceMethodResponse: String? = nil) {
             self.deviceMethodResponse = deviceMethodResponse
         }
@@ -339,6 +355,7 @@ extension IoT1ClickDevicesService {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var toTimeStamp: Date?
 
+        @inlinable
         public init(deviceId: String, fromTimeStamp: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, toTimeStamp: Date? = nil) {
             self.deviceId = deviceId
             self.fromTimeStamp = fromTimeStamp
@@ -371,6 +388,7 @@ extension IoT1ClickDevicesService {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [DeviceEvent]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -390,6 +408,7 @@ extension IoT1ClickDevicesService {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.deviceType = deviceType
             self.maxResults = maxResults
@@ -418,6 +437,7 @@ extension IoT1ClickDevicesService {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(devices: [DeviceDescription]? = nil, nextToken: String? = nil) {
             self.devices = devices
             self.nextToken = nextToken
@@ -433,6 +453,7 @@ extension IoT1ClickDevicesService {
         /// The ARN of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -450,6 +471,7 @@ extension IoT1ClickDevicesService {
         /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -465,6 +487,7 @@ extension IoT1ClickDevicesService {
         /// A collection of key/value pairs defining the resource tags. For example, { "tags": {"key1": "value1", "key2": "value2"} }. For more information, see AWS Tagging Strategies.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -486,6 +509,7 @@ extension IoT1ClickDevicesService {
         /// The unique identifier of the device.
         public let deviceId: String
 
+        @inlinable
         public init(deviceId: String) {
             self.deviceId = deviceId
         }
@@ -503,6 +527,7 @@ extension IoT1ClickDevicesService {
         /// The device's final claim state.
         public let state: String?
 
+        @inlinable
         public init(state: String? = nil) {
             self.state = state
         }
@@ -518,6 +543,7 @@ extension IoT1ClickDevicesService {
         /// A collections of tag keys. For example, {"key1","key2"}
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -539,6 +565,7 @@ extension IoT1ClickDevicesService {
         /// If true, the device is enabled. If false, the device is disabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(deviceId: String, enabled: Bool? = nil) {
             self.deviceId = deviceId
             self.enabled = enabled

@@ -49,6 +49,7 @@ extension AppIntegrations {
         /// The identifier for the client that is associated with the Application Association.
         public let clientId: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, applicationAssociationArn: String? = nil, clientId: String? = nil) {
             self.applicationArn = applicationArn
             self.applicationAssociationArn = applicationAssociationArn
@@ -66,6 +67,7 @@ extension AppIntegrations {
         /// The external URL source for the application.
         public let externalUrlConfig: ExternalUrlConfig?
 
+        @inlinable
         public init(externalUrlConfig: ExternalUrlConfig? = nil) {
             self.externalUrlConfig = externalUrlConfig
         }
@@ -93,6 +95,7 @@ extension AppIntegrations {
         /// The namespace of the application.
         public let namespace: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -132,6 +135,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationSourceConfig = applicationSourceConfig
             self.clientToken = clientToken
@@ -145,6 +149,7 @@ extension AppIntegrations {
         }
 
         @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
+        @inlinable
         public init(applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationSourceConfig = applicationSourceConfig
             self.clientToken = clientToken
@@ -213,6 +218,7 @@ extension AppIntegrations {
         /// A unique identifier for the Application.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -239,6 +245,7 @@ extension AppIntegrations {
         public let executionConfiguration: ExecutionConfiguration?
         public let objectConfiguration: [String: [String: [String]]]?
 
+        @inlinable
         public init(clientAssociationMetadata: [String: String]? = nil, clientId: String? = nil, clientToken: String? = CreateDataIntegrationAssociationRequest.idempotencyToken(), dataIntegrationIdentifier: String, destinationURI: String? = nil, executionConfiguration: ExecutionConfiguration? = nil, objectConfiguration: [String: [String: [String]]]? = nil) {
             self.clientAssociationMetadata = clientAssociationMetadata
             self.clientId = clientId
@@ -306,6 +313,7 @@ extension AppIntegrations {
         /// A unique identifier. for the DataIntegrationAssociation.
         public let dataIntegrationAssociationId: String?
 
+        @inlinable
         public init(dataIntegrationArn: String? = nil, dataIntegrationAssociationId: String? = nil) {
             self.dataIntegrationArn = dataIntegrationArn
             self.dataIntegrationAssociationId = dataIntegrationAssociationId
@@ -337,6 +345,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateDataIntegrationRequest.idempotencyToken(), description: String? = nil, fileConfiguration: FileConfiguration? = nil, kmsKey: String, name: String, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfig: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -418,6 +427,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, clientToken: String? = nil, description: String? = nil, fileConfiguration: FileConfiguration? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.clientToken = clientToken
@@ -461,6 +471,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateEventIntegrationRequest.idempotencyToken(), description: String? = nil, eventBridgeBus: String, eventFilter: EventFilter, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -507,6 +518,7 @@ extension AppIntegrations {
         /// The Amazon Resource Name (ARN) of the event integration.
         public let eventIntegrationArn: String?
 
+        @inlinable
         public init(eventIntegrationArn: String? = nil) {
             self.eventIntegrationArn = eventIntegrationArn
         }
@@ -529,6 +541,7 @@ extension AppIntegrations {
         /// The execution status of the last job.
         public let lastExecutionStatus: LastExecutionStatus?
 
+        @inlinable
         public init(clientId: String? = nil, dataIntegrationArn: String? = nil, dataIntegrationAssociationArn: String? = nil, destinationURI: String? = nil, executionConfiguration: ExecutionConfiguration? = nil, lastExecutionStatus: LastExecutionStatus? = nil) {
             self.clientId = clientId
             self.dataIntegrationArn = dataIntegrationArn
@@ -556,6 +569,7 @@ extension AppIntegrations {
         /// The URI of the data source.
         public let sourceURI: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, sourceURI: String? = nil) {
             self.arn = arn
             self.name = name
@@ -573,6 +587,7 @@ extension AppIntegrations {
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -600,6 +615,7 @@ extension AppIntegrations {
         /// A unique identifier for the DataIntegration.
         public let dataIntegrationIdentifier: String
 
+        @inlinable
         public init(dataIntegrationIdentifier: String) {
             self.dataIntegrationIdentifier = dataIntegrationIdentifier
         }
@@ -627,6 +643,7 @@ extension AppIntegrations {
         /// The name of the event integration.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -654,6 +671,7 @@ extension AppIntegrations {
         /// The source of the events.
         public let source: String
 
+        @inlinable
         public init(source: String) {
             self.source = source
         }
@@ -683,6 +701,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, eventBridgeBus: String? = nil, eventFilter: EventFilter? = nil, eventIntegrationArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.eventBridgeBus = eventBridgeBus
@@ -716,6 +735,7 @@ extension AppIntegrations {
         /// The name of the event integration.
         public let eventIntegrationName: String?
 
+        @inlinable
         public init(clientAssociationMetadata: [String: String]? = nil, clientId: String? = nil, eventBridgeRuleName: String? = nil, eventIntegrationAssociationArn: String? = nil, eventIntegrationAssociationId: String? = nil, eventIntegrationName: String? = nil) {
             self.clientAssociationMetadata = clientAssociationMetadata
             self.clientId = clientId
@@ -741,6 +761,7 @@ extension AppIntegrations {
         public let onDemandConfiguration: OnDemandConfiguration?
         public let scheduleConfiguration: ScheduleConfiguration?
 
+        @inlinable
         public init(executionMode: ExecutionMode, onDemandConfiguration: OnDemandConfiguration? = nil, scheduleConfiguration: ScheduleConfiguration? = nil) {
             self.executionMode = executionMode
             self.onDemandConfiguration = onDemandConfiguration
@@ -765,6 +786,7 @@ extension AppIntegrations {
         /// Additional URLs to allow list if different than the access URL.
         public let approvedOrigins: [String]?
 
+        @inlinable
         public init(accessUrl: String, approvedOrigins: [String]? = nil) {
             self.accessUrl = accessUrl
             self.approvedOrigins = approvedOrigins
@@ -795,6 +817,7 @@ extension AppIntegrations {
         /// Identifiers for the source folders to pull all files from recursively.
         public let folders: [String]
 
+        @inlinable
         public init(filters: [String: [String]]? = nil, folders: [String]) {
             self.filters = filters
             self.folders = folders
@@ -827,6 +850,7 @@ extension AppIntegrations {
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -872,6 +896,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
@@ -888,6 +913,7 @@ extension AppIntegrations {
         }
 
         @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
+        @inlinable
         public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
@@ -923,6 +949,7 @@ extension AppIntegrations {
         /// A unique identifier.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -964,6 +991,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, fileConfiguration: FileConfiguration? = nil, id: String? = nil, kmsKey: String? = nil, name: String? = nil, objectConfiguration: [String: [String: [String]]]? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, sourceURI: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -995,6 +1023,7 @@ extension AppIntegrations {
         /// The name of the event integration.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1028,6 +1057,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, eventBridgeBus: String? = nil, eventFilter: EventFilter? = nil, eventIntegrationArn: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.eventBridgeBus = eventBridgeBus
@@ -1053,6 +1083,7 @@ extension AppIntegrations {
         /// The status message of a job.
         public let statusMessage: String?
 
+        @inlinable
         public init(executionStatus: ExecutionStatus? = nil, statusMessage: String? = nil) {
             self.executionStatus = executionStatus
             self.statusMessage = statusMessage
@@ -1073,6 +1104,7 @@ extension AppIntegrations {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.maxResults = maxResults
@@ -1107,6 +1139,7 @@ extension AppIntegrations {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationAssociations: [ApplicationAssociationSummary]? = nil, nextToken: String? = nil) {
             self.applicationAssociations = applicationAssociations
             self.nextToken = nextToken
@@ -1125,6 +1158,7 @@ extension AppIntegrations {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1154,6 +1188,7 @@ extension AppIntegrations {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -1174,6 +1209,7 @@ extension AppIntegrations {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataIntegrationIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dataIntegrationIdentifier = dataIntegrationIdentifier
             self.maxResults = maxResults
@@ -1208,6 +1244,7 @@ extension AppIntegrations {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataIntegrationAssociations: [DataIntegrationAssociationSummary]? = nil, nextToken: String? = nil) {
             self.dataIntegrationAssociations = dataIntegrationAssociations
             self.nextToken = nextToken
@@ -1226,6 +1263,7 @@ extension AppIntegrations {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1255,6 +1293,7 @@ extension AppIntegrations {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataIntegrations: [DataIntegrationSummary]? = nil, nextToken: String? = nil) {
             self.dataIntegrations = dataIntegrations
             self.nextToken = nextToken
@@ -1275,6 +1314,7 @@ extension AppIntegrations {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventIntegrationName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.eventIntegrationName = eventIntegrationName
             self.maxResults = maxResults
@@ -1309,6 +1349,7 @@ extension AppIntegrations {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventIntegrationAssociations: [EventIntegrationAssociation]? = nil, nextToken: String? = nil) {
             self.eventIntegrationAssociations = eventIntegrationAssociations
             self.nextToken = nextToken
@@ -1327,6 +1368,7 @@ extension AppIntegrations {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1356,6 +1398,7 @@ extension AppIntegrations {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(eventIntegrations: [EventIntegration]? = nil, nextToken: String? = nil) {
             self.eventIntegrations = eventIntegrations
             self.nextToken = nextToken
@@ -1371,6 +1414,7 @@ extension AppIntegrations {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1394,6 +1438,7 @@ extension AppIntegrations {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1409,6 +1454,7 @@ extension AppIntegrations {
         /// The start time for data pull from the source as an Unix/epoch string in milliseconds
         public let startTime: String
 
+        @inlinable
         public init(endTime: String? = nil, startTime: String) {
             self.endTime = endTime
             self.startTime = startTime
@@ -1437,6 +1483,7 @@ extension AppIntegrations {
         /// The JSON schema of the publication event.
         public let schema: String
 
+        @inlinable
         public init(description: String? = nil, event: String, schema: String) {
             self.description = description
             self.event = event
@@ -1469,6 +1516,7 @@ extension AppIntegrations {
         /// How often the data should be pulled from data source.
         public let scheduleExpression: String
 
+        @inlinable
         public init(firstExecutionFrom: String? = nil, object: String? = nil, scheduleExpression: String) {
             self.firstExecutionFrom = firstExecutionFrom
             self.object = object
@@ -1500,6 +1548,7 @@ extension AppIntegrations {
         /// The name of the subscription.
         public let event: String
 
+        @inlinable
         public init(description: String? = nil, event: String) {
             self.description = description
             self.event = event
@@ -1525,6 +1574,7 @@ extension AppIntegrations {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1566,6 +1616,7 @@ extension AppIntegrations {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1614,6 +1665,7 @@ extension AppIntegrations {
         /// The events that the application subscribes.
         public let subscriptions: [Subscription]?
 
+        @inlinable
         public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, name: String? = nil, permissions: [String]? = nil) {
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
@@ -1625,6 +1677,7 @@ extension AppIntegrations {
         }
 
         @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
+        @inlinable
         public init(applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
             self.applicationSourceConfig = applicationSourceConfig
             self.arn = arn
@@ -1695,6 +1748,7 @@ extension AppIntegrations {
         /// The configuration for how the files should be pulled from the source.
         public let executionConfiguration: ExecutionConfiguration
 
+        @inlinable
         public init(dataIntegrationAssociationIdentifier: String, dataIntegrationIdentifier: String, executionConfiguration: ExecutionConfiguration) {
             self.dataIntegrationAssociationIdentifier = dataIntegrationAssociationIdentifier
             self.dataIntegrationIdentifier = dataIntegrationIdentifier
@@ -1736,6 +1790,7 @@ extension AppIntegrations {
         /// The name of the DataIntegration.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, identifier: String, name: String? = nil) {
             self.description = description
             self.identifier = identifier
@@ -1777,6 +1832,7 @@ extension AppIntegrations {
         /// The name of the event integration.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, name: String) {
             self.description = description
             self.name = name

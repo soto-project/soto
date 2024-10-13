@@ -34,6 +34,7 @@ extension Forecastquery {
         /// The forecast value.
         public let value: Double?
 
+        @inlinable
         public init(timestamp: String? = nil, value: Double? = nil) {
             self.timestamp = timestamp
             self.value = value
@@ -49,6 +50,7 @@ extension Forecastquery {
         /// The forecast. The string of the string-to-array map is one of the following values:   p10   p50   p90   The default setting is ["0.1", "0.5", "0.9"]. Use the optional ForecastTypes parameter of the CreateForecast operation to change the values. The values will vary depending on how this is set, with a minimum of 1 and a maximum of 5.
         public let predictions: [String: [DataPoint]]?
 
+        @inlinable
         public init(predictions: [String: [DataPoint]]? = nil) {
             self.predictions = predictions
         }
@@ -70,6 +72,7 @@ extension Forecastquery {
         /// The start date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
         public let startDate: String?
 
+        @inlinable
         public init(endDate: String? = nil, filters: [String: String], forecastArn: String, nextToken: String? = nil, startDate: String? = nil) {
             self.endDate = endDate
             self.filters = filters
@@ -105,6 +108,7 @@ extension Forecastquery {
         /// The forecast.
         public let forecast: Forecast?
 
+        @inlinable
         public init(forecast: Forecast? = nil) {
             self.forecast = forecast
         }
@@ -126,6 +130,7 @@ extension Forecastquery {
         /// The Amazon Resource Name (ARN) of the what-if forecast to query.
         public let whatIfForecastArn: String
 
+        @inlinable
         public init(endDate: String? = nil, filters: [String: String], nextToken: String? = nil, startDate: String? = nil, whatIfForecastArn: String) {
             self.endDate = endDate
             self.filters = filters
@@ -160,6 +165,7 @@ extension Forecastquery {
     public struct QueryWhatIfForecastResponse: AWSDecodableShape {
         public let forecast: Forecast?
 
+        @inlinable
         public init(forecast: Forecast? = nil) {
             self.forecast = forecast
         }

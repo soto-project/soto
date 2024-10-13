@@ -62,6 +62,7 @@ extension PcaConnectorScep {
         /// The date and time that the challenge was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, connectorArn: String? = nil, createdAt: Date? = nil, password: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.connectorArn = connectorArn
@@ -89,6 +90,7 @@ extension PcaConnectorScep {
         /// The date and time that the connector was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, connectorArn: String? = nil, createdAt: Date? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.connectorArn = connectorArn
@@ -114,6 +116,7 @@ extension PcaConnectorScep {
         /// The date and time that the challenge was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, connectorArn: String? = nil, createdAt: Date? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.connectorArn = connectorArn
@@ -151,6 +154,7 @@ extension PcaConnectorScep {
         /// The date and time that the connector was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, endpoint: String? = nil, mobileDeviceManagement: MobileDeviceManagement? = nil, openIdConfiguration: OpenIdConfiguration? = nil, status: ConnectorStatus? = nil, statusReason: ConnectorStatusReason? = nil, type: ConnectorType? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -200,6 +204,7 @@ extension PcaConnectorScep {
         /// The date and time that the challenge was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, endpoint: String? = nil, mobileDeviceManagement: MobileDeviceManagement? = nil, openIdConfiguration: OpenIdConfiguration? = nil, status: ConnectorStatus? = nil, statusReason: ConnectorStatusReason? = nil, type: ConnectorType? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -235,6 +240,7 @@ extension PcaConnectorScep {
         /// The key-value pairs to associate with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateChallengeRequest.idempotencyToken(), connectorArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.connectorArn = connectorArn
@@ -261,6 +267,7 @@ extension PcaConnectorScep {
         /// Returns the challenge details for the specified connector.
         public let challenge: Challenge?
 
+        @inlinable
         public init(challenge: Challenge? = nil) {
             self.challenge = challenge
         }
@@ -280,6 +287,7 @@ extension PcaConnectorScep {
         /// The key-value pairs to associate with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(certificateAuthorityArn: String, clientToken: String? = CreateConnectorRequest.idempotencyToken(), mobileDeviceManagement: MobileDeviceManagement? = nil, tags: [String: String]? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.clientToken = clientToken
@@ -309,6 +317,7 @@ extension PcaConnectorScep {
         /// Returns the Amazon Resource Name (ARN) of the connector.
         public let connectorArn: String?
 
+        @inlinable
         public init(connectorArn: String? = nil) {
             self.connectorArn = connectorArn
         }
@@ -322,6 +331,7 @@ extension PcaConnectorScep {
         /// The Amazon Resource Name (ARN) of the challenge password to delete.
         public let challengeArn: String
 
+        @inlinable
         public init(challengeArn: String) {
             self.challengeArn = challengeArn
         }
@@ -345,6 +355,7 @@ extension PcaConnectorScep {
         /// The Amazon Resource Name (ARN) of the connector to delete.
         public let connectorArn: String
 
+        @inlinable
         public init(connectorArn: String) {
             self.connectorArn = connectorArn
         }
@@ -368,6 +379,7 @@ extension PcaConnectorScep {
         /// The Amazon Resource Name (ARN) of the challenge.
         public let challengeArn: String
 
+        @inlinable
         public init(challengeArn: String) {
             self.challengeArn = challengeArn
         }
@@ -391,6 +403,7 @@ extension PcaConnectorScep {
         /// The metadata for the challenge.
         public let challengeMetadata: ChallengeMetadata?
 
+        @inlinable
         public init(challengeMetadata: ChallengeMetadata? = nil) {
             self.challengeMetadata = challengeMetadata
         }
@@ -404,6 +417,7 @@ extension PcaConnectorScep {
         /// The Amazon Resource Name (ARN) of the challenge.
         public let challengeArn: String
 
+        @inlinable
         public init(challengeArn: String) {
             self.challengeArn = challengeArn
         }
@@ -427,6 +441,7 @@ extension PcaConnectorScep {
         /// The SCEP challenge password.
         public let password: String?
 
+        @inlinable
         public init(password: String? = nil) {
             self.password = password
         }
@@ -440,6 +455,7 @@ extension PcaConnectorScep {
         /// The Amazon Resource Name (ARN) of the connector.
         public let connectorArn: String
 
+        @inlinable
         public init(connectorArn: String) {
             self.connectorArn = connectorArn
         }
@@ -463,6 +479,7 @@ extension PcaConnectorScep {
         /// The properties of the connector.
         public let connector: Connector?
 
+        @inlinable
         public init(connector: Connector? = nil) {
             self.connector = connector
         }
@@ -478,6 +495,7 @@ extension PcaConnectorScep {
         /// The primary domain from your Microsoft Entra ID app registration.
         public let domain: String
 
+        @inlinable
         public init(azureApplicationId: String, domain: String) {
             self.azureApplicationId = azureApplicationId
             self.domain = domain
@@ -506,6 +524,7 @@ extension PcaConnectorScep {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Connector for SCEP returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectorArn = connectorArn
             self.maxResults = maxResults
@@ -540,6 +559,7 @@ extension PcaConnectorScep {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Connector for SCEP returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(challenges: [ChallengeMetadataSummary]? = nil, nextToken: String? = nil) {
             self.challenges = challenges
             self.nextToken = nextToken
@@ -557,6 +577,7 @@ extension PcaConnectorScep {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Connector for SCEP returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -586,6 +607,7 @@ extension PcaConnectorScep {
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Connector for SCEP returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
 
+        @inlinable
         public init(connectors: [ConnectorSummary]? = nil, nextToken: String? = nil) {
             self.connectors = connectors
             self.nextToken = nextToken
@@ -601,6 +623,7 @@ extension PcaConnectorScep {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -618,6 +641,7 @@ extension PcaConnectorScep {
         /// The key-value pairs to associate with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -635,6 +659,7 @@ extension PcaConnectorScep {
         /// The subject value to copy into your Microsoft Entra app registration's OIDC.
         public let subject: String?
 
+        @inlinable
         public init(audience: String? = nil, issuer: String? = nil, subject: String? = nil) {
             self.audience = audience
             self.issuer = issuer
@@ -654,6 +679,7 @@ extension PcaConnectorScep {
         /// The key-value pairs to associate with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -677,6 +703,7 @@ extension PcaConnectorScep {
         /// Specifies a list of tag keys that you want to remove from the specified resources.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -696,6 +723,7 @@ extension PcaConnectorScep {
         /// Configuration settings for use with Microsoft Intune. For information about using Connector for SCEP for Microsoft Intune, see Using Connector for SCEP for Microsoft Intune.
         public let intune: IntuneConfiguration?
 
+        @inlinable
         public init(intune: IntuneConfiguration? = nil) {
             self.intune = intune
         }

@@ -58,6 +58,7 @@ extension STS {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var transitiveTagKeys: [String]?
 
+        @inlinable
         public init(durationSeconds: Int? = nil, externalId: String? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, providedContexts: [ProvidedContext]? = nil, roleArn: String, roleSessionName: String, serialNumber: String? = nil, sourceIdentity: String? = nil, tags: [Tag]? = nil, tokenCode: String? = nil, transitiveTagKeys: [String]? = nil) {
             self.durationSeconds = durationSeconds
             self.externalId = externalId
@@ -141,6 +142,7 @@ extension STS {
         /// The source identity specified by the principal that is calling the AssumeRole operation. You can require users to specify a source identity when they assume a role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see Monitor and control actions taken with assumed roles in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
         public let sourceIdentity: String?
 
+        @inlinable
         public init(assumedRoleUser: AssumedRoleUser? = nil, credentials: Credentials? = nil, packedPolicySize: Int? = nil, sourceIdentity: String? = nil) {
             self.assumedRoleUser = assumedRoleUser
             self.credentials = credentials
@@ -171,6 +173,7 @@ extension STS {
         /// The base64 encoded SAML authentication response provided by the IdP. For more information, see Configuring a Relying Party and Adding Claims in the IAM User Guide.
         public let samlAssertion: String
 
+        @inlinable
         public init(durationSeconds: Int? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, principalArn: String, roleArn: String, samlAssertion: String) {
             self.durationSeconds = durationSeconds
             self.policy = policy
@@ -229,6 +232,7 @@ extension STS {
         ///  The format of the name ID, as defined by the Format attribute in the NameID element of the SAML assertion. Typical examples of the format are transient or persistent.  If the format includes the prefix urn:oasis:names:tc:SAML:2.0:nameid-format, that prefix is removed. For example, urn:oasis:names:tc:SAML:2.0:nameid-format:transient is returned as transient. If the format includes any other prefix, the format is returned with no modifications.
         public let subjectType: String?
 
+        @inlinable
         public init(assumedRoleUser: AssumedRoleUser? = nil, audience: String? = nil, credentials: Credentials? = nil, issuer: String? = nil, nameQualifier: String? = nil, packedPolicySize: Int? = nil, sourceIdentity: String? = nil, subject: String? = nil, subjectType: String? = nil) {
             self.assumedRoleUser = assumedRoleUser
             self.audience = audience
@@ -271,6 +275,7 @@ extension STS {
         /// The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call. Only tokens with RSA algorithms (RS256) are supported.
         public let webIdentityToken: String
 
+        @inlinable
         public init(durationSeconds: Int? = nil, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, providerId: String? = nil, roleArn: String, roleSessionName: String, webIdentityToken: String) {
             self.durationSeconds = durationSeconds
             self.policy = policy
@@ -329,6 +334,7 @@ extension STS {
         /// The unique user identifier that is returned by the identity provider. This identifier is associated with the WebIdentityToken that was submitted with the AssumeRoleWithWebIdentity call. The identifier is typically unique to the user and the application that acquired the WebIdentityToken (pairwise identifier). For OpenID Connect ID tokens, this field contains the value returned by the identity provider as the token's sub (Subject) claim.
         public let subjectFromWebIdentityToken: String?
 
+        @inlinable
         public init(assumedRoleUser: AssumedRoleUser? = nil, audience: String? = nil, credentials: Credentials? = nil, packedPolicySize: Int? = nil, provider: String? = nil, sourceIdentity: String? = nil, subjectFromWebIdentityToken: String? = nil) {
             self.assumedRoleUser = assumedRoleUser
             self.audience = audience
@@ -356,6 +362,7 @@ extension STS {
         /// A unique identifier that contains the role ID and the role session name of the role that is being assumed. The role ID is generated by Amazon Web Services when the role is created.
         public let assumedRoleId: String
 
+        @inlinable
         public init(arn: String, assumedRoleId: String) {
             self.arn = arn
             self.assumedRoleId = assumedRoleId
@@ -377,6 +384,7 @@ extension STS {
         /// The token that users must pass to the service API to use the temporary credentials.
         public let sessionToken: String
 
+        @inlinable
         public init(accessKeyId: String, expiration: Date, secretAccessKey: String, sessionToken: String) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -396,6 +404,7 @@ extension STS {
         /// The encoded message that was returned with the response.
         public let encodedMessage: String
 
+        @inlinable
         public init(encodedMessage: String) {
             self.encodedMessage = encodedMessage
         }
@@ -414,6 +423,7 @@ extension STS {
         /// The API returns a response with the decoded message.
         public let decodedMessage: String?
 
+        @inlinable
         public init(decodedMessage: String? = nil) {
             self.decodedMessage = decodedMessage
         }
@@ -429,6 +439,7 @@ extension STS {
         /// The string that identifies the federated user associated with the credentials, similar to the unique ID of an IAM user.
         public let federatedUserId: String
 
+        @inlinable
         public init(arn: String, federatedUserId: String) {
             self.arn = arn
             self.federatedUserId = federatedUserId
@@ -444,6 +455,7 @@ extension STS {
         /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
         public let accessKeyId: String
 
+        @inlinable
         public init(accessKeyId: String) {
             self.accessKeyId = accessKeyId
         }
@@ -463,6 +475,7 @@ extension STS {
         /// The number used to identify the Amazon Web Services account.
         public let account: String?
 
+        @inlinable
         public init(account: String? = nil) {
             self.account = account
         }
@@ -484,6 +497,7 @@ extension STS {
         /// The unique identifier of the calling entity. The exact value depends on the type of entity that is making the call. The values returned are those listed in the aws:userid column in the Principal table found on the Policy Variables reference page in the IAM User Guide.
         public let userId: String?
 
+        @inlinable
         public init(account: String? = nil, arn: String? = nil, userId: String? = nil) {
             self.account = account
             self.arn = arn
@@ -511,6 +525,7 @@ extension STS {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(durationSeconds: Int? = nil, name: String, policy: String? = nil, policyArns: [PolicyDescriptorType]? = nil, tags: [Tag]? = nil) {
             self.durationSeconds = durationSeconds
             self.name = name
@@ -554,6 +569,7 @@ extension STS {
         /// A percentage value that indicates the packed size of the session policies and session  tags combined passed in the request. The request fails if the packed size is greater than 100 percent,  which means the policies and tags exceeded the allowed space.
         public let packedPolicySize: Int?
 
+        @inlinable
         public init(credentials: Credentials? = nil, federatedUser: FederatedUser? = nil, packedPolicySize: Int? = nil) {
             self.credentials = credentials
             self.federatedUser = federatedUser
@@ -575,6 +591,7 @@ extension STS {
         /// The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, the user must provide a code when requesting a set of temporary security credentials. A user who fails to provide the code receives an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
         public let tokenCode: String?
 
+        @inlinable
         public init(durationSeconds: Int? = nil, serialNumber: String? = nil, tokenCode: String? = nil) {
             self.durationSeconds = durationSeconds
             self.serialNumber = serialNumber
@@ -603,6 +620,7 @@ extension STS {
         /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token.  The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
         public let credentials: Credentials?
 
+        @inlinable
         public init(credentials: Credentials? = nil) {
             self.credentials = credentials
         }
@@ -616,6 +634,7 @@ extension STS {
         /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -637,6 +656,7 @@ extension STS {
         /// The context provider ARN from which the trusted context assertion was generated.
         public let providerArn: String?
 
+        @inlinable
         public init(contextAssertion: String? = nil, providerArn: String? = nil) {
             self.contextAssertion = contextAssertion
             self.providerArn = providerArn
@@ -662,6 +682,7 @@ extension STS {
         /// The value for a session tag. You can pass up to 50 session tags. The plain text session tag values can’t exceed 256 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value

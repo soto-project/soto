@@ -122,6 +122,7 @@ extension CodeGuruProfiler {
         /// The name of the profiling group that we are setting up notifications for.
         public let profilingGroupName: String
 
+        @inlinable
         public init(channels: [Channel], profilingGroupName: String) {
             self.channels = channels
             self.profilingGroupName = profilingGroupName
@@ -154,6 +155,7 @@ extension CodeGuruProfiler {
         /// The new notification configuration for this profiling group.
         public let notificationConfiguration: NotificationConfiguration?
 
+        @inlinable
         public init(notificationConfiguration: NotificationConfiguration? = nil) {
             self.notificationConfiguration = notificationConfiguration
         }
@@ -171,6 +173,7 @@ extension CodeGuruProfiler {
         ///  A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling.
         public let shouldProfile: Bool
 
+        @inlinable
         public init(agentParameters: [AgentParameterField: String]? = nil, periodInSeconds: Int, shouldProfile: Bool) {
             self.agentParameters = agentParameters
             self.periodInSeconds = periodInSeconds
@@ -188,6 +191,7 @@ extension CodeGuruProfiler {
         ///  A Boolean that specifies whether the profiling agent collects profiling data or not. Set to true to enable profiling.
         public let profilingEnabled: Bool
 
+        @inlinable
         public init(profilingEnabled: Bool) {
             self.profilingEnabled = profilingEnabled
         }
@@ -204,6 +208,7 @@ extension CodeGuruProfiler {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var start: Date?
 
+        @inlinable
         public init(period: AggregationPeriod? = nil, start: Date? = nil) {
             self.period = period
             self.start = start
@@ -223,6 +228,7 @@ extension CodeGuruProfiler {
         /// The reason for which metric was flagged as anomalous.
         public let reason: String
 
+        @inlinable
         public init(instances: [AnomalyInstance], metric: Metric, reason: String) {
             self.instances = instances
             self.metric = metric
@@ -248,6 +254,7 @@ extension CodeGuruProfiler {
         /// Feedback type on a specific instance of anomaly submitted by the user.
         public let userFeedback: UserFeedback?
 
+        @inlinable
         public init(endTime: Date? = nil, id: String, startTime: Date, userFeedback: UserFeedback? = nil) {
             self.endTime = endTime
             self.id = id
@@ -279,6 +286,7 @@ extension CodeGuruProfiler {
         /// The requested resolution of time steps for the returned time series of values.  If the requested target resolution is not available due to data not being retained we provide a best effort  result by falling back to the most granular available resolution after the target resolution.  There are 3 valid values.     P1D — 1 day     PT1H — 1 hour     PT5M — 5 minutes
         public let targetResolution: AggregationPeriod?
 
+        @inlinable
         public init(endTime: Date? = nil, frameMetrics: [FrameMetric]? = nil, period: String? = nil, profilingGroupName: String, startTime: Date? = nil, targetResolution: AggregationPeriod? = nil) {
             self.endTime = endTime
             self.frameMetrics = frameMetrics
@@ -328,6 +336,7 @@ extension CodeGuruProfiler {
         /// List of instances which remained unprocessed. This will create a missing time step in the list of end times.
         public let unprocessedEndTimes: [String: [TimestampStructure]]
 
+        @inlinable
         public init(endTime: Date, endTimes: [TimestampStructure], frameMetricData: [FrameMetricDatum], resolution: AggregationPeriod, startTime: Date, unprocessedEndTimes: [String: [TimestampStructure]]) {
             self.endTime = endTime
             self.endTimes = endTimes
@@ -355,6 +364,7 @@ extension CodeGuruProfiler {
         /// Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri.
         public let uri: String
 
+        @inlinable
         public init(eventPublishers: [EventPublisher], id: String? = nil, uri: String) {
             self.eventPublishers = eventPublishers
             self.id = id
@@ -382,6 +392,7 @@ extension CodeGuruProfiler {
         ///  The name of the profiling group for which the configured agent is collecting profiling data.
         public let profilingGroupName: String
 
+        @inlinable
         public init(fleetInstanceId: String? = nil, metadata: [MetadataField: String]? = nil, profilingGroupName: String) {
             self.fleetInstanceId = fleetInstanceId
             self.metadata = metadata
@@ -414,6 +425,7 @@ extension CodeGuruProfiler {
         ///  An  AgentConfiguration  object that specifies if an agent profiles or not and for how long to return profiling data.
         public let configuration: AgentConfiguration
 
+        @inlinable
         public init(configuration: AgentConfiguration) {
             self.configuration = configuration
         }
@@ -438,6 +450,7 @@ extension CodeGuruProfiler {
         ///  A list of tags to add to the created profiling group.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, clientToken: String = CreateProfilingGroupRequest.idempotencyToken(), computePlatform: ComputePlatform? = nil, profilingGroupName: String, tags: [String: String]? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.clientToken = clientToken
@@ -477,6 +490,7 @@ extension CodeGuruProfiler {
         ///  The returned  ProfilingGroupDescription object that contains information about the created profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
+        @inlinable
         public init(profilingGroup: ProfilingGroupDescription) {
             self.profilingGroup = profilingGroup
         }
@@ -493,6 +507,7 @@ extension CodeGuruProfiler {
         /// The name of the profiling group to delete.
         public let profilingGroupName: String
 
+        @inlinable
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
         }
@@ -520,6 +535,7 @@ extension CodeGuruProfiler {
         ///  The name of the profiling group to get information about.
         public let profilingGroupName: String
 
+        @inlinable
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
         }
@@ -543,6 +559,7 @@ extension CodeGuruProfiler {
         ///  The returned  ProfilingGroupDescription  object that contains information about the requested profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
+        @inlinable
         public init(profilingGroup: ProfilingGroupDescription) {
             self.profilingGroup = profilingGroup
         }
@@ -569,6 +586,7 @@ extension CodeGuruProfiler {
         /// The total number of different recommendations that were found by the analysis.
         public let totalNumberOfFindings: Int?
 
+        @inlinable
         public init(id: String? = nil, profileEndTime: Date? = nil, profileStartTime: Date? = nil, profilingGroupName: String? = nil, totalNumberOfFindings: Int? = nil) {
             self.id = id
             self.profileEndTime = profileEndTime
@@ -594,6 +612,7 @@ extension CodeGuruProfiler {
         ///  A type of aggregation that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurrences of all frames in a profile.
         public let type: MetricType
 
+        @inlinable
         public init(frameName: String, threadStates: [String], type: MetricType) {
             self.frameName = frameName
             self.threadStates = threadStates
@@ -612,6 +631,7 @@ extension CodeGuruProfiler {
         ///  A list of values that are associated with a frame metric.
         public let values: [Double]
 
+        @inlinable
         public init(frameMetric: FrameMetric, values: [Double]) {
             self.frameMetric = frameMetric
             self.values = values
@@ -631,6 +651,7 @@ extension CodeGuruProfiler {
         /// The nextToken value returned from a previous paginated GetFindingsReportAccountSummary request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(dailyReportsOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dailyReportsOnly = dailyReportsOnly
             self.maxResults = maxResults
@@ -662,6 +683,7 @@ extension CodeGuruProfiler {
         /// The return list of   FindingsReportSummary  objects taht contain summaries of analysis results for all profiling groups in your AWS account.
         public let reportSummaries: [FindingsReportSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, reportSummaries: [FindingsReportSummary]) {
             self.nextToken = nextToken
             self.reportSummaries = reportSummaries
@@ -677,6 +699,7 @@ extension CodeGuruProfiler {
         /// The name of the profiling group we want to get the notification configuration for.
         public let profilingGroupName: String
 
+        @inlinable
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
         }
@@ -700,6 +723,7 @@ extension CodeGuruProfiler {
         /// The current notification configuration for this profiling group.
         public let notificationConfiguration: NotificationConfiguration
 
+        @inlinable
         public init(notificationConfiguration: NotificationConfiguration) {
             self.notificationConfiguration = notificationConfiguration
         }
@@ -713,6 +737,7 @@ extension CodeGuruProfiler {
         /// The name of the profiling group.
         public let profilingGroupName: String
 
+        @inlinable
         public init(profilingGroupName: String) {
             self.profilingGroupName = profilingGroupName
         }
@@ -738,6 +763,7 @@ extension CodeGuruProfiler {
         /// A unique identifier for the current revision of the returned policy.
         public let revisionId: String
 
+        @inlinable
         public init(policy: String, revisionId: String) {
             self.policy = policy
             self.revisionId = revisionId
@@ -765,6 +791,7 @@ extension CodeGuruProfiler {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(accept: String? = nil, endTime: Date? = nil, maxDepth: Int? = nil, period: String? = nil, profilingGroupName: String, startTime: Date? = nil) {
             self.accept = accept
             self.endTime = endTime
@@ -807,6 +834,7 @@ extension CodeGuruProfiler {
         /// Information about the profile.
         public let profile: AWSHTTPBody
 
+        @inlinable
         public init(contentEncoding: String? = nil, contentType: String, profile: AWSHTTPBody) {
             self.contentEncoding = contentEncoding
             self.contentType = contentType
@@ -836,6 +864,7 @@ extension CodeGuruProfiler {
         @CustomCoding<ISO8601DateCoder>
         public var startTime: Date
 
+        @inlinable
         public init(endTime: Date, locale: String? = nil, profilingGroupName: String, startTime: Date) {
             self.endTime = endTime
             self.locale = locale
@@ -875,6 +904,7 @@ extension CodeGuruProfiler {
         /// The list of recommendations that the analysis found for this profile.
         public let recommendations: [Recommendation]
 
+        @inlinable
         public init(anomalies: [Anomaly], profileEndTime: Date, profileStartTime: Date, profilingGroupName: String, recommendations: [Recommendation]) {
             self.anomalies = anomalies
             self.profileEndTime = profileEndTime
@@ -908,6 +938,7 @@ extension CodeGuruProfiler {
         @CustomCoding<ISO8601DateCoder>
         public var startTime: Date
 
+        @inlinable
         public init(dailyReportsOnly: Bool? = nil, endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, profilingGroupName: String, startTime: Date) {
             self.dailyReportsOnly = dailyReportsOnly
             self.endTime = endTime
@@ -948,6 +979,7 @@ extension CodeGuruProfiler {
         /// The nextToken value to include in a future ListFindingsReports request. When the results of a ListFindingsReports request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(findingsReportSummaries: [FindingsReportSummary], nextToken: String? = nil) {
             self.findingsReportSummaries = findingsReportSummaries
             self.nextToken = nextToken
@@ -977,6 +1009,7 @@ extension CodeGuruProfiler {
         @CustomCoding<ISO8601DateCoder>
         public var startTime: Date
 
+        @inlinable
         public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil, period: AggregationPeriod, profilingGroupName: String, startTime: Date) {
             self.endTime = endTime
             self.maxResults = maxResults
@@ -1019,6 +1052,7 @@ extension CodeGuruProfiler {
         /// The list of start times of the available profiles for the aggregation  period in the specified time range.
         public let profileTimes: [ProfileTime]
 
+        @inlinable
         public init(nextToken: String? = nil, profileTimes: [ProfileTime]) {
             self.nextToken = nextToken
             self.profileTimes = profileTimes
@@ -1038,6 +1072,7 @@ extension CodeGuruProfiler {
         /// The nextToken value returned from a previous paginated  ListProfilingGroups request where maxResults was used and the results  exceeded the value of that parameter. Pagination continues from the end of the previous results  that returned the nextToken value.    This token should be treated as an opaque identifier that is only used to retrieve  the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
+        @inlinable
         public init(includeDescription: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.includeDescription = includeDescription
             self.maxResults = maxResults
@@ -1071,6 +1106,7 @@ extension CodeGuruProfiler {
         ///  A returned list   ProfilingGroupDescription  objects. A list of   ProfilingGroupDescription  objects is returned only if includeDescription is true, otherwise a list of profiling group names is returned.
         public let profilingGroups: [ProfilingGroupDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, profilingGroupNames: [String], profilingGroups: [ProfilingGroupDescription]? = nil) {
             self.nextToken = nextToken
             self.profilingGroupNames = profilingGroupNames
@@ -1088,6 +1124,7 @@ extension CodeGuruProfiler {
         ///  The Amazon Resource Name (ARN) of the resource that contains the tags to return.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1105,6 +1142,7 @@ extension CodeGuruProfiler {
         ///  The list of tags assigned to the specified resource. This is the list of tags  returned in the response.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1122,6 +1160,7 @@ extension CodeGuruProfiler {
         /// The value in the profile data that exceeded the recommendation threshold.
         public let thresholdBreachValue: Double?
 
+        @inlinable
         public init(frameAddress: String? = nil, targetFramesIndex: Int? = nil, thresholdBreachValue: Double? = nil) {
             self.frameAddress = frameAddress
             self.targetFramesIndex = targetFramesIndex
@@ -1143,6 +1182,7 @@ extension CodeGuruProfiler {
         ///  A type that specifies how a metric for a frame is analyzed.  The supported value AggregatedRelativeTotalTime is an  aggregation of the metric value for one frame that is calculated across the  occurences of all frames in a profile.
         public let type: MetricType
 
+        @inlinable
         public init(frameName: String, threadStates: [String], type: MetricType) {
             self.frameName = frameName
             self.threadStates = threadStates
@@ -1160,6 +1200,7 @@ extension CodeGuruProfiler {
         /// List of up to two channels to be used for sending notifications for events detected from the application profile.
         public let channels: [Channel]?
 
+        @inlinable
         public init(channels: [Channel]? = nil) {
             self.channels = channels
         }
@@ -1185,6 +1226,7 @@ extension CodeGuruProfiler {
         ///  The percentage of time an application spends in one method that triggers  a recommendation. The percentage of time is the same as the percentage of  the total gathered sample counts during analysis.
         public let thresholdPercent: Double?
 
+        @inlinable
         public init(countersToAggregate: [String]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resolutionSteps: String? = nil, targetFrames: [[String]]? = nil, thresholdPercent: Double? = nil) {
             self.countersToAggregate = countersToAggregate
             self.description = description
@@ -1216,6 +1258,7 @@ extension CodeGuruProfiler {
         ///  The name of the profiling group with the aggregated profile that receives the  submitted profiling data.
         public let profilingGroupName: String
 
+        @inlinable
         public init(agentProfile: AWSHTTPBody, contentType: String, profileToken: String? = PostAgentProfileRequest.idempotencyToken(), profilingGroupName: String) {
             self.agentProfile = agentProfile
             self.contentType = contentType
@@ -1253,6 +1296,7 @@ extension CodeGuruProfiler {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var start: Date?
 
+        @inlinable
         public init(start: Date? = nil) {
             self.start = start
         }
@@ -1282,6 +1326,7 @@ extension CodeGuruProfiler {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(agentOrchestrationConfig: AgentOrchestrationConfig? = nil, arn: String? = nil, computePlatform: ComputePlatform? = nil, createdAt: Date? = nil, name: String? = nil, profilingStatus: ProfilingStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.arn = arn
@@ -1315,6 +1360,7 @@ extension CodeGuruProfiler {
         ///  An  AggregatedProfileTime  object that contains the aggregation period and start time for an aggregated profile.
         public let latestAggregatedProfile: AggregatedProfileTime?
 
+        @inlinable
         public init(latestAgentOrchestratedAt: Date? = nil, latestAgentProfileReportedAt: Date? = nil, latestAggregatedProfile: AggregatedProfileTime? = nil) {
             self.latestAgentOrchestratedAt = latestAgentOrchestratedAt
             self.latestAgentProfileReportedAt = latestAgentProfileReportedAt
@@ -1338,6 +1384,7 @@ extension CodeGuruProfiler {
         ///  A universally unique identifier (UUID) for the revision of the policy you  are adding to the profiling group. Do not specify  this when you add permissions to a profiling group for the first time. If a policy already exists on the  profiling group, you must specify the revisionId.
         public let revisionId: String?
 
+        @inlinable
         public init(actionGroup: ActionGroup, principals: [String], profilingGroupName: String, revisionId: String? = nil) {
             self.actionGroup = actionGroup
             self.principals = principals
@@ -1375,6 +1422,7 @@ extension CodeGuruProfiler {
         ///  A universally unique identifier (UUID) for the revision of the resource-based policy that includes the added permissions. The JSON-formatted policy is in the policy element of the response.
         public let revisionId: String
 
+        @inlinable
         public init(policy: String, revisionId: String) {
             self.policy = policy
             self.revisionId = revisionId
@@ -1402,6 +1450,7 @@ extension CodeGuruProfiler {
         /// List of the matches with most impact.
         public let topMatches: [Match]
 
+        @inlinable
         public init(allMatchesCount: Int, allMatchesSum: Double, endTime: Date, pattern: Pattern, startTime: Date, topMatches: [Match]) {
             self.allMatchesCount = allMatchesCount
             self.allMatchesSum = allMatchesSum
@@ -1427,6 +1476,7 @@ extension CodeGuruProfiler {
         /// The name of the profiling group we want to change notification configuration for.
         public let profilingGroupName: String
 
+        @inlinable
         public init(channelId: String, profilingGroupName: String) {
             self.channelId = channelId
             self.profilingGroupName = profilingGroupName
@@ -1453,6 +1503,7 @@ extension CodeGuruProfiler {
         /// The new notification configuration for this profiling group.
         public let notificationConfiguration: NotificationConfiguration?
 
+        @inlinable
         public init(notificationConfiguration: NotificationConfiguration? = nil) {
             self.notificationConfiguration = notificationConfiguration
         }
@@ -1470,6 +1521,7 @@ extension CodeGuruProfiler {
         ///  A universally unique identifier (UUID) for the revision of the resource-based policy from which  you want to remove permissions.
         public let revisionId: String
 
+        @inlinable
         public init(actionGroup: ActionGroup, profilingGroupName: String, revisionId: String) {
             self.actionGroup = actionGroup
             self.profilingGroupName = profilingGroupName
@@ -1500,6 +1552,7 @@ extension CodeGuruProfiler {
         ///  A universally unique identifier (UUID) for the revision of the resource-based policy after the specified permissions were removed. The updated JSON-formatted policy is in the policy element of the response.
         public let revisionId: String
 
+        @inlinable
         public init(policy: String, revisionId: String) {
             self.policy = policy
             self.revisionId = revisionId
@@ -1521,6 +1574,7 @@ extension CodeGuruProfiler {
         ///  The feedback tpye. Thee are two valid values, Positive and Negative.
         public let type: FeedbackType
 
+        @inlinable
         public init(anomalyInstanceId: String, comment: String? = nil, profilingGroupName: String, type: FeedbackType) {
             self.anomalyInstanceId = anomalyInstanceId
             self.comment = comment
@@ -1560,6 +1614,7 @@ extension CodeGuruProfiler {
         ///  The list of tags that are added to the specified resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1586,6 +1641,7 @@ extension CodeGuruProfiler {
         @CustomCoding<ISO8601DateCoder>
         public var value: Date
 
+        @inlinable
         public init(value: Date) {
             self.value = value
         }
@@ -1601,6 +1657,7 @@ extension CodeGuruProfiler {
         ///  A list of tag keys. Existing tags of resources with keys in this list are removed from  the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1626,6 +1683,7 @@ extension CodeGuruProfiler {
         /// The name of the profiling group to update.
         public let profilingGroupName: String
 
+        @inlinable
         public init(agentOrchestrationConfig: AgentOrchestrationConfig, profilingGroupName: String) {
             self.agentOrchestrationConfig = agentOrchestrationConfig
             self.profilingGroupName = profilingGroupName
@@ -1653,6 +1711,7 @@ extension CodeGuruProfiler {
         ///  A  ProfilingGroupDescription  that contains information about the returned updated profiling group.
         public let profilingGroup: ProfilingGroupDescription
 
+        @inlinable
         public init(profilingGroup: ProfilingGroupDescription) {
             self.profilingGroup = profilingGroup
         }
@@ -1669,6 +1728,7 @@ extension CodeGuruProfiler {
         /// Optional Positive or Negative feedback submitted by  the user about whether the recommendation is useful or not.
         public let type: FeedbackType
 
+        @inlinable
         public init(type: FeedbackType) {
             self.type = type
         }

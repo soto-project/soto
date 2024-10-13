@@ -576,6 +576,7 @@ extension SecurityHub {
         /// The identifier of the invitation sent from the Security Hub administrator account.
         public let invitationId: String?
 
+        @inlinable
         public init(administratorId: String? = nil, invitationId: String? = nil) {
             self.administratorId = administratorId
             self.invitationId = invitationId
@@ -602,6 +603,7 @@ extension SecurityHub {
         /// The account ID of the Security Hub administrator account that sent the invitation.
         public let masterId: String?
 
+        @inlinable
         public init(invitationId: String? = nil, masterId: String? = nil) {
             self.invitationId = invitationId
             self.masterId = masterId
@@ -628,6 +630,7 @@ extension SecurityHub {
         /// The email of an Amazon Web Services account.
         public let email: String?
 
+        @inlinable
         public init(accountId: String? = nil, email: String? = nil) {
             self.accountId = accountId
             self.email = email
@@ -655,6 +658,7 @@ extension SecurityHub {
         /// Included if ActionType is PORT_PROBE. Provides details about the port probe that was detected.
         public let portProbeAction: PortProbeAction?
 
+        @inlinable
         public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
@@ -684,6 +688,7 @@ extension SecurityHub {
         /// The IP address.
         public let ipAddressV4: String?
 
+        @inlinable
         public init(ipAddressV4: String? = nil) {
             self.ipAddressV4 = ipAddressV4
         }
@@ -703,6 +708,7 @@ extension SecurityHub {
         /// The port name of the local connection. Length Constraints: 128.
         public let portName: String?
 
+        @inlinable
         public init(port: Int? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
@@ -730,6 +736,7 @@ extension SecurityHub {
         /// The internet service provider (ISP) organization associated with the remote IP address.
         public let organization: IpOrganizationDetails?
 
+        @inlinable
         public init(city: City? = nil, country: Country? = nil, geoLocation: GeoLocation? = nil, ipAddressV4: String? = nil, organization: IpOrganizationDetails? = nil) {
             self.city = city
             self.country = country
@@ -760,6 +767,7 @@ extension SecurityHub {
         /// The port name of the remote connection. Length Constraints: 128.
         public let portName: String?
 
+        @inlinable
         public init(port: Int? = nil, portName: String? = nil) {
             self.port = port
             self.portName = portName
@@ -783,6 +791,7 @@ extension SecurityHub {
         /// The name of the action target.
         public let name: String?
 
+        @inlinable
         public init(actionTargetArn: String? = nil, description: String? = nil, name: String? = nil) {
             self.actionTargetArn = actionTargetArn
             self.description = description
@@ -802,6 +811,7 @@ extension SecurityHub {
         /// The reason for the adjustment.
         public let reason: String?
 
+        @inlinable
         public init(metric: String? = nil, reason: String? = nil) {
             self.metric = metric
             self.reason = reason
@@ -824,6 +834,7 @@ extension SecurityHub {
         /// The current status of the Security Hub administrator account. Indicates whether the account is currently enabled as a Security Hub administrator.
         public let status: AdminStatus?
 
+        @inlinable
         public init(accountId: String? = nil, status: AdminStatus? = nil) {
             self.accountId = accountId
             self.status = status
@@ -839,6 +850,7 @@ extension SecurityHub {
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the  Amazon Resource Name (ARN) returned for a standard in the DescribeStandards API response.
         public let standardsId: String?
 
+        @inlinable
         public init(standardsId: String? = nil) {
             self.standardsId = standardsId
         }
@@ -860,6 +872,7 @@ extension SecurityHub {
         ///  The ARN or UUID of the configuration policy.
         public let configurationPolicyId: String?
 
+        @inlinable
         public init(associationStatus: ConfigurationPolicyAssociationStatus? = nil, associationType: AssociationType? = nil, configurationPolicyId: String? = nil) {
             self.associationStatus = associationStatus
             self.associationType = associationType
@@ -891,6 +904,7 @@ extension SecurityHub {
         ///  The ID of the subnet. A subnet ID is not returned for an implicit association.
         public let subnetId: String?
 
+        @inlinable
         public init(associationState: AssociationStateDetails? = nil, gatewayId: String? = nil, main: Bool? = nil, routeTableAssociationId: String? = nil, routeTableId: String? = nil, subnetId: String? = nil) {
             self.associationState = associationState
             self.gatewayId = gatewayId
@@ -924,6 +938,7 @@ extension SecurityHub {
         ///  The status message, if applicable.
         public let statusMessage: String?
 
+        @inlinable
         public init(state: String? = nil, statusMessage: String? = nil) {
             self.state = state
             self.statusMessage = statusMessage
@@ -946,6 +961,7 @@ extension SecurityHub {
         ///  Specifies that the rule action should update the Types finding field. The Types  finding field classifies findings in the format of namespace/category/classifier. For more information, see Types taxonomy for ASFF in  the Security Hub User Guide.
         public let type: AutomationRulesActionType?
 
+        @inlinable
         public init(findingFieldsUpdate: AutomationRulesFindingFieldsUpdate? = nil, type: AutomationRulesActionType? = nil) {
             self.findingFieldsUpdate = findingFieldsUpdate
             self.type = type
@@ -991,6 +1007,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(actions: [AutomationRulesAction]? = nil, createdAt: Date? = nil, createdBy: String? = nil, criteria: AutomationRulesFindingFilters? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String? = nil, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil, updatedAt: Date? = nil) {
             self.actions = actions
             self.createdAt = createdAt
@@ -1037,6 +1054,7 @@ extension SecurityHub {
         public let verificationState: VerificationState?
         public let workflow: WorkflowUpdate?
 
+        @inlinable
         public init(confidence: Int? = nil, criticality: Int? = nil, note: NoteUpdate? = nil, relatedFindings: [RelatedFinding]? = nil, severity: SeverityUpdate? = nil, types: [String]? = nil, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflow: WorkflowUpdate? = nil) {
             self.confidence = confidence
             self.criticality = criticality
@@ -1169,6 +1187,7 @@ extension SecurityHub {
         ///  Provides information about the status of the investigation into a finding.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let workflowStatus: [StringFilter]?
 
+        @inlinable
         public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, productArn: [StringFilter]? = nil, productName: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
@@ -1389,6 +1408,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String? = nil, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1420,6 +1440,7 @@ extension SecurityHub {
         /// The name of the Availability Zone.
         public let zoneName: String?
 
+        @inlinable
         public init(subnetId: String? = nil, zoneName: String? = nil) {
             self.subnetId = subnetId
             self.zoneName = zoneName
@@ -1474,6 +1495,7 @@ extension SecurityHub {
         ///  The list of all broker usernames for the specified broker. Doesn't apply to RabbitMQ brokers.
         public let users: [AwsAmazonMqBrokerUsersDetails]?
 
+        @inlinable
         public init(authenticationStrategy: String? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerName: String? = nil, deploymentMode: String? = nil, encryptionOptions: AwsAmazonMqBrokerEncryptionOptionsDetails? = nil, engineType: String? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: AwsAmazonMqBrokerLdapServerMetadataDetails? = nil, logs: AwsAmazonMqBrokerLogsDetails? = nil, maintenanceWindowStartTime: AwsAmazonMqBrokerMaintenanceWindowStartTimeDetails? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: String? = nil, subnetIds: [String]? = nil, users: [AwsAmazonMqBrokerUsersDetails]? = nil) {
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -1548,6 +1570,7 @@ extension SecurityHub {
         ///  Specifies that an KMS key should be used for at-rest encryption. Set to true by default  if no value is provided (for example, for RabbitMQ brokers).
         public let useAwsOwnedKey: Bool?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, useAwsOwnedKey: Bool? = nil) {
             self.kmsKeyId = kmsKeyId
             self.useAwsOwnedKey = useAwsOwnedKey
@@ -1585,6 +1608,7 @@ extension SecurityHub {
         ///  The directory search scope for the user. If set to true, the scope is to search the entire subtree.
         public let userSearchSubtree: Bool?
 
+        @inlinable
         public init(hosts: [String]? = nil, roleBase: String? = nil, roleName: String? = nil, roleSearchMatching: String? = nil, roleSearchSubtree: Bool? = nil, serviceAccountUsername: String? = nil, userBase: String? = nil, userRoleName: String? = nil, userSearchMatching: String? = nil, userSearchSubtree: Bool? = nil) {
             self.hosts = hosts
             self.roleBase = roleBase
@@ -1637,6 +1661,7 @@ extension SecurityHub {
         ///  The list of information about logs that are to be turned on for the specified broker.
         public let pending: AwsAmazonMqBrokerLogsPendingDetails?
 
+        @inlinable
         public init(audit: Bool? = nil, auditLogGroup: String? = nil, general: Bool? = nil, generalLogGroup: String? = nil, pending: AwsAmazonMqBrokerLogsPendingDetails? = nil) {
             self.audit = audit
             self.auditLogGroup = auditLogGroup
@@ -1665,6 +1690,7 @@ extension SecurityHub {
         ///  Activates general logging.
         public let general: Bool?
 
+        @inlinable
         public init(audit: Bool? = nil, general: Bool? = nil) {
             self.audit = audit
             self.general = general
@@ -1684,6 +1710,7 @@ extension SecurityHub {
         ///  The time zone in either the Country/City format or the UTC offset format. UTC is the default format.
         public let timeZone: String?
 
+        @inlinable
         public init(dayOfWeek: String? = nil, timeOfDay: String? = nil, timeZone: String? = nil) {
             self.dayOfWeek = dayOfWeek
             self.timeOfDay = timeOfDay
@@ -1709,6 +1736,7 @@ extension SecurityHub {
         ///  The username of the broker user.
         public let username: String?
 
+        @inlinable
         public init(pendingChange: String? = nil, username: String? = nil) {
             self.pendingChange = pendingChange
             self.username = username
@@ -1747,6 +1775,7 @@ extension SecurityHub {
         /// The name of the Amazon Web Services service that the API method belongs to. Length Constraints: 128.
         public let serviceName: String?
 
+        @inlinable
         public init(affectedResources: [String: String]? = nil, api: String? = nil, callerType: String? = nil, domainDetails: AwsApiCallActionDomainDetails? = nil, firstSeen: String? = nil, lastSeen: String? = nil, remoteIpDetails: ActionRemoteIpDetails? = nil, serviceName: String? = nil) {
             self.affectedResources = affectedResources
             self.api = api
@@ -1788,6 +1817,7 @@ extension SecurityHub {
         /// The name of the DNS domain that issued the API call. Length Constraints: 128.
         public let domain: String?
 
+        @inlinable
         public init(domain: String? = nil) {
             self.domain = domain
         }
@@ -1807,6 +1837,7 @@ extension SecurityHub {
         /// A single-line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
         public let format: String?
 
+        @inlinable
         public init(destinationArn: String? = nil, format: String? = nil) {
             self.destinationArn = destinationArn
             self.format = format
@@ -1833,6 +1864,7 @@ extension SecurityHub {
         /// Indicates whether the canary deployment uses the stage cache.
         public let useStageCache: Bool?
 
+        @inlinable
         public init(deploymentId: String? = nil, percentTraffic: Double? = nil, stageVariableOverrides: [String: String]? = nil, useStageCache: Bool? = nil) {
             self.deploymentId = deploymentId
             self.percentTraffic = percentTraffic
@@ -1860,6 +1892,7 @@ extension SecurityHub {
         /// A list of endpoint types for the REST API. For an edge-optimized API, the endpoint type is EDGE. For a Regional API, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public let types: [String]?
 
+        @inlinable
         public init(types: [String]? = nil) {
             self.types = types
         }
@@ -1901,6 +1934,7 @@ extension SecurityHub {
         /// Indicates how to handle unauthorized requests for cache invalidation. Valid values: FAIL_WITH_403 | SUCCEED_WITH_RESPONSE_HEADER | SUCCEED_WITHOUT_RESPONSE_HEADER
         public let unauthorizedCacheControlHeaderStrategy: String?
 
+        @inlinable
         public init(cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int? = nil, cachingEnabled: Bool? = nil, dataTraceEnabled: Bool? = nil, httpMethod: String? = nil, loggingLevel: String? = nil, metricsEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, resourcePath: String? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil, unauthorizedCacheControlHeaderStrategy: String? = nil) {
             self.cacheDataEncrypted = cacheDataEncrypted
             self.cacheTtlInSeconds = cacheTtlInSeconds
@@ -1961,6 +1995,7 @@ extension SecurityHub {
         /// The version identifier for the REST API.
         public let version: String?
 
+        @inlinable
         public init(apiKeySource: String? = nil, binaryMediaTypes: [String]? = nil, createdDate: String? = nil, description: String? = nil, endpointConfiguration: AwsApiGatewayEndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, version: String? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
@@ -2037,6 +2072,7 @@ extension SecurityHub {
         /// The ARN of the web ACL associated with the stage.
         public let webAclArn: String?
 
+        @inlinable
         public init(accessLogSettings: AwsApiGatewayAccessLogSettings? = nil, cacheClusterEnabled: Bool? = nil, cacheClusterSize: String? = nil, cacheClusterStatus: String? = nil, canarySettings: AwsApiGatewayCanarySettings? = nil, clientCertificateId: String? = nil, createdDate: String? = nil, deploymentId: String? = nil, description: String? = nil, documentationVersion: String? = nil, lastUpdatedDate: String? = nil, methodSettings: [AwsApiGatewayMethodSettings]? = nil, stageName: String? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil, webAclArn: String? = nil) {
             self.accessLogSettings = accessLogSettings
             self.cacheClusterEnabled = cacheClusterEnabled
@@ -2122,6 +2158,7 @@ extension SecurityHub {
         /// The version identifier for the API.
         public let version: String?
 
+        @inlinable
         public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: AwsCorsConfiguration? = nil, createdDate: String? = nil, description: String? = nil, name: String? = nil, protocolType: String? = nil, routeSelectionExpression: String? = nil, version: String? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiId = apiId
@@ -2174,6 +2211,7 @@ extension SecurityHub {
         /// The throttling rate limit.
         public let throttlingRateLimit: Double?
 
+        @inlinable
         public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: String? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil) {
             self.dataTraceEnabled = dataTraceEnabled
             self.detailedMetricsEnabled = detailedMetricsEnabled
@@ -2227,6 +2265,7 @@ extension SecurityHub {
         /// A map that defines the stage variables for the stage. Variable names can have alphanumeric and underscore characters. Variable values can contain the following characters:   Uppercase and lowercase letters   Numbers   Special characters -._~:/?#&=,
         public let stageVariables: [String: String]?
 
+        @inlinable
         public init(accessLogSettings: AwsApiGatewayAccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, clientCertificateId: String? = nil, createdDate: String? = nil, defaultRouteSettings: AwsApiGatewayV2RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: String? = nil, routeSettings: AwsApiGatewayV2RouteSettings? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
             self.accessLogSettings = accessLogSettings
             self.apiGatewayManaged = apiGatewayManaged
@@ -2287,6 +2326,7 @@ extension SecurityHub {
         ///  The Amazon Cognito user pools configuration.
         public let userPoolConfig: AwsAppSyncGraphQlApiUserPoolConfigDetails?
 
+        @inlinable
         public init(authenticationType: String? = nil, lambdaAuthorizerConfig: AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails? = nil, openIdConnectConfig: AwsAppSyncGraphQlApiOpenIdConnectConfigDetails? = nil, userPoolConfig: AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil) {
             self.authenticationType = authenticationType
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
@@ -2335,6 +2375,7 @@ extension SecurityHub {
         /// Indicates whether to use X-Ray tracing for the GraphQL API.
         public let xrayEnabled: Bool?
 
+        @inlinable
         public init(additionalAuthenticationProviders: [AwsAppSyncGraphQlApiAdditionalAuthenticationProvidersDetails]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: String? = nil, id: String? = nil, lambdaAuthorizerConfig: AwsAppSyncGraphQlApiLambdaAuthorizerConfigDetails? = nil, logConfig: AwsAppSyncGraphQlApiLogConfigDetails? = nil, name: String? = nil, openIdConnectConfig: AwsAppSyncGraphQlApiOpenIdConnectConfigDetails? = nil, userPoolConfig: AwsAppSyncGraphQlApiUserPoolConfigDetails? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
@@ -2390,6 +2431,7 @@ extension SecurityHub {
         ///  A regular expression for validation of tokens before the Lambda function is called.
         public let identityValidationExpression: String?
 
+        @inlinable
         public init(authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String? = nil, identityValidationExpression: String? = nil) {
             self.authorizerResultTtlInSeconds = authorizerResultTtlInSeconds
             self.authorizerUri = authorizerUri
@@ -2416,6 +2458,7 @@ extension SecurityHub {
         ///  The field logging level.
         public let fieldLogLevel: String?
 
+        @inlinable
         public init(cloudWatchLogsRoleArn: String? = nil, excludeVerboseContent: Bool? = nil, fieldLogLevel: String? = nil) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.excludeVerboseContent = excludeVerboseContent
@@ -2444,6 +2487,7 @@ extension SecurityHub {
         ///  The issuer for the OIDC configuration. The issuer returned by discovery must exactly match the value of iss  in the ID token.
         public let issuer: String?
 
+        @inlinable
         public init(authTtL: Int64? = nil, clientId: String? = nil, iatTtL: Int64? = nil, issuer: String? = nil) {
             self.authTtL = authTtL
             self.clientId = clientId
@@ -2474,6 +2518,7 @@ extension SecurityHub {
         ///  The user pool ID.
         public let userPoolId: String?
 
+        @inlinable
         public init(appIdClientRegex: String? = nil, awsRegion: String? = nil, defaultAction: String? = nil, userPoolId: String? = nil) {
             self.appIdClientRegex = appIdClientRegex
             self.awsRegion = awsRegion
@@ -2500,6 +2545,7 @@ extension SecurityHub {
         ///  The location in Amazon S3 where query and calculation results are stored and the  encryption option, if any, used for query and calculation results. These are known as client-side settings. If  workgroup settings override client-side settings, then the query uses the workgroup settings.
         public let resultConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationDetails?
 
+        @inlinable
         public init(resultConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationDetails? = nil) {
             self.resultConfiguration = resultConfiguration
         }
@@ -2517,6 +2563,7 @@ extension SecurityHub {
         ///  Specifies the method used to encrypt the user’s data stores in the Athena workgroup.
         public let encryptionConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails?
 
+        @inlinable
         public init(encryptionConfiguration: AwsAthenaWorkGroupConfigurationResultConfigurationEncryptionConfigurationDetails? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
         }
@@ -2536,6 +2583,7 @@ extension SecurityHub {
         ///  For SSE_KMS and CSE_KMS, this is the KMS key Amazon Resource Name (ARN) or ID.
         public let kmsKey: String?
 
+        @inlinable
         public init(encryptionOption: String? = nil, kmsKey: String? = nil) {
             self.encryptionOption = encryptionOption
             self.kmsKey = kmsKey
@@ -2562,6 +2610,7 @@ extension SecurityHub {
         ///  Whether the workgroup is enabled or disabled.
         public let state: String?
 
+        @inlinable
         public init(configuration: AwsAthenaWorkGroupConfigurationDetails? = nil, description: String? = nil, name: String? = nil, state: String? = nil) {
             self.configuration = configuration
             self.description = description
@@ -2588,6 +2637,7 @@ extension SecurityHub {
         /// The name of the Availability Zone.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -2623,6 +2673,7 @@ extension SecurityHub {
         /// The mixed instances policy for the automatic scaling group.
         public let mixedInstancesPolicy: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails?
 
+        @inlinable
         public init(availabilityZones: [AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]? = nil, capacityRebalance: Bool? = nil, createdTime: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, mixedInstancesPolicy: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails? = nil) {
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -2670,6 +2721,7 @@ extension SecurityHub {
         /// Identifies the version of the launch template. You can specify a version identifier, or use the values $Latest or $Default.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -2695,6 +2747,7 @@ extension SecurityHub {
         /// The launch template to use and the instance types (overrides) to use to provision EC2 instances to fulfill On-Demand and Spot capacities.
         public let launchTemplate: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails?
 
+        @inlinable
         public init(instancesDistribution: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails? = nil, launchTemplate: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails? = nil) {
             self.instancesDistribution = instancesDistribution
             self.launchTemplate = launchTemplate
@@ -2725,6 +2778,7 @@ extension SecurityHub {
         /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
         public let spotMaxPrice: String?
 
+        @inlinable
         public init(onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int? = nil, onDemandPercentageAboveBaseCapacity: Int? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int? = nil, spotMaxPrice: String? = nil) {
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandBaseCapacity = onDemandBaseCapacity
@@ -2756,6 +2810,7 @@ extension SecurityHub {
         /// Property values to use to override the values in the launch template.
         public let overrides: [AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails]?
 
+        @inlinable
         public init(launchTemplateSpecification: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification? = nil, overrides: [AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails]? = nil) {
             self.launchTemplateSpecification = launchTemplateSpecification
             self.overrides = overrides
@@ -2782,6 +2837,7 @@ extension SecurityHub {
         /// Identifies the version of the launch template. You can specify a version identifier, or use the values $Latest or $Default.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -2807,6 +2863,7 @@ extension SecurityHub {
         /// The number of capacity units provided by the specified instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic.
         public let weightedCapacity: String?
 
+        @inlinable
         public init(instanceType: String? = nil, weightedCapacity: String? = nil) {
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
@@ -2833,6 +2890,7 @@ extension SecurityHub {
         /// The name of the virtual device (for example, ephemeral0). You can provide either VirtualName or Ebs, but not both.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: AwsAutoScalingLaunchConfigurationBlockDeviceMappingsEbsDetails? = nil, noDevice: Bool? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -2868,6 +2926,7 @@ extension SecurityHub {
         /// The volume type. Valid values are as follows:    gp2     gp3     io1     sc1     st1     standard
         public let volumeType: String?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, snapshotId: String? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -2934,6 +2993,7 @@ extension SecurityHub {
         /// The user data to make available to the launched EC2 instances. Must be base64-encoded text.
         public let userData: String?
 
+        @inlinable
         public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails]? = nil, classicLinkVpcId: String? = nil, classicLinkVpcSecurityGroups: [String]? = nil, createdTime: String? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceMonitoring: AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String? = nil, metadataOptions: AwsAutoScalingLaunchConfigurationMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
@@ -3008,6 +3068,7 @@ extension SecurityHub {
         /// If set to true, then instances in the group launch with detailed monitoring. If set to false, then instances in the group launch with basic monitoring.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -3025,6 +3086,7 @@ extension SecurityHub {
         /// Indicates whether token usage is required or optional for metadata requests. By default, token usage is optional.
         public let httpTokens: String?
 
+        @inlinable
         public init(httpEndpoint: String? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
@@ -3050,6 +3112,7 @@ extension SecurityHub {
         /// The name of a resource type. The only supported resource type is Amazon EC2 instances with Windows VSS. The only valid value is EC2.
         public let resourceType: String?
 
+        @inlinable
         public init(backupOptions: [String: String]? = nil, resourceType: String? = nil) {
             self.backupOptions = backupOptions
             self.resourceType = resourceType
@@ -3077,6 +3140,7 @@ extension SecurityHub {
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let backupPlanRule: [AwsBackupBackupPlanRuleDetails]?
 
+        @inlinable
         public init(advancedBackupSettings: [AwsBackupBackupPlanAdvancedBackupSettingsDetails]? = nil, backupPlanName: String? = nil, backupPlanRule: [AwsBackupBackupPlanRuleDetails]? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
@@ -3110,6 +3174,7 @@ extension SecurityHub {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings. Version IDs cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(backupPlan: AwsBackupBackupPlanBackupPlanDetails? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, versionId: String? = nil) {
             self.backupPlan = backupPlan
             self.backupPlanArn = backupPlanArn
@@ -3138,6 +3203,7 @@ extension SecurityHub {
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public let moveToColdStorageAfterDays: Int64?
 
+        @inlinable
         public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
@@ -3155,6 +3221,7 @@ extension SecurityHub {
         /// Defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. If you do not specify a lifecycle, Backup applies the lifecycle policy of the source backup to the destination backup. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
         public let lifecycle: AwsBackupBackupPlanLifecycleDetails?
 
+        @inlinable
         public init(destinationBackupVaultArn: String? = nil, lifecycle: AwsBackupBackupPlanLifecycleDetails? = nil) {
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.lifecycle = lifecycle
@@ -3190,6 +3257,7 @@ extension SecurityHub {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the Amazon Web Services account used to create them and the Amazon Web Services Region  where they are created. They consist of letters, numbers, and hyphens.
         public let targetBackupVault: String?
 
+        @inlinable
         public init(completionWindowMinutes: Int64? = nil, copyActions: [AwsBackupBackupPlanRuleCopyActionsDetails]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: AwsBackupBackupPlanLifecycleDetails? = nil, ruleId: String? = nil, ruleName: String? = nil, scheduleExpression: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVault: String? = nil) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
@@ -3240,6 +3308,7 @@ extension SecurityHub {
         /// The Amazon SNS event notifications for the specified backup vault.
         public let notifications: AwsBackupBackupVaultNotificationsDetails?
 
+        @inlinable
         public init(accessPolicy: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, encryptionKeyArn: String? = nil, notifications: AwsBackupBackupVaultNotificationsDetails? = nil) {
             self.accessPolicy = accessPolicy
             self.backupVaultArn = backupVaultArn
@@ -3272,6 +3341,7 @@ extension SecurityHub {
         /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon SNS topic for a backup vault's events.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(backupVaultEvents: [String]? = nil, snsTopicArn: String? = nil) {
             self.backupVaultEvents = backupVaultEvents
             self.snsTopicArn = snsTopicArn
@@ -3297,6 +3367,7 @@ extension SecurityHub {
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public let moveToColdStorageAt: String?
 
+        @inlinable
         public init(deleteAt: String? = nil, moveToColdStorageAt: String? = nil) {
             self.deleteAt = deleteAt
             self.moveToColdStorageAt = moveToColdStorageAt
@@ -3324,6 +3395,7 @@ extension SecurityHub {
         /// Uniquely identifies a rule used to schedule the backup of a selection of resources.
         public let backupRuleId: String?
 
+        @inlinable
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanVersion: String? = nil, backupRuleId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -3399,6 +3471,7 @@ extension SecurityHub {
         /// Specifies the storage class of the recovery point. Valid values are as follows:    COLD     DELETED     WARM
         public let storageClass: String?
 
+        @inlinable
         public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: AwsBackupRecoveryPointCalculatedLifecycleDetails? = nil, completionDate: String? = nil, createdBy: AwsBackupRecoveryPointCreatedByDetails? = nil, creationDate: String? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, lastRestoreTime: String? = nil, lifecycle: AwsBackupRecoveryPointLifecycleDetails? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: String? = nil, statusMessage: String? = nil, storageClass: String? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -3470,6 +3543,7 @@ extension SecurityHub {
         /// Specifies the number of days after creation that a recovery point is moved to cold storage.
         public let moveToColdStorageAfterDays: Int64?
 
+        @inlinable
         public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
@@ -3539,6 +3613,7 @@ extension SecurityHub {
         /// The source of the certificate. For certificates that Certificate Manager provides, Type is AMAZON_ISSUED. For certificates that are imported with ImportCertificate, Type is IMPORTED. Valid values: IMPORTED | AMAZON_ISSUED | PRIVATE
         public let type: String?
 
+        @inlinable
         public init(certificateAuthorityArn: String? = nil, createdAt: String? = nil, domainName: String? = nil, domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]? = nil, extendedKeyUsages: [AwsCertificateManagerCertificateExtendedKeyUsage]? = nil, failureReason: String? = nil, importedAt: String? = nil, inUseBy: [String]? = nil, issuedAt: String? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, keyUsages: [AwsCertificateManagerCertificateKeyUsage]? = nil, notAfter: String? = nil, notBefore: String? = nil, options: AwsCertificateManagerCertificateOptions? = nil, renewalEligibility: String? = nil, renewalSummary: AwsCertificateManagerCertificateRenewalSummary? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: String? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -3642,6 +3717,7 @@ extension SecurityHub {
         /// The validation status of the domain name.
         public let validationStatus: String?
 
+        @inlinable
         public init(domainName: String? = nil, resourceRecord: AwsCertificateManagerCertificateResourceRecord? = nil, validationDomain: String? = nil, validationEmails: [String]? = nil, validationMethod: String? = nil, validationStatus: String? = nil) {
             self.domainName = domainName
             self.resourceRecord = resourceRecord
@@ -3678,6 +3754,7 @@ extension SecurityHub {
         /// An object identifier (OID) for the extension value. The format is numbers separated by periods.
         public let oId: String?
 
+        @inlinable
         public init(name: String? = nil, oId: String? = nil) {
             self.name = name
             self.oId = oId
@@ -3698,6 +3775,7 @@ extension SecurityHub {
         /// The key usage extension name.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -3715,6 +3793,7 @@ extension SecurityHub {
         /// Whether to add the certificate to a transparency log. Valid values: DISABLED | ENABLED
         public let certificateTransparencyLoggingPreference: String?
 
+        @inlinable
         public init(certificateTransparencyLoggingPreference: String? = nil) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
         }
@@ -3740,6 +3819,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let updatedAt: String?
 
+        @inlinable
         public init(domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]? = nil, renewalStatus: String? = nil, renewalStatusReason: String? = nil, updatedAt: String? = nil) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
@@ -3772,6 +3852,7 @@ extension SecurityHub {
         /// The value of the resource.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.type = type
@@ -3826,6 +3907,7 @@ extension SecurityHub {
         /// the CREATE_COMPLETE state.
         public let timeoutInMinutes: Int?
 
+        @inlinable
         public init(capabilities: [String]? = nil, creationTime: String? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: AwsCloudFormationStackDriftInformationDetails? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: String? = nil, notificationArns: [String]? = nil, outputs: [AwsCloudFormationStackOutputsDetails]? = nil, roleArn: String? = nil, stackId: String? = nil, stackName: String? = nil, stackStatus: String? = nil, stackStatusReason: String? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.creationTime = creationTime
@@ -3888,6 +3970,7 @@ extension SecurityHub {
         /// Status of the stack's actual configuration compared to its expected template configuration.
         public let stackDriftStatus: String?
 
+        @inlinable
         public init(stackDriftStatus: String? = nil) {
             self.stackDriftStatus = stackDriftStatus
         }
@@ -3909,6 +3992,7 @@ extension SecurityHub {
         /// The value associated with the output.
         public let outputValue: String?
 
+        @inlinable
         public init(description: String? = nil, outputKey: String? = nil, outputValue: String? = nil) {
             self.description = description
             self.outputKey = outputKey
@@ -3932,6 +4016,7 @@ extension SecurityHub {
         /// The protocol that viewers can use to access the files in an origin. You can specify the following options:    allow-all - Viewers can use HTTP or HTTPS.    redirect-to-https - CloudFront responds to HTTP requests with an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer then uses the new URL to resubmit.    https-only - CloudFront responds to HTTP request with an HTTP status code of 403 (Forbidden).
         public let viewerProtocolPolicy: String?
 
+        @inlinable
         public init(viewerProtocolPolicy: String? = nil) {
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
@@ -3949,6 +4034,7 @@ extension SecurityHub {
         /// The cache behaviors for the distribution.
         public let items: [AwsCloudFrontDistributionCacheBehavior]?
 
+        @inlinable
         public init(items: [AwsCloudFrontDistributionCacheBehavior]? = nil) {
             self.items = items
         }
@@ -3968,6 +4054,7 @@ extension SecurityHub {
         /// The protocol that viewers can use to access the files in an origin. You can specify the following options:    allow-all - Viewers can use HTTP or HTTPS.    redirect-to-https - CloudFront responds to HTTP requests with an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer then uses the new URL to resubmit.    https-only - CloudFront responds to HTTP request with an HTTP status code of 403 (Forbidden).
         public let viewerProtocolPolicy: String?
 
+        @inlinable
         public init(viewerProtocolPolicy: String? = nil) {
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
@@ -4009,6 +4096,7 @@ extension SecurityHub {
         /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution.
         public let webAclId: String?
 
+        @inlinable
         public init(cacheBehaviors: AwsCloudFrontDistributionCacheBehaviors? = nil, defaultCacheBehavior: AwsCloudFrontDistributionDefaultCacheBehavior? = nil, defaultRootObject: String? = nil, domainName: String? = nil, eTag: String? = nil, lastModifiedTime: String? = nil, logging: AwsCloudFrontDistributionLogging? = nil, originGroups: AwsCloudFrontDistributionOriginGroups? = nil, origins: AwsCloudFrontDistributionOrigins? = nil, status: String? = nil, viewerCertificate: AwsCloudFrontDistributionViewerCertificate? = nil, webAclId: String? = nil) {
             self.cacheBehaviors = cacheBehaviors
             self.defaultCacheBehavior = defaultCacheBehavior
@@ -4064,6 +4152,7 @@ extension SecurityHub {
         /// An optional string that you want CloudFront to use as a prefix to the access log filenames for this distribution.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, enabled: Bool? = nil, includeCookies: Bool? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.enabled = enabled
@@ -4098,6 +4187,7 @@ extension SecurityHub {
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS.
         public let originSslProtocols: AwsCloudFrontDistributionOriginSslProtocols?
 
+        @inlinable
         public init(httpPort: Int? = nil, httpsPort: Int? = nil, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: String? = nil, originReadTimeout: Int? = nil, originSslProtocols: AwsCloudFrontDistributionOriginSslProtocols? = nil) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
@@ -4126,6 +4216,7 @@ extension SecurityHub {
         /// Provides the criteria for an origin group to fail over.
         public let failoverCriteria: AwsCloudFrontDistributionOriginGroupFailover?
 
+        @inlinable
         public init(failoverCriteria: AwsCloudFrontDistributionOriginGroupFailover? = nil) {
             self.failoverCriteria = failoverCriteria
         }
@@ -4139,6 +4230,7 @@ extension SecurityHub {
         /// Information about the status codes that cause an origin group to fail over.
         public let statusCodes: AwsCloudFrontDistributionOriginGroupFailoverStatusCodes?
 
+        @inlinable
         public init(statusCodes: AwsCloudFrontDistributionOriginGroupFailoverStatusCodes? = nil) {
             self.statusCodes = statusCodes
         }
@@ -4154,6 +4246,7 @@ extension SecurityHub {
         /// The number of status codes that can cause a failover.
         public let quantity: Int?
 
+        @inlinable
         public init(items: [Int]? = nil, quantity: Int? = nil) {
             self.items = items
             self.quantity = quantity
@@ -4169,6 +4262,7 @@ extension SecurityHub {
         /// The list of origin groups.
         public let items: [AwsCloudFrontDistributionOriginGroup]?
 
+        @inlinable
         public init(items: [AwsCloudFrontDistributionOriginGroup]? = nil) {
             self.items = items
         }
@@ -4192,6 +4286,7 @@ extension SecurityHub {
         /// An origin that is an S3 bucket that is not configured with static website hosting.
         public let s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig?
 
+        @inlinable
         public init(customOriginConfig: AwsCloudFrontDistributionOriginCustomOriginConfig? = nil, domainName: String? = nil, id: String? = nil, originPath: String? = nil, s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig? = nil) {
             self.customOriginConfig = customOriginConfig
             self.domainName = domainName
@@ -4221,6 +4316,7 @@ extension SecurityHub {
         /// The CloudFront origin access identity to associate with the origin.
         public let originAccessIdentity: String?
 
+        @inlinable
         public init(originAccessIdentity: String? = nil) {
             self.originAccessIdentity = originAccessIdentity
         }
@@ -4241,6 +4337,7 @@ extension SecurityHub {
         /// an HTTPS connection with this origin.
         public let quantity: Int?
 
+        @inlinable
         public init(items: [String]? = nil, quantity: Int? = nil) {
             self.items = items
             self.quantity = quantity
@@ -4262,6 +4359,7 @@ extension SecurityHub {
         /// A complex type that contains origins or origin groups for this distribution.
         public let items: [AwsCloudFrontDistributionOriginItem]?
 
+        @inlinable
         public init(items: [AwsCloudFrontDistributionOriginItem]? = nil) {
             self.items = items
         }
@@ -4293,6 +4391,7 @@ extension SecurityHub {
         /// The viewers that the distribution accepts HTTPS connections from.
         public let sslSupportMethod: String?
 
+        @inlinable
         public init(acmCertificateArn: String? = nil, certificate: String? = nil, certificateSource: String? = nil, cloudFrontDefaultCertificate: Bool? = nil, iamCertificateId: String? = nil, minimumProtocolVersion: String? = nil, sslSupportMethod: String? = nil) {
             self.acmCertificateArn = acmCertificateArn
             self.certificate = certificate
@@ -4355,6 +4454,7 @@ extension SecurityHub {
         /// The ARN of the trail.
         public let trailArn: String?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicArn: String? = nil, snsTopicName: String? = nil, trailArn: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
@@ -4461,6 +4561,7 @@ extension SecurityHub {
         /// The unit of the metric associated with the alarm.
         public let unit: String?
 
+        @inlinable
         public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: String? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: String? = nil, datapointsToAlarm: Int? = nil, dimensions: [AwsCloudWatchAlarmDimensionsDetails]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: String? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: String? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
@@ -4546,6 +4647,7 @@ extension SecurityHub {
         /// The value of a dimension.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -4582,6 +4684,7 @@ extension SecurityHub {
         /// The type of build artifact.
         public let type: String?
 
+        @inlinable
         public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: String? = nil, overrideArtifactName: Bool? = nil, packaging: String? = nil, path: String? = nil, type: String? = nil) {
             self.artifactIdentifier = artifactIdentifier
             self.encryptionDisabled = encryptionDisabled
@@ -4637,6 +4740,7 @@ extension SecurityHub {
         /// Information about the VPC configuration that CodeBuild accesses.
         public let vpcConfig: AwsCodeBuildProjectVpcConfig?
 
+        @inlinable
         public init(artifacts: [AwsCodeBuildProjectArtifactsDetails]? = nil, encryptionKey: String? = nil, environment: AwsCodeBuildProjectEnvironment? = nil, logsConfig: AwsCodeBuildProjectLogsConfigDetails? = nil, name: String? = nil, secondaryArtifacts: [AwsCodeBuildProjectArtifactsDetails]? = nil, serviceRole: String? = nil, source: AwsCodeBuildProjectSource? = nil, vpcConfig: AwsCodeBuildProjectVpcConfig? = nil) {
             self.artifacts = artifacts
             self.encryptionKey = encryptionKey
@@ -4692,6 +4796,7 @@ extension SecurityHub {
         /// The type of build environment to use for related builds. The environment type ARM_CONTAINER is available only in Regions US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and Europe (Frankfurt). The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). The environment type LINUX_GPU_CONTAINER is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). Valid values: WINDOWS_CONTAINER | LINUX_CONTAINER | LINUX_GPU_CONTAINER | ARM_CONTAINER
         public let type: String?
 
+        @inlinable
         public init(certificate: String? = nil, environmentVariables: [AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails]? = nil, imagePullCredentialsType: String? = nil, privilegedMode: Bool? = nil, registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential? = nil, type: String? = nil) {
             self.certificate = certificate
             self.environmentVariables = environmentVariables
@@ -4729,6 +4834,7 @@ extension SecurityHub {
         /// The value of the environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.type = type
@@ -4754,6 +4860,7 @@ extension SecurityHub {
         /// The service that created the credentials to access a private Docker registry. The valid value, SECRETS_MANAGER, is for Secrets Manager.
         public let credentialProvider: String?
 
+        @inlinable
         public init(credential: String? = nil, credentialProvider: String? = nil) {
             self.credential = credential
             self.credentialProvider = credentialProvider
@@ -4778,6 +4885,7 @@ extension SecurityHub {
         /// The prefix of the stream name of the CloudWatch Logs.
         public let streamName: String?
 
+        @inlinable
         public init(groupName: String? = nil, status: String? = nil, streamName: String? = nil) {
             self.groupName = groupName
             self.status = status
@@ -4803,6 +4911,7 @@ extension SecurityHub {
         /// Information about logs built to an S3 bucket for a build project.
         public let s3Logs: AwsCodeBuildProjectLogsConfigS3LogsDetails?
 
+        @inlinable
         public init(cloudWatchLogs: AwsCodeBuildProjectLogsConfigCloudWatchLogsDetails? = nil, s3Logs: AwsCodeBuildProjectLogsConfigS3LogsDetails? = nil) {
             self.cloudWatchLogs = cloudWatchLogs
             self.s3Logs = s3Logs
@@ -4827,6 +4936,7 @@ extension SecurityHub {
         /// The current status of the S3 build logs.
         public let status: String?
 
+        @inlinable
         public init(encryptionDisabled: Bool? = nil, location: String? = nil, status: String? = nil) {
             self.encryptionDisabled = encryptionDisabled
             self.location = location
@@ -4855,6 +4965,7 @@ extension SecurityHub {
         /// The type of repository that contains the source code to be built. Valid values are:    BITBUCKET - The source code is in a Bitbucket repository.    CODECOMMIT - The source code is in an CodeCommit repository.    CODEPIPELINE - The source code settings are specified in the source action of a pipeline in CodePipeline.    GITHUB - The source code is in a GitHub repository.    GITHUB_ENTERPRISE - The source code is in a GitHub Enterprise repository.    NO_SOURCE - The project does not have input source code.    S3 - The source code is in an S3 input bucket.
         public let type: String?
 
+        @inlinable
         public init(gitCloneDepth: Int? = nil, insecureSsl: Bool? = nil, location: String? = nil, type: String? = nil) {
             self.gitCloneDepth = gitCloneDepth
             self.insecureSsl = insecureSsl
@@ -4883,6 +4994,7 @@ extension SecurityHub {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
@@ -4920,6 +5032,7 @@ extension SecurityHub {
         /// The number of seconds for which the browser caches preflight request results.
         public let maxAge: Int?
 
+        @inlinable
         public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
             self.allowCredentials = allowCredentials
             self.allowHeaders = allowHeaders
@@ -4982,6 +5095,7 @@ extension SecurityHub {
         ///  The user name to be used to log in to the endpoint database.
         public let username: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, databaseName: String? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: String? = nil, engineName: String? = nil, externalId: String? = nil, extraConnectionAttributes: String? = nil, kmsKeyId: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: String? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
@@ -5056,6 +5170,7 @@ extension SecurityHub {
         ///  The virtual private cloud (VPC) security group for the replication instance.
         public let vpcSecurityGroups: [AwsDmsReplicationInstanceVpcSecurityGroupsDetails]?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, multiAZ: Bool? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, replicationInstanceClass: String? = nil, replicationInstanceIdentifier: String? = nil, replicationSubnetGroup: AwsDmsReplicationInstanceReplicationSubnetGroupDetails? = nil, vpcSecurityGroups: [AwsDmsReplicationInstanceVpcSecurityGroupsDetails]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -5104,6 +5219,7 @@ extension SecurityHub {
         ///  The identifier of the replication subnet group.
         public let replicationSubnetGroupIdentifier: String?
 
+        @inlinable
         public init(replicationSubnetGroupIdentifier: String? = nil) {
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
         }
@@ -5121,6 +5237,7 @@ extension SecurityHub {
         ///  The identifier of the VPC security group that’s associated with the replication instance.
         public let vpcSecurityGroupId: String?
 
+        @inlinable
         public init(vpcSecurityGroupId: String? = nil) {
             self.vpcSecurityGroupId = vpcSecurityGroupId
         }
@@ -5162,6 +5279,7 @@ extension SecurityHub {
         ///  Supplemental information that the task requires to migrate the data for certain source and target endpoints.
         public let taskData: String?
 
+        @inlinable
         public init(cdcStartPosition: String? = nil, cdcStartTime: String? = nil, cdcStopPosition: String? = nil, id: String? = nil, migrationType: String? = nil, replicationInstanceArn: String? = nil, replicationTaskIdentifier: String? = nil, replicationTaskSettings: String? = nil, resourceIdentifier: String? = nil, sourceEndpointArn: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil, taskData: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
@@ -5217,6 +5335,7 @@ extension SecurityHub {
         /// The type of the attribute.
         public let attributeType: String?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeType: String? = nil) {
             self.attributeName = attributeName
             self.attributeType = attributeType
@@ -5241,6 +5360,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let lastUpdateToPayPerRequestDateTime: String?
 
+        @inlinable
         public init(billingMode: String? = nil, lastUpdateToPayPerRequestDateTime: String? = nil) {
             self.billingMode = billingMode
             self.lastUpdateToPayPerRequestDateTime = lastUpdateToPayPerRequestDateTime
@@ -5301,6 +5421,7 @@ extension SecurityHub {
         /// The current status of the table. Valid values are as follows:    ACTIVE     ARCHIVED     ARCHIVING     CREATING     DELETING     INACCESSIBLE_ENCRYPTION_CREDENTIALS     UPDATING
         public let tableStatus: String?
 
+        @inlinable
         public init(attributeDefinitions: [AwsDynamoDbTableAttributeDefinition]? = nil, billingModeSummary: AwsDynamoDbTableBillingModeSummary? = nil, creationDateTime: String? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [AwsDynamoDbTableGlobalSecondaryIndex]? = nil, globalTableVersion: String? = nil, itemCount: Int? = nil, keySchema: [AwsDynamoDbTableKeySchema]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [AwsDynamoDbTableLocalSecondaryIndex]? = nil, provisionedThroughput: AwsDynamoDbTableProvisionedThroughput? = nil, replicas: [AwsDynamoDbTableReplica]? = nil, restoreSummary: AwsDynamoDbTableRestoreSummary? = nil, sseDescription: AwsDynamoDbTableSseDescription? = nil, streamSpecification: AwsDynamoDbTableStreamSpecification? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: String? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -5398,6 +5519,7 @@ extension SecurityHub {
         /// Information about the provisioned throughput settings for the indexes.
         public let provisionedThroughput: AwsDynamoDbTableProvisionedThroughput?
 
+        @inlinable
         public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: String? = nil, itemCount: Int? = nil, keySchema: [AwsDynamoDbTableKeySchema]? = nil, projection: AwsDynamoDbTableProjection? = nil, provisionedThroughput: AwsDynamoDbTableProvisionedThroughput? = nil) {
             self.backfilling = backfilling
             self.indexArn = indexArn
@@ -5440,6 +5562,7 @@ extension SecurityHub {
         /// The type of key used for the key schema attribute. Valid values are HASH or RANGE.
         public let keyType: String?
 
+        @inlinable
         public init(attributeName: String? = nil, keyType: String? = nil) {
             self.attributeName = attributeName
             self.keyType = keyType
@@ -5466,6 +5589,7 @@ extension SecurityHub {
         /// Attributes that are copied from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: AwsDynamoDbTableProjection?
 
+        @inlinable
         public init(indexArn: String? = nil, indexName: String? = nil, keySchema: [AwsDynamoDbTableKeySchema]? = nil, projection: AwsDynamoDbTableProjection? = nil) {
             self.indexArn = indexArn
             self.indexName = indexName
@@ -5496,6 +5620,7 @@ extension SecurityHub {
         /// The types of attributes that are projected into the index. Valid values are as follows:    ALL     INCLUDE     KEYS_ONLY
         public let projectionType: String?
 
+        @inlinable
         public init(nonKeyAttributes: [String]? = nil, projectionType: String? = nil) {
             self.nonKeyAttributes = nonKeyAttributes
             self.projectionType = projectionType
@@ -5530,6 +5655,7 @@ extension SecurityHub {
         /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
         public let writeCapacityUnits: Int?
 
+        @inlinable
         public init(lastDecreaseDateTime: String? = nil, lastIncreaseDateTime: String? = nil, numberOfDecreasesToday: Int? = nil, readCapacityUnits: Int? = nil, writeCapacityUnits: Int? = nil) {
             self.lastDecreaseDateTime = lastDecreaseDateTime
             self.lastIncreaseDateTime = lastIncreaseDateTime
@@ -5556,6 +5682,7 @@ extension SecurityHub {
         /// The read capacity units for the replica.
         public let readCapacityUnits: Int?
 
+        @inlinable
         public init(readCapacityUnits: Int? = nil) {
             self.readCapacityUnits = readCapacityUnits
         }
@@ -5579,6 +5706,7 @@ extension SecurityHub {
         /// Detailed information about the replica status.
         public let replicaStatusDescription: String?
 
+        @inlinable
         public init(globalSecondaryIndexes: [AwsDynamoDbTableReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: AwsDynamoDbTableProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaStatus: String? = nil, replicaStatusDescription: String? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
@@ -5614,6 +5742,7 @@ extension SecurityHub {
         /// Replica-specific configuration for the provisioned throughput for the index.
         public let provisionedThroughputOverride: AwsDynamoDbTableProvisionedThroughputOverride?
 
+        @inlinable
         public init(indexName: String? = nil, provisionedThroughputOverride: AwsDynamoDbTableProvisionedThroughputOverride? = nil) {
             self.indexName = indexName
             self.provisionedThroughputOverride = provisionedThroughputOverride
@@ -5641,6 +5770,7 @@ extension SecurityHub {
         /// The ARN of the source table for the backup.
         public let sourceTableArn: String?
 
+        @inlinable
         public init(restoreDateTime: String? = nil, restoreInProgress: Bool? = nil, sourceBackupArn: String? = nil, sourceTableArn: String? = nil) {
             self.restoreDateTime = restoreDateTime
             self.restoreInProgress = restoreInProgress
@@ -5674,6 +5804,7 @@ extension SecurityHub {
         /// The status of the server-side encryption.
         public let status: String?
 
+        @inlinable
         public init(inaccessibleEncryptionDateTime: String? = nil, kmsMasterKeyArn: String? = nil, sseType: String? = nil, status: String? = nil) {
             self.inaccessibleEncryptionDateTime = inaccessibleEncryptionDateTime
             self.kmsMasterKeyArn = kmsMasterKeyArn
@@ -5702,6 +5833,7 @@ extension SecurityHub {
         /// Determines the information that is written to the table.
         public let streamViewType: String?
 
+        @inlinable
         public init(streamEnabled: Bool? = nil, streamViewType: String? = nil) {
             self.streamEnabled = streamEnabled
             self.streamViewType = streamViewType
@@ -5721,6 +5853,7 @@ extension SecurityHub {
         ///  The ID of the Active Directory used for authentication.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -5744,6 +5877,7 @@ extension SecurityHub {
         ///  The authentication type used.
         public let type: String?
 
+        @inlinable
         public init(activeDirectory: AwsEc2ClientVpnEndpointAuthenticationOptionsActiveDirectoryDetails? = nil, federatedAuthentication: AwsEc2ClientVpnEndpointAuthenticationOptionsFederatedAuthenticationDetails? = nil, mutualAuthentication: AwsEc2ClientVpnEndpointAuthenticationOptionsMutualAuthenticationDetails? = nil, type: String? = nil) {
             self.activeDirectory = activeDirectory
             self.federatedAuthentication = federatedAuthentication
@@ -5772,6 +5906,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the IAM SAML identity provider for the self-service portal.
         public let selfServiceSamlProviderArn: String?
 
+        @inlinable
         public init(samlProviderArn: String? = nil, selfServiceSamlProviderArn: String? = nil) {
             self.samlProviderArn = samlProviderArn
             self.selfServiceSamlProviderArn = selfServiceSamlProviderArn
@@ -5792,6 +5927,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the client certificate.
         public let clientRootCertificateChain: String?
 
+        @inlinable
         public init(clientRootCertificateChain: String? = nil) {
             self.clientRootCertificateChain = clientRootCertificateChain
         }
@@ -5813,6 +5949,7 @@ extension SecurityHub {
         ///  The status of any updates to the client connect options.
         public let status: AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails?
 
+        @inlinable
         public init(enabled: Bool? = nil, lambdaFunctionArn: String? = nil, status: AwsEc2ClientVpnEndpointClientConnectOptionsStatusDetails? = nil) {
             self.enabled = enabled
             self.lambdaFunctionArn = lambdaFunctionArn
@@ -5837,6 +5974,7 @@ extension SecurityHub {
         ///  The status message.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -5859,6 +5997,7 @@ extension SecurityHub {
         ///  Current state of text banner feature.
         public let enabled: Bool?
 
+        @inlinable
         public init(bannerText: String? = nil, enabled: Bool? = nil) {
             self.bannerText = bannerText
             self.enabled = enabled
@@ -5882,6 +6021,7 @@ extension SecurityHub {
         ///  Indicates whether client connection logging is enabled for the Client VPN endpoint.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudwatchLogGroup: String? = nil, cloudwatchLogStream: String? = nil, enabled: Bool? = nil) {
             self.cloudwatchLogGroup = cloudwatchLogGroup
             self.cloudwatchLogStream = cloudwatchLogStream
@@ -5934,6 +6074,7 @@ extension SecurityHub {
         ///  The port number for the Client VPN endpoint.
         public let vpnPort: Int?
 
+        @inlinable
         public init(authenticationOptions: [AwsEc2ClientVpnEndpointAuthenticationOptionsDetails]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: AwsEc2ClientVpnEndpointClientConnectOptionsDetails? = nil, clientLoginBannerOptions: AwsEc2ClientVpnEndpointClientLoginBannerOptionsDetails? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: AwsEc2ClientVpnEndpointConnectionLogOptionsDetails? = nil, description: String? = nil, dnsServer: [String]? = nil, securityGroupIdSet: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, transportProtocol: String? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
@@ -6017,6 +6158,7 @@ extension SecurityHub {
         /// The identifier of an IP address pool. This parameter allows Amazon EC2 to select an IP address from the address pool.
         public let publicIpv4Pool: String?
 
+        @inlinable
         public init(allocationId: String? = nil, associationId: String? = nil, domain: String? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
@@ -6087,6 +6229,7 @@ extension SecurityHub {
         /// The identifier of the VPC that the instance was launched in.
         public let vpcId: String?
 
+        @inlinable
         public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, metadataOptions: AwsEc2InstanceMetadataOptions? = nil, monitoring: AwsEc2InstanceMonitoringDetails? = nil, networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]? = nil, subnetId: String? = nil, type: String? = nil, virtualizationType: String? = nil, vpcId: String? = nil) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
@@ -6154,6 +6297,7 @@ extension SecurityHub {
         /// Specifies whether to allow access to instance tags from the instance metadata.
         public let instanceMetadataTags: String?
 
+        @inlinable
         public init(httpEndpoint: String? = nil, httpProtocolIpv6: String? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil, instanceMetadataTags: String? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -6182,6 +6326,7 @@ extension SecurityHub {
         ///  Indicates whether detailed monitoring is turned on. Otherwise, basic monitoring is turned on.
         public let state: String?
 
+        @inlinable
         public init(state: String? = nil) {
             self.state = state
         }
@@ -6199,6 +6344,7 @@ extension SecurityHub {
         /// The identifier of the network interface. The details are in a corresponding AwsEc2NetworkInterfacesDetails object.
         public let networkInterfaceId: String?
 
+        @inlinable
         public init(networkInterfaceId: String? = nil) {
             self.networkInterfaceId = networkInterfaceId
         }
@@ -6222,6 +6368,7 @@ extension SecurityHub {
         ///  The virtual device name (ephemeralN). Instance store volumes are numbered starting  from 0. An instance type with 2 available instance store volumes can specify mappings  for ephemeral0 and ephemeral1. The number of available instance store volumes depends  on the instance type.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: AwsEc2LaunchTemplateDataBlockDeviceMappingSetEbsDetails? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -6262,6 +6409,7 @@ extension SecurityHub {
         ///  The volume type.
         public let volumeType: String?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -6297,6 +6445,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the Capacity Reservation resource group in which to run the instance.
         public let capacityReservationResourceGroupArn: String?
 
+        @inlinable
         public init(capacityReservationId: String? = nil, capacityReservationResourceGroupArn: String? = nil) {
             self.capacityReservationId = capacityReservationId
             self.capacityReservationResourceGroupArn = capacityReservationResourceGroupArn
@@ -6319,6 +6468,7 @@ extension SecurityHub {
         ///  Specifies a target Capacity Reservation.
         public let capacityReservationTarget: AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails?
 
+        @inlinable
         public init(capacityReservationPreference: String? = nil, capacityReservationTarget: AwsEc2LaunchTemplateDataCapacityReservationSpecificationCapacityReservationTargetDetails? = nil) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
@@ -6341,6 +6491,7 @@ extension SecurityHub {
         ///  The number of threads per CPU core. A value of 1 disables multithreading for the instance,  The default value is 2.
         public let threadsPerCore: Int?
 
+        @inlinable
         public init(coreCount: Int? = nil, threadsPerCore: Int? = nil) {
             self.coreCount = coreCount
             self.threadsPerCore = threadsPerCore
@@ -6356,6 +6507,7 @@ extension SecurityHub {
         ///  The credit option for CPU usage of a T instance.
         public let cpuCredits: String?
 
+        @inlinable
         public init(cpuCredits: String? = nil) {
             self.cpuCredits = cpuCredits
         }
@@ -6431,6 +6583,7 @@ extension SecurityHub {
         ///  The user data to make available to the instance.
         public let userData: String?
 
+        @inlinable
         public init(blockDeviceMappingSet: [AwsEc2LaunchTemplateDataBlockDeviceMappingSetDetails]? = nil, capacityReservationSpecification: AwsEc2LaunchTemplateDataCapacityReservationSpecificationDetails? = nil, cpuOptions: AwsEc2LaunchTemplateDataCpuOptionsDetails? = nil, creditSpecification: AwsEc2LaunchTemplateDataCreditSpecificationDetails? = nil, disableApiStop: Bool? = nil, disableApiTermination: Bool? = nil, ebsOptimized: Bool? = nil, elasticGpuSpecificationSet: [AwsEc2LaunchTemplateDataElasticGpuSpecificationSetDetails]? = nil, elasticInferenceAcceleratorSet: [AwsEc2LaunchTemplateDataElasticInferenceAcceleratorSetDetails]? = nil, enclaveOptions: AwsEc2LaunchTemplateDataEnclaveOptionsDetails? = nil, hibernationOptions: AwsEc2LaunchTemplateDataHibernationOptionsDetails? = nil, iamInstanceProfile: AwsEc2LaunchTemplateDataIamInstanceProfileDetails? = nil, imageId: String? = nil, instanceInitiatedShutdownBehavior: String? = nil, instanceMarketOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsDetails? = nil, instanceRequirements: AwsEc2LaunchTemplateDataInstanceRequirementsDetails? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, licenseSet: [AwsEc2LaunchTemplateDataLicenseSetDetails]? = nil, maintenanceOptions: AwsEc2LaunchTemplateDataMaintenanceOptionsDetails? = nil, metadataOptions: AwsEc2LaunchTemplateDataMetadataOptionsDetails? = nil, monitoring: AwsEc2LaunchTemplateDataMonitoringDetails? = nil, networkInterfaceSet: [AwsEc2LaunchTemplateDataNetworkInterfaceSetDetails]? = nil, placement: AwsEc2LaunchTemplateDataPlacementDetails? = nil, privateDnsNameOptions: AwsEc2LaunchTemplateDataPrivateDnsNameOptionsDetails? = nil, ramDiskId: String? = nil, securityGroupIdSet: [String]? = nil, securityGroupSet: [String]? = nil, userData: String? = nil) {
             self.blockDeviceMappingSet = blockDeviceMappingSet
             self.capacityReservationSpecification = capacityReservationSpecification
@@ -6542,6 +6695,7 @@ extension SecurityHub {
         ///  The type of Elastic Graphics accelerator.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -6561,6 +6715,7 @@ extension SecurityHub {
         ///  The type of Elastic Inference accelerator.
         public let type: String?
 
+        @inlinable
         public init(count: Int? = nil, type: String? = nil) {
             self.count = count
             self.type = type
@@ -6580,6 +6735,7 @@ extension SecurityHub {
         ///  If this parameter is set to true, the instance is enabled for Amazon Web Services Nitro Enclaves.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -6593,6 +6749,7 @@ extension SecurityHub {
         ///  If you set this parameter to true, the instance is enabled for hibernation.
         public let configured: Bool?
 
+        @inlinable
         public init(configured: Bool? = nil) {
             self.configured = configured
         }
@@ -6608,6 +6765,7 @@ extension SecurityHub {
         ///  The name of the instance profile.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil) {
             self.arn = arn
             self.name = name
@@ -6630,6 +6788,7 @@ extension SecurityHub {
         ///  The options for Spot Instances.
         public let spotOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails?
 
+        @inlinable
         public init(marketType: String? = nil, spotOptions: AwsEc2LaunchTemplateDataInstanceMarketOptionsSpotOptionsDetails? = nil) {
             self.marketType = marketType
             self.spotOptions = spotOptions
@@ -6658,6 +6817,7 @@ extension SecurityHub {
         ///  The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ), for persistent requests.
         public let validUntil: String?
 
+        @inlinable
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: String? = nil, maxPrice: String? = nil, spotInstanceType: String? = nil, validUntil: String? = nil) {
             self.blockDurationMinutes = blockDurationMinutes
             self.instanceInterruptionBehavior = instanceInterruptionBehavior
@@ -6688,6 +6848,7 @@ extension SecurityHub {
         ///  The minimum number of accelerators. If this parameter isn't specified, there's no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6705,6 +6866,7 @@ extension SecurityHub {
         ///  The minimum amount of memory, in MiB. If 0 is specified, there's no maximum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6722,6 +6884,7 @@ extension SecurityHub {
         ///  The minimum baseline bandwidth, in Mbps. If this parameter is omitted, there's no minimum limit.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6777,6 +6940,7 @@ extension SecurityHub {
         ///  The minimum and maximum number of vCPUs.
         public let vCpuCount: AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails?
 
+        @inlinable
         public init(acceleratorCount: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorCountDetails? = nil, acceleratorManufacturers: [String]? = nil, acceleratorNames: [String]? = nil, acceleratorTotalMemoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsAcceleratorTotalMemoryMiBDetails? = nil, acceleratorTypes: [String]? = nil, bareMetal: String? = nil, baselineEbsBandwidthMbps: AwsEc2LaunchTemplateDataInstanceRequirementsBaselineEbsBandwidthMbpsDetails? = nil, burstablePerformance: String? = nil, cpuManufacturers: [String]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [String]? = nil, localStorage: String? = nil, localStorageTypes: [String]? = nil, memoryGiBPerVCpu: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryGiBPerVCpuDetails? = nil, memoryMiB: AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails? = nil, networkInterfaceCount: AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails? = nil, vCpuCount: AwsEc2LaunchTemplateDataInstanceRequirementsVCpuCountDetails? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
@@ -6859,6 +7023,7 @@ extension SecurityHub {
         ///  The minimum amount of memory per vCPU, in GiB. If this parameter is omitted, there's no maximum limit.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -6876,6 +7041,7 @@ extension SecurityHub {
         ///  The minimum amount of memory, in MiB.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6893,6 +7059,7 @@ extension SecurityHub {
         ///  The minimum number of network interfaces.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6910,6 +7077,7 @@ extension SecurityHub {
         ///  The minimum amount of total local storage, in GB.
         public let min: Double?
 
+        @inlinable
         public init(max: Double? = nil, min: Double? = nil) {
             self.max = max
             self.min = min
@@ -6927,6 +7095,7 @@ extension SecurityHub {
         ///  The minimum number of vCPUs.
         public let min: Int?
 
+        @inlinable
         public init(max: Int? = nil, min: Int? = nil) {
             self.max = max
             self.min = min
@@ -6942,6 +7111,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -6959,6 +7129,7 @@ extension SecurityHub {
         ///  Disables the automatic recovery behavior of your instance or sets it to default.
         public let autoRecovery: String?
 
+        @inlinable
         public init(autoRecovery: String? = nil) {
             self.autoRecovery = autoRecovery
         }
@@ -6985,6 +7156,7 @@ extension SecurityHub {
         /// Work with instance tags in instance metadata in the Amazon EC2 User Guide.
         public let instanceMetadataTags: String?
 
+        @inlinable
         public init(httpEndpoint: String? = nil, httpProtocolIpv6: String? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil, instanceMetadataTags: String? = nil) {
             self.httpEndpoint = httpEndpoint
             self.httpProtocolIpv6 = httpProtocolIpv6
@@ -7013,6 +7185,7 @@ extension SecurityHub {
         ///  Enables detailed monitoring when true is specified. Otherwise, basic monitoring is enabled.  For more information about detailed monitoring, see  Enable or turn off detailed monitoring for your instances in the Amazon EC2 User Guide.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -7062,6 +7235,7 @@ extension SecurityHub {
         ///  The ID of the subnet for the network interface.
         public let subnetId: String?
 
+        @inlinable
         public init(associateCarrierIpAddress: Bool? = nil, associatePublicIpAddress: Bool? = nil, deleteOnTermination: Bool? = nil, description: String? = nil, deviceIndex: Int? = nil, groups: [String]? = nil, interfaceType: String? = nil, ipv4PrefixCount: Int? = nil, ipv4Prefixes: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv4PrefixesDetails]? = nil, ipv6AddressCount: Int? = nil, ipv6Addresses: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6AddressesDetails]? = nil, ipv6PrefixCount: Int? = nil, ipv6Prefixes: [AwsEc2LaunchTemplateDataNetworkInterfaceSetIpv6PrefixesDetails]? = nil, networkCardIndex: Int? = nil, networkInterfaceId: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [AwsEc2LaunchTemplateDataNetworkInterfaceSetPrivateIpAddressesDetails]? = nil, secondaryPrivateIpAddressCount: Int? = nil, subnetId: String? = nil) {
             self.associateCarrierIpAddress = associateCarrierIpAddress
             self.associatePublicIpAddress = associatePublicIpAddress
@@ -7134,6 +7308,7 @@ extension SecurityHub {
         ///  The IPv4 prefix. For more information, see Assigning prefixes to Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User Guide.
         public let ipv4Prefix: String?
 
+        @inlinable
         public init(ipv4Prefix: String? = nil) {
             self.ipv4Prefix = ipv4Prefix
         }
@@ -7151,6 +7326,7 @@ extension SecurityHub {
         ///  One or more specific IPv6 addresses from the IPv6 CIDR block range of your subnet.
         public let ipv6Address: String?
 
+        @inlinable
         public init(ipv6Address: String? = nil) {
             self.ipv6Address = ipv6Address
         }
@@ -7168,6 +7344,7 @@ extension SecurityHub {
         ///  The IPv6 prefix.
         public let ipv6Prefix: String?
 
+        @inlinable
         public init(ipv6Prefix: String? = nil) {
             self.ipv6Prefix = ipv6Prefix
         }
@@ -7187,6 +7364,7 @@ extension SecurityHub {
         ///  The private IPv4 address.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(primary: Bool? = nil, privateIpAddress: String? = nil) {
             self.primary = primary
             self.privateIpAddress = privateIpAddress
@@ -7220,6 +7398,7 @@ extension SecurityHub {
         ///  The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.
         public let tenancy: String?
 
+        @inlinable
         public init(affinity: String? = nil, availabilityZone: String? = nil, groupName: String? = nil, hostId: String? = nil, hostResourceGroupArn: String? = nil, partitionNumber: Int? = nil, spreadDomain: String? = nil, tenancy: String? = nil) {
             self.affinity = affinity
             self.availabilityZone = availabilityZone
@@ -7261,6 +7440,7 @@ extension SecurityHub {
         ///  The type of hostname for EC2 instances.
         public let hostnameType: String?
 
+        @inlinable
         public init(enableResourceNameDnsAAAARecord: Bool? = nil, enableResourceNameDnsARecord: Bool? = nil, hostnameType: String? = nil) {
             self.enableResourceNameDnsAAAARecord = enableResourceNameDnsAAAARecord
             self.enableResourceNameDnsARecord = enableResourceNameDnsARecord
@@ -7290,6 +7470,7 @@ extension SecurityHub {
         ///  A name for the launch template.
         public let launchTemplateName: String?
 
+        @inlinable
         public init(defaultVersionNumber: Int64? = nil, id: String? = nil, latestVersionNumber: Int64? = nil, launchTemplateData: AwsEc2LaunchTemplateDataDetails? = nil, launchTemplateName: String? = nil) {
             self.defaultVersionNumber = defaultVersionNumber
             self.id = id
@@ -7321,6 +7502,7 @@ extension SecurityHub {
         /// The identifier of the subnet that is associated with the network ACL.
         public let subnetId: String?
 
+        @inlinable
         public init(networkAclAssociationId: String? = nil, networkAclId: String? = nil, subnetId: String? = nil) {
             self.networkAclAssociationId = networkAclAssociationId
             self.networkAclId = networkAclId
@@ -7354,6 +7536,7 @@ extension SecurityHub {
         /// The identifier of the VPC for the network ACL.
         public let vpcId: String?
 
+        @inlinable
         public init(associations: [AwsEc2NetworkAclAssociation]? = nil, entries: [AwsEc2NetworkAclEntry]? = nil, isDefault: Bool? = nil, networkAclId: String? = nil, ownerId: String? = nil, vpcId: String? = nil) {
             self.associations = associations
             self.entries = entries
@@ -7403,6 +7586,7 @@ extension SecurityHub {
         /// The rule number. The rules are processed in order by their number.
         public let ruleNumber: Int?
 
+        @inlinable
         public init(cidrBlock: String? = nil, egress: Bool? = nil, icmpTypeCode: IcmpTypeCode? = nil, ipv6CidrBlock: String? = nil, portRange: PortRangeFromTo? = nil, protocol: String? = nil, ruleAction: String? = nil, ruleNumber: Int? = nil) {
             self.cidrBlock = cidrBlock
             self.egress = egress
@@ -7451,6 +7635,7 @@ extension SecurityHub {
         /// The attachment state. Valid values: attaching | attached | detaching | detached
         public let status: String?
 
+        @inlinable
         public init(attachmentId: String? = nil, attachTime: String? = nil, deleteOnTermination: Bool? = nil, deviceIndex: Int? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, status: String? = nil) {
             self.attachmentId = attachmentId
             self.attachTime = attachTime
@@ -7498,6 +7683,7 @@ extension SecurityHub {
         /// Indicates whether traffic to or from the instance is validated.
         public let sourceDestCheck: Bool?
 
+        @inlinable
         public init(attachment: AwsEc2NetworkInterfaceAttachment? = nil, ipV6Addresses: [AwsEc2NetworkInterfaceIpV6AddressDetail]? = nil, networkInterfaceId: String? = nil, privateIpAddresses: [AwsEc2NetworkInterfacePrivateIpAddressDetail]? = nil, publicDnsName: String? = nil, publicIp: String? = nil, securityGroups: [AwsEc2NetworkInterfaceSecurityGroup]? = nil, sourceDestCheck: Bool? = nil) {
             self.attachment = attachment
             self.ipV6Addresses = ipV6Addresses
@@ -7541,6 +7727,7 @@ extension SecurityHub {
         /// The IPV6 address.
         public let ipV6Address: String?
 
+        @inlinable
         public init(ipV6Address: String? = nil) {
             self.ipV6Address = ipV6Address
         }
@@ -7560,6 +7747,7 @@ extension SecurityHub {
         /// The IP address.
         public let privateIpAddress: String?
 
+        @inlinable
         public init(privateDnsName: String? = nil, privateIpAddress: String? = nil) {
             self.privateDnsName = privateDnsName
             self.privateIpAddress = privateIpAddress
@@ -7582,6 +7770,7 @@ extension SecurityHub {
         /// The name of the security group.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -7612,6 +7801,7 @@ extension SecurityHub {
         ///  The ID of the virtual private cloud (VPC).
         public let vpcId: String?
 
+        @inlinable
         public init(associationSet: [AssociationSetDetails]? = nil, ownerId: String? = nil, propagatingVgwSet: [PropagatingVgwSetDetails]? = nil, routeSet: [RouteSetDetails]? = nil, routeTableId: String? = nil, vpcId: String? = nil) {
             self.associationSet = associationSet
             self.ownerId = ownerId
@@ -7660,6 +7850,7 @@ extension SecurityHub {
         /// [VPC only] The ID of the VPC for the security group.
         public let vpcId: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil, ipPermissions: [AwsEc2SecurityGroupIpPermission]? = nil, ipPermissionsEgress: [AwsEc2SecurityGroupIpPermission]? = nil, ownerId: String? = nil, vpcId: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -7708,6 +7899,7 @@ extension SecurityHub {
         /// The security group and Amazon Web Services account ID pairs.
         public let userIdGroupPairs: [AwsEc2SecurityGroupUserIdGroupPair]?
 
+        @inlinable
         public init(fromPort: Int? = nil, ipProtocol: String? = nil, ipRanges: [AwsEc2SecurityGroupIpRange]? = nil, ipv6Ranges: [AwsEc2SecurityGroupIpv6Range]? = nil, prefixListIds: [AwsEc2SecurityGroupPrefixListId]? = nil, toPort: Int? = nil, userIdGroupPairs: [AwsEc2SecurityGroupUserIdGroupPair]? = nil) {
             self.fromPort = fromPort
             self.ipProtocol = ipProtocol
@@ -7749,6 +7941,7 @@ extension SecurityHub {
         /// The IPv4 CIDR range. You can specify either a CIDR range or a source security group, but not both. To specify a single IPv4 address, use the /32 prefix length.
         public let cidrIp: String?
 
+        @inlinable
         public init(cidrIp: String? = nil) {
             self.cidrIp = cidrIp
         }
@@ -7766,6 +7959,7 @@ extension SecurityHub {
         /// The IPv6 CIDR range. You can specify either a CIDR range or a source security group, but not both. To specify a single IPv6 address, use the /128 prefix length.
         public let cidrIpv6: String?
 
+        @inlinable
         public init(cidrIpv6: String? = nil) {
             self.cidrIpv6 = cidrIpv6
         }
@@ -7783,6 +7977,7 @@ extension SecurityHub {
         /// The ID of the prefix.
         public let prefixListId: String?
 
+        @inlinable
         public init(prefixListId: String? = nil) {
             self.prefixListId = prefixListId
         }
@@ -7810,6 +8005,7 @@ extension SecurityHub {
         /// The ID of the VPC peering connection, if applicable.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil, peeringStatus: String? = nil, userId: String? = nil, vpcId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -7866,6 +8062,7 @@ extension SecurityHub {
         /// The identifier of the VPC that contains the subnet.
         public let vpcId: String?
 
+        @inlinable
         public init(assignIpv6AddressOnCreation: Bool? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableIpAddressCount: Int? = nil, cidrBlock: String? = nil, defaultForAz: Bool? = nil, ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]? = nil, mapPublicIpOnLaunch: Bool? = nil, ownerId: String? = nil, state: String? = nil, subnetArn: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.assignIpv6AddressOnCreation = assignIpv6AddressOnCreation
             self.availabilityZone = availabilityZone
@@ -7939,6 +8136,7 @@ extension SecurityHub {
         /// Turn on or turn off Equal Cost Multipath Protocol (ECMP) support.
         public let vpnEcmpSupport: String?
 
+        @inlinable
         public init(amazonSideAsn: Int? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: String? = nil, defaultRouteTableAssociation: String? = nil, defaultRouteTablePropagation: String? = nil, description: String? = nil, dnsSupport: String? = nil, id: String? = nil, multicastSupport: String? = nil, propagationDefaultRouteTableId: String? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: String? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
@@ -7996,6 +8194,7 @@ extension SecurityHub {
         /// The attachment state of the volume. Valid values are as follows:    attaching     attached     busy     detaching     detached
         public let status: String?
 
+        @inlinable
         public init(attachTime: String? = nil, deleteOnTermination: Bool? = nil, instanceId: String? = nil, status: String? = nil) {
             self.attachTime = attachTime
             self.deleteOnTermination = deleteOnTermination
@@ -8043,6 +8242,7 @@ extension SecurityHub {
         /// The volume type.
         public let volumeType: String?
 
+        @inlinable
         public init(attachments: [AwsEc2VolumeAttachment]? = nil, createTime: String? = nil, deviceName: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, size: Int? = nil, snapshotId: String? = nil, status: String? = nil, volumeId: String? = nil, volumeScanStatus: String? = nil, volumeType: String? = nil) {
             self.attachments = attachments
             self.createTime = createTime
@@ -8096,6 +8296,7 @@ extension SecurityHub {
         /// The current state of the VPC. Valid values are available or pending.
         public let state: String?
 
+        @inlinable
         public init(cidrBlockAssociationSet: [CidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, ipv6CidrBlockAssociationSet: [Ipv6CidrBlockAssociation]? = nil, state: String? = nil) {
             self.cidrBlockAssociationSet = cidrBlockAssociationSet
             self.dhcpOptionsId = dhcpOptionsId
@@ -8146,6 +8347,7 @@ extension SecurityHub {
         /// The types for the service.
         public let serviceType: [AwsEc2VpcEndpointServiceServiceTypeDetails]?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, gatewayLoadBalancerArns: [String]? = nil, managesVpcEndpoints: Bool? = nil, networkLoadBalancerArns: [String]? = nil, privateDnsName: String? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceState: String? = nil, serviceType: [AwsEc2VpcEndpointServiceServiceTypeDetails]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
@@ -8201,6 +8403,7 @@ extension SecurityHub {
         /// The type of service.
         public let serviceType: String?
 
+        @inlinable
         public init(serviceType: String? = nil) {
             self.serviceType = serviceType
         }
@@ -8226,6 +8429,7 @@ extension SecurityHub {
         /// The ID of the VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(accepterVpcInfo: AwsEc2VpcPeeringConnectionVpcInfoDetails? = nil, expirationTime: String? = nil, requesterVpcInfo: AwsEc2VpcPeeringConnectionVpcInfoDetails? = nil, status: AwsEc2VpcPeeringConnectionStatusDetails? = nil, vpcPeeringConnectionId: String? = nil) {
             self.accepterVpcInfo = accepterVpcInfo
             self.expirationTime = expirationTime
@@ -8257,6 +8461,7 @@ extension SecurityHub {
         /// A message that provides more information about the status, if applicable.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -8289,6 +8494,7 @@ extension SecurityHub {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil, cidrBlockSet: [VpcInfoCidrBlockSetDetails]? = nil, ipv6CidrBlockSet: [VpcInfoIpv6CidrBlockSetDetails]? = nil, ownerId: String? = nil, peeringOptions: VpcInfoPeeringOptionsDetails? = nil, region: String? = nil, vpcId: String? = nil) {
             self.cidrBlock = cidrBlock
             self.cidrBlockSet = cidrBlockSet
@@ -8347,6 +8553,7 @@ extension SecurityHub {
         /// The identifier of the virtual private gateway that is at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
+        @inlinable
         public init(category: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, options: AwsEc2VpnConnectionOptionsDetails? = nil, routes: [AwsEc2VpnConnectionRoutesDetails]? = nil, state: String? = nil, transitGatewayId: String? = nil, type: String? = nil, vgwTelemetry: [AwsEc2VpnConnectionVgwTelemetryDetails]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.category = category
             self.customerGatewayConfiguration = customerGatewayConfiguration
@@ -8400,6 +8607,7 @@ extension SecurityHub {
         /// The VPN tunnel options.
         public let tunnelOptions: [AwsEc2VpnConnectionOptionsTunnelOptionsDetails]?
 
+        @inlinable
         public init(staticRoutesOnly: Bool? = nil, tunnelOptions: [AwsEc2VpnConnectionOptionsTunnelOptionsDetails]? = nil) {
             self.staticRoutesOnly = staticRoutesOnly
             self.tunnelOptions = tunnelOptions
@@ -8451,6 +8659,7 @@ extension SecurityHub {
         /// The range of inside IPv4 addresses for the tunnel.
         public let tunnelInsideCidr: String?
 
+        @inlinable
         public init(dpdTimeoutSeconds: Int? = nil, ikeVersions: [String]? = nil, outsideIpAddress: String? = nil, phase1DhGroupNumbers: [Int]? = nil, phase1EncryptionAlgorithms: [String]? = nil, phase1IntegrityAlgorithms: [String]? = nil, phase1LifetimeSeconds: Int? = nil, phase2DhGroupNumbers: [Int]? = nil, phase2EncryptionAlgorithms: [String]? = nil, phase2IntegrityAlgorithms: [String]? = nil, phase2LifetimeSeconds: Int? = nil, preSharedKey: String? = nil, rekeyFuzzPercentage: Int? = nil, rekeyMarginTimeSeconds: Int? = nil, replayWindowSize: Int? = nil, tunnelInsideCidr: String? = nil) {
             self.dpdTimeoutSeconds = dpdTimeoutSeconds
             self.ikeVersions = ikeVersions
@@ -8517,6 +8726,7 @@ extension SecurityHub {
         /// The current state of the static route.
         public let state: String?
 
+        @inlinable
         public init(destinationCidrBlock: String? = nil, state: String? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.state = state
@@ -8549,6 +8759,7 @@ extension SecurityHub {
         /// If an error occurs, a description of the error.
         public let statusMessage: String?
 
+        @inlinable
         public init(acceptedRouteCount: Int? = nil, certificateArn: String? = nil, lastStatusChange: String? = nil, outsideIpAddress: String? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.acceptedRouteCount = acceptedRouteCount
             self.certificateArn = certificateArn
@@ -8592,6 +8803,7 @@ extension SecurityHub {
         /// The name of the repository that the image belongs to.
         public let repositoryName: String?
 
+        @inlinable
         public init(architecture: String? = nil, imageDigest: String? = nil, imagePublishedAt: String? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.architecture = architecture
             self.imageDigest = imageDigest
@@ -8636,6 +8848,7 @@ extension SecurityHub {
         /// The text of the repository policy.
         public let repositoryPolicyText: String?
 
+        @inlinable
         public init(arn: String? = nil, imageScanningConfiguration: AwsEcrRepositoryImageScanningConfigurationDetails? = nil, imageTagMutability: String? = nil, lifecyclePolicy: AwsEcrRepositoryLifecyclePolicyDetails? = nil, repositoryName: String? = nil, repositoryPolicyText: String? = nil) {
             self.arn = arn
             self.imageScanningConfiguration = imageScanningConfiguration
@@ -8667,6 +8880,7 @@ extension SecurityHub {
         /// Whether to scan images after they are pushed to a repository.
         public let scanOnPush: Bool?
 
+        @inlinable
         public init(scanOnPush: Bool? = nil) {
             self.scanOnPush = scanOnPush
         }
@@ -8682,6 +8896,7 @@ extension SecurityHub {
         /// The Amazon Web Services account identifier that is associated with the registry that contains the repository.
         public let registryId: String?
 
+        @inlinable
         public init(lifecyclePolicyText: String? = nil, registryId: String? = nil) {
             self.lifecyclePolicyText = lifecyclePolicyText
             self.registryId = registryId
@@ -8704,6 +8919,7 @@ extension SecurityHub {
         /// The value of the setting. Valid values are disabled or enabled.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -8724,6 +8940,7 @@ extension SecurityHub {
         /// Contains the run command configuration for the cluster.
         public let executeCommandConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationDetails?
 
+        @inlinable
         public init(executeCommandConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationDetails? = nil) {
             self.executeCommandConfiguration = executeCommandConfiguration
         }
@@ -8745,6 +8962,7 @@ extension SecurityHub {
         /// The log setting to use for redirecting logs for run command results.
         public let logging: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil, logConfiguration: AwsEcsClusterConfigurationExecuteCommandConfigurationLogConfigurationDetails? = nil, logging: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.logConfiguration = logConfiguration
@@ -8776,6 +8994,7 @@ extension SecurityHub {
         /// Identifies the folder in the S3 bucket to send the logs to.
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(cloudWatchEncryptionEnabled: Bool? = nil, cloudWatchLogGroupName: String? = nil, s3BucketName: String? = nil, s3EncryptionEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
             self.cloudWatchEncryptionEnabled = cloudWatchEncryptionEnabled
             self.cloudWatchLogGroupName = cloudWatchLogGroupName
@@ -8807,6 +9026,7 @@ extension SecurityHub {
         /// The relative percentage of the total number of tasks launched that should use the capacity provider.
         public let weight: Int?
 
+        @inlinable
         public init(base: Int? = nil, capacityProvider: String? = nil, weight: Int? = nil) {
             self.base = base
             self.capacityProvider = capacityProvider
@@ -8846,6 +9066,7 @@ extension SecurityHub {
         /// The status of the cluster.
         public let status: String?
 
+        @inlinable
         public init(activeServicesCount: Int? = nil, capacityProviders: [String]? = nil, clusterArn: String? = nil, clusterName: String? = nil, clusterSettings: [AwsEcsClusterClusterSettingsDetails]? = nil, configuration: AwsEcsClusterConfigurationDetails? = nil, defaultCapacityProviderStrategy: [AwsEcsClusterDefaultCapacityProviderStrategyDetails]? = nil, registeredContainerInstancesCount: Int? = nil, runningTasksCount: Int? = nil, status: String? = nil) {
             self.activeServicesCount = activeServicesCount
             self.capacityProviders = capacityProviders
@@ -8900,6 +9121,7 @@ extension SecurityHub {
         /// (similar to the root user).
         public let privileged: Bool?
 
+        @inlinable
         public init(image: String? = nil, mountPoints: [AwsMountPoint]? = nil, name: String? = nil, privileged: Bool? = nil) {
             self.image = image
             self.mountPoints = mountPoints
@@ -8931,6 +9153,7 @@ extension SecurityHub {
         /// The relative percentage of the total number of tasks that should use the capacity provider. If no weight is specified, the default value is 0. At least one capacity provider must have a weight greater than 0. The value can be between 0 and 1000.
         public let weight: Int?
 
+        @inlinable
         public init(base: Int? = nil, capacityProvider: String? = nil, weight: Int? = nil) {
             self.base = base
             self.capacityProvider = capacityProvider
@@ -8954,6 +9177,7 @@ extension SecurityHub {
         /// Whether to roll back the service if a service deployment fails. If rollback is enabled, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         public let rollback: Bool?
 
+        @inlinable
         public init(enable: Bool? = nil, rollback: Bool? = nil) {
             self.enable = enable
             self.rollback = rollback
@@ -8973,6 +9197,7 @@ extension SecurityHub {
         /// For a service that uses the rolling update (ECS) deployment type, the minimum number of tasks in a service that must remain in the RUNNING state during a deployment, and while any container instances are in the DRAINING state if the service contains tasks using the EC2 launch type. Expressed as a percentage of the desired number of tasks. The default value is 100%. For a service that uses the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and tasks that use the EC2 launch type, the minimum number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. For the Fargate launch type, the minimum healthy percent value is not used.
         public let minimumHealthyPercent: Int?
 
+        @inlinable
         public init(deploymentCircuitBreaker: AwsEcsServiceDeploymentConfigurationDeploymentCircuitBreakerDetails? = nil, maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil) {
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.maximumPercent = maximumPercent
@@ -8990,6 +9215,7 @@ extension SecurityHub {
         /// The rolling update (ECS) deployment type replaces the current running version of the container with the latest version. The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model that is powered by CodeDeploy. This deployment model a new deployment of a service can be verified before production traffic is sent to it. The external (EXTERNAL) deployment type allows the use of any third-party deployment controller for full control over the deployment process for an Amazon ECS service. Valid values: ECS | CODE_DEPLOY | EXTERNAL
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -9049,6 +9275,7 @@ extension SecurityHub {
         /// The task definition to use for tasks in the service.
         public let taskDefinition: String?
 
+        @inlinable
         public init(capacityProviderStrategy: [AwsEcsServiceCapacityProviderStrategyDetails]? = nil, cluster: String? = nil, deploymentConfiguration: AwsEcsServiceDeploymentConfigurationDetails? = nil, deploymentController: AwsEcsServiceDeploymentControllerDetails? = nil, desiredCount: Int? = nil, enableEcsManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: String? = nil, loadBalancers: [AwsEcsServiceLoadBalancersDetails]? = nil, name: String? = nil, networkConfiguration: AwsEcsServiceNetworkConfigurationDetails? = nil, placementConstraints: [AwsEcsServicePlacementConstraintsDetails]? = nil, placementStrategies: [AwsEcsServicePlacementStrategiesDetails]? = nil, platformVersion: String? = nil, propagateTags: String? = nil, role: String? = nil, schedulingStrategy: String? = nil, serviceArn: String? = nil, serviceName: String? = nil, serviceRegistries: [AwsEcsServiceServiceRegistriesDetails]? = nil, taskDefinition: String? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
@@ -9140,6 +9367,7 @@ extension SecurityHub {
         /// The ARN of the Elastic Load Balancing target group or groups associated with a service or task set. Only specified when using an Application Load Balancer or a Network Load Balancer. For a Classic Load Balancer, the target group ARN is omitted.
         public let targetGroupArn: String?
 
+        @inlinable
         public init(containerName: String? = nil, containerPort: Int? = nil, loadBalancerName: String? = nil, targetGroupArn: String? = nil) {
             self.containerName = containerName
             self.containerPort = containerPort
@@ -9169,6 +9397,7 @@ extension SecurityHub {
         /// The IDs of the subnets associated with the task or service. You can provide up to 16 subnets.
         public let subnets: [String]?
 
+        @inlinable
         public init(assignPublicIp: String? = nil, securityGroups: [String]? = nil, subnets: [String]? = nil) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -9196,6 +9425,7 @@ extension SecurityHub {
         /// The VPC subnet and security group configuration.
         public let awsVpcConfiguration: AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails?
 
+        @inlinable
         public init(awsVpcConfiguration: AwsEcsServiceNetworkConfigurationAwsVpcConfigurationDetails? = nil) {
             self.awsVpcConfiguration = awsVpcConfiguration
         }
@@ -9215,6 +9445,7 @@ extension SecurityHub {
         /// The type of constraint. Use distinctInstance to run each task in a particular group on a different container instance. Use memberOf to restrict the selection to a group of valid candidates. Valid values: distinctInstance | memberOf
         public let type: String?
 
+        @inlinable
         public init(expression: String? = nil, type: String? = nil) {
             self.expression = expression
             self.type = type
@@ -9237,6 +9468,7 @@ extension SecurityHub {
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the value of Field. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified in Field. Valid values: random | spread | binpack
         public let type: String?
 
+        @inlinable
         public init(field: String? = nil, type: String? = nil) {
             self.field = field
             self.type = type
@@ -9263,6 +9495,7 @@ extension SecurityHub {
         /// The ARN of the service registry.
         public let registryArn: String?
 
+        @inlinable
         public init(containerName: String? = nil, containerPort: Int? = nil, port: Int? = nil, registryArn: String? = nil) {
             self.containerName = containerName
             self.containerPort = containerPort
@@ -9289,6 +9522,7 @@ extension SecurityHub {
         /// The name of the dependent container.
         public let containerName: String?
 
+        @inlinable
         public init(condition: String? = nil, containerName: String? = nil) {
             self.condition = condition
             self.containerName = containerName
@@ -9385,6 +9619,7 @@ extension SecurityHub {
         /// The working directory in which to run commands inside the container.
         public let workingDirectory: String?
 
+        @inlinable
         public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [AwsEcsTaskDefinitionContainerDefinitionsDependsOnDetails]? = nil, disableNetworking: Bool? = nil, dnsSearchDomains: [String]? = nil, dnsServers: [String]? = nil, dockerLabels: [String: String]? = nil, dockerSecurityOptions: [String]? = nil, entryPoint: [String]? = nil, environment: [AwsEcsTaskDefinitionContainerDefinitionsEnvironmentDetails]? = nil, environmentFiles: [AwsEcsTaskDefinitionContainerDefinitionsEnvironmentFilesDetails]? = nil, essential: Bool? = nil, extraHosts: [AwsEcsTaskDefinitionContainerDefinitionsExtraHostsDetails]? = nil, firelensConfiguration: AwsEcsTaskDefinitionContainerDefinitionsFirelensConfigurationDetails? = nil, healthCheck: AwsEcsTaskDefinitionContainerDefinitionsHealthCheckDetails? = nil, hostname: String? = nil, image: String? = nil, interactive: Bool? = nil, links: [String]? = nil, linuxParameters: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDetails? = nil, logConfiguration: AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationDetails? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [AwsEcsTaskDefinitionContainerDefinitionsMountPointsDetails]? = nil, name: String? = nil, portMappings: [AwsEcsTaskDefinitionContainerDefinitionsPortMappingsDetails]? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: AwsEcsTaskDefinitionContainerDefinitionsRepositoryCredentialsDetails? = nil, resourceRequirements: [AwsEcsTaskDefinitionContainerDefinitionsResourceRequirementsDetails]? = nil, secrets: [AwsEcsTaskDefinitionContainerDefinitionsSecretsDetails]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [AwsEcsTaskDefinitionContainerDefinitionsSystemControlsDetails]? = nil, ulimits: [AwsEcsTaskDefinitionContainerDefinitionsUlimitsDetails]? = nil, user: String? = nil, volumesFrom: [AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails]? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.cpu = cpu
@@ -9544,6 +9779,7 @@ extension SecurityHub {
         /// The value of the environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -9566,6 +9802,7 @@ extension SecurityHub {
         /// The ARN of the S3 object that contains the environment variable file.
         public let value: String?
 
+        @inlinable
         public init(type: String? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -9588,6 +9825,7 @@ extension SecurityHub {
         /// The IP address to use in the /etc/hosts entry.
         public let ipAddress: String?
 
+        @inlinable
         public init(hostname: String? = nil, ipAddress: String? = nil) {
             self.hostname = hostname
             self.ipAddress = ipAddress
@@ -9610,6 +9848,7 @@ extension SecurityHub {
         /// The log router to use. Valid values are fluentbit or fluentd.
         public let type: String?
 
+        @inlinable
         public init(options: [String: String]? = nil, type: String? = nil) {
             self.options = options
             self.type = type
@@ -9641,6 +9880,7 @@ extension SecurityHub {
         /// The time period in seconds to wait for a health check to succeed before it is considered a failure. The default value is 5.
         public let timeout: Int?
 
+        @inlinable
         public init(command: [String]? = nil, interval: Int? = nil, retries: Int? = nil, startPeriod: Int? = nil, timeout: Int? = nil) {
             self.command = command
             self.interval = interval
@@ -9670,6 +9910,7 @@ extension SecurityHub {
         /// The Linux capabilities for the container that are dropped from the default configuration provided by Docker. Valid values: "ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" | 		"BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | 		"DAC_READ_SEARCH" | "FOWNER" | "FSETID" | 		"IPC_LOCK" | "IPC_OWNER" | "KILL" | 		"LEASE" | "LINUX_IMMUTABLE" | "MAC_ADMIN" | 			"MAC_OVERRIDE" | "MKNOD" | "NET_ADMIN" | 		"NET_BIND_SERVICE" | "NET_BROADCAST" | "NET_RAW" | 		"SETFCAP" | "SETGID" | "SETPCAP" | 		"SETUID" | "SYS_ADMIN" | "SYS_BOOT" | 		"SYS_CHROOT" | "SYS_MODULE" | "SYS_NICE" | 		"SYS_PACCT" | "SYS_PTRACE" | "SYS_RAWIO" | 		"SYS_RESOURCE" | "SYS_TIME" | "SYS_TTY_CONFIG" | 		"SYSLOG" | "WAKE_ALARM"
         public let drop: [String]?
 
+        @inlinable
         public init(add: [String]? = nil, drop: [String]? = nil) {
             self.add = add
             self.drop = drop
@@ -9706,6 +9947,7 @@ extension SecurityHub {
         /// The container path, mount options, and size (in MiB) of the tmpfs mount.
         public let tmpfs: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]?
 
+        @inlinable
         public init(capabilities: AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersCapabilitiesDetails? = nil, devices: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersDevicesDetails]? = nil, initProcessEnabled: Bool? = nil, maxSwap: Int? = nil, sharedMemorySize: Int? = nil, swappiness: Int? = nil, tmpfs: [AwsEcsTaskDefinitionContainerDefinitionsLinuxParametersTmpfsDetails]? = nil) {
             self.capabilities = capabilities
             self.devices = devices
@@ -9745,6 +9987,7 @@ extension SecurityHub {
         /// The explicit permissions to provide to the container for the device. By default, the container has permissions for read, write, and mknod for the device.
         public let permissions: [String]?
 
+        @inlinable
         public init(containerPath: String? = nil, hostPath: String? = nil, permissions: [String]? = nil) {
             self.containerPath = containerPath
             self.hostPath = hostPath
@@ -9774,6 +10017,7 @@ extension SecurityHub {
         /// The maximum size (in MiB) of the tmpfs volume.
         public let size: Int?
 
+        @inlinable
         public init(containerPath: String? = nil, mountOptions: [String]? = nil, size: Int? = nil) {
             self.containerPath = containerPath
             self.mountOptions = mountOptions
@@ -9802,6 +10046,7 @@ extension SecurityHub {
         /// The secrets to pass to the log configuration.
         public let secretOptions: [AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails]?
 
+        @inlinable
         public init(logDriver: String? = nil, options: [String: String]? = nil, secretOptions: [AwsEcsTaskDefinitionContainerDefinitionsLogConfigurationSecretOptionsDetails]? = nil) {
             self.logDriver = logDriver
             self.options = options
@@ -9832,6 +10077,7 @@ extension SecurityHub {
         /// The secret to expose to the container. The value is either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the Systems Manager Parameter Store.
         public let valueFrom: String?
 
+        @inlinable
         public init(name: String? = nil, valueFrom: String? = nil) {
             self.name = name
             self.valueFrom = valueFrom
@@ -9856,6 +10102,7 @@ extension SecurityHub {
         /// The name of the volume to mount. Must match the name of a volume listed in VolumeDetails for the task definition.
         public let sourceVolume: String?
 
+        @inlinable
         public init(containerPath: String? = nil, readOnly: Bool? = nil, sourceVolume: String? = nil) {
             self.containerPath = containerPath
             self.readOnly = readOnly
@@ -9882,6 +10129,7 @@ extension SecurityHub {
         /// The protocol used for the port mapping. The default is tcp.
         public let `protocol`: String?
 
+        @inlinable
         public init(containerPort: Int? = nil, hostPort: Int? = nil, protocol: String? = nil) {
             self.containerPort = containerPort
             self.hostPort = hostPort
@@ -9903,6 +10151,7 @@ extension SecurityHub {
         /// The ARN of the secret that contains the private repository credentials.
         public let credentialsParameter: String?
 
+        @inlinable
         public init(credentialsParameter: String? = nil) {
             self.credentialsParameter = credentialsParameter
         }
@@ -9922,6 +10171,7 @@ extension SecurityHub {
         /// The value for the specified resource type. For GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. For InferenceAccelerator, the value should match the DeviceName attribute of an entry in InferenceAccelerators.
         public let value: String?
 
+        @inlinable
         public init(type: String? = nil, value: String? = nil) {
             self.type = type
             self.value = value
@@ -9944,6 +10194,7 @@ extension SecurityHub {
         /// The secret to expose to the container. The value is either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the Systems Manager Parameter Store.
         public let valueFrom: String?
 
+        @inlinable
         public init(name: String? = nil, valueFrom: String? = nil) {
             self.name = name
             self.valueFrom = valueFrom
@@ -9966,6 +10217,7 @@ extension SecurityHub {
         /// The value of the parameter.
         public let value: String?
 
+        @inlinable
         public init(namespace: String? = nil, value: String? = nil) {
             self.namespace = namespace
             self.value = value
@@ -9990,6 +10242,7 @@ extension SecurityHub {
         /// The soft limit for the ulimit type.
         public let softLimit: Int?
 
+        @inlinable
         public init(hardLimit: Int? = nil, name: String? = nil, softLimit: Int? = nil) {
             self.hardLimit = hardLimit
             self.name = name
@@ -10013,6 +10266,7 @@ extension SecurityHub {
         /// The name of another container within the same task definition from which to mount volumes.
         public let sourceContainer: String?
 
+        @inlinable
         public init(readOnly: Bool? = nil, sourceContainer: String? = nil) {
             self.readOnly = readOnly
             self.sourceContainer = sourceContainer
@@ -10060,6 +10314,7 @@ extension SecurityHub {
         /// The data volume definitions for the task.
         public let volumes: [AwsEcsTaskDefinitionVolumesDetails]?
 
+        @inlinable
         public init(containerDefinitions: [AwsEcsTaskDefinitionContainerDefinitionsDetails]? = nil, cpu: String? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [AwsEcsTaskDefinitionInferenceAcceleratorsDetails]? = nil, ipcMode: String? = nil, memory: String? = nil, networkMode: String? = nil, pidMode: String? = nil, placementConstraints: [AwsEcsTaskDefinitionPlacementConstraintsDetails]? = nil, proxyConfiguration: AwsEcsTaskDefinitionProxyConfigurationDetails? = nil, requiresCompatibilities: [String]? = nil, status: String? = nil, taskRoleArn: String? = nil, volumes: [AwsEcsTaskDefinitionVolumesDetails]? = nil) {
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
@@ -10131,6 +10386,7 @@ extension SecurityHub {
         /// The Elastic Inference accelerator type to use.
         public let deviceType: String?
 
+        @inlinable
         public init(deviceName: String? = nil, deviceType: String? = nil) {
             self.deviceName = deviceName
             self.deviceType = deviceType
@@ -10153,6 +10409,7 @@ extension SecurityHub {
         /// The type of constraint.
         public let type: String?
 
+        @inlinable
         public init(expression: String? = nil, type: String? = nil) {
             self.expression = expression
             self.type = type
@@ -10177,6 +10434,7 @@ extension SecurityHub {
         /// The proxy type.
         public let type: String?
 
+        @inlinable
         public init(containerName: String? = nil, proxyConfigurationProperties: [AwsEcsTaskDefinitionProxyConfigurationProxyConfigurationPropertiesDetails]? = nil, type: String? = nil) {
             self.containerName = containerName
             self.proxyConfigurationProperties = proxyConfigurationProperties
@@ -10204,6 +10462,7 @@ extension SecurityHub {
         /// The value of the property.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -10230,6 +10489,7 @@ extension SecurityHub {
         /// The name of the data volume.
         public let name: String?
 
+        @inlinable
         public init(dockerVolumeConfiguration: AwsEcsTaskDefinitionVolumesDockerVolumeConfigurationDetails? = nil, efsVolumeConfiguration: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationDetails? = nil, host: AwsEcsTaskDefinitionVolumesHostDetails? = nil, name: String? = nil) {
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
             self.efsVolumeConfiguration = efsVolumeConfiguration
@@ -10265,6 +10525,7 @@ extension SecurityHub {
         /// automatically when the task starts and destroyed when the task stops. Docker volumes that are shared persist after the task stops. Valid values are shared or task.
         public let scope: String?
 
+        @inlinable
         public init(autoprovision: Bool? = nil, driver: String? = nil, driverOpts: [String: String]? = nil, labels: [String: String]? = nil, scope: String? = nil) {
             self.autoprovision = autoprovision
             self.driver = driver
@@ -10301,6 +10562,7 @@ extension SecurityHub {
         /// Whether to use the Amazon ECS task IAM role defined in a task definition when mounting the Amazon EFS file system.
         public let iam: String?
 
+        @inlinable
         public init(accessPointId: String? = nil, iam: String? = nil) {
             self.accessPointId = accessPointId
             self.iam = iam
@@ -10329,6 +10591,7 @@ extension SecurityHub {
         /// The port to use when sending encrypted data between the Amazon ECS host and the Amazon EFS server.
         public let transitEncryptionPort: Int?
 
+        @inlinable
         public init(authorizationConfig: AwsEcsTaskDefinitionVolumesEfsVolumeConfigurationAuthorizationConfigDetails? = nil, filesystemId: String? = nil, rootDirectory: String? = nil, transitEncryption: String? = nil, transitEncryptionPort: Int? = nil) {
             self.authorizationConfig = authorizationConfig
             self.filesystemId = filesystemId
@@ -10357,6 +10620,7 @@ extension SecurityHub {
         /// The path on the host container instance that is presented to the container.
         public let sourcePath: String?
 
+        @inlinable
         public init(sourcePath: String? = nil) {
             self.sourcePath = sourcePath
         }
@@ -10391,6 +10655,7 @@ extension SecurityHub {
         /// Details about the data volume that is used in a task definition.
         public let volumes: [AwsEcsTaskVolumeDetails]?
 
+        @inlinable
         public init(clusterArn: String? = nil, containers: [AwsEcsContainerDetails]? = nil, createdAt: String? = nil, group: String? = nil, startedAt: String? = nil, startedBy: String? = nil, taskDefinitionArn: String? = nil, version: String? = nil, volumes: [AwsEcsTaskVolumeDetails]? = nil) {
             self.clusterArn = clusterArn
             self.containers = containers
@@ -10440,6 +10705,7 @@ extension SecurityHub {
         /// hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
 
+        @inlinable
         public init(host: AwsEcsTaskVolumeHostDetails? = nil, name: String? = nil) {
             self.host = host
             self.name = name
@@ -10461,6 +10727,7 @@ extension SecurityHub {
         /// on the host container instance that's presented to the container.
         public let sourcePath: String?
 
+        @inlinable
         public init(sourcePath: String? = nil) {
             self.sourcePath = sourcePath
         }
@@ -10490,6 +10757,7 @@ extension SecurityHub {
         /// directory to NFS clients using the access point.
         public let rootDirectory: AwsEfsAccessPointRootDirectoryDetails?
 
+        @inlinable
         public init(accessPointId: String? = nil, arn: String? = nil, clientToken: String? = nil, fileSystemId: String? = nil, posixUser: AwsEfsAccessPointPosixUserDetails? = nil, rootDirectory: AwsEfsAccessPointRootDirectoryDetails? = nil) {
             self.accessPointId = accessPointId
             self.arn = arn
@@ -10526,6 +10794,7 @@ extension SecurityHub {
         /// The POSIX user ID used for all file system operations using this access point.
         public let uid: String?
 
+        @inlinable
         public init(gid: String? = nil, secondaryGids: [String]? = nil, uid: String? = nil) {
             self.gid = gid
             self.secondaryGids = secondaryGids
@@ -10556,6 +10825,7 @@ extension SecurityHub {
         /// representing the file's mode bits.
         public let permissions: String?
 
+        @inlinable
         public init(ownerGid: String? = nil, ownerUid: String? = nil, permissions: String? = nil) {
             self.ownerGid = ownerGid
             self.ownerUid = ownerUid
@@ -10583,6 +10853,7 @@ extension SecurityHub {
         /// path does not exist, you are required to provide CreationInfo.
         public let path: String?
 
+        @inlinable
         public init(creationInfo: AwsEfsAccessPointRootDirectoryCreationInfoDetails? = nil, path: String? = nil) {
             self.creationInfo = creationInfo
             self.path = path
@@ -10619,6 +10890,7 @@ extension SecurityHub {
         /// The Amazon EKS server version for the cluster.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, certificateAuthorityData: String? = nil, clusterStatus: String? = nil, endpoint: String? = nil, logging: AwsEksClusterLoggingDetails? = nil, name: String? = nil, resourcesVpcConfig: AwsEksClusterResourcesVpcConfigDetails? = nil, roleArn: String? = nil, version: String? = nil) {
             self.arn = arn
             self.certificateAuthorityData = certificateAuthorityData
@@ -10662,6 +10934,7 @@ extension SecurityHub {
         /// A list of logging types. Valid values are as follows:    api     audit     authenticator     controllerManager     scheduler
         public let types: [String]?
 
+        @inlinable
         public init(enabled: Bool? = nil, types: [String]? = nil) {
             self.enabled = enabled
             self.types = types
@@ -10683,6 +10956,7 @@ extension SecurityHub {
         /// Cluster logging configurations.
         public let clusterLogging: [AwsEksClusterLoggingClusterLoggingDetails]?
 
+        @inlinable
         public init(clusterLogging: [AwsEksClusterLoggingClusterLoggingDetails]? = nil) {
             self.clusterLogging = clusterLogging
         }
@@ -10706,6 +10980,7 @@ extension SecurityHub {
         /// The subnets that are associated with the cluster.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(endpointPublicAccess: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.endpointPublicAccess = endpointPublicAccess
             self.securityGroupIds = securityGroupIds
@@ -10762,6 +11037,7 @@ extension SecurityHub {
         /// The application version of the environment.
         public let versionLabel: String?
 
+        @inlinable
         public init(applicationName: String? = nil, cname: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, endpointUrl: String? = nil, environmentArn: String? = nil, environmentId: String? = nil, environmentLinks: [AwsElasticBeanstalkEnvironmentEnvironmentLink]? = nil, environmentName: String? = nil, optionSettings: [AwsElasticBeanstalkEnvironmentOptionSetting]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, status: String? = nil, tier: AwsElasticBeanstalkEnvironmentTier? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
             self.cname = cname
@@ -10830,6 +11106,7 @@ extension SecurityHub {
         /// The name of the environment link.
         public let linkName: String?
 
+        @inlinable
         public init(environmentName: String? = nil, linkName: String? = nil) {
             self.environmentName = environmentName
             self.linkName = linkName
@@ -10856,6 +11133,7 @@ extension SecurityHub {
         /// The value of the configuration setting.
         public let value: String?
 
+        @inlinable
         public init(namespace: String? = nil, optionName: String? = nil, resourceName: String? = nil, value: String? = nil) {
             self.namespace = namespace
             self.optionName = optionName
@@ -10886,6 +11164,7 @@ extension SecurityHub {
         /// The version of the environment tier.
         public let version: String?
 
+        @inlinable
         public init(name: String? = nil, type: String? = nil, version: String? = nil) {
             self.name = name
             self.type = type
@@ -10933,6 +11212,7 @@ extension SecurityHub {
         /// Information that OpenSearch derives based on VPCOptions for the domain.
         public let vpcOptions: AwsElasticsearchDomainVPCOptions?
 
+        @inlinable
         public init(accessPolicies: String? = nil, domainEndpointOptions: AwsElasticsearchDomainDomainEndpointOptions? = nil, domainId: String? = nil, domainName: String? = nil, elasticsearchClusterConfig: AwsElasticsearchDomainElasticsearchClusterConfigDetails? = nil, elasticsearchVersion: String? = nil, encryptionAtRestOptions: AwsElasticsearchDomainEncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, logPublishingOptions: AwsElasticsearchDomainLogPublishingOptions? = nil, nodeToNodeEncryptionOptions: AwsElasticsearchDomainNodeToNodeEncryptionOptions? = nil, serviceSoftwareOptions: AwsElasticsearchDomainServiceSoftwareOptions? = nil, vpcOptions: AwsElasticsearchDomainVPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.domainEndpointOptions = domainEndpointOptions
@@ -10990,6 +11270,7 @@ extension SecurityHub {
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain. Valid values:    Policy-Min-TLS-1-0-2019-07, which supports TLSv1.0 and higher    Policy-Min-TLS-1-2-2019-07, which only supports TLSv1.2
         public let tlsSecurityPolicy: String?
 
+        @inlinable
         public init(enforceHTTPS: Bool? = nil, tlsSecurityPolicy: String? = nil) {
             self.enforceHTTPS = enforceHTTPS
             self.tlsSecurityPolicy = tlsSecurityPolicy
@@ -11021,6 +11302,7 @@ extension SecurityHub {
         /// Whether to enable zone awareness for the Elasticsearch domain. When zone awareness is enabled, OpenSearch allocates the cluster's nodes and replica index shards across Availability Zones in the same Region. This prevents data loss and minimizes downtime if a node or data center fails.
         public let zoneAwarenessEnabled: Bool?
 
+        @inlinable
         public init(dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: String? = nil, instanceCount: Int? = nil, instanceType: String? = nil, zoneAwarenessConfig: AwsElasticsearchDomainElasticsearchClusterConfigZoneAwarenessConfigDetails? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
@@ -11051,6 +11333,7 @@ extension SecurityHub {
         /// he number of Availability Zones that the domain uses. Valid values are 2 and 3. The default is 2.
         public let availabilityZoneCount: Int?
 
+        @inlinable
         public init(availabilityZoneCount: Int? = nil) {
             self.availabilityZoneCount = availabilityZoneCount
         }
@@ -11066,6 +11349,7 @@ extension SecurityHub {
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
@@ -11088,6 +11372,7 @@ extension SecurityHub {
         /// Configures the OpenSearch search slow log publishing.
         public let searchSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig?
 
+        @inlinable
         public init(auditLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil, indexSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil, searchSlowLogs: AwsElasticsearchDomainLogPublishingOptionsLogConfig? = nil) {
             self.auditLogs = auditLogs
             self.indexSlowLogs = indexSlowLogs
@@ -11113,6 +11398,7 @@ extension SecurityHub {
         /// Whether the log publishing is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, enabled: Bool? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
@@ -11132,6 +11418,7 @@ extension SecurityHub {
         /// Whether node-to-node encryption is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -11157,6 +11444,7 @@ extension SecurityHub {
         /// The status of the service software update. Valid values are as follows:    COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
         public let updateStatus: String?
 
+        @inlinable
         public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
@@ -11196,6 +11484,7 @@ extension SecurityHub {
         /// ID for the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
@@ -11230,6 +11519,7 @@ extension SecurityHub {
         /// The mnemonic name for the policy being created. The name must be unique within the set of policies for the load balancer.
         public let policyName: String?
 
+        @inlinable
         public init(cookieName: String? = nil, policyName: String? = nil) {
             self.cookieName = cookieName
             self.policyName = policyName
@@ -11252,6 +11542,7 @@ extension SecurityHub {
         /// The name of the policy. The name must be unique within the set of policies for the load balancer.
         public let policyName: String?
 
+        @inlinable
         public init(cookieExpirationPeriod: Int64? = nil, policyName: String? = nil) {
             self.cookieExpirationPeriod = cookieExpirationPeriod
             self.policyName = policyName
@@ -11277,6 +11568,7 @@ extension SecurityHub {
         /// The logical hierarchy that was created for the S3 bucket. If a prefix is not provided, the log is placed at the root level of the bucket.
         public let s3BucketPrefix: String?
 
+        @inlinable
         public init(emitInterval: Int? = nil, enabled: Bool? = nil, s3BucketName: String? = nil, s3BucketPrefix: String? = nil) {
             self.emitInterval = emitInterval
             self.enabled = enabled
@@ -11303,6 +11595,7 @@ extension SecurityHub {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -11331,6 +11624,7 @@ extension SecurityHub {
         /// Cross-zone load balancing settings for the load balancer. If cross-zone load balancing is enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones.
         public let crossZoneLoadBalancing: AwsElbLoadBalancerCrossZoneLoadBalancing?
 
+        @inlinable
         public init(accessLog: AwsElbLoadBalancerAccessLog? = nil, additionalAttributes: [AwsElbLoadBalancerAdditionalAttribute]? = nil, connectionDraining: AwsElbLoadBalancerConnectionDraining? = nil, connectionSettings: AwsElbLoadBalancerConnectionSettings? = nil, crossZoneLoadBalancing: AwsElbLoadBalancerCrossZoneLoadBalancing? = nil) {
             self.accessLog = accessLog
             self.additionalAttributes = additionalAttributes
@@ -11361,6 +11655,7 @@ extension SecurityHub {
         /// The names of the policies that are enabled for the EC2 instance.
         public let policyNames: [String]?
 
+        @inlinable
         public init(instancePort: Int? = nil, policyNames: [String]? = nil) {
             self.instancePort = instancePort
             self.policyNames = policyNames
@@ -11384,6 +11679,7 @@ extension SecurityHub {
         /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
         public let timeout: Int?
 
+        @inlinable
         public init(enabled: Bool? = nil, timeout: Int? = nil) {
             self.enabled = enabled
             self.timeout = timeout
@@ -11399,6 +11695,7 @@ extension SecurityHub {
         /// The time, in seconds, that the connection can be idle (no data is sent over the connection) before it is closed by the load balancer.
         public let idleTimeout: Int?
 
+        @inlinable
         public init(idleTimeout: Int? = nil) {
             self.idleTimeout = idleTimeout
         }
@@ -11412,6 +11709,7 @@ extension SecurityHub {
         /// Indicates whether cross-zone load balancing is enabled for the load balancer.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -11459,6 +11757,7 @@ extension SecurityHub {
         /// The identifier of the VPC for the load balancer.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, backendServerDescriptions: [AwsElbLoadBalancerBackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: String? = nil, dnsName: String? = nil, healthCheck: AwsElbLoadBalancerHealthCheck? = nil, instances: [AwsElbLoadBalancerInstance]? = nil, listenerDescriptions: [AwsElbLoadBalancerListenerDescription]? = nil, loadBalancerAttributes: AwsElbLoadBalancerAttributes? = nil, loadBalancerName: String? = nil, policies: AwsElbLoadBalancerPolicies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: AwsElbLoadBalancerSourceSecurityGroup? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
@@ -11544,6 +11843,7 @@ extension SecurityHub {
         /// The number of consecutive health check failures that must occur before the instance is moved to the Unhealthy state.
         public let unhealthyThreshold: Int?
 
+        @inlinable
         public init(healthyThreshold: Int? = nil, interval: Int? = nil, target: String? = nil, timeout: Int? = nil, unhealthyThreshold: Int? = nil) {
             self.healthyThreshold = healthyThreshold
             self.interval = interval
@@ -11569,6 +11869,7 @@ extension SecurityHub {
         /// The instance identifier.
         public let instanceId: String?
 
+        @inlinable
         public init(instanceId: String? = nil) {
             self.instanceId = instanceId
         }
@@ -11594,6 +11895,7 @@ extension SecurityHub {
         /// The ARN of the server certificate.
         public let sslCertificateId: String?
 
+        @inlinable
         public init(instancePort: Int? = nil, instanceProtocol: String? = nil, loadBalancerPort: Int? = nil, protocol: String? = nil, sslCertificateId: String? = nil) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
@@ -11623,6 +11925,7 @@ extension SecurityHub {
         /// The policies enabled for the listener.
         public let policyNames: [String]?
 
+        @inlinable
         public init(listener: AwsElbLoadBalancerListener? = nil, policyNames: [String]? = nil) {
             self.listener = listener
             self.policyNames = policyNames
@@ -11649,6 +11952,7 @@ extension SecurityHub {
         /// The policies other than the stickiness policies.
         public let otherPolicies: [String]?
 
+        @inlinable
         public init(appCookieStickinessPolicies: [AwsElbAppCookieStickinessPolicy]? = nil, lbCookieStickinessPolicies: [AwsElbLbCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
             self.lbCookieStickinessPolicies = lbCookieStickinessPolicies
@@ -11680,6 +11984,7 @@ extension SecurityHub {
         /// The owner of the security group.
         public let ownerAlias: String?
 
+        @inlinable
         public init(groupName: String? = nil, ownerAlias: String? = nil) {
             self.groupName = groupName
             self.ownerAlias = ownerAlias
@@ -11702,6 +12007,7 @@ extension SecurityHub {
         /// The value of the load balancer attribute.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -11744,6 +12050,7 @@ extension SecurityHub {
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [AvailabilityZone]? = nil, canonicalHostedZoneId: String? = nil, createdTime: String? = nil, dnsName: String? = nil, ipAddressType: String? = nil, loadBalancerAttributes: [AwsElbv2LoadBalancerAttribute]? = nil, scheme: String? = nil, securityGroups: [String]? = nil, state: LoadBalancerState? = nil, type: String? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.canonicalHostedZoneId = canonicalHostedZoneId
@@ -11801,6 +12108,7 @@ extension SecurityHub {
         ///  The name of the schema registry.
         public let registryName: String?
 
+        @inlinable
         public init(description: String? = nil, registryArn: String? = nil, registryName: String? = nil) {
             self.description = description
             self.registryArn = registryArn
@@ -11844,6 +12152,7 @@ extension SecurityHub {
         ///  The reason the endpoint is in its current state.
         public let stateReason: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, endpointId: String? = nil, endpointUrl: String? = nil, eventBuses: [AwsEventsEndpointEventBusesDetails]? = nil, name: String? = nil, replicationConfig: AwsEventsEndpointReplicationConfigDetails? = nil, roleArn: String? = nil, routingConfig: AwsEventsEndpointRoutingConfigDetails? = nil, state: String? = nil, stateReason: String? = nil) {
             self.arn = arn
             self.description = description
@@ -11893,6 +12202,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the event bus that the endpoint is associated with.
         public let eventBusArn: String?
 
+        @inlinable
         public init(eventBusArn: String? = nil) {
             self.eventBusArn = eventBusArn
         }
@@ -11910,6 +12220,7 @@ extension SecurityHub {
         ///  The state of event replication.
         public let state: String?
 
+        @inlinable
         public init(state: String? = nil) {
             self.state = state
         }
@@ -11927,6 +12238,7 @@ extension SecurityHub {
         ///  The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered.
         public let failoverConfig: AwsEventsEndpointRoutingConfigFailoverConfigDetails?
 
+        @inlinable
         public init(failoverConfig: AwsEventsEndpointRoutingConfigFailoverConfigDetails? = nil) {
             self.failoverConfig = failoverConfig
         }
@@ -11946,6 +12258,7 @@ extension SecurityHub {
         ///  The Region that events are routed to when failover is triggered or event replication is enabled.
         public let secondary: AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails?
 
+        @inlinable
         public init(primary: AwsEventsEndpointRoutingConfigFailoverConfigPrimaryDetails? = nil, secondary: AwsEventsEndpointRoutingConfigFailoverConfigSecondaryDetails? = nil) {
             self.primary = primary
             self.secondary = secondary
@@ -11966,6 +12279,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the health check used by the endpoint to determine whether failover is triggered.
         public let healthCheck: String?
 
+        @inlinable
         public init(healthCheck: String? = nil) {
             self.healthCheck = healthCheck
         }
@@ -11983,6 +12297,7 @@ extension SecurityHub {
         ///  Defines the secondary Region.
         public let route: String?
 
+        @inlinable
         public init(route: String? = nil) {
             self.route = route
         }
@@ -12004,6 +12319,7 @@ extension SecurityHub {
         ///  The policy that enables the external account to send events to your account.
         public let policy: String?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.name = name
@@ -12027,6 +12343,7 @@ extension SecurityHub {
         ///  Specifies whether CloudTrail is activated as a data source for the detector.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -12054,6 +12371,7 @@ extension SecurityHub {
         ///  An object that contains information on the status of S3 Data event logs as a data source for the detector.
         public let s3Logs: AwsGuardDutyDetectorDataSourcesS3LogsDetails?
 
+        @inlinable
         public init(cloudTrail: AwsGuardDutyDetectorDataSourcesCloudTrailDetails? = nil, dnsLogs: AwsGuardDutyDetectorDataSourcesDnsLogsDetails? = nil, flowLogs: AwsGuardDutyDetectorDataSourcesFlowLogsDetails? = nil, kubernetes: AwsGuardDutyDetectorDataSourcesKubernetesDetails? = nil, malwareProtection: AwsGuardDutyDetectorDataSourcesMalwareProtectionDetails? = nil, s3Logs: AwsGuardDutyDetectorDataSourcesS3LogsDetails? = nil) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
@@ -12086,6 +12404,7 @@ extension SecurityHub {
         ///  Describes whether DNS logs is enabled as a data source for the detector.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -12103,6 +12422,7 @@ extension SecurityHub {
         ///  Describes whether VPC Flow Logs are activated as a data source for the detector.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -12120,6 +12440,7 @@ extension SecurityHub {
         ///  Describes whether Kubernetes audit logs are activated as a data source for the detector.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -12137,6 +12458,7 @@ extension SecurityHub {
         ///  Describes whether Kubernetes audit logs are activated as a data source for the detector.
         public let auditLogs: AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails?
 
+        @inlinable
         public init(auditLogs: AwsGuardDutyDetectorDataSourcesKubernetesAuditLogsDetails? = nil) {
             self.auditLogs = auditLogs
         }
@@ -12156,6 +12478,7 @@ extension SecurityHub {
         ///  The GuardDuty Malware Protection service role.
         public let serviceRole: String?
 
+        @inlinable
         public init(scanEc2InstanceWithFindings: AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsDetails? = nil, serviceRole: String? = nil) {
             self.scanEc2InstanceWithFindings = scanEc2InstanceWithFindings
             self.serviceRole = serviceRole
@@ -12176,6 +12499,7 @@ extension SecurityHub {
         ///  Describes the configuration of scanning EBS volumes (Malware Protection) as a data source.
         public let ebsVolumes: AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails?
 
+        @inlinable
         public init(ebsVolumes: AwsGuardDutyDetectorDataSourcesMalwareProtectionScanEc2InstanceWithFindingsEbsVolumesDetails? = nil) {
             self.ebsVolumes = ebsVolumes
         }
@@ -12195,6 +12519,7 @@ extension SecurityHub {
         ///  Describes whether scanning EBS volumes is activated as a data source for the detector.
         public let status: String?
 
+        @inlinable
         public init(reason: String? = nil, status: String? = nil) {
             self.reason = reason
             self.status = status
@@ -12215,6 +12540,7 @@ extension SecurityHub {
         ///  A value that describes whether S3 data event logs are automatically enabled for new members of an organization.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -12240,6 +12566,7 @@ extension SecurityHub {
         ///  The activation status of the detector.
         public let status: String?
 
+        @inlinable
         public init(dataSources: AwsGuardDutyDetectorDataSourcesDetails? = nil, features: [AwsGuardDutyDetectorFeaturesDetails]? = nil, findingPublishingFrequency: String? = nil, serviceRole: String? = nil, status: String? = nil) {
             self.dataSources = dataSources
             self.features = features
@@ -12273,6 +12600,7 @@ extension SecurityHub {
         ///  Indicates the status of the feature that is activated for the detector.
         public let status: String?
 
+        @inlinable
         public init(name: String? = nil, status: String? = nil) {
             self.name = name
             self.status = status
@@ -12311,6 +12639,7 @@ extension SecurityHub {
         /// The user associated with the IAM access key related to a finding. The UserName parameter has been replaced with the PrincipalName parameter because access keys can also be assigned to principals that are not IAM users.
         public let userName: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, accountId: String? = nil, createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, sessionContext: AwsIamAccessKeySessionContext? = nil, status: AwsIamAccessKeyStatus? = nil) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
@@ -12324,6 +12653,7 @@ extension SecurityHub {
         }
 
         @available(*, deprecated, message: "Members userName have been deprecated")
+        @inlinable
         public init(accessKeyId: String? = nil, accountId: String? = nil, createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, sessionContext: AwsIamAccessKeySessionContext? = nil, status: AwsIamAccessKeyStatus? = nil, userName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.accountId = accountId
@@ -12366,6 +12696,7 @@ extension SecurityHub {
         /// Information about the entity that created the session.
         public let sessionIssuer: AwsIamAccessKeySessionContextSessionIssuer?
 
+        @inlinable
         public init(attributes: AwsIamAccessKeySessionContextAttributes? = nil, sessionIssuer: AwsIamAccessKeySessionContextSessionIssuer? = nil) {
             self.attributes = attributes
             self.sessionIssuer = sessionIssuer
@@ -12390,6 +12721,7 @@ extension SecurityHub {
         /// Indicates whether the session used multi-factor authentication (MFA).
         public let mfaAuthenticated: Bool?
 
+        @inlinable
         public init(creationDate: String? = nil, mfaAuthenticated: Bool? = nil) {
             self.creationDate = creationDate
             self.mfaAuthenticated = mfaAuthenticated
@@ -12417,6 +12749,7 @@ extension SecurityHub {
         /// The name of the principal that created the session.
         public let userName: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, principalId: String? = nil, type: String? = nil, userName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -12448,6 +12781,7 @@ extension SecurityHub {
         /// The name of the policy.
         public let policyName: String?
 
+        @inlinable
         public init(policyArn: String? = nil, policyName: String? = nil) {
             self.policyArn = policyArn
             self.policyName = policyName
@@ -12480,6 +12814,7 @@ extension SecurityHub {
         /// The path to the group.
         public let path: String?
 
+        @inlinable
         public init(attachedManagedPolicies: [AwsIamAttachedManagedPolicy]? = nil, createDate: String? = nil, groupId: String? = nil, groupName: String? = nil, groupPolicyList: [AwsIamGroupPolicy]? = nil, path: String? = nil) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -12516,6 +12851,7 @@ extension SecurityHub {
         /// The name of the policy.
         public let policyName: String?
 
+        @inlinable
         public init(policyName: String? = nil) {
             self.policyName = policyName
         }
@@ -12545,6 +12881,7 @@ extension SecurityHub {
         /// The roles associated with the instance profile.
         public let roles: [AwsIamInstanceProfileRole]?
 
+        @inlinable
         public init(arn: String? = nil, createDate: String? = nil, instanceProfileId: String? = nil, instanceProfileName: String? = nil, path: String? = nil, roles: [AwsIamInstanceProfileRole]? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -12591,6 +12928,7 @@ extension SecurityHub {
         /// The name of the role.
         public let roleName: String?
 
+        @inlinable
         public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, createDate: String? = nil, path: String? = nil, roleId: String? = nil, roleName: String? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
@@ -12627,6 +12965,7 @@ extension SecurityHub {
         /// The usage type for the permissions boundary.
         public let permissionsBoundaryType: String?
 
+        @inlinable
         public init(permissionsBoundaryArn: String? = nil, permissionsBoundaryType: String? = nil) {
             self.permissionsBoundaryArn = permissionsBoundaryArn
             self.permissionsBoundaryType = permissionsBoundaryType
@@ -12671,6 +13010,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let updateDate: String?
 
+        @inlinable
         public init(attachmentCount: Int? = nil, createDate: String? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [AwsIamPolicyVersion]? = nil, updateDate: String? = nil) {
             self.attachmentCount = attachmentCount
             self.createDate = createDate
@@ -12723,6 +13063,7 @@ extension SecurityHub {
         /// The identifier of the policy version.
         public let versionId: String?
 
+        @inlinable
         public init(createDate: String? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
             self.createDate = createDate
             self.isDefaultVersion = isDefaultVersion
@@ -12764,6 +13105,7 @@ extension SecurityHub {
         /// The list of inline policies that are embedded in the role.
         public let rolePolicyList: [AwsIamRolePolicy]?
 
+        @inlinable
         public init(assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AwsIamAttachedManagedPolicy]? = nil, createDate: String? = nil, instanceProfileList: [AwsIamInstanceProfile]? = nil, maxSessionDuration: Int? = nil, path: String? = nil, permissionsBoundary: AwsIamPermissionsBoundary? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [AwsIamRolePolicy]? = nil) {
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.attachedManagedPolicies = attachedManagedPolicies
@@ -12815,6 +13157,7 @@ extension SecurityHub {
         /// The name of the policy.
         public let policyName: String?
 
+        @inlinable
         public init(policyName: String? = nil) {
             self.policyName = policyName
         }
@@ -12848,6 +13191,7 @@ extension SecurityHub {
         /// The list of inline policies that are embedded in the user.
         public let userPolicyList: [AwsIamUserPolicy]?
 
+        @inlinable
         public init(attachedManagedPolicies: [AwsIamAttachedManagedPolicy]? = nil, createDate: String? = nil, groupList: [String]? = nil, path: String? = nil, permissionsBoundary: AwsIamPermissionsBoundary? = nil, userId: String? = nil, userName: String? = nil, userPolicyList: [AwsIamUserPolicy]? = nil) {
             self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
@@ -12892,6 +13236,7 @@ extension SecurityHub {
         /// The name of the policy.
         public let policyName: String?
 
+        @inlinable
         public init(policyName: String? = nil) {
             self.policyName = policyName
         }
@@ -12919,6 +13264,7 @@ extension SecurityHub {
         /// Removing this property from your stack template and updating your stack disables encryption.
         public let streamEncryption: AwsKinesisStreamStreamEncryptionDetails?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, retentionPeriodHours: Int? = nil, shardCount: Int? = nil, streamEncryption: AwsKinesisStreamStreamEncryptionDetails? = nil) {
             self.arn = arn
             self.name = name
@@ -12948,6 +13294,7 @@ extension SecurityHub {
         /// The globally unique identifier for the customer-managed KMS key to use for encryption.
         public let keyId: String?
 
+        @inlinable
         public init(encryptionType: String? = nil, keyId: String? = nil) {
             self.encryptionType = encryptionType
             self.keyId = keyId
@@ -12984,6 +13331,7 @@ extension SecurityHub {
         /// The source of the KMS key material. When this value is AWS_KMS, KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the KMS key lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the CloudHSM cluster associated with a custom key store.
         public let origin: String?
 
+        @inlinable
         public init(awsAccountId: String? = nil, creationDate: Double? = nil, description: String? = nil, keyId: String? = nil, keyManager: String? = nil, keyRotationStatus: Bool? = nil, keyState: String? = nil, origin: String? = nil) {
             self.awsAccountId = awsAccountId
             self.creationDate = creationDate
@@ -13026,6 +13374,7 @@ extension SecurityHub {
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: String?
 
+        @inlinable
         public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -13052,6 +13401,7 @@ extension SecurityHub {
         /// The ARN of an SQS queue or SNS topic.
         public let targetArn: String?
 
+        @inlinable
         public init(targetArn: String? = nil) {
             self.targetArn = targetArn
         }
@@ -13110,6 +13460,7 @@ extension SecurityHub {
         /// The function's networking configuration.
         public let vpcConfig: AwsLambdaFunctionVpcConfig?
 
+        @inlinable
         public init(architectures: [String]? = nil, code: AwsLambdaFunctionCode? = nil, codeSha256: String? = nil, deadLetterConfig: AwsLambdaFunctionDeadLetterConfig? = nil, environment: AwsLambdaFunctionEnvironment? = nil, functionName: String? = nil, handler: String? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, layers: [AwsLambdaFunctionLayer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: String? = nil, revisionId: String? = nil, role: String? = nil, runtime: String? = nil, timeout: Int? = nil, tracingConfig: AwsLambdaFunctionTracingConfig? = nil, version: String? = nil, vpcConfig: AwsLambdaFunctionVpcConfig? = nil) {
             self.architectures = architectures
             self.code = code
@@ -13188,6 +13539,7 @@ extension SecurityHub {
         /// Environment variable key-value pairs.
         public let variables: [String: String]?
 
+        @inlinable
         public init(error: AwsLambdaFunctionEnvironmentError? = nil, variables: [String: String]? = nil) {
             self.error = error
             self.variables = variables
@@ -13213,6 +13565,7 @@ extension SecurityHub {
         /// The error message.
         public let message: String?
 
+        @inlinable
         public init(errorCode: String? = nil, message: String? = nil) {
             self.errorCode = errorCode
             self.message = message
@@ -13235,6 +13588,7 @@ extension SecurityHub {
         /// The size of the layer archive in bytes.
         public let codeSize: Int?
 
+        @inlinable
         public init(arn: String? = nil, codeSize: Int? = nil) {
             self.arn = arn
             self.codeSize = codeSize
@@ -13254,6 +13608,7 @@ extension SecurityHub {
         /// The tracing mode.
         public let mode: String?
 
+        @inlinable
         public init(mode: String? = nil) {
             self.mode = mode
         }
@@ -13275,6 +13630,7 @@ extension SecurityHub {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -13308,6 +13664,7 @@ extension SecurityHub {
         /// The version number.
         public let version: Int64?
 
+        @inlinable
         public init(compatibleRuntimes: [String]? = nil, createdDate: String? = nil, version: Int64? = nil) {
             self.compatibleRuntimes = compatibleRuntimes
             self.createdDate = createdDate
@@ -13335,6 +13692,7 @@ extension SecurityHub {
         /// of task definition volume.
         public let sourceVolume: String?
 
+        @inlinable
         public init(containerPath: String? = nil, sourceVolume: String? = nil) {
             self.containerPath = containerPath
             self.sourceVolume = sourceVolume
@@ -13359,6 +13717,7 @@ extension SecurityHub {
         ///  Provides details for allowing no client authentication.
         public let unauthenticated: AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails?
 
+        @inlinable
         public init(sasl: AwsMskClusterClusterInfoClientAuthenticationSaslDetails? = nil, tls: AwsMskClusterClusterInfoClientAuthenticationTlsDetails? = nil, unauthenticated: AwsMskClusterClusterInfoClientAuthenticationUnauthenticatedDetails? = nil) {
             self.sasl = sasl
             self.tls = tls
@@ -13382,6 +13741,7 @@ extension SecurityHub {
         ///  Details for SASL client authentication using SCRAM.
         public let scram: AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails?
 
+        @inlinable
         public init(iam: AwsMskClusterClusterInfoClientAuthenticationSaslIamDetails? = nil, scram: AwsMskClusterClusterInfoClientAuthenticationSaslScramDetails? = nil) {
             self.iam = iam
             self.scram = scram
@@ -13397,6 +13757,7 @@ extension SecurityHub {
         ///  Indicates whether SASL/IAM authentication is enabled or not.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -13410,6 +13771,7 @@ extension SecurityHub {
         ///  Indicates whether SASL/SCRAM authentication is enabled or not.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -13427,6 +13789,7 @@ extension SecurityHub {
         ///  Indicates whether TLS authentication is enabled or not.
         public let enabled: Bool?
 
+        @inlinable
         public init(certificateAuthorityArnList: [String]? = nil, enabled: Bool? = nil) {
             self.certificateAuthorityArnList = certificateAuthorityArnList
             self.enabled = enabled
@@ -13448,6 +13811,7 @@ extension SecurityHub {
         ///  Indicates whether unauthenticated is allowed or not.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -13472,6 +13836,7 @@ extension SecurityHub {
         ///  The number of broker nodes in the cluster.
         public let numberOfBrokerNodes: Int?
 
+        @inlinable
         public init(clientAuthentication: AwsMskClusterClusterInfoClientAuthenticationDetails? = nil, clusterName: String? = nil, currentVersion: String? = nil, encryptionInfo: AwsMskClusterClusterInfoEncryptionInfoDetails? = nil, enhancedMonitoring: String? = nil, numberOfBrokerNodes: Int? = nil) {
             self.clientAuthentication = clientAuthentication
             self.clusterName = clusterName
@@ -13505,6 +13870,7 @@ extension SecurityHub {
         ///  The settings for encrypting data in transit.
         public let encryptionInTransit: AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails?
 
+        @inlinable
         public init(encryptionAtRest: AwsMskClusterClusterInfoEncryptionInfoEncryptionAtRestDetails? = nil, encryptionInTransit: AwsMskClusterClusterInfoEncryptionInfoEncryptionInTransitDetails? = nil) {
             self.encryptionAtRest = encryptionAtRest
             self.encryptionInTransit = encryptionInTransit
@@ -13526,6 +13892,7 @@ extension SecurityHub {
         /// KMS key, MSK creates one for you and uses it.
         public let dataVolumeKMSKeyId: String?
 
+        @inlinable
         public init(dataVolumeKMSKeyId: String? = nil) {
             self.dataVolumeKMSKeyId = dataVolumeKMSKeyId
         }
@@ -13545,6 +13912,7 @@ extension SecurityHub {
         ///  When set to true, it indicates that data communication among the broker nodes of the cluster is  encrypted. When set to false, the communication happens in plain text. The default value is  true.
         public let inCluster: Bool?
 
+        @inlinable
         public init(clientBroker: String? = nil, inCluster: Bool? = nil) {
             self.clientBroker = clientBroker
             self.inCluster = inCluster
@@ -13564,6 +13932,7 @@ extension SecurityHub {
         ///  Provides information about a cluster.
         public let clusterInfo: AwsMskClusterClusterInfoDetails?
 
+        @inlinable
         public init(clusterInfo: AwsMskClusterClusterInfoDetails? = nil) {
             self.clusterInfo = clusterInfo
         }
@@ -13599,6 +13968,7 @@ extension SecurityHub {
         /// The identifier of the VPC where the firewall is used.
         public let vpcId: String?
 
+        @inlinable
         public init(deleteProtection: Bool? = nil, description: String? = nil, firewallArn: String? = nil, firewallId: String? = nil, firewallName: String? = nil, firewallPolicyArn: String? = nil, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [AwsNetworkFirewallFirewallSubnetMappingsDetails]? = nil, vpcId: String? = nil) {
             self.deleteProtection = deleteProtection
             self.description = description
@@ -13650,6 +14020,7 @@ extension SecurityHub {
         /// The name of the firewall policy.
         public let firewallPolicyName: String?
 
+        @inlinable
         public init(description: String? = nil, firewallPolicy: FirewallPolicyDetails? = nil, firewallPolicyArn: String? = nil, firewallPolicyId: String? = nil, firewallPolicyName: String? = nil) {
             self.description = description
             self.firewallPolicy = firewallPolicy
@@ -13679,6 +14050,7 @@ extension SecurityHub {
         /// The identifier of the subnet
         public let subnetId: String?
 
+        @inlinable
         public init(subnetId: String? = nil) {
             self.subnetId = subnetId
         }
@@ -13708,6 +14080,7 @@ extension SecurityHub {
         /// The type of rule group. A rule group can be stateful or stateless.
         public let type: String?
 
+        @inlinable
         public init(capacity: Int? = nil, description: String? = nil, ruleGroup: RuleGroupDetails? = nil, ruleGroupArn: String? = nil, ruleGroupId: String? = nil, ruleGroupName: String? = nil, type: String? = nil) {
             self.capacity = capacity
             self.description = description
@@ -13746,6 +14119,7 @@ extension SecurityHub {
         /// Specifies information about the master user of the domain.
         public let masterUserOptions: AwsOpenSearchServiceDomainMasterUserOptionsDetails?
 
+        @inlinable
         public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: AwsOpenSearchServiceDomainMasterUserOptionsDetails? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
@@ -13785,6 +14159,7 @@ extension SecurityHub {
         /// Whether to enable zone awareness for the OpenSearch domain. When zone awareness is enabled, OpenSearch Service allocates the cluster's nodes and replica index shards across Availability Zones (AZs) in the same Region. This prevents data loss and minimizes downtime if a node or data center fails.
         public let zoneAwarenessEnabled: Bool?
 
+        @inlinable
         public init(dedicatedMasterCount: Int? = nil, dedicatedMasterEnabled: Bool? = nil, dedicatedMasterType: String? = nil, instanceCount: Int? = nil, instanceType: String? = nil, warmCount: Int? = nil, warmEnabled: Bool? = nil, warmType: String? = nil, zoneAwarenessConfig: AwsOpenSearchServiceDomainClusterConfigZoneAwarenessConfigDetails? = nil, zoneAwarenessEnabled: Bool? = nil) {
             self.dedicatedMasterCount = dedicatedMasterCount
             self.dedicatedMasterEnabled = dedicatedMasterEnabled
@@ -13822,6 +14197,7 @@ extension SecurityHub {
         /// The number of Availability Zones that the domain uses. Valid values are 2 or 3. The default is 2.
         public let availabilityZoneCount: Int?
 
+        @inlinable
         public init(availabilityZoneCount: Int? = nil) {
             self.availabilityZoneCount = availabilityZoneCount
         }
@@ -13863,6 +14239,7 @@ extension SecurityHub {
         /// Information that OpenSearch Service derives based on VPCOptions for the domain.
         public let vpcOptions: AwsOpenSearchServiceDomainVpcOptionsDetails?
 
+        @inlinable
         public init(accessPolicies: String? = nil, advancedSecurityOptions: AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails? = nil, arn: String? = nil, clusterConfig: AwsOpenSearchServiceDomainClusterConfigDetails? = nil, domainEndpoint: String? = nil, domainEndpointOptions: AwsOpenSearchServiceDomainDomainEndpointOptionsDetails? = nil, domainEndpoints: [String: String]? = nil, domainName: String? = nil, encryptionAtRestOptions: AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails? = nil, engineVersion: String? = nil, id: String? = nil, logPublishingOptions: AwsOpenSearchServiceDomainLogPublishingOptionsDetails? = nil, nodeToNodeEncryptionOptions: AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails? = nil, serviceSoftwareOptions: AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails? = nil, vpcOptions: AwsOpenSearchServiceDomainVpcOptionsDetails? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -13932,6 +14309,7 @@ extension SecurityHub {
         /// The TLS security policy to apply to the HTTPS endpoint of the OpenSearch domain.
         public let tlsSecurityPolicy: String?
 
+        @inlinable
         public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: String? = nil) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
@@ -13961,6 +14339,7 @@ extension SecurityHub {
         /// The KMS key ID.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
@@ -13982,6 +14361,7 @@ extension SecurityHub {
         /// Whether the log publishing is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, enabled: Bool? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.enabled = enabled
@@ -14005,6 +14385,7 @@ extension SecurityHub {
         /// Configures the OpenSearch search slow log publishing.
         public let searchSlowLogs: AwsOpenSearchServiceDomainLogPublishingOption?
 
+        @inlinable
         public init(auditLogs: AwsOpenSearchServiceDomainLogPublishingOption? = nil, indexSlowLogs: AwsOpenSearchServiceDomainLogPublishingOption? = nil, searchSlowLogs: AwsOpenSearchServiceDomainLogPublishingOption? = nil) {
             self.auditLogs = auditLogs
             self.indexSlowLogs = indexSlowLogs
@@ -14032,6 +14413,7 @@ extension SecurityHub {
         /// The password for the master user.
         public let masterUserPassword: String?
 
+        @inlinable
         public init(masterUserArn: String? = nil, masterUserName: String? = nil, masterUserPassword: String? = nil) {
             self.masterUserArn = masterUserArn
             self.masterUserName = masterUserName
@@ -14055,6 +14437,7 @@ extension SecurityHub {
         /// Whether node-to-node encryption is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -14082,6 +14465,7 @@ extension SecurityHub {
         /// The status of the service software update. Valid values are as follows:    COMPLETED     ELIGIBLE     IN_PROGRESS     NOT_ELIGIBLE     PENDING_UPDATE
         public let updateStatus: String?
 
+        @inlinable
         public init(automatedUpdateDate: String? = nil, cancellable: Bool? = nil, currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, optionalDeployment: Bool? = nil, updateAvailable: Bool? = nil, updateStatus: String? = nil) {
             self.automatedUpdateDate = automatedUpdateDate
             self.cancellable = cancellable
@@ -14119,6 +14503,7 @@ extension SecurityHub {
         /// A list of subnet IDs that are associated with the VPC endpoints for the domain.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -14145,6 +14530,7 @@ extension SecurityHub {
         /// The status of the association between the IAM role and the DB cluster. Valid values are as follows:    ACTIVE     INVALID     PENDING
         public let status: String?
 
+        @inlinable
         public init(roleArn: String? = nil, status: String? = nil) {
             self.roleArn = roleArn
             self.status = status
@@ -14241,6 +14627,7 @@ extension SecurityHub {
         /// A list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]?
 
+        @inlinable
         public init(activityStreamStatus: String? = nil, allocatedStorage: Int? = nil, associatedRoles: [AwsRdsDbClusterAssociatedRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, clusterCreateTime: String? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [AwsRdsDbClusterMember]? = nil, dbClusterOptionGroupMemberships: [AwsRdsDbClusterOptionGroupMembership]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [AwsRdsDbDomainMembership]? = nil, enabledCloudWatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, multiAz: Bool? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]? = nil) {
             self.activityStreamStatus = activityStreamStatus
             self.allocatedStorage = allocatedStorage
@@ -14382,6 +14769,7 @@ extension SecurityHub {
         /// Specifies the order in which an Aurora replica is promoted to the primary instance when the existing primary instance fails.
         public let promotionTier: Int?
 
+        @inlinable
         public init(dbClusterParameterGroupStatus: String? = nil, dbInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
             self.dbClusterParameterGroupStatus = dbClusterParameterGroupStatus
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -14408,6 +14796,7 @@ extension SecurityHub {
         /// The status of the DB cluster option group.
         public let status: String?
 
+        @inlinable
         public init(dbClusterOptionGroupName: String? = nil, status: String? = nil) {
             self.dbClusterOptionGroupName = dbClusterOptionGroupName
             self.status = status
@@ -14430,6 +14819,7 @@ extension SecurityHub {
         ///  The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to  restore, then this element returns a list of IDs of the Amazon Web Services accounts that are authorized  to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual  DB cluster snapshot is public and available for any Amazon Web Services account to copy or restore.
         public let attributeValues: [String]?
 
+        @inlinable
         public init(attributeName: String? = nil, attributeValues: [String]? = nil) {
             self.attributeName = attributeName
             self.attributeValues = attributeValues
@@ -14492,6 +14882,7 @@ extension SecurityHub {
         /// The VPC ID that is associated with the DB cluster snapshot.
         public let vpcId: String?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: String? = nil, dbClusterIdentifier: String? = nil, dbClusterSnapshotAttributes: [AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]? = nil, dbClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: String? = nil, snapshotType: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
@@ -14568,6 +14959,7 @@ extension SecurityHub {
         /// The status of the Active Directory Domain membership for the DB instance.
         public let status: String?
 
+        @inlinable
         public init(domain: String? = nil, fqdn: String? = nil, iamRoleName: String? = nil, status: String? = nil) {
             self.domain = domain
             self.fqdn = fqdn
@@ -14598,6 +14990,7 @@ extension SecurityHub {
         /// Describes the state of the association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - The IAM role ARN is associated with the DB instance and can be used to access other Amazon Web Services services on your behalf.    PENDING - The IAM role ARN is being associated with the DB instance.    INVALID - The IAM role ARN is associated with the DB instance. But the DB instance is unable to assume the IAM role in order to access other Amazon Web Services services on your behalf.
         public let status: String?
 
+        @inlinable
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
             self.featureName = featureName
             self.roleArn = roleArn
@@ -14736,6 +15129,7 @@ extension SecurityHub {
         /// A list of VPC security groups that the DB instance belongs to.
         public let vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, associatedRoles: [AwsRdsDbInstanceAssociatedRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [AwsRdsDbParameterGroup]? = nil, dbSecurityGroups: [String]? = nil, dbSubnetGroup: AwsRdsDbSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [AwsRdsDbDomainMembership]? = nil, enabledCloudWatchLogsExports: [String]? = nil, endpoint: AwsRdsDbInstanceEndpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: String? = nil, licenseModel: String? = nil, listenerEndpoint: AwsRdsDbInstanceEndpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAz: Bool? = nil, optionGroupMemberships: [AwsRdsDbOptionGroupMembership]? = nil, pendingModifiedValues: AwsRdsDbPendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKmsKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [AwsRdsDbProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [AwsRdsDbStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [AwsRdsDbInstanceVpcSecurityGroup]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
@@ -14931,6 +15325,7 @@ extension SecurityHub {
         /// Specifies the port that the database engine is listening on.
         public let port: Int?
 
+        @inlinable
         public init(address: String? = nil, hostedZoneId: String? = nil, port: Int? = nil) {
             self.address = address
             self.hostedZoneId = hostedZoneId
@@ -14955,6 +15350,7 @@ extension SecurityHub {
         /// The name of the VPC security group.
         public let vpcSecurityGroupId: String?
 
+        @inlinable
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -14977,6 +15373,7 @@ extension SecurityHub {
         /// The status of the option group membership.
         public let status: String?
 
+        @inlinable
         public init(optionGroupName: String? = nil, status: String? = nil) {
             self.optionGroupName = optionGroupName
             self.status = status
@@ -14999,6 +15396,7 @@ extension SecurityHub {
         /// The status of parameter updates.
         public let parameterApplyStatus: String?
 
+        @inlinable
         public init(dbParameterGroupName: String? = nil, parameterApplyStatus: String? = nil) {
             self.dbParameterGroupName = dbParameterGroupName
             self.parameterApplyStatus = parameterApplyStatus
@@ -15047,6 +15445,7 @@ extension SecurityHub {
         /// The new storage type for the DB instance.
         public let storageType: String?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbSubnetGroupName: String? = nil, engineVersion: String? = nil, iops: Int? = nil, licenseModel: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, pendingCloudWatchLogsExports: AwsRdsPendingCloudWatchLogsExports? = nil, port: Int? = nil, processorFeatures: [AwsRdsDbProcessorFeature]? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -15105,6 +15504,7 @@ extension SecurityHub {
         /// The value of the processor feature.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -15137,6 +15537,7 @@ extension SecurityHub {
         /// Provides VPC ID associated with the DB security group.
         public let vpcId: String?
 
+        @inlinable
         public init(dbSecurityGroupArn: String? = nil, dbSecurityGroupDescription: String? = nil, dbSecurityGroupName: String? = nil, ec2SecurityGroups: [AwsRdsDbSecurityGroupEc2SecurityGroup]? = nil, ipRanges: [AwsRdsDbSecurityGroupIpRange]? = nil, ownerId: String? = nil, vpcId: String? = nil) {
             self.dbSecurityGroupArn = dbSecurityGroupArn
             self.dbSecurityGroupDescription = dbSecurityGroupDescription
@@ -15182,6 +15583,7 @@ extension SecurityHub {
         /// Provides the status of the EC2 security group.
         public let status: String?
 
+        @inlinable
         public init(ec2SecurityGroupId: String? = nil, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil, status: String? = nil) {
             self.ec2SecurityGroupId = ec2SecurityGroupId
             self.ec2SecurityGroupName = ec2SecurityGroupName
@@ -15210,6 +15612,7 @@ extension SecurityHub {
         /// Specifies the status of the IP range.
         public let status: String?
 
+        @inlinable
         public init(cidrIp: String? = nil, status: String? = nil) {
             self.cidrIp = cidrIp
             self.status = status
@@ -15282,6 +15685,7 @@ extension SecurityHub {
         /// The VPC ID associated with the DB snapshot.
         public let vpcId: String?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [AwsRdsDbProcessorFeature]? = nil, snapshotCreateTime: String? = nil, snapshotType: String? = nil, sourceDbSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
@@ -15379,6 +15783,7 @@ extension SecurityHub {
         /// The type of status. For a read replica, the status type is read replication.
         public let statusType: String?
 
+        @inlinable
         public init(message: String? = nil, normal: Bool? = nil, status: String? = nil, statusType: String? = nil) {
             self.message = message
             self.normal = normal
@@ -15414,6 +15819,7 @@ extension SecurityHub {
         /// The VPC ID of the subnet group.
         public let vpcId: String?
 
+        @inlinable
         public init(dbSubnetGroupArn: String? = nil, dbSubnetGroupDescription: String? = nil, dbSubnetGroupName: String? = nil, subnetGroupStatus: String? = nil, subnets: [AwsRdsDbSubnetGroupSubnet]? = nil, vpcId: String? = nil) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
             self.dbSubnetGroupDescription = dbSubnetGroupDescription
@@ -15452,6 +15858,7 @@ extension SecurityHub {
         /// The status of a subnet in the subnet group.
         public let subnetStatus: String?
 
+        @inlinable
         public init(subnetAvailabilityZone: AwsRdsDbSubnetGroupSubnetAvailabilityZone? = nil, subnetIdentifier: String? = nil, subnetStatus: String? = nil) {
             self.subnetAvailabilityZone = subnetAvailabilityZone
             self.subnetIdentifier = subnetIdentifier
@@ -15475,6 +15882,7 @@ extension SecurityHub {
         /// The name of the Availability Zone for a subnet in the subnet group.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -15512,6 +15920,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let subscriptionCreationTime: String?
 
+        @inlinable
         public init(customerAwsId: String? = nil, custSubscriptionId: String? = nil, enabled: Bool? = nil, eventCategoriesList: [String]? = nil, eventSubscriptionArn: String? = nil, snsTopicArn: String? = nil, sourceIdsList: [String]? = nil, sourceType: String? = nil, status: String? = nil, subscriptionCreationTime: String? = nil) {
             self.customerAwsId = customerAwsId
             self.custSubscriptionId = custSubscriptionId
@@ -15561,6 +15970,7 @@ extension SecurityHub {
         /// A list of log types that are being enabled.
         public let logTypesToEnable: [String]?
 
+        @inlinable
         public init(logTypesToDisable: [String]? = nil, logTypesToEnable: [String]? = nil) {
             self.logTypesToDisable = logTypesToDisable
             self.logTypesToEnable = logTypesToEnable
@@ -15589,6 +15999,7 @@ extension SecurityHub {
         /// The public IP address of the node.
         public let publicIpAddress: String?
 
+        @inlinable
         public init(nodeRole: String? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil) {
             self.nodeRole = nodeRole
             self.privateIpAddress = privateIpAddress
@@ -15616,6 +16027,7 @@ extension SecurityHub {
         /// The name of the parameter group.
         public let parameterGroupName: String?
 
+        @inlinable
         public init(clusterParameterStatusList: [AwsRedshiftClusterClusterParameterStatus]? = nil, parameterApplyStatus: String? = nil, parameterGroupName: String? = nil) {
             self.clusterParameterStatusList = clusterParameterStatusList
             self.parameterApplyStatus = parameterApplyStatus
@@ -15645,6 +16057,7 @@ extension SecurityHub {
         /// The name of the parameter.
         public let parameterName: String?
 
+        @inlinable
         public init(parameterApplyErrorDescription: String? = nil, parameterApplyStatus: String? = nil, parameterName: String? = nil) {
             self.parameterApplyErrorDescription = parameterApplyErrorDescription
             self.parameterApplyStatus = parameterApplyStatus
@@ -15670,6 +16083,7 @@ extension SecurityHub {
         /// The status of the cluster security group.
         public let status: String?
 
+        @inlinable
         public init(clusterSecurityGroupName: String? = nil, status: String? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.status = status
@@ -15696,6 +16110,7 @@ extension SecurityHub {
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?
 
+        @inlinable
         public init(destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, retentionPeriod: Int? = nil, snapshotCopyGrantName: String? = nil) {
             self.destinationRegion = destinationRegion
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
@@ -15728,6 +16143,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let deferMaintenanceStartTime: String?
 
+        @inlinable
         public init(deferMaintenanceEndTime: String? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: String? = nil) {
             self.deferMaintenanceEndTime = deferMaintenanceEndTime
             self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
@@ -15843,6 +16259,7 @@ extension SecurityHub {
         /// The list of VPC security groups that the cluster belongs to, if the cluster is in a VPC.
         public let vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]?
 
+        @inlinable
         public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: String? = nil, clusterIdentifier: String? = nil, clusterNodes: [AwsRedshiftClusterClusterNode]? = nil, clusterParameterGroups: [AwsRedshiftClusterClusterParameterGroup]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [AwsRedshiftClusterClusterSecurityGroup]? = nil, clusterSnapshotCopyStatus: AwsRedshiftClusterClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, deferredMaintenanceWindows: [AwsRedshiftClusterDeferredMaintenanceWindow]? = nil, elasticIpStatus: AwsRedshiftClusterElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: AwsRedshiftClusterEndpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: String? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: AwsRedshiftClusterHsmStatus? = nil, iamRoles: [AwsRedshiftClusterIamRole]? = nil, kmsKeyId: String? = nil, loggingStatus: AwsRedshiftClusterLoggingStatus? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nextMaintenanceWindowStartTime: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: AwsRedshiftClusterPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: AwsRedshiftClusterResizeInfo? = nil, restoreStatus: AwsRedshiftClusterRestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: String? = nil, vpcId: String? = nil, vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -15998,6 +16415,7 @@ extension SecurityHub {
         /// The status of the elastic IP address.
         public let status: String?
 
+        @inlinable
         public init(elasticIp: String? = nil, status: String? = nil) {
             self.elasticIp = elasticIp
             self.status = status
@@ -16020,6 +16438,7 @@ extension SecurityHub {
         /// The port that the database engine listens on.
         public let port: Int?
 
+        @inlinable
         public init(address: String? = nil, port: Int? = nil) {
             self.address = address
             self.port = port
@@ -16043,6 +16462,7 @@ extension SecurityHub {
         /// Indicates whether the Amazon Redshift cluster has finished applying any HSM settings changes specified in a modify cluster command. Type: String Valid values: active | applying
         public let status: String?
 
+        @inlinable
         public init(hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, status: String? = nil) {
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
@@ -16068,6 +16488,7 @@ extension SecurityHub {
         /// The ARN of the IAM role.
         public let iamRoleArn: String?
 
+        @inlinable
         public init(applyStatus: String? = nil, iamRoleArn: String? = nil) {
             self.applyStatus = applyStatus
             self.iamRoleArn = iamRoleArn
@@ -16102,6 +16523,7 @@ extension SecurityHub {
         /// Provides the prefix applied to the log file names.
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: String? = nil, lastSuccessfulDeliveryTime: String? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
             self.bucketName = bucketName
             self.lastFailureMessage = lastFailureMessage
@@ -16153,6 +16575,7 @@ extension SecurityHub {
         /// The pending or in-progress change to whether the cluster can be connected to from the public network.
         public let publiclyAccessible: Bool?
 
+        @inlinable
         public init(automatedSnapshotRetentionPeriod: Int? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, encryptionType: String? = nil, enhancedVpcRouting: Bool? = nil, maintenanceTrackName: String? = nil, masterUserPassword: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, publiclyAccessible: Bool? = nil) {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.clusterIdentifier = clusterIdentifier
@@ -16198,6 +16621,7 @@ extension SecurityHub {
         /// The type of resize operation. Valid values: ClassicResize
         public let resizeType: String?
 
+        @inlinable
         public init(allowCancelResize: Bool? = nil, resizeType: String? = nil) {
             self.allowCancelResize = allowCancelResize
             self.resizeType = resizeType
@@ -16227,6 +16651,7 @@ extension SecurityHub {
         /// The status of the restore action. Valid values: starting | restoring | completed | failed
         public let status: String?
 
+        @inlinable
         public init(currentRestoreRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, progressInMegaBytes: Int64? = nil, snapshotSizeInMegaBytes: Int64? = nil, status: String? = nil) {
             self.currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
@@ -16256,6 +16681,7 @@ extension SecurityHub {
         /// The identifier of the VPC security group.
         public let vpcSecurityGroupId: String?
 
+        @inlinable
         public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
             self.status = status
             self.vpcSecurityGroupId = vpcSecurityGroupId
@@ -16276,6 +16702,7 @@ extension SecurityHub {
         ///  Any comments that you include about the hosted zone.
         public let comment: String?
 
+        @inlinable
         public init(comment: String? = nil) {
             self.comment = comment
         }
@@ -16301,6 +16728,7 @@ extension SecurityHub {
         /// the specified hosted zone.
         public let vpcs: [AwsRoute53HostedZoneVpcDetails]?
 
+        @inlinable
         public init(hostedZone: AwsRoute53HostedZoneObjectDetails? = nil, nameServers: [String]? = nil, queryLoggingConfig: AwsRoute53QueryLoggingConfigDetails? = nil, vpcs: [AwsRoute53HostedZoneVpcDetails]? = nil) {
             self.hostedZone = hostedZone
             self.nameServers = nameServers
@@ -16335,6 +16763,7 @@ extension SecurityHub {
         ///  The name of the domain. For public hosted zones, this is the name that you have registered with your DNS registrar.
         public let name: String?
 
+        @inlinable
         public init(config: AwsRoute53HostedZoneConfigDetails? = nil, id: String? = nil, name: String? = nil) {
             self.config = config
             self.id = id
@@ -16360,6 +16789,7 @@ extension SecurityHub {
         ///  The Amazon Web Services Region that an Amazon VPC was created in.
         public let region: String?
 
+        @inlinable
         public init(id: String? = nil, region: String? = nil) {
             self.id = id
             self.region = region
@@ -16380,6 +16810,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group that Route 53 is publishing logs to.
         public let cloudWatchLogsLogGroupArn: CloudWatchLogsLogGroupArnConfigDetails?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: CloudWatchLogsLogGroupArnConfigDetails? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
         }
@@ -16410,6 +16841,7 @@ extension SecurityHub {
         ///  Contains the virtual private cloud (VPC) configuration for the specified access point.
         public let vpcConfiguration: AwsS3AccessPointVpcConfigurationDetails?
 
+        @inlinable
         public init(accessPointArn: String? = nil, alias: String? = nil, bucket: String? = nil, bucketAccountId: String? = nil, name: String? = nil, networkOrigin: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, vpcConfiguration: AwsS3AccessPointVpcConfigurationDetails? = nil) {
             self.accessPointArn = accessPointArn
             self.alias = alias
@@ -16447,6 +16879,7 @@ extension SecurityHub {
         ///  If this field is specified, this access point will only allow connections from the specified VPC ID.
         public let vpcId: String?
 
+        @inlinable
         public init(vpcId: String? = nil) {
             self.vpcId = vpcId
         }
@@ -16470,6 +16903,7 @@ extension SecurityHub {
         /// Indicates whether to restrict access to an access point or S3 bucket that has a public policy to only Amazon Web Services service principals and authorized users within the S3 bucket owner's account.
         public let restrictPublicBuckets: Bool?
 
+        @inlinable
         public init(blockPublicAcls: Bool? = nil, blockPublicPolicy: Bool? = nil, ignorePublicAcls: Bool? = nil, restrictPublicBuckets: Bool? = nil) {
             self.blockPublicAcls = blockPublicAcls
             self.blockPublicPolicy = blockPublicPolicy
@@ -16489,6 +16923,7 @@ extension SecurityHub {
         /// The lifecycle rules.
         public let rules: [AwsS3BucketBucketLifecycleConfigurationRulesDetails]?
 
+        @inlinable
         public init(rules: [AwsS3BucketBucketLifecycleConfigurationRulesDetails]? = nil) {
             self.rules = rules
         }
@@ -16508,6 +16943,7 @@ extension SecurityHub {
         /// The number of days after which Amazon S3 cancels an incomplete multipart upload.
         public let daysAfterInitiation: Int?
 
+        @inlinable
         public init(daysAfterInitiation: Int? = nil) {
             self.daysAfterInitiation = daysAfterInitiation
         }
@@ -16543,6 +16979,7 @@ extension SecurityHub {
         /// Transition rules that indicate when objects transition to a specified storage class.
         public let transitions: [AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails]?
 
+        @inlinable
         public init(abortIncompleteMultipartUpload: AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails? = nil, expirationDate: String? = nil, expirationInDays: Int? = nil, expiredObjectDeleteMarker: Bool? = nil, filter: AwsS3BucketBucketLifecycleConfigurationRulesFilterDetails? = nil, id: String? = nil, noncurrentVersionExpirationInDays: Int? = nil, noncurrentVersionTransitions: [AwsS3BucketBucketLifecycleConfigurationRulesNoncurrentVersionTransitionsDetails]? = nil, prefix: String? = nil, status: String? = nil, transitions: [AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails]? = nil) {
             self.abortIncompleteMultipartUpload = abortIncompleteMultipartUpload
             self.expirationDate = expirationDate
@@ -16590,6 +17027,7 @@ extension SecurityHub {
         /// The configuration for the filter.
         public let predicate: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails?
 
+        @inlinable
         public init(predicate: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateDetails? = nil) {
             self.predicate = predicate
         }
@@ -16614,6 +17052,7 @@ extension SecurityHub {
         /// Valid values are LifecycleAndOperator or LifecycleOrOperator.
         public let type: String?
 
+        @inlinable
         public init(operands: [AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsDetails]? = nil, prefix: String? = nil, tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateTagDetails? = nil, type: String? = nil) {
             self.operands = operands
             self.prefix = prefix
@@ -16647,6 +17086,7 @@ extension SecurityHub {
         /// Valid values are LifecyclePrefixPredicate or LifecycleTagPredicate.
         public let type: String?
 
+        @inlinable
         public init(prefix: String? = nil, tag: AwsS3BucketBucketLifecycleConfigurationRulesFilterPredicateOperandsTagDetails? = nil, type: String? = nil) {
             self.prefix = prefix
             self.tag = tag
@@ -16672,6 +17112,7 @@ extension SecurityHub {
         /// The tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -16694,6 +17135,7 @@ extension SecurityHub {
         /// The tag value
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -16716,6 +17158,7 @@ extension SecurityHub {
         /// The class of storage to change the object to after the object is noncurrent for the specified number of days.
         public let storageClass: String?
 
+        @inlinable
         public init(days: Int? = nil, storageClass: String? = nil) {
             self.days = days
             self.storageClass = storageClass
@@ -16741,6 +17184,7 @@ extension SecurityHub {
         /// The storage class to transition the object to. Valid values are as follows:    DEEP_ARCHIVE     GLACIER     INTELLIGENT_TIERING     ONEZONE_IA     STANDARD_IA
         public let storageClass: String?
 
+        @inlinable
         public init(date: String? = nil, days: Int? = nil, storageClass: String? = nil) {
             self.date = date
             self.days = days
@@ -16765,6 +17209,7 @@ extension SecurityHub {
         /// The versioning status of the S3 bucket. Valid values are Enabled or Suspended.
         public let status: String?
 
+        @inlinable
         public init(isMfaDeleteEnabled: Bool? = nil, status: String? = nil) {
             self.isMfaDeleteEnabled = isMfaDeleteEnabled
             self.status = status
@@ -16812,6 +17257,7 @@ extension SecurityHub {
         /// The encryption rules that are applied to the S3 bucket.
         public let serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration?
 
+        @inlinable
         public init(accessControlList: String? = nil, bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails? = nil, bucketLoggingConfiguration: AwsS3BucketLoggingConfiguration? = nil, bucketNotificationConfiguration: AwsS3BucketNotificationConfiguration? = nil, bucketVersioningConfiguration: AwsS3BucketBucketVersioningConfiguration? = nil, bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration? = nil, createdAt: String? = nil, name: String? = nil, objectLockConfiguration: AwsS3BucketObjectLockConfiguration? = nil, ownerAccountId: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
             self.accessControlList = accessControlList
             self.bucketLifecycleConfiguration = bucketLifecycleConfiguration
@@ -16869,6 +17315,7 @@ extension SecurityHub {
         /// The prefix added to log files for the S3 bucket.
         public let logFilePrefix: String?
 
+        @inlinable
         public init(destinationBucketName: String? = nil, logFilePrefix: String? = nil) {
             self.destinationBucketName = destinationBucketName
             self.logFilePrefix = logFilePrefix
@@ -16889,6 +17336,7 @@ extension SecurityHub {
         /// Configurations for S3 bucket notifications.
         public let configurations: [AwsS3BucketNotificationConfigurationDetail]?
 
+        @inlinable
         public init(configurations: [AwsS3BucketNotificationConfigurationDetail]? = nil) {
             self.configurations = configurations
         }
@@ -16914,6 +17362,7 @@ extension SecurityHub {
         /// Indicates the type of notification. Notifications can be generated using Lambda functions, Amazon SQS queues, or Amazon SNS topics, with corresponding valid values as follows:    LambdaConfiguration     QueueConfiguration     TopicConfiguration
         public let type: String?
 
+        @inlinable
         public init(destination: String? = nil, events: [String]? = nil, filter: AwsS3BucketNotificationConfigurationFilter? = nil, type: String? = nil) {
             self.destination = destination
             self.events = events
@@ -16942,6 +17391,7 @@ extension SecurityHub {
         /// Details for an Amazon S3 filter.
         public let s3KeyFilter: AwsS3BucketNotificationConfigurationS3KeyFilter?
 
+        @inlinable
         public init(s3KeyFilter: AwsS3BucketNotificationConfigurationS3KeyFilter? = nil) {
             self.s3KeyFilter = s3KeyFilter
         }
@@ -16959,6 +17409,7 @@ extension SecurityHub {
         /// The filter rules for the filter.
         public let filterRules: [AwsS3BucketNotificationConfigurationS3KeyFilterRule]?
 
+        @inlinable
         public init(filterRules: [AwsS3BucketNotificationConfigurationS3KeyFilterRule]? = nil) {
             self.filterRules = filterRules
         }
@@ -16980,6 +17431,7 @@ extension SecurityHub {
         /// The filter value.
         public let value: String?
 
+        @inlinable
         public init(name: AwsS3BucketNotificationConfigurationS3KeyFilterRuleName? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -17001,6 +17453,7 @@ extension SecurityHub {
         ///  Specifies the Object Lock rule for the specified object.
         public let rule: AwsS3BucketObjectLockConfigurationRuleDetails?
 
+        @inlinable
         public init(objectLockEnabled: String? = nil, rule: AwsS3BucketObjectLockConfigurationRuleDetails? = nil) {
             self.objectLockEnabled = objectLockEnabled
             self.rule = rule
@@ -17025,6 +17478,7 @@ extension SecurityHub {
         ///  The number of years that you want to specify for the default retention period.
         public let years: Int?
 
+        @inlinable
         public init(days: Int? = nil, mode: String? = nil, years: Int? = nil) {
             self.days = days
             self.mode = mode
@@ -17046,6 +17500,7 @@ extension SecurityHub {
         ///  The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket.
         public let defaultRetention: AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails?
 
+        @inlinable
         public init(defaultRetention: AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails? = nil) {
             self.defaultRetention = defaultRetention
         }
@@ -17066,6 +17521,7 @@ extension SecurityHub {
         /// aws: kms or AES256.
         public let sseAlgorithm: String?
 
+        @inlinable
         public init(kmsMasterKeyID: String? = nil, sseAlgorithm: String? = nil) {
             self.kmsMasterKeyID = kmsMasterKeyID
             self.sseAlgorithm = sseAlgorithm
@@ -17086,6 +17542,7 @@ extension SecurityHub {
         /// The encryption rules that are applied to the S3 bucket.
         public let rules: [AwsS3BucketServerSideEncryptionRule]?
 
+        @inlinable
         public init(rules: [AwsS3BucketServerSideEncryptionRule]? = nil) {
             self.rules = rules
         }
@@ -17105,6 +17562,7 @@ extension SecurityHub {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT object request doesn't specify any server-side encryption, this default encryption is applied.
         public let applyServerSideEncryptionByDefault: AwsS3BucketServerSideEncryptionByDefault?
 
+        @inlinable
         public init(applyServerSideEncryptionByDefault: AwsS3BucketServerSideEncryptionByDefault? = nil) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
         }
@@ -17128,6 +17586,7 @@ extension SecurityHub {
         /// The rules for applying redirects for requests to the website.
         public let routingRules: [AwsS3BucketWebsiteConfigurationRoutingRule]?
 
+        @inlinable
         public init(errorDocument: String? = nil, indexDocumentSuffix: String? = nil, redirectAllRequestsTo: AwsS3BucketWebsiteConfigurationRedirectTo? = nil, routingRules: [AwsS3BucketWebsiteConfigurationRoutingRule]? = nil) {
             self.errorDocument = errorDocument
             self.indexDocumentSuffix = indexDocumentSuffix
@@ -17158,6 +17617,7 @@ extension SecurityHub {
         /// The protocol to use when redirecting requests. By default, this field uses the same protocol as the original request. Valid values are http or https.
         public let `protocol`: String?
 
+        @inlinable
         public init(hostname: String? = nil, protocol: String? = nil) {
             self.hostname = hostname
             self.`protocol` = `protocol`
@@ -17180,6 +17640,7 @@ extension SecurityHub {
         /// Provides the rules to redirect the request if the condition in Condition is met.
         public let redirect: AwsS3BucketWebsiteConfigurationRoutingRuleRedirect?
 
+        @inlinable
         public init(condition: AwsS3BucketWebsiteConfigurationRoutingRuleCondition? = nil, redirect: AwsS3BucketWebsiteConfigurationRoutingRuleRedirect? = nil) {
             self.condition = condition
             self.redirect = redirect
@@ -17202,6 +17663,7 @@ extension SecurityHub {
         /// Indicates to redirect the request if the key prefix matches this value.
         public let keyPrefixEquals: String?
 
+        @inlinable
         public init(httpErrorCodeReturnedEquals: String? = nil, keyPrefixEquals: String? = nil) {
             self.httpErrorCodeReturnedEquals = httpErrorCodeReturnedEquals
             self.keyPrefixEquals = keyPrefixEquals
@@ -17230,6 +17692,7 @@ extension SecurityHub {
         /// The specific object key to use in the redirect request. Cannot be provided if ReplaceKeyPrefixWith is present.
         public let replaceKeyWith: String?
 
+        @inlinable
         public init(hostname: String? = nil, httpRedirectCode: String? = nil, protocol: String? = nil, replaceKeyPrefixWith: String? = nil, replaceKeyWith: String? = nil) {
             self.hostname = hostname
             self.httpRedirectCode = httpRedirectCode
@@ -17271,6 +17734,7 @@ extension SecurityHub {
         /// The version of the object.
         public let versionId: String?
 
+        @inlinable
         public init(contentType: String? = nil, eTag: String? = nil, lastModified: String? = nil, serverSideEncryption: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.contentType = contentType
             self.eTag = eTag
@@ -17341,6 +17805,7 @@ extension SecurityHub {
         ///  The size, in GB, of the ML storage volume to attach to the notebook instance.
         public let volumeSizeInGB: Int?
 
+        @inlinable
         public init(acceleratorTypes: [String]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: String? = nil, failureReason: String? = nil, instanceMetadataServiceConfiguration: AwsSageMakerNotebookInstanceMetadataServiceConfigurationDetails? = nil, instanceType: String? = nil, kmsKeyId: String? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: String? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: String? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
@@ -17420,6 +17885,7 @@ extension SecurityHub {
         ///  Indicates the minimum IMDS version that the notebook instance supports.
         public let minimumInstanceMetadataServiceVersion: String?
 
+        @inlinable
         public init(minimumInstanceMetadataServiceVersion: String? = nil) {
             self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
         }
@@ -17451,6 +17917,7 @@ extension SecurityHub {
         /// Defines the rotation schedule for the secret.
         public let rotationRules: AwsSecretsManagerSecretRotationRules?
 
+        @inlinable
         public init(deleted: Bool? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaArn: String? = nil, rotationOccurredWithinFrequency: Bool? = nil, rotationRules: AwsSecretsManagerSecretRotationRules? = nil) {
             self.deleted = deleted
             self.description = description
@@ -17485,6 +17952,7 @@ extension SecurityHub {
         /// The number of days after the previous rotation to rotate the secret.
         public let automaticallyAfterDays: Int?
 
+        @inlinable
         public init(automaticallyAfterDays: Int? = nil) {
             self.automaticallyAfterDays = automaticallyAfterDays
         }
@@ -17597,6 +18065,7 @@ extension SecurityHub {
         /// The workflow state of a finding.
         public let workflowState: WorkflowState?
 
+        @inlinable
         public init(action: Action? = nil, awsAccountId: String? = nil, awsAccountName: String? = nil, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String? = nil, criticality: Int? = nil, description: String? = nil, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorDetails: GeneratorDetails? = nil, generatorId: String? = nil, id: String? = nil, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, processedAt: String? = nil, productArn: String? = nil, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, sample: Bool? = nil, schemaVersion: String? = nil, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, threats: [Threat]? = nil, title: String? = nil, types: [String]? = nil, updatedAt: String? = nil, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.action = action
             self.awsAccountId = awsAccountId
@@ -17978,6 +18447,7 @@ extension SecurityHub {
         /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner. If one of the following occurs, the workflow status is changed automatically from NOTIFIED to NEW:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.      SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The workflow status of a SUPPRESSED finding does not change if RecordState changes from ARCHIVED to ACTIVE.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.  The finding remains RESOLVED unless one of the following occurs:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.   In those cases, the workflow status is automatically reset to NEW. For findings from controls, if Compliance.Status is PASSED, then Security Hub automatically sets the workflow status to RESOLVED.
         public let workflowStatus: [StringFilter]?
 
+        @inlinable
         public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceSecurityControlParametersName: [StringFilter]? = nil, complianceSecurityControlParametersValue: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, vulnerabilitiesExploitAvailable: [StringFilter]? = nil, vulnerabilitiesFixAvailable: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
@@ -18086,6 +18556,7 @@ extension SecurityHub {
         }
 
         @available(*, deprecated, message: "Members keyword, resourceAwsIamAccessKeyUserName, severityNormalized, severityProduct have been deprecated")
+        @inlinable
         public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceSecurityControlParametersName: [StringFilter]? = nil, complianceSecurityControlParametersValue: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, vulnerabilitiesExploitAvailable: [StringFilter]? = nil, vulnerabilitiesFixAvailable: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
@@ -18589,6 +19060,7 @@ extension SecurityHub {
         /// The ARN generated by Security Hub that uniquely identifies a product that generates findings. This can be the ARN for a third-party product that is integrated with Security Hub, or the ARN for a custom integration.
         public let productArn: String?
 
+        @inlinable
         public init(id: String? = nil, productArn: String? = nil) {
             self.id = id
             self.productArn = productArn
@@ -18629,6 +19101,7 @@ extension SecurityHub {
         /// The name of the Amazon SNS topic.
         public let topicName: String?
 
+        @inlinable
         public init(applicationSuccessFeedbackRoleArn: String? = nil, firehoseFailureFeedbackRoleArn: String? = nil, firehoseSuccessFeedbackRoleArn: String? = nil, httpFailureFeedbackRoleArn: String? = nil, httpSuccessFeedbackRoleArn: String? = nil, kmsMasterKeyId: String? = nil, owner: String? = nil, sqsFailureFeedbackRoleArn: String? = nil, sqsSuccessFeedbackRoleArn: String? = nil, subscription: [AwsSnsTopicSubscription]? = nil, topicName: String? = nil) {
             self.applicationSuccessFeedbackRoleArn = applicationSuccessFeedbackRoleArn
             self.firehoseFailureFeedbackRoleArn = firehoseFailureFeedbackRoleArn
@@ -18680,6 +19153,7 @@ extension SecurityHub {
         /// The subscription's protocol.
         public let `protocol`: String?
 
+        @inlinable
         public init(endpoint: String? = nil, protocol: String? = nil) {
             self.endpoint = endpoint
             self.`protocol` = `protocol`
@@ -18706,6 +19180,7 @@ extension SecurityHub {
         /// The name of the new queue.
         public let queueName: String?
 
+        @inlinable
         public init(deadLetterTargetArn: String? = nil, kmsDataKeyReusePeriodSeconds: Int? = nil, kmsMasterKeyId: String? = nil, queueName: String? = nil) {
             self.deadLetterTargetArn = deadLetterTargetArn
             self.kmsDataKeyReusePeriodSeconds = kmsDataKeyReusePeriodSeconds
@@ -18765,6 +19240,7 @@ extension SecurityHub {
         /// The current patch compliance status. Valid values are as follows:    COMPLIANT     NON_COMPLIANT     UNSPECIFIED_DATA
         public let status: String?
 
+        @inlinable
         public init(complianceType: String? = nil, compliantCriticalCount: Int? = nil, compliantHighCount: Int? = nil, compliantInformationalCount: Int? = nil, compliantLowCount: Int? = nil, compliantMediumCount: Int? = nil, compliantUnspecifiedCount: Int? = nil, executionType: String? = nil, nonCompliantCriticalCount: Int? = nil, nonCompliantHighCount: Int? = nil, nonCompliantInformationalCount: Int? = nil, nonCompliantLowCount: Int? = nil, nonCompliantMediumCount: Int? = nil, nonCompliantUnspecifiedCount: Int? = nil, overallSeverity: String? = nil, patchBaselineId: String? = nil, patchGroup: String? = nil, status: String? = nil) {
             self.complianceType = complianceType
             self.compliantCriticalCount = compliantCriticalCount
@@ -18821,6 +19297,7 @@ extension SecurityHub {
         /// The compliance status details for the patch.
         public let complianceSummary: AwsSsmComplianceSummary?
 
+        @inlinable
         public init(complianceSummary: AwsSsmComplianceSummary? = nil) {
             self.complianceSummary = complianceSummary
         }
@@ -18838,6 +19315,7 @@ extension SecurityHub {
         /// Information about the status of a patch.
         public let patch: AwsSsmPatch?
 
+        @inlinable
         public init(patch: AwsSsmPatch? = nil) {
             self.patch = patch
         }
@@ -18869,6 +19347,7 @@ extension SecurityHub {
         ///  The type of the state machine (STANDARD or EXPRESS).
         public let type: String?
 
+        @inlinable
         public init(label: String? = nil, loggingConfiguration: AwsStepFunctionStateMachineLoggingConfigurationDetails? = nil, name: String? = nil, roleArn: String? = nil, stateMachineArn: String? = nil, status: String? = nil, tracingConfiguration: AwsStepFunctionStateMachineTracingConfigurationDetails? = nil, type: String? = nil) {
             self.label = label
             self.loggingConfiguration = loggingConfiguration
@@ -18906,6 +19385,7 @@ extension SecurityHub {
         /// The ARN (ends with :*) of the CloudWatch Logs log group to which you want your logs emitted.
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -18923,6 +19403,7 @@ extension SecurityHub {
         ///  An object describing a CloudWatch Logs log group. For more information, see   Amazon Web Services::Logs::LogGroup in the CloudFormation User Guide.
         public let cloudWatchLogsLogGroup: AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails?
 
+        @inlinable
         public init(cloudWatchLogsLogGroup: AwsStepFunctionStateMachineLoggingConfigurationDestinationsCloudWatchLogsLogGroupDetails? = nil) {
             self.cloudWatchLogsLogGroup = cloudWatchLogsLogGroup
         }
@@ -18944,6 +19425,7 @@ extension SecurityHub {
         ///  Defines which category of execution history events are logged.
         public let level: String?
 
+        @inlinable
         public init(destinations: [AwsStepFunctionStateMachineLoggingConfigurationDestinationsDetails]? = nil, includeExecutionData: Bool? = nil, level: String? = nil) {
             self.destinations = destinations
             self.includeExecutionData = includeExecutionData
@@ -18968,6 +19450,7 @@ extension SecurityHub {
         ///  When set to true, X-Ray tracing is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -18991,6 +19474,7 @@ extension SecurityHub {
         /// The unique identifier for the rate-based rule.
         public let ruleId: String?
 
+        @inlinable
         public init(matchPredicates: [AwsWafRateBasedRuleMatchPredicate]? = nil, metricName: String? = nil, name: String? = nil, rateKey: String? = nil, rateLimit: Int64? = nil, ruleId: String? = nil) {
             self.matchPredicates = matchPredicates
             self.metricName = metricName
@@ -19028,6 +19512,7 @@ extension SecurityHub {
         /// The type of predicate. Valid values are as follows:    ByteMatch     GeoMatch     IPMatch     RegexMatch     SizeConstraint     SqlInjectionMatch     XssMatch
         public let type: String?
 
+        @inlinable
         public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
             self.dataId = dataId
             self.negated = negated
@@ -19060,6 +19545,7 @@ extension SecurityHub {
         /// The unique identifier for the rate-based rule.
         public let ruleId: String?
 
+        @inlinable
         public init(matchPredicates: [AwsWafRegionalRateBasedRuleMatchPredicate]? = nil, metricName: String? = nil, name: String? = nil, rateKey: String? = nil, rateLimit: Int64? = nil, ruleId: String? = nil) {
             self.matchPredicates = matchPredicates
             self.metricName = metricName
@@ -19097,6 +19583,7 @@ extension SecurityHub {
         /// The type of predicate. Valid values are as follows:    ByteMatch     GeoMatch     IPMatch     RegexMatch     SizeConstraint     SqlInjectionMatch     XssMatch
         public let type: String?
 
+        @inlinable
         public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
             self.dataId = dataId
             self.negated = negated
@@ -19125,6 +19612,7 @@ extension SecurityHub {
         /// The ID of the rule.
         public let ruleId: String?
 
+        @inlinable
         public init(metricName: String? = nil, name: String? = nil, predicateList: [AwsWafRegionalRulePredicateListDetails]? = nil, ruleId: String? = nil) {
             self.metricName = metricName
             self.name = name
@@ -19160,6 +19648,7 @@ extension SecurityHub {
         /// count.
         public let rules: [AwsWafRegionalRuleGroupRulesDetails]?
 
+        @inlinable
         public init(metricName: String? = nil, name: String? = nil, ruleGroupId: String? = nil, rules: [AwsWafRegionalRuleGroupRulesDetails]? = nil) {
             self.metricName = metricName
             self.name = name
@@ -19189,6 +19678,7 @@ extension SecurityHub {
         /// GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and, for each object, indicates whether you want to negate the settings.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -19212,6 +19702,7 @@ extension SecurityHub {
         /// The type of rule in the rule group.
         public let type: String?
 
+        @inlinable
         public init(action: AwsWafRegionalRuleGroupRulesActionDetails? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
             self.action = action
             self.priority = priority
@@ -19241,6 +19732,7 @@ extension SecurityHub {
         /// The type of predicate in a rule, such as ByteMatch or IPSet.
         public let type: String?
 
+        @inlinable
         public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
             self.dataId = dataId
             self.negated = negated
@@ -19272,6 +19764,7 @@ extension SecurityHub {
         /// The ID of the web ACL.
         public let webAclId: String?
 
+        @inlinable
         public init(defaultAction: String? = nil, metricName: String? = nil, name: String? = nil, rulesList: [AwsWafRegionalWebAclRulesListDetails]? = nil, webAclId: String? = nil) {
             self.defaultAction = defaultAction
             self.metricName = metricName
@@ -19303,6 +19796,7 @@ extension SecurityHub {
         /// For actions that are associated with a rule, the action that WAF takes when a web request matches all conditions in a rule.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -19329,6 +19823,7 @@ extension SecurityHub {
         /// request matches all conditions in a rule.
         public let type: String?
 
+        @inlinable
         public init(action: AwsWafRegionalWebAclRulesListActionDetails? = nil, overrideAction: AwsWafRegionalWebAclRulesListOverrideActionDetails? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
             self.action = action
             self.overrideAction = overrideAction
@@ -19357,6 +19852,7 @@ extension SecurityHub {
         /// Overrides the rule evaluation result in the rule group.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -19380,6 +19876,7 @@ extension SecurityHub {
         /// The ID of the WAF rule.
         public let ruleId: String?
 
+        @inlinable
         public init(metricName: String? = nil, name: String? = nil, predicateList: [AwsWafRulePredicateListDetails]? = nil, ruleId: String? = nil) {
             self.metricName = metricName
             self.name = name
@@ -19415,6 +19912,7 @@ extension SecurityHub {
         /// allow, block, or count.
         public let rules: [AwsWafRuleGroupRulesDetails]?
 
+        @inlinable
         public init(metricName: String? = nil, name: String? = nil, ruleGroupId: String? = nil, rules: [AwsWafRuleGroupRulesDetails]? = nil) {
             self.metricName = metricName
             self.name = name
@@ -19443,6 +19941,7 @@ extension SecurityHub {
         /// The action that WAF should take on a web request when it matches the rule's statement.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -19466,6 +19965,7 @@ extension SecurityHub {
         /// The type of rule.
         public let type: String?
 
+        @inlinable
         public init(action: AwsWafRuleGroupRulesActionDetails? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
             self.action = action
             self.priority = priority
@@ -19495,6 +19995,7 @@ extension SecurityHub {
         /// The type of predicate in a rule, such as ByteMatch or IPSet.
         public let type: String?
 
+        @inlinable
         public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
             self.dataId = dataId
             self.negated = negated
@@ -19523,6 +20024,7 @@ extension SecurityHub {
         /// A unique identifier for a web ACL.
         public let webAclId: String?
 
+        @inlinable
         public init(defaultAction: String? = nil, name: String? = nil, rules: [AwsWafWebAclRule]? = nil, webAclId: String? = nil) {
             self.defaultAction = defaultAction
             self.name = name
@@ -19561,6 +20063,7 @@ extension SecurityHub {
         /// The rule type. Valid values: REGULAR | RATE_BASED | GROUP  The default is REGULAR.
         public let type: String?
 
+        @inlinable
         public init(action: WafAction? = nil, excludedRules: [WafExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
             self.action = action
             self.excludedRules = excludedRules
@@ -19594,6 +20097,7 @@ extension SecurityHub {
         ///  Defines custom handling for the web request. For information about customizing web requests and responses, see  Customizing web requests and responses in WAF in the WAF Developer Guide..
         public let customRequestHandling: AwsWafv2CustomRequestHandlingDetails?
 
+        @inlinable
         public init(customRequestHandling: AwsWafv2CustomRequestHandlingDetails? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -19611,6 +20115,7 @@ extension SecurityHub {
         ///  Defines a custom response for the web request. For information, see  Customizing web requests and responses in WAF in the WAF Developer Guide..
         public let customResponse: AwsWafv2CustomResponseDetails?
 
+        @inlinable
         public init(customResponse: AwsWafv2CustomResponseDetails? = nil) {
             self.customResponse = customResponse
         }
@@ -19630,6 +20135,7 @@ extension SecurityHub {
         ///  The value of the custom header.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -19650,6 +20156,7 @@ extension SecurityHub {
         ///  The HTTP headers to insert into the request.
         public let insertHeaders: [AwsWafv2CustomHttpHeader]?
 
+        @inlinable
         public init(insertHeaders: [AwsWafv2CustomHttpHeader]? = nil) {
             self.insertHeaders = insertHeaders
         }
@@ -19673,6 +20180,7 @@ extension SecurityHub {
         ///  The HTTP headers to use in the response.
         public let responseHeaders: [AwsWafv2CustomHttpHeader]?
 
+        @inlinable
         public init(customResponseBodyKey: String? = nil, responseCode: Int? = nil, responseHeaders: [AwsWafv2CustomHttpHeader]? = nil) {
             self.customResponseBodyKey = customResponseBodyKey
             self.responseCode = responseCode
@@ -19711,6 +20219,7 @@ extension SecurityHub {
         ///  Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: AwsWafv2VisibilityConfigDetails?
 
+        @inlinable
         public init(arn: String? = nil, capacity: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, rules: [AwsWafv2RulesDetails]? = nil, scope: String? = nil, visibilityConfig: AwsWafv2VisibilityConfigDetails? = nil) {
             self.arn = arn
             self.capacity = capacity
@@ -19750,6 +20259,7 @@ extension SecurityHub {
         ///  Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For more information,  see Customizing web requests and responses in WAF in the WAF Developer Guide..
         public let customRequestHandling: AwsWafv2CustomRequestHandlingDetails?
 
+        @inlinable
         public init(customRequestHandling: AwsWafv2CustomRequestHandlingDetails? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -19767,6 +20277,7 @@ extension SecurityHub {
         ///  Defines custom handling for the web request. For more information,  see Customizing web requests and responses in WAF in the WAF Developer Guide..
         public let customRequestHandling: AwsWafv2CustomRequestHandlingDetails?
 
+        @inlinable
         public init(customRequestHandling: AwsWafv2CustomRequestHandlingDetails? = nil) {
             self.customRequestHandling = customRequestHandling
         }
@@ -19790,6 +20301,7 @@ extension SecurityHub {
         ///  Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
         public let count: AwsWafv2RulesActionCountDetails?
 
+        @inlinable
         public init(allow: AwsWafv2ActionAllowDetails? = nil, block: AwsWafv2ActionBlockDetails? = nil, captcha: AwsWafv2RulesActionCaptchaDetails? = nil, count: AwsWafv2RulesActionCountDetails? = nil) {
             self.allow = allow
             self.block = block
@@ -19824,6 +20336,7 @@ extension SecurityHub {
         ///  Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: AwsWafv2VisibilityConfigDetails?
 
+        @inlinable
         public init(action: AwsWafv2RulesActionDetails? = nil, name: String? = nil, overrideAction: String? = nil, priority: Int? = nil, visibilityConfig: AwsWafv2VisibilityConfigDetails? = nil) {
             self.action = action
             self.name = name
@@ -19856,6 +20369,7 @@ extension SecurityHub {
         ///  A boolean indicating whether WAF should store a sampling of the web requests that match the rules.  You can view the sampled requests through the WAF console.
         public let sampledRequestsEnabled: Bool?
 
+        @inlinable
         public init(cloudWatchMetricsEnabled: Bool? = nil, metricName: String? = nil, sampledRequestsEnabled: Bool? = nil) {
             self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
             self.metricName = metricName
@@ -19879,6 +20393,7 @@ extension SecurityHub {
         ///  Specifies that WAF should block requests by default.
         public let block: AwsWafv2ActionBlockDetails?
 
+        @inlinable
         public init(allow: AwsWafv2ActionAllowDetails? = nil, block: AwsWafv2ActionBlockDetails? = nil) {
             self.allow = allow
             self.block = block
@@ -19899,6 +20414,7 @@ extension SecurityHub {
         ///  Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
         public let immunityTimeProperty: AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails?
 
+        @inlinable
         public init(immunityTimeProperty: AwsWafv2WebAclCaptchaConfigImmunityTimePropertyDetails? = nil) {
             self.immunityTimeProperty = immunityTimeProperty
         }
@@ -19912,6 +20428,7 @@ extension SecurityHub {
         ///  The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF.
         public let immunityTime: Int64?
 
+        @inlinable
         public init(immunityTime: Int64? = nil) {
             self.immunityTime = immunityTime
         }
@@ -19943,6 +20460,7 @@ extension SecurityHub {
         ///  Defines and enables Amazon CloudWatch metrics and web request sample collection.
         public let visibilityConfig: AwsWafv2VisibilityConfigDetails?
 
+        @inlinable
         public init(arn: String? = nil, capacity: Int64? = nil, captchaConfig: AwsWafv2WebAclCaptchaConfigDetails? = nil, defaultAction: AwsWafv2WebAclActionDetails? = nil, description: String? = nil, id: String? = nil, managedbyFirewallManager: Bool? = nil, name: String? = nil, rules: [AwsWafv2RulesDetails]? = nil, visibilityConfig: AwsWafv2VisibilityConfigDetails? = nil) {
             self.arn = arn
             self.capacity = capacity
@@ -19990,6 +20508,7 @@ extension SecurityHub {
         /// The type of encryption. KMS indicates that the encryption uses KMS keys. NONE indicates the default encryption.
         public let type: String?
 
+        @inlinable
         public init(keyId: String? = nil, status: String? = nil, type: String? = nil) {
             self.keyId = keyId
             self.status = status
@@ -20013,6 +20532,7 @@ extension SecurityHub {
         ///  A list of Amazon Resource Names (ARNs) for the rules that are to be deleted.
         public let automationRulesArns: [String]?
 
+        @inlinable
         public init(automationRulesArns: [String]? = nil) {
             self.automationRulesArns = automationRulesArns
         }
@@ -20036,6 +20556,7 @@ extension SecurityHub {
         ///  A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter  tells you which automation rules the request didn't delete and why.
         public let unprocessedAutomationRules: [UnprocessedAutomationRule]?
 
+        @inlinable
         public init(processedAutomationRules: [String]? = nil, unprocessedAutomationRules: [UnprocessedAutomationRule]? = nil) {
             self.processedAutomationRules = processedAutomationRules
             self.unprocessedAutomationRules = unprocessedAutomationRules
@@ -20051,6 +20572,7 @@ extension SecurityHub {
         /// The ARNs of the standards subscriptions to disable.
         public let standardsSubscriptionArns: [String]?
 
+        @inlinable
         public init(standardsSubscriptionArns: [String]? = nil) {
             self.standardsSubscriptionArns = standardsSubscriptionArns
         }
@@ -20072,6 +20594,7 @@ extension SecurityHub {
         /// The details of the standards subscriptions that were disabled.
         public let standardsSubscriptions: [StandardsSubscription]?
 
+        @inlinable
         public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.standardsSubscriptions = standardsSubscriptions
         }
@@ -20085,6 +20608,7 @@ extension SecurityHub {
         /// The list of standards checks to enable.
         public let standardsSubscriptionRequests: [StandardsSubscriptionRequest]?
 
+        @inlinable
         public init(standardsSubscriptionRequests: [StandardsSubscriptionRequest]? = nil) {
             self.standardsSubscriptionRequests = standardsSubscriptionRequests
         }
@@ -20106,6 +20630,7 @@ extension SecurityHub {
         /// The details of the standards subscriptions that were enabled.
         public let standardsSubscriptions: [StandardsSubscription]?
 
+        @inlinable
         public init(standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.standardsSubscriptions = standardsSubscriptions
         }
@@ -20119,6 +20644,7 @@ extension SecurityHub {
         ///  A list of rule ARNs to get details for.
         public let automationRulesArns: [String]?
 
+        @inlinable
         public init(automationRulesArns: [String]? = nil) {
             self.automationRulesArns = automationRulesArns
         }
@@ -20142,6 +20668,7 @@ extension SecurityHub {
         ///  A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter  tells you which automation rules the request didn't retrieve and why.
         public let unprocessedAutomationRules: [UnprocessedAutomationRule]?
 
+        @inlinable
         public init(rules: [AutomationRulesConfig]? = nil, unprocessedAutomationRules: [UnprocessedAutomationRule]? = nil) {
             self.rules = rules
             self.unprocessedAutomationRules = unprocessedAutomationRules
@@ -20157,6 +20684,7 @@ extension SecurityHub {
         ///  Specifies one or more target account IDs, organizational unit (OU) IDs, or the root ID to retrieve associations for.
         public let configurationPolicyAssociationIdentifiers: [ConfigurationPolicyAssociation]?
 
+        @inlinable
         public init(configurationPolicyAssociationIdentifiers: [ConfigurationPolicyAssociation]? = nil) {
             self.configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers
         }
@@ -20178,6 +20706,7 @@ extension SecurityHub {
         ///  An array of configuration policy associations, one for each configuration policy association identifier, that was  specified in the request but couldn’t be processed due to an error.
         public let unprocessedConfigurationPolicyAssociations: [UnprocessedConfigurationPolicyAssociation]?
 
+        @inlinable
         public init(configurationPolicyAssociations: [ConfigurationPolicyAssociationSummary]? = nil, unprocessedConfigurationPolicyAssociations: [UnprocessedConfigurationPolicyAssociation]? = nil) {
             self.configurationPolicyAssociations = configurationPolicyAssociations
             self.unprocessedConfigurationPolicyAssociations = unprocessedConfigurationPolicyAssociations
@@ -20193,6 +20722,7 @@ extension SecurityHub {
         ///  A list of security controls (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters). The security control ID or Amazon Resource Name (ARN) is the same across standards.
         public let securityControlIds: [String]?
 
+        @inlinable
         public init(securityControlIds: [String]? = nil) {
             self.securityControlIds = securityControlIds
         }
@@ -20214,6 +20744,7 @@ extension SecurityHub {
         ///  A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) for which  details cannot be returned.
         public let unprocessedIds: [UnprocessedSecurityControl]?
 
+        @inlinable
         public init(securityControls: [SecurityControl]? = nil, unprocessedIds: [UnprocessedSecurityControl]? = nil) {
             self.securityControls = securityControls
             self.unprocessedIds = unprocessedIds
@@ -20229,6 +20760,7 @@ extension SecurityHub {
         ///  An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard.  This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards.
         public let standardsControlAssociationIds: [StandardsControlAssociationId]?
 
+        @inlinable
         public init(standardsControlAssociationIds: [StandardsControlAssociationId]? = nil) {
             self.standardsControlAssociationIds = standardsControlAssociationIds
         }
@@ -20250,6 +20782,7 @@ extension SecurityHub {
         ///  A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement  status in a specified standard cannot be returned.
         public let unprocessedAssociations: [UnprocessedStandardsControlAssociation]?
 
+        @inlinable
         public init(standardsControlAssociationDetails: [StandardsControlAssociationDetail]? = nil, unprocessedAssociations: [UnprocessedStandardsControlAssociation]? = nil) {
             self.standardsControlAssociationDetails = standardsControlAssociationDetails
             self.unprocessedAssociations = unprocessedAssociations
@@ -20265,6 +20798,7 @@ extension SecurityHub {
         /// A list of findings to import. To successfully import a finding, it must follow the Amazon Web Services Security Finding Format. Maximum of 100 findings per request.
         public let findings: [AwsSecurityFinding]?
 
+        @inlinable
         public init(findings: [AwsSecurityFinding]? = nil) {
             self.findings = findings
         }
@@ -20290,6 +20824,7 @@ extension SecurityHub {
         /// The number of findings that were successfully imported.
         public let successCount: Int?
 
+        @inlinable
         public init(failedCount: Int? = nil, failedFindings: [ImportFindingsError]? = nil, successCount: Int? = nil) {
             self.failedCount = failedCount
             self.failedFindings = failedFindings
@@ -20307,6 +20842,7 @@ extension SecurityHub {
         ///  An array of ARNs for the rules that are to be updated. Optionally, you can also include  RuleStatus and RuleOrder.
         public let updateAutomationRulesRequestItems: [UpdateAutomationRulesRequestItem]?
 
+        @inlinable
         public init(updateAutomationRulesRequestItems: [UpdateAutomationRulesRequestItem]? = nil) {
             self.updateAutomationRulesRequestItems = updateAutomationRulesRequestItems
         }
@@ -20330,6 +20866,7 @@ extension SecurityHub {
         ///  A list of objects containing RuleArn, ErrorCode, and ErrorMessage. This parameter  tells you which automation rules the request didn't update and why.
         public let unprocessedAutomationRules: [UnprocessedAutomationRule]?
 
+        @inlinable
         public init(processedAutomationRules: [String]? = nil, unprocessedAutomationRules: [UnprocessedAutomationRule]? = nil) {
             self.processedAutomationRules = processedAutomationRules
             self.unprocessedAutomationRules = unprocessedAutomationRules
@@ -20362,6 +20899,7 @@ extension SecurityHub {
         /// Used to update the workflow status of a finding. The workflow status indicates the progress of the investigation into the finding.
         public let workflow: WorkflowUpdate?
 
+        @inlinable
         public init(confidence: Int? = nil, criticality: Int? = nil, findingIdentifiers: [AwsSecurityFindingIdentifier]? = nil, note: NoteUpdate? = nil, relatedFindings: [RelatedFinding]? = nil, severity: SeverityUpdate? = nil, types: [String]? = nil, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, workflow: WorkflowUpdate? = nil) {
             self.confidence = confidence
             self.criticality = criticality
@@ -20417,6 +20955,7 @@ extension SecurityHub {
         /// The list of findings that were not updated.
         public let unprocessedFindings: [BatchUpdateFindingsUnprocessedFinding]?
 
+        @inlinable
         public init(processedFindings: [AwsSecurityFindingIdentifier]? = nil, unprocessedFindings: [BatchUpdateFindingsUnprocessedFinding]? = nil) {
             self.processedFindings = processedFindings
             self.unprocessedFindings = unprocessedFindings
@@ -20438,6 +20977,7 @@ extension SecurityHub {
         /// The identifier of the finding that was not updated.
         public let findingIdentifier: AwsSecurityFindingIdentifier?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, findingIdentifier: AwsSecurityFindingIdentifier? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -20455,6 +20995,7 @@ extension SecurityHub {
         ///  Updates the enablement status of a security control in a specified standard.
         public let standardsControlAssociationUpdates: [StandardsControlAssociationUpdate]?
 
+        @inlinable
         public init(standardsControlAssociationUpdates: [StandardsControlAssociationUpdate]? = nil) {
             self.standardsControlAssociationUpdates = standardsControlAssociationUpdates
         }
@@ -20474,6 +21015,7 @@ extension SecurityHub {
         ///  A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement status in a specified standard couldn't be updated.
         public let unprocessedAssociationUpdates: [UnprocessedStandardsControlAssociationUpdate]?
 
+        @inlinable
         public init(unprocessedAssociationUpdates: [UnprocessedStandardsControlAssociationUpdate]? = nil) {
             self.unprocessedAssociationUpdates = unprocessedAssociationUpdates
         }
@@ -20487,6 +21029,7 @@ extension SecurityHub {
         ///  The Security Hub default value for a boolean parameter.
         public let defaultValue: Bool?
 
+        @inlinable
         public init(defaultValue: Bool? = nil) {
             self.defaultValue = defaultValue
         }
@@ -20500,6 +21043,7 @@ extension SecurityHub {
         /// The value of the boolean.
         public let value: Bool?
 
+        @inlinable
         public init(value: Bool? = nil) {
             self.value = value
         }
@@ -20519,6 +21063,7 @@ extension SecurityHub {
         /// The row number of the row that contains the data.
         public let row: Int64?
 
+        @inlinable
         public init(cellReference: String? = nil, column: Int64? = nil, columnName: String? = nil, row: Int64? = nil) {
             self.cellReference = cellReference
             self.column = column
@@ -20547,6 +21092,7 @@ extension SecurityHub {
         /// Information about the state of the IPv4 CIDR block.
         public let cidrBlockState: String?
 
+        @inlinable
         public init(associationId: String? = nil, cidrBlock: String? = nil, cidrBlockState: String? = nil) {
             self.associationId = associationId
             self.cidrBlock = cidrBlock
@@ -20570,6 +21116,7 @@ extension SecurityHub {
         /// The name of the city.
         public let cityName: String?
 
+        @inlinable
         public init(cityName: String? = nil) {
             self.cityName = cityName
         }
@@ -20597,6 +21144,7 @@ extension SecurityHub {
         /// The current status of the sensitive data detection.
         public let status: ClassificationStatus?
 
+        @inlinable
         public init(additionalOccurrences: Bool? = nil, customDataIdentifiers: CustomDataIdentifiersResult? = nil, mimeType: String? = nil, sensitiveData: [SensitiveDataResult]? = nil, sizeClassified: Int64? = nil, status: ClassificationStatus? = nil) {
             self.additionalOccurrences = additionalOccurrences
             self.customDataIdentifiers = customDataIdentifiers
@@ -20631,6 +21179,7 @@ extension SecurityHub {
         /// A longer description of the current status of the sensitive data detection.
         public let reason: String?
 
+        @inlinable
         public init(code: String? = nil, reason: String? = nil) {
             self.code = code
             self.reason = reason
@@ -20655,6 +21204,7 @@ extension SecurityHub {
         ///  The ID for a DNS query logging configuration.
         public let id: String?
 
+        @inlinable
         public init(cloudWatchLogsLogGroupArn: String? = nil, hostedZoneId: String? = nil, id: String? = nil) {
             self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
             self.hostedZoneId = hostedZoneId
@@ -20684,6 +21234,7 @@ extension SecurityHub {
         ///  The line number of the first line of code in which the vulnerability is located.
         public let startLine: Int?
 
+        @inlinable
         public init(endLine: Int? = nil, fileName: String? = nil, filePath: String? = nil, startLine: Int? = nil) {
             self.endLine = endLine
             self.fileName = fileName
@@ -20718,6 +21269,7 @@ extension SecurityHub {
         /// Typically used to provide a list of reasons for the value of Status.
         public let statusReasons: [StatusReason]?
 
+        @inlinable
         public init(associatedStandards: [AssociatedStandard]? = nil, relatedRequirements: [String]? = nil, securityControlId: String? = nil, securityControlParameters: [SecurityControlParameter]? = nil, status: ComplianceStatus? = nil, statusReasons: [StatusReason]? = nil) {
             self.associatedStandards = associatedStandards
             self.relatedRequirements = relatedRequirements
@@ -20757,6 +21309,7 @@ extension SecurityHub {
         ///  The target account, organizational unit, or the root.
         public let target: Target?
 
+        @inlinable
         public init(target: Target? = nil) {
             self.target = target
         }
@@ -20787,6 +21340,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(associationStatus: ConfigurationPolicyAssociationStatus? = nil, associationStatusMessage: String? = nil, associationType: AssociationType? = nil, configurationPolicyId: String? = nil, targetId: String? = nil, targetType: TargetType? = nil, updatedAt: Date? = nil) {
             self.associationStatus = associationStatus
             self.associationStatusMessage = associationStatusMessage
@@ -20823,6 +21377,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, serviceEnabled: Bool? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.description = description
@@ -20861,6 +21416,7 @@ extension SecurityHub {
         /// Provides information about the mounting of a volume in a container.
         public let volumeMounts: [VolumeMount]?
 
+        @inlinable
         public init(containerRuntime: String? = nil, imageId: String? = nil, imageName: String? = nil, launchedAt: String? = nil, name: String? = nil, privileged: Bool? = nil, volumeMounts: [VolumeMount]? = nil) {
             self.containerRuntime = containerRuntime
             self.imageId = imageId
@@ -20899,6 +21455,7 @@ extension SecurityHub {
         /// The name of the country.
         public let countryName: String?
 
+        @inlinable
         public init(countryCode: String? = nil, countryName: String? = nil) {
             self.countryCode = countryCode
             self.countryName = countryName
@@ -20923,6 +21480,7 @@ extension SecurityHub {
         /// The name of the custom action target. Can contain up to 20 characters.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, name: String? = nil) {
             self.description = description
             self.id = id
@@ -20946,6 +21504,7 @@ extension SecurityHub {
         /// The Amazon Resource Name (ARN) for the custom action target.
         public let actionTargetArn: String?
 
+        @inlinable
         public init(actionTargetArn: String? = nil) {
             self.actionTargetArn = actionTargetArn
         }
@@ -20973,6 +21532,7 @@ extension SecurityHub {
         ///  User-defined tags associated with an automation rule.
         public let tags: [String: String]?
 
+        @inlinable
         public init(actions: [AutomationRulesAction]? = nil, criteria: AutomationRulesFindingFilters? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil, tags: [String: String]? = nil) {
             self.actions = actions
             self.criteria = criteria
@@ -21021,6 +21581,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the automation rule that you created.
         public let ruleArn: String?
 
+        @inlinable
         public init(ruleArn: String? = nil) {
             self.ruleArn = ruleArn
         }
@@ -21040,6 +21601,7 @@ extension SecurityHub {
         ///  User-defined tags associated with a configuration policy. For more information, see  Tagging Security Hub resources  in the Security Hub user guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(configurationPolicy: Policy? = nil, description: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.configurationPolicy = configurationPolicy
             self.description = description
@@ -21087,6 +21649,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, configurationPolicy: Policy? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.configurationPolicy = configurationPolicy
@@ -21114,6 +21677,7 @@ extension SecurityHub {
         /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.  An InvalidInputException error results if you populate this field while RegionLinkingMode is  NO_REGIONS.
         public let regions: [String]?
 
+        @inlinable
         public init(regionLinkingMode: String? = nil, regions: [String]? = nil) {
             self.regionLinkingMode = regionLinkingMode
             self.regions = regions
@@ -21142,6 +21706,7 @@ extension SecurityHub {
         /// The list of excluded Regions or included Regions.
         public let regions: [String]?
 
+        @inlinable
         public init(findingAggregationRegion: String? = nil, findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
             self.findingAggregationRegion = findingAggregationRegion
             self.findingAggregatorArn = findingAggregatorArn
@@ -21165,6 +21730,7 @@ extension SecurityHub {
         /// The name of the custom insight to create.
         public let name: String?
 
+        @inlinable
         public init(filters: AwsSecurityFindingFilters? = nil, groupByAttribute: String? = nil, name: String? = nil) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
@@ -21188,6 +21754,7 @@ extension SecurityHub {
         /// The ARN of the insight created.
         public let insightArn: String?
 
+        @inlinable
         public init(insightArn: String? = nil) {
             self.insightArn = insightArn
         }
@@ -21201,6 +21768,7 @@ extension SecurityHub {
         /// The list of accounts to associate with the Security Hub administrator account. For each account, the list includes the account ID and optionally the email address.
         public let accountDetails: [AccountDetails]?
 
+        @inlinable
         public init(accountDetails: [AccountDetails]? = nil) {
             self.accountDetails = accountDetails
         }
@@ -21222,6 +21790,7 @@ extension SecurityHub {
         /// The list of Amazon Web Services accounts that were not processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
+        @inlinable
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -21241,6 +21810,7 @@ extension SecurityHub {
         /// Details about the sensitive data that was detected.
         public let occurrences: Occurrences?
 
+        @inlinable
         public init(arn: String? = nil, count: Int64? = nil, name: String? = nil, occurrences: Occurrences? = nil) {
             self.arn = arn
             self.count = count
@@ -21268,6 +21838,7 @@ extension SecurityHub {
         /// The total number of occurrences of sensitive data.
         public let totalCount: Int64?
 
+        @inlinable
         public init(detections: [CustomDataIdentifiersDetections]? = nil, totalCount: Int64? = nil) {
             self.detections = detections
             self.totalCount = totalCount
@@ -21297,6 +21868,7 @@ extension SecurityHub {
         /// The version of CVSS for the CVSS score.
         public let version: String?
 
+        @inlinable
         public init(adjustments: [Adjustment]? = nil, baseScore: Double? = nil, baseVector: String? = nil, source: String? = nil, version: String? = nil) {
             self.adjustments = adjustments
             self.baseScore = baseScore
@@ -21329,6 +21901,7 @@ extension SecurityHub {
         /// The details about the sensitive data that was detected on the resource.
         public let result: ClassificationResult?
 
+        @inlinable
         public init(detailedResultsLocation: String? = nil, result: ClassificationResult? = nil) {
             self.detailedResultsLocation = detailedResultsLocation
             self.result = result
@@ -21357,6 +21930,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let start: String?
 
+        @inlinable
         public init(dateRange: DateRange? = nil, end: String? = nil, start: String? = nil) {
             self.dateRange = dateRange
             self.end = end
@@ -21381,6 +21955,7 @@ extension SecurityHub {
         /// A date range value for the date filter.
         public let value: Int?
 
+        @inlinable
         public init(unit: DateRangeUnit? = nil, value: Int? = nil) {
             self.unit = unit
             self.value = value
@@ -21396,6 +21971,7 @@ extension SecurityHub {
         /// The list of prospective member account IDs for which to decline an invitation.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -21415,6 +21991,7 @@ extension SecurityHub {
         /// The list of Amazon Web Services accounts that were not processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
+        @inlinable
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -21428,6 +22005,7 @@ extension SecurityHub {
         /// The Amazon Resource Name (ARN) of the custom action target to delete.
         public let actionTargetArn: String
 
+        @inlinable
         public init(actionTargetArn: String) {
             self.actionTargetArn = actionTargetArn
         }
@@ -21449,6 +22027,7 @@ extension SecurityHub {
         /// The ARN of the custom action target that was deleted.
         public let actionTargetArn: String?
 
+        @inlinable
         public init(actionTargetArn: String? = nil) {
             self.actionTargetArn = actionTargetArn
         }
@@ -21462,6 +22041,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -21487,6 +22067,7 @@ extension SecurityHub {
         /// The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators.
         public let findingAggregatorArn: String
 
+        @inlinable
         public init(findingAggregatorArn: String) {
             self.findingAggregatorArn = findingAggregatorArn
         }
@@ -21512,6 +22093,7 @@ extension SecurityHub {
         /// The ARN of the insight to delete.
         public let insightArn: String
 
+        @inlinable
         public init(insightArn: String) {
             self.insightArn = insightArn
         }
@@ -21533,6 +22115,7 @@ extension SecurityHub {
         /// The ARN of the insight that was deleted.
         public let insightArn: String?
 
+        @inlinable
         public init(insightArn: String? = nil) {
             self.insightArn = insightArn
         }
@@ -21546,6 +22129,7 @@ extension SecurityHub {
         /// The list of member account IDs that received the invitations you want to delete.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -21565,6 +22149,7 @@ extension SecurityHub {
         /// The list of Amazon Web Services accounts for which the invitations were not deleted. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
+        @inlinable
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -21578,6 +22163,7 @@ extension SecurityHub {
         /// The list of account IDs for the member accounts to delete.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -21597,6 +22183,7 @@ extension SecurityHub {
         /// The list of Amazon Web Services accounts that were not deleted. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
+        @inlinable
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -21614,6 +22201,7 @@ extension SecurityHub {
         /// The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(actionTargetArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.actionTargetArns = actionTargetArns
             self.maxResults = maxResults
@@ -21641,6 +22229,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(actionTargets: [ActionTarget]? = nil, nextToken: String? = nil) {
             self.actionTargets = actionTargets
             self.nextToken = nextToken
@@ -21656,6 +22245,7 @@ extension SecurityHub {
         /// The ARN of the Hub resource to retrieve.
         public let hubArn: String?
 
+        @inlinable
         public init(hubArn: String? = nil) {
             self.hubArn = hubArn
         }
@@ -21683,6 +22273,7 @@ extension SecurityHub {
         /// The date and time when Security Hub was enabled in the account.
         public let subscribedAt: String?
 
+        @inlinable
         public init(autoEnableControls: Bool? = nil, controlFindingGenerator: ControlFindingGenerator? = nil, hubArn: String? = nil, subscribedAt: String? = nil) {
             self.autoEnableControls = autoEnableControls
             self.controlFindingGenerator = controlFindingGenerator
@@ -21711,6 +22302,7 @@ extension SecurityHub {
         public let memberAccountLimitReached: Bool?
         public let organizationConfiguration: OrganizationConfiguration?
 
+        @inlinable
         public init(autoEnable: Bool? = nil, autoEnableStandards: AutoEnableStandards? = nil, memberAccountLimitReached: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil) {
             self.autoEnable = autoEnable
             self.autoEnableStandards = autoEnableStandards
@@ -21734,6 +22326,7 @@ extension SecurityHub {
         /// The ARN of the integration to return.
         public let productArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, productArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -21763,6 +22356,7 @@ extension SecurityHub {
         /// A list of products, including details for each product.
         public let products: [Product]?
 
+        @inlinable
         public init(nextToken: String? = nil, products: [Product]? = nil) {
             self.nextToken = nextToken
             self.products = products
@@ -21782,6 +22376,7 @@ extension SecurityHub {
         /// The ARN of a resource that represents your subscription to a supported standard. To get the subscription ARNs of the standards you have enabled, use the GetEnabledStandards operation.
         public let standardsSubscriptionArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -21811,6 +22406,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(controls: [StandardsControl]? = nil, nextToken: String? = nil) {
             self.controls = controls
             self.nextToken = nextToken
@@ -21828,6 +22424,7 @@ extension SecurityHub {
         /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -21854,6 +22451,7 @@ extension SecurityHub {
         /// A list of available standards.
         public let standards: [Standard]?
 
+        @inlinable
         public init(nextToken: String? = nil, standards: [Standard]? = nil) {
             self.nextToken = nextToken
             self.standards = standards
@@ -21869,6 +22467,7 @@ extension SecurityHub {
         /// The ARN of the integrated product to disable the integration for.
         public let productSubscriptionArn: String
 
+        @inlinable
         public init(productSubscriptionArn: String) {
             self.productSubscriptionArn = productSubscriptionArn
         }
@@ -21894,6 +22493,7 @@ extension SecurityHub {
         /// The Amazon Web Services account identifier of the Security Hub administrator account.
         public let adminAccountId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
@@ -21939,6 +22539,7 @@ extension SecurityHub {
         /// The account IDs of the member accounts to disassociate from the administrator account.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -21966,6 +22567,7 @@ extension SecurityHub {
         /// The protocol that was used for the DNS request. Length Constraints: Minimum length of 1. Maximum length of 64.
         public let `protocol`: String?
 
+        @inlinable
         public init(blocked: Bool? = nil, domain: String? = nil, protocol: String? = nil) {
             self.blocked = blocked
             self.domain = domain
@@ -21992,6 +22594,7 @@ extension SecurityHub {
         ///  The minimum valid value for a control parameter that is a double.
         public let min: Double?
 
+        @inlinable
         public init(defaultValue: Double? = nil, max: Double? = nil, min: Double? = nil) {
             self.defaultValue = defaultValue
             self.max = max
@@ -22009,6 +22612,7 @@ extension SecurityHub {
         /// The ARN of the product to enable the integration for.
         public let productArn: String?
 
+        @inlinable
         public init(productArn: String? = nil) {
             self.productArn = productArn
         }
@@ -22026,6 +22630,7 @@ extension SecurityHub {
         /// The ARN of your subscription to the product to enable integrations for.
         public let productSubscriptionArn: String?
 
+        @inlinable
         public init(productSubscriptionArn: String? = nil) {
             self.productSubscriptionArn = productSubscriptionArn
         }
@@ -22039,6 +22644,7 @@ extension SecurityHub {
         /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
         public let adminAccountId: String?
 
+        @inlinable
         public init(adminAccountId: String? = nil) {
             self.adminAccountId = adminAccountId
         }
@@ -22064,6 +22670,7 @@ extension SecurityHub {
         /// The tags to add to the hub resource when you enable Security Hub.
         public let tags: [String: String]?
 
+        @inlinable
         public init(controlFindingGenerator: ControlFindingGenerator? = nil, enableDefaultStandards: Bool? = nil, tags: [String: String]? = nil) {
             self.controlFindingGenerator = controlFindingGenerator
             self.enableDefaultStandards = enableDefaultStandards
@@ -22098,6 +22705,7 @@ extension SecurityHub {
         ///  The Security Hub default value for a control parameter that is an enum.
         public let defaultValue: String?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, defaultValue: String? = nil) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -22117,6 +22725,7 @@ extension SecurityHub {
         ///  The maximum number of list items that an enum list control parameter can accept.
         public let maxItems: Int?
 
+        @inlinable
         public init(allowedValues: [String]? = nil, defaultValue: [String]? = nil, maxItems: Int? = nil) {
             self.allowedValues = allowedValues
             self.defaultValue = defaultValue
@@ -22144,6 +22753,7 @@ extension SecurityHub {
         /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let resourceId: String?
 
+        @inlinable
         public init(fileName: String? = nil, filePath: String? = nil, hash: String? = nil, resourceId: String? = nil) {
             self.fileName = fileName
             self.filePath = filePath
@@ -22170,6 +22780,7 @@ extension SecurityHub {
         /// The ARN of the finding aggregator. You use the finding aggregator ARN to retrieve details for, update, and delete the finding aggregator.
         public let findingAggregatorArn: String?
 
+        @inlinable
         public init(findingAggregatorArn: String? = nil) {
             self.findingAggregatorArn = findingAggregatorArn
         }
@@ -22195,6 +22806,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updateTime: Date?
 
+        @inlinable
         public init(findingCreated: Bool? = nil, findingIdentifier: AwsSecurityFindingIdentifier? = nil, nextToken: String? = nil, updates: [FindingHistoryUpdate]? = nil, updateSource: FindingHistoryUpdateSource? = nil, updateTime: Date? = nil) {
             self.findingCreated = findingCreated
             self.findingIdentifier = findingIdentifier
@@ -22222,6 +22834,7 @@ extension SecurityHub {
         ///  The ASFF field that changed during the finding change event.
         public let updatedField: String?
 
+        @inlinable
         public init(newValue: String? = nil, oldValue: String? = nil, updatedField: String? = nil) {
             self.newValue = newValue
             self.oldValue = oldValue
@@ -22241,6 +22854,7 @@ extension SecurityHub {
         ///  Describes the type of finding change event, such as a call to  BatchImportFindings (by an integrated Amazon Web Servicesservice or third party partner integration) or  BatchUpdateFindings (by a Security Hub customer).
         public let type: FindingHistoryUpdateSourceType?
 
+        @inlinable
         public init(identity: String? = nil, type: FindingHistoryUpdateSourceType? = nil) {
             self.identity = identity
             self.type = type
@@ -22264,6 +22878,7 @@ extension SecurityHub {
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public let types: [String]?
 
+        @inlinable
         public init(confidence: Int? = nil, criticality: Int? = nil, relatedFindings: [RelatedFinding]? = nil, severity: FindingProviderSeverity? = nil, types: [String]? = nil) {
             self.confidence = confidence
             self.criticality = criticality
@@ -22301,6 +22916,7 @@ extension SecurityHub {
         /// The finding provider's original value for the severity. Length Constraints: Minimum length of 1. Maximum length of 64.
         public let original: String?
 
+        @inlinable
         public init(label: SeverityLabel? = nil, original: String? = nil) {
             self.label = label
             self.original = original
@@ -22328,6 +22944,7 @@ extension SecurityHub {
         /// The stateless rule groups that are used in the firewall policy.
         public let statelessRuleGroupReferences: [FirewallPolicyStatelessRuleGroupReferencesDetails]?
 
+        @inlinable
         public init(statefulRuleGroupReferences: [FirewallPolicyStatefulRuleGroupReferencesDetails]? = nil, statelessCustomActions: [FirewallPolicyStatelessCustomActionsDetails]? = nil, statelessDefaultActions: [String]? = nil, statelessFragmentDefaultActions: [String]? = nil, statelessRuleGroupReferences: [FirewallPolicyStatelessRuleGroupReferencesDetails]? = nil) {
             self.statefulRuleGroupReferences = statefulRuleGroupReferences
             self.statelessCustomActions = statelessCustomActions
@@ -22367,6 +22984,7 @@ extension SecurityHub {
         /// The ARN of the stateful rule group.
         public let resourceArn: String?
 
+        @inlinable
         public init(resourceArn: String? = nil) {
             self.resourceArn = resourceArn
         }
@@ -22386,6 +23004,7 @@ extension SecurityHub {
         /// The name of the custom action.
         public let actionName: String?
 
+        @inlinable
         public init(actionDefinition: StatelessCustomActionDefinition? = nil, actionName: String? = nil) {
             self.actionDefinition = actionDefinition
             self.actionName = actionName
@@ -22408,6 +23027,7 @@ extension SecurityHub {
         /// The ARN of the stateless rule group.
         public let resourceArn: String?
 
+        @inlinable
         public init(priority: Int? = nil, resourceArn: String? = nil) {
             self.priority = priority
             self.resourceArn = resourceArn
@@ -22431,6 +23051,7 @@ extension SecurityHub {
         ///  The name of the detector used to identify the code vulnerability.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, labels: [String]? = nil, name: String? = nil) {
             self.description = description
             self.labels = labels
@@ -22458,6 +23079,7 @@ extension SecurityHub {
         /// The longitude of the location.
         public let lon: Double?
 
+        @inlinable
         public init(lat: Double? = nil, lon: Double? = nil) {
             self.lat = lat
             self.lon = lon
@@ -22476,6 +23098,7 @@ extension SecurityHub {
     public struct GetAdministratorAccountResponse: AWSDecodableShape {
         public let administrator: Invitation?
 
+        @inlinable
         public init(administrator: Invitation? = nil) {
             self.administrator = administrator
         }
@@ -22489,6 +23112,7 @@ extension SecurityHub {
         ///  The target account ID, organizational unit ID, or the root ID to retrieve the association for.
         public let target: Target?
 
+        @inlinable
         public init(target: Target? = nil) {
             self.target = target
         }
@@ -22519,6 +23143,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(associationStatus: ConfigurationPolicyAssociationStatus? = nil, associationStatusMessage: String? = nil, associationType: AssociationType? = nil, configurationPolicyId: String? = nil, targetId: String? = nil, targetType: TargetType? = nil, updatedAt: Date? = nil) {
             self.associationStatus = associationStatus
             self.associationStatusMessage = associationStatusMessage
@@ -22544,6 +23169,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -22579,6 +23205,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, configurationPolicy: Policy? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.configurationPolicy = configurationPolicy
@@ -22608,6 +23235,7 @@ extension SecurityHub {
         /// The list of the standards subscription ARNs for the standards to retrieve.
         public let standardsSubscriptionArns: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -22637,6 +23265,7 @@ extension SecurityHub {
         /// The list of StandardsSubscriptions objects that include information about the enabled standards.
         public let standardsSubscriptions: [StandardsSubscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, standardsSubscriptions: [StandardsSubscription]? = nil) {
             self.nextToken = nextToken
             self.standardsSubscriptions = standardsSubscriptions
@@ -22652,6 +23281,7 @@ extension SecurityHub {
         /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators.
         public let findingAggregatorArn: String
 
+        @inlinable
         public init(findingAggregatorArn: String) {
             self.findingAggregatorArn = findingAggregatorArn
         }
@@ -22679,6 +23309,7 @@ extension SecurityHub {
         /// The list of excluded Regions or included Regions.
         public let regions: [String]?
 
+        @inlinable
         public init(findingAggregationRegion: String? = nil, findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
             self.findingAggregationRegion = findingAggregationRegion
             self.findingAggregatorArn = findingAggregatorArn
@@ -22711,6 +23342,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, findingIdentifier: AwsSecurityFindingIdentifier? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.findingIdentifier = findingIdentifier
@@ -22740,6 +23372,7 @@ extension SecurityHub {
         ///  A list of events that altered the specified finding during the specified time period.
         public let records: [FindingHistoryRecord]?
 
+        @inlinable
         public init(nextToken: String? = nil, records: [FindingHistoryRecord]? = nil) {
             self.nextToken = nextToken
             self.records = records
@@ -22761,6 +23394,7 @@ extension SecurityHub {
         /// The finding attributes used to sort the list of returned findings.
         public let sortCriteria: [SortCriterion]?
 
+        @inlinable
         public init(filters: AwsSecurityFindingFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -22791,6 +23425,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(findings: [AwsSecurityFinding]? = nil, nextToken: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -22806,6 +23441,7 @@ extension SecurityHub {
         /// The ARN of the insight for which to return results.
         public let insightArn: String
 
+        @inlinable
         public init(insightArn: String) {
             self.insightArn = insightArn
         }
@@ -22827,6 +23463,7 @@ extension SecurityHub {
         /// The insight results returned by the operation.
         public let insightResults: InsightResults?
 
+        @inlinable
         public init(insightResults: InsightResults? = nil) {
             self.insightResults = insightResults
         }
@@ -22844,6 +23481,7 @@ extension SecurityHub {
         /// The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(insightArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.insightArns = insightArns
             self.maxResults = maxResults
@@ -22871,6 +23509,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(insights: [Insight]? = nil, nextToken: String? = nil) {
             self.insights = insights
             self.nextToken = nextToken
@@ -22890,6 +23529,7 @@ extension SecurityHub {
         /// The number of all membership invitations sent to this Security Hub member account, not including the currently accepted invitation.
         public let invitationsCount: Int?
 
+        @inlinable
         public init(invitationsCount: Int? = nil) {
             self.invitationsCount = invitationsCount
         }
@@ -22907,6 +23547,7 @@ extension SecurityHub {
         /// A list of details about the Security Hub administrator account for the current member account.
         public let master: Invitation?
 
+        @inlinable
         public init(master: Invitation? = nil) {
             self.master = master
         }
@@ -22920,6 +23561,7 @@ extension SecurityHub {
         /// The list of account IDs for the Security Hub member accounts to return the details for.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -22941,6 +23583,7 @@ extension SecurityHub {
         /// The list of Amazon Web Services accounts that could not be processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
+        @inlinable
         public init(members: [Member]? = nil, unprocessedAccounts: [Result]? = nil) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
@@ -22956,6 +23599,7 @@ extension SecurityHub {
         ///  The ID of the security control to retrieve the definition for. This field doesn’t accept an Amazon Resource Name (ARN).
         public let securityControlId: String?
 
+        @inlinable
         public init(securityControlId: String? = nil) {
             self.securityControlId = securityControlId
         }
@@ -22976,6 +23620,7 @@ extension SecurityHub {
     public struct GetSecurityControlDefinitionResponse: AWSDecodableShape {
         public let securityControlDefinition: SecurityControlDefinition?
 
+        @inlinable
         public init(securityControlDefinition: SecurityControlDefinition? = nil) {
             self.securityControlDefinition = securityControlDefinition
         }
@@ -22991,6 +23636,7 @@ extension SecurityHub {
         /// The ICMP type for which to deny or allow access. To deny or allow all types, use the value -1.
         public let type: Int?
 
+        @inlinable
         public init(code: Int? = nil, type: Int? = nil) {
             self.code = code
             self.type = type
@@ -23010,6 +23656,7 @@ extension SecurityHub {
         /// The identifier of the finding that could not be updated.
         public let id: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -23033,6 +23680,7 @@ extension SecurityHub {
         /// The name of a Security Hub insight.
         public let name: String?
 
+        @inlinable
         public init(filters: AwsSecurityFindingFilters? = nil, groupByAttribute: String? = nil, insightArn: String? = nil, name: String? = nil) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
@@ -23054,6 +23702,7 @@ extension SecurityHub {
         /// The value of the attribute that the findings are grouped by for the insight whose results are returned by the GetInsightResults operation.
         public let groupByAttributeValue: String?
 
+        @inlinable
         public init(count: Int? = nil, groupByAttributeValue: String? = nil) {
             self.count = count
             self.groupByAttributeValue = groupByAttributeValue
@@ -23073,6 +23722,7 @@ extension SecurityHub {
         /// The list of insight result values returned by the GetInsightResults operation.
         public let resultValues: [InsightResultValue]?
 
+        @inlinable
         public init(groupByAttribute: String? = nil, insightArn: String? = nil, resultValues: [InsightResultValue]? = nil) {
             self.groupByAttribute = groupByAttribute
             self.insightArn = insightArn
@@ -23094,6 +23744,7 @@ extension SecurityHub {
         ///  The minimum valid value for a control parameter that is an integer.
         public let min: Int?
 
+        @inlinable
         public init(defaultValue: Int? = nil, max: Int? = nil, min: Int? = nil) {
             self.defaultValue = defaultValue
             self.max = max
@@ -23117,6 +23768,7 @@ extension SecurityHub {
         ///  The minimum valid value for a control parameter that is a list of integers.
         public let min: Int?
 
+        @inlinable
         public init(defaultValue: [Int]? = nil, max: Int? = nil, maxItems: Int? = nil, min: Int? = nil) {
             self.defaultValue = defaultValue
             self.max = max
@@ -23143,6 +23795,7 @@ extension SecurityHub {
         /// The current status of the association between the member and administrator accounts.
         public let memberStatus: String?
 
+        @inlinable
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: Date? = nil, memberStatus: String? = nil) {
             self.accountId = accountId
             self.invitationId = invitationId
@@ -23162,6 +23815,7 @@ extension SecurityHub {
         /// The list of account IDs of the Amazon Web Services accounts to invite to Security Hub as members.
         public let accountIds: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil) {
             self.accountIds = accountIds
         }
@@ -23181,6 +23835,7 @@ extension SecurityHub {
         /// The list of Amazon Web Services accounts that could not be processed. For each account, the list includes the account ID and the email address.
         public let unprocessedAccounts: [Result]?
 
+        @inlinable
         public init(unprocessedAccounts: [Result]? = nil) {
             self.unprocessedAccounts = unprocessedAccounts
         }
@@ -23194,6 +23849,7 @@ extension SecurityHub {
         /// A finding's CIDR value.
         public let cidr: String?
 
+        @inlinable
         public init(cidr: String? = nil) {
             self.cidr = cidr
         }
@@ -23217,6 +23873,7 @@ extension SecurityHub {
         /// The name of the internet provider.
         public let org: String?
 
+        @inlinable
         public init(asn: Int? = nil, asnOrg: String? = nil, isp: String? = nil, org: String? = nil) {
             self.asn = asn
             self.asnOrg = asnOrg
@@ -23246,6 +23903,7 @@ extension SecurityHub {
         /// The IPv6 CIDR block.
         public let ipv6CidrBlock: String?
 
+        @inlinable
         public init(associationId: String? = nil, cidrBlockState: String? = nil, ipv6CidrBlock: String? = nil) {
             self.associationId = associationId
             self.cidrBlockState = cidrBlockState
@@ -23269,6 +23927,7 @@ extension SecurityHub {
         /// A value for the keyword.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -23288,6 +23947,7 @@ extension SecurityHub {
         ///  A token to specify where to start paginating the response. This is the NextToken  from a previously truncated response. On your first call to the ListAutomationRules  API, set the value of this parameter to NULL.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23314,6 +23974,7 @@ extension SecurityHub {
         ///  A pagination token for the response.
         public let nextToken: String?
 
+        @inlinable
         public init(automationRulesMetadata: [AutomationRulesMetadata]? = nil, nextToken: String? = nil) {
             self.automationRulesMetadata = automationRulesMetadata
             self.nextToken = nextToken
@@ -23331,6 +23992,7 @@ extension SecurityHub {
         ///  The NextToken value that's returned from a previous paginated ListConfigurationPolicies request where  MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the  MaxResults was used but the results exceeded the value of that parameter. Pagination continues from the  end of the previous response that returned the NextToken value. This value is null when  there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23357,6 +24019,7 @@ extension SecurityHub {
         ///  The NextToken value to include in the next ListConfigurationPolicies request. When the  results of a ListConfigurationPolicies request exceed MaxResults, this value can be used to  retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationPolicySummaries: [ConfigurationPolicySummary]? = nil, nextToken: String? = nil) {
             self.configurationPolicySummaries = configurationPolicySummaries
             self.nextToken = nextToken
@@ -23376,6 +24039,7 @@ extension SecurityHub {
         ///  The NextToken value that's returned from a previous paginated ListConfigurationPolicyAssociations  request where MaxResults was used but the results exceeded the value of that parameter. Pagination  continues from the end of the previous response that returned the NextToken value. This value is null  when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: AssociationFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -23401,6 +24065,7 @@ extension SecurityHub {
         ///  The NextToken value to include in the next ListConfigurationPolicyAssociations request. When  the results of a ListConfigurationPolicyAssociations request exceed MaxResults, this value  can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(configurationPolicyAssociationSummaries: [ConfigurationPolicyAssociationSummary]? = nil, nextToken: String? = nil) {
             self.configurationPolicyAssociationSummaries = configurationPolicyAssociationSummaries
             self.nextToken = nextToken
@@ -23418,6 +24083,7 @@ extension SecurityHub {
         /// The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23444,6 +24110,7 @@ extension SecurityHub {
         /// The list of ARNs for the resources that represent your subscriptions to products.
         public let productSubscriptions: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, productSubscriptions: [String]? = nil) {
             self.nextToken = nextToken
             self.productSubscriptions = productSubscriptions
@@ -23461,6 +24128,7 @@ extension SecurityHub {
         /// The token returned with the previous set of results. Identifies the next set of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23487,6 +24155,7 @@ extension SecurityHub {
         /// If there are more results, this is the token to provide in the next call to ListFindingAggregators. This operation currently only returns a single result.
         public let nextToken: String?
 
+        @inlinable
         public init(findingAggregators: [FindingAggregator]? = nil, nextToken: String? = nil) {
             self.findingAggregators = findingAggregators
             self.nextToken = nextToken
@@ -23504,6 +24173,7 @@ extension SecurityHub {
         /// The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23530,6 +24200,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(invitations: [Invitation]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -23549,6 +24220,7 @@ extension SecurityHub {
         /// Specifies which member accounts to include in the response based on their relationship status with the administrator account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the administrator account is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts.
         public let onlyAssociated: Bool?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, onlyAssociated: Bool? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23577,6 +24249,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -23594,6 +24267,7 @@ extension SecurityHub {
         /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23620,6 +24294,7 @@ extension SecurityHub {
         /// The pagination token to use to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(adminAccounts: [AdminAccount]? = nil, nextToken: String? = nil) {
             self.adminAccounts = adminAccounts
             self.nextToken = nextToken
@@ -23639,6 +24314,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the standard that you want to view controls for.
         public let standardsArn: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, standardsArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23668,6 +24344,7 @@ extension SecurityHub {
         ///  An array of controls that apply to the specified standard.
         public let securityControlDefinitions: [SecurityControlDefinition]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityControlDefinitions: [SecurityControlDefinition]? = nil) {
             self.nextToken = nextToken
             self.securityControlDefinitions = securityControlDefinitions
@@ -23687,6 +24364,7 @@ extension SecurityHub {
         ///  The identifier of the control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) that you  want to determine the enablement status of in each enabled standard.
         public let securityControlId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, securityControlId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -23716,6 +24394,7 @@ extension SecurityHub {
         ///  An array that provides the enablement status and other details for each security control that applies to each enabled standard.
         public let standardsControlAssociationSummaries: [StandardsControlAssociationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, standardsControlAssociationSummaries: [StandardsControlAssociationSummary]? = nil) {
             self.nextToken = nextToken
             self.standardsControlAssociationSummaries = standardsControlAssociationSummaries
@@ -23731,6 +24410,7 @@ extension SecurityHub {
         /// The ARN of the resource to retrieve tags for.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -23752,6 +24432,7 @@ extension SecurityHub {
         /// The tags associated with a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -23767,6 +24448,7 @@ extension SecurityHub {
         /// A description of the state.
         public let reason: String?
 
+        @inlinable
         public init(code: String? = nil, reason: String? = nil) {
             self.code = code
             self.reason = reason
@@ -23793,6 +24475,7 @@ extension SecurityHub {
         /// The type of the malware that was observed.
         public let type: MalwareType?
 
+        @inlinable
         public init(name: String? = nil, path: String? = nil, state: MalwareState? = nil, type: MalwareType? = nil) {
             self.name = name
             self.path = path
@@ -23821,6 +24504,7 @@ extension SecurityHub {
         /// The value for the key in the map filter. Filter values are case sensitive. For example, one of the values for a tag called Department might be Security. If you provide security as the filter value, then there's no match.
         public let value: String?
 
+        @inlinable
         public init(comparison: MapFilterComparison? = nil, key: String? = nil, value: String? = nil) {
             self.comparison = comparison
             self.key = key
@@ -23857,6 +24541,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(accountId: String? = nil, administratorId: String? = nil, email: String? = nil, invitedAt: Date? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
@@ -23868,6 +24553,7 @@ extension SecurityHub {
         }
 
         @available(*, deprecated, message: "Members masterId have been deprecated")
+        @inlinable
         public init(accountId: String? = nil, administratorId: String? = nil, email: String? = nil, invitedAt: Date? = nil, masterId: String? = nil, memberStatus: String? = nil, updatedAt: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
@@ -23915,6 +24601,7 @@ extension SecurityHub {
         /// The source port of network-related information about a finding.
         public let sourcePort: Int?
 
+        @inlinable
         public init(destinationDomain: String? = nil, destinationIpV4: String? = nil, destinationIpV6: String? = nil, destinationPort: Int? = nil, direction: NetworkDirection? = nil, openPortRange: PortRange? = nil, protocol: String? = nil, sourceDomain: String? = nil, sourceIpV4: String? = nil, sourceIpV6: String? = nil, sourceMac: String? = nil, sourcePort: Int? = nil) {
             self.destinationDomain = destinationDomain
             self.destinationIpV4 = destinationIpV4
@@ -23971,6 +24658,7 @@ extension SecurityHub {
         /// Information about the port on the remote IP address.
         public let remotePortDetails: ActionRemotePortDetails?
 
+        @inlinable
         public init(blocked: Bool? = nil, connectionDirection: String? = nil, localPortDetails: ActionLocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: ActionRemoteIpDetails? = nil, remotePortDetails: ActionRemotePortDetails? = nil) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
@@ -24006,6 +24694,7 @@ extension SecurityHub {
         /// Information about the origin of the component.
         public let source: NetworkPathComponentDetails?
 
+        @inlinable
         public init(destination: NetworkPathComponentDetails? = nil, protocol: String? = nil, source: NetworkPathComponentDetails? = nil) {
             self.destination = destination
             self.`protocol` = `protocol`
@@ -24035,6 +24724,7 @@ extension SecurityHub {
         /// Information about the component that comes before the current node in the network path.
         public let ingress: NetworkHeader?
 
+        @inlinable
         public init(componentId: String? = nil, componentType: String? = nil, egress: NetworkHeader? = nil, ingress: NetworkHeader? = nil) {
             self.componentId = componentId
             self.componentType = componentType
@@ -24063,6 +24753,7 @@ extension SecurityHub {
         /// A list of port ranges for the destination.
         public let portRanges: [PortRange]?
 
+        @inlinable
         public init(address: [String]? = nil, portRanges: [PortRange]? = nil) {
             self.address = address
             self.portRanges = portRanges
@@ -24090,6 +24781,7 @@ extension SecurityHub {
         /// The principal that created a note.
         public let updatedBy: String?
 
+        @inlinable
         public init(text: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil) {
             self.text = text
             self.updatedAt = updatedAt
@@ -24115,6 +24807,7 @@ extension SecurityHub {
         /// The principal that updated the note.
         public let updatedBy: String?
 
+        @inlinable
         public init(text: String? = nil, updatedBy: String? = nil) {
             self.text = text
             self.updatedBy = updatedBy
@@ -24143,6 +24836,7 @@ extension SecurityHub {
         /// The less-than-equal condition to be applied to a single field when querying for findings.
         public let lte: Double?
 
+        @inlinable
         public init(eq: Double? = nil, gt: Double? = nil, gte: Double? = nil, lt: Double? = nil, lte: Double? = nil) {
             self.eq = eq
             self.gt = gt
@@ -24172,6 +24866,7 @@ extension SecurityHub {
         /// Occurrences of sensitive data in an Apache Avro object container or an Apache Parquet file.
         public let records: [Record]?
 
+        @inlinable
         public init(cells: [Cell]? = nil, lineRanges: [Range]? = nil, offsetRanges: [Range]? = nil, pages: [Page]? = nil, records: [Record]? = nil) {
             self.cells = cells
             self.lineRanges = lineRanges
@@ -24206,6 +24901,7 @@ extension SecurityHub {
         ///  Provides an explanation if the value of Status is equal to FAILED when ConfigurationType  is equal to CENTRAL.
         public let statusMessage: String?
 
+        @inlinable
         public init(configurationType: OrganizationConfigurationConfigurationType? = nil, status: OrganizationConfigurationStatus? = nil, statusMessage: String? = nil) {
             self.configurationType = configurationType
             self.status = status
@@ -24231,6 +24927,7 @@ extension SecurityHub {
         /// The page number of the page that contains the sensitive data.
         public let pageNumber: Int64?
 
+        @inlinable
         public init(lineRange: Range? = nil, offsetRange: Range? = nil, pageNumber: Int64? = nil) {
             self.lineRange = lineRange
             self.offsetRange = offsetRange
@@ -24250,6 +24947,7 @@ extension SecurityHub {
         ///  Identifies whether a control parameter uses a custom user-defined value or subscribes to the default  Security Hub behavior. When ValueType is set equal to DEFAULT, the default  behavior can be a specific Security Hub default value, or the default behavior can be to ignore a specific parameter.  When ValueType is set equal to DEFAULT, Security Hub ignores user-provided input for  the Value field. When ValueType is set equal to CUSTOM, the Value field can't be empty.
         public let valueType: ParameterValueType?
 
+        @inlinable
         public init(value: ParameterValue? = nil, valueType: ParameterValueType? = nil) {
             self.value = value
             self.valueType = valueType
@@ -24271,6 +24969,7 @@ extension SecurityHub {
         ///  Description of a control parameter.
         public let description: String?
 
+        @inlinable
         public init(configurationOptions: ConfigurationOptions? = nil, description: String? = nil) {
             self.configurationOptions = configurationOptions
             self.description = description
@@ -24310,6 +25009,7 @@ extension SecurityHub {
         /// The reboot option specified for the instance. Length Constraints: Minimum length of 1. Maximum length of 256.
         public let rebootOption: String?
 
+        @inlinable
         public init(failedCount: Int? = nil, id: String? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingReboot: Int? = nil, installedRejectedCount: Int? = nil, missingCount: Int? = nil, operation: String? = nil, operationEndTime: String? = nil, operationStartTime: String? = nil, rebootOption: String? = nil) {
             self.failedCount = failedCount
             self.id = id
@@ -24353,6 +25053,7 @@ extension SecurityHub {
         /// Information about the ports affected by the port probe.
         public let portProbeDetails: [PortProbeDetail]?
 
+        @inlinable
         public init(blocked: Bool? = nil, portProbeDetails: [PortProbeDetail]? = nil) {
             self.blocked = blocked
             self.portProbeDetails = portProbeDetails
@@ -24378,6 +25079,7 @@ extension SecurityHub {
         /// Provides information about the remote IP address that performed the scan.
         public let remoteIpDetails: ActionRemoteIpDetails?
 
+        @inlinable
         public init(localIpDetails: ActionLocalIpDetails? = nil, localPortDetails: ActionLocalPortDetails? = nil, remoteIpDetails: ActionRemoteIpDetails? = nil) {
             self.localIpDetails = localIpDetails
             self.localPortDetails = localPortDetails
@@ -24403,6 +25105,7 @@ extension SecurityHub {
         /// The last port in the port range.
         public let end: Int?
 
+        @inlinable
         public init(begin: Int? = nil, end: Int? = nil) {
             self.begin = begin
             self.end = end
@@ -24420,6 +25123,7 @@ extension SecurityHub {
         /// The last port in the port range.
         public let to: Int?
 
+        @inlinable
         public init(from: Int? = nil, to: Int? = nil) {
             self.from = from
             self.to = to
@@ -24449,6 +25153,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let terminatedAt: String?
 
+        @inlinable
         public init(launchedAt: String? = nil, name: String? = nil, parentPid: Int? = nil, path: String? = nil, pid: Int? = nil, terminatedAt: String? = nil) {
             self.launchedAt = launchedAt
             self.name = name
@@ -24495,6 +25200,7 @@ extension SecurityHub {
         /// The resource policy associated with the product.
         public let productSubscriptionResourcePolicy: String?
 
+        @inlinable
         public init(activationUrl: String? = nil, categories: [String]? = nil, companyName: String? = nil, description: String? = nil, integrationTypes: [IntegrationType]? = nil, marketplaceUrl: String? = nil, productArn: String? = nil, productName: String? = nil, productSubscriptionResourcePolicy: String? = nil) {
             self.activationUrl = activationUrl
             self.categories = categories
@@ -24524,6 +25230,7 @@ extension SecurityHub {
         ///  The ID of the virtual private gateway.
         public let gatewayId: String?
 
+        @inlinable
         public init(gatewayId: String? = nil) {
             self.gatewayId = gatewayId
         }
@@ -24545,6 +25252,7 @@ extension SecurityHub {
         /// In the line where the sensitive data starts, the column within the line where the sensitive data starts.
         public let startColumn: Int64?
 
+        @inlinable
         public init(end: Int64? = nil, start: Int64? = nil, startColumn: Int64? = nil) {
             self.end = end
             self.start = start
@@ -24564,6 +25272,7 @@ extension SecurityHub {
         /// A URL to a page or site that contains information about how to remediate a finding.
         public let url: String?
 
+        @inlinable
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
@@ -24586,6 +25295,7 @@ extension SecurityHub {
         /// The record index, starting from 0, for the record that contains the data.
         public let recordIndex: Int64?
 
+        @inlinable
         public init(jsonPath: String? = nil, recordIndex: Int64? = nil) {
             self.jsonPath = jsonPath
             self.recordIndex = recordIndex
@@ -24607,6 +25317,7 @@ extension SecurityHub {
         /// The ARN of the product that generated a related finding.
         public let productArn: String?
 
+        @inlinable
         public init(id: String? = nil, productArn: String? = nil) {
             self.id = id
             self.productArn = productArn
@@ -24627,6 +25338,7 @@ extension SecurityHub {
         /// A recommendation on the steps to take to remediate the issue identified by a finding.
         public let recommendation: Recommendation?
 
+        @inlinable
         public init(recommendation: Recommendation? = nil) {
             self.recommendation = recommendation
         }
@@ -24662,6 +25374,7 @@ extension SecurityHub {
         /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other.  Length Constraints: Minimum length of 1. Maximum length of 256.
         public let type: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, applicationName: String? = nil, dataClassification: DataClassificationDetails? = nil, details: ResourceDetails? = nil, id: String? = nil, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String? = nil) {
             self.applicationArn = applicationArn
             self.applicationName = applicationName
@@ -24907,6 +25620,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
+        @inlinable
         public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAthenaWorkGroup: AwsAthenaWorkGroupDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDmsEndpoint: AwsDmsEndpointDetails? = nil, awsDmsReplicationInstance: AwsDmsReplicationInstanceDetails? = nil, awsDmsReplicationTask: AwsDmsReplicationTaskDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2ClientVpnEndpoint: AwsEc2ClientVpnEndpointDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsEventsEndpoint: AwsEventsEndpointDetails? = nil, awsEventsEventbus: AwsEventsEventbusDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsMskCluster: AwsMskClusterDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsRoute53HostedZone: AwsRoute53HostedZoneDetails? = nil, awsS3AccessPoint: AwsS3AccessPointDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
@@ -25222,6 +25936,7 @@ extension SecurityHub {
         /// The reason that the account was not processed.
         public let processingResult: String?
 
+        @inlinable
         public init(accountId: String? = nil, processingResult: String? = nil) {
             self.accountId = accountId
             self.processingResult = processingResult
@@ -25267,6 +25982,7 @@ extension SecurityHub {
         ///  The ID of a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(carrierGatewayId: String? = nil, coreNetworkArn: String? = nil, destinationCidrBlock: String? = nil, destinationIpv6CidrBlock: String? = nil, destinationPrefixListId: String? = nil, egressOnlyInternetGatewayId: String? = nil, gatewayId: String? = nil, instanceId: String? = nil, instanceOwnerId: String? = nil, localGatewayId: String? = nil, natGatewayId: String? = nil, networkInterfaceId: String? = nil, origin: String? = nil, state: String? = nil, transitGatewayId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.carrierGatewayId = carrierGatewayId
             self.coreNetworkArn = coreNetworkArn
@@ -25331,6 +26047,7 @@ extension SecurityHub {
         /// Additional settings to use in the specified rules.
         public let ruleVariables: RuleGroupVariables?
 
+        @inlinable
         public init(rulesSource: RuleGroupSource? = nil, ruleVariables: RuleGroupVariables? = nil) {
             self.rulesSource = rulesSource
             self.ruleVariables = ruleVariables
@@ -25357,6 +26074,7 @@ extension SecurityHub {
         /// The stateless rules and custom actions used by a stateless rule group.
         public let statelessRulesAndCustomActions: RuleGroupSourceStatelessRulesAndCustomActionsDetails?
 
+        @inlinable
         public init(rulesSourceList: RuleGroupSourceListDetails? = nil, rulesString: String? = nil, statefulRules: [RuleGroupSourceStatefulRulesDetails]? = nil, statelessRulesAndCustomActions: RuleGroupSourceStatelessRulesAndCustomActionsDetails? = nil) {
             self.rulesSourceList = rulesSourceList
             self.rulesString = rulesString
@@ -25387,6 +26105,7 @@ extension SecurityHub {
         /// A descriptive name of the custom action.
         public let actionName: String?
 
+        @inlinable
         public init(actionDefinition: StatelessCustomActionDefinition? = nil, actionName: String? = nil) {
             self.actionDefinition = actionDefinition
             self.actionName = actionName
@@ -25411,6 +26130,7 @@ extension SecurityHub {
         /// The protocols that you want to inspect. Specify LS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
         public let targetTypes: [String]?
 
+        @inlinable
         public init(generatedRulesType: String? = nil, targets: [String]? = nil, targetTypes: [String]? = nil) {
             self.generatedRulesType = generatedRulesType
             self.targets = targets
@@ -25442,6 +26162,7 @@ extension SecurityHub {
         /// Additional options for the rule.
         public let ruleOptions: [RuleGroupSourceStatefulRulesOptionsDetails]?
 
+        @inlinable
         public init(action: String? = nil, header: RuleGroupSourceStatefulRulesHeaderDetails? = nil, ruleOptions: [RuleGroupSourceStatefulRulesOptionsDetails]? = nil) {
             self.action = action
             self.header = header
@@ -25477,6 +26198,7 @@ extension SecurityHub {
         /// The source port to inspect for. You can specify an individual port, such as 1994. You also can specify a port range, such as 1990:1994. To match with any port, specify ANY.
         public let sourcePort: String?
 
+        @inlinable
         public init(destination: String? = nil, destinationPort: String? = nil, direction: String? = nil, protocol: String? = nil, source: String? = nil, sourcePort: String? = nil) {
             self.destination = destination
             self.destinationPort = destinationPort
@@ -25511,6 +26233,7 @@ extension SecurityHub {
         /// A list of settings.
         public let settings: [String]?
 
+        @inlinable
         public init(keyword: String? = nil, settings: [String]? = nil) {
             self.keyword = keyword
             self.settings = settings
@@ -25535,6 +26258,7 @@ extension SecurityHub {
         /// The criteria for Network Firewall to use to inspect an individual packet in a stateless rule inspection.
         public let matchAttributes: RuleGroupSourceStatelessRuleMatchAttributes?
 
+        @inlinable
         public init(actions: [String]? = nil, matchAttributes: RuleGroupSourceStatelessRuleMatchAttributes? = nil) {
             self.actions = actions
             self.matchAttributes = matchAttributes
@@ -25567,6 +26291,7 @@ extension SecurityHub {
         /// The TCP flags and masks to inspect for.
         public let tcpFlags: [RuleGroupSourceStatelessRuleMatchAttributesTcpFlags]?
 
+        @inlinable
         public init(destinationPorts: [RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts]? = nil, destinations: [RuleGroupSourceStatelessRuleMatchAttributesDestinations]? = nil, protocols: [Int]? = nil, sourcePorts: [RuleGroupSourceStatelessRuleMatchAttributesSourcePorts]? = nil, sources: [RuleGroupSourceStatelessRuleMatchAttributesSources]? = nil, tcpFlags: [RuleGroupSourceStatelessRuleMatchAttributesTcpFlags]? = nil) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
@@ -25604,6 +26329,7 @@ extension SecurityHub {
         /// The ending port value for the port range.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -25619,6 +26345,7 @@ extension SecurityHub {
         /// An IP address or a block of IP addresses.
         public let addressDefinition: String?
 
+        @inlinable
         public init(addressDefinition: String? = nil) {
             self.addressDefinition = addressDefinition
         }
@@ -25638,6 +26365,7 @@ extension SecurityHub {
         /// The ending port value for the port range.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -25653,6 +26381,7 @@ extension SecurityHub {
         /// An IP address or a block of IP addresses.
         public let addressDefinition: String?
 
+        @inlinable
         public init(addressDefinition: String? = nil) {
             self.addressDefinition = addressDefinition
         }
@@ -25672,6 +26401,7 @@ extension SecurityHub {
         /// The set of flags to consider in the inspection. If not specified, then all flags are inspected.
         public let masks: [String]?
 
+        @inlinable
         public init(flags: [String]? = nil, masks: [String]? = nil) {
             self.flags = flags
             self.masks = masks
@@ -25698,6 +26428,7 @@ extension SecurityHub {
         /// Stateless rules for the rule group.
         public let statelessRules: [RuleGroupSourceStatelessRulesDetails]?
 
+        @inlinable
         public init(customActions: [RuleGroupSourceCustomActionsDetails]? = nil, statelessRules: [RuleGroupSourceStatelessRulesDetails]? = nil) {
             self.customActions = customActions
             self.statelessRules = statelessRules
@@ -25724,6 +26455,7 @@ extension SecurityHub {
         /// Provides the definition of the stateless rule.
         public let ruleDefinition: RuleGroupSourceStatelessRuleDefinition?
 
+        @inlinable
         public init(priority: Int? = nil, ruleDefinition: RuleGroupSourceStatelessRuleDefinition? = nil) {
             self.priority = priority
             self.ruleDefinition = ruleDefinition
@@ -25745,6 +26477,7 @@ extension SecurityHub {
         /// A list of port ranges.
         public let portSets: RuleGroupVariablesPortSetsDetails?
 
+        @inlinable
         public init(ipSets: RuleGroupVariablesIpSetsDetails? = nil, portSets: RuleGroupVariablesPortSetsDetails? = nil) {
             self.ipSets = ipSets
             self.portSets = portSets
@@ -25765,6 +26498,7 @@ extension SecurityHub {
         /// The list of IP addresses and ranges.
         public let definition: [String]?
 
+        @inlinable
         public init(definition: [String]? = nil) {
             self.definition = definition
         }
@@ -25784,6 +26518,7 @@ extension SecurityHub {
         /// The list of port ranges.
         public let definition: [String]?
 
+        @inlinable
         public init(definition: [String]? = nil) {
             self.definition = definition
         }
@@ -25823,6 +26558,7 @@ extension SecurityHub {
         /// A status of UPDATING indicates that all security checks might not use the current parameter values.
         public let updateStatus: UpdateStatus?
 
+        @inlinable
         public init(description: String? = nil, lastUpdateReason: String? = nil, parameters: [String: ParameterConfiguration]? = nil, remediationUrl: String? = nil, securityControlArn: String? = nil, securityControlId: String? = nil, securityControlStatus: ControlStatus? = nil, severityRating: SeverityRating? = nil, title: String? = nil, updateStatus: UpdateStatus? = nil) {
             self.description = description
             self.lastUpdateReason = lastUpdateReason
@@ -25856,6 +26592,7 @@ extension SecurityHub {
         ///  The ID of the security control.
         public let securityControlId: String?
 
+        @inlinable
         public init(parameters: [String: ParameterConfiguration]? = nil, securityControlId: String? = nil) {
             self.parameters = parameters
             self.securityControlId = securityControlId
@@ -25894,6 +26631,7 @@ extension SecurityHub {
         ///  The title of a security control.
         public let title: String?
 
+        @inlinable
         public init(currentRegionAvailability: RegionAvailabilityStatus? = nil, customizableProperties: [SecurityControlProperty]? = nil, description: String? = nil, parameterDefinitions: [String: ParameterDefinition]? = nil, remediationUrl: String? = nil, securityControlId: String? = nil, severityRating: SeverityRating? = nil, title: String? = nil) {
             self.currentRegionAvailability = currentRegionAvailability
             self.customizableProperties = customizableProperties
@@ -25923,6 +26661,7 @@ extension SecurityHub {
         ///  The current value of a control parameter.
         public let value: [String]?
 
+        @inlinable
         public init(name: String? = nil, value: [String]? = nil) {
             self.name = name
             self.value = value
@@ -25949,6 +26688,7 @@ extension SecurityHub {
         ///  A list of security controls and control parameter values that are included in a configuration policy.
         public let securityControlCustomParameters: [SecurityControlCustomParameter]?
 
+        @inlinable
         public init(disabledSecurityControlIdentifiers: [String]? = nil, enabledSecurityControlIdentifiers: [String]? = nil, securityControlCustomParameters: [SecurityControlCustomParameter]? = nil) {
             self.disabledSecurityControlIdentifiers = disabledSecurityControlIdentifiers
             self.enabledSecurityControlIdentifiers = enabledSecurityControlIdentifiers
@@ -25982,6 +26722,7 @@ extension SecurityHub {
         ///  Indicates whether Security Hub is enabled in the policy.
         public let serviceEnabled: Bool?
 
+        @inlinable
         public init(enabledStandardIdentifiers: [String]? = nil, securityControlsConfiguration: SecurityControlsConfiguration? = nil, serviceEnabled: Bool? = nil) {
             self.enabledStandardIdentifiers = enabledStandardIdentifiers
             self.securityControlsConfiguration = securityControlsConfiguration
@@ -26010,6 +26751,7 @@ extension SecurityHub {
         /// The type of sensitive data that was detected. For example, the type might indicate that the data is an email address.
         public let type: String?
 
+        @inlinable
         public init(count: Int64? = nil, occurrences: Occurrences? = nil, type: String? = nil) {
             self.count = count
             self.occurrences = occurrences
@@ -26036,6 +26778,7 @@ extension SecurityHub {
         /// The total number of occurrences of sensitive data.
         public let totalCount: Int64?
 
+        @inlinable
         public init(category: String? = nil, detections: [SensitiveDataDetections]? = nil, totalCount: Int64? = nil) {
             self.category = category
             self.detections = detections
@@ -26066,6 +26809,7 @@ extension SecurityHub {
         /// Deprecated. This attribute isn't included in findings. Instead of providing Product, provide Original. The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
         public let product: Double?
 
+        @inlinable
         public init(label: SeverityLabel? = nil, normalized: Int? = nil, original: String? = nil, product: Double? = nil) {
             self.label = label
             self.normalized = normalized
@@ -26093,6 +26837,7 @@ extension SecurityHub {
         /// The native severity as defined by the Amazon Web Services service or integrated partner product that generated the finding.
         public let product: Double?
 
+        @inlinable
         public init(label: SeverityLabel? = nil, normalized: Int? = nil, product: Double? = nil) {
             self.label = label
             self.normalized = normalized
@@ -26135,6 +26880,7 @@ extension SecurityHub {
         /// The version of the software package.
         public let version: String?
 
+        @inlinable
         public init(architecture: String? = nil, epoch: String? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, remediation: String? = nil, sourceLayerArn: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
             self.architecture = architecture
             self.epoch = epoch
@@ -26184,6 +26930,7 @@ extension SecurityHub {
         /// The order used to sort findings.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(field: String? = nil, sortOrder: SortOrder? = nil) {
             self.field = field
             self.sortOrder = sortOrder
@@ -26211,6 +26958,7 @@ extension SecurityHub {
         /// Provides details about the management of a standard.
         public let standardsManagedBy: StandardsManagedBy?
 
+        @inlinable
         public init(description: String? = nil, enabledByDefault: Bool? = nil, name: String? = nil, standardsArn: String? = nil, standardsManagedBy: StandardsManagedBy? = nil) {
             self.description = description
             self.enabledByDefault = enabledByDefault
@@ -26251,6 +26999,7 @@ extension SecurityHub {
         /// The title of the security standard control.
         public let title: String?
 
+        @inlinable
         public init(controlId: String? = nil, controlStatus: ControlStatus? = nil, controlStatusUpdatedAt: Date? = nil, description: String? = nil, disabledReason: String? = nil, relatedRequirements: [String]? = nil, remediationUrl: String? = nil, severityRating: SeverityRating? = nil, standardsControlArn: String? = nil, title: String? = nil) {
             self.controlId = controlId
             self.controlStatus = controlStatus
@@ -26301,6 +27050,7 @@ extension SecurityHub {
         ///  The reason for updating the enablement status of a control in a specified standard.
         public let updatedReason: String?
 
+        @inlinable
         public init(associationStatus: AssociationStatus? = nil, relatedRequirements: [String]? = nil, securityControlArn: String? = nil, securityControlId: String? = nil, standardsArn: String? = nil, standardsControlArns: [String]? = nil, standardsControlDescription: String? = nil, standardsControlTitle: String? = nil, updatedAt: Date? = nil, updatedReason: String? = nil) {
             self.associationStatus = associationStatus
             self.relatedRequirements = relatedRequirements
@@ -26334,6 +27084,7 @@ extension SecurityHub {
         ///  The ARN of a standard.
         public let standardsArn: String?
 
+        @inlinable
         public init(securityControlId: String? = nil, standardsArn: String? = nil) {
             self.securityControlId = securityControlId
             self.standardsArn = standardsArn
@@ -26371,6 +27122,7 @@ extension SecurityHub {
         /// The reason for updating a control's enablement status in a specified standard.
         public let updatedReason: String?
 
+        @inlinable
         public init(associationStatus: AssociationStatus? = nil, relatedRequirements: [String]? = nil, securityControlArn: String? = nil, securityControlId: String? = nil, standardsArn: String? = nil, standardsControlDescription: String? = nil, standardsControlTitle: String? = nil, updatedAt: Date? = nil, updatedReason: String? = nil) {
             self.associationStatus = associationStatus
             self.relatedRequirements = relatedRequirements
@@ -26406,6 +27158,7 @@ extension SecurityHub {
         /// The reason for updating the control's enablement status in the standard.
         public let updatedReason: String?
 
+        @inlinable
         public init(associationStatus: AssociationStatus? = nil, securityControlId: String? = nil, standardsArn: String? = nil, updatedReason: String? = nil) {
             self.associationStatus = associationStatus
             self.securityControlId = securityControlId
@@ -26433,6 +27186,7 @@ extension SecurityHub {
         /// An identifier for the product that manages a specific security standard. For existing standards, the value is equal to the Amazon Web Services service that manages the standard.
         public let product: String?
 
+        @inlinable
         public init(company: String? = nil, product: String? = nil) {
             self.company = company
             self.product = product
@@ -26448,6 +27202,7 @@ extension SecurityHub {
         /// The reason code that represents the reason for the current status of a standard subscription.
         public let statusReasonCode: StatusReasonCode?
 
+        @inlinable
         public init(statusReasonCode: StatusReasonCode? = nil) {
             self.statusReasonCode = statusReasonCode
         }
@@ -26469,6 +27224,7 @@ extension SecurityHub {
         /// The ARN of a resource that represents your subscription to a supported standard.
         public let standardsSubscriptionArn: String?
 
+        @inlinable
         public init(standardsArn: String? = nil, standardsInput: [String: String]? = nil, standardsStatus: StandardsStatus? = nil, standardsStatusReason: StandardsStatusReason? = nil, standardsSubscriptionArn: String? = nil) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
@@ -26492,6 +27248,7 @@ extension SecurityHub {
         /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]?
 
+        @inlinable
         public init(standardsArn: String? = nil, standardsInput: [String: String]? = nil) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
@@ -26517,6 +27274,7 @@ extension SecurityHub {
         ///  The identifier of the target account, organizational unit, or the root to associate with the specified configuration.
         public let target: Target?
 
+        @inlinable
         public init(configurationPolicyIdentifier: String? = nil, target: Target? = nil) {
             self.configurationPolicyIdentifier = configurationPolicyIdentifier
             self.target = target
@@ -26550,6 +27308,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(associationStatus: ConfigurationPolicyAssociationStatus? = nil, associationStatusMessage: String? = nil, associationType: AssociationType? = nil, configurationPolicyId: String? = nil, targetId: String? = nil, targetType: TargetType? = nil, updatedAt: Date? = nil) {
             self.associationStatus = associationStatus
             self.associationStatusMessage = associationStatusMessage
@@ -26577,6 +27336,7 @@ extension SecurityHub {
         ///  The identifier of the target account, organizational unit, or the root to disassociate from the specified configuration.
         public let target: Target?
 
+        @inlinable
         public init(configurationPolicyIdentifier: String? = nil, target: Target? = nil) {
             self.configurationPolicyIdentifier = configurationPolicyIdentifier
             self.target = target
@@ -26601,6 +27361,7 @@ extension SecurityHub {
         /// Information about metrics to publish to CloudWatch.
         public let publishMetricAction: StatelessCustomPublishMetricAction?
 
+        @inlinable
         public init(publishMetricAction: StatelessCustomPublishMetricAction? = nil) {
             self.publishMetricAction = publishMetricAction
         }
@@ -26618,6 +27379,7 @@ extension SecurityHub {
         /// Defines CloudWatch dimension values to publish.
         public let dimensions: [StatelessCustomPublishMetricActionDimension]?
 
+        @inlinable
         public init(dimensions: [StatelessCustomPublishMetricActionDimension]? = nil) {
             self.dimensions = dimensions
         }
@@ -26637,6 +27399,7 @@ extension SecurityHub {
         /// The value to use for the custom metric dimension.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -26656,6 +27419,7 @@ extension SecurityHub {
         /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see Standards-related information in the ASFF in the Security Hub User Guide.
         public let reasonCode: String?
 
+        @inlinable
         public init(description: String? = nil, reasonCode: String? = nil) {
             self.description = description
             self.reasonCode = reasonCode
@@ -26680,6 +27444,7 @@ extension SecurityHub {
         ///  An RE2 regular expression that Security Hub uses to validate a user-provided control parameter string.
         public let re2Expression: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, expressionDescription: String? = nil, re2Expression: String? = nil) {
             self.defaultValue = defaultValue
             self.expressionDescription = expressionDescription
@@ -26699,6 +27464,7 @@ extension SecurityHub {
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter value, there's no match.
         public let value: String?
 
+        @inlinable
         public init(comparison: StringFilterComparison? = nil, value: String? = nil) {
             self.comparison = comparison
             self.value = value
@@ -26724,6 +27490,7 @@ extension SecurityHub {
         ///  An RE2 regular expression that Security Hub uses to validate a user-provided list of strings for a control  parameter.
         public let re2Expression: String?
 
+        @inlinable
         public init(defaultValue: [String]? = nil, expressionDescription: String? = nil, maxItems: Int? = nil, re2Expression: String? = nil) {
             self.defaultValue = defaultValue
             self.expressionDescription = expressionDescription
@@ -26745,6 +27512,7 @@ extension SecurityHub {
         /// The tags to add to the resource. You can add up to 50 tags at a time. The tag keys can be no longer than 128 characters. The tag values can be no longer than 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -26792,6 +27560,7 @@ extension SecurityHub {
         /// 		 Length Constraints: Minimum of 1 length. Maximum of 128 length.
         public let severity: String?
 
+        @inlinable
         public init(filePaths: [FilePaths]? = nil, itemCount: Int? = nil, name: String? = nil, severity: String? = nil) {
             self.filePaths = filePaths
             self.itemCount = itemCount
@@ -26831,6 +27600,7 @@ extension SecurityHub {
         /// The value of a threat intelligence indicator. Length Constraints: Minimum of 1 length. Maximum of 512 length.
         public let value: String?
 
+        @inlinable
         public init(category: ThreatIntelIndicatorCategory? = nil, lastObservedAt: String? = nil, source: String? = nil, sourceUrl: String? = nil, type: ThreatIntelIndicatorType? = nil, value: String? = nil) {
             self.category = category
             self.lastObservedAt = lastObservedAt
@@ -26865,6 +27635,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) for the unprocessed automation rule.
         public let ruleArn: String?
 
+        @inlinable
         public init(errorCode: Int? = nil, errorMessage: String? = nil, ruleArn: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -26886,6 +27657,7 @@ extension SecurityHub {
         ///  A string that identifies why the configuration policy association failed.
         public let errorReason: String?
 
+        @inlinable
         public init(configurationPolicyAssociationIdentifiers: ConfigurationPolicyAssociation? = nil, errorCode: String? = nil, errorReason: String? = nil) {
             self.configurationPolicyAssociationIdentifiers = configurationPolicyAssociationIdentifiers
             self.errorCode = errorCode
@@ -26907,6 +27679,7 @@ extension SecurityHub {
         ///  The control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) for which a response couldn't be returned.
         public let securityControlId: String?
 
+        @inlinable
         public init(errorCode: UnprocessedErrorCode? = nil, errorReason: String? = nil, securityControlId: String? = nil) {
             self.errorCode = errorCode
             self.errorReason = errorReason
@@ -26928,6 +27701,7 @@ extension SecurityHub {
         ///  An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This parameter shows the specific controls for which the enablement status couldn't be retrieved in specified standards when calling BatchUpdateStandardsControlAssociations.
         public let standardsControlAssociationId: StandardsControlAssociationId?
 
+        @inlinable
         public init(errorCode: UnprocessedErrorCode? = nil, errorReason: String? = nil, standardsControlAssociationId: StandardsControlAssociationId? = nil) {
             self.errorCode = errorCode
             self.errorReason = errorReason
@@ -26949,6 +27723,7 @@ extension SecurityHub {
         /// An array of control and standard associations for which an update failed when calling  BatchUpdateStandardsControlAssociations.
         public let standardsControlAssociationUpdate: StandardsControlAssociationUpdate?
 
+        @inlinable
         public init(errorCode: UnprocessedErrorCode? = nil, errorReason: String? = nil, standardsControlAssociationUpdate: StandardsControlAssociationUpdate? = nil) {
             self.errorCode = errorCode
             self.errorReason = errorReason
@@ -26968,6 +27743,7 @@ extension SecurityHub {
         /// The tag keys associated with the tags to remove from the resource. You can remove up to 50 tags at a time.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -27006,6 +27782,7 @@ extension SecurityHub {
         /// The updated name of the custom action target.
         public let name: String?
 
+        @inlinable
         public init(actionTargetArn: String, description: String? = nil, name: String? = nil) {
             self.actionTargetArn = actionTargetArn
             self.description = description
@@ -27054,6 +27831,7 @@ extension SecurityHub {
         ///  Whether the rule is active after it is created. If  this parameter is equal to ENABLED, Security Hub starts applying the rule to findings  and finding updates after the rule is created. To change the value of this parameter after creating a rule, use  BatchUpdateAutomationRules .
         public let ruleStatus: RuleStatus?
 
+        @inlinable
         public init(actions: [AutomationRulesAction]? = nil, criteria: AutomationRulesFindingFilters? = nil, description: String? = nil, isTerminal: Bool? = nil, ruleArn: String? = nil, ruleName: String? = nil, ruleOrder: Int? = nil, ruleStatus: RuleStatus? = nil) {
             self.actions = actions
             self.criteria = criteria
@@ -27103,6 +27881,7 @@ extension SecurityHub {
         ///  The reason for updating the configuration policy.
         public let updatedReason: String?
 
+        @inlinable
         public init(configurationPolicy: Policy? = nil, description: String? = nil, identifier: String, name: String? = nil, updatedReason: String? = nil) {
             self.configurationPolicy = configurationPolicy
             self.description = description
@@ -27155,6 +27934,7 @@ extension SecurityHub {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, configurationPolicy: Policy? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.configurationPolicy = configurationPolicy
@@ -27184,6 +27964,7 @@ extension SecurityHub {
         /// If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is  NO_REGIONS.
         public let regions: [String]?
 
+        @inlinable
         public init(findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
             self.findingAggregatorArn = findingAggregatorArn
             self.regionLinkingMode = regionLinkingMode
@@ -27215,6 +27996,7 @@ extension SecurityHub {
         /// The list of excluded Regions or included Regions.
         public let regions: [String]?
 
+        @inlinable
         public init(findingAggregationRegion: String? = nil, findingAggregatorArn: String? = nil, regionLinkingMode: String? = nil, regions: [String]? = nil) {
             self.findingAggregationRegion = findingAggregationRegion
             self.findingAggregatorArn = findingAggregatorArn
@@ -27238,6 +28020,7 @@ extension SecurityHub {
         /// The updated record state for the finding.
         public let recordState: RecordState?
 
+        @inlinable
         public init(filters: AwsSecurityFindingFilters? = nil, note: NoteUpdate? = nil, recordState: RecordState? = nil) {
             self.filters = filters
             self.note = note
@@ -27270,6 +28053,7 @@ extension SecurityHub {
         /// The updated name for the insight.
         public let name: String?
 
+        @inlinable
         public init(filters: AwsSecurityFindingFilters? = nil, groupByAttribute: String? = nil, insightArn: String, name: String? = nil) {
             self.filters = filters
             self.groupByAttribute = groupByAttribute
@@ -27311,6 +28095,7 @@ extension SecurityHub {
         public let autoEnableStandards: AutoEnableStandards?
         public let organizationConfiguration: OrganizationConfiguration?
 
+        @inlinable
         public init(autoEnable: Bool? = nil, autoEnableStandards: AutoEnableStandards? = nil, organizationConfiguration: OrganizationConfiguration? = nil) {
             self.autoEnable = autoEnable
             self.autoEnableStandards = autoEnableStandards
@@ -27341,6 +28126,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) or ID of the control to update.
         public let securityControlId: String?
 
+        @inlinable
         public init(lastUpdateReason: String? = nil, parameters: [String: ParameterConfiguration]? = nil, securityControlId: String? = nil) {
             self.lastUpdateReason = lastUpdateReason
             self.parameters = parameters
@@ -27373,6 +28159,7 @@ extension SecurityHub {
         /// Updates whether the calling account has consolidated control findings turned on.  If the value for this field is set to  SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check  applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings  for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
         public let controlFindingGenerator: ControlFindingGenerator?
 
+        @inlinable
         public init(autoEnableControls: Bool? = nil, controlFindingGenerator: ControlFindingGenerator? = nil) {
             self.autoEnableControls = autoEnableControls
             self.controlFindingGenerator = controlFindingGenerator
@@ -27396,6 +28183,7 @@ extension SecurityHub {
         /// The ARN of the security standard control to enable or disable.
         public let standardsControlArn: String
 
+        @inlinable
         public init(controlStatus: ControlStatus? = nil, disabledReason: String? = nil, standardsControlArn: String) {
             self.controlStatus = controlStatus
             self.disabledReason = disabledReason
@@ -27431,6 +28219,7 @@ extension SecurityHub {
         /// The name of the volume.
         public let name: String?
 
+        @inlinable
         public init(mountPath: String? = nil, name: String? = nil) {
             self.mountPath = mountPath
             self.name = name
@@ -27451,6 +28240,7 @@ extension SecurityHub {
         /// The IPv4 CIDR block for the VPC.
         public let cidrBlock: String?
 
+        @inlinable
         public init(cidrBlock: String? = nil) {
             self.cidrBlock = cidrBlock
         }
@@ -27468,6 +28258,7 @@ extension SecurityHub {
         /// The IPv6 CIDR block for the VPC.
         public let ipv6CidrBlock: String?
 
+        @inlinable
         public init(ipv6CidrBlock: String? = nil) {
             self.ipv6CidrBlock = ipv6CidrBlock
         }
@@ -27489,6 +28280,7 @@ extension SecurityHub {
         /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
         public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
 
+        @inlinable
         public init(allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil) {
             self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
             self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
@@ -27532,6 +28324,7 @@ extension SecurityHub {
         /// List of software packages that have the vulnerability.
         public let vulnerablePackages: [SoftwarePackage]?
 
+        @inlinable
         public init(codeVulnerabilities: [VulnerabilityCodeVulnerabilities]? = nil, cvss: [Cvss]? = nil, epssScore: Double? = nil, exploitAvailable: VulnerabilityExploitAvailable? = nil, fixAvailable: VulnerabilityFixAvailable? = nil, id: String? = nil, lastKnownExploitAt: String? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, vendor: VulnerabilityVendor? = nil, vulnerablePackages: [SoftwarePackage]? = nil) {
             self.codeVulnerabilities = codeVulnerabilities
             self.cvss = cvss
@@ -27590,6 +28383,7 @@ extension SecurityHub {
         ///  The Amazon Resource Name (ARN) of the Lambda layer in which the code vulnerability is located.
         public let sourceArn: String?
 
+        @inlinable
         public init(cwes: [String]? = nil, filePath: CodeVulnerabilitiesFilePath? = nil, sourceArn: String? = nil) {
             self.cwes = cwes
             self.filePath = filePath
@@ -27627,6 +28421,7 @@ extension SecurityHub {
         /// to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:    YYYY-MM-DDTHH:MM:SSZ (for example, 2019-01-31T23:00:00Z)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmmZ (for example, 2019-01-31T23:00:00.123456789Z)    YYYY-MM-DDTHH:MM:SS+HH:MM (for example, 2024-01-04T15:25:10+17:59)    YYYY-MM-DDTHH:MM:SS-HHMM (for example, 2024-01-04T15:25:10-1759)    YYYY-MM-DDTHH:MM:SS.mmmmmmmmm+HH:MM (for example, 2024-01-04T15:25:10.123456789+17:59)
         public let vendorUpdatedAt: String?
 
+        @inlinable
         public init(name: String? = nil, url: String? = nil, vendorCreatedAt: String? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: String? = nil) {
             self.name = name
             self.url = url
@@ -27656,6 +28451,7 @@ extension SecurityHub {
         /// Specifies how you want WAF to respond to requests that match the settings in a rule. Valid settings include the following:    ALLOW - WAF allows requests    BLOCK - WAF blocks requests    COUNT - WAF increments a counter of the requests that match all of the conditions in the rule. WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a web ACL.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -27673,6 +28469,7 @@ extension SecurityHub {
         /// The unique identifier for the rule to exclude from the rule group.
         public let ruleId: String?
 
+        @inlinable
         public init(ruleId: String? = nil) {
             self.ruleId = ruleId
         }
@@ -27690,6 +28487,7 @@ extension SecurityHub {
         ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action takes place.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -27707,6 +28505,7 @@ extension SecurityHub {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:    RecordState changes from ARCHIVED to ACTIVE.    ComplianceStatus changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that you notified the resource owner about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The finding is no longer updated.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.
         public let status: WorkflowStatus?
 
+        @inlinable
         public init(status: WorkflowStatus? = nil) {
             self.status = status
         }
@@ -27720,6 +28519,7 @@ extension SecurityHub {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets WorkFlowStatus from NOTIFIED or RESOLVED to NEW in the following cases:   The record state changes from ARCHIVED to ACTIVE.   The compliance status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that you notified the resource owner about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.    SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The finding is no longer updated.
         public let status: WorkflowStatus?
 
+        @inlinable
         public init(status: WorkflowStatus? = nil) {
             self.status = status
         }
@@ -27733,6 +28533,7 @@ extension SecurityHub {
         ///  The Amazon Web Servicesservice that the configuration policy applies to.
         public let securityHub: SecurityHubPolicy?
 
+        @inlinable
         public init(securityHub: SecurityHubPolicy? = nil) {
             self.securityHub = securityHub
         }

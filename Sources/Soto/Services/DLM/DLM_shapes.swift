@@ -125,6 +125,7 @@ extension DLM {
         /// A descriptive name for the action.
         public let name: String?
 
+        @inlinable
         public init(crossRegionCopy: [CrossRegionCopyAction]? = nil, name: String? = nil) {
             self.crossRegionCopy = crossRegionCopy
             self.name = name
@@ -151,6 +152,7 @@ extension DLM {
         /// 				EBS snapshots.
         public let retentionArchiveTier: RetentionArchiveTier?
 
+        @inlinable
         public init(retentionArchiveTier: RetentionArchiveTier? = nil) {
             self.retentionArchiveTier = retentionArchiveTier
         }
@@ -168,6 +170,7 @@ extension DLM {
         /// Information about the retention period for the snapshot archiving rule.
         public let retainRule: ArchiveRetainRule?
 
+        @inlinable
         public init(retainRule: ArchiveRetainRule? = nil) {
             self.retainRule = retainRule
         }
@@ -232,6 +235,7 @@ extension DLM {
         /// The tags to apply to the lifecycle policy during creation.
         public let tags: [String: String]?
 
+        @inlinable
         public init(copyTags: Bool? = nil, createInterval: Int? = nil, crossRegionCopyTargets: [CrossRegionCopyTarget]? = nil, defaultPolicy: DefaultPolicyTypeValues? = nil, description: String? = nil, exclusions: Exclusions? = nil, executionRoleArn: String? = nil, extendDeletion: Bool? = nil, policyDetails: PolicyDetails? = nil, retainInterval: Int? = nil, state: SettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
             self.copyTags = copyTags
             self.createInterval = createInterval
@@ -291,6 +295,7 @@ extension DLM {
         /// The identifier of the lifecycle policy.
         public let policyId: String?
 
+        @inlinable
         public init(policyId: String? = nil) {
             self.policyId = policyId
         }
@@ -326,6 +331,7 @@ extension DLM {
         /// 			not specify a time, Amazon Data Lifecycle Manager selects a time within the next 24 hours.
         public let times: [String]?
 
+        @inlinable
         public init(cronExpression: String? = nil, interval: Int? = nil, intervalUnit: IntervalUnitValues? = nil, location: LocationValues? = nil, scripts: [Script]? = nil, times: [String]? = nil) {
             self.cronExpression = cronExpression
             self.interval = interval
@@ -369,6 +375,7 @@ extension DLM {
         /// The target Region.
         public let target: String?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.retainRule = retainRule
@@ -399,6 +406,7 @@ extension DLM {
         /// 			IntervalUnit=MONTHS.
         public let intervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -422,6 +430,7 @@ extension DLM {
         /// 			3 months, specify Interval=3 and IntervalUnit=MONTHS.
         public let intervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.interval = interval
             self.intervalUnit = intervalUnit
@@ -465,6 +474,7 @@ extension DLM {
         /// 			snapshot copies.
         public let targetRegion: String?
 
+        @inlinable
         public init(cmkArn: String? = nil, copyTags: Bool? = nil, deprecateRule: CrossRegionCopyDeprecateRule? = nil, encrypted: Bool? = nil, retainRule: CrossRegionCopyRetainRule? = nil, target: String? = nil, targetRegion: String? = nil) {
             self.cmkArn = cmkArn
             self.copyTags = copyTags
@@ -501,6 +511,7 @@ extension DLM {
         /// The target Region, for example us-east-1.
         public let targetRegion: String?
 
+        @inlinable
         public init(targetRegion: String? = nil) {
             self.targetRegion = targetRegion
         }
@@ -519,6 +530,7 @@ extension DLM {
         /// The identifier of the lifecycle policy.
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -554,6 +566,7 @@ extension DLM {
         /// The unit of time in which to measure the Interval.
         public let intervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.count = count
             self.interval = interval
@@ -582,6 +595,7 @@ extension DLM {
         /// 			parameter is false or when encryption by default is not enabled.
         public let encrypted: Bool?
 
+        @inlinable
         public init(cmkArn: String? = nil, encrypted: Bool? = nil) {
             self.cmkArn = cmkArn
             self.encrypted = encrypted
@@ -611,6 +625,7 @@ extension DLM {
         /// 			The policy only runs if one of the specified Amazon Web Services accounts shares a snapshot with your account.
         public let snapshotOwner: [String]?
 
+        @inlinable
         public init(descriptionRegex: String? = nil, eventType: EventTypeValues? = nil, snapshotOwner: [String]? = nil) {
             self.descriptionRegex = descriptionRegex
             self.eventType = eventType
@@ -641,6 +656,7 @@ extension DLM {
         /// The source of the event. Currently only managed CloudWatch Events rules are supported.
         public let type: EventSourceValues?
 
+        @inlinable
         public init(parameters: EventParameters? = nil, type: EventSourceValues? = nil) {
             self.parameters = parameters
             self.type = type
@@ -668,6 +684,7 @@ extension DLM {
         /// 			types will not be targeted by the policy.
         public let excludeVolumeTypes: [String]?
 
+        @inlinable
         public init(excludeBootVolumes: Bool? = nil, excludeTags: [Tag]? = nil, excludeVolumeTypes: [String]? = nil) {
             self.excludeBootVolumes = excludeBootVolumes
             self.excludeTags = excludeTags
@@ -700,6 +717,7 @@ extension DLM {
         /// The unit of time for enabling fast snapshot restore.
         public let intervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.availabilityZones = availabilityZones
             self.count = count
@@ -741,6 +759,7 @@ extension DLM {
         /// The target tag for a policy. Tags are strings in the format key=value.
         public let targetTags: [String]?
 
+        @inlinable
         public init(defaultPolicyType: DefaultPoliciesTypeValues? = nil, policyIds: [String]? = nil, resourceTypes: [ResourceTypeValues]? = nil, state: GettablePolicyStateValues? = nil, tagsToAdd: [String]? = nil, targetTags: [String]? = nil) {
             self.defaultPolicyType = defaultPolicyType
             self.policyIds = policyIds
@@ -788,6 +807,7 @@ extension DLM {
         /// Summary information about the lifecycle policies.
         public let policies: [LifecyclePolicySummary]?
 
+        @inlinable
         public init(policies: [LifecyclePolicySummary]? = nil) {
             self.policies = policies
         }
@@ -801,6 +821,7 @@ extension DLM {
         /// The identifier of the lifecycle policy.
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -823,6 +844,7 @@ extension DLM {
         /// Detailed information about the lifecycle policy.
         public let policy: LifecyclePolicy?
 
+        @inlinable
         public init(policy: LifecyclePolicy? = nil) {
             self.policy = policy
         }
@@ -859,6 +881,7 @@ extension DLM {
         /// The tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, defaultPolicy: Bool? = nil, description: String? = nil, executionRoleArn: String? = nil, policyArn: String? = nil, policyDetails: PolicyDetails? = nil, policyId: String? = nil, state: GettablePolicyStateValues? = nil, statusMessage: String? = nil, tags: [String: String]? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -906,6 +929,7 @@ extension DLM {
         /// The tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(defaultPolicy: Bool? = nil, description: String? = nil, policyId: String? = nil, policyType: PolicyTypeValues? = nil, state: GettablePolicyStateValues? = nil, tags: [String: String]? = nil) {
             self.defaultPolicy = defaultPolicy
             self.description = description
@@ -929,6 +953,7 @@ extension DLM {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -951,6 +976,7 @@ extension DLM {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -977,6 +1003,7 @@ extension DLM {
         /// 			The default is true (instances are not rebooted).
         public let noReboot: Bool?
 
+        @inlinable
         public init(excludeBootVolume: Bool? = nil, excludeDataVolumeTags: [Tag]? = nil, noReboot: Bool? = nil) {
             self.excludeBootVolume = excludeBootVolume
             self.excludeDataVolumeTags = excludeDataVolumeTags
@@ -1066,6 +1093,7 @@ extension DLM {
         ///  [Custom snapshot and AMI policies only] The single tag that identifies targeted resources for this policy.
         public let targetTags: [Tag]?
 
+        @inlinable
         public init(actions: [Action]? = nil, copyTags: Bool? = nil, createInterval: Int? = nil, crossRegionCopyTargets: [CrossRegionCopyTarget]? = nil, eventSource: EventSource? = nil, exclusions: Exclusions? = nil, extendDeletion: Bool? = nil, parameters: Parameters? = nil, policyLanguage: PolicyLanguageValues? = nil, policyType: PolicyTypeValues? = nil, resourceLocations: [ResourceLocationValues]? = nil, resourceType: ResourceTypeValues? = nil, resourceTypes: [ResourceTypeValues]? = nil, retainInterval: Int? = nil, schedules: [Schedule]? = nil, targetTags: [Tag]? = nil) {
             self.actions = actions
             self.copyTags = copyTags
@@ -1151,6 +1179,7 @@ extension DLM {
         /// 			ArchiveRule.
         public let intervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.count = count
             self.interval = interval
@@ -1184,6 +1213,7 @@ extension DLM {
         /// 			and IntervalUnit=MONTHS.
         public let intervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(count: Int? = nil, interval: Int? = nil, intervalUnit: RetentionIntervalUnitValues? = nil) {
             self.count = count
             self.interval = interval
@@ -1239,6 +1269,7 @@ extension DLM {
         /// 			tags are only valid for EBS Snapshot Management – Instance policies.
         public let variableTags: [Tag]?
 
+        @inlinable
         public init(archiveRule: ArchiveRule? = nil, copyTags: Bool? = nil, createRule: CreateRule? = nil, crossRegionCopyRules: [CrossRegionCopyRule]? = nil, deprecateRule: DeprecateRule? = nil, fastRestoreRule: FastRestoreRule? = nil, name: String? = nil, retainRule: RetainRule? = nil, shareRules: [ShareRule]? = nil, tagsToAdd: [Tag]? = nil, variableTags: [Tag]? = nil) {
             self.archiveRule = archiveRule
             self.copyTags = copyTags
@@ -1335,6 +1366,7 @@ extension DLM {
         /// 					snapshot creation.   If you are automating VSS Backups, omit this parameter. Default: PRE and POST
         public let stages: [StageValues]?
 
+        @inlinable
         public init(executeOperationOnScriptFailure: Bool? = nil, executionHandler: String? = nil, executionHandlerService: ExecutionHandlerServiceValues? = nil, executionTimeout: Int? = nil, maximumRetryCount: Int? = nil, stages: [StageValues]? = nil) {
             self.executeOperationOnScriptFailure = executeOperationOnScriptFailure
             self.executionHandler = executionHandler
@@ -1373,6 +1405,7 @@ extension DLM {
         /// The unit of time for the automatic unsharing interval.
         public let unshareIntervalUnit: RetentionIntervalUnitValues?
 
+        @inlinable
         public init(targetAccounts: [String]? = nil, unshareInterval: Int? = nil, unshareIntervalUnit: RetentionIntervalUnitValues? = nil) {
             self.targetAccounts = targetAccounts
             self.unshareInterval = unshareInterval
@@ -1402,6 +1435,7 @@ extension DLM {
         /// The tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1426,6 +1460,7 @@ extension DLM {
         /// One or more tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1467,6 +1502,7 @@ extension DLM {
         /// The tag keys.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1542,6 +1578,7 @@ extension DLM {
         /// The desired activation state of the lifecycle policy after creation.
         public let state: SettablePolicyStateValues?
 
+        @inlinable
         public init(copyTags: Bool? = nil, createInterval: Int? = nil, crossRegionCopyTargets: [CrossRegionCopyTarget]? = nil, description: String? = nil, exclusions: Exclusions? = nil, executionRoleArn: String? = nil, extendDeletion: Bool? = nil, policyDetails: PolicyDetails? = nil, policyId: String, retainInterval: Int? = nil, state: SettablePolicyStateValues? = nil) {
             self.copyTags = copyTags
             self.createInterval = createInterval

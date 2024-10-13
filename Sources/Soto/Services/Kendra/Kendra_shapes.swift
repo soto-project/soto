@@ -537,6 +537,7 @@ extension Kendra {
         /// The identifier of the access control configuration.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -550,6 +551,7 @@ extension Kendra {
         /// Path to the Amazon S3 bucket that contains the ACL files.
         public let keyPath: String?
 
+        @inlinable
         public init(keyPath: String? = nil) {
             self.keyPath = keyPath
         }
@@ -568,6 +570,7 @@ extension Kendra {
         /// A list of groups, separated by semi-colons, that filters a query response based on user context. The document is only returned to users that are in one of the groups specified in the UserContext field of the Query API.
         public let allowedGroupsColumnName: String
 
+        @inlinable
         public init(allowedGroupsColumnName: String) {
             self.allowedGroupsColumnName = allowedGroupsColumnName
         }
@@ -591,6 +594,7 @@ extension Kendra {
         /// The data type of the Value property.
         public let valueType: AdditionalResultAttributeValueType
 
+        @inlinable
         public init(key: String, value: AdditionalResultAttributeValue, valueType: AdditionalResultAttributeValueType) {
             self.key = key
             self.value = value
@@ -608,6 +612,7 @@ extension Kendra {
         /// The text associated with the attribute and information about the highlight to apply to the text.
         public let textWithHighlightsValue: TextWithHighlights?
 
+        @inlinable
         public init(textWithHighlightsValue: TextWithHighlights? = nil) {
             self.textWithHighlightsValue = textWithHighlightsValue
         }
@@ -645,6 +650,7 @@ extension Kendra {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Alfresco wikis to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Alfresco fields. For more information, see  Mapping data source fields. The Alfresco data source field names must exist in your Alfresco custom metadata.
         public let wikiFieldMappings: [DataSourceToIndexFieldMapping]?
 
+        @inlinable
         public init(blogFieldMappings: [DataSourceToIndexFieldMapping]? = nil, crawlComments: Bool? = nil, crawlSystemFolders: Bool? = nil, documentLibraryFieldMappings: [DataSourceToIndexFieldMapping]? = nil, entityFilter: [AlfrescoEntity]? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, siteId: String, siteUrl: String, sslCertificateS3Path: S3Path, vpcConfiguration: DataSourceVpcConfiguration? = nil, wikiFieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
             self.blogFieldMappings = blogFieldMappings
             self.crawlComments = crawlComments
@@ -727,6 +733,7 @@ extension Kendra {
         /// The identifier of the index for your Amazon Kendra experience.
         public let indexId: String
 
+        @inlinable
         public init(entityList: [EntityConfiguration], id: String, indexId: String) {
             self.entityList = entityList
             self.id = id
@@ -758,6 +765,7 @@ extension Kendra {
         /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly configure with your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
+        @inlinable
         public init(failedEntityList: [FailedEntity]? = nil) {
             self.failedEntityList = failedEntityList
         }
@@ -775,6 +783,7 @@ extension Kendra {
         /// The personas that define the specific permissions of users or groups in  your IAM Identity Center identity source. The available personas or access  roles are Owner and Viewer. For more information  on these personas, see Providing  access to your search page.
         public let personas: [EntityPersonaConfiguration]
 
+        @inlinable
         public init(id: String, indexId: String, personas: [EntityPersonaConfiguration]) {
             self.id = id
             self.indexId = indexId
@@ -806,6 +815,7 @@ extension Kendra {
         /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly configure with your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
+        @inlinable
         public init(failedEntityList: [FailedEntity]? = nil) {
             self.failedEntityList = failedEntityList
         }
@@ -837,6 +847,7 @@ extension Kendra {
         /// Performs a logical OR operation on all filters that you specify.
         public let orAllFilters: [AttributeFilter]?
 
+        @inlinable
         public init(andAllFilters: [AttributeFilter]? = nil, containsAll: DocumentAttribute? = nil, containsAny: DocumentAttribute? = nil, equalsTo: DocumentAttribute? = nil, greaterThan: DocumentAttribute? = nil, greaterThanOrEquals: DocumentAttribute? = nil, lessThan: DocumentAttribute? = nil, lessThanOrEquals: DocumentAttribute? = nil, notFilter: AttributeFilter? = nil, orAllFilters: [AttributeFilter]? = nil) {
             self.andAllFilters = andAllFilters
             self.containsAll = containsAll
@@ -887,6 +898,7 @@ extension Kendra {
         /// The list of fields/attributes that you want to set as suggestible for query suggestions.
         public let suggestableConfigList: [SuggestableConfig]?
 
+        @inlinable
         public init(attributeSuggestionsMode: AttributeSuggestionsMode? = nil, suggestableConfigList: [SuggestableConfig]? = nil) {
             self.attributeSuggestionsMode = attributeSuggestionsMode
             self.suggestableConfigList = suggestableConfigList
@@ -908,6 +920,7 @@ extension Kendra {
         /// Applies user context filtering so that only users who are given access to certain  documents see these document in their search results.
         public let userContext: UserContext?
 
+        @inlinable
         public init(additionalResponseAttributes: [String]? = nil, attributeFilter: AttributeFilter? = nil, suggestionAttributes: [String]? = nil, userContext: UserContext? = nil) {
             self.additionalResponseAttributes = additionalResponseAttributes
             self.attributeFilter = attributeFilter
@@ -948,6 +961,7 @@ extension Kendra {
         /// The list of fields/attributes that you want to set as suggestible for query  suggestions.
         public let suggestableConfigList: [SuggestableConfig]?
 
+        @inlinable
         public init(attributeSuggestionsMode: AttributeSuggestionsMode? = nil, suggestableConfigList: [SuggestableConfig]? = nil) {
             self.attributeSuggestionsMode = attributeSuggestionsMode
             self.suggestableConfigList = suggestableConfigList
@@ -969,6 +983,7 @@ extension Kendra {
         /// The list of configuration information that's required to connect to and crawl a website host using basic authentication credentials. The list includes the name and port number of the website host.
         public let basicAuthentication: [BasicAuthenticationConfiguration]?
 
+        @inlinable
         public init(basicAuthentication: [BasicAuthenticationConfiguration]? = nil) {
             self.basicAuthentication = basicAuthentication
         }
@@ -993,6 +1008,7 @@ extension Kendra {
         /// The port number of the website host you want to connect to using authentication credentials. For example, the port for https://a.example.com/page1.html is 443, the standard port for HTTPS.
         public let port: Int
 
+        @inlinable
         public init(credentials: String, host: String, port: Int) {
             self.credentials = credentials
             self.host = host
@@ -1024,6 +1040,7 @@ extension Kendra {
         /// The identifier of the index that contains the documents to delete.
         public let indexId: String
 
+        @inlinable
         public init(dataSourceSyncJobMetricTarget: DataSourceSyncJobMetricTarget? = nil, documentIdList: [String], indexId: String) {
             self.dataSourceSyncJobMetricTarget = dataSourceSyncJobMetricTarget
             self.documentIdList = documentIdList
@@ -1054,6 +1071,7 @@ extension Kendra {
         /// A list of documents that could not be removed from the index. Each entry contains an error message that indicates why the document couldn't be removed from the index.
         public let failedDocuments: [BatchDeleteDocumentResponseFailedDocument]?
 
+        @inlinable
         public init(failedDocuments: [BatchDeleteDocumentResponseFailedDocument]? = nil) {
             self.failedDocuments = failedDocuments
         }
@@ -1071,6 +1089,7 @@ extension Kendra {
         /// The identifier of the document that couldn't be removed from the index.
         public let id: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, id: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1092,6 +1111,7 @@ extension Kendra {
         /// The identifier of the set of featured results that couldn't be removed  from the index.
         public let id: String
 
+        @inlinable
         public init(errorCode: ErrorCode, errorMessage: String, id: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1111,6 +1131,7 @@ extension Kendra {
         /// The identifier of the index used for featuring results.
         public let indexId: String
 
+        @inlinable
         public init(featuredResultsSetIds: [String], indexId: String) {
             self.featuredResultsSetIds = featuredResultsSetIds
             self.indexId = indexId
@@ -1139,6 +1160,7 @@ extension Kendra {
         /// The list of errors for the featured results set IDs, explaining why they  couldn't be removed from the index.
         public let errors: [BatchDeleteFeaturedResultsSetError]
 
+        @inlinable
         public init(errors: [BatchDeleteFeaturedResultsSetError]) {
             self.errors = errors
         }
@@ -1154,6 +1176,7 @@ extension Kendra {
         /// The identifier of the index to add documents to. The index ID is returned by the CreateIndex API.
         public let indexId: String
 
+        @inlinable
         public init(documentInfoList: [DocumentInfo], indexId: String) {
             self.documentInfoList = documentInfoList
             self.indexId = indexId
@@ -1182,6 +1205,7 @@ extension Kendra {
         /// A list of documents that Amazon Kendra couldn't get the status for. The list includes the ID of the document and the reason that the status couldn't be found.
         public let errors: [BatchGetDocumentStatusResponseError]?
 
+        @inlinable
         public init(documentStatusList: [Status]? = nil, errors: [BatchGetDocumentStatusResponseError]? = nil) {
             self.documentStatusList = documentStatusList
             self.errors = errors
@@ -1201,6 +1225,7 @@ extension Kendra {
         /// States that the API could not get the status of a document. This could be because the request is not valid or there is a system error.
         public let errorMessage: String?
 
+        @inlinable
         public init(documentId: String? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil) {
             self.documentId = documentId
             self.errorCode = errorCode
@@ -1224,6 +1249,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access your S3 bucket. For more information, see IAM access roles for Amazon Kendra.
         public let roleArn: String?
 
+        @inlinable
         public init(customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, documents: [Document], indexId: String, roleArn: String? = nil) {
             self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
             self.documents = documents
@@ -1257,6 +1283,7 @@ extension Kendra {
         /// A list of documents that were not added to the index because the document failed a validation check. Each document contains an error message that indicates why the document couldn't be added to the index. If there was an error adding a document to an index the error is reported in your Amazon Web Services CloudWatch log. For more information, see Monitoring Amazon Kendra with Amazon CloudWatch logs.
         public let failedDocuments: [BatchPutDocumentResponseFailedDocument]?
 
+        @inlinable
         public init(failedDocuments: [BatchPutDocumentResponseFailedDocument]? = nil) {
             self.failedDocuments = failedDocuments
         }
@@ -1274,6 +1301,7 @@ extension Kendra {
         /// The identifier of the document.
         public let id: String?
 
+        @inlinable
         public init(errorCode: ErrorCode? = nil, errorMessage: String? = nil, id: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1315,6 +1343,7 @@ extension Kendra {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Box web links to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to Box fields.  For more information, see Mapping data source fields.  The Box field names must exist in your Box custom metadata.
         public let webLinkFieldMappings: [DataSourceToIndexFieldMapping]?
 
+        @inlinable
         public init(commentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, crawlComments: Bool? = nil, crawlTasks: Bool? = nil, crawlWebLinks: Bool? = nil, enterpriseId: String, exclusionPatterns: [String]? = nil, fileFieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, taskFieldMappings: [DataSourceToIndexFieldMapping]? = nil, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil, webLinkFieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
             self.commentFieldMappings = commentFieldMappings
             self.crawlComments = crawlComments
@@ -1394,6 +1423,7 @@ extension Kendra {
         /// The amount of extra storage capacity for an index. A single capacity unit provides 30 GB of storage space or 100,000 documents, whichever is reached first. You can add up to 100 extra capacity units.
         public let storageCapacityUnits: Int
 
+        @inlinable
         public init(queryCapacityUnits: Int, storageCapacityUnits: Int) {
             self.queryCapacityUnits = queryCapacityUnits
             self.storageCapacityUnits = storageCapacityUnits
@@ -1414,6 +1444,7 @@ extension Kendra {
         /// The identifier of the index you want to clear query suggestions from.
         public let indexId: String
 
+        @inlinable
         public init(indexId: String) {
             self.indexId = indexId
         }
@@ -1435,6 +1466,7 @@ extension Kendra {
         /// The identifier of the search result that was clicked.
         public let resultId: String
 
+        @inlinable
         public init(clickTime: Date, resultId: String) {
             self.clickTime = clickTime
             self.resultId = resultId
@@ -1463,6 +1495,7 @@ extension Kendra {
         /// A prioritized list of document attributes/fields that determine the primary document among those in a collapsed group.
         public let sortingConfigurations: [SortingConfiguration]?
 
+        @inlinable
         public init(documentAttributeKey: String, expand: Bool? = nil, expandConfiguration: ExpandConfiguration? = nil, missingAttributeKeyStrategy: MissingAttributeKeyStrategy? = nil, sortingConfigurations: [SortingConfiguration]? = nil) {
             self.documentAttributeKey = documentAttributeKey
             self.expand = expand
@@ -1496,6 +1529,7 @@ extension Kendra {
         /// A list of results in the collapsed group.
         public let expandedResults: [ExpandedResultItem]?
 
+        @inlinable
         public init(documentAttribute: DocumentAttribute, expandedResults: [ExpandedResultItem]? = nil) {
             self.documentAttribute = documentAttribute
             self.expandedResults = expandedResults
@@ -1519,6 +1553,7 @@ extension Kendra {
         /// An array of objects that map database column names to the corresponding fields in an index. You must first create the fields in the index using the UpdateIndex API.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
 
+        @inlinable
         public init(changeDetectingColumns: [String], documentDataColumnName: String, documentIdColumnName: String, documentTitleColumnName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
             self.changeDetectingColumns = changeDetectingColumns
             self.documentDataColumnName = documentDataColumnName
@@ -1566,6 +1601,7 @@ extension Kendra {
         ///  TRUE to index attachments of pages and blogs in Confluence.
         public let crawlAttachments: Bool?
 
+        @inlinable
         public init(attachmentFieldMappings: [ConfluenceAttachmentToIndexFieldMapping]? = nil, crawlAttachments: Bool? = nil) {
             self.attachmentFieldMappings = attachmentFieldMappings
             self.crawlAttachments = crawlAttachments
@@ -1593,6 +1629,7 @@ extension Kendra {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public let indexFieldName: String?
 
+        @inlinable
         public init(dataSourceFieldName: ConfluenceAttachmentFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
@@ -1619,6 +1656,7 @@ extension Kendra {
         /// Maps attributes or field names of Confluence blogs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see Mapping data source fields. The Confluence data source field names must exist in your Confluence custom metadata. If you specify the BlogFieldMappings parameter, you must specify at least one field mapping.
         public let blogFieldMappings: [ConfluenceBlogToIndexFieldMapping]?
 
+        @inlinable
         public init(blogFieldMappings: [ConfluenceBlogToIndexFieldMapping]? = nil) {
             self.blogFieldMappings = blogFieldMappings
         }
@@ -1644,6 +1682,7 @@ extension Kendra {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public let indexFieldName: String?
 
+        @inlinable
         public init(dataSourceFieldName: ConfluenceBlogFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
@@ -1692,6 +1731,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Confluence. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(attachmentConfiguration: ConfluenceAttachmentConfiguration? = nil, authenticationType: ConfluenceAuthenticationType? = nil, blogConfiguration: ConfluenceBlogConfiguration? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, pageConfiguration: ConfluencePageConfiguration? = nil, proxyConfiguration: ProxyConfiguration? = nil, secretArn: String, serverUrl: String, spaceConfiguration: ConfluenceSpaceConfiguration? = nil, version: ConfluenceVersion, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.attachmentConfiguration = attachmentConfiguration
             self.authenticationType = authenticationType
@@ -1752,6 +1792,7 @@ extension Kendra {
         /// Maps attributes or field names of Confluence pages to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see Mapping data source fields. The Confluence data source field names must exist in your Confluence custom metadata. If you specify the PageFieldMappings parameter, you must specify at least one field mapping.
         public let pageFieldMappings: [ConfluencePageToIndexFieldMapping]?
 
+        @inlinable
         public init(pageFieldMappings: [ConfluencePageToIndexFieldMapping]? = nil) {
             self.pageFieldMappings = pageFieldMappings
         }
@@ -1777,6 +1818,7 @@ extension Kendra {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public let indexFieldName: String?
 
+        @inlinable
         public init(dataSourceFieldName: ConfluencePageFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
@@ -1811,6 +1853,7 @@ extension Kendra {
         /// Maps attributes or field names of Confluence spaces to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see Mapping data source fields. The Confluence data source field names must exist in your Confluence custom metadata. If you specify the SpaceFieldMappings parameter, you must specify at least one field mapping.
         public let spaceFieldMappings: [ConfluenceSpaceToIndexFieldMapping]?
 
+        @inlinable
         public init(crawlArchivedSpaces: Bool? = nil, crawlPersonalSpaces: Bool? = nil, excludeSpaces: [String]? = nil, includeSpaces: [String]? = nil, spaceFieldMappings: [ConfluenceSpaceToIndexFieldMapping]? = nil) {
             self.crawlArchivedSpaces = crawlArchivedSpaces
             self.crawlPersonalSpaces = crawlPersonalSpaces
@@ -1856,6 +1899,7 @@ extension Kendra {
         /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
         public let indexFieldName: String?
 
+        @inlinable
         public init(dataSourceFieldName: ConfluenceSpaceFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
@@ -1890,6 +1934,7 @@ extension Kendra {
         /// The name of the table that contains the document data.
         public let tableName: String
 
+        @inlinable
         public init(databaseHost: String, databaseName: String, databasePort: Int, secretArn: String, tableName: String) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
@@ -1931,6 +1976,7 @@ extension Kendra {
         /// The identifier of the FAQs that you want to use for your Amazon Kendra experience.
         public let faqIds: [String]?
 
+        @inlinable
         public init(dataSourceIds: [String]? = nil, directPutContent: Bool? = nil, faqIds: [String]? = nil) {
             self.dataSourceIds = dataSourceIds
             self.directPutContent = directPutContent
@@ -1971,6 +2017,7 @@ extension Kendra {
         /// The string or text of a misspelled word in a query.
         public let term: String?
 
+        @inlinable
         public init(beginOffset: Int? = nil, correctedTerm: String? = nil, endOffset: Int? = nil, term: String? = nil) {
             self.beginOffset = beginOffset
             self.correctedTerm = correctedTerm
@@ -2000,6 +2047,7 @@ extension Kendra {
         /// A name for the access control configuration.
         public let name: String
 
+        @inlinable
         public init(accessControlList: [Principal]? = nil, clientToken: String? = CreateAccessControlConfigurationRequest.idempotencyToken(), description: String? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, indexId: String, name: String) {
             self.accessControlList = accessControlList
             self.clientToken = clientToken
@@ -2044,6 +2092,7 @@ extension Kendra {
         /// The identifier of the access control configuration for your documents in an index.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2079,6 +2128,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -2139,6 +2189,7 @@ extension Kendra {
         /// The identifier of the data source connector.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2162,6 +2213,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of an IAM role with permission to access  Query API, GetQuerySuggestions API, and other required APIs.  The role also must include permission to access IAM Identity Center that stores your  user and group information. For more information, see IAM access roles for Amazon Kendra.
         public let roleArn: String?
 
+        @inlinable
         public init(clientToken: String? = CreateExperienceRequest.idempotencyToken(), configuration: ExperienceConfiguration? = nil, description: String? = nil, indexId: String, name: String, roleArn: String? = nil) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -2201,6 +2253,7 @@ extension Kendra {
         /// The identifier of your Amazon Kendra experience.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2230,6 +2283,7 @@ extension Kendra {
         /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateFaqRequest.idempotencyToken(), description: String? = nil, fileFormat: FaqFileFormat? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2282,6 +2336,7 @@ extension Kendra {
         /// The identifier of the FAQ.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2309,6 +2364,7 @@ extension Kendra {
         /// A list of key-value pairs that identify or categorize the featured results set. You can also use tags to help control access to the featured results set. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols:_ . : / = + - @.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, featuredDocuments: [FeaturedDocument]? = nil, featuredResultsSetName: String, indexId: String, queryTexts: [String]? = nil, status: FeaturedResultsSetStatus? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2357,6 +2413,7 @@ extension Kendra {
         /// Information on the set of featured results. This includes the identifier of  the featured results set, whether the featured results set is active or inactive,  when the featured results set was created, and more.
         public let featuredResultsSet: FeaturedResultsSet?
 
+        @inlinable
         public init(featuredResultsSet: FeaturedResultsSet? = nil) {
             self.featuredResultsSet = featuredResultsSet
         }
@@ -2388,6 +2445,7 @@ extension Kendra {
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
+        @inlinable
         public init(clientToken: String? = CreateIndexRequest.idempotencyToken(), description: String? = nil, edition: IndexEdition? = nil, name: String, roleArn: String, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, tags: [Tag]? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2440,6 +2498,7 @@ extension Kendra {
         /// The identifier of the index. Use this identifier when you query an index, set up a data source, or index a document.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2465,6 +2524,7 @@ extension Kendra {
         /// A list of key-value pairs that identify or categorize the block list.  Tag keys and values can consist of Unicode letters, digits, white space,  and any of the following symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateQuerySuggestionsBlockListRequest.idempotencyToken(), description: String? = nil, indexId: String, name: String, roleArn: String, sourceS3Path: S3Path, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2510,6 +2570,7 @@ extension Kendra {
         /// The identifier of the block list.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2535,6 +2596,7 @@ extension Kendra {
         /// A list of key-value pairs that identify or categorize the thesaurus. You can  also use tags to help control access to the thesaurus. Tag keys and values can  consist of Unicode letters, digits, white space, and any of the following  symbols: _ . : / = + - @.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateThesaurusRequest.idempotencyToken(), description: String? = nil, indexId: String, name: String, roleArn: String, sourceS3Path: S3Path, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2580,6 +2642,7 @@ extension Kendra {
         /// The identifier of the thesaurus.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -2599,6 +2662,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process. For more information, see IAM roles for Amazon Kendra.
         public let roleArn: String?
 
+        @inlinable
         public init(inlineConfigurations: [InlineCustomDocumentEnrichmentConfiguration]? = nil, postExtractionHookConfiguration: HookConfiguration? = nil, preExtractionHookConfiguration: HookConfiguration? = nil, roleArn: String? = nil) {
             self.inlineConfigurations = inlineConfigurations
             self.postExtractionHookConfiguration = postExtractionHookConfiguration
@@ -2662,6 +2726,7 @@ extension Kendra {
         /// Provides the configuration information to connect to Amazon WorkDocs as your data source.
         public let workDocsConfiguration: WorkDocsConfiguration?
 
+        @inlinable
         public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, gitHubConfiguration: GitHubConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
             self.alfrescoConfiguration = nil
             self.boxConfiguration = boxConfiguration
@@ -2684,6 +2749,7 @@ extension Kendra {
         }
 
         @available(*, deprecated, message: "Members alfrescoConfiguration have been deprecated")
+        @inlinable
         public init(alfrescoConfiguration: AlfrescoConfiguration? = nil, boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, gitHubConfiguration: GitHubConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, templateConfiguration: TemplateConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
             self.alfrescoConfiguration = alfrescoConfiguration
             self.boxConfiguration = boxConfiguration
@@ -2753,6 +2819,7 @@ extension Kendra {
         /// The identifier of the group you want to add to your list of groups. This is for filtering search results based on the groups' access to documents.
         public let groupId: String
 
+        @inlinable
         public init(dataSourceId: String, groupId: String) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
@@ -2789,6 +2856,7 @@ extension Kendra {
         /// The Unix timestamp when the data source connector was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, id: String? = nil, languageCode: String? = nil, name: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
@@ -2828,6 +2896,7 @@ extension Kendra {
         /// The execution status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is set to FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public let status: DataSourceSyncJobStatus?
 
+        @inlinable
         public init(dataSourceErrorCode: String? = nil, endTime: Date? = nil, errorCode: ErrorCode? = nil, errorMessage: String? = nil, executionId: String? = nil, metrics: DataSourceSyncJobMetrics? = nil, startTime: Date? = nil, status: DataSourceSyncJobStatus? = nil) {
             self.dataSourceErrorCode = dataSourceErrorCode
             self.endTime = endTime
@@ -2857,6 +2926,7 @@ extension Kendra {
         /// The ID of the sync job that is running on the data source. If the ID of a sync job is not provided and there is a sync job running, then the ID of this sync job is used and metrics are generated for this sync job. If the ID of a sync job is not provided and there is no sync job running, then no metrics are generated and documents are indexed/deleted at the index level without sync job metrics included.
         public let dataSourceSyncJobId: String?
 
+        @inlinable
         public init(dataSourceId: String, dataSourceSyncJobId: String? = nil) {
             self.dataSourceId = dataSourceId
             self.dataSourceSyncJobId = dataSourceSyncJobId
@@ -2889,6 +2959,7 @@ extension Kendra {
         /// The current number of documents crawled by the current sync job in the data source.
         public let documentsScanned: String?
 
+        @inlinable
         public init(documentsAdded: String? = nil, documentsDeleted: String? = nil, documentsFailed: String? = nil, documentsModified: String? = nil, documentsScanned: String? = nil) {
             self.documentsAdded = documentsAdded
             self.documentsDeleted = documentsDeleted
@@ -2914,6 +2985,7 @@ extension Kendra {
         /// The name of the index field to map to the data source field. The index field type  must match the data source field type.
         public let indexFieldName: String
 
+        @inlinable
         public init(dataSourceFieldName: String, dateFieldFormat: String? = nil, indexFieldName: String) {
             self.dataSourceFieldName = dataSourceFieldName
             self.dateFieldFormat = dateFieldFormat
@@ -2945,6 +3017,7 @@ extension Kendra {
         /// A list of identifiers for subnets within your Amazon VPC. The subnets should be able to connect to each other in the VPC, and they should have outgoing access to the Internet through a NAT device.
         public let subnetIds: [String]
 
+        @inlinable
         public init(securityGroupIds: [String], subnetIds: [String]) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -2986,6 +3059,7 @@ extension Kendra {
         public let sqlConfiguration: SqlConfiguration?
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(aclConfiguration: AclConfiguration? = nil, columnConfiguration: ColumnConfiguration, connectionConfiguration: ConnectionConfiguration, databaseEngineType: DatabaseEngineType, sqlConfiguration: SqlConfiguration? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.aclConfiguration = aclConfiguration
             self.columnConfiguration = columnConfiguration
@@ -3018,6 +3092,7 @@ extension Kendra {
         /// The identifier of the index for an access control configuration.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3048,6 +3123,7 @@ extension Kendra {
         /// The identifier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3074,6 +3150,7 @@ extension Kendra {
         /// The identifier of the index for your Amazon Kendra experience.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3104,6 +3181,7 @@ extension Kendra {
         /// The identifier of the index for the FAQ.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3128,6 +3206,7 @@ extension Kendra {
         /// The identifier of the index you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3153,6 +3232,7 @@ extension Kendra {
         /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest DELETE action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest members list doesn't get overwritten by earlier DELETE actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
         public let orderingId: Int64?
 
+        @inlinable
         public init(dataSourceId: String? = nil, groupId: String, indexId: String, orderingId: Int64? = nil) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
@@ -3188,6 +3268,7 @@ extension Kendra {
         /// The identifier of the index for the block list.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3214,6 +3295,7 @@ extension Kendra {
         /// The identifier of the index for the thesaurus.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3240,6 +3322,7 @@ extension Kendra {
         /// The identifier of the index for an access control configuration.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3272,6 +3355,7 @@ extension Kendra {
         /// The name for the access control configuration.
         public let name: String
 
+        @inlinable
         public init(accessControlList: [Principal]? = nil, description: String? = nil, errorMessage: String? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, name: String) {
             self.accessControlList = accessControlList
             self.description = description
@@ -3295,6 +3379,7 @@ extension Kendra {
         /// The identifier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3347,6 +3432,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
@@ -3390,6 +3476,7 @@ extension Kendra {
         /// The identifier of the index for your Amazon Kendra experience.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3434,6 +3521,7 @@ extension Kendra {
         /// The Unix timestamp when your Amazon Kendra experience was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(configuration: ExperienceConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, endpoints: [ExperienceEndpoint]? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, status: ExperienceStatus? = nil, updatedAt: Date? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
@@ -3469,6 +3557,7 @@ extension Kendra {
         /// The identifier of the index for the FAQ.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3514,6 +3603,7 @@ extension Kendra {
         /// The Unix timestamp when the FAQ was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -3551,6 +3641,7 @@ extension Kendra {
         /// The identifier of the index used for featuring results.
         public let indexId: String
 
+        @inlinable
         public init(featuredResultsSetId: String, indexId: String) {
             self.featuredResultsSetId = featuredResultsSetId
             self.indexId = indexId
@@ -3591,6 +3682,7 @@ extension Kendra {
         /// The current status of the set of featured results. When the value is  ACTIVE, featured results are ready for use. You can still  configure your settings before setting the status to ACTIVE.  You can set the status to ACTIVE or INACTIVE  using the UpdateFeaturedResultsSet API. The queries you specify for  featured results must be unique per featured results set for each index,  whether the status is ACTIVE or INACTIVE.
         public let status: FeaturedResultsSetStatus?
 
+        @inlinable
         public init(creationTimestamp: Int64? = nil, description: String? = nil, featuredDocumentsMissing: [FeaturedDocumentMissing]? = nil, featuredDocumentsWithMetadata: [FeaturedDocumentWithMetadata]? = nil, featuredResultsSetId: String? = nil, featuredResultsSetName: String? = nil, lastUpdatedTimestamp: Int64? = nil, queryTexts: [String]? = nil, status: FeaturedResultsSetStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.description = description
@@ -3620,6 +3712,7 @@ extension Kendra {
         /// The identifier of the index you want to get information on.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -3669,6 +3762,7 @@ extension Kendra {
         /// The user token configuration for the Amazon Kendra index.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
+        @inlinable
         public init(capacityUnits: CapacityUnitsConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, documentMetadataConfigurations: [DocumentMetadataConfiguration]? = nil, edition: IndexEdition? = nil, errorMessage: String? = nil, id: String? = nil, indexStatistics: IndexStatistics? = nil, name: String? = nil, roleArn: String? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, status: IndexStatus? = nil, updatedAt: Date? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.capacityUnits = capacityUnits
             self.createdAt = createdAt
@@ -3716,6 +3810,7 @@ extension Kendra {
         /// The identifier of the index required to check the processing of PUT and DELETE actions for mapping users to their groups.
         public let indexId: String
 
+        @inlinable
         public init(dataSourceId: String? = nil, groupId: String, indexId: String) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
@@ -3751,6 +3846,7 @@ extension Kendra {
         /// Shows the identifier of the index to see information on the processing of PUT and DELETE actions for mapping users to their groups.
         public let indexId: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil, groupId: String? = nil, groupOrderingIdSummaries: [GroupOrderingIdSummary]? = nil, indexId: String? = nil) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
@@ -3772,6 +3868,7 @@ extension Kendra {
         /// The identifier of the index for the block list.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3818,6 +3915,7 @@ extension Kendra {
         /// The Unix timestamp when a block list for query suggestions was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileSizeBytes: Int64? = nil, id: String? = nil, indexId: String? = nil, itemCount: Int? = nil, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil, status: QuerySuggestionsBlockListStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -3853,6 +3951,7 @@ extension Kendra {
         /// The identifier of the index with query suggestions that you want to get  information on.
         public let indexId: String
 
+        @inlinable
         public init(indexId: String) {
             self.indexId = indexId
         }
@@ -3890,6 +3989,7 @@ extension Kendra {
         /// The current total count of query suggestions for an index. This count can change when you update your query suggestions settings,  if you filter out certain queries from suggestions using a block list,  and as the query log accumulates more queries for Amazon Kendra to learn from. If the count is much lower than you expected, it could be because Amazon Kendra  needs more queries in the query history to learn from or your current query suggestions  settings are too strict.
         public let totalSuggestionsCount: Int?
 
+        @inlinable
         public init(attributeSuggestionsConfig: AttributeSuggestionsDescribeConfig? = nil, includeQueriesWithoutUserInformation: Bool? = nil, lastClearTime: Date? = nil, lastSuggestionsBuildTime: Date? = nil, minimumNumberOfQueryingUsers: Int? = nil, minimumQueryCount: Int? = nil, mode: Mode? = nil, queryLogLookBackWindowInDays: Int? = nil, status: QuerySuggestionsStatus? = nil, totalSuggestionsCount: Int? = nil) {
             self.attributeSuggestionsConfig = attributeSuggestionsConfig
             self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
@@ -3923,6 +4023,7 @@ extension Kendra {
         /// The identifier of the index for the thesaurus.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -3970,6 +4071,7 @@ extension Kendra {
         /// The Unix timestamp when the thesaurus was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, fileSizeBytes: Int64? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil, status: ThesaurusStatus? = nil, synonymRuleCount: Int64? = nil, termCount: Int64? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -4011,6 +4113,7 @@ extension Kendra {
         /// The identifier of the index for your Amazon Kendra experience.
         public let indexId: String
 
+        @inlinable
         public init(entityList: [EntityConfiguration], id: String, indexId: String) {
             self.entityList = entityList
             self.id = id
@@ -4042,6 +4145,7 @@ extension Kendra {
         /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly remove access to your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
+        @inlinable
         public init(failedEntityList: [FailedEntity]? = nil) {
             self.failedEntityList = failedEntityList
         }
@@ -4059,6 +4163,7 @@ extension Kendra {
         /// The identifier of the index for your Amazon Kendra experience.
         public let indexId: String
 
+        @inlinable
         public init(entityIds: [String], id: String, indexId: String) {
             self.entityIds = entityIds
             self.id = id
@@ -4092,6 +4197,7 @@ extension Kendra {
         /// Lists the users or groups in your IAM Identity Center identity source that  failed to properly remove access to your Amazon Kendra experience.
         public let failedEntityList: [FailedEntity]?
 
+        @inlinable
         public init(failedEntityList: [FailedEntity]? = nil) {
             self.failedEntityList = failedEntityList
         }
@@ -4120,6 +4226,7 @@ extension Kendra {
         /// The title of the document.
         public let title: String?
 
+        @inlinable
         public init(accessControlConfigurationId: String? = nil, accessControlList: [Principal]? = nil, attributes: [DocumentAttribute]? = nil, blob: AWSBase64Data? = nil, contentType: ContentType? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, id: String, s3Path: S3Path? = nil, title: String? = nil) {
             self.accessControlConfigurationId = accessControlConfigurationId
             self.accessControlList = accessControlList
@@ -4171,6 +4278,7 @@ extension Kendra {
         /// The value of the attribute.
         public let value: DocumentAttributeValue
 
+        @inlinable
         public init(key: String, value: DocumentAttributeValue) {
             self.key = key
             self.value = value
@@ -4197,6 +4305,7 @@ extension Kendra {
         /// The condition operator. For example, you can use 'Contains' to partially match a string.
         public let `operator`: ConditionOperator
 
+        @inlinable
         public init(conditionDocumentAttributeKey: String, conditionOnValue: DocumentAttributeValue? = nil, operator: ConditionOperator) {
             self.conditionDocumentAttributeKey = conditionDocumentAttributeKey
             self.conditionOnValue = conditionOnValue
@@ -4225,6 +4334,7 @@ extension Kendra {
         ///  TRUE to delete the existing target value for your specified target attribute key. You cannot create a target value and set this to TRUE. To create a target value (TargetDocumentAttributeValue), set this to FALSE.
         public let targetDocumentAttributeValueDeletion: Bool?
 
+        @inlinable
         public init(targetDocumentAttributeKey: String? = nil, targetDocumentAttributeValue: DocumentAttributeValue? = nil, targetDocumentAttributeValueDeletion: Bool? = nil) {
             self.targetDocumentAttributeKey = targetDocumentAttributeKey
             self.targetDocumentAttributeValue = targetDocumentAttributeValue
@@ -4255,6 +4365,7 @@ extension Kendra {
         /// A string, such as "department".
         public let stringValue: String?
 
+        @inlinable
         public init(dateValue: Date? = nil, longValue: Int64? = nil, stringListValue: [String]? = nil, stringValue: String? = nil) {
             self.dateValue = dateValue
             self.longValue = longValue
@@ -4287,6 +4398,7 @@ extension Kendra {
         /// Contains the results of a document attribute/field that is a nested facet. A FacetResult contains the counts for each facet nested within a facet. For example, the document attribute or facet "Department" includes a value called "Engineering". In addition, the document attribute or facet "SubDepartment" includes the values "Frontend" and "Backend" for documents assigned to "Engineering". You can display nested facets in the search results so that documents can be searched not only by department but also by a sub department within a department. The counts for documents that belong to "Frontend" and "Backend" within "Engineering" are returned for a query.
         public let facetResults: [FacetResult]?
 
+        @inlinable
         public init(count: Int? = nil, documentAttributeValue: DocumentAttributeValue? = nil, facetResults: [FacetResult]? = nil) {
             self.count = count
             self.documentAttributeValue = documentAttributeValue
@@ -4306,6 +4418,7 @@ extension Kendra {
         /// The identifier of the document.
         public let documentId: String
 
+        @inlinable
         public init(attributes: [DocumentAttribute]? = nil, documentId: String) {
             self.attributes = attributes
             self.documentId = documentId
@@ -4335,6 +4448,7 @@ extension Kendra {
         /// The data type of the index field.
         public let type: DocumentAttributeValueType
 
+        @inlinable
         public init(name: String, relevance: Relevance? = nil, search: Search? = nil, type: DocumentAttributeValueType) {
             self.name = name
             self.relevance = relevance
@@ -4362,6 +4476,7 @@ extension Kendra {
         /// Provides information for tuning the relevance of a field in a search. When a query includes terms that match the field, the results are given a boost in the response based on these tuning parameters.
         public let relevance: Relevance
 
+        @inlinable
         public init(name: String, relevance: Relevance) {
             self.name = name
             self.relevance = relevance
@@ -4383,6 +4498,7 @@ extension Kendra {
         /// A prefix used to filter metadata configuration files in the Amazon Web Services S3 bucket. The S3 bucket might contain multiple metadata files. Use S3Prefix to include only the desired metadata files.
         public let s3Prefix: String?
 
+        @inlinable
         public init(s3Prefix: String? = nil) {
             self.s3Prefix = s3Prefix
         }
@@ -4403,6 +4519,7 @@ extension Kendra {
         /// Specifies whether you are configuring a User or a Group.
         public let entityType: EntityType
 
+        @inlinable
         public init(entityId: String, entityType: EntityType) {
             self.entityId = entityId
             self.entityType = entityType
@@ -4432,6 +4549,7 @@ extension Kendra {
         /// The name of the user.
         public let userName: String?
 
+        @inlinable
         public init(firstName: String? = nil, groupName: String? = nil, identifiedUserName: String? = nil, lastName: String? = nil, userName: String? = nil) {
             self.firstName = firstName
             self.groupName = groupName
@@ -4455,6 +4573,7 @@ extension Kendra {
         /// The persona that defines the specific permissions of the user or group  in your IAM Identity Center identity source. The available personas or  access roles are Owner and Viewer. For more  information on these personas, see Providing  access to your search page.
         public let persona: Persona
 
+        @inlinable
         public init(entityId: String, persona: Persona) {
             self.entityId = entityId
             self.persona = persona
@@ -4478,6 +4597,7 @@ extension Kendra {
         /// The number of collapsed search result groups to expand. If you set this value to 10, for example, only the first 10 out of 100 result groups will have expand functionality.
         public let maxResultItemsToExpand: Int?
 
+        @inlinable
         public init(maxExpandedResultsPerItem: Int? = nil, maxResultItemsToExpand: Int? = nil) {
             self.maxExpandedResultsPerItem = maxExpandedResultsPerItem
             self.maxResultItemsToExpand = maxResultItemsToExpand
@@ -4501,6 +4621,7 @@ extension Kendra {
         /// The identifier for the expanded result.
         public let id: String?
 
+        @inlinable
         public init(documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil) {
             self.documentAttributes = documentAttributes
             self.documentExcerpt = documentExcerpt
@@ -4526,6 +4647,7 @@ extension Kendra {
         /// The IAM Identity Center field name that contains the identifiers of your users,  such as their emails.
         public let userIdentityConfiguration: UserIdentityConfiguration?
 
+        @inlinable
         public init(contentSourceConfiguration: ContentSourceConfiguration? = nil, userIdentityConfiguration: UserIdentityConfiguration? = nil) {
             self.contentSourceConfiguration = contentSourceConfiguration
             self.userIdentityConfiguration = userIdentityConfiguration
@@ -4548,6 +4670,7 @@ extension Kendra {
         /// The type of endpoint for your Amazon Kendra experience. The type currently available  is HOME, which is a unique and fully hosted URL to the home page  of your Amazon Kendra experience.
         public let endpointType: EndpointType?
 
+        @inlinable
         public init(endpoint: String? = nil, endpointType: EndpointType? = nil) {
             self.endpoint = endpoint
             self.endpointType = endpointType
@@ -4567,6 +4690,7 @@ extension Kendra {
         /// Shows the type as User or Group.
         public let entityType: EntityType?
 
+        @inlinable
         public init(displayData: EntityDisplayData? = nil, entityId: String? = nil, entityType: EntityType? = nil) {
             self.displayData = displayData
             self.entityId = entityId
@@ -4592,6 +4716,7 @@ extension Kendra {
         /// The processing status of your Amazon Kendra experience.
         public let status: ExperienceStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, endpoints: [ExperienceEndpoint]? = nil, id: String? = nil, name: String? = nil, status: ExperienceStatus? = nil) {
             self.createdAt = createdAt
             self.endpoints = endpoints
@@ -4617,6 +4742,7 @@ extension Kendra {
         /// Maximum number of facet values per facet. The default is 10. You can use this to limit the number of facet values to less than 10. If you want to increase the default, contact Support.
         public let maxResults: Int?
 
+        @inlinable
         public init(documentAttributeKey: String? = nil, facets: [Facet]? = nil, maxResults: Int? = nil) {
             self.documentAttributeKey = documentAttributeKey
             self.facets = facets
@@ -4649,6 +4775,7 @@ extension Kendra {
         /// The data type of the facet value. This is the same as the type defined for the index field when it was created.
         public let documentAttributeValueType: DocumentAttributeValueType?
 
+        @inlinable
         public init(documentAttributeKey: String? = nil, documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]? = nil, documentAttributeValueType: DocumentAttributeValueType? = nil) {
             self.documentAttributeKey = documentAttributeKey
             self.documentAttributeValueCountPairs = documentAttributeValueCountPairs
@@ -4668,6 +4795,7 @@ extension Kendra {
         /// The reason the user or group in your IAM Identity Center identity source  failed to properly configure with your Amazon Kendra experience.
         public let errorMessage: String?
 
+        @inlinable
         public init(entityId: String? = nil, errorMessage: String? = nil) {
             self.entityId = entityId
             self.errorMessage = errorMessage
@@ -4683,6 +4811,7 @@ extension Kendra {
         /// The total number of FAQ questions and answers contained in the index.
         public let indexedQuestionAnswersCount: Int
 
+        @inlinable
         public init(indexedQuestionAnswersCount: Int) {
             self.indexedQuestionAnswersCount = indexedQuestionAnswersCount
         }
@@ -4708,6 +4837,7 @@ extension Kendra {
         /// The Unix timestamp when the FAQ was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, languageCode: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.fileFormat = fileFormat
@@ -4733,6 +4863,7 @@ extension Kendra {
         /// The identifier of the document to feature in the search results. You can  use the Query API to search for  specific documents with their document IDs included in the result items,  or you can use the console.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -4751,6 +4882,7 @@ extension Kendra {
         /// The identifier of the document that doesn't exist but you have specified  as a featured document.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -4768,6 +4900,7 @@ extension Kendra {
         /// The source URI location of the featured document.
         public let uri: String?
 
+        @inlinable
         public init(id: String? = nil, title: String? = nil, uri: String? = nil) {
             self.id = id
             self.title = title
@@ -4799,6 +4932,7 @@ extension Kendra {
         /// The type of document within the featured result response. For example,  a response could include a question-answer type that's relevant to the  query.
         public let type: QueryResultType?
 
+        @inlinable
         public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, feedbackToken: String? = nil, id: String? = nil, type: QueryResultType? = nil) {
             self.additionalAttributes = additionalAttributes
             self.documentAttributes = documentAttributes
@@ -4842,6 +4976,7 @@ extension Kendra {
         /// The current status of the set of featured results. When the value is  ACTIVE, featured results are ready for use. You can still  configure your settings before setting the status to ACTIVE.  You can set the status to ACTIVE or INACTIVE  using the UpdateFeaturedResultsSet API. The queries you specify for  featured results must be unique per featured results set for each index,  whether the status is ACTIVE or INACTIVE.
         public let status: FeaturedResultsSetStatus?
 
+        @inlinable
         public init(creationTimestamp: Int64? = nil, description: String? = nil, featuredDocuments: [FeaturedDocument]? = nil, featuredResultsSetId: String? = nil, featuredResultsSetName: String? = nil, lastUpdatedTimestamp: Int64? = nil, queryTexts: [String]? = nil, status: FeaturedResultsSetStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.description = description
@@ -4877,6 +5012,7 @@ extension Kendra {
         /// The current status of the set of featured results. When the value is  ACTIVE, featured results are ready for use. You can still  configure your settings before setting the status to ACTIVE.  You can set the status to ACTIVE or INACTIVE  using the UpdateFeaturedResultsSet API. The queries you specify for  featured results must be unique per featured results set for each index,  whether the status is ACTIVE or INACTIVE.
         public let status: FeaturedResultsSetStatus?
 
+        @inlinable
         public init(creationTimestamp: Int64? = nil, featuredResultsSetId: String? = nil, featuredResultsSetName: String? = nil, lastUpdatedTimestamp: Int64? = nil, status: FeaturedResultsSetStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.featuredResultsSetId = featuredResultsSetId
@@ -4910,6 +5046,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Amazon FSx. Your Amazon FSx instance must reside inside your VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration
 
+        @inlinable
         public init(exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, fileSystemId: String, fileSystemType: FsxFileSystemType, inclusionPatterns: [String]? = nil, secretArn: String? = nil, vpcConfiguration: DataSourceVpcConfiguration) {
             self.exclusionPatterns = exclusionPatterns
             self.fieldMappings = fieldMappings
@@ -4968,6 +5105,7 @@ extension Kendra {
         /// The suggestions type to base query suggestions on. The suggestion  types are query history or document fields/attributes. You can set  one type or the other. If you set query history as your suggestions type, Amazon Kendra  suggests queries relevant to your users based on popular queries in  the query history. If you set document fields/attributes as your suggestions type,  Amazon Kendra suggests queries relevant to your users based on the  contents of document fields.
         public let suggestionTypes: [SuggestionType]?
 
+        @inlinable
         public init(attributeSuggestionsConfig: AttributeSuggestionsGetConfig? = nil, indexId: String, maxSuggestionsCount: Int? = nil, queryText: String, suggestionTypes: [SuggestionType]? = nil) {
             self.attributeSuggestionsConfig = attributeSuggestionsConfig
             self.indexId = indexId
@@ -4999,6 +5137,7 @@ extension Kendra {
         /// A list of query suggestions for an index.
         public let suggestions: [Suggestion]?
 
+        @inlinable
         public init(querySuggestionsId: String? = nil, suggestions: [Suggestion]? = nil) {
             self.querySuggestionsId = querySuggestionsId
             self.suggestions = suggestions
@@ -5022,6 +5161,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of search metrics data.
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, interval: Interval, maxResults: Int? = nil, metricType: MetricType, nextToken: String? = nil) {
             self.indexId = indexId
             self.interval = interval
@@ -5057,6 +5197,7 @@ extension Kendra {
         /// The Unix timestamp for the beginning and end of the time window for the  search metrics data.
         public let snapShotTimeFilter: TimeRange?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshotsData: [[String]]? = nil, snapshotsDataHeader: [String]? = nil, snapShotTimeFilter: TimeRange? = nil) {
             self.nextToken = nextToken
             self.snapshotsData = snapshotsData
@@ -5118,6 +5259,7 @@ extension Kendra {
         /// Configuration information of an Amazon Virtual Private Cloud to connect to your GitHub. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(exclusionFileNamePatterns: [String]? = nil, exclusionFileTypePatterns: [String]? = nil, exclusionFolderNamePatterns: [String]? = nil, gitHubCommitConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubDocumentCrawlProperties: GitHubDocumentCrawlProperties? = nil, gitHubIssueAttachmentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubIssueCommentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubIssueDocumentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubPullRequestCommentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubPullRequestDocumentAttachmentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubPullRequestDocumentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubRepositoryConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionFileNamePatterns: [String]? = nil, inclusionFileTypePatterns: [String]? = nil, inclusionFolderNamePatterns: [String]? = nil, onPremiseConfiguration: OnPremiseConfiguration? = nil, repositoryFilter: [String]? = nil, saaSConfiguration: SaaSConfiguration? = nil, secretArn: String, type: `Type`? = nil, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.exclusionFileNamePatterns = exclusionFileNamePatterns
             self.exclusionFileTypePatterns = exclusionFileTypePatterns
@@ -5263,6 +5405,7 @@ extension Kendra {
         ///  TRUE to index all files with a repository.
         public let crawlRepositoryDocuments: Bool?
 
+        @inlinable
         public init(crawlIssue: Bool? = nil, crawlIssueComment: Bool? = nil, crawlIssueCommentAttachment: Bool? = nil, crawlPullRequest: Bool? = nil, crawlPullRequestComment: Bool? = nil, crawlPullRequestCommentAttachment: Bool? = nil, crawlRepositoryDocuments: Bool? = nil) {
             self.crawlIssue = crawlIssue
             self.crawlIssueComment = crawlIssueComment
@@ -5300,6 +5443,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of a Secrets Managersecret that contains the credentials required to connect to Google Drive. For more information, see Using a Google Workspace Drive data source.
         public let secretArn: String
 
+        @inlinable
         public init(excludeMimeTypes: [String]? = nil, excludeSharedDrives: [String]? = nil, excludeUserAccounts: [String]? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String) {
             self.excludeMimeTypes = excludeMimeTypes
             self.excludeSharedDrives = excludeSharedDrives
@@ -5368,6 +5512,7 @@ extension Kendra {
         /// If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000. You can download this example S3 file that uses the correct format for listing group members. Note, dataSourceId is optional. The value of type for a group is always GROUP and for a user it is always USER.
         public let s3PathforGroupMembers: S3Path?
 
+        @inlinable
         public init(memberGroups: [MemberGroup]? = nil, memberUsers: [MemberUser]? = nil, s3PathforGroupMembers: S3Path? = nil) {
             self.memberGroups = memberGroups
             self.memberUsers = memberUsers
@@ -5407,6 +5552,7 @@ extension Kendra {
         /// The current processing status of actions for mapping users to their groups. The status can be either PROCESSING, SUCCEEDED, DELETING, DELETED, or FAILED.
         public let status: PrincipalMappingStatus?
 
+        @inlinable
         public init(failureReason: String? = nil, lastUpdatedAt: Date? = nil, orderingId: Int64? = nil, receivedAt: Date? = nil, status: PrincipalMappingStatus? = nil) {
             self.failureReason = failureReason
             self.lastUpdatedAt = lastUpdatedAt
@@ -5430,6 +5576,7 @@ extension Kendra {
         /// The timestamp identifier used for the latest PUT or DELETE action.
         public let orderingId: Int64?
 
+        @inlinable
         public init(groupId: String? = nil, orderingId: Int64? = nil) {
             self.groupId = groupId
             self.orderingId = orderingId
@@ -5445,6 +5592,7 @@ extension Kendra {
         /// A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document.
         public let principalList: [Principal]
 
+        @inlinable
         public init(principalList: [Principal]) {
             self.principalList = principalList
         }
@@ -5470,6 +5618,7 @@ extension Kendra {
         /// The highlight type.
         public let type: HighlightType?
 
+        @inlinable
         public init(beginOffset: Int, endOffset: Int, topAnswer: Bool? = nil, type: HighlightType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -5493,6 +5642,7 @@ extension Kendra {
         /// Stores the original, raw documents or the structured, parsed documents before and after altering them. For more information, see Data contracts for Lambda functions.
         public let s3Bucket: String
 
+        @inlinable
         public init(invocationCondition: DocumentAttributeCondition? = nil, lambdaArn: String, s3Bucket: String) {
             self.invocationCondition = invocationCondition
             self.lambdaArn = lambdaArn
@@ -5530,6 +5680,7 @@ extension Kendra {
         /// The Unix timestamp when the index was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, edition: IndexEdition? = nil, id: String? = nil, name: String? = nil, status: IndexStatus, updatedAt: Date) {
             self.createdAt = createdAt
             self.edition = edition
@@ -5555,6 +5706,7 @@ extension Kendra {
         /// The number of text documents indexed.
         public let textDocumentStatistics: TextDocumentStatistics
 
+        @inlinable
         public init(faqStatistics: FaqStatistics, textDocumentStatistics: TextDocumentStatistics) {
             self.faqStatistics = faqStatistics
             self.textDocumentStatistics = textDocumentStatistics
@@ -5574,6 +5726,7 @@ extension Kendra {
         /// Configuration of the target document attribute or metadata field when ingesting documents into Amazon Kendra. You can also include a value.
         public let target: DocumentAttributeTarget?
 
+        @inlinable
         public init(condition: DocumentAttributeCondition? = nil, documentContentDeletion: Bool? = nil, target: DocumentAttributeTarget? = nil) {
             self.condition = condition
             self.documentContentDeletion = documentContentDeletion
@@ -5624,6 +5777,7 @@ extension Kendra {
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira work logs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see  Mapping data source fields. The Jira data source field names must exist in your Jira custom metadata.
         public let workLogFieldMappings: [DataSourceToIndexFieldMapping]?
 
+        @inlinable
         public init(attachmentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, commentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, issueFieldMappings: [DataSourceToIndexFieldMapping]? = nil, issueSubEntityFilter: [IssueSubEntity]? = nil, issueType: [String]? = nil, jiraAccountUrl: String, project: [String]? = nil, projectFieldMappings: [DataSourceToIndexFieldMapping]? = nil, secretArn: String, status: [String]? = nil, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil, workLogFieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
             self.attachmentFieldMappings = attachmentFieldMappings
             self.commentFieldMappings = commentFieldMappings
@@ -5725,6 +5879,7 @@ extension Kendra {
         /// The user name attribute field.
         public let userNameAttributeField: String
 
+        @inlinable
         public init(groupAttributeField: String, userNameAttributeField: String) {
             self.groupAttributeField = groupAttributeField
             self.userNameAttributeField = userNameAttributeField
@@ -5759,6 +5914,7 @@ extension Kendra {
         /// The user name attribute field.
         public let userNameAttributeField: String?
 
+        @inlinable
         public init(claimRegex: String? = nil, groupAttributeField: String? = nil, issuer: String? = nil, keyLocation: KeyLocation, secretManagerArn: String? = nil, url: String? = nil, userNameAttributeField: String? = nil) {
             self.claimRegex = claimRegex
             self.groupAttributeField = groupAttributeField
@@ -5808,6 +5964,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there's more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of access control configurations.
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -5837,6 +5994,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns this token, which you can use in the subsequent request to retrieve the next set of access control configurations.
         public let nextToken: String?
 
+        @inlinable
         public init(accessControlConfigurations: [AccessControlConfigurationSummary], nextToken: String? = nil) {
             self.accessControlConfigurations = accessControlConfigurations
             self.nextToken = nextToken
@@ -5862,6 +6020,7 @@ extension Kendra {
         /// Only returns synchronization jobs with the Status field equal to the specified status.
         public let statusFilter: DataSourceSyncJobStatus?
 
+        @inlinable
         public init(id: String, indexId: String, maxResults: Int? = nil, nextToken: String? = nil, startTimeFilter: TimeRange? = nil, statusFilter: DataSourceSyncJobStatus? = nil) {
             self.id = id
             self.indexId = indexId
@@ -5900,6 +6059,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of jobs.
         public let nextToken: String?
 
+        @inlinable
         public init(history: [DataSourceSyncJob]? = nil, nextToken: String? = nil) {
             self.history = history
             self.nextToken = nextToken
@@ -5919,6 +6079,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of data source connectors.
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -5948,6 +6109,7 @@ extension Kendra {
         /// An array of summary information for one or more data source connector.
         public let summaryItems: [DataSourceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaryItems: [DataSourceSummary]? = nil) {
             self.nextToken = nextToken
             self.summaryItems = summaryItems
@@ -5969,6 +6131,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination  token to retrieve the next set of users or groups.
         public let nextToken: String?
 
+        @inlinable
         public init(id: String, indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.indexId = indexId
@@ -6003,6 +6166,7 @@ extension Kendra {
         /// An array of summary information for one or more users or groups.
         public let summaryItems: [PersonasSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaryItems: [PersonasSummary]? = nil) {
             self.nextToken = nextToken
             self.summaryItems = summaryItems
@@ -6022,6 +6186,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination  token to retrieve the next set of users or groups.
         public let nextToken: String?
 
+        @inlinable
         public init(id: String, indexId: String, nextToken: String? = nil) {
             self.id = id
             self.indexId = indexId
@@ -6052,6 +6217,7 @@ extension Kendra {
         /// An array of summary information for one or more users or groups.
         public let summaryItems: [ExperienceEntitiesSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaryItems: [ExperienceEntitiesSummary]? = nil) {
             self.nextToken = nextToken
             self.summaryItems = summaryItems
@@ -6071,6 +6237,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Kendra experiences.
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -6100,6 +6267,7 @@ extension Kendra {
         /// An array of summary information for one or more Amazon Kendra experiences.
         public let summaryItems: [ExperiencesSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaryItems: [ExperiencesSummary]? = nil) {
             self.nextToken = nextToken
             self.summaryItems = summaryItems
@@ -6119,6 +6287,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of FAQs.
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -6148,6 +6317,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of FAQs.
         public let nextToken: String?
 
+        @inlinable
         public init(faqSummaryItems: [FaqSummary]? = nil, nextToken: String? = nil) {
             self.faqSummaryItems = faqSummaryItems
             self.nextToken = nextToken
@@ -6167,6 +6337,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns a pagination token  in the response. You can use this pagination token to retrieve the next set  of featured results sets.
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -6196,6 +6367,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns a pagination token  in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(featuredResultsSetSummaryItems: [FeaturedResultsSetSummary]? = nil, nextToken: String? = nil) {
             self.featuredResultsSetSummaryItems = featuredResultsSetSummaryItems
             self.nextToken = nextToken
@@ -6219,6 +6391,7 @@ extension Kendra {
         /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups.
         public let orderingId: Int64
 
+        @inlinable
         public init(dataSourceId: String? = nil, indexId: String, maxResults: Int? = nil, nextToken: String? = nil, orderingId: Int64) {
             self.dataSourceId = dataSourceId
             self.indexId = indexId
@@ -6257,6 +6430,7 @@ extension Kendra {
         ///  If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of groups that are mapped to users before a given ordering or timestamp identifier.
         public let nextToken: String?
 
+        @inlinable
         public init(groupsSummaries: [GroupSummary]? = nil, nextToken: String? = nil) {
             self.groupsSummaries = groupsSummaries
             self.nextToken = nextToken
@@ -6274,6 +6448,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of indexes.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6298,6 +6473,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of indexes.
         public let nextToken: String?
 
+        @inlinable
         public init(indexConfigurationSummaryItems: [IndexConfigurationSummary]? = nil, nextToken: String? = nil) {
             self.indexConfigurationSummaryItems = indexConfigurationSummaryItems
             self.nextToken = nextToken
@@ -6317,6 +6493,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve),  Amazon Kendra returns a pagination token in the response. You can use this pagination  token to retrieve the next set of block lists (BlockListSummaryItems).
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -6346,6 +6523,7 @@ extension Kendra {
         /// If the response is truncated, Amazon Kendra returns this token that you can use  in the subsequent request to retrieve the next set of block lists.
         public let nextToken: String?
 
+        @inlinable
         public init(blockListSummaryItems: [QuerySuggestionsBlockListSummary]? = nil, nextToken: String? = nil) {
             self.blockListSummaryItems = blockListSummaryItems
             self.nextToken = nextToken
@@ -6361,6 +6539,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -6379,6 +6558,7 @@ extension Kendra {
         /// A list of tags associated with the index, FAQ, or data source.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -6396,6 +6576,7 @@ extension Kendra {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
         public let nextToken: String?
 
+        @inlinable
         public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.indexId = indexId
             self.maxResults = maxResults
@@ -6425,6 +6606,7 @@ extension Kendra {
         /// An array of summary information for a thesaurus or multiple thesauri.
         public let thesaurusSummaryItems: [ThesaurusSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, thesaurusSummaryItems: [ThesaurusSummary]? = nil) {
             self.nextToken = nextToken
             self.thesaurusSummaryItems = thesaurusSummaryItems
@@ -6442,6 +6624,7 @@ extension Kendra {
         /// The identifier of the sub group you want to map to a group.
         public let groupId: String
 
+        @inlinable
         public init(dataSourceId: String? = nil, groupId: String) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
@@ -6466,6 +6649,7 @@ extension Kendra {
         /// The identifier of the user you want to map to a group.
         public let userId: String
 
+        @inlinable
         public init(userId: String) {
             self.userId = userId
         }
@@ -6489,6 +6673,7 @@ extension Kendra {
         /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this to connect to GitHub if you require a secure SSL connection. You can simply generate a self-signed X509 certificate on any computer using OpenSSL. For an example of using OpenSSL to create an X509 certificate, see Create and sign an X509 certificate.
         public let sslCertificateS3Path: S3Path
 
+        @inlinable
         public init(hostUrl: String, organizationName: String, sslCertificateS3Path: S3Path) {
             self.hostUrl = hostUrl
             self.organizationName = organizationName
@@ -6528,6 +6713,7 @@ extension Kendra {
         /// The Azure Active Directory domain of the organization.
         public let tenantDomain: String
 
+        @inlinable
         public init(disableLocalGroups: Bool? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, oneDriveUsers: OneDriveUsers, secretArn: String, tenantDomain: String) {
             self.disableLocalGroups = disableLocalGroups
             self.exclusionPatterns = exclusionPatterns
@@ -6580,6 +6766,7 @@ extension Kendra {
         /// The S3 bucket location of a file containing a list of users whose documents should be indexed.
         public let oneDriveUserS3Path: S3Path?
 
+        @inlinable
         public init(oneDriveUserList: [String]? = nil, oneDriveUserS3Path: S3Path? = nil) {
             self.oneDriveUserList = oneDriveUserList
             self.oneDriveUserS3Path = oneDriveUserS3Path
@@ -6612,6 +6799,7 @@ extension Kendra {
         /// The Unix timestamp when the summary information was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, entityId: String? = nil, persona: Persona? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.entityId = entityId
@@ -6637,6 +6825,7 @@ extension Kendra {
         /// The type of principal.
         public let type: PrincipalType
 
+        @inlinable
         public init(access: ReadAccessType, dataSourceId: String? = nil, name: String, type: PrincipalType) {
             self.access = access
             self.dataSourceId = dataSourceId
@@ -6669,6 +6858,7 @@ extension Kendra {
         /// The port number of the website host you want to connect to via a web proxy server.  For example, the port for https://a.example.com/page1.html is 443, the standard port for HTTPS.
         public let port: Int
 
+        @inlinable
         public init(credentials: String? = nil, host: String, port: Int) {
             self.credentials = credentials
             self.host = host
@@ -6707,6 +6897,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of a role that has access to the S3 file that contains your list of users or sub groups that belong to a group. For more information, see IAM roles for Amazon Kendra.
         public let roleArn: String?
 
+        @inlinable
         public init(dataSourceId: String? = nil, groupId: String, groupMembers: GroupMembers, indexId: String, orderingId: Int64? = nil, roleArn: String? = nil) {
             self.dataSourceId = dataSourceId
             self.groupId = groupId
@@ -6775,6 +6966,7 @@ extension Kendra {
         /// Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
         public let visitorId: String?
 
+        @inlinable
         public init(attributeFilter: AttributeFilter? = nil, collapseConfiguration: CollapseConfiguration? = nil, documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]? = nil, facets: [Facet]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryResultTypeFilter: QueryResultType? = nil, queryText: String? = nil, requestedDocumentAttributes: [String]? = nil, sortingConfiguration: SortingConfiguration? = nil, sortingConfigurations: [SortingConfiguration]? = nil, spellCorrectionConfiguration: SpellCorrectionConfiguration? = nil, userContext: UserContext? = nil, visitorId: String? = nil) {
             self.attributeFilter = attributeFilter
             self.collapseConfiguration = collapseConfiguration
@@ -6859,6 +7051,7 @@ extension Kendra {
         /// A list of warning codes and their messages on problems with your query. Amazon Kendra currently only supports one type of warning, which is a warning on invalid syntax used in the query. For examples of invalid query syntax, see Searching with advanced query syntax.
         public let warnings: [Warning]?
 
+        @inlinable
         public init(facetResults: [FacetResult]? = nil, featuredResultsItems: [FeaturedResultsItem]? = nil, queryId: String? = nil, resultItems: [QueryResultItem]? = nil, spellCorrectedQueries: [SpellCorrectedQuery]? = nil, totalNumberOfResults: Int? = nil, warnings: [Warning]? = nil) {
             self.facetResults = facetResults
             self.featuredResultsItems = featuredResultsItems
@@ -6908,6 +7101,7 @@ extension Kendra {
         /// The type of document within the response. For example, a response could include a question-answer that's relevant to the query.
         public let type: QueryResultType?
 
+        @inlinable
         public init(additionalAttributes: [AdditionalResultAttribute]? = nil, collapsedResultDetail: CollapsedResultDetail? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, feedbackToken: String? = nil, format: QueryResultFormat? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil, tableExcerpt: TableExcerpt? = nil, type: QueryResultType? = nil) {
             self.additionalAttributes = additionalAttributes
             self.collapsedResultDetail = collapsedResultDetail
@@ -6955,6 +7149,7 @@ extension Kendra {
         /// The Unix timestamp when the block list was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, id: String? = nil, itemCount: Int? = nil, name: String? = nil, status: QuerySuggestionsBlockListStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
@@ -7000,6 +7195,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud (VPC) to connect to your Quip. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(attachmentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, crawlAttachments: Bool? = nil, crawlChatRooms: Bool? = nil, crawlFileComments: Bool? = nil, domain: String, exclusionPatterns: [String]? = nil, folderIds: [String]? = nil, inclusionPatterns: [String]? = nil, messageFieldMappings: [DataSourceToIndexFieldMapping]? = nil, secretArn: String, threadFieldMappings: [DataSourceToIndexFieldMapping]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.attachmentFieldMappings = attachmentFieldMappings
             self.crawlAttachments = crawlAttachments
@@ -7082,6 +7278,7 @@ extension Kendra {
         /// A list of values that should be given a different boost when they appear in the result list. For example, if you are boosting a field called "department", query terms that match the department field are boosted in the result. However, you can add entries from the department field to boost documents with those values higher.  For example, you can add entries to the map with names of departments. If you add "HR",5 and "Legal",3 those departments are given special attention when they appear in the metadata of a document. When those terms appear they are given the specified importance instead of the regular importance for the boost.
         public let valueImportanceMap: [String: Int]?
 
+        @inlinable
         public init(duration: String? = nil, freshness: Bool? = nil, importance: Int? = nil, rankOrder: Order? = nil, valueImportanceMap: [String: Int]? = nil) {
             self.duration = duration
             self.freshness = freshness
@@ -7119,6 +7316,7 @@ extension Kendra {
         /// The identifier of the search result that the user provided relevance feedback for.
         public let resultId: String
 
+        @inlinable
         public init(relevanceValue: RelevanceType, resultId: String) {
             self.relevanceValue = relevanceValue
             self.resultId = resultId
@@ -7153,6 +7351,7 @@ extension Kendra {
         /// The user context token or user and group information.
         public let userContext: UserContext?
 
+        @inlinable
         public init(attributeFilter: AttributeFilter? = nil, documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]? = nil, indexId: String, pageNumber: Int? = nil, pageSize: Int? = nil, queryText: String, requestedDocumentAttributes: [String]? = nil, userContext: UserContext? = nil) {
             self.attributeFilter = attributeFilter
             self.documentRelevanceOverrideConfigurations = documentRelevanceOverrideConfigurations
@@ -7201,6 +7400,7 @@ extension Kendra {
         /// The results of the retrieved relevant passages for the search.
         public let resultItems: [RetrieveResultItem]?
 
+        @inlinable
         public init(queryId: String? = nil, resultItems: [RetrieveResultItem]? = nil) {
             self.queryId = queryId
             self.resultItems = resultItems
@@ -7228,6 +7428,7 @@ extension Kendra {
         /// The confidence score bucket for a retrieved passage result. The confidence bucket provides a relative ranking that indicates how confident Amazon Kendra is that the response is relevant to the query.
         public let scoreAttributes: ScoreAttributes?
 
+        @inlinable
         public init(content: String? = nil, documentAttributes: [DocumentAttribute]? = nil, documentId: String? = nil, documentTitle: String? = nil, documentURI: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil) {
             self.content = content
             self.documentAttributes = documentAttributes
@@ -7262,6 +7463,7 @@ extension Kendra {
         /// A list of S3 prefixes for the documents that should be included in the index.
         public let inclusionPrefixes: [String]?
 
+        @inlinable
         public init(accessControlListConfiguration: AccessControlListConfiguration? = nil, bucketName: String, documentsMetadataConfiguration: DocumentsMetadataConfiguration? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, inclusionPrefixes: [String]? = nil) {
             self.accessControlListConfiguration = accessControlListConfiguration
             self.bucketName = bucketName
@@ -7310,6 +7512,7 @@ extension Kendra {
         /// The name of the file.
         public let key: String
 
+        @inlinable
         public init(bucket: String, key: String) {
             self.bucket = bucket
             self.key = key
@@ -7335,6 +7538,7 @@ extension Kendra {
         /// The name of the organization of the GitHub Enterprise Cloud (SaaS) account you want to connect to. You can find your organization name by logging into GitHub desktop and selecting Your organizations under your profile picture dropdown.
         public let organizationName: String
 
+        @inlinable
         public init(hostUrl: String, organizationName: String) {
             self.hostUrl = hostUrl
             self.organizationName = organizationName
@@ -7365,6 +7569,7 @@ extension Kendra {
         /// Filters the documents in the feed based on status of the user. When you specify ACTIVE_USERS only documents from users who have an active account are indexed. When you specify STANDARD_USER only documents for Salesforce standard users are documented. You can specify both.
         public let includeFilterTypes: [SalesforceChatterFeedIncludeFilterType]?
 
+        @inlinable
         public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeFilterTypes: [SalesforceChatterFeedIncludeFilterType]? = nil) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
@@ -7416,6 +7621,7 @@ extension Kendra {
         /// Configuration of the Salesforce standard objects that Amazon Kendra indexes.
         public let standardObjectConfigurations: [SalesforceStandardObjectConfiguration]?
 
+        @inlinable
         public init(chatterFeedConfiguration: SalesforceChatterFeedConfiguration? = nil, crawlAttachments: Bool? = nil, excludeAttachmentFilePatterns: [String]? = nil, includeAttachmentFilePatterns: [String]? = nil, knowledgeArticleConfiguration: SalesforceKnowledgeArticleConfiguration? = nil, secretArn: String, serverUrl: String, standardObjectAttachmentConfiguration: SalesforceStandardObjectAttachmentConfiguration? = nil, standardObjectConfigurations: [SalesforceStandardObjectConfiguration]? = nil) {
             self.chatterFeedConfiguration = chatterFeedConfiguration
             self.crawlAttachments = crawlAttachments
@@ -7478,6 +7684,7 @@ extension Kendra {
         /// The name of the configuration.
         public let name: String
 
+        @inlinable
         public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, name: String) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
@@ -7518,6 +7725,7 @@ extension Kendra {
         /// Configuration information for standard Salesforce knowledge articles.
         public let standardKnowledgeArticleTypeConfiguration: SalesforceStandardKnowledgeArticleTypeConfiguration?
 
+        @inlinable
         public init(customKnowledgeArticleTypeConfigurations: [SalesforceCustomKnowledgeArticleTypeConfiguration]? = nil, includedStates: [SalesforceKnowledgeArticleState], standardKnowledgeArticleTypeConfiguration: SalesforceStandardKnowledgeArticleTypeConfiguration? = nil) {
             self.customKnowledgeArticleTypeConfigurations = customKnowledgeArticleTypeConfigurations
             self.includedStates = includedStates
@@ -7550,6 +7758,7 @@ extension Kendra {
         /// Maps attributes or field names of the knowledge article to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Salesforce fields. For more information, see Mapping data source fields. The Salesforce data source field names must exist in your Salesforce custom metadata.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
 
+        @inlinable
         public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
@@ -7583,6 +7792,7 @@ extension Kendra {
         /// One or more objects that map fields in attachments to Amazon Kendra index fields.
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
 
+        @inlinable
         public init(documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
             self.documentTitleFieldName = documentTitleFieldName
             self.fieldMappings = fieldMappings
@@ -7615,6 +7825,7 @@ extension Kendra {
         /// The name of the standard object.
         public let name: SalesforceStandardObjectName
 
+        @inlinable
         public init(documentDataFieldName: String, documentTitleFieldName: String? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, name: SalesforceStandardObjectName) {
             self.documentDataFieldName = documentDataFieldName
             self.documentTitleFieldName = documentTitleFieldName
@@ -7648,6 +7859,7 @@ extension Kendra {
         /// A relative ranking for how relevant the response is to the query.
         public let scoreConfidence: ScoreConfidence?
 
+        @inlinable
         public init(scoreConfidence: ScoreConfidence? = nil) {
             self.scoreConfidence = scoreConfidence
         }
@@ -7667,6 +7879,7 @@ extension Kendra {
         /// Determines whether the field can be used to sort the results of a query. If you specify sorting on a field that does not have Sortable set to true, Amazon Kendra returns an exception. The default is false.
         public let sortable: Bool?
 
+        @inlinable
         public init(displayable: Bool? = nil, facetable: Bool? = nil, searchable: Bool? = nil, sortable: Bool? = nil) {
             self.displayable = displayable
             self.facetable = facetable
@@ -7688,6 +7901,7 @@ extension Kendra {
         /// You can choose one of the following modes:    HOST_ONLY—crawl only the website host names. For example, if the seed URL is "abc.example.com", then only URLs with host name "abc.example.com" are crawled.    SUBDOMAINS—crawl the website host names with subdomains. For example, if the seed URL is "abc.example.com", then "a.abc.example.com" and "b.abc.example.com" are also crawled.    EVERYTHING—crawl the website host names with subdomains and other domains that the web pages link to.   The default mode is set to HOST_ONLY.
         public let webCrawlerMode: WebCrawlerMode?
 
+        @inlinable
         public init(seedUrls: [String], webCrawlerMode: WebCrawlerMode? = nil) {
             self.seedUrls = seedUrls
             self.webCrawlerMode = webCrawlerMode
@@ -7712,6 +7926,7 @@ extension Kendra {
         /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric keys.
         public let kmsKeyId: String?
 
+        @inlinable
         public init(kmsKeyId: String? = nil) {
             self.kmsKeyId = kmsKeyId
         }
@@ -7740,6 +7955,7 @@ extension Kendra {
         /// The identifier of the release that the ServiceNow host is running. If the host is not running the LONDON release, use OTHERS.
         public let serviceNowBuildVersion: ServiceNowBuildVersionType
 
+        @inlinable
         public init(authenticationType: ServiceNowAuthenticationType? = nil, hostUrl: String, knowledgeArticleConfiguration: ServiceNowKnowledgeArticleConfiguration? = nil, secretArn: String, serviceCatalogConfiguration: ServiceNowServiceCatalogConfiguration? = nil, serviceNowBuildVersion: ServiceNowBuildVersionType) {
             self.authenticationType = authenticationType
             self.hostUrl = hostUrl
@@ -7786,6 +8002,7 @@ extension Kendra {
         /// A list of regular expression patterns applied to include knowledge article attachments. Attachments that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index.
         public let includeAttachmentFilePatterns: [String]?
 
+        @inlinable
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, filterQuery: String? = nil, includeAttachmentFilePatterns: [String]? = nil) {
             self.crawlAttachments = crawlAttachments
             self.documentDataFieldName = documentDataFieldName
@@ -7848,6 +8065,7 @@ extension Kendra {
         /// A list of regular expression patterns to include certain attachments of catalogs in your ServiceNow. Item that match the patterns are included in the index. Items that don't match the patterns are excluded from the index. If an item matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the item isn't included in the index. The regex is applied to the file name of the attachment.
         public let includeAttachmentFilePatterns: [String]?
 
+        @inlinable
         public init(crawlAttachments: Bool? = nil, documentDataFieldName: String, documentTitleFieldName: String? = nil, excludeAttachmentFilePatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, includeAttachmentFilePatterns: [String]? = nil) {
             self.crawlAttachments = crawlAttachments
             self.documentDataFieldName = documentDataFieldName
@@ -7921,6 +8139,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Microsoft SharePoint. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(authenticationType: SharePointOnlineAuthenticationType? = nil, crawlAttachments: Bool? = nil, disableLocalGroups: Bool? = nil, documentTitleFieldName: String? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, proxyConfiguration: ProxyConfiguration? = nil, secretArn: String, sharePointVersion: SharePointVersion, sslCertificateS3Path: S3Path? = nil, urls: [String], useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.authenticationType = authenticationType
             self.crawlAttachments = crawlAttachments
@@ -7994,6 +8213,7 @@ extension Kendra {
         /// The list of sitemap URLs of the websites you want to crawl. The list can include a maximum of three sitemap URLs.
         public let siteMaps: [String]
 
+        @inlinable
         public init(siteMaps: [String]) {
             self.siteMaps = siteMaps
         }
@@ -8042,6 +8262,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your Slack. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(crawlBotMessage: Bool? = nil, excludeArchived: Bool? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, lookBackPeriod: Int? = nil, privateChannelFilter: [String]? = nil, publicChannelFilter: [String]? = nil, secretArn: String, sinceCrawlDate: String, slackEntityList: [SlackEntity], teamId: String, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.crawlBotMessage = crawlBotMessage
             self.excludeArchived = excludeArchived
@@ -8123,6 +8344,7 @@ extension Kendra {
         /// The order that the results should be returned in. In case of ties, the relevance assigned to the result by Amazon Kendra is used as the tie-breaker.
         public let sortOrder: SortOrder
 
+        @inlinable
         public init(documentAttributeKey: String, sortOrder: SortOrder) {
             self.documentAttributeKey = documentAttributeKey
             self.sortOrder = sortOrder
@@ -8148,6 +8370,7 @@ extension Kendra {
         /// The document fields/attributes used for a query suggestion.
         public let suggestionAttributes: [String]?
 
+        @inlinable
         public init(additionalAttributes: [DocumentAttribute]? = nil, documentId: String? = nil, suggestionAttributes: [String]? = nil) {
             self.additionalAttributes = additionalAttributes
             self.documentId = documentId
@@ -8167,6 +8390,7 @@ extension Kendra {
         /// The query with the suggested spell corrections.
         public let suggestedQueryText: String?
 
+        @inlinable
         public init(corrections: [Correction]? = nil, suggestedQueryText: String? = nil) {
             self.corrections = corrections
             self.suggestedQueryText = suggestedQueryText
@@ -8182,6 +8406,7 @@ extension Kendra {
         ///  TRUE to suggest spell corrections for queries.
         public let includeQuerySpellCheckSuggestions: Bool
 
+        @inlinable
         public init(includeQuerySpellCheckSuggestions: Bool = false) {
             self.includeQuerySpellCheckSuggestions = includeQuerySpellCheckSuggestions
         }
@@ -8195,6 +8420,7 @@ extension Kendra {
         /// Determines whether Amazon Kendra encloses SQL identifiers for tables and column names in double quotes (") when making a database query. By default, Amazon Kendra passes SQL identifiers the way that they are entered into the data source configuration. It does not change the case of identifiers or enclose them in quotes. PostgreSQL internally converts uppercase characters to lower case characters in identifiers unless they are quoted. Choosing this option encloses identifiers in quotes so that PostgreSQL does not convert the character's case. For MySQL databases, you must enable the ansi_quotes option when you set this field to DOUBLE_QUOTES.
         public let queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption?
 
+        @inlinable
         public init(queryIdentifiersEnclosingOption: QueryIdentifiersEnclosingOption? = nil) {
             self.queryIdentifiersEnclosingOption = queryIdentifiersEnclosingOption
         }
@@ -8210,6 +8436,7 @@ extension Kendra {
         /// The identifier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -8234,6 +8461,7 @@ extension Kendra {
         /// Identifies a particular synchronization job.
         public let executionId: String?
 
+        @inlinable
         public init(executionId: String? = nil) {
             self.executionId = executionId
         }
@@ -8253,6 +8481,7 @@ extension Kendra {
         /// Provides detailed information about why the document couldn't be indexed. Use this information to correct the error before you resubmit the document for indexing.
         public let failureReason: String?
 
+        @inlinable
         public init(documentId: String? = nil, documentStatus: DocumentStatus? = nil, failureCode: String? = nil, failureReason: String? = nil) {
             self.documentId = documentId
             self.documentStatus = documentStatus
@@ -8274,6 +8503,7 @@ extension Kendra {
         /// The identifier of the index used with the data source connector.
         public let indexId: String
 
+        @inlinable
         public init(id: String, indexId: String) {
             self.id = id
             self.indexId = indexId
@@ -8304,6 +8534,7 @@ extension Kendra {
         /// Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search.
         public let relevanceFeedbackItems: [RelevanceFeedback]?
 
+        @inlinable
         public init(clickFeedbackItems: [ClickFeedback]? = nil, indexId: String, queryId: String, relevanceFeedbackItems: [RelevanceFeedback]? = nil) {
             self.clickFeedbackItems = clickFeedbackItems
             self.indexId = indexId
@@ -8340,6 +8571,7 @@ extension Kendra {
         ///  TRUE means the document field/attribute is suggestible, so the contents within the  field can be used for query suggestions.
         public let suggestable: Bool?
 
+        @inlinable
         public init(attributeName: String? = nil, suggestable: Bool? = nil) {
             self.attributeName = attributeName
             self.suggestable = suggestable
@@ -8365,6 +8597,7 @@ extension Kendra {
         /// The value for the UUID (universally unique identifier)  of a single query suggestion. The value is the text string of a suggestion.
         public let value: SuggestionValue?
 
+        @inlinable
         public init(id: String? = nil, sourceDocuments: [SourceDocument]? = nil, value: SuggestionValue? = nil) {
             self.id = id
             self.sourceDocuments = sourceDocuments
@@ -8384,6 +8617,7 @@ extension Kendra {
         /// The zero-based location in the response string where the highlight ends.
         public let endOffset: Int?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -8401,6 +8635,7 @@ extension Kendra {
         /// The query suggestion text to display to the user.
         public let text: String?
 
+        @inlinable
         public init(highlights: [SuggestionHighlight]? = nil, text: String? = nil) {
             self.highlights = highlights
             self.text = text
@@ -8416,6 +8651,7 @@ extension Kendra {
         /// The SuggestionTextWithHighlights structure that contains  the query suggestion text and highlights.
         public let text: SuggestionTextWithHighlights?
 
+        @inlinable
         public init(text: SuggestionTextWithHighlights? = nil) {
             self.text = text
         }
@@ -8435,6 +8671,7 @@ extension Kendra {
         /// The actual value or content within a table cell. A table cell could contain a date value of a year, or a string value of text, for example.
         public let value: String?
 
+        @inlinable
         public init(header: Bool? = nil, highlighted: Bool? = nil, topAnswer: Bool? = nil, value: String? = nil) {
             self.header = header
             self.highlighted = highlighted
@@ -8456,6 +8693,7 @@ extension Kendra {
         /// A count of the number of rows in the original table within the document.
         public let totalNumberOfRows: Int?
 
+        @inlinable
         public init(rows: [TableRow]? = nil, totalNumberOfRows: Int? = nil) {
             self.rows = rows
             self.totalNumberOfRows = totalNumberOfRows
@@ -8471,6 +8709,7 @@ extension Kendra {
         /// A list of table cells in a row.
         public let cells: [TableCell]?
 
+        @inlinable
         public init(cells: [TableCell]? = nil) {
             self.cells = cells
         }
@@ -8486,6 +8725,7 @@ extension Kendra {
         /// The value associated with the tag. The value may be an empty string but it can't be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -8509,6 +8749,7 @@ extension Kendra {
         /// A list of tag keys to add to the index, FAQ, or data source. If a tag already exists, the existing value is replaced with the new value.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -8537,6 +8778,7 @@ extension Kendra {
         /// The template schema used for the data source, where templates schemas are supported. See Data source template schemas.
         public let template: String?
 
+        @inlinable
         public init(template: String? = nil) {
             self.template = template
         }
@@ -8552,6 +8794,7 @@ extension Kendra {
         /// The number of text documents indexed.
         public let indexedTextDocumentsCount: Int
 
+        @inlinable
         public init(indexedTextBytes: Int64, indexedTextDocumentsCount: Int) {
             self.indexedTextBytes = indexedTextBytes
             self.indexedTextDocumentsCount = indexedTextDocumentsCount
@@ -8569,6 +8812,7 @@ extension Kendra {
         /// The text to display to the user.
         public let text: String?
 
+        @inlinable
         public init(highlights: [Highlight]? = nil, text: String? = nil) {
             self.highlights = highlights
             self.text = text
@@ -8592,6 +8836,7 @@ extension Kendra {
         /// The Unix timestamp when the thesaurus was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: ThesaurusStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.id = id
@@ -8615,6 +8860,7 @@ extension Kendra {
         /// The Unix timestamp for the beginning of the time range.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.startTime = startTime
@@ -8632,6 +8878,7 @@ extension Kendra {
         /// A list of tag keys to remove from the index, FAQ, or data source. If a tag key does not exist on the resource, it is ignored.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -8671,6 +8918,7 @@ extension Kendra {
         /// A new name for the access control configuration.
         public let name: String?
 
+        @inlinable
         public init(accessControlList: [Principal]? = nil, description: String? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, id: String, indexId: String, name: String? = nil) {
             self.accessControlList = accessControlList
             self.description = description
@@ -8738,6 +8986,7 @@ extension Kendra {
         /// Configuration information for an Amazon Virtual Private Cloud to connect to your data source. For more information, see Configuring a VPC.
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
+        @inlinable
         public init(configuration: DataSourceConfiguration? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, id: String, indexId: String, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.configuration = configuration
             self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
@@ -8801,6 +9050,7 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
         public let roleArn: String?
 
+        @inlinable
         public init(configuration: ExperienceConfiguration? = nil, description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil) {
             self.configuration = configuration
             self.description = description
@@ -8853,6 +9103,7 @@ extension Kendra {
         /// You can set the status to ACTIVE or INACTIVE.  When the value is ACTIVE, featured results are ready for  use. You can still configure your settings before setting the status  to ACTIVE. The queries you specify for featured results  must be unique per featured results set for each index, whether the  status is ACTIVE or INACTIVE.
         public let status: FeaturedResultsSetStatus?
 
+        @inlinable
         public init(description: String? = nil, featuredDocuments: [FeaturedDocument]? = nil, featuredResultsSetId: String, featuredResultsSetName: String? = nil, indexId: String, queryTexts: [String]? = nil, status: FeaturedResultsSetStatus? = nil) {
             self.description = description
             self.featuredDocuments = featuredDocuments
@@ -8896,6 +9147,7 @@ extension Kendra {
         /// Information on the set of featured results. This includes the identifier  of the featured results set, whether the featured results set is active or inactive, when the featured results set was last updated, and more.
         public let featuredResultsSet: FeaturedResultsSet?
 
+        @inlinable
         public init(featuredResultsSet: FeaturedResultsSet? = nil) {
             self.featuredResultsSet = featuredResultsSet
         }
@@ -8925,6 +9177,7 @@ extension Kendra {
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
 
+        @inlinable
         public init(capacityUnits: CapacityUnitsConfiguration? = nil, description: String? = nil, documentMetadataConfigurationUpdates: [DocumentMetadataConfiguration]? = nil, id: String, name: String? = nil, roleArn: String? = nil, userContextPolicy: UserContextPolicy? = nil, userGroupResolutionConfiguration: UserGroupResolutionConfiguration? = nil, userTokenConfigurations: [UserTokenConfiguration]? = nil) {
             self.capacityUnits = capacityUnits
             self.description = description
@@ -8986,6 +9239,7 @@ extension Kendra {
         /// The S3 path where your block list text file sits in S3. If you update your block list and provide the same path to the  block list text file in S3, then Amazon Kendra reloads the file to refresh  the block list. Amazon Kendra does not automatically refresh your block list.  You need to call the UpdateQuerySuggestionsBlockList API  to refresh you block list. If you update your block list, then Amazon Kendra asynchronously refreshes  all query suggestions with the latest content in the S3 file. This  means changes might not take effect immediately.
         public let sourceS3Path: S3Path?
 
+        @inlinable
         public init(description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil) {
             self.description = description
             self.id = id
@@ -9038,6 +9292,7 @@ extension Kendra {
         /// How recent your queries are in your query log time window. The time window is the number of days from current day to past days. By default, Amazon Kendra sets this to 180.
         public let queryLogLookBackWindowInDays: Int?
 
+        @inlinable
         public init(attributeSuggestionsConfig: AttributeSuggestionsUpdateConfig? = nil, includeQueriesWithoutUserInformation: Bool? = nil, indexId: String, minimumNumberOfQueryingUsers: Int? = nil, minimumQueryCount: Int? = nil, mode: Mode? = nil, queryLogLookBackWindowInDays: Int? = nil) {
             self.attributeSuggestionsConfig = attributeSuggestionsConfig
             self.includeQueriesWithoutUserInformation = includeQueriesWithoutUserInformation
@@ -9083,6 +9338,7 @@ extension Kendra {
         public let roleArn: String?
         public let sourceS3Path: S3Path?
 
+        @inlinable
         public init(description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil, sourceS3Path: S3Path? = nil) {
             self.description = description
             self.id = id
@@ -9125,6 +9381,7 @@ extension Kendra {
         /// Configuration of the sitemap URLs of the websites you want to crawl. Only URLs belonging to the same website host names are crawled. You can list up to three sitemap URLs.
         public let siteMapsConfiguration: SiteMapsConfiguration?
 
+        @inlinable
         public init(seedUrlConfiguration: SeedUrlConfiguration? = nil, siteMapsConfiguration: SiteMapsConfiguration? = nil) {
             self.seedUrlConfiguration = seedUrlConfiguration
             self.siteMapsConfiguration = siteMapsConfiguration
@@ -9151,6 +9408,7 @@ extension Kendra {
         /// The identifier of the user you want to filter search results based on their access to documents.
         public let userId: String?
 
+        @inlinable
         public init(dataSourceGroups: [DataSourceGroup]? = nil, groups: [String]? = nil, token: String? = nil, userId: String? = nil) {
             self.dataSourceGroups = dataSourceGroups
             self.groups = groups
@@ -9191,6 +9449,7 @@ extension Kendra {
         /// The identity store provider (mode) you want to use to get users and groups.  IAM Identity Center is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
         public let userGroupResolutionMode: UserGroupResolutionMode
 
+        @inlinable
         public init(userGroupResolutionMode: UserGroupResolutionMode) {
             self.userGroupResolutionMode = userGroupResolutionMode
         }
@@ -9204,6 +9463,7 @@ extension Kendra {
         /// The IAM Identity Center field name that contains the identifiers of your users,  such as their emails. This is used for user context filtering  and for granting access to your Amazon Kendra experience. You must set up IAM Identity Center  with Amazon Kendra. You must include your users and groups in your Access Control List when  you ingest documents into your index. For more information, see  Getting  started with an IAM Identity Center identity source.
         public let identityAttributeName: String?
 
+        @inlinable
         public init(identityAttributeName: String? = nil) {
             self.identityAttributeName = identityAttributeName
         }
@@ -9225,6 +9485,7 @@ extension Kendra {
         /// Information about the JWT token type configuration.
         public let jwtTokenTypeConfiguration: JwtTokenTypeConfiguration?
 
+        @inlinable
         public init(jsonTokenTypeConfiguration: JsonTokenTypeConfiguration? = nil, jwtTokenTypeConfiguration: JwtTokenTypeConfiguration? = nil) {
             self.jsonTokenTypeConfiguration = jsonTokenTypeConfiguration
             self.jwtTokenTypeConfiguration = jwtTokenTypeConfiguration
@@ -9247,6 +9508,7 @@ extension Kendra {
         /// The message that explains the problem with the query.
         public let message: String?
 
+        @inlinable
         public init(code: WarningCode? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -9278,6 +9540,7 @@ extension Kendra {
         /// Specifies the seed or starting point URLs of the websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed URLs and up to three sitemap URLs. You can only crawl websites that use the secure communication protocol, Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when crawling a website, it could be that the website is blocked from crawling.  When selecting websites to index, you must adhere to the Amazon Acceptable Use Policy and all other Amazon terms. Remember that you must only use Amazon Kendra Web Crawler to index your own web pages, or web pages that you have authorization to index.
         public let urls: Urls
 
+        @inlinable
         public init(authenticationConfiguration: AuthenticationConfiguration? = nil, crawlDepth: Int? = nil, maxContentSizePerPageInMegaBytes: Float? = nil, maxLinksPerPage: Int? = nil, maxUrlsPerMinuteCrawlRate: Int? = nil, proxyConfiguration: ProxyConfiguration? = nil, urlExclusionPatterns: [String]? = nil, urlInclusionPatterns: [String]? = nil, urls: Urls) {
             self.authenticationConfiguration = authenticationConfiguration
             self.crawlDepth = crawlDepth
@@ -9341,6 +9604,7 @@ extension Kendra {
         ///  TRUE to use the Amazon WorkDocs change log to determine  which documents require updating in the index. Depending on the change log's size, it may take longer for Amazon Kendra to use the change log than to  scan all of your documents in Amazon WorkDocs.
         public let useChangeLog: Bool?
 
+        @inlinable
         public init(crawlComments: Bool? = nil, exclusionPatterns: [String]? = nil, fieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, organizationId: String, useChangeLog: Bool? = nil) {
             self.crawlComments = crawlComments
             self.exclusionPatterns = exclusionPatterns

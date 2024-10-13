@@ -65,6 +65,7 @@ extension SageMakerFeatureStoreRuntime {
         /// The value for the RecordIdentifier in string format of a Record from a FeatureGroup that is causing an error when attempting to be retrieved.
         public let recordIdentifierValueAsString: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, featureGroupName: String? = nil, recordIdentifierValueAsString: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -88,6 +89,7 @@ extension SageMakerFeatureStoreRuntime {
         /// The value for a list of record identifiers in string format.
         public let recordIdentifiersValueAsString: [String]?
 
+        @inlinable
         public init(featureGroupName: String? = nil, featureNames: [String]? = nil, recordIdentifiersValueAsString: [String]? = nil) {
             self.featureGroupName = featureGroupName
             self.featureNames = featureNames
@@ -125,6 +127,7 @@ extension SageMakerFeatureStoreRuntime {
         /// A list containing the name or Amazon Resource Name (ARN) of the FeatureGroup, the list of names of Features to be retrieved, and the corresponding RecordIdentifier values as strings.
         public let identifiers: [BatchGetRecordIdentifier]?
 
+        @inlinable
         public init(expirationTimeResponse: ExpirationTimeResponse? = nil, identifiers: [BatchGetRecordIdentifier]? = nil) {
             self.expirationTimeResponse = expirationTimeResponse
             self.identifiers = identifiers
@@ -152,6 +155,7 @@ extension SageMakerFeatureStoreRuntime {
         /// A unprocessed list of FeatureGroup names, with their corresponding RecordIdentifier value, and Feature name.
         public let unprocessedIdentifiers: [BatchGetRecordIdentifier]?
 
+        @inlinable
         public init(errors: [BatchGetRecordError]? = nil, records: [BatchGetRecordResultDetail]? = nil, unprocessedIdentifiers: [BatchGetRecordIdentifier]? = nil) {
             self.errors = errors
             self.records = records
@@ -175,6 +179,7 @@ extension SageMakerFeatureStoreRuntime {
         /// The value of the record identifier in string format.
         public let recordIdentifierValueAsString: String?
 
+        @inlinable
         public init(expiresAt: String? = nil, featureGroupName: String? = nil, record: [FeatureValue]? = nil, recordIdentifierValueAsString: String? = nil) {
             self.expiresAt = expiresAt
             self.featureGroupName = featureGroupName
@@ -202,6 +207,7 @@ extension SageMakerFeatureStoreRuntime {
         /// A list of stores from which you're deleting the record. By default, Feature Store deletes the record from all of the stores that you're using for the FeatureGroup.
         public let targetStores: [TargetStore]?
 
+        @inlinable
         public init(deletionMode: DeletionMode? = nil, eventTime: String? = nil, featureGroupName: String, recordIdentifierValueAsString: String? = nil, targetStores: [TargetStore]? = nil) {
             self.deletionMode = deletionMode
             self.eventTime = eventTime
@@ -243,6 +249,7 @@ extension SageMakerFeatureStoreRuntime {
         /// The list of values in string format associated with a feature. Used when your CollectionType is a List, Set, or Vector. Note that features types can be String, Integral, or Fractional. These values represents all three types as a string.
         public let valueAsStringList: [String]?
 
+        @inlinable
         public init(featureName: String? = nil, valueAsString: String? = nil, valueAsStringList: [String]? = nil) {
             self.featureName = featureName
             self.valueAsString = valueAsString
@@ -279,6 +286,7 @@ extension SageMakerFeatureStoreRuntime {
         /// The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup.
         public let recordIdentifierValueAsString: String?
 
+        @inlinable
         public init(expirationTimeResponse: ExpirationTimeResponse? = nil, featureGroupName: String, featureNames: [String]? = nil, recordIdentifierValueAsString: String? = nil) {
             self.expirationTimeResponse = expirationTimeResponse
             self.featureGroupName = featureGroupName
@@ -318,6 +326,7 @@ extension SageMakerFeatureStoreRuntime {
         /// The record you requested. A list of FeatureValues.
         public let record: [FeatureValue]?
 
+        @inlinable
         public init(expiresAt: String? = nil, record: [FeatureValue]? = nil) {
             self.expiresAt = expiresAt
             self.record = record
@@ -339,6 +348,7 @@ extension SageMakerFeatureStoreRuntime {
         /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
         public let ttlDuration: TtlDuration?
 
+        @inlinable
         public init(featureGroupName: String, record: [FeatureValue]? = nil, targetStores: [TargetStore]? = nil, ttlDuration: TtlDuration? = nil) {
             self.featureGroupName = featureGroupName
             self.record = record
@@ -381,6 +391,7 @@ extension SageMakerFeatureStoreRuntime {
         ///  TtlDuration time value.
         public let value: Int?
 
+        @inlinable
         public init(unit: TtlDurationUnit? = nil, value: Int? = nil) {
             self.unit = unit
             self.value = value

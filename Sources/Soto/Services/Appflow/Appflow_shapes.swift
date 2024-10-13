@@ -618,6 +618,7 @@ extension Appflow {
         /// The desired file size, in MB, for each output file that Amazon AppFlow writes to the flow destination. For each file, Amazon AppFlow attempts to achieve the size that you specify. The actual file sizes might differ from this target based on the number and size of the records that each file contains.
         public let targetFileSize: Int64?
 
+        @inlinable
         public init(aggregationType: AggregationType? = nil, targetFileSize: Int64? = nil) {
             self.aggregationType = aggregationType
             self.targetFileSize = targetFileSize
@@ -635,6 +636,7 @@ extension Appflow {
         ///  The Secret Access Key portion of the credentials.
         public let secretKey: String
 
+        @inlinable
         public init(apiKey: String, secretKey: String) {
             self.apiKey = apiKey
             self.secretKey = secretKey
@@ -665,6 +667,7 @@ extension Appflow {
         ///  The object specified in the Amplitude flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -685,6 +688,7 @@ extension Appflow {
         /// The API secret key required for API key authentication.
         public let apiSecretKey: String?
 
+        @inlinable
         public init(apiKey: String, apiSecretKey: String? = nil) {
             self.apiKey = apiKey
             self.apiSecretKey = apiSecretKey
@@ -717,6 +721,7 @@ extension Appflow {
         /// Label used for authentication parameter.
         public let label: String?
 
+        @inlinable
         public init(connectorSuppliedValues: [String]? = nil, description: String? = nil, isRequired: Bool? = nil, isSensitiveField: Bool? = nil, key: String? = nil, label: String? = nil) {
             self.connectorSuppliedValues = connectorSuppliedValues
             self.description = description
@@ -750,6 +755,7 @@ extension Appflow {
         /// Contains the default values required for OAuth 2.0 authentication.
         public let oAuth2Defaults: OAuth2Defaults?
 
+        @inlinable
         public init(customAuthConfigs: [CustomAuthConfig]? = nil, isApiKeyAuthSupported: Bool? = nil, isBasicAuthSupported: Bool? = nil, isCustomAuthSupported: Bool? = nil, isOAuth2Supported: Bool? = nil, oAuth2Defaults: OAuth2Defaults? = nil) {
             self.customAuthConfigs = customAuthConfigs
             self.isApiKeyAuthSupported = isApiKeyAuthSupported
@@ -775,6 +781,7 @@ extension Appflow {
         ///  The username to use to connect to a resource.
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -799,6 +806,7 @@ extension Appflow {
         /// The name of a flow with active runs that you want to cancel.
         public let flowName: String
 
+        @inlinable
         public init(executionIds: [String]? = nil, flowName: String) {
             self.executionIds = executionIds
             self.flowName = flowName
@@ -824,6 +832,7 @@ extension Appflow {
         /// The IDs of runs that Amazon AppFlow couldn't cancel. These runs might be ineligible for canceling because they haven't started yet or have already completed.
         public let invalidExecutions: [String]?
 
+        @inlinable
         public init(invalidExecutions: [String]? = nil) {
             self.invalidExecutions = invalidExecutions
         }
@@ -891,6 +900,7 @@ extension Appflow {
         /// A list of write operations supported by the connector.
         public let supportedWriteOperations: [WriteOperationType]?
 
+        @inlinable
         public init(authenticationConfig: AuthenticationConfig? = nil, canUseAsDestination: Bool? = nil, canUseAsSource: Bool? = nil, connectorArn: String? = nil, connectorDescription: String? = nil, connectorLabel: String? = nil, connectorMetadata: ConnectorMetadata? = nil, connectorModes: [String]? = nil, connectorName: String? = nil, connectorOwner: String? = nil, connectorProvisioningConfig: ConnectorProvisioningConfig? = nil, connectorProvisioningType: ConnectorProvisioningType? = nil, connectorRuntimeSettings: [ConnectorRuntimeSetting]? = nil, connectorType: ConnectorType? = nil, connectorVersion: String? = nil, isPrivateLinkEnabled: Bool? = nil, isPrivateLinkEndpointUrlRequired: Bool? = nil, logoURL: String? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, supportedApiVersions: [String]? = nil, supportedDataTransferApis: [DataTransferApi]? = nil, supportedDataTransferTypes: [SupportedDataTransferType]? = nil, supportedDestinationConnectors: [ConnectorType]? = nil, supportedOperators: [Operators]? = nil, supportedSchedulingFrequencies: [ScheduleFrequencyType]? = nil, supportedTriggerTypes: [TriggerType]? = nil, supportedWriteOperations: [WriteOperationType]? = nil) {
             self.authenticationConfig = authenticationConfig
             self.canUseAsDestination = canUseAsDestination
@@ -980,6 +990,7 @@ extension Appflow {
         /// The data transfer types that the connector supports.  RECORD  Structured records.  FILE  Files or binary data.
         public let supportedDataTransferTypes: [SupportedDataTransferType]?
 
+        @inlinable
         public init(applicationType: String? = nil, connectorDescription: String? = nil, connectorLabel: String? = nil, connectorModes: [String]? = nil, connectorName: String? = nil, connectorOwner: String? = nil, connectorProvisioningType: ConnectorProvisioningType? = nil, connectorType: ConnectorType? = nil, connectorVersion: String? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, supportedDataTransferTypes: [SupportedDataTransferType]? = nil) {
             self.applicationType = applicationType
             self.connectorDescription = connectorDescription
@@ -1019,6 +1030,7 @@ extension Appflow {
         ///  The name of the connector entity.
         public let name: String
 
+        @inlinable
         public init(hasNestedEntities: Bool? = nil, label: String? = nil, name: String) {
             self.hasNestedEntities = hasNestedEntities
             self.label = label
@@ -1056,6 +1068,7 @@ extension Appflow {
         ///  Contains details regarding the supported FieldType, including the corresponding filterOperators and supportedValues.
         public let supportedFieldTypeDetails: SupportedFieldTypeDetails?
 
+        @inlinable
         public init(customProperties: [String: String]? = nil, defaultValue: String? = nil, description: String? = nil, destinationProperties: DestinationFieldProperties? = nil, identifier: String, isDeprecated: Bool? = nil, isPrimaryKey: Bool? = nil, label: String? = nil, parentIdentifier: String? = nil, sourceProperties: SourceFieldProperties? = nil, supportedFieldTypeDetails: SupportedFieldTypeDetails? = nil) {
             self.customProperties = customProperties
             self.defaultValue = defaultValue
@@ -1130,6 +1143,7 @@ extension Appflow {
         ///  The connector metadata specific to Zendesk.
         public let zendesk: ZendeskMetadata?
 
+        @inlinable
         public init(amplitude: AmplitudeMetadata? = nil, customerProfiles: CustomerProfilesMetadata? = nil, datadog: DatadogMetadata? = nil, dynatrace: DynatraceMetadata? = nil, eventBridge: EventBridgeMetadata? = nil, googleAnalytics: GoogleAnalyticsMetadata? = nil, honeycode: HoneycodeMetadata? = nil, inforNexus: InforNexusMetadata? = nil, marketo: MarketoMetadata? = nil, pardot: PardotMetadata? = nil, redshift: RedshiftMetadata? = nil, s3: S3Metadata? = nil, salesforce: SalesforceMetadata? = nil, sapoData: SAPODataMetadata? = nil, serviceNow: ServiceNowMetadata? = nil, singular: SingularMetadata? = nil, slack: SlackMetadata? = nil, snowflake: SnowflakeMetadata? = nil, trendmicro: TrendmicroMetadata? = nil, upsolver: UpsolverMetadata? = nil, veeva: VeevaMetadata? = nil, zendesk: ZendeskMetadata? = nil) {
             self.amplitude = amplitude
             self.customerProfiles = customerProfiles
@@ -1187,6 +1201,7 @@ extension Appflow {
         ///  The URL to which the authentication server redirects the browser after authorization has been granted.
         public let redirectUri: String?
 
+        @inlinable
         public init(authCode: String? = nil, redirectUri: String? = nil) {
             self.authCode = authCode
             self.redirectUri = redirectUri
@@ -1241,6 +1256,7 @@ extension Appflow {
         ///  The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
+        @inlinable
         public init(amplitude: AmplitudeConnectorOperator? = nil, customConnector: Operator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, pardot: PardotConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sapoData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
@@ -1304,6 +1320,7 @@ extension Appflow {
         ///  Specifies the private connection provisioning state.
         public let privateConnectionProvisioningState: PrivateConnectionProvisioningState?
 
+        @inlinable
         public init(connectionMode: ConnectionMode? = nil, connectorLabel: String? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: Date? = nil, credentialsArn: String? = nil, lastUpdatedAt: Date? = nil, privateConnectionProvisioningState: PrivateConnectionProvisioningState? = nil) {
             self.connectionMode = connectionMode
             self.connectorLabel = connectorLabel
@@ -1337,6 +1354,7 @@ extension Appflow {
         ///  The connector-specific properties of the profile configuration.
         public let connectorProfileProperties: ConnectorProfileProperties
 
+        @inlinable
         public init(connectorProfileCredentials: ConnectorProfileCredentials? = nil, connectorProfileProperties: ConnectorProfileProperties) {
             self.connectorProfileCredentials = connectorProfileCredentials
             self.connectorProfileProperties = connectorProfileProperties
@@ -1391,6 +1409,7 @@ extension Appflow {
         ///  The connector-specific credentials required when using Zendesk.
         public let zendesk: ZendeskConnectorProfileCredentials?
 
+        @inlinable
         public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, customConnector: CustomConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, pardot: PardotConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sapoData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
@@ -1497,6 +1516,7 @@ extension Appflow {
         ///  The connector-specific properties required by Zendesk.
         public let zendesk: ZendeskConnectorProfileProperties?
 
+        @inlinable
         public init(amplitude: AmplitudeConnectorProfileProperties? = nil, customConnector: CustomConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, pardot: PardotConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sapoData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
@@ -1563,6 +1583,7 @@ extension Appflow {
         /// Contains information about the configuration of the lambda which is being registered as the connector.
         public let lambda: LambdaConnectorProvisioningConfig?
 
+        @inlinable
         public init(lambda: LambdaConnectorProvisioningConfig? = nil) {
             self.lambda = lambda
         }
@@ -1592,6 +1613,7 @@ extension Appflow {
         /// Indicates the scope of the connector runtime setting.
         public let scope: String?
 
+        @inlinable
         public init(connectorSuppliedValueOptions: [String]? = nil, dataType: String? = nil, description: String? = nil, isRequired: Bool? = nil, key: String? = nil, label: String? = nil, scope: String? = nil) {
             self.connectorSuppliedValueOptions = connectorSuppliedValueOptions
             self.dataType = dataType
@@ -1629,6 +1651,7 @@ extension Appflow {
         ///  The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon AppFlow-managed KMS key.
         public let kmsArn: String?
 
+        @inlinable
         public init(clientToken: String? = CreateConnectorProfileRequest.idempotencyToken(), connectionMode: ConnectionMode, connectorLabel: String? = nil, connectorProfileConfig: ConnectorProfileConfig, connectorProfileName: String, connectorType: ConnectorType, kmsArn: String? = nil) {
             self.clientToken = clientToken
             self.connectionMode = connectionMode
@@ -1668,6 +1691,7 @@ extension Appflow {
         ///  The Amazon Resource Name (ARN) of the connector profile.
         public let connectorProfileArn: String?
 
+        @inlinable
         public init(connectorProfileArn: String? = nil) {
             self.connectorProfileArn = connectorProfileArn
         }
@@ -1699,6 +1723,7 @@ extension Appflow {
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
+        @inlinable
         public init(clientToken: String? = CreateFlowRequest.idempotencyToken(), description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, kmsArn: String? = nil, metadataCatalogConfig: MetadataCatalogConfig? = nil, sourceFlowConfig: SourceFlowConfig, tags: [String: String]? = nil, tasks: [Task], triggerConfig: TriggerConfig) {
             self.clientToken = clientToken
             self.description = description
@@ -1762,6 +1787,7 @@ extension Appflow {
         ///  Indicates the current status of the flow.
         public let flowStatus: FlowStatus?
 
+        @inlinable
         public init(flowArn: String? = nil, flowStatus: FlowStatus? = nil) {
             self.flowArn = flowArn
             self.flowStatus = flowStatus
@@ -1779,6 +1805,7 @@ extension Appflow {
         /// The authentication type that the custom connector uses.
         public let customAuthenticationType: String?
 
+        @inlinable
         public init(authParameters: [AuthParameter]? = nil, customAuthenticationType: String? = nil) {
             self.authParameters = authParameters
             self.customAuthenticationType = customAuthenticationType
@@ -1796,6 +1823,7 @@ extension Appflow {
         /// The custom authentication type that the connector uses.
         public let customAuthenticationType: String
 
+        @inlinable
         public init(credentialsMap: [String: String]? = nil, customAuthenticationType: String) {
             self.credentialsMap = credentialsMap
             self.customAuthenticationType = customAuthenticationType
@@ -1832,6 +1860,7 @@ extension Appflow {
         /// Specifies the type of write operation to be performed in the custom connector when it's used as destination.
         public let writeOperationType: WriteOperationType?
 
+        @inlinable
         public init(customProperties: [String: String]? = nil, entityName: String, errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, writeOperationType: WriteOperationType? = nil) {
             self.customProperties = customProperties
             self.entityName = entityName
@@ -1879,6 +1908,7 @@ extension Appflow {
         /// The OAuth 2.0 credentials required for the authentication of the user.
         public let oauth2: OAuth2Credentials?
 
+        @inlinable
         public init(apiKey: ApiKeyCredentials? = nil, authenticationType: AuthenticationType, basic: BasicAuthCredentials? = nil, custom: CustomAuthCredentials? = nil, oauth2: OAuth2Credentials? = nil) {
             self.apiKey = apiKey
             self.authenticationType = authenticationType
@@ -1908,6 +1938,7 @@ extension Appflow {
         /// A map of properties that are required to create a profile for the custom connector.
         public let profileProperties: [String: String]?
 
+        @inlinable
         public init(oAuth2Properties: OAuth2Properties? = nil, profileProperties: [String: String]? = nil) {
             self.oAuth2Properties = oAuth2Properties
             self.profileProperties = profileProperties
@@ -1939,6 +1970,7 @@ extension Appflow {
         /// The entity specified in the custom connector as a source in the flow.
         public let entityName: String
 
+        @inlinable
         public init(customProperties: [String: String]? = nil, dataTransferApi: DataTransferApi? = nil, entityName: String) {
             self.customProperties = customProperties
             self.dataTransferApi = dataTransferApi
@@ -1972,6 +2004,7 @@ extension Appflow {
         ///  The object specified in the Amazon Connect Customer Profiles flow destination.
         public let objectTypeName: String?
 
+        @inlinable
         public init(domainName: String, objectTypeName: String? = nil) {
             self.domainName = domainName
             self.objectTypeName = objectTypeName
@@ -2000,6 +2033,7 @@ extension Appflow {
         /// You can specify one of the following types:  AUTOMATIC  The default. Optimizes a flow for datasets that fluctuate in size from small to large. For each flow run, Amazon AppFlow chooses to use the SYNC or ASYNC API type based on the amount of data that the run transfers.  SYNC  A synchronous API. This type of API optimizes a flow for small to medium-sized datasets.  ASYNC  An asynchronous API. This type of API optimizes a flow for large datasets.
         public let type: DataTransferApiType?
 
+        @inlinable
         public init(name: String? = nil, type: DataTransferApiType? = nil) {
             self.name = name
             self.type = type
@@ -2022,6 +2056,7 @@ extension Appflow {
         ///  Application keys, in conjunction with your API key, give you full access to Datadog’s programmatic API. Application keys are associated with the user account that created them. The application key is used to log all requests made to the API.
         public let applicationKey: String
 
+        @inlinable
         public init(apiKey: String, applicationKey: String) {
             self.apiKey = apiKey
             self.applicationKey = applicationKey
@@ -2044,6 +2079,7 @@ extension Appflow {
         ///  The location of the Datadog resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -2066,6 +2102,7 @@ extension Appflow {
         ///  The object specified in the Datadog flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -2086,6 +2123,7 @@ extension Appflow {
         ///  Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
         public let forceDelete: Bool?
 
+        @inlinable
         public init(connectorProfileName: String, forceDelete: Bool? = nil) {
             self.connectorProfileName = connectorProfileName
             self.forceDelete = forceDelete
@@ -2112,6 +2150,7 @@ extension Appflow {
         ///  Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
         public let forceDelete: Bool?
 
+        @inlinable
         public init(flowName: String, forceDelete: Bool? = nil) {
             self.flowName = flowName
             self.forceDelete = forceDelete
@@ -2142,6 +2181,7 @@ extension Appflow {
         ///  The type of connector application, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType?
 
+        @inlinable
         public init(apiVersion: String? = nil, connectorEntityName: String, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil) {
             self.apiVersion = apiVersion
             self.connectorEntityName = connectorEntityName
@@ -2170,6 +2210,7 @@ extension Appflow {
         ///  Describes the fields for that connector entity. For example, for an account entity, the fields would be account name, account ID, and so on.
         public let connectorEntityFields: [ConnectorEntityField]
 
+        @inlinable
         public init(connectorEntityFields: [ConnectorEntityField]) {
             self.connectorEntityFields = connectorEntityFields
         }
@@ -2191,6 +2232,7 @@ extension Appflow {
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorLabel: String? = nil, connectorProfileNames: [String]? = nil, connectorType: ConnectorType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectorLabel = connectorLabel
             self.connectorProfileNames = connectorProfileNames
@@ -2228,6 +2270,7 @@ extension Appflow {
         ///  The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorProfileDetails: [ConnectorProfile]? = nil, nextToken: String? = nil) {
             self.connectorProfileDetails = connectorProfileDetails
             self.nextToken = nextToken
@@ -2245,6 +2288,7 @@ extension Appflow {
         /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors.
         public let connectorType: ConnectorType
 
+        @inlinable
         public init(connectorLabel: String? = nil, connectorType: ConnectorType) {
             self.connectorLabel = connectorLabel
             self.connectorType = connectorType
@@ -2265,6 +2309,7 @@ extension Appflow {
         /// Configuration info of all the connectors that the user requested.
         public let connectorConfiguration: ConnectorConfiguration?
 
+        @inlinable
         public init(connectorConfiguration: ConnectorConfiguration? = nil) {
             self.connectorConfiguration = connectorConfiguration
         }
@@ -2282,6 +2327,7 @@ extension Appflow {
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorTypes: [ConnectorType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectorTypes = connectorTypes
             self.maxResults = maxResults
@@ -2311,6 +2357,7 @@ extension Appflow {
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorConfigurations: [ConnectorType: ConnectorConfiguration]? = nil, connectors: [ConnectorDetail]? = nil, nextToken: String? = nil) {
             self.connectorConfigurations = connectorConfigurations
             self.connectors = connectors
@@ -2332,6 +2379,7 @@ extension Appflow {
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(flowName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.flowName = flowName
             self.maxResults = maxResults
@@ -2360,6 +2408,7 @@ extension Appflow {
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(flowExecutions: [ExecutionRecord]? = nil, nextToken: String? = nil) {
             self.flowExecutions = flowExecutions
             self.nextToken = nextToken
@@ -2375,6 +2424,7 @@ extension Appflow {
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
 
+        @inlinable
         public init(flowName: String) {
             self.flowName = flowName
         }
@@ -2429,6 +2479,7 @@ extension Appflow {
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig]? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, flowStatusMessage: String? = nil, kmsArn: String? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastRunMetadataCatalogDetails: [MetadataCatalogDetail]? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, metadataCatalogConfig: MetadataCatalogConfig? = nil, schemaVersion: Int64? = nil, sourceFlowConfig: SourceFlowConfig? = nil, tags: [String: String]? = nil, tasks: [Task]? = nil, triggerConfig: TriggerConfig? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2502,6 +2553,7 @@ extension Appflow {
         /// The properties required to query Zendesk.
         public let zendesk: ZendeskDestinationProperties?
 
+        @inlinable
         public init(customConnector: CustomConnectorDestinationProperties? = nil, customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, marketo: MarketoDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, sapoData: SAPODataDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil, zendesk: ZendeskDestinationProperties? = nil) {
             self.customConnector = customConnector
             self.customerProfiles = customerProfiles
@@ -2564,6 +2616,7 @@ extension Appflow {
         ///  A list of supported write operations. For each write operation listed, this field can be used in idFieldNames when that write operation is present as a destination option.
         public let supportedWriteOperations: [WriteOperationType]?
 
+        @inlinable
         public init(isCreatable: Bool? = nil, isDefaultedOnCreate: Bool? = nil, isNullable: Bool? = nil, isUpdatable: Bool? = nil, isUpsertable: Bool? = nil, supportedWriteOperations: [WriteOperationType]? = nil) {
             self.isCreatable = isCreatable
             self.isDefaultedOnCreate = isDefaultedOnCreate
@@ -2593,6 +2646,7 @@ extension Appflow {
         ///  This stores the information that is required to query a particular connector.
         public let destinationConnectorProperties: DestinationConnectorProperties
 
+        @inlinable
         public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType, destinationConnectorProperties: DestinationConnectorProperties) {
             self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
@@ -2620,6 +2674,7 @@ extension Appflow {
         ///  The API tokens used by Dynatrace API to authenticate various API calls.
         public let apiToken: String
 
+        @inlinable
         public init(apiToken: String) {
             self.apiToken = apiToken
         }
@@ -2638,6 +2693,7 @@ extension Appflow {
         ///  The location of the Dynatrace resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -2660,6 +2716,7 @@ extension Appflow {
         ///  The object specified in the Dynatrace flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -2682,6 +2739,7 @@ extension Appflow {
         ///  Specifies if the flow should fail after the first instance of a failure when attempting to place data in the destination.
         public let failOnFirstDestinationError: Bool?
 
+        @inlinable
         public init(bucketName: String? = nil, bucketPrefix: String? = nil, failOnFirstDestinationError: Bool? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -2709,6 +2767,7 @@ extension Appflow {
         ///  Specifies the failure count for the attempted flow.
         public let putFailuresCount: Int64?
 
+        @inlinable
         public init(executionMessage: String? = nil, putFailuresCount: Int64? = nil) {
             self.executionMessage = executionMessage
             self.putFailuresCount = putFailuresCount
@@ -2725,6 +2784,7 @@ extension Appflow {
         ///  The object specified in the Amazon EventBridge flow destination.
         public let object: String
 
+        @inlinable
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
             self.errorHandlingConfig = errorHandlingConfig
             self.object = object
@@ -2754,6 +2814,7 @@ extension Appflow {
         ///  Specifies the time of the most recent flow run.
         public let mostRecentExecutionTime: Date?
 
+        @inlinable
         public init(mostRecentExecutionMessage: String? = nil, mostRecentExecutionStatus: ExecutionStatus? = nil, mostRecentExecutionTime: Date? = nil) {
             self.mostRecentExecutionMessage = mostRecentExecutionMessage
             self.mostRecentExecutionStatus = mostRecentExecutionStatus
@@ -2785,6 +2846,7 @@ extension Appflow {
         ///  Specifies the start time of the flow run.
         public let startedAt: Date?
 
+        @inlinable
         public init(dataPullEndTime: Date? = nil, dataPullStartTime: Date? = nil, executionId: String? = nil, executionResult: ExecutionResult? = nil, executionStatus: ExecutionStatus? = nil, lastUpdatedAt: Date? = nil, metadataCatalogDetails: [MetadataCatalogDetail]? = nil, startedAt: Date? = nil) {
             self.dataPullEndTime = dataPullEndTime
             self.dataPullStartTime = dataPullStartTime
@@ -2822,6 +2884,7 @@ extension Appflow {
         ///  The number of records processed in the flow run.
         public let recordsProcessed: Int64?
 
+        @inlinable
         public init(bytesProcessed: Int64? = nil, bytesWritten: Int64? = nil, errorInfo: ErrorInfo? = nil, maxPageSize: Int64? = nil, numParallelProcesses: Int64? = nil, recordsProcessed: Int64? = nil) {
             self.bytesProcessed = bytesProcessed
             self.bytesWritten = bytesWritten
@@ -2857,6 +2920,7 @@ extension Appflow {
         /// The regular expression pattern for the field name.
         public let valueRegexPattern: String?
 
+        @inlinable
         public init(fieldLengthRange: Range? = nil, fieldType: String, fieldValueRange: Range? = nil, filterOperators: [Operator], supportedDateFormat: String? = nil, supportedValues: [String]? = nil, valueRegexPattern: String? = nil) {
             self.fieldLengthRange = fieldLengthRange
             self.fieldType = fieldType
@@ -2910,6 +2974,7 @@ extension Appflow {
         ///  Specifies the type of flow trigger. This can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationConnectorLabel: String? = nil, destinationConnectorType: ConnectorType? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, sourceConnectorLabel: String? = nil, sourceConnectorType: ConnectorType? = nil, tags: [String: String]? = nil, triggerType: TriggerType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2955,6 +3020,7 @@ extension Appflow {
         /// A naming prefix for each Data Catalog table that Amazon AppFlow creates for the flow that you configure with this setting. Amazon AppFlow adds the prefix to the beginning of the each table name.
         public let tablePrefix: String
 
+        @inlinable
         public init(databaseName: String, roleArn: String, tablePrefix: String) {
             self.databaseName = databaseName
             self.roleArn = roleArn
@@ -2989,6 +3055,7 @@ extension Appflow {
         ///  The credentials used to acquire new access tokens. This is required only for OAuth2 access tokens, and is not required for OAuth1 access tokens.
         public let refreshToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
             self.clientId = clientId
@@ -3026,6 +3093,7 @@ extension Appflow {
         ///  The desired authorization scope for the Google Analytics account.
         public let oAuthScopes: [String]?
 
+        @inlinable
         public init(oAuthScopes: [String]? = nil) {
             self.oAuthScopes = oAuthScopes
         }
@@ -3039,6 +3107,7 @@ extension Appflow {
         ///  The object specified in the Google Analytics flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -3060,6 +3129,7 @@ extension Appflow {
         ///  The credentials used to acquire new access tokens.
         public let refreshToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
             self.oAuthRequest = oAuthRequest
@@ -3090,6 +3160,7 @@ extension Appflow {
         ///  The object specified in the Amazon Honeycode flow destination.
         public let object: String
 
+        @inlinable
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
             self.errorHandlingConfig = errorHandlingConfig
             self.object = object
@@ -3111,6 +3182,7 @@ extension Appflow {
         ///  The desired authorization scope for the Amazon Honeycode account.
         public let oAuthScopes: [String]?
 
+        @inlinable
         public init(oAuthScopes: [String]? = nil) {
             self.oAuthScopes = oAuthScopes
         }
@@ -3124,6 +3196,7 @@ extension Appflow {
         ///  A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source.
         public let datetimeTypeFieldName: String?
 
+        @inlinable
         public init(datetimeTypeFieldName: String? = nil) {
             self.datetimeTypeFieldName = datetimeTypeFieldName
         }
@@ -3148,6 +3221,7 @@ extension Appflow {
         ///  The identifier for the user.
         public let userId: String
 
+        @inlinable
         public init(accessKeyId: String, datakey: String, secretAccessKey: String, userId: String) {
             self.accessKeyId = accessKeyId
             self.datakey = datakey
@@ -3178,6 +3252,7 @@ extension Appflow {
         ///  The location of the Infor Nexus resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -3200,6 +3275,7 @@ extension Appflow {
         ///  The object specified in the Infor Nexus flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -3218,6 +3294,7 @@ extension Appflow {
         /// Lambda ARN of the connector being registered.
         public let lambdaArn: String
 
+        @inlinable
         public init(lambdaArn: String) {
             self.lambdaArn = lambdaArn
         }
@@ -3246,6 +3323,7 @@ extension Appflow {
         /// A token that was provided by your prior ListConnectorEntities operation if the response was too big for the page size. You specify this token to get the next page of results in paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
@@ -3284,6 +3362,7 @@ extension Appflow {
         /// A token that you specify in your next ListConnectorEntities operation to get the next page of results in paginated response. The ListConnectorEntities operation provides this token if the response is too big for the page size.
         public let nextToken: String?
 
+        @inlinable
         public init(connectorEntityMap: [String: [ConnectorEntity]], nextToken: String? = nil) {
             self.connectorEntityMap = connectorEntityMap
             self.nextToken = nextToken
@@ -3301,6 +3380,7 @@ extension Appflow {
         /// The pagination token for the next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3325,6 +3405,7 @@ extension Appflow {
         /// The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
         public let nextToken: String?
 
+        @inlinable
         public init(connectors: [ConnectorDetail]? = nil, nextToken: String? = nil) {
             self.connectors = connectors
             self.nextToken = nextToken
@@ -3342,6 +3423,7 @@ extension Appflow {
         ///  The pagination token for next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3366,6 +3448,7 @@ extension Appflow {
         ///  The pagination token for next page of data.
         public let nextToken: String?
 
+        @inlinable
         public init(flows: [FlowDefinition]? = nil, nextToken: String? = nil) {
             self.flows = flows
             self.nextToken = nextToken
@@ -3381,6 +3464,7 @@ extension Appflow {
         ///  The Amazon Resource Name (ARN) of the specified flow.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3403,6 +3487,7 @@ extension Appflow {
         ///  The tags used to organize, track, or control access for your flow.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -3426,6 +3511,7 @@ extension Appflow {
         ///  The OAuth requirement needed to request security tokens from the connector endpoint.
         public let oAuthRequest: ConnectorOAuthRequest?
 
+        @inlinable
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil) {
             self.accessToken = accessToken
             self.clientId = clientId
@@ -3455,6 +3541,7 @@ extension Appflow {
         ///  The location of the Marketo resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -3474,6 +3561,7 @@ extension Appflow {
         /// The object specified in the Marketo flow destination.
         public let object: String
 
+        @inlinable
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
             self.errorHandlingConfig = errorHandlingConfig
             self.object = object
@@ -3499,6 +3587,7 @@ extension Appflow {
         ///  The object specified in the Marketo flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -3517,6 +3606,7 @@ extension Appflow {
         /// Specifies the configuration that Amazon AppFlow uses when it catalogs your data with the Glue Data Catalog.
         public let glueDataCatalog: GlueDataCatalogConfig?
 
+        @inlinable
         public init(glueDataCatalog: GlueDataCatalogConfig? = nil) {
             self.glueDataCatalog = glueDataCatalog
         }
@@ -3540,6 +3630,7 @@ extension Appflow {
         /// Describes the status of the attempt from Amazon AppFlow to register the metadata table with the metadata catalog. Amazon AppFlow creates or updates this table for the associated flow run.
         public let tableRegistrationOutput: RegistrationOutput?
 
+        @inlinable
         public init(catalogType: CatalogType? = nil, partitionRegistrationOutput: RegistrationOutput? = nil, tableName: String? = nil, tableRegistrationOutput: RegistrationOutput? = nil) {
             self.catalogType = catalogType
             self.partitionRegistrationOutput = partitionRegistrationOutput
@@ -3566,6 +3657,7 @@ extension Appflow {
         /// The refresh token used to refresh an expired access token.
         public let refreshToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil, clientId: String? = nil, clientSecret: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
             self.clientId = clientId
@@ -3611,6 +3703,7 @@ extension Appflow {
         /// Indicates whether custom parameter is used with TokenUrl or AuthUrl.
         public let type: OAuth2CustomPropType?
 
+        @inlinable
         public init(connectorSuppliedValues: [String]? = nil, description: String? = nil, isRequired: Bool? = nil, isSensitiveField: Bool? = nil, key: String? = nil, label: String? = nil, type: OAuth2CustomPropType? = nil) {
             self.connectorSuppliedValues = connectorSuppliedValues
             self.description = description
@@ -3644,6 +3737,7 @@ extension Appflow {
         /// Token URLs that can be used for OAuth 2.0 authentication.
         public let tokenUrls: [String]?
 
+        @inlinable
         public init(authCodeUrls: [String]? = nil, oauth2CustomProperties: [OAuth2CustomParameter]? = nil, oauth2GrantTypesSupported: [OAuth2GrantType]? = nil, oauthScopes: [String]? = nil, tokenUrls: [String]? = nil) {
             self.authCodeUrls = authCodeUrls
             self.oauth2CustomProperties = oauth2CustomProperties
@@ -3669,6 +3763,7 @@ extension Appflow {
         /// Associates your token URL with a map of properties that you define. Use this parameter to provide any additional details that the connector requires to authenticate your request.
         public let tokenUrlCustomProperties: [String: String]?
 
+        @inlinable
         public init(oAuth2GrantType: OAuth2GrantType, tokenUrl: String, tokenUrlCustomProperties: [String: String]? = nil) {
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
@@ -3707,6 +3802,7 @@ extension Appflow {
         ///  The refresh token used to refresh expired access token.
         public let refreshToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
             self.clientId = clientId
@@ -3744,6 +3840,7 @@ extension Appflow {
         ///  The token url required to fetch access/refresh tokens using authorization code and also to refresh expired access token using refresh token.
         public let tokenUrl: String
 
+        @inlinable
         public init(authCodeUrl: String, oAuthScopes: [String], tokenUrl: String) {
             self.authCodeUrl = authCodeUrl
             self.oAuthScopes = oAuthScopes
@@ -3777,6 +3874,7 @@ extension Appflow {
         /// The credentials used to acquire new access tokens.
         public let refreshToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil, clientCredentialsArn: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
             self.clientCredentialsArn = clientCredentialsArn
@@ -3811,6 +3909,7 @@ extension Appflow {
         /// Indicates whether the connector profile applies to a sandbox or production environment.
         public let isSandboxEnvironment: Bool?
 
+        @inlinable
         public init(businessUnitId: String? = nil, instanceUrl: String? = nil, isSandboxEnvironment: Bool? = nil) {
             self.businessUnitId = businessUnitId
             self.instanceUrl = instanceUrl
@@ -3839,6 +3938,7 @@ extension Appflow {
         /// The object specified in the Salesforce Pardot flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -3861,6 +3961,7 @@ extension Appflow {
         /// Determines the format of the prefix, and whether it applies to the file name, file path, or both.
         public let prefixType: PrefixType?
 
+        @inlinable
         public init(pathPrefixHierarchy: [PathPrefix]? = nil, prefixFormat: PrefixFormat? = nil, prefixType: PrefixType? = nil) {
             self.pathPrefixHierarchy = pathPrefixHierarchy
             self.prefixFormat = prefixFormat
@@ -3882,6 +3983,7 @@ extension Appflow {
         ///  Specifies the private connection provisioning status.
         public let status: PrivateConnectionProvisioningStatus?
 
+        @inlinable
         public init(failureCause: PrivateConnectionProvisioningFailureCause? = nil, failureMessage: String? = nil, status: PrivateConnectionProvisioningStatus? = nil) {
             self.failureCause = failureCause
             self.failureMessage = failureMessage
@@ -3901,6 +4003,7 @@ extension Appflow {
         /// Minimum value supported by the field.
         public let minimum: Double?
 
+        @inlinable
         public init(maximum: Double? = nil, minimum: Double? = nil) {
             self.maximum = maximum
             self.minimum = minimum
@@ -3918,6 +4021,7 @@ extension Appflow {
         ///  The name of the user.
         public let username: String?
 
+        @inlinable
         public init(password: String? = nil, username: String? = nil) {
             self.password = password
             self.username = username
@@ -3956,6 +4060,7 @@ extension Appflow {
         /// The name of an Amazon Redshift workgroup.
         public let workgroupName: String?
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String? = nil, clusterIdentifier: String? = nil, dataApiRoleArn: String? = nil, databaseName: String? = nil, databaseUrl: String? = nil, isRedshiftServerless: Bool? = nil, roleArn: String, workgroupName: String? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -4011,6 +4116,7 @@ extension Appflow {
         ///  The object specified in the Amazon Redshift flow destination.
         public let object: String
 
+        @inlinable
         public init(bucketPrefix: String? = nil, errorHandlingConfig: ErrorHandlingConfig? = nil, intermediateBucketName: String, object: String) {
             self.bucketPrefix = bucketPrefix
             self.errorHandlingConfig = errorHandlingConfig
@@ -4053,6 +4159,7 @@ extension Appflow {
         /// A description about the connector that's being registered.
         public let description: String?
 
+        @inlinable
         public init(clientToken: String? = RegisterConnectorRequest.idempotencyToken(), connectorLabel: String? = nil, connectorProvisioningConfig: ConnectorProvisioningConfig? = nil, connectorProvisioningType: ConnectorProvisioningType? = nil, description: String? = nil) {
             self.clientToken = clientToken
             self.connectorLabel = connectorLabel
@@ -4085,6 +4192,7 @@ extension Appflow {
         /// The ARN of the connector being registered.
         public let connectorArn: String?
 
+        @inlinable
         public init(connectorArn: String? = nil) {
             self.connectorArn = connectorArn
         }
@@ -4102,6 +4210,7 @@ extension Appflow {
         /// Indicates the status of the registration attempt from Amazon AppFlow.
         public let status: ExecutionStatus?
 
+        @inlinable
         public init(message: String? = nil, result: String? = nil, status: ExecutionStatus? = nil) {
             self.message = message
             self.result = result
@@ -4127,6 +4236,7 @@ extension Appflow {
         /// Use this parameter only if you’re resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent.
         public let entitiesPath: String?
 
+        @inlinable
         public init(apiVersion: String? = nil, connectorEntityName: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil) {
             self.apiVersion = apiVersion
             self.connectorEntityName = connectorEntityName
@@ -4166,6 +4276,7 @@ extension Appflow {
         public let bucketPrefix: String?
         public let s3OutputFormatConfig: S3OutputFormatConfig?
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String? = nil, s3OutputFormatConfig: S3OutputFormatConfig? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -4191,6 +4302,7 @@ extension Appflow {
         ///  The file type that Amazon AppFlow gets from your Amazon S3 bucket.
         public let s3InputFileType: S3InputFileType?
 
+        @inlinable
         public init(s3InputFileType: S3InputFileType? = nil) {
             self.s3InputFileType = s3InputFileType
         }
@@ -4213,6 +4325,7 @@ extension Appflow {
         /// If your file output format is Parquet, use this parameter to set whether Amazon AppFlow preserves the data types in your source data when it writes the output to Amazon S3.     true: Amazon AppFlow preserves the data types when it writes to Amazon S3. For example, an integer or 1 in your source data is still an integer in your output.    false: Amazon AppFlow converts all of the source data into strings when it writes to Amazon S3. For example, an integer of 1 in your source data becomes the string "1" in the output.
         public let preserveSourceDataTyping: Bool?
 
+        @inlinable
         public init(aggregationConfig: AggregationConfig? = nil, fileType: FileType? = nil, prefixConfig: PrefixConfig? = nil, preserveSourceDataTyping: Bool? = nil) {
             self.aggregationConfig = aggregationConfig
             self.fileType = fileType
@@ -4235,6 +4348,7 @@ extension Appflow {
         public let bucketPrefix: String?
         public let s3InputFormatConfig: S3InputFormatConfig?
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String? = nil, s3InputFormatConfig: S3InputFormatConfig? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -4262,6 +4376,7 @@ extension Appflow {
         ///  The SAPOData OAuth type authentication credentials.
         public let oAuthCredentials: OAuthCredentials?
 
+        @inlinable
         public init(basicAuthCredentials: BasicAuthCredentials? = nil, oAuthCredentials: OAuthCredentials? = nil) {
             self.basicAuthCredentials = basicAuthCredentials
             self.oAuthCredentials = oAuthCredentials
@@ -4296,6 +4411,7 @@ extension Appflow {
         ///  The SAPOData Private Link service name to be used for private data transfers.
         public let privateLinkServiceName: String?
 
+        @inlinable
         public init(applicationHostUrl: String, applicationServicePath: String, clientNumber: String, disableSSO: Bool? = nil, logonLanguage: String? = nil, oAuthProperties: OAuthProperties? = nil, portNumber: Int, privateLinkServiceName: String? = nil) {
             self.applicationHostUrl = applicationHostUrl
             self.applicationServicePath = applicationServicePath
@@ -4345,6 +4461,7 @@ extension Appflow {
         public let successResponseHandlingConfig: SuccessResponseHandlingConfig?
         public let writeOperationType: WriteOperationType?
 
+        @inlinable
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, objectPath: String, successResponseHandlingConfig: SuccessResponseHandlingConfig? = nil, writeOperationType: WriteOperationType? = nil) {
             self.errorHandlingConfig = errorHandlingConfig
             self.idFieldNames = idFieldNames
@@ -4381,6 +4498,7 @@ extension Appflow {
         /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application. For transfers of OData records, the maximum page size is 3,000. For transfers of data that comes from an ODP provider, the maximum page size is 10,000.
         public let maxPageSize: Int
 
+        @inlinable
         public init(maxPageSize: Int) {
             self.maxPageSize = maxPageSize
         }
@@ -4399,6 +4517,7 @@ extension Appflow {
         /// The maximum number of processes that Amazon AppFlow runs at the same time when it retrieves your data from your SAP application.
         public let maxParallelism: Int
 
+        @inlinable
         public init(maxParallelism: Int) {
             self.maxParallelism = maxParallelism
         }
@@ -4421,6 +4540,7 @@ extension Appflow {
         /// Sets the number of concurrent processes that transfers OData records from your SAP instance.
         public let parallelismConfig: SAPODataParallelismConfig?
 
+        @inlinable
         public init(objectPath: String? = nil, paginationConfig: SAPODataPaginationConfig? = nil, parallelismConfig: SAPODataParallelismConfig? = nil) {
             self.objectPath = objectPath
             self.paginationConfig = paginationConfig
@@ -4455,6 +4575,7 @@ extension Appflow {
         ///  The credentials used to acquire new access tokens.
         public let refreshToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil, clientCredentialsArn: String? = nil, jwtToken: String? = nil, oAuth2GrantType: OAuth2GrantType? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
             self.clientCredentialsArn = clientCredentialsArn
@@ -4495,6 +4616,7 @@ extension Appflow {
         /// If the connection mode for the connector profile is private, this parameter sets whether Amazon AppFlow uses the private network to send metadata and authorization calls to Salesforce. Amazon AppFlow sends private calls through Amazon Web Services PrivateLink. These calls travel through Amazon Web Services infrastructure without being exposed to the public internet. Set either of the following values:  true  Amazon AppFlow sends all calls to Salesforce over the private network. These private calls are:   Calls to get metadata about your Salesforce records. This metadata describes your Salesforce objects and their fields.   Calls to get or refresh access tokens that allow Amazon AppFlow to access your Salesforce records.   Calls to transfer your Salesforce records as part of a flow run.    false  The default value. Amazon AppFlow sends some calls to Salesforce privately and other calls over the public internet. The public calls are:    Calls to get metadata about your Salesforce records.   Calls to get or refresh access tokens.   The private calls are:   Calls to transfer your Salesforce records as part of a flow run.
         public let usePrivateLinkForMetadataAndAuthorization: Bool?
 
+        @inlinable
         public init(instanceUrl: String? = nil, isSandboxEnvironment: Bool? = nil, usePrivateLinkForMetadataAndAuthorization: Bool? = nil) {
             self.instanceUrl = instanceUrl
             self.isSandboxEnvironment = isSandboxEnvironment
@@ -4525,6 +4647,7 @@ extension Appflow {
         ///  This specifies the type of write operation to be performed in Salesforce. When the value is UPSERT, then idFieldNames is required.
         public let writeOperationType: WriteOperationType?
 
+        @inlinable
         public init(dataTransferApi: SalesforceDataTransferApi? = nil, errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, object: String, writeOperationType: WriteOperationType? = nil) {
             self.dataTransferApi = dataTransferApi
             self.errorHandlingConfig = errorHandlingConfig
@@ -4560,6 +4683,7 @@ extension Appflow {
         ///  The desired authorization scope for the Salesforce account.
         public let oAuthScopes: [String]?
 
+        @inlinable
         public init(dataTransferApis: [SalesforceDataTransferApi]? = nil, oauth2GrantTypesSupported: [OAuth2GrantType]? = nil, oAuthScopes: [String]? = nil) {
             self.dataTransferApis = dataTransferApis
             self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
@@ -4583,6 +4707,7 @@ extension Appflow {
         ///  The object specified in the Salesforce flow source.
         public let object: String
 
+        @inlinable
         public init(dataTransferApi: SalesforceDataTransferApi? = nil, enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
             self.dataTransferApi = dataTransferApi
             self.enableDynamicFieldUpdate = enableDynamicFieldUpdate
@@ -4621,6 +4746,7 @@ extension Appflow {
         /// Specifies the time zone used when referring to the dates and times of a scheduled flow, such as America/New_York. This time zone is only a descriptive label. It doesn't affect how Amazon AppFlow interprets the timestamps that you specify to schedule the flow. If you want to schedule a flow by using times in a particular time zone, indicate the time zone as a UTC offset in your timestamps. For example, the UTC offsets for the America/New_York timezone are -04:00 EDT and -05:00 EST.
         public let timezone: String?
 
+        @inlinable
         public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, flowErrorDeactivationThreshold: Int? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
             self.dataPullMode = dataPullMode
             self.firstExecutionFrom = firstExecutionFrom
@@ -4663,6 +4789,7 @@ extension Appflow {
         ///  The name of the user.
         public let username: String?
 
+        @inlinable
         public init(oAuth2Credentials: OAuth2Credentials? = nil, password: String? = nil, username: String? = nil) {
             self.oAuth2Credentials = oAuth2Credentials
             self.password = password
@@ -4688,6 +4815,7 @@ extension Appflow {
         ///  The location of the ServiceNow resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -4710,6 +4838,7 @@ extension Appflow {
         ///  The object specified in the ServiceNow flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -4728,6 +4857,7 @@ extension Appflow {
         ///  A unique alphanumeric identifier used to authenticate a user, developer, or calling program to your API.
         public let apiKey: String
 
+        @inlinable
         public init(apiKey: String) {
             self.apiKey = apiKey
         }
@@ -4754,6 +4884,7 @@ extension Appflow {
         ///  The object specified in the Singular flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -4778,6 +4909,7 @@ extension Appflow {
         ///  The OAuth requirement needed to request security tokens from the connector endpoint.
         public let oAuthRequest: ConnectorOAuthRequest?
 
+        @inlinable
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil) {
             self.accessToken = accessToken
             self.clientId = clientId
@@ -4807,6 +4939,7 @@ extension Appflow {
         ///  The location of the Slack resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -4825,6 +4958,7 @@ extension Appflow {
         ///  The desired authorization scope for the Slack account.
         public let oAuthScopes: [String]?
 
+        @inlinable
         public init(oAuthScopes: [String]? = nil) {
             self.oAuthScopes = oAuthScopes
         }
@@ -4838,6 +4972,7 @@ extension Appflow {
         ///  The object specified in the Slack flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -4858,6 +4993,7 @@ extension Appflow {
         ///  The name of the user.
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -4892,6 +5028,7 @@ extension Appflow {
         ///  The name of the Snowflake warehouse.
         public let warehouse: String
 
+        @inlinable
         public init(accountName: String? = nil, bucketName: String, bucketPrefix: String? = nil, privateLinkServiceName: String? = nil, region: String? = nil, stage: String, warehouse: String) {
             self.accountName = accountName
             self.bucketName = bucketName
@@ -4941,6 +5078,7 @@ extension Appflow {
         ///  The object specified in the Snowflake flow destination.
         public let object: String
 
+        @inlinable
         public init(bucketPrefix: String? = nil, errorHandlingConfig: ErrorHandlingConfig? = nil, intermediateBucketName: String, object: String) {
             self.bucketPrefix = bucketPrefix
             self.errorHandlingConfig = errorHandlingConfig
@@ -4971,6 +5109,7 @@ extension Appflow {
         ///  Specifies the supported Amazon Web Services Regions when using Snowflake.
         public let supportedRegions: [String]?
 
+        @inlinable
         public init(supportedRegions: [String]? = nil) {
             self.supportedRegions = supportedRegions
         }
@@ -5014,6 +5153,7 @@ extension Appflow {
         ///  Specifies the information that is required for querying Zendesk.
         public let zendesk: ZendeskSourceProperties?
 
+        @inlinable
         public init(amplitude: AmplitudeSourceProperties? = nil, customConnector: CustomConnectorSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, pardot: PardotSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sapoData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
             self.amplitude = amplitude
             self.customConnector = customConnector
@@ -5083,6 +5223,7 @@ extension Appflow {
         /// Indicates if this timestamp field can be used for incremental queries.
         public let isTimestampFieldForIncrementalQueries: Bool?
 
+        @inlinable
         public init(isQueryable: Bool? = nil, isRetrievable: Bool? = nil, isTimestampFieldForIncrementalQueries: Bool? = nil) {
             self.isQueryable = isQueryable
             self.isRetrievable = isRetrievable
@@ -5108,6 +5249,7 @@ extension Appflow {
         ///  Specifies the information that is required to query a particular source connector.
         public let sourceConnectorProperties: SourceConnectorProperties
 
+        @inlinable
         public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
             self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
@@ -5140,6 +5282,7 @@ extension Appflow {
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
 
+        @inlinable
         public init(clientToken: String? = StartFlowRequest.idempotencyToken(), flowName: String) {
             self.clientToken = clientToken
             self.flowName = flowName
@@ -5167,6 +5310,7 @@ extension Appflow {
         ///  Indicates the current status of the flow.
         public let flowStatus: FlowStatus?
 
+        @inlinable
         public init(executionId: String? = nil, flowArn: String? = nil, flowStatus: FlowStatus? = nil) {
             self.executionId = executionId
             self.flowArn = flowArn
@@ -5184,6 +5328,7 @@ extension Appflow {
         ///  The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only.
         public let flowName: String
 
+        @inlinable
         public init(flowName: String) {
             self.flowName = flowName
         }
@@ -5204,6 +5349,7 @@ extension Appflow {
         ///  Indicates the current status of the flow.
         public let flowStatus: FlowStatus?
 
+        @inlinable
         public init(flowArn: String? = nil, flowStatus: FlowStatus? = nil) {
             self.flowArn = flowArn
             self.flowStatus = flowStatus
@@ -5221,6 +5367,7 @@ extension Appflow {
         /// The Amazon S3 bucket prefix.
         public let bucketPrefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, bucketPrefix: String? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -5244,6 +5391,7 @@ extension Appflow {
         ///  The initial supported version for fieldType. If this is later changed to a different version, v2 will be introduced.
         public let v1: FieldTypeDetails
 
+        @inlinable
         public init(v1: FieldTypeDetails) {
             self.v1 = v1
         }
@@ -5259,6 +5407,7 @@ extension Appflow {
         ///  The tags used to organize, track, or control access for your flow.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5305,6 +5454,7 @@ extension Appflow {
         ///  Specifies the particular task implementation that Amazon AppFlow performs.
         public let taskType: TaskType
 
+        @inlinable
         public init(connectorOperator: ConnectorOperator? = nil, destinationField: String? = nil, sourceFields: [String], taskProperties: [OperatorPropertiesKeys: String]? = nil, taskType: TaskType) {
             self.connectorOperator = connectorOperator
             self.destinationField = destinationField
@@ -5339,6 +5489,7 @@ extension Appflow {
         ///  The Secret Access Key portion of the credentials.
         public let apiSecretKey: String
 
+        @inlinable
         public init(apiSecretKey: String) {
             self.apiSecretKey = apiSecretKey
         }
@@ -5365,6 +5516,7 @@ extension Appflow {
         ///  The object specified in the Trend Micro flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }
@@ -5385,6 +5537,7 @@ extension Appflow {
         ///  Specifies the type of flow trigger. This can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType
 
+        @inlinable
         public init(triggerProperties: TriggerProperties? = nil, triggerType: TriggerType) {
             self.triggerProperties = triggerProperties
             self.triggerType = triggerType
@@ -5404,6 +5557,7 @@ extension Appflow {
         ///  Specifies the configuration details of a schedule-triggered flow as defined by the user.
         public let scheduled: ScheduledTriggerProperties?
 
+        @inlinable
         public init(scheduled: ScheduledTriggerProperties? = nil) {
             self.scheduled = scheduled
         }
@@ -5423,6 +5577,7 @@ extension Appflow {
         /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
         public let forceDelete: Bool?
 
+        @inlinable
         public init(connectorLabel: String, forceDelete: Bool? = nil) {
             self.connectorLabel = connectorLabel
             self.forceDelete = forceDelete
@@ -5449,6 +5604,7 @@ extension Appflow {
         ///  The tag keys associated with the tag that you want to remove from your flow.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -5489,6 +5645,7 @@ extension Appflow {
         ///  The name of the connector profile and is unique for each ConnectorProfile in the Amazon Web Services account.
         public let connectorProfileName: String
 
+        @inlinable
         public init(clientToken: String? = UpdateConnectorProfileRequest.idempotencyToken(), connectionMode: ConnectionMode, connectorProfileConfig: ConnectorProfileConfig, connectorProfileName: String) {
             self.clientToken = clientToken
             self.connectionMode = connectionMode
@@ -5517,6 +5674,7 @@ extension Appflow {
         ///  The Amazon Resource Name (ARN) of the connector profile.
         public let connectorProfileArn: String?
 
+        @inlinable
         public init(connectorProfileArn: String? = nil) {
             self.connectorProfileArn = connectorProfileArn
         }
@@ -5535,6 +5693,7 @@ extension Appflow {
         /// A description about the update that you're applying to the connector.
         public let description: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateConnectorRegistrationRequest.idempotencyToken(), connectorLabel: String, connectorProvisioningConfig: ConnectorProvisioningConfig? = nil, description: String? = nil) {
             self.clientToken = clientToken
             self.connectorLabel = connectorLabel
@@ -5565,6 +5724,7 @@ extension Appflow {
         /// The ARN of the connector being updated.
         public let connectorArn: String?
 
+        @inlinable
         public init(connectorArn: String? = nil) {
             self.connectorArn = connectorArn
         }
@@ -5591,6 +5751,7 @@ extension Appflow {
         ///  The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
+        @inlinable
         public init(clientToken: String? = UpdateFlowRequest.idempotencyToken(), description: String? = nil, destinationFlowConfigList: [DestinationFlowConfig], flowName: String, metadataCatalogConfig: MetadataCatalogConfig? = nil, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
             self.clientToken = clientToken
             self.description = description
@@ -5637,6 +5798,7 @@ extension Appflow {
         /// Indicates the current status of the flow.
         public let flowStatus: FlowStatus?
 
+        @inlinable
         public init(flowStatus: FlowStatus? = nil) {
             self.flowStatus = flowStatus
         }
@@ -5654,6 +5816,7 @@ extension Appflow {
         ///  The configuration that determines how data is formatted when Upsolver is used as the flow destination.
         public let s3OutputFormatConfig: UpsolverS3OutputFormatConfig
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String? = nil, s3OutputFormatConfig: UpsolverS3OutputFormatConfig) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -5685,6 +5848,7 @@ extension Appflow {
         public let fileType: FileType?
         public let prefixConfig: PrefixConfig
 
+        @inlinable
         public init(aggregationConfig: AggregationConfig? = nil, fileType: FileType? = nil, prefixConfig: PrefixConfig) {
             self.aggregationConfig = aggregationConfig
             self.fileType = fileType
@@ -5704,6 +5868,7 @@ extension Appflow {
         ///  The name of the user.
         public let username: String
 
+        @inlinable
         public init(password: String, username: String) {
             self.password = password
             self.username = username
@@ -5726,6 +5891,7 @@ extension Appflow {
         ///  The location of the Veeva resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -5756,6 +5922,7 @@ extension Appflow {
         ///  The object specified in the Veeva flow source.
         public let object: String
 
+        @inlinable
         public init(documentType: String? = nil, includeAllVersions: Bool? = nil, includeRenditions: Bool? = nil, includeSourceFiles: Bool? = nil, object: String) {
             self.documentType = documentType
             self.includeAllVersions = includeAllVersions
@@ -5790,6 +5957,7 @@ extension Appflow {
         ///  The OAuth requirement needed to request security tokens from the connector endpoint.
         public let oAuthRequest: ConnectorOAuthRequest?
 
+        @inlinable
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil) {
             self.accessToken = accessToken
             self.clientId = clientId
@@ -5819,6 +5987,7 @@ extension Appflow {
         ///  The location of the Zendesk resource.
         public let instanceUrl: String
 
+        @inlinable
         public init(instanceUrl: String) {
             self.instanceUrl = instanceUrl
         }
@@ -5840,6 +6009,7 @@ extension Appflow {
         public let object: String
         public let writeOperationType: WriteOperationType?
 
+        @inlinable
         public init(errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, object: String, writeOperationType: WriteOperationType? = nil) {
             self.errorHandlingConfig = errorHandlingConfig
             self.idFieldNames = idFieldNames
@@ -5869,6 +6039,7 @@ extension Appflow {
         ///  The desired authorization scope for the Zendesk account.
         public let oAuthScopes: [String]?
 
+        @inlinable
         public init(oAuthScopes: [String]? = nil) {
             self.oAuthScopes = oAuthScopes
         }
@@ -5882,6 +6053,7 @@ extension Appflow {
         ///  The object specified in the Zendesk flow source.
         public let object: String
 
+        @inlinable
         public init(object: String) {
             self.object = object
         }

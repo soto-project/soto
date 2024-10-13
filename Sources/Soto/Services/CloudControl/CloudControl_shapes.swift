@@ -68,6 +68,7 @@ extension CloudControl {
         /// The RequestToken of the ProgressEvent object returned by the resource operation request.
         public let requestToken: String
 
+        @inlinable
         public init(requestToken: String) {
             self.requestToken = requestToken
         }
@@ -86,6 +87,7 @@ extension CloudControl {
     public struct CancelResourceRequestOutput: AWSDecodableShape {
         public let progressEvent: ProgressEvent?
 
+        @inlinable
         public init(progressEvent: ProgressEvent? = nil) {
             self.progressEvent = progressEvent
         }
@@ -107,6 +109,7 @@ extension CloudControl {
         /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.
         public let typeVersionId: String?
 
+        @inlinable
         public init(clientToken: String? = CreateResourceInput.idempotencyToken(), desiredState: String, roleArn: String? = nil, typeName: String, typeVersionId: String? = nil) {
             self.clientToken = clientToken
             self.desiredState = desiredState
@@ -146,6 +149,7 @@ extension CloudControl {
         /// Represents the current status of the resource creation request. After you have initiated a resource creation request, you can monitor the progress of your request by calling GetResourceRequestStatus using the RequestToken of the ProgressEvent returned by CreateResource.
         public let progressEvent: ProgressEvent?
 
+        @inlinable
         public init(progressEvent: ProgressEvent? = nil) {
             self.progressEvent = progressEvent
         }
@@ -167,6 +171,7 @@ extension CloudControl {
         /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.
         public let typeVersionId: String?
 
+        @inlinable
         public init(clientToken: String? = DeleteResourceInput.idempotencyToken(), identifier: String, roleArn: String? = nil, typeName: String, typeVersionId: String? = nil) {
             self.clientToken = clientToken
             self.identifier = identifier
@@ -206,6 +211,7 @@ extension CloudControl {
         /// Represents the current status of the resource deletion request. After you have initiated a resource deletion request, you can monitor the progress of your request by calling GetResourceRequestStatus using the RequestToken of the ProgressEvent returned by DeleteResource.
         public let progressEvent: ProgressEvent?
 
+        @inlinable
         public init(progressEvent: ProgressEvent? = nil) {
             self.progressEvent = progressEvent
         }
@@ -225,6 +231,7 @@ extension CloudControl {
         /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.
         public let typeVersionId: String?
 
+        @inlinable
         public init(identifier: String, roleArn: String? = nil, typeName: String, typeVersionId: String? = nil) {
             self.identifier = identifier
             self.roleArn = roleArn
@@ -260,6 +267,7 @@ extension CloudControl {
         /// The name of the resource type.
         public let typeName: String?
 
+        @inlinable
         public init(resourceDescription: ResourceDescription? = nil, typeName: String? = nil) {
             self.resourceDescription = resourceDescription
             self.typeName = typeName
@@ -275,6 +283,7 @@ extension CloudControl {
         /// A unique token used to track the progress of the resource operation request. Request tokens are included in the ProgressEvent type returned by a resource operation request.
         public let requestToken: String
 
+        @inlinable
         public init(requestToken: String) {
             self.requestToken = requestToken
         }
@@ -294,6 +303,7 @@ extension CloudControl {
         /// Represents the current status of the resource operation request.
         public let progressEvent: ProgressEvent?
 
+        @inlinable
         public init(progressEvent: ProgressEvent? = nil) {
             self.progressEvent = progressEvent
         }
@@ -311,6 +321,7 @@ extension CloudControl {
         /// The filter criteria to apply to the requests returned.
         public let resourceRequestStatusFilter: ResourceRequestStatusFilter?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceRequestStatusFilter: ResourceRequestStatusFilter? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -338,6 +349,7 @@ extension CloudControl {
         /// The requests that match the specified filter criteria.
         public let resourceRequestStatusSummaries: [ProgressEvent]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceRequestStatusSummaries: [ProgressEvent]? = nil) {
             self.nextToken = nextToken
             self.resourceRequestStatusSummaries = resourceRequestStatusSummaries
@@ -363,6 +375,7 @@ extension CloudControl {
         /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.
         public let typeVersionId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceModel: String? = nil, roleArn: String? = nil, typeName: String, typeVersionId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -410,6 +423,7 @@ extension CloudControl {
         /// The name of the resource type.
         public let typeName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceDescriptions: [ResourceDescription]? = nil, typeName: String? = nil) {
             self.nextToken = nextToken
             self.resourceDescriptions = resourceDescriptions
@@ -445,6 +459,7 @@ extension CloudControl {
         /// The name of the resource type used in the operation.
         public let typeName: String?
 
+        @inlinable
         public init(errorCode: HandlerErrorCode? = nil, eventTime: Date? = nil, identifier: String? = nil, operation: Operation? = nil, operationStatus: OperationStatus? = nil, requestToken: String? = nil, resourceModel: String? = nil, retryAfter: Date? = nil, statusMessage: String? = nil, typeName: String? = nil) {
             self.errorCode = errorCode
             self.eventTime = eventTime
@@ -478,6 +493,7 @@ extension CloudControl {
         /// A list of the resource properties and their current values.
         public let properties: String?
 
+        @inlinable
         public init(identifier: String? = nil, properties: String? = nil) {
             self.identifier = identifier
             self.properties = properties
@@ -495,6 +511,7 @@ extension CloudControl {
         /// The operation statuses to include in the filter.    PENDING: The operation has been requested, but not yet initiated.    IN_PROGRESS: The operation is in progress.    SUCCESS: The operation completed.    FAILED: The operation failed.    CANCEL_IN_PROGRESS: The operation is in the process of being canceled.    CANCEL_COMPLETE: The operation has been canceled.
         public let operationStatuses: [OperationStatus]?
 
+        @inlinable
         public init(operations: [Operation]? = nil, operationStatuses: [OperationStatus]? = nil) {
             self.operations = operations
             self.operationStatuses = operationStatuses
@@ -520,6 +537,7 @@ extension CloudControl {
         /// For private resource types, the type version to use in this resource operation. If you do not specify a resource version, CloudFormation uses the default version.
         public let typeVersionId: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateResourceInput.idempotencyToken(), identifier: String, patchDocument: String, roleArn: String? = nil, typeName: String, typeVersionId: String? = nil) {
             self.clientToken = clientToken
             self.identifier = identifier
@@ -564,6 +582,7 @@ extension CloudControl {
         /// Represents the current status of the resource update request. Use the RequestToken of the ProgressEvent with GetResourceRequestStatus to return the current status of a resource operation request.
         public let progressEvent: ProgressEvent?
 
+        @inlinable
         public init(progressEvent: ProgressEvent? = nil) {
             self.progressEvent = progressEvent
         }

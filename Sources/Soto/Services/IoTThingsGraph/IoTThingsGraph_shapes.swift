@@ -146,6 +146,7 @@ extension IoTThingsGraph {
         /// The name of the thing to which the entity is to be associated.
         public let thingName: String
 
+        @inlinable
         public init(entityId: String, namespaceVersion: Int64? = nil, thingName: String) {
             self.entityId = entityId
             self.namespaceVersion = namespaceVersion
@@ -177,6 +178,7 @@ extension IoTThingsGraph {
         /// The workflow DefinitionDocument.
         public let definition: DefinitionDocument
 
+        @inlinable
         public init(compatibleNamespaceVersion: Int64? = nil, definition: DefinitionDocument) {
             self.compatibleNamespaceVersion = compatibleNamespaceVersion
             self.definition = definition
@@ -196,6 +198,7 @@ extension IoTThingsGraph {
         /// The summary object that describes the created workflow.
         public let summary: FlowTemplateSummary?
 
+        @inlinable
         public init(summary: FlowTemplateSummary? = nil) {
             self.summary = summary
         }
@@ -219,6 +222,7 @@ extension IoTThingsGraph {
         /// The target type of the deployment. Valid values are GREENGRASS and CLOUD.
         public let target: DeploymentTarget
 
+        @inlinable
         public init(definition: DefinitionDocument, flowActionsRoleArn: String? = nil, greengrassGroupName: String? = nil, metricsConfiguration: MetricsConfiguration? = nil, s3BucketName: String? = nil, tags: [Tag]? = nil, target: DeploymentTarget) {
             self.definition = definition
             self.flowActionsRoleArn = flowActionsRoleArn
@@ -255,6 +259,7 @@ extension IoTThingsGraph {
         /// The summary object that describes the new system instance.
         public let summary: SystemInstanceSummary?
 
+        @inlinable
         public init(summary: SystemInstanceSummary? = nil) {
             self.summary = summary
         }
@@ -270,6 +275,7 @@ extension IoTThingsGraph {
         /// The DefinitionDocument used to create the system.
         public let definition: DefinitionDocument
 
+        @inlinable
         public init(compatibleNamespaceVersion: Int64? = nil, definition: DefinitionDocument) {
             self.compatibleNamespaceVersion = compatibleNamespaceVersion
             self.definition = definition
@@ -289,6 +295,7 @@ extension IoTThingsGraph {
         /// The summary object that describes the created system.
         public let summary: SystemTemplateSummary?
 
+        @inlinable
         public init(summary: SystemTemplateSummary? = nil) {
             self.summary = summary
         }
@@ -304,6 +311,7 @@ extension IoTThingsGraph {
         /// The GraphQL text that defines the entity.
         public let text: String
 
+        @inlinable
         public init(language: DefinitionLanguage, text: String) {
             self.language = language
             self.text = text
@@ -323,6 +331,7 @@ extension IoTThingsGraph {
         /// The ID of the workflow to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -351,6 +360,7 @@ extension IoTThingsGraph {
         /// The name of the namespace to be deleted.
         public let namespaceName: String?
 
+        @inlinable
         public init(namespaceArn: String? = nil, namespaceName: String? = nil) {
             self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
@@ -366,6 +376,7 @@ extension IoTThingsGraph {
         /// The ID of the system instance to be deleted.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -388,6 +399,7 @@ extension IoTThingsGraph {
         /// The ID of the system to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -412,6 +424,7 @@ extension IoTThingsGraph {
         /// The revision number of the workflow or system.
         public let revisionNumber: Int64?
 
+        @inlinable
         public init(id: String? = nil, revisionNumber: Int64? = nil) {
             self.id = id
             self.revisionNumber = revisionNumber
@@ -427,6 +440,7 @@ extension IoTThingsGraph {
         /// The ID of the system instance. This value is returned by the CreateSystemInstance action. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -447,6 +461,7 @@ extension IoTThingsGraph {
         /// An object that contains summary information about a system instance that was deployed.
         public let summary: SystemInstanceSummary
 
+        @inlinable
         public init(greengrassDeploymentId: String? = nil, summary: SystemInstanceSummary) {
             self.greengrassDeploymentId = greengrassDeploymentId
             self.summary = summary
@@ -462,6 +477,7 @@ extension IoTThingsGraph {
         /// The ID of the workflow to be deleted. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -484,6 +500,7 @@ extension IoTThingsGraph {
         /// The ID of the system to delete. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -506,6 +523,7 @@ extension IoTThingsGraph {
         /// The name of the user's namespace. Set this to aws to get the public namespace.
         public let namespaceName: String?
 
+        @inlinable
         public init(namespaceName: String? = nil) {
             self.namespaceName = namespaceName
         }
@@ -531,6 +549,7 @@ extension IoTThingsGraph {
         /// The version of the public namespace that the latest version is tracking.
         public let trackingNamespaceVersion: Int64?
 
+        @inlinable
         public init(namespaceArn: String? = nil, namespaceName: String? = nil, namespaceVersion: Int64? = nil, trackingNamespaceName: String? = nil, trackingNamespaceVersion: Int64? = nil) {
             self.namespaceArn = namespaceArn
             self.namespaceName = namespaceName
@@ -554,6 +573,7 @@ extension IoTThingsGraph {
         /// The name of the thing to disassociate.
         public let thingName: String
 
+        @inlinable
         public init(entityType: EntityType, thingName: String) {
             self.entityType = entityType
             self.thingName = thingName
@@ -587,6 +607,7 @@ extension IoTThingsGraph {
         /// The entity type.
         public let type: EntityType?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, definition: DefinitionDocument? = nil, id: String? = nil, type: EntityType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -610,6 +631,7 @@ extension IoTThingsGraph {
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
         public let value: [String]?
 
+        @inlinable
         public init(name: EntityFilterName? = nil, value: [String]? = nil) {
             self.name = name
             self.value = value
@@ -631,6 +653,7 @@ extension IoTThingsGraph {
         /// The date and time when the message was last updated.
         public let timestamp: Date?
 
+        @inlinable
         public init(eventType: FlowExecutionEventType? = nil, messageId: String? = nil, payload: String? = nil, timestamp: Date? = nil) {
             self.eventType = eventType
             self.messageId = messageId
@@ -660,6 +683,7 @@ extension IoTThingsGraph {
         /// The date and time when the flow execution summary was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, flowExecutionId: String? = nil, flowTemplateId: String? = nil, status: FlowExecutionStatus? = nil, systemInstanceId: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.flowExecutionId = flowExecutionId
@@ -687,6 +711,7 @@ extension IoTThingsGraph {
         /// The version of the user's namespace against which the workflow was validated. Use this value in your system instance.
         public let validatedNamespaceVersion: Int64?
 
+        @inlinable
         public init(definition: DefinitionDocument? = nil, summary: FlowTemplateSummary? = nil, validatedNamespaceVersion: Int64? = nil) {
             self.definition = definition
             self.summary = summary
@@ -706,6 +731,7 @@ extension IoTThingsGraph {
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
         public let value: [String]
 
+        @inlinable
         public init(name: FlowTemplateFilterName, value: [String]) {
             self.name = name
             self.value = value
@@ -733,6 +759,7 @@ extension IoTThingsGraph {
         /// The revision number of the workflow.
         public let revisionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, revisionNumber: Int64? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -754,6 +781,7 @@ extension IoTThingsGraph {
         /// The version of the user's namespace. Defaults to the latest version of the user's namespace.
         public let namespaceVersion: Int64?
 
+        @inlinable
         public init(ids: [String], namespaceVersion: Int64? = nil) {
             self.ids = ids
             self.namespaceVersion = namespaceVersion
@@ -777,6 +805,7 @@ extension IoTThingsGraph {
         /// An array of descriptions for the specified entities.
         public let descriptions: [EntityDescription]?
 
+        @inlinable
         public init(descriptions: [EntityDescription]? = nil) {
             self.descriptions = descriptions
         }
@@ -792,6 +821,7 @@ extension IoTThingsGraph {
         /// The number of the workflow revision to retrieve.
         public let revisionNumber: Int64?
 
+        @inlinable
         public init(id: String, revisionNumber: Int64? = nil) {
             self.id = id
             self.revisionNumber = revisionNumber
@@ -812,6 +842,7 @@ extension IoTThingsGraph {
         /// The object that describes the specified workflow.
         public let description: FlowTemplateDescription?
 
+        @inlinable
         public init(description: FlowTemplateDescription? = nil) {
             self.description = description
         }
@@ -829,6 +860,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -855,6 +887,7 @@ extension IoTThingsGraph {
         /// An array of objects that provide summary data about each revision.
         public let summaries: [FlowTemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [FlowTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -882,6 +915,7 @@ extension IoTThingsGraph {
         /// The status of the deletion request.
         public let status: NamespaceDeletionStatus?
 
+        @inlinable
         public init(errorCode: NamespaceDeletionStatusErrorCodes? = nil, errorMessage: String? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, status: NamespaceDeletionStatus? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -903,6 +937,7 @@ extension IoTThingsGraph {
         /// The ID of the system deployment instance. This value is returned by CreateSystemInstance. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -921,6 +956,7 @@ extension IoTThingsGraph {
         /// An object that describes the system instance.
         public let description: SystemInstanceDescription?
 
+        @inlinable
         public init(description: SystemInstanceDescription? = nil) {
             self.description = description
         }
@@ -936,6 +972,7 @@ extension IoTThingsGraph {
         /// The number that specifies the revision of the system to get.
         public let revisionNumber: Int64?
 
+        @inlinable
         public init(id: String, revisionNumber: Int64? = nil) {
             self.id = id
             self.revisionNumber = revisionNumber
@@ -956,6 +993,7 @@ extension IoTThingsGraph {
         /// An object that contains summary data about the system.
         public let description: SystemTemplateDescription?
 
+        @inlinable
         public init(description: SystemTemplateDescription? = nil) {
             self.description = description
         }
@@ -973,6 +1011,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.id = id
             self.maxResults = maxResults
@@ -999,6 +1038,7 @@ extension IoTThingsGraph {
         /// An array of objects that contain summary data about the system template revisions.
         public let summaries: [SystemTemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [SystemTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -1014,6 +1054,7 @@ extension IoTThingsGraph {
         /// The ID of the upload. This value is returned by the UploadEntityDefinitions action.
         public let uploadId: String
 
+        @inlinable
         public init(uploadId: String) {
             self.uploadId = uploadId
         }
@@ -1044,6 +1085,7 @@ extension IoTThingsGraph {
         /// The status of the upload. The initial status is IN_PROGRESS. The response show all validation failures if the upload fails.
         public let uploadStatus: UploadStatus
 
+        @inlinable
         public init(createdDate: Date, failureReason: [String]? = nil, namespaceArn: String? = nil, namespaceName: String? = nil, namespaceVersion: Int64? = nil, uploadId: String, uploadStatus: UploadStatus) {
             self.createdDate = createdDate
             self.failureReason = failureReason
@@ -1073,6 +1115,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowExecutionId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.flowExecutionId = flowExecutionId
             self.maxResults = maxResults
@@ -1097,6 +1140,7 @@ extension IoTThingsGraph {
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(messages: [FlowExecutionMessage]? = nil, nextToken: String? = nil) {
             self.messages = messages
             self.nextToken = nextToken
@@ -1116,6 +1160,7 @@ extension IoTThingsGraph {
         /// The Amazon Resource Name (ARN) of the resource whose tags are to be returned.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1142,6 +1187,7 @@ extension IoTThingsGraph {
         /// List of tags returned by the ListTagsForResource operation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1159,6 +1205,7 @@ extension IoTThingsGraph {
         /// The ARN of the role that is used to collect cloud metrics.
         public let metricRuleRoleArn: String?
 
+        @inlinable
         public init(cloudMetricEnabled: Bool? = nil, metricRuleRoleArn: String? = nil) {
             self.cloudMetricEnabled = cloudMetricEnabled
             self.metricRuleRoleArn = metricRuleRoleArn
@@ -1187,6 +1234,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(entityTypes: [EntityType], filters: [EntityFilter]? = nil, maxResults: Int? = nil, namespaceVersion: Int64? = nil, nextToken: String? = nil) {
             self.entityTypes = entityTypes
             self.filters = filters
@@ -1215,6 +1263,7 @@ extension IoTThingsGraph {
         /// The string to specify as nextToken when you request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(descriptions: [EntityDescription]? = nil, nextToken: String? = nil) {
             self.descriptions = descriptions
             self.nextToken = nextToken
@@ -1240,6 +1289,7 @@ extension IoTThingsGraph {
         /// The ID of the system instance that contains the flow.
         public let systemInstanceId: String
 
+        @inlinable
         public init(endTime: Date? = nil, flowExecutionId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil, systemInstanceId: String) {
             self.endTime = endTime
             self.flowExecutionId = flowExecutionId
@@ -1272,6 +1322,7 @@ extension IoTThingsGraph {
         /// An array of objects that contain summary information about each workflow execution in the result set.
         public let summaries: [FlowExecutionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [FlowExecutionSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -1291,6 +1342,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [FlowTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1318,6 +1370,7 @@ extension IoTThingsGraph {
         /// An array of objects that contain summary information about each workflow in the result set.
         public let summaries: [FlowTemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [FlowTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -1337,6 +1390,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [SystemInstanceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1361,6 +1415,7 @@ extension IoTThingsGraph {
         /// An array of objects that contain summary data abour the system instances in the result set.
         public let summaries: [SystemInstanceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [SystemInstanceSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -1380,6 +1435,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [SystemTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1407,6 +1463,7 @@ extension IoTThingsGraph {
         /// An array of objects that contain summary information about each system deployment in the result set.
         public let summaries: [SystemTemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [SystemTemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -1428,6 +1485,7 @@ extension IoTThingsGraph {
         /// The string that specifies the next page of results. Use this when you're paginating results.
         public let nextToken: String?
 
+        @inlinable
         public init(entityId: String, maxResults: Int? = nil, namespaceVersion: Int64? = nil, nextToken: String? = nil) {
             self.entityId = entityId
             self.maxResults = maxResults
@@ -1456,6 +1514,7 @@ extension IoTThingsGraph {
         /// An array of things in the result set.
         public let things: [Thing]?
 
+        @inlinable
         public init(nextToken: String? = nil, things: [Thing]? = nil) {
             self.nextToken = nextToken
             self.things = things
@@ -1481,6 +1540,7 @@ extension IoTThingsGraph {
         /// The version of the user's namespace against which the system instance was validated.
         public let validatedNamespaceVersion: Int64?
 
+        @inlinable
         public init(definition: DefinitionDocument? = nil, flowActionsRoleArn: String? = nil, metricsConfiguration: MetricsConfiguration? = nil, s3BucketName: String? = nil, summary: SystemInstanceSummary? = nil, validatedDependencyRevisions: [DependencyRevision]? = nil, validatedNamespaceVersion: Int64? = nil) {
             self.definition = definition
             self.flowActionsRoleArn = flowActionsRoleArn
@@ -1508,6 +1568,7 @@ extension IoTThingsGraph {
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
         public let value: [String]?
 
+        @inlinable
         public init(name: SystemInstanceFilterName? = nil, value: [String]? = nil) {
             self.name = name
             self.value = value
@@ -1539,6 +1600,7 @@ extension IoTThingsGraph {
         ///   The date and time when the system instance was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, greengrassGroupId: String? = nil, greengrassGroupName: String? = nil, greengrassGroupVersionId: String? = nil, id: String? = nil, status: SystemInstanceDeploymentStatus? = nil, target: DeploymentTarget? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1572,6 +1634,7 @@ extension IoTThingsGraph {
         /// The namespace version against which the system was validated. Use this value in your system instance.
         public let validatedNamespaceVersion: Int64?
 
+        @inlinable
         public init(definition: DefinitionDocument? = nil, summary: SystemTemplateSummary? = nil, validatedNamespaceVersion: Int64? = nil) {
             self.definition = definition
             self.summary = summary
@@ -1591,6 +1654,7 @@ extension IoTThingsGraph {
         /// An array of string values for the search filter field. Multiple values function as AND criteria in the search.
         public let value: [String]
 
+        @inlinable
         public init(name: SystemTemplateFilterName, value: [String]) {
             self.name = name
             self.value = value
@@ -1618,6 +1682,7 @@ extension IoTThingsGraph {
         /// The revision number of the system.
         public let revisionNumber: Int64?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, id: String? = nil, revisionNumber: Int64? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1639,6 +1704,7 @@ extension IoTThingsGraph {
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1664,6 +1730,7 @@ extension IoTThingsGraph {
         /// A list of tags to add to the resource.>
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1694,6 +1761,7 @@ extension IoTThingsGraph {
         /// The name of the thing.
         public let thingName: String?
 
+        @inlinable
         public init(thingArn: String? = nil, thingName: String? = nil) {
             self.thingArn = thingArn
             self.thingName = thingName
@@ -1709,6 +1777,7 @@ extension IoTThingsGraph {
         /// The ID of the system instance to remove from its target.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -1727,6 +1796,7 @@ extension IoTThingsGraph {
         /// An object that contains summary information about the system instance that was removed from its target.
         public let summary: SystemInstanceSummary?
 
+        @inlinable
         public init(summary: SystemInstanceSummary? = nil) {
             self.summary = summary
         }
@@ -1742,6 +1812,7 @@ extension IoTThingsGraph {
         /// A list of tag key names to remove from the resource. You don't specify the value. Both the key and its associated value are removed.  This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1777,6 +1848,7 @@ extension IoTThingsGraph {
         /// The ID of the workflow to be updated. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
         public let id: String
 
+        @inlinable
         public init(compatibleNamespaceVersion: Int64? = nil, definition: DefinitionDocument, id: String) {
             self.compatibleNamespaceVersion = compatibleNamespaceVersion
             self.definition = definition
@@ -1800,6 +1872,7 @@ extension IoTThingsGraph {
         /// An object containing summary information about the updated workflow.
         public let summary: FlowTemplateSummary?
 
+        @inlinable
         public init(summary: FlowTemplateSummary? = nil) {
             self.summary = summary
         }
@@ -1817,6 +1890,7 @@ extension IoTThingsGraph {
         /// The ID of the system to be updated. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
         public let id: String
 
+        @inlinable
         public init(compatibleNamespaceVersion: Int64? = nil, definition: DefinitionDocument, id: String) {
             self.compatibleNamespaceVersion = compatibleNamespaceVersion
             self.definition = definition
@@ -1840,6 +1914,7 @@ extension IoTThingsGraph {
         /// An object containing summary information about the updated system.
         public let summary: SystemTemplateSummary?
 
+        @inlinable
         public init(summary: SystemTemplateSummary? = nil) {
             self.summary = summary
         }
@@ -1857,6 +1932,7 @@ extension IoTThingsGraph {
         /// A Boolean that specifies whether to synchronize with the latest version of the public namespace. If set to true, the upload will create a new namespace version.
         public let syncWithPublicNamespace: Bool?
 
+        @inlinable
         public init(deprecateExistingEntities: Bool? = nil, document: DefinitionDocument? = nil, syncWithPublicNamespace: Bool? = nil) {
             self.deprecateExistingEntities = deprecateExistingEntities
             self.document = document
@@ -1878,6 +1954,7 @@ extension IoTThingsGraph {
         /// The ID that specifies the upload action. You can use this to track the status of the upload.
         public let uploadId: String
 
+        @inlinable
         public init(uploadId: String) {
             self.uploadId = uploadId
         }

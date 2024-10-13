@@ -197,6 +197,7 @@ extension Snowball {
         /// Differentiates between delivery address and pickup address in the customer account. Provided at job creation.
         public let type: AddressType?
 
+        @inlinable
         public init(addressId: String? = nil, city: String? = nil, company: String? = nil, country: String? = nil, isRestricted: Bool? = nil, landmark: String? = nil, name: String? = nil, phoneNumber: String? = nil, postalCode: String? = nil, prefectureOrDistrict: String? = nil, stateOrProvince: String? = nil, street1: String? = nil, street2: String? = nil, street3: String? = nil, type: AddressType? = nil) {
             self.addressId = addressId
             self.city = city
@@ -280,6 +281,7 @@ extension Snowball {
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
 
+        @inlinable
         public init(clusterId: String) {
             self.clusterId = clusterId
         }
@@ -303,6 +305,7 @@ extension Snowball {
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -332,6 +335,7 @@ extension Snowball {
         /// Defines an optional description of the cluster, for example Environmental Data Cluster-01.
         public let description: String?
 
+        @inlinable
         public init(clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: Date? = nil, description: String? = nil) {
             self.clusterId = clusterId
             self.clusterState = clusterState
@@ -379,6 +383,7 @@ extension Snowball {
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
+        @inlinable
         public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: Date? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -422,6 +427,7 @@ extension Snowball {
         /// The optional name of a compatible image.
         public let name: String?
 
+        @inlinable
         public init(amiId: String? = nil, name: String? = nil) {
             self.amiId = amiId
             self.name = name
@@ -437,6 +443,7 @@ extension Snowball {
         /// The address that you want the Snow device shipped to.
         public let address: Address
 
+        @inlinable
         public init(address: Address) {
             self.address = address
         }
@@ -454,6 +461,7 @@ extension Snowball {
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snow device for that job shipped to.
         public let addressId: String?
 
+        @inlinable
         public init(addressId: String? = nil) {
             self.addressId = addressId
         }
@@ -499,6 +507,7 @@ extension Snowball {
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
+        @inlinable
         public init(addressId: String, description: String? = nil, forceCreateJobs: Bool? = nil, forwardingAddressId: String? = nil, initialClusterSize: Int? = nil, jobType: JobType, kmsKeyARN: String? = nil, longTermPricingIds: [String]? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.description = description
@@ -573,6 +582,7 @@ extension Snowball {
         /// List of jobs created for this cluster. For syntax, see ListJobsResult$JobListEntries in this guide.
         public let jobListEntries: [JobListEntry]?
 
+        @inlinable
         public init(clusterId: String? = nil, jobListEntries: [JobListEntry]? = nil) {
             self.clusterId = clusterId
             self.jobListEntries = jobListEntries
@@ -624,6 +634,7 @@ extension Snowball {
         /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
+        @inlinable
         public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, impactLevel: ImpactLevel? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, pickupDetails: PickupDetails? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -700,6 +711,7 @@ extension Snowball {
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -717,6 +729,7 @@ extension Snowball {
         /// The type of Snow Family devices to use for the long-term pricing job.
         public let snowballType: SnowballType
 
+        @inlinable
         public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingType: LongTermPricingType, snowballType: SnowballType) {
             self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
             self.longTermPricingType = longTermPricingType
@@ -734,6 +747,7 @@ extension Snowball {
         /// The ID of the long-term pricing type for the device.
         public let longTermPricingId: String?
 
+        @inlinable
         public init(longTermPricingId: String? = nil) {
             self.longTermPricingId = longTermPricingId
         }
@@ -749,6 +763,7 @@ extension Snowball {
         /// The shipping speed for a particular job. This speed doesn't dictate how soon the device is returned to Amazon Web Services. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:
         public let shippingOption: ShippingOption?
 
+        @inlinable
         public init(jobId: String, shippingOption: ShippingOption? = nil) {
             self.jobId = jobId
             self.shippingOption = shippingOption
@@ -770,6 +785,7 @@ extension Snowball {
         /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
         public let status: ShippingLabelStatus?
 
+        @inlinable
         public init(status: ShippingLabelStatus? = nil) {
             self.status = status
         }
@@ -789,6 +805,7 @@ extension Snowball {
         /// The total number of objects for a transfer between a Snow device and Amazon S3. This value is set to 0 (zero) until all the keys that will be transferred have been listed.
         public let totalObjects: Int64?
 
+        @inlinable
         public init(bytesTransferred: Int64? = nil, objectsTransferred: Int64? = nil, totalBytes: Int64? = nil, totalObjects: Int64? = nil) {
             self.bytesTransferred = bytesTransferred
             self.objectsTransferred = objectsTransferred
@@ -810,6 +827,7 @@ extension Snowball {
         /// The version of the dependent service.
         public let serviceVersion: ServiceVersion?
 
+        @inlinable
         public init(serviceName: ServiceName? = nil, serviceVersion: ServiceVersion? = nil) {
             self.serviceName = serviceName
             self.serviceVersion = serviceVersion
@@ -829,6 +847,7 @@ extension Snowball {
         /// The automatically generated ID for a specific address.
         public let addressId: String
 
+        @inlinable
         public init(addressId: String) {
             self.addressId = addressId
         }
@@ -848,6 +867,7 @@ extension Snowball {
         /// The address that you want the Snow device(s) associated with a specific job to be shipped to.
         public let address: Address?
 
+        @inlinable
         public init(address: Address? = nil) {
             self.address = address
         }
@@ -863,6 +883,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -888,6 +909,7 @@ extension Snowball {
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
         public let nextToken: String?
 
+        @inlinable
         public init(addresses: [Address]? = nil, nextToken: String? = nil) {
             self.addresses = addresses
             self.nextToken = nextToken
@@ -903,6 +925,7 @@ extension Snowball {
         /// The automatically generated ID for a cluster.
         public let clusterId: String
 
+        @inlinable
         public init(clusterId: String) {
             self.clusterId = clusterId
         }
@@ -922,6 +945,7 @@ extension Snowball {
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
         public let clusterMetadata: ClusterMetadata?
 
+        @inlinable
         public init(clusterMetadata: ClusterMetadata? = nil) {
             self.clusterMetadata = clusterMetadata
         }
@@ -935,6 +959,7 @@ extension Snowball {
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -956,6 +981,7 @@ extension Snowball {
         /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
         public let subJobMetadata: [JobMetadata]?
 
+        @inlinable
         public init(jobMetadata: JobMetadata? = nil, subJobMetadata: [JobMetadata]? = nil) {
             self.jobMetadata = jobMetadata
             self.subJobMetadata = subJobMetadata
@@ -971,6 +997,7 @@ extension Snowball {
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -994,6 +1021,7 @@ extension Snowball {
         /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
         public let status: ShippingLabelStatus?
 
+        @inlinable
         public init(expirationDate: Date? = nil, returnShippingLabelURI: String? = nil, status: ShippingLabelStatus? = nil) {
             self.expirationDate = expirationDate
             self.returnShippingLabelURI = returnShippingLabelURI
@@ -1011,6 +1039,7 @@ extension Snowball {
         /// Returns information about the device configuration for an Snowcone job.
         public let snowconeDeviceConfiguration: SnowconeDeviceConfiguration?
 
+        @inlinable
         public init(snowconeDeviceConfiguration: SnowconeDeviceConfiguration? = nil) {
             self.snowconeDeviceConfiguration = snowconeDeviceConfiguration
         }
@@ -1026,6 +1055,7 @@ extension Snowball {
         /// The Kubernetes version for EKS Anywhere on the Snow Family device.
         public let kubernetesVersion: String?
 
+        @inlinable
         public init(eksAnywhereVersion: String? = nil, kubernetesVersion: String? = nil) {
             self.eksAnywhereVersion = eksAnywhereVersion
             self.kubernetesVersion = kubernetesVersion
@@ -1052,6 +1082,7 @@ extension Snowball {
         /// The ID of the AMI on the Snow device.
         public let snowballAmiId: String?
 
+        @inlinable
         public init(amiId: String, snowballAmiId: String? = nil) {
             self.amiId = amiId
             self.snowballAmiId = snowballAmiId
@@ -1076,6 +1107,7 @@ extension Snowball {
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an Lambda function's event trigger associated with this job.
         public let eventResourceARN: String?
 
+        @inlinable
         public init(eventResourceARN: String? = nil) {
             self.eventResourceARN = eventResourceARN
         }
@@ -1094,6 +1126,7 @@ extension Snowball {
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1113,6 +1146,7 @@ extension Snowball {
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
         public let manifestURI: String?
 
+        @inlinable
         public init(manifestURI: String? = nil) {
             self.manifestURI = manifestURI
         }
@@ -1126,6 +1160,7 @@ extension Snowball {
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1145,6 +1180,7 @@ extension Snowball {
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 360 days after the job has been created.
         public let unlockCode: String?
 
+        @inlinable
         public init(unlockCode: String? = nil) {
             self.unlockCode = unlockCode
         }
@@ -1164,6 +1200,7 @@ extension Snowball {
         /// The number of Snow devices that this account is currently using.
         public let snowballsInUse: Int?
 
+        @inlinable
         public init(snowballLimit: Int? = nil, snowballsInUse: Int? = nil) {
             self.snowballLimit = snowballLimit
             self.snowballsInUse = snowballsInUse
@@ -1179,6 +1216,7 @@ extension Snowball {
         /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1198,6 +1236,7 @@ extension Snowball {
         /// The Amazon S3 presigned URL for the update file associated with the specified JobId value. The software update will be available for 2 days after this request is made. To access an update after the 2 days have passed, you'll have to make another call to GetSoftwareUpdates.
         public let updatesURI: String?
 
+        @inlinable
         public init(updatesURI: String? = nil) {
             self.updatesURI = updatesURI
         }
@@ -1211,6 +1250,7 @@ extension Snowball {
         /// The Goods and Services Tax (GST) documents required in Amazon Web Services Region in India.
         public let gstin: String?
 
+        @inlinable
         public init(gstin: String? = nil) {
             self.gstin = gstin
         }
@@ -1242,6 +1282,7 @@ extension Snowball {
         /// The type of device used with this job.
         public let snowballType: SnowballType?
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, isMaster: Bool? = nil, jobId: String? = nil, jobState: JobState? = nil, jobType: JobType? = nil, snowballType: SnowballType? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1271,6 +1312,7 @@ extension Snowball {
         /// A link to an Amazon S3 presigned URL where the job success log is located.
         public let jobSuccessLogURI: String?
 
+        @inlinable
         public init(jobCompletionReportURI: String? = nil, jobFailureLogURI: String? = nil, jobSuccessLogURI: String? = nil) {
             self.jobCompletionReportURI = jobCompletionReportURI
             self.jobFailureLogURI = jobFailureLogURI
@@ -1335,6 +1377,7 @@ extension Snowball {
         /// The metadata associated with the tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
+        @inlinable
         public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, impactLevel: ImpactLevel? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, pickupDetails: PickupDetails? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballId: String? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -1400,6 +1443,7 @@ extension Snowball {
         /// An array of S3Resource objects.
         public let s3Resources: [S3Resource]?
 
+        @inlinable
         public init(ec2AmiResources: [Ec2AmiResource]? = nil, lambdaResources: [LambdaResource]? = nil, s3Resources: [S3Resource]? = nil) {
             self.ec2AmiResources = ec2AmiResources
             self.lambdaResources = lambdaResources
@@ -1431,6 +1475,7 @@ extension Snowball {
         /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public let endMarker: String?
 
+        @inlinable
         public init(beginMarker: String? = nil, endMarker: String? = nil) {
             self.beginMarker = beginMarker
             self.endMarker = endMarker
@@ -1457,6 +1502,7 @@ extension Snowball {
         /// An Amazon Resource Name (ARN) that represents an Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
         public let lambdaArn: String?
 
+        @inlinable
         public init(eventTriggers: [EventTriggerDefinition]? = nil, lambdaArn: String? = nil) {
             self.eventTriggers = eventTriggers
             self.lambdaArn = lambdaArn
@@ -1484,6 +1530,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.clusterId = clusterId
             self.maxResults = maxResults
@@ -1514,6 +1561,7 @@ extension Snowball {
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
         public let nextToken: String?
 
+        @inlinable
         public init(jobListEntries: [JobListEntry]? = nil, nextToken: String? = nil) {
             self.jobListEntries = jobListEntries
             self.nextToken = nextToken
@@ -1531,6 +1579,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1556,6 +1605,7 @@ extension Snowball {
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ClusterListEntry call, your list of returned clusters will start from this point in the array.
         public let nextToken: String?
 
+        @inlinable
         public init(clusterListEntries: [ClusterListEntry]? = nil, nextToken: String? = nil) {
             self.clusterListEntries = clusterListEntries
             self.nextToken = nextToken
@@ -1573,6 +1623,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1598,6 +1649,7 @@ extension Snowball {
         /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
         public let nextToken: String?
 
+        @inlinable
         public init(compatibleImages: [CompatibleImage]? = nil, nextToken: String? = nil) {
             self.compatibleImages = compatibleImages
             self.nextToken = nextToken
@@ -1615,6 +1667,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1640,6 +1693,7 @@ extension Snowball {
         /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
         public let nextToken: String?
 
+        @inlinable
         public init(jobListEntries: [JobListEntry]? = nil, nextToken: String? = nil) {
             self.jobListEntries = jobListEntries
             self.nextToken = nextToken
@@ -1657,6 +1711,7 @@ extension Snowball {
         /// Because HTTP requests are stateless, this is the starting point for your next list of ListLongTermPricing to return.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1682,6 +1737,7 @@ extension Snowball {
         /// Because HTTP requests are stateless, this is the starting point for your next list of returned ListLongTermPricing list.
         public let nextToken: String?
 
+        @inlinable
         public init(longTermPricingEntries: [LongTermPricingListEntry]? = nil, nextToken: String? = nil) {
             self.longTermPricingEntries = longTermPricingEntries
             self.nextToken = nextToken
@@ -1699,6 +1755,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1724,6 +1781,7 @@ extension Snowball {
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsResult objects, you have the option of specifying NextToken as the starting point for your returned list.
         public let nextToken: String?
 
+        @inlinable
         public init(addresses: [Address]? = nil, nextToken: String? = nil) {
             self.addresses = addresses
             self.nextToken = nextToken
@@ -1745,6 +1803,7 @@ extension Snowball {
         /// The name of the service for which you're requesting supported versions.
         public let serviceName: ServiceName
 
+        @inlinable
         public init(dependentServices: [DependentService]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: ServiceName) {
             self.dependentServices = dependentServices
             self.maxResults = maxResults
@@ -1781,6 +1840,7 @@ extension Snowball {
         /// A list of supported versions.
         public let serviceVersions: [ServiceVersion]
 
+        @inlinable
         public init(dependentServices: [DependentService]? = nil, nextToken: String? = nil, serviceName: ServiceName, serviceVersions: [ServiceVersion]) {
             self.dependentServices = dependentServices
             self.nextToken = nextToken
@@ -1818,6 +1878,7 @@ extension Snowball {
         /// The type of Snow Family devices associated with this long-term pricing job.
         public let snowballType: SnowballType?
 
+        @inlinable
         public init(currentActiveJob: String? = nil, isLongTermPricingAutoRenew: Bool? = nil, jobIds: [String]? = nil, longTermPricingEndDate: Date? = nil, longTermPricingId: String? = nil, longTermPricingStartDate: Date? = nil, longTermPricingStatus: String? = nil, longTermPricingType: LongTermPricingType? = nil, replacementJob: String? = nil, snowballType: SnowballType? = nil) {
             self.currentActiveJob = currentActiveJob
             self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
@@ -1851,6 +1912,7 @@ extension Snowball {
         /// The scale unit of the NFS storage on the device. Valid values: TB.
         public let storageUnit: StorageUnit?
 
+        @inlinable
         public init(storageLimit: Int? = nil, storageUnit: StorageUnit? = nil) {
             self.storageLimit = storageLimit
             self.storageUnit = storageUnit
@@ -1876,6 +1938,7 @@ extension Snowball {
         /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the Amazon Web Services Management Console, or by using the Subscribe Amazon Simple Notification Service (Amazon SNS) API action.
         public let snsTopicARN: String?
 
+        @inlinable
         public init(devicePickupSnsTopicARN: String? = nil, jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil, snsTopicARN: String? = nil) {
             self.devicePickupSnsTopicARN = devicePickupSnsTopicARN
             self.jobStatesToNotify = jobStatesToNotify
@@ -1908,6 +1971,7 @@ extension Snowball {
         /// Represents the Storage Gateway service Tape Gateway type on a Snow Family device.
         public let tgwOnDeviceService: TGWOnDeviceServiceConfiguration?
 
+        @inlinable
         public init(eksOnDeviceService: EKSOnDeviceServiceConfiguration? = nil, nfsOnDeviceService: NFSOnDeviceServiceConfiguration? = nil, s3OnDeviceService: S3OnDeviceServiceConfiguration? = nil, tgwOnDeviceService: TGWOnDeviceServiceConfiguration? = nil) {
             self.eksOnDeviceService = eksOnDeviceService
             self.nfsOnDeviceService = nfsOnDeviceService
@@ -1946,6 +2010,7 @@ extension Snowball {
         /// The phone number of the person picking up the device.
         public let phoneNumber: String?
 
+        @inlinable
         public init(devicePickupId: String? = nil, email: String? = nil, identificationExpirationDate: Date? = nil, identificationIssuingOrg: String? = nil, identificationNumber: String? = nil, name: String? = nil, phoneNumber: String? = nil) {
             self.devicePickupId = devicePickupId
             self.email = email
@@ -1998,6 +2063,7 @@ extension Snowball {
         /// Storage unit. Currently the only supported unit is TB.
         public let storageUnit: StorageUnit?
 
+        @inlinable
         public init(faultTolerance: Int? = nil, serviceSize: Int? = nil, storageLimit: Double? = nil, storageUnit: StorageUnit? = nil) {
             self.faultTolerance = faultTolerance
             self.serviceSize = serviceSize
@@ -2029,6 +2095,7 @@ extension Snowball {
         /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System).
         public let targetOnDeviceServices: [TargetOnDeviceService]?
 
+        @inlinable
         public init(bucketArn: String? = nil, keyRange: KeyRange? = nil, targetOnDeviceServices: [TargetOnDeviceService]? = nil) {
             self.bucketArn = bucketArn
             self.keyRange = keyRange
@@ -2052,6 +2119,7 @@ extension Snowball {
         /// The version number of the requested service.
         public let version: String?
 
+        @inlinable
         public init(version: String? = nil) {
             self.version = version
         }
@@ -2073,6 +2141,7 @@ extension Snowball {
         /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snow device as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
         public let trackingNumber: String?
 
+        @inlinable
         public init(status: String? = nil, trackingNumber: String? = nil) {
             self.status = status
             self.trackingNumber = trackingNumber
@@ -2092,6 +2161,7 @@ extension Snowball {
         /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snow device from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
 
+        @inlinable
         public init(inboundShipment: Shipment? = nil, outboundShipment: Shipment? = nil, shippingOption: ShippingOption? = nil) {
             self.inboundShipment = inboundShipment
             self.outboundShipment = outboundShipment
@@ -2109,6 +2179,7 @@ extension Snowball {
         /// Configures the wireless connection for the Snowcone device.
         public let wirelessConnection: WirelessConnection?
 
+        @inlinable
         public init(wirelessConnection: WirelessConnection? = nil) {
             self.wirelessConnection = wirelessConnection
         }
@@ -2124,6 +2195,7 @@ extension Snowball {
         /// The scale unit of the virtual tapes on the device.
         public let storageUnit: StorageUnit?
 
+        @inlinable
         public init(storageLimit: Int? = nil, storageUnit: StorageUnit? = nil) {
             self.storageLimit = storageLimit
             self.storageUnit = storageUnit
@@ -2145,6 +2217,7 @@ extension Snowball {
         /// Specifies whether the data is being imported or exported. You can import or export the data, or use it locally on the device.
         public let transferOption: TransferOption?
 
+        @inlinable
         public init(serviceName: DeviceServiceName? = nil, transferOption: TransferOption? = nil) {
             self.serviceName = serviceName
             self.transferOption = transferOption
@@ -2159,6 +2232,7 @@ extension Snowball {
     public struct TaxDocuments: AWSEncodableShape & AWSDecodableShape {
         public let ind: INDTaxDocuments?
 
+        @inlinable
         public init(ind: INDTaxDocuments? = nil) {
             self.ind = ind
         }
@@ -2192,6 +2266,7 @@ extension Snowball {
         /// The updated shipping option value of this cluster's ShippingDetails object.
         public let shippingOption: ShippingOption?
 
+        @inlinable
         public init(addressId: String? = nil, clusterId: String, description: String? = nil, forwardingAddressId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil) {
             self.addressId = addressId
             self.clusterId = clusterId
@@ -2264,6 +2339,7 @@ extension Snowball {
         /// The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
 
+        @inlinable
         public init(addressId: String? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobId: String, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, pickupDetails: PickupDetails? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil) {
             self.addressId = addressId
             self.description = description
@@ -2324,6 +2400,7 @@ extension Snowball {
         /// The state of a device when it is being shipped.  Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Services.
         public let shipmentState: ShipmentState
 
+        @inlinable
         public init(jobId: String, shipmentState: ShipmentState) {
             self.jobId = jobId
             self.shipmentState = shipmentState
@@ -2353,6 +2430,7 @@ extension Snowball {
         /// Specifies that a device that is ordered with long-term pricing should be replaced with a new device.
         public let replacementJob: String?
 
+        @inlinable
         public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingId: String, replacementJob: String? = nil) {
             self.isLongTermPricingAutoRenew = isLongTermPricingAutoRenew
             self.longTermPricingId = longTermPricingId
@@ -2383,6 +2461,7 @@ extension Snowball {
         /// Enables the Wi-Fi adapter on an Snowcone device.
         public let isWifiEnabled: Bool?
 
+        @inlinable
         public init(isWifiEnabled: Bool? = nil) {
             self.isWifiEnabled = isWifiEnabled
         }

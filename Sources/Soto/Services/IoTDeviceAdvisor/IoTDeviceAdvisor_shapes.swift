@@ -93,6 +93,7 @@ extension IoTDeviceAdvisor {
         /// The tags to be attached to the suite definition.
         public let tags: [String: String]?
 
+        @inlinable
         public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, tags: [String: String]? = nil) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.tags = tags
@@ -125,6 +126,7 @@ extension IoTDeviceAdvisor {
         /// The suite definition name of the test suite. This is a required parameter.
         public let suiteDefinitionName: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, suiteDefinitionArn: String? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil) {
             self.createdAt = createdAt
             self.suiteDefinitionArn = suiteDefinitionArn
@@ -144,6 +146,7 @@ extension IoTDeviceAdvisor {
         /// Suite definition ID of the test suite to be deleted.
         public let suiteDefinitionId: String
 
+        @inlinable
         public init(suiteDefinitionId: String) {
             self.suiteDefinitionId = suiteDefinitionId
         }
@@ -174,6 +177,7 @@ extension IoTDeviceAdvisor {
         /// Lists device's thing ARN.
         public let thingArn: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, deviceRoleArn: String? = nil, thingArn: String? = nil) {
             self.certificateArn = certificateArn
             self.deviceRoleArn = deviceRoleArn
@@ -206,6 +210,7 @@ extension IoTDeviceAdvisor {
         /// The thing ARN of the device. This is an optional parameter.
         public let thingArn: String?
 
+        @inlinable
         public init(authenticationMethod: AuthenticationMethod? = nil, certificateArn: String? = nil, deviceRoleArn: String? = nil, thingArn: String? = nil) {
             self.authenticationMethod = authenticationMethod
             self.certificateArn = certificateArn
@@ -238,6 +243,7 @@ extension IoTDeviceAdvisor {
         /// The response of an Device Advisor endpoint.
         public let endpoint: String?
 
+        @inlinable
         public init(endpoint: String? = nil) {
             self.endpoint = endpoint
         }
@@ -253,6 +259,7 @@ extension IoTDeviceAdvisor {
         /// Suite definition version of the test suite to get.
         public let suiteDefinitionVersion: String?
 
+        @inlinable
         public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionVersion = suiteDefinitionVersion
@@ -293,6 +300,7 @@ extension IoTDeviceAdvisor {
         /// Tags attached to the suite definition.
         public let tags: [String: String]?
 
+        @inlinable
         public init(createdAt: Date? = nil, lastModifiedAt: Date? = nil, latestVersion: String? = nil, suiteDefinitionArn: String? = nil, suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, suiteDefinitionId: String? = nil, suiteDefinitionVersion: String? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.lastModifiedAt = lastModifiedAt
@@ -322,6 +330,7 @@ extension IoTDeviceAdvisor {
         /// Suite run ID of the test suite run.
         public let suiteRunId: String
 
+        @inlinable
         public init(suiteDefinitionId: String, suiteRunId: String) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteRunId = suiteRunId
@@ -348,6 +357,7 @@ extension IoTDeviceAdvisor {
         /// Download URL of the qualification report.
         public let qualificationReportDownloadUrl: String?
 
+        @inlinable
         public init(qualificationReportDownloadUrl: String? = nil) {
             self.qualificationReportDownloadUrl = qualificationReportDownloadUrl
         }
@@ -363,6 +373,7 @@ extension IoTDeviceAdvisor {
         /// Suite run ID for the test suite run.
         public let suiteRunId: String
 
+        @inlinable
         public init(suiteDefinitionId: String, suiteRunId: String) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteRunId = suiteRunId
@@ -409,6 +420,7 @@ extension IoTDeviceAdvisor {
         /// Test results for the test suite run.
         public let testResult: TestResult?
 
+        @inlinable
         public init(endTime: Date? = nil, errorReason: String? = nil, startTime: Date? = nil, status: SuiteRunStatus? = nil, suiteDefinitionId: String? = nil, suiteDefinitionVersion: String? = nil, suiteRunArn: String? = nil, suiteRunConfiguration: SuiteRunConfiguration? = nil, suiteRunId: String? = nil, tags: [String: String]? = nil, testResult: TestResult? = nil) {
             self.endTime = endTime
             self.errorReason = errorReason
@@ -446,6 +458,7 @@ extension IoTDeviceAdvisor {
         /// Tests under Group Result.
         public let tests: [TestCaseRun]?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil, tests: [TestCaseRun]? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -465,6 +478,7 @@ extension IoTDeviceAdvisor {
         /// A token used to get the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -492,6 +506,7 @@ extension IoTDeviceAdvisor {
         /// An array of objects that provide summaries of information about the suite definitions in the list.
         public let suiteDefinitionInformationList: [SuiteDefinitionInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, suiteDefinitionInformationList: [SuiteDefinitionInformation]? = nil) {
             self.nextToken = nextToken
             self.suiteDefinitionInformationList = suiteDefinitionInformationList
@@ -513,6 +528,7 @@ extension IoTDeviceAdvisor {
         /// Must be passed along with suiteDefinitionId. Lists the test suite runs of the specified test suite based on suite definition version.
         public let suiteDefinitionVersion: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, suiteDefinitionId: String? = nil, suiteDefinitionVersion: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -548,6 +564,7 @@ extension IoTDeviceAdvisor {
         /// An array of objects that provide summaries of information about the suite runs in the list.
         public let suiteRunsList: [SuiteRunInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, suiteRunsList: [SuiteRunInformation]? = nil) {
             self.nextToken = nextToken
             self.suiteRunsList = suiteRunsList
@@ -563,6 +580,7 @@ extension IoTDeviceAdvisor {
         /// The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or SuiteRun ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -585,6 +603,7 @@ extension IoTDeviceAdvisor {
         /// The tags attached to the IoT Device Advisor resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -604,6 +623,7 @@ extension IoTDeviceAdvisor {
         /// The tags to be attached to the suite run.
         public let tags: [String: String]?
 
+        @inlinable
         public init(suiteDefinitionId: String, suiteDefinitionVersion: String? = nil, suiteRunConfiguration: SuiteRunConfiguration? = nil, tags: [String: String]? = nil) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteDefinitionVersion = suiteDefinitionVersion
@@ -652,6 +672,7 @@ extension IoTDeviceAdvisor {
         /// Suite Run ID of the started suite run.
         public let suiteRunId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, endpoint: String? = nil, suiteRunArn: String? = nil, suiteRunId: String? = nil) {
             self.createdAt = createdAt
             self.endpoint = endpoint
@@ -673,6 +694,7 @@ extension IoTDeviceAdvisor {
         /// Suite run ID of the test suite run to be stopped.
         public let suiteRunId: String
 
+        @inlinable
         public init(suiteDefinitionId: String, suiteRunId: String) {
             self.suiteDefinitionId = suiteDefinitionId
             self.suiteRunId = suiteRunId
@@ -715,6 +737,7 @@ extension IoTDeviceAdvisor {
         /// Gets the suite definition name. This is a required parameter.
         public let suiteDefinitionName: String?
 
+        @inlinable
         public init(devicePermissionRoleArn: String? = nil, devices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, rootGroup: String? = nil, suiteDefinitionName: String? = nil) {
             self.devicePermissionRoleArn = devicePermissionRoleArn
             self.devices = devices
@@ -764,6 +787,7 @@ extension IoTDeviceAdvisor {
         /// Suite name of the test suite.
         public let suiteDefinitionName: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, defaultDevices: [DeviceUnderTest]? = nil, intendedForQualification: Bool? = nil, isLongDurationTest: Bool? = nil, protocol: `Protocol`? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil) {
             self.createdAt = createdAt
             self.defaultDevices = defaultDevices
@@ -793,6 +817,7 @@ extension IoTDeviceAdvisor {
         /// Sets test case list.
         public let selectedTestList: [String]?
 
+        @inlinable
         public init(parallelRun: Bool? = nil, primaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
             self.parallelRun = parallelRun
             self.primaryDevice = primaryDevice
@@ -837,6 +862,7 @@ extension IoTDeviceAdvisor {
         /// Suite run ID of the suite run.
         public let suiteRunId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, endAt: Date? = nil, failed: Int? = nil, passed: Int? = nil, startedAt: Date? = nil, status: SuiteRunStatus? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil, suiteDefinitionVersion: String? = nil, suiteRunId: String? = nil) {
             self.createdAt = createdAt
             self.endAt = endAt
@@ -870,6 +896,7 @@ extension IoTDeviceAdvisor {
         /// The tags to be attached to the IoT Device Advisor resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -925,6 +952,7 @@ extension IoTDeviceAdvisor {
         /// Provides test case run warnings.
         public let warnings: String?
 
+        @inlinable
         public init(endTime: Date? = nil, failure: String? = nil, logUrl: String? = nil, startTime: Date? = nil, status: Status? = nil, testCaseDefinitionId: String? = nil, testCaseDefinitionName: String? = nil, testCaseRunId: String? = nil, testScenarios: [TestCaseScenario]? = nil, warnings: String? = nil) {
             self.endTime = endTime
             self.failure = failure
@@ -964,6 +992,7 @@ extension IoTDeviceAdvisor {
         /// Provides test case scenario type. Type is one of the following:   Advanced   Basic
         public let testCaseScenarioType: TestCaseScenarioType?
 
+        @inlinable
         public init(failure: String? = nil, status: TestCaseScenarioStatus? = nil, systemMessage: String? = nil, testCaseScenarioId: String? = nil, testCaseScenarioType: TestCaseScenarioType? = nil) {
             self.failure = failure
             self.status = status
@@ -985,6 +1014,7 @@ extension IoTDeviceAdvisor {
         /// Show each group of test results.
         public let groups: [GroupResult]?
 
+        @inlinable
         public init(groups: [GroupResult]? = nil) {
             self.groups = groups
         }
@@ -1000,6 +1030,7 @@ extension IoTDeviceAdvisor {
         /// List of tag keys to remove from the IoT Device Advisor resource.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1035,6 +1066,7 @@ extension IoTDeviceAdvisor {
         /// Suite definition ID of the test suite to be updated.
         public let suiteDefinitionId: String
 
+        @inlinable
         public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, suiteDefinitionId: String) {
             self.suiteDefinitionConfiguration = suiteDefinitionConfiguration
             self.suiteDefinitionId = suiteDefinitionId
@@ -1072,6 +1104,7 @@ extension IoTDeviceAdvisor {
         /// Suite definition version of the updated test suite.
         public let suiteDefinitionVersion: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, lastUpdatedAt: Date? = nil, suiteDefinitionArn: String? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil, suiteDefinitionVersion: String? = nil) {
             self.createdAt = createdAt
             self.lastUpdatedAt = lastUpdatedAt

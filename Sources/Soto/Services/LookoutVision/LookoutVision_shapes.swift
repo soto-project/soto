@@ -99,6 +99,7 @@ extension LookoutVision {
         /// Information about the pixel mask that covers an anomaly type.
         public let pixelAnomaly: PixelAnomaly?
 
+        @inlinable
         public init(name: String? = nil, pixelAnomaly: PixelAnomaly? = nil) {
             self.name = name
             self.pixelAnomaly = pixelAnomaly
@@ -120,6 +121,7 @@ extension LookoutVision {
         /// The name of the project in which you want to create a dataset.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetSource: DatasetSource? = nil, datasetType: String? = nil, projectName: String) {
             self.clientToken = clientToken
             self.datasetSource = datasetSource
@@ -159,6 +161,7 @@ extension LookoutVision {
         /// Information about the dataset.
         public let datasetMetadata: DatasetMetadata?
 
+        @inlinable
         public init(datasetMetadata: DatasetMetadata? = nil) {
             self.datasetMetadata = datasetMetadata
         }
@@ -182,6 +185,7 @@ extension LookoutVision {
         /// A set of tags (key-value pairs) that you want to attach to the model.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String? = CreateModelRequest.idempotencyToken(), description: String? = nil, kmsKeyId: String? = nil, outputConfig: OutputConfig? = nil, projectName: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -234,6 +238,7 @@ extension LookoutVision {
         /// The response from a call to CreateModel.
         public let modelMetadata: ModelMetadata?
 
+        @inlinable
         public init(modelMetadata: ModelMetadata? = nil) {
             self.modelMetadata = modelMetadata
         }
@@ -249,6 +254,7 @@ extension LookoutVision {
         /// The name for the project.
         public let projectName: String?
 
+        @inlinable
         public init(clientToken: String? = CreateProjectRequest.idempotencyToken(), projectName: String? = nil) {
             self.clientToken = clientToken
             self.projectName = projectName
@@ -279,6 +285,7 @@ extension LookoutVision {
         /// Information about the project.
         public let projectMetadata: ProjectMetadata?
 
+        @inlinable
         public init(projectMetadata: ProjectMetadata? = nil) {
             self.projectMetadata = projectMetadata
         }
@@ -304,6 +311,7 @@ extension LookoutVision {
         /// The status message for the dataset.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, datasetType: String? = nil, imageStats: DatasetImageStats? = nil, lastUpdatedTimestamp: Date? = nil, projectName: String? = nil, status: DatasetStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.datasetType = datasetType
@@ -329,6 +337,7 @@ extension LookoutVision {
         /// The S3 bucket location for the manifest file.
         public let s3Object: InputS3Object?
 
+        @inlinable
         public init(s3Object: InputS3Object? = nil) {
             self.s3Object = s3Object
         }
@@ -352,6 +361,7 @@ extension LookoutVision {
         /// The total number of images in the dataset.
         public let total: Int?
 
+        @inlinable
         public init(anomaly: Int? = nil, labeled: Int? = nil, normal: Int? = nil, total: Int? = nil) {
             self.anomaly = anomaly
             self.labeled = labeled
@@ -377,6 +387,7 @@ extension LookoutVision {
         /// The status message for the dataset.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, datasetType: String? = nil, status: DatasetStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.datasetType = datasetType
@@ -396,6 +407,7 @@ extension LookoutVision {
         /// Location information for the manifest file.
         public let groundTruthManifest: DatasetGroundTruthManifest?
 
+        @inlinable
         public init(groundTruthManifest: DatasetGroundTruthManifest? = nil) {
             self.groundTruthManifest = groundTruthManifest
         }
@@ -417,6 +429,7 @@ extension LookoutVision {
         /// The name of the project that contains the dataset that you want to delete.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteDatasetRequest.idempotencyToken(), datasetType: String, projectName: String) {
             self.clientToken = clientToken
             self.datasetType = datasetType
@@ -458,6 +471,7 @@ extension LookoutVision {
         /// The name of the project that contains the model that you want to delete.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteModelRequest.idempotencyToken(), modelVersion: String, projectName: String) {
             self.clientToken = clientToken
             self.modelVersion = modelVersion
@@ -491,6 +505,7 @@ extension LookoutVision {
         /// The Amazon Resource Name (ARN) of the model that was deleted.
         public let modelArn: String?
 
+        @inlinable
         public init(modelArn: String? = nil) {
             self.modelArn = modelArn
         }
@@ -506,6 +521,7 @@ extension LookoutVision {
         /// The name of the project to delete.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteProjectRequest.idempotencyToken(), projectName: String) {
             self.clientToken = clientToken
             self.projectName = projectName
@@ -534,6 +550,7 @@ extension LookoutVision {
         /// The Amazon Resource Name (ARN) of the project that was deleted.
         public let projectArn: String?
 
+        @inlinable
         public init(projectArn: String? = nil) {
             self.projectArn = projectArn
         }
@@ -549,6 +566,7 @@ extension LookoutVision {
         /// The name of the project that contains the dataset that you want to describe.
         public let projectName: String
 
+        @inlinable
         public init(datasetType: String, projectName: String) {
             self.datasetType = datasetType
             self.projectName = projectName
@@ -577,6 +595,7 @@ extension LookoutVision {
         /// The description of the requested dataset.
         public let datasetDescription: DatasetDescription?
 
+        @inlinable
         public init(datasetDescription: DatasetDescription? = nil) {
             self.datasetDescription = datasetDescription
         }
@@ -592,6 +611,7 @@ extension LookoutVision {
         /// The name of the project that contains the model packaging job that you want to describe.
         public let projectName: String
 
+        @inlinable
         public init(jobName: String, projectName: String) {
             self.jobName = jobName
             self.projectName = projectName
@@ -620,6 +640,7 @@ extension LookoutVision {
         /// The description of the model packaging job.
         public let modelPackagingDescription: ModelPackagingDescription?
 
+        @inlinable
         public init(modelPackagingDescription: ModelPackagingDescription? = nil) {
             self.modelPackagingDescription = modelPackagingDescription
         }
@@ -635,6 +656,7 @@ extension LookoutVision {
         /// The project that contains the version of a model that you want to describe.
         public let projectName: String
 
+        @inlinable
         public init(modelVersion: String, projectName: String) {
             self.modelVersion = modelVersion
             self.projectName = projectName
@@ -663,6 +685,7 @@ extension LookoutVision {
         /// Contains the description of the model.
         public let modelDescription: ModelDescription?
 
+        @inlinable
         public init(modelDescription: ModelDescription? = nil) {
             self.modelDescription = modelDescription
         }
@@ -676,6 +699,7 @@ extension LookoutVision {
         /// The name of the project that you want to describe.
         public let projectName: String
 
+        @inlinable
         public init(projectName: String) {
             self.projectName = projectName
         }
@@ -699,6 +723,7 @@ extension LookoutVision {
         /// The description of the project.
         public let projectDescription: ProjectDescription?
 
+        @inlinable
         public init(projectDescription: ProjectDescription? = nil) {
             self.projectDescription = projectDescription
         }
@@ -719,6 +744,7 @@ extension LookoutVision {
         /// The name of the project that contains the model version that you want to use.
         public let projectName: String
 
+        @inlinable
         public init(body: AWSHTTPBody? = nil, contentType: String? = nil, modelVersion: String, projectName: String) {
             self.body = body
             self.contentType = contentType
@@ -754,6 +780,7 @@ extension LookoutVision {
         /// The results of the DetectAnomalies operation.
         public let detectAnomalyResult: DetectAnomalyResult?
 
+        @inlinable
         public init(detectAnomalyResult: DetectAnomalyResult? = nil) {
             self.detectAnomalyResult = detectAnomalyResult
         }
@@ -775,6 +802,7 @@ extension LookoutVision {
         /// The source of the image that was analyzed. direct means that the images was supplied from the local computer. No other values are supported.
         public let source: ImageSource?
 
+        @inlinable
         public init(anomalies: [Anomaly]? = nil, anomalyMask: AWSBase64Data? = nil, confidence: Float? = nil, isAnomalous: Bool? = nil, source: ImageSource? = nil) {
             self.anomalies = anomalies
             self.anomalyMask = anomalyMask
@@ -810,6 +838,7 @@ extension LookoutVision {
         /// The target platform for the model. If you specify TargetPlatform, you can't specify TargetDevice.
         public let targetPlatform: TargetPlatform?
 
+        @inlinable
         public init(compilerOptions: String? = nil, componentDescription: String? = nil, componentName: String? = nil, componentVersion: String? = nil, s3OutputLocation: S3Location? = nil, tags: [Tag]? = nil, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
             self.compilerOptions = compilerOptions
             self.componentDescription = componentDescription
@@ -861,6 +890,7 @@ extension LookoutVision {
         /// The Amazon Resource Name (ARN) of the component.
         public let componentVersionArn: String?
 
+        @inlinable
         public init(componentName: String? = nil, componentVersion: String? = nil, componentVersionArn: String? = nil) {
             self.componentName = componentName
             self.componentVersion = componentVersion
@@ -878,6 +908,7 @@ extension LookoutVision {
         /// The type of the image.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -895,6 +926,7 @@ extension LookoutVision {
         /// The version ID of the bucket.
         public let versionId: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -940,6 +972,7 @@ extension LookoutVision {
         /// Perform a "contains" search on the  values of the source-ref key within the dataset.  For example a value of "IMG_17"  returns all JSON Lines where the source-ref key value matches *IMG_17*.
         public let sourceRefContains: String?
 
+        @inlinable
         public init(afterCreationDate: Date? = nil, anomalyClass: String? = nil, beforeCreationDate: Date? = nil, datasetType: String, labeled: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectName: String, sourceRefContains: String? = nil) {
             self.afterCreationDate = afterCreationDate
             self.anomalyClass = anomalyClass
@@ -994,6 +1027,7 @@ extension LookoutVision {
         /// If the response is truncated, Amazon Lookout for Vision returns this token that you can use in the subsequent request to retrieve the next set ofdataset entries.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetEntries: [String]? = nil, nextToken: String? = nil) {
             self.datasetEntries = datasetEntries
             self.nextToken = nextToken
@@ -1013,6 +1047,7 @@ extension LookoutVision {
         /// The name of the project for which you want to list the model packaging jobs.
         public let projectName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1046,6 +1081,7 @@ extension LookoutVision {
         /// If the previous response was incomplete (because there is more results to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination  token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(modelPackagingJobs: [ModelPackagingJobMetadata]? = nil, nextToken: String? = nil) {
             self.modelPackagingJobs = modelPackagingJobs
             self.nextToken = nextToken
@@ -1065,6 +1101,7 @@ extension LookoutVision {
         /// The name of the project that contains the model versions that you want to list.
         public let projectName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1098,6 +1135,7 @@ extension LookoutVision {
         /// If the response is truncated, Amazon Lookout for Vision returns this token that you can use in the subsequent request to retrieve the next set of models.
         public let nextToken: String?
 
+        @inlinable
         public init(models: [ModelMetadata]? = nil, nextToken: String? = nil) {
             self.models = models
             self.nextToken = nextToken
@@ -1115,6 +1153,7 @@ extension LookoutVision {
         /// If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of projects.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1143,6 +1182,7 @@ extension LookoutVision {
         /// A list of projects in your AWS account.
         public let projects: [ProjectMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, projects: [ProjectMetadata]? = nil) {
             self.nextToken = nextToken
             self.projects = projects
@@ -1158,6 +1198,7 @@ extension LookoutVision {
         /// The Amazon Resource Name (ARN) of the model for which you want to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1180,6 +1221,7 @@ extension LookoutVision {
         /// A map of tag keys and values attached to the specified model.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1219,6 +1261,7 @@ extension LookoutVision {
         /// The status message for the model.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, description: String? = nil, evaluationEndTimestamp: Date? = nil, evaluationManifest: OutputS3Object? = nil, evaluationResult: OutputS3Object? = nil, kmsKeyId: String? = nil, maxInferenceUnits: Int? = nil, minInferenceUnits: Int? = nil, modelArn: String? = nil, modelVersion: String? = nil, outputConfig: OutputConfig? = nil, performance: ModelPerformance? = nil, status: ModelStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.description = description
@@ -1270,6 +1313,7 @@ extension LookoutVision {
         /// The status message for the model.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, description: String? = nil, modelArn: String? = nil, modelVersion: String? = nil, performance: ModelPerformance? = nil, status: ModelStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.description = description
@@ -1295,6 +1339,7 @@ extension LookoutVision {
         /// Configuration information for the AWS IoT Greengrass component in a model packaging job.
         public let greengrass: GreengrassConfiguration?
 
+        @inlinable
         public init(greengrass: GreengrassConfiguration? = nil) {
             self.greengrass = greengrass
         }
@@ -1333,6 +1378,7 @@ extension LookoutVision {
         /// The status message for the model packaging job.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, jobName: String? = nil, lastUpdatedTimestamp: Date? = nil, modelPackagingConfiguration: ModelPackagingConfiguration? = nil, modelPackagingJobDescription: String? = nil, modelPackagingMethod: String? = nil, modelPackagingOutputDetails: ModelPackagingOutputDetails? = nil, modelVersion: String? = nil, projectName: String? = nil, status: ModelPackagingJobStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.jobName = jobName
@@ -1382,6 +1428,7 @@ extension LookoutVision {
         /// The status message for the model packaging job.
         public let statusMessage: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, jobName: String? = nil, lastUpdatedTimestamp: Date? = nil, modelPackagingJobDescription: String? = nil, modelPackagingMethod: String? = nil, modelVersion: String? = nil, projectName: String? = nil, status: ModelPackagingJobStatus? = nil, statusMessage: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.jobName = jobName
@@ -1411,6 +1458,7 @@ extension LookoutVision {
         /// Information about the AWS IoT Greengrass component in a model packaging job.
         public let greengrass: GreengrassOutputDetails?
 
+        @inlinable
         public init(greengrass: GreengrassOutputDetails? = nil) {
             self.greengrass = greengrass
         }
@@ -1428,6 +1476,7 @@ extension LookoutVision {
         /// The overall recall metric value for the trained model.
         public let recall: Float?
 
+        @inlinable
         public init(f1Score: Float? = nil, precision: Float? = nil, recall: Float? = nil) {
             self.f1Score = f1Score
             self.precision = precision
@@ -1445,6 +1494,7 @@ extension LookoutVision {
         /// The S3 location for the output.
         public let s3Location: S3Location?
 
+        @inlinable
         public init(s3Location: S3Location? = nil) {
             self.s3Location = s3Location
         }
@@ -1464,6 +1514,7 @@ extension LookoutVision {
         /// The location of the training output in the bucket.
         public let key: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -1481,6 +1532,7 @@ extension LookoutVision {
         /// The percentage area of the image that the anomaly type covers.
         public let totalPercentageArea: Float?
 
+        @inlinable
         public init(color: String? = nil, totalPercentageArea: Float? = nil) {
             self.color = color
             self.totalPercentageArea = totalPercentageArea
@@ -1502,6 +1554,7 @@ extension LookoutVision {
         /// The name of the project.
         public let projectName: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, datasets: [DatasetMetadata]? = nil, projectArn: String? = nil, projectName: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.datasets = datasets
@@ -1525,6 +1578,7 @@ extension LookoutVision {
         /// The name of the project.
         public let projectName: String?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, projectArn: String? = nil, projectName: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.projectArn = projectArn
@@ -1544,6 +1598,7 @@ extension LookoutVision {
         /// The path of the folder, within the S3 bucket, that contains the output.
         public let prefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
             self.prefix = prefix
@@ -1577,6 +1632,7 @@ extension LookoutVision {
         /// The name of the project which contains the version of the model that you want to package.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = StartModelPackagingJobRequest.idempotencyToken(), configuration: ModelPackagingConfiguration? = nil, description: String? = nil, jobName: String? = nil, modelVersion: String? = nil, projectName: String) {
             self.clientToken = clientToken
             self.configuration = configuration
@@ -1628,6 +1684,7 @@ extension LookoutVision {
         /// The job name for the model packaging job. If you don't supply a job name in the JobName input parameter, the service creates a job name for you.
         public let jobName: String?
 
+        @inlinable
         public init(jobName: String? = nil) {
             self.jobName = jobName
         }
@@ -1649,6 +1706,7 @@ extension LookoutVision {
         /// The name of the project that contains the model that you want to start.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = StartModelRequest.idempotencyToken(), maxInferenceUnits: Int? = nil, minInferenceUnits: Int? = nil, modelVersion: String, projectName: String) {
             self.clientToken = clientToken
             self.maxInferenceUnits = maxInferenceUnits
@@ -1691,6 +1749,7 @@ extension LookoutVision {
         /// The current running status of the model.
         public let status: ModelHostingStatus?
 
+        @inlinable
         public init(status: ModelHostingStatus? = nil) {
             self.status = status
         }
@@ -1708,6 +1767,7 @@ extension LookoutVision {
         /// The name of the project that contains the model that you want to stop.
         public let projectName: String
 
+        @inlinable
         public init(clientToken: String? = StopModelRequest.idempotencyToken(), modelVersion: String, projectName: String) {
             self.clientToken = clientToken
             self.modelVersion = modelVersion
@@ -1741,6 +1801,7 @@ extension LookoutVision {
         /// The status of the model.
         public let status: ModelHostingStatus?
 
+        @inlinable
         public init(status: ModelHostingStatus? = nil) {
             self.status = status
         }
@@ -1756,6 +1817,7 @@ extension LookoutVision {
         /// The value of the tag that is attached to the specified model.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1781,6 +1843,7 @@ extension LookoutVision {
         /// The key-value tags to assign to the model.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1819,6 +1882,7 @@ extension LookoutVision {
         /// The target operating system for the model. Linux is the only operating system that is currently supported.
         public let os: TargetPlatformOs?
 
+        @inlinable
         public init(accelerator: TargetPlatformAccelerator? = nil, arch: TargetPlatformArch? = nil, os: TargetPlatformOs? = nil) {
             self.accelerator = accelerator
             self.arch = arch
@@ -1838,6 +1902,7 @@ extension LookoutVision {
         /// A list of the keys of the tags that you want to remove.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1878,6 +1943,7 @@ extension LookoutVision {
         /// The name of the project that contains the dataset that you want to update.
         public let projectName: String
 
+        @inlinable
         public init(changes: AWSBase64Data? = nil, clientToken: String? = UpdateDatasetEntriesRequest.idempotencyToken(), datasetType: String, projectName: String) {
             self.changes = changes
             self.clientToken = clientToken
@@ -1917,6 +1983,7 @@ extension LookoutVision {
         /// The status of the dataset update.
         public let status: DatasetStatus?
 
+        @inlinable
         public init(status: DatasetStatus? = nil) {
             self.status = status
         }

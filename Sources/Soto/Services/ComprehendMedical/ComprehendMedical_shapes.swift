@@ -282,6 +282,7 @@ extension ComprehendMedical {
         ///  The type of attribute.
         public let type: EntitySubType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, category: EntityType? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: RelationshipType? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.beginOffset = beginOffset
             self.category = category
@@ -313,6 +314,7 @@ extension ComprehendMedical {
         ///  The number of characters present in the input text document as processed by Amazon Comprehend Medical.
         public let originalTextCharacters: Int?
 
+        @inlinable
         public init(originalTextCharacters: Int? = nil) {
             self.originalTextCharacters = originalTextCharacters
         }
@@ -332,6 +334,7 @@ extension ComprehendMedical {
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submitTimeBefore: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -383,6 +386,7 @@ extension ComprehendMedical {
         /// The time that the detection job was submitted for processing.
         public let submitTime: Date?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, expirationTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, kmsKey: String? = nil, languageCode: LanguageCode? = nil, manifestFilePath: String? = nil, message: String? = nil, modelVersion: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -422,6 +426,7 @@ extension ComprehendMedical {
         /// The identifier that Amazon Comprehend Medical generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -441,6 +446,7 @@ extension ComprehendMedical {
         /// An object that contains the properties associated with a detection job.
         public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
             self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
         }
@@ -454,6 +460,7 @@ extension ComprehendMedical {
         /// The identifier that Amazon Comprehend Medical generated for the job. The StartICD10CMInferenceJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -473,6 +480,7 @@ extension ComprehendMedical {
         /// An object that contains the properties associated with a detection job.
         public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
             self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
         }
@@ -486,6 +494,7 @@ extension ComprehendMedical {
         /// The identifier that Amazon Comprehend Medical generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -505,6 +514,7 @@ extension ComprehendMedical {
         /// An object that contains the properties associated with a detection job.
         public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
             self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
         }
@@ -518,6 +528,7 @@ extension ComprehendMedical {
         /// The identifier that Amazon Comprehend Medical generated for the job. The StartRxNormInferenceJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -537,6 +548,7 @@ extension ComprehendMedical {
         /// An object that contains the properties associated with a detection job.
         public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
             self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
         }
@@ -550,6 +562,7 @@ extension ComprehendMedical {
         ///  The identifier that Amazon Comprehend Medical generated for the job. The StartSNOMEDCTInferenceJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -568,6 +581,7 @@ extension ComprehendMedical {
     public struct DescribeSNOMEDCTInferenceJobResponse: AWSDecodableShape {
         public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
             self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
         }
@@ -581,6 +595,7 @@ extension ComprehendMedical {
         ///  A UTF-8 text string containing the clinical content being examined for entities.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -605,6 +620,7 @@ extension ComprehendMedical {
         /// Attributes extracted from the input text that we were unable to relate to an entity.
         public let unmappedAttributes: [UnmappedAttribute]?
 
+        @inlinable
         public init(entities: [Entity], modelVersion: String, paginationToken: String? = nil, unmappedAttributes: [UnmappedAttribute]? = nil) {
             self.entities = entities
             self.modelVersion = modelVersion
@@ -624,6 +640,7 @@ extension ComprehendMedical {
         /// A UTF-8 string containing the clinical content being examined for entities.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -648,6 +665,7 @@ extension ComprehendMedical {
         /// Attributes extracted from the input text that couldn't be related to an entity.
         public let unmappedAttributes: [UnmappedAttribute]?
 
+        @inlinable
         public init(entities: [Entity], modelVersion: String, paginationToken: String? = nil, unmappedAttributes: [UnmappedAttribute]? = nil) {
             self.entities = entities
             self.modelVersion = modelVersion
@@ -667,6 +685,7 @@ extension ComprehendMedical {
         /// A UTF-8 text string containing the clinical content being examined for PHI entities.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -689,6 +708,7 @@ extension ComprehendMedical {
         /// If the result of the previous request to DetectPHI was truncated, include the PaginationToken to fetch the next page of PHI entities.
         public let paginationToken: String?
 
+        @inlinable
         public init(entities: [Entity], modelVersion: String, paginationToken: String? = nil) {
             self.entities = entities
             self.modelVersion = modelVersion
@@ -722,6 +742,7 @@ extension ComprehendMedical {
         ///  Describes the specific type of entity with category of entities.
         public let type: EntitySubType?
 
+        @inlinable
         public init(attributes: [Attribute]? = nil, beginOffset: Int? = nil, category: EntityType? = nil, endOffset: Int? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.attributes = attributes
             self.beginOffset = beginOffset
@@ -769,6 +790,7 @@ extension ComprehendMedical {
         /// The type of attribute. InferICD10CM detects entities of the type DX_NAME.
         public let type: ICD10CMAttributeType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, category: ICD10CMEntityType? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: ICD10CMRelationshipType? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMAttributeType? = nil) {
             self.beginOffset = beginOffset
             self.category = category
@@ -804,6 +826,7 @@ extension ComprehendMedical {
         /// The level of confidence that Amazon Comprehend Medical has that the entity is accurately linked to an ICD-10-CM concept.
         public let score: Float?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil, score: Float? = nil) {
             self.code = code
             self.description = description
@@ -839,6 +862,7 @@ extension ComprehendMedical {
         /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME and TIME_EXPRESSION.
         public let type: ICD10CMEntityType?
 
+        @inlinable
         public init(attributes: [ICD10CMAttribute]? = nil, beginOffset: Int? = nil, category: ICD10CMEntityCategory? = nil, endOffset: Int? = nil, icd10cmConcepts: [ICD10CMConcept]? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMEntityType? = nil) {
             self.attributes = attributes
             self.beginOffset = beginOffset
@@ -872,6 +896,7 @@ extension ComprehendMedical {
         /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as a trait.
         public let score: Float?
 
+        @inlinable
         public init(name: ICD10CMTraitName? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -887,6 +912,7 @@ extension ComprehendMedical {
         /// The input text used for analysis.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -909,6 +935,7 @@ extension ComprehendMedical {
         /// If the result of the previous request to InferICD10CM was truncated, include the PaginationToken to fetch the next page of medical condition entities.
         public let paginationToken: String?
 
+        @inlinable
         public init(entities: [ICD10CMEntity], modelVersion: String? = nil, paginationToken: String? = nil) {
             self.entities = entities
             self.modelVersion = modelVersion
@@ -926,6 +953,7 @@ extension ComprehendMedical {
         /// The input text used for analysis.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -948,6 +976,7 @@ extension ComprehendMedical {
         /// If the result of the previous request to InferRxNorm was truncated, include the PaginationToken to fetch the next page of medication entities.
         public let paginationToken: String?
 
+        @inlinable
         public init(entities: [RxNormEntity], modelVersion: String? = nil, paginationToken: String? = nil) {
             self.entities = entities
             self.modelVersion = modelVersion
@@ -965,6 +994,7 @@ extension ComprehendMedical {
         /// The input text to be analyzed using InferSNOMEDCT.
         public let text: String
 
+        @inlinable
         public init(text: String) {
             self.text = text
         }
@@ -991,6 +1021,7 @@ extension ComprehendMedical {
         ///  The details of the SNOMED-CT revision, including the edition, language, and version date.
         public let snomedctDetails: SNOMEDCTDetails?
 
+        @inlinable
         public init(characters: Characters? = nil, entities: [SNOMEDCTEntity], modelVersion: String? = nil, paginationToken: String? = nil, snomedctDetails: SNOMEDCTDetails? = nil) {
             self.characters = characters
             self.entities = entities
@@ -1014,6 +1045,7 @@ extension ComprehendMedical {
         /// The path to the input data files in the S3 bucket.
         public let s3Key: String?
 
+        @inlinable
         public init(s3Bucket: String, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -1041,6 +1073,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1067,6 +1100,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
             self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
             self.nextToken = nextToken
@@ -1086,6 +1120,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1112,6 +1147,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
             self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
             self.nextToken = nextToken
@@ -1131,6 +1167,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1157,6 +1194,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
             self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
             self.nextToken = nextToken
@@ -1176,6 +1214,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1202,6 +1241,7 @@ extension ComprehendMedical {
         /// Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
             self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
             self.nextToken = nextToken
@@ -1220,6 +1260,7 @@ extension ComprehendMedical {
         ///  Identifies the next page of InferSNOMEDCT results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1246,6 +1287,7 @@ extension ComprehendMedical {
         ///  Identifies the next page of results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
             self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
             self.nextToken = nextToken
@@ -1263,6 +1305,7 @@ extension ComprehendMedical {
         /// The path to the output data files in the S3 bucket. Amazon Comprehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
         public let s3Key: String?
 
+        @inlinable
         public init(s3Bucket: String, s3Key: String? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -1300,6 +1343,7 @@ extension ComprehendMedical {
         /// The type of attribute. The types of attributes recognized by InferRxNorm are BRAND_NAME and GENERIC_NAME.
         public let type: RxNormAttributeType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [RxNormTrait]? = nil, type: RxNormAttributeType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
@@ -1331,6 +1375,7 @@ extension ComprehendMedical {
         /// The level of confidence that Amazon Comprehend Medical has that the entity is accurately linked to the reported RxNorm concept.
         public let score: Float?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil, score: Float? = nil) {
             self.code = code
             self.description = description
@@ -1366,6 +1411,7 @@ extension ComprehendMedical {
         ///  Describes the specific type of entity. For InferRxNorm, the recognized entity type is MEDICATION.
         public let type: RxNormEntityType?
 
+        @inlinable
         public init(attributes: [RxNormAttribute]? = nil, beginOffset: Int? = nil, category: RxNormEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, rxNormConcepts: [RxNormConcept]? = nil, score: Float? = nil, text: String? = nil, traits: [RxNormTrait]? = nil, type: RxNormEntityType? = nil) {
             self.attributes = attributes
             self.beginOffset = beginOffset
@@ -1399,6 +1445,7 @@ extension ComprehendMedical {
         /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detected trait.
         public let score: Float?
 
+        @inlinable
         public init(name: RxNormTraitName? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -1434,6 +1481,7 @@ extension ComprehendMedical {
         ///  The type of attribute. Possible types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE,TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, and TREATMENT_NAME.
         public let type: SNOMEDCTAttributeType?
 
+        @inlinable
         public init(beginOffset: Int? = nil, category: SNOMEDCTEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: SNOMEDCTRelationshipType? = nil, score: Float? = nil, snomedctConcepts: [SNOMEDCTConcept]? = nil, text: String? = nil, traits: [SNOMEDCTTrait]? = nil, type: SNOMEDCTAttributeType? = nil) {
             self.beginOffset = beginOffset
             self.category = category
@@ -1471,6 +1519,7 @@ extension ComprehendMedical {
         ///  The level of confidence Amazon Comprehend Medical has that the entity should be linked to the identified SNOMED-CT concept.
         public let score: Float?
 
+        @inlinable
         public init(code: String? = nil, description: String? = nil, score: Float? = nil) {
             self.code = code
             self.description = description
@@ -1492,6 +1541,7 @@ extension ComprehendMedical {
         ///  The version date of the SNOMED-CT ontology used.
         public let versionDate: String?
 
+        @inlinable
         public init(edition: String? = nil, language: String? = nil, versionDate: String? = nil) {
             self.edition = edition
             self.language = language
@@ -1527,6 +1577,7 @@ extension ComprehendMedical {
         ///  Describes the specific type of entity with category of entities. Possible types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE, TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, or TREATMENT_NAME.
         public let type: SNOMEDCTEntityType?
 
+        @inlinable
         public init(attributes: [SNOMEDCTAttribute]? = nil, beginOffset: Int? = nil, category: SNOMEDCTEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, score: Float? = nil, snomedctConcepts: [SNOMEDCTConcept]? = nil, text: String? = nil, traits: [SNOMEDCTTrait]? = nil, type: SNOMEDCTEntityType? = nil) {
             self.attributes = attributes
             self.beginOffset = beginOffset
@@ -1560,6 +1611,7 @@ extension ComprehendMedical {
         ///  The level of confidence that Amazon Comprehend Medical has in the accuracy of a detected trait.
         public let score: Float?
 
+        @inlinable
         public init(name: SNOMEDCTTraitName? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -1587,6 +1639,7 @@ extension ComprehendMedical {
         /// The output configuration that specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientRequestToken: String? = StartEntitiesDetectionV2JobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1629,6 +1682,7 @@ extension ComprehendMedical {
         /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeEntitiesDetectionV2Job operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1654,6 +1708,7 @@ extension ComprehendMedical {
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientRequestToken: String? = StartICD10CMInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1696,6 +1751,7 @@ extension ComprehendMedical {
         /// The identifier generated for the job. To get the status of a job, use this identifier with the StartICD10CMInferenceJob operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1721,6 +1777,7 @@ extension ComprehendMedical {
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientRequestToken: String? = StartPHIDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1763,6 +1820,7 @@ extension ComprehendMedical {
         /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribePHIDetectionJob operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1788,6 +1846,7 @@ extension ComprehendMedical {
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientRequestToken: String? = StartRxNormInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1830,6 +1889,7 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1853,6 +1913,7 @@ extension ComprehendMedical {
         public let languageCode: LanguageCode
         public let outputDataConfig: OutputDataConfig
 
+        @inlinable
         public init(clientRequestToken: String? = StartSNOMEDCTInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -1895,6 +1956,7 @@ extension ComprehendMedical {
         ///  The identifier generated for the job. To get the status of a job, use this identifier with the StartSNOMEDCTInferenceJob operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1908,6 +1970,7 @@ extension ComprehendMedical {
         /// The identifier of the medical entities job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1927,6 +1990,7 @@ extension ComprehendMedical {
         /// The identifier of the medical entities detection job that was stopped.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1940,6 +2004,7 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1959,6 +2024,7 @@ extension ComprehendMedical {
         /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeICD10CMInferenceJob operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -1972,6 +2038,7 @@ extension ComprehendMedical {
         /// The identifier of the PHI detection job to stop.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1991,6 +2058,7 @@ extension ComprehendMedical {
         /// The identifier of the PHI detection job that was stopped.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2004,6 +2072,7 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2023,6 +2092,7 @@ extension ComprehendMedical {
         /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeRxNormInferenceJob operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2036,6 +2106,7 @@ extension ComprehendMedical {
         ///  The job id of the asynchronous InferSNOMEDCT job to be stopped.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -2055,6 +2126,7 @@ extension ComprehendMedical {
         ///  The identifier generated for the job. To get the status of job, use this identifier with the DescribeSNOMEDCTInferenceJob operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2070,6 +2142,7 @@ extension ComprehendMedical {
         ///  The level of confidence that Amazon Comprehend Medical has in the accuracy of this trait.
         public let score: Float?
 
+        @inlinable
         public init(name: AttributeName? = nil, score: Float? = nil) {
             self.name = name
             self.score = score
@@ -2087,6 +2160,7 @@ extension ComprehendMedical {
         ///  The type of the unmapped attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
         public let type: EntityType?
 
+        @inlinable
         public init(attribute: Attribute? = nil, type: EntityType? = nil) {
             self.attribute = attribute
             self.type = type

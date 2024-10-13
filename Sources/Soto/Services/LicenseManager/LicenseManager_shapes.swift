@@ -227,6 +227,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
 
+        @inlinable
         public init(grantArn: String) {
             self.grantArn = grantArn
         }
@@ -249,6 +250,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String?
 
+        @inlinable
         public init(grantArn: String? = nil, status: GrantStatus? = nil, version: String? = nil) {
             self.grantArn = grantArn
             self.status = status
@@ -266,6 +268,7 @@ extension LicenseManager {
         /// Time that automated discovery last ran.
         public let lastRunTime: Date?
 
+        @inlinable
         public init(lastRunTime: Date? = nil) {
             self.lastRunTime = lastRunTime
         }
@@ -281,6 +284,7 @@ extension LicenseManager {
         /// Maximum time for the borrow configuration, in minutes.
         public let maxTimeToLiveInMinutes: Int
 
+        @inlinable
         public init(allowEarlyCheckIn: Bool, maxTimeToLiveInMinutes: Int) {
             self.allowEarlyCheckIn = allowEarlyCheckIn
             self.maxTimeToLiveInMinutes = maxTimeToLiveInMinutes
@@ -298,6 +302,7 @@ extension LicenseManager {
         /// License consumption token.
         public let licenseConsumptionToken: String
 
+        @inlinable
         public init(beneficiary: String? = nil, licenseConsumptionToken: String) {
             self.beneficiary = beneficiary
             self.licenseConsumptionToken = licenseConsumptionToken
@@ -327,6 +332,7 @@ extension LicenseManager {
         /// Node ID.
         public let nodeId: String?
 
+        @inlinable
         public init(checkoutMetadata: [Metadata]? = nil, clientToken: String, digitalSignatureMethod: DigitalSignatureMethod, entitlements: [EntitlementData], licenseArn: String, nodeId: String? = nil) {
             self.checkoutMetadata = checkoutMetadata
             self.clientToken = clientToken
@@ -371,6 +377,7 @@ extension LicenseManager {
         /// Signed token.
         public let signedToken: String?
 
+        @inlinable
         public init(checkoutMetadata: [Metadata]? = nil, entitlementsAllowed: [EntitlementData]? = nil, expiration: String? = nil, issuedAt: String? = nil, licenseArn: String? = nil, licenseConsumptionToken: String? = nil, nodeId: String? = nil, signedToken: String? = nil) {
             self.checkoutMetadata = checkoutMetadata
             self.entitlementsAllowed = entitlementsAllowed
@@ -410,6 +417,7 @@ extension LicenseManager {
         /// Product SKU.
         public let productSKU: String
 
+        @inlinable
         public init(beneficiary: String? = nil, checkoutType: CheckoutType, clientToken: String, entitlements: [EntitlementData], keyFingerprint: String, nodeId: String? = nil, productSKU: String) {
             self.beneficiary = beneficiary
             self.checkoutType = checkoutType
@@ -454,6 +462,7 @@ extension LicenseManager {
         /// Signed token.
         public let signedToken: String?
 
+        @inlinable
         public init(checkoutType: CheckoutType? = nil, entitlementsAllowed: [EntitlementData]? = nil, expiration: String? = nil, issuedAt: String? = nil, licenseArn: String? = nil, licenseConsumptionToken: String? = nil, nodeId: String? = nil, signedToken: String? = nil) {
             self.checkoutType = checkoutType
             self.entitlementsAllowed = entitlementsAllowed
@@ -483,6 +492,7 @@ extension LicenseManager {
         /// Resource type of the resource consuming a license.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(consumedLicenses: Int64? = nil, resourceType: ResourceType? = nil) {
             self.consumedLicenses = consumedLicenses
             self.resourceType = resourceType
@@ -502,6 +512,7 @@ extension LicenseManager {
         /// Renewal frequency.
         public let renewType: RenewType?
 
+        @inlinable
         public init(borrowConfiguration: BorrowConfiguration? = nil, provisionalConfiguration: ProvisionalConfiguration? = nil, renewType: RenewType? = nil) {
             self.borrowConfiguration = borrowConfiguration
             self.provisionalConfiguration = provisionalConfiguration
@@ -529,6 +540,7 @@ extension LicenseManager {
         /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):   An Amazon Web Services account, which includes only the account specified.     An organizational unit (OU), which includes all accounts in the OU.     An organization, which will include all accounts across your organization.
         public let principals: [String]
 
+        @inlinable
         public init(allowedOperations: [AllowedOperation], clientToken: String, grantName: String, homeRegion: String, licenseArn: String, principals: [String]) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
@@ -571,6 +583,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String?
 
+        @inlinable
         public init(grantArn: String? = nil, status: GrantStatus? = nil, version: String? = nil) {
             self.grantArn = grantArn
             self.status = status
@@ -602,6 +615,7 @@ extension LicenseManager {
         /// Grant status reason.
         public let statusReason: String?
 
+        @inlinable
         public init(allowedOperations: [AllowedOperation]? = nil, clientToken: String, grantArn: String, grantName: String? = nil, options: Options? = nil, sourceVersion: String? = nil, status: GrantStatus? = nil, statusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.clientToken = clientToken
@@ -644,6 +658,7 @@ extension LicenseManager {
         /// New version of the grant.
         public let version: String?
 
+        @inlinable
         public init(grantArn: String? = nil, status: GrantStatus? = nil, version: String? = nil) {
             self.grantArn = grantArn
             self.status = status
@@ -677,6 +692,7 @@ extension LicenseManager {
         /// Tags to add to the license configuration.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseRules: [String]? = nil, name: String, productInformationList: [ProductInformation]? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.disassociateWhenNotFound = disassociateWhenNotFound
@@ -706,6 +722,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -724,6 +741,7 @@ extension LicenseManager {
         ///  For the structure of the source license, see Convert a license type using the CLI  in the License Manager User Guide.
         public let sourceLicenseContext: LicenseConversionContext
 
+        @inlinable
         public init(destinationLicenseContext: LicenseConversionContext, resourceArn: String, sourceLicenseContext: LicenseConversionContext) {
             self.destinationLicenseContext = destinationLicenseContext
             self.resourceArn = resourceArn
@@ -748,6 +766,7 @@ extension LicenseManager {
         /// The ID of the created license type conversion task.
         public let licenseConversionTaskId: String?
 
+        @inlinable
         public init(licenseConversionTaskId: String? = nil) {
             self.licenseConversionTaskId = licenseConversionTaskId
         }
@@ -773,6 +792,7 @@ extension LicenseManager {
         /// Type of reports to generate. The following report types an be generated:   License configuration report - Reports the number and details of consumed licenses for a license configuration.   Resource report - Reports the tracked licenses and resource consumption for a license configuration.
         public let type: [ReportType]
 
+        @inlinable
         public init(clientToken: String, description: String? = nil, reportContext: ReportContext, reportFrequency: ReportFrequency, reportGeneratorName: String, tags: [Tag]? = nil, type: [ReportType]) {
             self.clientToken = clientToken
             self.description = description
@@ -806,6 +826,7 @@ extension LicenseManager {
         /// The Amazon Resource Name (ARN) of the new report generator.
         public let licenseManagerReportGeneratorArn: String?
 
+        @inlinable
         public init(licenseManagerReportGeneratorArn: String? = nil) {
             self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
         }
@@ -839,6 +860,7 @@ extension LicenseManager {
         /// Date and time range during which the license is valid, in ISO8601-UTC format.
         public let validity: DatetimeRange
 
+        @inlinable
         public init(beneficiary: String, clientToken: String, consumptionConfiguration: ConsumptionConfiguration, entitlements: [Entitlement], homeRegion: String, issuer: Issuer, licenseMetadata: [Metadata]? = nil, licenseName: String, productName: String, productSKU: String, validity: DatetimeRange) {
             self.beneficiary = beneficiary
             self.clientToken = clientToken
@@ -882,6 +904,7 @@ extension LicenseManager {
         /// License version.
         public let version: String?
 
+        @inlinable
         public init(licenseArn: String? = nil, status: LicenseStatus? = nil, version: String? = nil) {
             self.licenseArn = licenseArn
             self.status = status
@@ -921,6 +944,7 @@ extension LicenseManager {
         /// Date and time range during which the license is valid, in ISO8601-UTC format.
         public let validity: DatetimeRange
 
+        @inlinable
         public init(clientToken: String, consumptionConfiguration: ConsumptionConfiguration, entitlements: [Entitlement], homeRegion: String, issuer: Issuer, licenseArn: String, licenseMetadata: [Metadata]? = nil, licenseName: String, productName: String, sourceVersion: String? = nil, status: LicenseStatus, validity: DatetimeRange) {
             self.clientToken = clientToken
             self.consumptionConfiguration = consumptionConfiguration
@@ -968,6 +992,7 @@ extension LicenseManager {
         /// New version of the license.
         public let version: String?
 
+        @inlinable
         public init(licenseArn: String? = nil, status: LicenseStatus? = nil, version: String? = nil) {
             self.licenseArn = licenseArn
             self.status = status
@@ -993,6 +1018,7 @@ extension LicenseManager {
         /// Data specified by the caller to be included in the JWT token. The data is mapped to the amr claim of the JWT token.
         public let tokenProperties: [String]?
 
+        @inlinable
         public init(clientToken: String, expirationInDays: Int? = nil, licenseArn: String, roleArns: [String]? = nil, tokenProperties: [String]? = nil) {
             self.clientToken = clientToken
             self.expirationInDays = expirationInDays
@@ -1030,6 +1056,7 @@ extension LicenseManager {
         /// Token type.
         public let tokenType: TokenType?
 
+        @inlinable
         public init(token: String? = nil, tokenId: String? = nil, tokenType: TokenType? = nil) {
             self.token = token
             self.tokenId = tokenId
@@ -1049,6 +1076,7 @@ extension LicenseManager {
         /// End of the time range.
         public let end: String?
 
+        @inlinable
         public init(begin: String, end: String? = nil) {
             self.begin = begin
             self.end = end
@@ -1075,6 +1103,7 @@ extension LicenseManager {
         /// Current version of the grant.
         public let version: String
 
+        @inlinable
         public init(grantArn: String, statusReason: String? = nil, version: String) {
             self.grantArn = grantArn
             self.statusReason = statusReason
@@ -1103,6 +1132,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String?
 
+        @inlinable
         public init(grantArn: String? = nil, status: GrantStatus? = nil, version: String? = nil) {
             self.grantArn = grantArn
             self.status = status
@@ -1120,6 +1150,7 @@ extension LicenseManager {
         /// ID of the license configuration.
         public let licenseConfigurationArn: String
 
+        @inlinable
         public init(licenseConfigurationArn: String) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -1137,6 +1168,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the report generator to be deleted.
         public let licenseManagerReportGeneratorArn: String
 
+        @inlinable
         public init(licenseManagerReportGeneratorArn: String) {
             self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
         }
@@ -1156,6 +1188,7 @@ extension LicenseManager {
         /// Current version of the license.
         public let sourceVersion: String
 
+        @inlinable
         public init(licenseArn: String, sourceVersion: String) {
             self.licenseArn = licenseArn
             self.sourceVersion = sourceVersion
@@ -1178,6 +1211,7 @@ extension LicenseManager {
         /// License status.
         public let status: LicenseDeletionStatus?
 
+        @inlinable
         public init(deletionDate: String? = nil, status: LicenseDeletionStatus? = nil) {
             self.deletionDate = deletionDate
             self.status = status
@@ -1193,6 +1227,7 @@ extension LicenseManager {
         /// Token ID.
         public let tokenId: String
 
+        @inlinable
         public init(tokenId: String) {
             self.tokenId = tokenId
         }
@@ -1220,6 +1255,7 @@ extension LicenseManager {
         /// Entitlement resource. Use only if the unit is None.
         public let value: String?
 
+        @inlinable
         public init(allowCheckIn: Bool? = nil, maxCount: Int64? = nil, name: String, overage: Bool? = nil, unit: EntitlementUnit, value: String? = nil) {
             self.allowCheckIn = allowCheckIn
             self.maxCount = maxCount
@@ -1247,6 +1283,7 @@ extension LicenseManager {
         /// Entitlement data value.
         public let value: String?
 
+        @inlinable
         public init(name: String, unit: EntitlementDataUnit, value: String? = nil) {
             self.name = name
             self.unit = unit
@@ -1270,6 +1307,7 @@ extension LicenseManager {
         /// Entitlement usage unit.
         public let unit: EntitlementDataUnit
 
+        @inlinable
         public init(consumedValue: String, maxCount: String? = nil, name: String, unit: EntitlementDataUnit) {
             self.consumedValue = consumedValue
             self.maxCount = maxCount
@@ -1291,6 +1329,7 @@ extension LicenseManager {
         /// License consumption token.
         public let licenseConsumptionToken: String
 
+        @inlinable
         public init(dryRun: Bool? = nil, licenseConsumptionToken: String) {
             self.dryRun = dryRun
             self.licenseConsumptionToken = licenseConsumptionToken
@@ -1308,6 +1347,7 @@ extension LicenseManager {
         /// License consumption token.
         public let licenseConsumptionToken: String?
 
+        @inlinable
         public init(expiration: String? = nil, licenseConsumptionToken: String? = nil) {
             self.expiration = expiration
             self.licenseConsumptionToken = licenseConsumptionToken
@@ -1325,6 +1365,7 @@ extension LicenseManager {
         /// The value of the filter, which is case-sensitive. You can only specify one value for the filter.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1342,6 +1383,7 @@ extension LicenseManager {
         /// Token properties to validate against those present in the JWT token.
         public let tokenProperties: [String]?
 
+        @inlinable
         public init(token: String, tokenProperties: [String]? = nil) {
             self.token = token
             self.tokenProperties = tokenProperties
@@ -1363,6 +1405,7 @@ extension LicenseManager {
         /// Temporary access token.
         public let accessToken: String?
 
+        @inlinable
         public init(accessToken: String? = nil) {
             self.accessToken = accessToken
         }
@@ -1378,6 +1421,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String?
 
+        @inlinable
         public init(grantArn: String, version: String? = nil) {
             self.grantArn = grantArn
             self.version = version
@@ -1398,6 +1442,7 @@ extension LicenseManager {
         /// Grant details.
         public let grant: Grant?
 
+        @inlinable
         public init(grant: Grant? = nil) {
             self.grant = grant
         }
@@ -1411,6 +1456,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
 
+        @inlinable
         public init(licenseConfigurationArn: String) {
             self.licenseConfigurationArn = licenseConfigurationArn
         }
@@ -1456,6 +1502,7 @@ extension LicenseManager {
         /// Tags for the license configuration.
         public let tags: [Tag]?
 
+        @inlinable
         public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenses = consumedLicenses
@@ -1501,6 +1548,7 @@ extension LicenseManager {
         /// ID of the license type conversion task to retrieve information on.
         public let licenseConversionTaskId: String
 
+        @inlinable
         public init(licenseConversionTaskId: String) {
             self.licenseConversionTaskId = licenseConversionTaskId
         }
@@ -1535,6 +1583,7 @@ extension LicenseManager {
         /// The status message for the conversion task.
         public let statusMessage: String?
 
+        @inlinable
         public init(destinationLicenseContext: LicenseConversionContext? = nil, endTime: Date? = nil, licenseConversionTaskId: String? = nil, licenseConversionTime: Date? = nil, resourceArn: String? = nil, sourceLicenseContext: LicenseConversionContext? = nil, startTime: Date? = nil, status: LicenseConversionTaskStatus? = nil, statusMessage: String? = nil) {
             self.destinationLicenseContext = destinationLicenseContext
             self.endTime = endTime
@@ -1564,6 +1613,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the report generator.
         public let licenseManagerReportGeneratorArn: String
 
+        @inlinable
         public init(licenseManagerReportGeneratorArn: String) {
             self.licenseManagerReportGeneratorArn = licenseManagerReportGeneratorArn
         }
@@ -1577,6 +1627,7 @@ extension LicenseManager {
         /// A report generator that creates periodic reports about your license configurations.
         public let reportGenerator: ReportGenerator?
 
+        @inlinable
         public init(reportGenerator: ReportGenerator? = nil) {
             self.reportGenerator = reportGenerator
         }
@@ -1592,6 +1643,7 @@ extension LicenseManager {
         /// License version.
         public let version: String?
 
+        @inlinable
         public init(licenseArn: String, version: String? = nil) {
             self.licenseArn = licenseArn
             self.version = version
@@ -1612,6 +1664,7 @@ extension LicenseManager {
         /// License details.
         public let license: License?
 
+        @inlinable
         public init(license: License? = nil) {
             self.license = license
         }
@@ -1625,6 +1678,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the license.
         public let licenseArn: String
 
+        @inlinable
         public init(licenseArn: String) {
             self.licenseArn = licenseArn
         }
@@ -1643,6 +1697,7 @@ extension LicenseManager {
         /// License usage details.
         public let licenseUsage: LicenseUsage?
 
+        @inlinable
         public init(licenseUsage: LicenseUsage? = nil) {
             self.licenseUsage = licenseUsage
         }
@@ -1668,6 +1723,7 @@ extension LicenseManager {
         /// SNS topic configured to receive notifications from License Manager.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(enableCrossAccountsDiscovery: Bool? = nil, licenseManagerResourceShareArn: String? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
             self.licenseManagerResourceShareArn = licenseManagerResourceShareArn
@@ -1709,6 +1765,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String
 
+        @inlinable
         public init(grantArn: String, grantedOperations: [AllowedOperation], granteePrincipalArn: String, grantName: String, grantStatus: GrantStatus, homeRegion: String, licenseArn: String, options: Options? = nil, parentArn: String, statusReason: String? = nil, version: String) {
             self.grantArn = grantArn
             self.grantedOperations = grantedOperations
@@ -1770,6 +1827,7 @@ extension LicenseManager {
         /// Version of the granted license.
         public let version: String?
 
+        @inlinable
         public init(beneficiary: String? = nil, consumptionConfiguration: ConsumptionConfiguration? = nil, createTime: String? = nil, entitlements: [Entitlement]? = nil, homeRegion: String? = nil, issuer: IssuerDetails? = nil, licenseArn: String? = nil, licenseMetadata: [Metadata]? = nil, licenseName: String? = nil, productName: String? = nil, productSKU: String? = nil, receivedMetadata: ReceivedMetadata? = nil, status: LicenseStatus? = nil, validity: DatetimeRange? = nil, version: String? = nil) {
             self.beneficiary = beneficiary
             self.consumptionConfiguration = consumptionConfiguration
@@ -1815,6 +1873,7 @@ extension LicenseManager {
         /// Value of the filter.
         public let value: String?
 
+        @inlinable
         public init(condition: InventoryFilterCondition, name: String, value: String? = nil) {
             self.condition = condition
             self.name = name
@@ -1834,6 +1893,7 @@ extension LicenseManager {
         /// Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify,  and support the RSASSA-PSS SHA-256 signing algorithm.
         public let signKey: String?
 
+        @inlinable
         public init(name: String, signKey: String? = nil) {
             self.name = name
             self.signKey = signKey
@@ -1853,6 +1913,7 @@ extension LicenseManager {
         /// Asymmetric KMS key from Key Management Service. The KMS key must have a key usage of sign and verify,  and support the RSASSA-PSS SHA-256 signing algorithm.
         public let signKey: String?
 
+        @inlinable
         public init(keyFingerprint: String? = nil, name: String? = nil, signKey: String? = nil) {
             self.keyFingerprint = keyFingerprint
             self.name = name
@@ -1896,6 +1957,7 @@ extension LicenseManager {
         /// License version.
         public let version: String?
 
+        @inlinable
         public init(beneficiary: String? = nil, consumptionConfiguration: ConsumptionConfiguration? = nil, createTime: String? = nil, entitlements: [Entitlement]? = nil, homeRegion: String? = nil, issuer: IssuerDetails? = nil, licenseArn: String? = nil, licenseMetadata: [Metadata]? = nil, licenseName: String? = nil, productName: String? = nil, productSKU: String? = nil, status: LicenseStatus? = nil, validity: DatetimeRange? = nil, version: String? = nil) {
             self.beneficiary = beneficiary
             self.consumptionConfiguration = consumptionConfiguration
@@ -1965,6 +2027,7 @@ extension LicenseManager {
         /// Status of the license configuration.
         public let status: String?
 
+        @inlinable
         public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil) {
             self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenses = consumedLicenses
@@ -2016,6 +2079,7 @@ extension LicenseManager {
         /// Type of server resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(amiAssociationScope: String? = nil, associationTime: Date? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
             self.amiAssociationScope = amiAssociationScope
             self.associationTime = associationTime
@@ -2047,6 +2111,7 @@ extension LicenseManager {
         /// Type of resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(associationTime: Date? = nil, consumedLicenses: Int64? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceStatus: String? = nil, resourceType: ResourceType? = nil) {
             self.associationTime = associationTime
             self.consumedLicenses = consumedLicenses
@@ -2070,6 +2135,7 @@ extension LicenseManager {
         /// The Usage operation value that corresponds to the license type you are converting your resource from.  For more information about which platforms correspond to which usage operation values see Sample data: usage operation by platform
         public let usageOperation: String?
 
+        @inlinable
         public init(usageOperation: String? = nil) {
             self.usageOperation = usageOperation
         }
@@ -2103,6 +2169,7 @@ extension LicenseManager {
         /// The status message for the conversion task.
         public let statusMessage: String?
 
+        @inlinable
         public init(destinationLicenseContext: LicenseConversionContext? = nil, endTime: Date? = nil, licenseConversionTaskId: String? = nil, licenseConversionTime: Date? = nil, resourceArn: String? = nil, sourceLicenseContext: LicenseConversionContext? = nil, startTime: Date? = nil, status: LicenseConversionTaskStatus? = nil, statusMessage: String? = nil) {
             self.destinationLicenseContext = destinationLicenseContext
             self.endTime = endTime
@@ -2146,6 +2213,7 @@ extension LicenseManager {
         /// Resource type.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(errorMessage: String? = nil, failureTime: Date? = nil, metadataList: [Metadata]? = nil, operationName: String? = nil, operationRequestedBy: String? = nil, resourceArn: String? = nil, resourceOwnerId: String? = nil, resourceType: ResourceType? = nil) {
             self.errorMessage = errorMessage
             self.failureTime = failureTime
@@ -2175,6 +2243,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
 
+        @inlinable
         public init(amiAssociationScope: String? = nil, licenseConfigurationArn: String) {
             self.amiAssociationScope = amiAssociationScope
             self.licenseConfigurationArn = licenseConfigurationArn
@@ -2190,6 +2259,7 @@ extension LicenseManager {
         /// License entitlement usages.
         public let entitlementUsages: [EntitlementUsage]?
 
+        @inlinable
         public init(entitlementUsages: [EntitlementUsage]? = nil) {
             self.entitlementUsages = entitlementUsages
         }
@@ -2207,6 +2277,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
             self.maxResults = maxResults
@@ -2226,6 +2297,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseConfigurationAssociations: [LicenseConfigurationAssociation]? = nil, nextToken: String? = nil) {
             self.licenseConfigurationAssociations = licenseConfigurationAssociations
             self.nextToken = nextToken
@@ -2247,6 +2319,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, grantArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.grantArns = grantArns
@@ -2277,6 +2350,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(grants: [Grant]? = nil, nextToken: String? = nil) {
             self.grants = grants
             self.nextToken = nextToken
@@ -2296,6 +2370,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.licenseConfigurationArn = licenseConfigurationArn
             self.maxResults = maxResults
@@ -2315,6 +2390,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseOperationFailureList: [LicenseOperationFailure]? = nil, nextToken: String? = nil) {
             self.licenseOperationFailureList = licenseOperationFailureList
             self.nextToken = nextToken
@@ -2336,6 +2412,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseConfigurationArns = licenseConfigurationArns
@@ -2357,6 +2434,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseConfigurations: [LicenseConfiguration]? = nil, nextToken: String? = nil) {
             self.licenseConfigurations = licenseConfigurations
             self.nextToken = nextToken
@@ -2376,6 +2454,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2395,6 +2474,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseConversionTasks: [LicenseConversionTask]? = nil, nextToken: String? = nil) {
             self.licenseConversionTasks = licenseConversionTasks
             self.nextToken = nextToken
@@ -2414,6 +2494,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2438,6 +2519,7 @@ extension LicenseManager {
         /// A report generator that creates periodic reports about your license configurations.
         public let reportGenerators: [ReportGenerator]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportGenerators: [ReportGenerator]? = nil) {
             self.nextToken = nextToken
             self.reportGenerators = reportGenerators
@@ -2457,6 +2539,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of a resource that has an associated license configuration.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2476,6 +2559,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseSpecifications: [LicenseSpecification]? = nil, nextToken: String? = nil) {
             self.licenseSpecifications = licenseSpecifications
             self.nextToken = nextToken
@@ -2495,6 +2579,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.licenseArn = licenseArn
             self.maxResults = maxResults
@@ -2521,6 +2606,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenses: [License]? = nil, nextToken: String? = nil) {
             self.licenses = licenses
             self.nextToken = nextToken
@@ -2542,6 +2628,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, licenseArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseArns = licenseArns
@@ -2572,6 +2659,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenses: [License]? = nil, nextToken: String? = nil) {
             self.licenses = licenses
             self.nextToken = nextToken
@@ -2593,6 +2681,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, licenseArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseArn = licenseArn
@@ -2621,6 +2710,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(grants: [Grant]? = nil, nextToken: String? = nil) {
             self.grants = grants
             self.nextToken = nextToken
@@ -2642,6 +2732,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, grantArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.grantArns = grantArns
@@ -2672,6 +2763,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(grants: [Grant]? = nil, nextToken: String? = nil) {
             self.grants = grants
             self.nextToken = nextToken
@@ -2691,6 +2783,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2715,6 +2808,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenses: [GrantedLicense]? = nil, nextToken: String? = nil) {
             self.licenses = licenses
             self.nextToken = nextToken
@@ -2736,6 +2830,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, licenseArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseArns = licenseArns
@@ -2766,6 +2861,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenses: [GrantedLicense]? = nil, nextToken: String? = nil) {
             self.licenses = licenses
             self.nextToken = nextToken
@@ -2785,6 +2881,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [InventoryFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2804,6 +2901,7 @@ extension LicenseManager {
         /// Information about the resources.
         public let resourceInventoryList: [ResourceInventory]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceInventoryList: [ResourceInventory]? = nil) {
             self.nextToken = nextToken
             self.resourceInventoryList = resourceInventoryList
@@ -2819,6 +2917,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the license configuration.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2832,6 +2931,7 @@ extension LicenseManager {
         /// Information about the tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2851,6 +2951,7 @@ extension LicenseManager {
         /// Token IDs.
         public let tokenIds: [String]?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, tokenIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2877,6 +2978,7 @@ extension LicenseManager {
         /// Received token details.
         public let tokens: [TokenData]?
 
+        @inlinable
         public init(nextToken: String? = nil, tokens: [TokenData]? = nil) {
             self.nextToken = nextToken
             self.tokens = tokens
@@ -2898,6 +3000,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, licenseConfigurationArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.licenseConfigurationArn = licenseConfigurationArn
@@ -2919,6 +3022,7 @@ extension LicenseManager {
         /// Token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(licenseConfigurationUsageList: [LicenseConfigurationUsage]? = nil, nextToken: String? = nil) {
             self.licenseConfigurationUsageList = licenseConfigurationUsageList
             self.nextToken = nextToken
@@ -2936,6 +3040,7 @@ extension LicenseManager {
         /// Type of resource associated with a license.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(associationCount: Int64? = nil, resourceType: ResourceType? = nil) {
             self.associationCount = associationCount
             self.resourceType = resourceType
@@ -2953,6 +3058,7 @@ extension LicenseManager {
         /// The value.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -2968,6 +3074,7 @@ extension LicenseManager {
         /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter.   As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.   As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.   As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.    DISTRIBUTED_GRANTS_ONLY  Use this value to activate a grant without replacing any member account’s active grants for the same product.  ALL_GRANTS_PERMITTED_BY_ISSUER  Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
         public let activationOverrideBehavior: ActivationOverrideBehavior?
 
+        @inlinable
         public init(activationOverrideBehavior: ActivationOverrideBehavior? = nil) {
             self.activationOverrideBehavior = activationOverrideBehavior
         }
@@ -2981,6 +3088,7 @@ extension LicenseManager {
         /// Enables Organizations integration.
         public let enableIntegration: Bool
 
+        @inlinable
         public init(enableIntegration: Bool) {
             self.enableIntegration = enableIntegration
         }
@@ -2996,6 +3104,7 @@ extension LicenseManager {
         /// Resource type. The possible values are SSM_MANAGED | RDS.
         public let resourceType: String
 
+        @inlinable
         public init(productInformationFilterList: [ProductInformationFilter], resourceType: String) {
             self.productInformationFilterList = productInformationFilterList
             self.resourceType = resourceType
@@ -3015,6 +3124,7 @@ extension LicenseManager {
         /// Filter value.
         public let productInformationFilterValue: [String]?
 
+        @inlinable
         public init(productInformationFilterComparator: String, productInformationFilterName: String, productInformationFilterValue: [String]? = nil) {
             self.productInformationFilterComparator = productInformationFilterComparator
             self.productInformationFilterName = productInformationFilterName
@@ -3032,6 +3142,7 @@ extension LicenseManager {
         /// Maximum time for the provisional configuration, in minutes.
         public let maxTimeToLiveInMinutes: Int
 
+        @inlinable
         public init(maxTimeToLiveInMinutes: Int) {
             self.maxTimeToLiveInMinutes = maxTimeToLiveInMinutes
         }
@@ -3049,6 +3160,7 @@ extension LicenseManager {
         /// Received status reason.
         public let receivedStatusReason: String?
 
+        @inlinable
         public init(allowedOperations: [AllowedOperation]? = nil, receivedStatus: ReceivedStatus? = nil, receivedStatusReason: String? = nil) {
             self.allowedOperations = allowedOperations
             self.receivedStatus = receivedStatus
@@ -3066,6 +3178,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
 
+        @inlinable
         public init(grantArn: String) {
             self.grantArn = grantArn
         }
@@ -3088,6 +3201,7 @@ extension LicenseManager {
         /// Grant version.
         public let version: String?
 
+        @inlinable
         public init(grantArn: String? = nil, status: GrantStatus? = nil, version: String? = nil) {
             self.grantArn = grantArn
             self.status = status
@@ -3105,6 +3219,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the license configuration that this generator reports on.
         public let licenseConfigurationArns: [String]
 
+        @inlinable
         public init(licenseConfigurationArns: [String]) {
             self.licenseConfigurationArns = licenseConfigurationArns
         }
@@ -3127,6 +3242,7 @@ extension LicenseManager {
         /// Number of times within the frequency period that a report is generated.   The only supported value is 1.
         public let value: Int?
 
+        @inlinable
         public init(period: ReportFrequencyType? = nil, value: Int? = nil) {
             self.period = period
             self.value = value
@@ -3166,6 +3282,7 @@ extension LicenseManager {
         /// Tags associated with the report generator.
         public let tags: [Tag]?
 
+        @inlinable
         public init(createTime: String? = nil, description: String? = nil, lastReportGenerationTime: String? = nil, lastRunFailureReason: String? = nil, lastRunStatus: String? = nil, licenseManagerReportGeneratorArn: String? = nil, reportContext: ReportContext? = nil, reportCreatorAccount: String? = nil, reportFrequency: ReportFrequency? = nil, reportGeneratorName: String? = nil, reportType: [ReportType]? = nil, s3Location: S3Location? = nil, tags: [Tag]? = nil) {
             self.createTime = createTime
             self.description = description
@@ -3213,6 +3330,7 @@ extension LicenseManager {
         /// Type of resource.
         public let resourceType: ResourceType?
 
+        @inlinable
         public init(platform: String? = nil, platformVersion: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceOwningAccountId: String? = nil, resourceType: ResourceType? = nil) {
             self.platform = platform
             self.platformVersion = platformVersion
@@ -3238,6 +3356,7 @@ extension LicenseManager {
         /// Prefix of the S3 bucket reports are published to.
         public let keyPrefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, keyPrefix: String? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -3255,6 +3374,7 @@ extension LicenseManager {
         /// Tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3272,6 +3392,7 @@ extension LicenseManager {
         /// One or more tags.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3303,6 +3424,7 @@ extension LicenseManager {
         /// Type of token generated. The supported value is REFRESH_TOKEN.
         public let tokenType: String?
 
+        @inlinable
         public init(expirationTime: String? = nil, licenseArn: String? = nil, roleArns: [String]? = nil, status: String? = nil, tokenId: String? = nil, tokenProperties: [String]? = nil, tokenType: String? = nil) {
             self.expirationTime = expirationTime
             self.licenseArn = licenseArn
@@ -3330,6 +3452,7 @@ extension LicenseManager {
         /// Keys identifying the tags to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3365,6 +3488,7 @@ extension LicenseManager {
         /// New product information.
         public let productInformationList: [ProductInformation]?
 
+        @inlinable
         public init(description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseRules: [String]? = nil, name: String? = nil, productInformationList: [ProductInformation]? = nil) {
             self.description = description
             self.disassociateWhenNotFound = disassociateWhenNotFound
@@ -3410,6 +3534,7 @@ extension LicenseManager {
         /// Type of reports to generate. The following report types are supported:   License configuration report - Reports the number and details of consumed licenses for a license configuration.   Resource report - Reports the tracked licenses and resource consumption for a license configuration.
         public let type: [ReportType]
 
+        @inlinable
         public init(clientToken: String, description: String? = nil, licenseManagerReportGeneratorArn: String, reportContext: ReportContext, reportFrequency: ReportFrequency, reportGeneratorName: String, type: [ReportType]) {
             self.clientToken = clientToken
             self.description = description
@@ -3451,6 +3576,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the Amazon Web Services resource.
         public let resourceArn: String
 
+        @inlinable
         public init(addLicenseSpecifications: [LicenseSpecification]? = nil, removeLicenseSpecifications: [LicenseSpecification]? = nil, resourceArn: String) {
             self.addLicenseSpecifications = addLicenseSpecifications
             self.removeLicenseSpecifications = removeLicenseSpecifications
@@ -3478,6 +3604,7 @@ extension LicenseManager {
         /// Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager alerts.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
             self.organizationConfiguration = organizationConfiguration

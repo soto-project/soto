@@ -150,6 +150,7 @@ extension ApplicationAutoScaling {
         /// The name of the alarm.
         public let alarmName: String
 
+        @inlinable
         public init(alarmARN: String, alarmName: String) {
             self.alarmARN = alarmARN
             self.alarmName = alarmName
@@ -175,6 +176,7 @@ extension ApplicationAutoScaling {
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
+        @inlinable
         public init(dimensions: [MetricDimension]? = nil, metricName: String? = nil, metrics: [TargetTrackingMetricDataQuery]? = nil, namespace: String? = nil, statistic: MetricStatistic? = nil, unit: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -210,6 +212,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(policyName: String, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.policyName = policyName
             self.resourceId = resourceId
@@ -248,6 +251,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(resourceId: String, scalableDimension: ScalableDimension, scheduledActionName: String, serviceNamespace: ServiceNamespace) {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
@@ -284,6 +288,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace) {
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
@@ -319,6 +324,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceIds: [String]? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -352,6 +358,7 @@ extension ApplicationAutoScaling {
         /// The scalable targets that match the request parameters.
         public let scalableTargets: [ScalableTarget]?
 
+        @inlinable
         public init(nextToken: String? = nil, scalableTargets: [ScalableTarget]? = nil) {
             self.nextToken = nextToken
             self.scalableTargets = scalableTargets
@@ -377,6 +384,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(includeNotScaledActivities: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.includeNotScaledActivities = includeNotScaledActivities
             self.maxResults = maxResults
@@ -409,6 +417,7 @@ extension ApplicationAutoScaling {
         /// A list of scaling activity objects.
         public let scalingActivities: [ScalingActivity]?
 
+        @inlinable
         public init(nextToken: String? = nil, scalingActivities: [ScalingActivity]? = nil) {
             self.nextToken = nextToken
             self.scalingActivities = scalingActivities
@@ -434,6 +443,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, policyNames: [String]? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -472,6 +482,7 @@ extension ApplicationAutoScaling {
         /// Information about the scaling policies.
         public let scalingPolicies: [ScalingPolicy]?
 
+        @inlinable
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.nextToken = nextToken
             self.scalingPolicies = scalingPolicies
@@ -497,6 +508,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
         public let serviceNamespace: ServiceNamespace
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, scalableDimension: ScalableDimension? = nil, scheduledActionNames: [String]? = nil, serviceNamespace: ServiceNamespace) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -535,6 +547,7 @@ extension ApplicationAutoScaling {
         /// Information about the scheduled actions.
         public let scheduledActions: [ScheduledAction]?
 
+        @inlinable
         public init(nextToken: String? = nil, scheduledActions: [ScheduledAction]? = nil) {
             self.nextToken = nextToken
             self.scheduledActions = scheduledActions
@@ -550,6 +563,7 @@ extension ApplicationAutoScaling {
         /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -569,6 +583,7 @@ extension ApplicationAutoScaling {
         /// A list of tags. Each tag consists of a tag key and a tag value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -584,6 +599,7 @@ extension ApplicationAutoScaling {
         /// The value of the dimension.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -605,6 +621,7 @@ extension ApplicationAutoScaling {
         /// The minimum capacity.
         public let minCapacity: Int?
 
+        @inlinable
         public init(code: String, currentCapacity: Int? = nil, maxCapacity: Int? = nil, minCapacity: Int? = nil) {
             self.code = code
             self.currentCapacity = currentCapacity
@@ -626,6 +643,7 @@ extension ApplicationAutoScaling {
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Spot Fleet or ECS service. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
 
+        @inlinable
         public init(predefinedMetricType: MetricType, resourceLabel: String? = nil) {
             self.predefinedMetricType = predefinedMetricType
             self.resourceLabel = resourceLabel
@@ -658,6 +676,7 @@ extension ApplicationAutoScaling {
         /// A target tracking scaling policy. Includes support for predefined or customized metrics. This parameter is required if you are creating a policy and the policy type is TargetTrackingScaling.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
+        @inlinable
         public init(policyName: String, policyType: PolicyType? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.policyName = policyName
             self.policyType = policyType
@@ -695,6 +714,7 @@ extension ApplicationAutoScaling {
         /// The Amazon Resource Name (ARN) of the resulting scaling policy.
         public let policyARN: String
 
+        @inlinable
         public init(alarms: [Alarm]? = nil, policyARN: String) {
             self.alarms = alarms
             self.policyARN = policyARN
@@ -726,6 +746,7 @@ extension ApplicationAutoScaling {
         /// Specifies the time zone used when setting a scheduled action by using an at or cron expression. If a time zone is not provided, UTC is used by default. Valid values are the canonical names of the IANA time zones supported by Joda-Time (such as Etc/GMT+9 or Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
         public let timezone: String?
 
+        @inlinable
         public init(endTime: Date? = nil, resourceId: String, scalableDimension: ScalableDimension, scalableTargetAction: ScalableTargetAction? = nil, schedule: String? = nil, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: Date? = nil, timezone: String? = nil) {
             self.endTime = endTime
             self.resourceId = resourceId
@@ -788,6 +809,7 @@ extension ApplicationAutoScaling {
         /// Assigns one or more tags to the scalable target. Use this parameter to tag the scalable target when it is created. To tag an existing scalable target, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required. You cannot have more than one tag on a scalable target with the same tag key. Use tags to control access to a scalable target. For more information, see Tagging support for Application Auto Scaling in the Application Auto Scaling User Guide.
         public let tags: [String: String]?
 
+        @inlinable
         public init(maxCapacity: Int? = nil, minCapacity: Int? = nil, resourceId: String, roleARN: String? = nil, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil, tags: [String: String]? = nil) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -829,6 +851,7 @@ extension ApplicationAutoScaling {
         /// The ARN of the scalable target.
         public let scalableTargetARN: String?
 
+        @inlinable
         public init(scalableTargetARN: String? = nil) {
             self.scalableTargetARN = scalableTargetARN
         }
@@ -858,6 +881,7 @@ extension ApplicationAutoScaling {
         /// Specifies whether the scaling activities for a scalable target are in a suspended state.
         public let suspendedState: SuspendedState?
 
+        @inlinable
         public init(creationTime: Date, maxCapacity: Int, minCapacity: Int, resourceId: String, roleARN: String, scalableDimension: ScalableDimension, scalableTargetARN: String? = nil, serviceNamespace: ServiceNamespace, suspendedState: SuspendedState? = nil) {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
@@ -889,6 +913,7 @@ extension ApplicationAutoScaling {
         /// The minimum capacity. When the scheduled action runs, the resource will have at least this much capacity, but it might have more depending on other settings, such as the target utilization level of a target tracking scaling policy.
         public let minCapacity: Int?
 
+        @inlinable
         public init(maxCapacity: Int? = nil, minCapacity: Int? = nil) {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
@@ -926,6 +951,7 @@ extension ApplicationAutoScaling {
         /// A simple message about the current status of the scaling activity.
         public let statusMessage: String?
 
+        @inlinable
         public init(activityId: String, cause: String, description: String, details: String? = nil, endTime: Date? = nil, notScaledReasons: [NotScaledReason]? = nil, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, startTime: Date, statusCode: ScalingActivityStatusCode, statusMessage: String? = nil) {
             self.activityId = activityId
             self.cause = cause
@@ -979,6 +1005,7 @@ extension ApplicationAutoScaling {
         /// A target tracking scaling policy.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
+        @inlinable
         public init(alarms: [Alarm]? = nil, creationTime: Date, policyARN: String, policyName: String, policyType: PolicyType, resourceId: String, scalableDimension: ScalableDimension, serviceNamespace: ServiceNamespace, stepScalingPolicyConfiguration: StepScalingPolicyConfiguration? = nil, targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.alarms = alarms
             self.creationTime = creationTime
@@ -1030,6 +1057,7 @@ extension ApplicationAutoScaling {
         /// The time zone used when referring to the date and time of a scheduled action, when the scheduled action uses an at or cron expression.
         public let timezone: String?
 
+        @inlinable
         public init(creationTime: Date, endTime: Date? = nil, resourceId: String, scalableDimension: ScalableDimension? = nil, scalableTargetAction: ScalableTargetAction? = nil, schedule: String, scheduledActionARN: String, scheduledActionName: String, serviceNamespace: ServiceNamespace, startTime: Date? = nil, timezone: String? = nil) {
             self.creationTime = creationTime
             self.endTime = endTime
@@ -1067,6 +1095,7 @@ extension ApplicationAutoScaling {
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a non-negative value.
         public let scalingAdjustment: Int
 
+        @inlinable
         public init(metricIntervalLowerBound: Double? = nil, metricIntervalUpperBound: Double? = nil, scalingAdjustment: Int) {
             self.metricIntervalLowerBound = metricIntervalLowerBound
             self.metricIntervalUpperBound = metricIntervalUpperBound
@@ -1092,6 +1121,7 @@ extension ApplicationAutoScaling {
         /// A set of adjustments that enable you to scale based on the size of the alarm breach. At least one step adjustment is required if you are adding a new step scaling policy configuration.
         public let stepAdjustments: [StepAdjustment]?
 
+        @inlinable
         public init(adjustmentType: AdjustmentType? = nil, cooldown: Int? = nil, metricAggregationType: MetricAggregationType? = nil, minAdjustmentMagnitude: Int? = nil, stepAdjustments: [StepAdjustment]? = nil) {
             self.adjustmentType = adjustmentType
             self.cooldown = cooldown
@@ -1117,6 +1147,7 @@ extension ApplicationAutoScaling {
         /// Whether scheduled scaling is suspended. Set the value to true if you don't want Application Auto Scaling to add or remove capacity by initiating scheduled actions. The default is false.
         public let scheduledScalingSuspended: Bool?
 
+        @inlinable
         public init(dynamicScalingInSuspended: Bool? = nil, dynamicScalingOutSuspended: Bool? = nil, scheduledScalingSuspended: Bool? = nil) {
             self.dynamicScalingInSuspended = dynamicScalingInSuspended
             self.dynamicScalingOutSuspended = dynamicScalingOutSuspended
@@ -1136,6 +1167,7 @@ extension ApplicationAutoScaling {
         /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see User-defined tag restrictions in the Amazon Web Services Billing User Guide.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceARN: String, tags: [String: String]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1170,6 +1202,7 @@ extension ApplicationAutoScaling {
         /// The namespace of the metric. For more information, see the table in Amazon Web Services services that publish CloudWatch metrics  in the Amazon CloudWatch User Guide.
         public let namespace: String?
 
+        @inlinable
         public init(dimensions: [TargetTrackingMetricDimension]? = nil, metricName: String? = nil, namespace: String? = nil) {
             self.dimensions = dimensions
             self.metricName = metricName
@@ -1207,6 +1240,7 @@ extension ApplicationAutoScaling {
         /// Indicates whether to return the timestamps and raw data values of this metric.  If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
         public let returnData: Bool?
 
+        @inlinable
         public init(expression: String? = nil, id: String, label: String? = nil, metricStat: TargetTrackingMetricStat? = nil, returnData: Bool? = nil) {
             self.expression = expression
             self.id = id
@@ -1241,6 +1275,7 @@ extension ApplicationAutoScaling {
         /// The value of the dimension.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -1269,6 +1304,7 @@ extension ApplicationAutoScaling {
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
+        @inlinable
         public init(metric: TargetTrackingMetric, stat: String, unit: String? = nil) {
             self.metric = metric
             self.stat = stat
@@ -1304,6 +1340,7 @@ extension ApplicationAutoScaling {
         /// The target value for the metric. Although this property accepts numbers of type Double, it won't accept values that are either too small or too large. Values must be in the range of -2^360 to 2^360. The value must be a valid number based on the choice of metric. For example, if the metric is CPU utilization, then the target value is a percent value that represents how much of the CPU can be used before scaling out.   If the scaling policy specifies the ALBRequestCountPerTarget predefined metric, specify the target utilization as the optimal average request count per target during any one-minute interval.
         public let targetValue: Double
 
+        @inlinable
         public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.customizedMetricSpecification = customizedMetricSpecification
             self.disableScaleIn = disableScaleIn
@@ -1334,6 +1371,7 @@ extension ApplicationAutoScaling {
         /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys

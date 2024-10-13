@@ -297,6 +297,7 @@ extension RDSData {
         /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
 
+        @inlinable
         public init(database: String? = nil, parameterSets: [[SqlParameter]]? = nil, resourceArn: String, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
             self.database = database
             self.parameterSets = parameterSets
@@ -333,6 +334,7 @@ extension RDSData {
         /// The execution results of each batch entry.
         public let updateResults: [UpdateResult]?
 
+        @inlinable
         public init(updateResults: [UpdateResult]? = nil) {
             self.updateResults = updateResults
         }
@@ -352,6 +354,7 @@ extension RDSData {
         /// The name or ARN of the secret that enables access to the DB cluster.
         public let secretArn: String
 
+        @inlinable
         public init(database: String? = nil, resourceArn: String, schema: String? = nil, secretArn: String) {
             self.database = database
             self.resourceArn = resourceArn
@@ -380,6 +383,7 @@ extension RDSData {
         /// The transaction ID of the transaction started by the call.
         public let transactionId: String?
 
+        @inlinable
         public init(transactionId: String? = nil) {
             self.transactionId = transactionId
         }
@@ -419,6 +423,7 @@ extension RDSData {
         /// The database-specific data type of the column.
         public let typeName: String?
 
+        @inlinable
         public init(arrayBaseColumnType: Int? = nil, isAutoIncrement: Bool? = nil, isCaseSensitive: Bool? = nil, isCurrency: Bool? = nil, isSigned: Bool? = nil, label: String? = nil, name: String? = nil, nullable: Int? = nil, precision: Int? = nil, scale: Int? = nil, schemaName: String? = nil, tableName: String? = nil, type: Int? = nil, typeName: String? = nil) {
             self.arrayBaseColumnType = arrayBaseColumnType
             self.isAutoIncrement = isAutoIncrement
@@ -462,6 +467,7 @@ extension RDSData {
         /// The identifier of the transaction to end and commit.
         public let transactionId: String
 
+        @inlinable
         public init(resourceArn: String, secretArn: String, transactionId: String) {
             self.resourceArn = resourceArn
             self.secretArn = secretArn
@@ -487,6 +493,7 @@ extension RDSData {
         /// The status of the commit operation.
         public let transactionStatus: String?
 
+        @inlinable
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
         }
@@ -508,6 +515,7 @@ extension RDSData {
         /// One or more SQL statements to run on the DB cluster. You can separate SQL statements from each other with a semicolon (;). Any valid SQL statement is permitted, including data definition, data manipulation, and commit statements.
         public let sqlStatements: String
 
+        @inlinable
         public init(awsSecretStoreArn: String, database: String? = nil, dbClusterOrInstanceArn: String, schema: String? = nil, sqlStatements: String) {
             self.awsSecretStoreArn = awsSecretStoreArn
             self.database = database
@@ -539,6 +547,7 @@ extension RDSData {
         /// The results of the SQL statement or statements.
         public let sqlStatementResults: [SqlStatementResult]?
 
+        @inlinable
         public init(sqlStatementResults: [SqlStatementResult]? = nil) {
             self.sqlStatementResults = sqlStatementResults
         }
@@ -572,6 +581,7 @@ extension RDSData {
         /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
 
+        @inlinable
         public init(continueAfterTimeout: Bool? = nil, database: String? = nil, formatRecordsAs: RecordsFormatType? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, resultSetOptions: ResultSetOptions? = nil, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
             self.continueAfterTimeout = continueAfterTimeout
             self.database = database
@@ -624,6 +634,7 @@ extension RDSData {
         /// The records returned by the SQL statement. This field is blank if the formatRecordsAs parameter is set to JSON.
         public let records: [[Field]]?
 
+        @inlinable
         public init(columnMetadata: [ColumnMetadata]? = nil, formattedRecords: String? = nil, generatedFields: [Field]? = nil, numberOfRecordsUpdated: Int64? = nil, records: [[Field]]? = nil) {
             self.columnMetadata = columnMetadata
             self.formattedRecords = formattedRecords
@@ -645,6 +656,7 @@ extension RDSData {
         /// The values returned in the record.
         public let values: [Value]?
 
+        @inlinable
         public init(values: [Value]? = nil) {
             self.values = values
         }
@@ -660,6 +672,7 @@ extension RDSData {
         /// The result-set metadata in the result set.
         public let resultSetMetadata: ResultSetMetadata?
 
+        @inlinable
         public init(records: [Record]? = nil, resultSetMetadata: ResultSetMetadata? = nil) {
             self.records = records
             self.resultSetMetadata = resultSetMetadata
@@ -677,6 +690,7 @@ extension RDSData {
         /// The metadata of the columns in the result set.
         public let columnMetadata: [ColumnMetadata]?
 
+        @inlinable
         public init(columnCount: Int64? = nil, columnMetadata: [ColumnMetadata]? = nil) {
             self.columnCount = columnCount
             self.columnMetadata = columnMetadata
@@ -694,6 +708,7 @@ extension RDSData {
         /// A value that indicates how a field of LONG type is represented. Allowed values are LONG and STRING. The default is LONG. Specify STRING if the length or precision of numeric values might cause truncation or rounding errors.
         public let longReturnType: LongReturnType?
 
+        @inlinable
         public init(decimalReturnType: DecimalReturnType? = nil, longReturnType: LongReturnType? = nil) {
             self.decimalReturnType = decimalReturnType
             self.longReturnType = longReturnType
@@ -713,6 +728,7 @@ extension RDSData {
         /// The identifier of the transaction to roll back.
         public let transactionId: String
 
+        @inlinable
         public init(resourceArn: String, secretArn: String, transactionId: String) {
             self.resourceArn = resourceArn
             self.secretArn = secretArn
@@ -738,6 +754,7 @@ extension RDSData {
         /// The status of the rollback operation.
         public let transactionStatus: String?
 
+        @inlinable
         public init(transactionStatus: String? = nil) {
             self.transactionStatus = transactionStatus
         }
@@ -755,6 +772,7 @@ extension RDSData {
         /// The value of the parameter.
         public let value: Field?
 
+        @inlinable
         public init(name: String? = nil, typeHint: TypeHint? = nil, value: Field? = nil) {
             self.name = name
             self.typeHint = typeHint
@@ -774,6 +792,7 @@ extension RDSData {
         /// The result set of the SQL statement.
         public let resultFrame: ResultFrame?
 
+        @inlinable
         public init(numberOfRecordsUpdated: Int64? = nil, resultFrame: ResultFrame? = nil) {
             self.numberOfRecordsUpdated = numberOfRecordsUpdated
             self.resultFrame = resultFrame
@@ -789,6 +808,7 @@ extension RDSData {
         /// The attributes returned in the record.
         public let attributes: [Value]?
 
+        @inlinable
         public init(attributes: [Value]? = nil) {
             self.attributes = attributes
         }
@@ -802,6 +822,7 @@ extension RDSData {
         /// Values for fields generated during the request.
         public let generatedFields: [Field]?
 
+        @inlinable
         public init(generatedFields: [Field]? = nil) {
             self.generatedFields = generatedFields
         }

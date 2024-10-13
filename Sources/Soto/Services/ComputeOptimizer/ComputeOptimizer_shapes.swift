@@ -924,6 +924,7 @@ extension ComputeOptimizer {
         /// The reason for the account enrollment status. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
         public let statusReason: String?
 
+        @inlinable
         public init(accountId: String? = nil, lastUpdatedTimestamp: Date? = nil, status: Status? = nil, statusReason: String? = nil) {
             self.accountId = accountId
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -949,6 +950,7 @@ extension ComputeOptimizer {
         /// The minimum size, or minimum number of instances, for the Auto Scaling group.
         public let minSize: Int?
 
+        @inlinable
         public init(desiredCapacity: Int? = nil, instanceType: String? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
             self.desiredCapacity = desiredCapacity
             self.instanceType = instanceType
@@ -970,6 +972,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -1009,6 +1012,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the Auto Scaling group.
         public let utilizationMetrics: [UtilizationMetric]?
 
+        @inlinable
         public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, currentInstanceGpuInfo: GpuInfo? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.autoScalingGroupArn = autoScalingGroupArn
@@ -1060,6 +1064,7 @@ extension ComputeOptimizer {
         ///  An object that describes the savings opportunity for the Auto Scaling group recommendation option that includes Savings Plans and Reserved Instances discounts.  Savings opportunity includes the estimated monthly savings and percentage.
         public let savingsOpportunityAfterDiscounts: AutoScalingGroupSavingsOpportunityAfterDiscounts?
 
+        @inlinable
         public init(configuration: AutoScalingGroupConfiguration? = nil, instanceGpuInfo: GpuInfo? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: AutoScalingGroupSavingsOpportunityAfterDiscounts? = nil) {
             self.configuration = configuration
             self.instanceGpuInfo = instanceGpuInfo
@@ -1089,6 +1094,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts. This saving can be  achieved by adopting Compute Optimizer’s Auto Scaling group recommendations.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: AutoScalingGroupEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -1108,6 +1114,7 @@ extension ComputeOptimizer {
         ///  The memory size configurations for the container.
         public let memorySizeConfiguration: MemorySizeConfiguration?
 
+        @inlinable
         public init(containerName: String? = nil, cpu: Int? = nil, memorySizeConfiguration: MemorySizeConfiguration? = nil) {
             self.containerName = containerName
             self.cpu = cpu
@@ -1129,6 +1136,7 @@ extension ComputeOptimizer {
         ///  The recommended memory size configurations for the container.
         public let memorySizeConfiguration: MemorySizeConfiguration?
 
+        @inlinable
         public init(containerName: String? = nil, cpu: Int? = nil, memorySizeConfiguration: MemorySizeConfiguration? = nil) {
             self.containerName = containerName
             self.cpu = cpu
@@ -1152,6 +1160,7 @@ extension ComputeOptimizer {
         /// A count of the applicable resource types with a very low performance risk rating.
         public let veryLow: Int64?
 
+        @inlinable
         public init(high: Int64? = nil, low: Int64? = nil, medium: Int64? = nil, veryLow: Int64? = nil) {
             self.high = high
             self.low = low
@@ -1173,6 +1182,7 @@ extension ComputeOptimizer {
         ///  The threshold value used for the specified metric parameter.   You can only specify the threshold value for CPU utilization.
         public let threshold: CustomizableMetricThreshold?
 
+        @inlinable
         public init(headroom: CustomizableMetricHeadroom? = nil, threshold: CustomizableMetricThreshold? = nil) {
             self.headroom = headroom
             self.threshold = threshold
@@ -1196,6 +1206,7 @@ extension ComputeOptimizer {
         ///  The type of RDS storage.
         public let storageType: String?
 
+        @inlinable
         public init(allocatedStorage: Int? = nil, iops: Int? = nil, maxAllocatedStorage: Int? = nil, storageThroughput: Int? = nil, storageType: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.iops = iops
@@ -1221,6 +1232,7 @@ extension ComputeOptimizer {
         /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let scope: Scope?
 
+        @inlinable
         public init(recommendationPreferenceNames: [RecommendationPreferenceName], resourceType: ResourceType, scope: Scope? = nil) {
             self.recommendationPreferenceNames = recommendationPreferenceNames
             self.resourceType = resourceType
@@ -1248,6 +1260,7 @@ extension ComputeOptimizer {
         /// The token to advance to the next page of export jobs.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [JobFilter]? = nil, jobIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.jobIds = jobIds
@@ -1274,6 +1287,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe recommendation export jobs.
         public let recommendationExportJobs: [RecommendationExportJob]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationExportJobs: [RecommendationExportJob]? = nil) {
             self.nextToken = nextToken
             self.recommendationExportJobs = recommendationExportJobs
@@ -1289,6 +1303,7 @@ extension ComputeOptimizer {
         ///  Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
         public let savingsEstimationMode: EBSSavingsEstimationMode?
 
+        @inlinable
         public init(savingsEstimationMode: EBSSavingsEstimationMode? = nil) {
             self.savingsEstimationMode = savingsEstimationMode
         }
@@ -1304,6 +1319,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -1321,6 +1337,7 @@ extension ComputeOptimizer {
         /// The value of the filter. The valid values are Optimized, or NotOptimized.
         public let values: [String]?
 
+        @inlinable
         public init(name: EBSFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1336,6 +1353,7 @@ extension ComputeOptimizer {
         ///  Describes the source for calculating the savings opportunity for Amazon EBS volumes.
         public let source: EBSSavingsEstimationModeSource?
 
+        @inlinable
         public init(source: EBSSavingsEstimationModeSource? = nil) {
             self.source = source
         }
@@ -1351,6 +1369,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost after applying the specific discounts.  This saving can be achieved by adopting Compute Optimizer’s Amazon EBS volume recommendations.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: EBSEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -1370,6 +1389,7 @@ extension ComputeOptimizer {
         /// The value of the utilization metric.
         public let value: Double?
 
+        @inlinable
         public init(name: EBSMetricName? = nil, statistic: MetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -1387,6 +1407,7 @@ extension ComputeOptimizer {
         ///  Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
         public let savingsEstimationMode: ECSSavingsEstimationMode?
 
+        @inlinable
         public init(savingsEstimationMode: ECSSavingsEstimationMode? = nil) {
             self.savingsEstimationMode = savingsEstimationMode
         }
@@ -1402,6 +1423,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings for Amazon ECS services.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -1417,6 +1439,7 @@ extension ComputeOptimizer {
         ///  Describes the source for calculating the savings opportunity for Amazon ECS services.
         public let source: ECSSavingsEstimationModeSource?
 
+        @inlinable
         public init(source: ECSSavingsEstimationModeSource? = nil) {
             self.source = source
         }
@@ -1432,6 +1455,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s  Amazon ECS service recommendations. This includes any applicable Savings Plans discounts.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: ECSEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -1453,6 +1477,7 @@ extension ComputeOptimizer {
         ///  The upper bound values for the projected metric.
         public let upperBoundValues: [Double]?
 
+        @inlinable
         public init(lowerBoundValues: [Double]? = nil, name: ECSServiceMetricName? = nil, timestamps: [Date]? = nil, upperBoundValues: [Double]? = nil) {
             self.lowerBoundValues = lowerBoundValues
             self.name = name
@@ -1478,6 +1503,7 @@ extension ComputeOptimizer {
         ///  The upper bound values for the projected utilization metrics.
         public let upperBoundValue: Double?
 
+        @inlinable
         public init(lowerBoundValue: Double? = nil, name: ECSServiceMetricName? = nil, statistic: ECSServiceMetricStatistic? = nil, upperBoundValue: Double? = nil) {
             self.lowerBoundValue = lowerBoundValue
             self.name = name
@@ -1521,6 +1547,7 @@ extension ComputeOptimizer {
         ///  An array of objects that describe the utilization metrics of the Amazon ECS service.
         public let utilizationMetrics: [ECSServiceUtilizationMetric]?
 
+        @inlinable
         public init(accountId: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, currentServiceConfiguration: ServiceConfiguration? = nil, effectiveRecommendationPreferences: ECSEffectiveRecommendationPreferences? = nil, finding: ECSServiceRecommendationFinding? = nil, findingReasonCodes: [ECSServiceRecommendationFindingReasonCode]? = nil, lastRefreshTimestamp: Date? = nil, launchType: ECSServiceLaunchType? = nil, lookbackPeriodInDays: Double? = nil, serviceArn: String? = nil, serviceRecommendationOptions: [ECSServiceRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [ECSServiceUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentPerformanceRisk = currentPerformanceRisk
@@ -1560,6 +1587,7 @@ extension ComputeOptimizer {
         ///  The value of the filter.  The valid values for this parameter are as follows:   If you specify the name parameter as Finding, specify Optimized, Underprovisioned, or Overprovisioned.   If you specify the name parameter as FindingReasonCode, specify CPUUnderprovisioned, CPUOverprovisioned,  MemoryUnderprovisioned, or MemoryOverprovisioned.
         public let values: [String]?
 
+        @inlinable
         public init(name: ECSServiceRecommendationFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1584,6 +1612,7 @@ extension ComputeOptimizer {
         ///  Describes the savings opportunity for Amazon ECS service recommendations or for the recommendation option.  Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts.  You can achieve this by implementing a given Compute Optimizer recommendation.
         public let savingsOpportunityAfterDiscounts: ECSSavingsOpportunityAfterDiscounts?
 
+        @inlinable
         public init(containerRecommendations: [ContainerRecommendation]? = nil, cpu: Int? = nil, memory: Int? = nil, projectedUtilizationMetrics: [ECSServiceProjectedUtilizationMetric]? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: ECSSavingsOpportunityAfterDiscounts? = nil) {
             self.containerRecommendations = containerRecommendations
             self.cpu = cpu
@@ -1611,6 +1640,7 @@ extension ComputeOptimizer {
         ///  The recommended memory size for the Amazon ECS service.
         public let recommendedMemorySize: Int?
 
+        @inlinable
         public init(projectedMetrics: [ECSServiceProjectedMetric]? = nil, recommendedCpuUnits: Int? = nil, recommendedMemorySize: Int? = nil) {
             self.projectedMetrics = projectedMetrics
             self.recommendedCpuUnits = recommendedCpuUnits
@@ -1632,6 +1662,7 @@ extension ComputeOptimizer {
         ///  The value of the utilization metric.
         public let value: Double?
 
+        @inlinable
         public init(name: ECSServiceMetricName? = nil, statistic: ECSServiceMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -1655,6 +1686,7 @@ extension ComputeOptimizer {
         ///  The name of the preferred resource list.
         public let name: PreferredResourceName?
 
+        @inlinable
         public init(effectiveIncludeList: [String]? = nil, excludeList: [String]? = nil, includeList: [String]? = nil, name: PreferredResourceName? = nil) {
             self.effectiveIncludeList = effectiveIncludeList
             self.excludeList = excludeList
@@ -1688,6 +1720,7 @@ extension ComputeOptimizer {
         ///  The resource’s CPU and memory utilization preferences, such as threshold and headroom, that  are used to generate rightsizing recommendations.    This preference is only available for the Amazon EC2 instance resource type.
         public let utilizationPreferences: [UtilizationPreference]?
 
+        @inlinable
         public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [EffectivePreferredResource]? = nil, savingsEstimationMode: InstanceSavingsEstimationMode? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
@@ -1717,6 +1750,7 @@ extension ComputeOptimizer {
         /// The value of the filter. The valid values are Active, Inactive, Pending, and Failed.
         public let values: [String]?
 
+        @inlinable
         public init(name: EnrollmentFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -1734,6 +1768,7 @@ extension ComputeOptimizer {
         /// The value of the estimated monthly savings.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -1761,6 +1796,7 @@ extension ComputeOptimizer {
         /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableAutoScalingGroupField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -1788,6 +1824,7 @@ extension ComputeOptimizer {
         /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -1803,6 +1840,7 @@ extension ComputeOptimizer {
         /// An object that describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
         public let s3: S3Destination?
 
+        @inlinable
         public init(s3: S3Destination? = nil) {
             self.s3 = s3
         }
@@ -1825,6 +1863,7 @@ extension ComputeOptimizer {
         public let includeMemberAccounts: Bool?
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableVolumeField]? = nil, fileFormat: FileFormat? = nil, filters: [EBSFilter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -1849,6 +1888,7 @@ extension ComputeOptimizer {
         public let jobId: String?
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -1876,6 +1916,7 @@ extension ComputeOptimizer {
         /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableInstanceField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -1903,6 +1944,7 @@ extension ComputeOptimizer {
         /// An object that describes the destination Amazon S3 bucket of a recommendations export file.
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -1927,6 +1969,7 @@ extension ComputeOptimizer {
         public let includeMemberAccounts: Bool?
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableECSServiceField]? = nil, fileFormat: FileFormat? = nil, filters: [ECSServiceRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -1951,6 +1994,7 @@ extension ComputeOptimizer {
         public let jobId: String?
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -1975,6 +2019,7 @@ extension ComputeOptimizer {
         public let includeMemberAccounts: Bool?
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableLambdaFunctionField]? = nil, fileFormat: FileFormat? = nil, filters: [LambdaFunctionRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -1999,6 +2044,7 @@ extension ComputeOptimizer {
         public let jobId: String?
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -2023,6 +2069,7 @@ extension ComputeOptimizer {
         public let includeMemberAccounts: Bool?
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableLicenseField]? = nil, fileFormat: FileFormat? = nil, filters: [LicenseRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -2047,6 +2094,7 @@ extension ComputeOptimizer {
         public let jobId: String?
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -2072,6 +2120,7 @@ extension ComputeOptimizer {
         public let recommendationPreferences: RecommendationPreferences?
         public let s3DestinationConfig: S3DestinationConfig
 
+        @inlinable
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableRDSDBField]? = nil, fileFormat: FileFormat? = nil, filters: [RDSDBRecommendationFilter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
             self.accountIds = accountIds
             self.fieldsToExport = fieldsToExport
@@ -2098,6 +2147,7 @@ extension ComputeOptimizer {
         public let jobId: String?
         public let s3Destination: S3Destination?
 
+        @inlinable
         public init(jobId: String? = nil, s3Destination: S3Destination? = nil) {
             self.jobId = jobId
             self.s3Destination = s3Destination
@@ -2115,6 +2165,7 @@ extension ComputeOptimizer {
         ///  The reason for Compute Optimizer's integration status with your external metric provider.
         public let statusReason: String?
 
+        @inlinable
         public init(statusCode: ExternalMetricStatusCode? = nil, statusReason: String? = nil) {
             self.statusCode = statusCode
             self.statusReason = statusReason
@@ -2130,6 +2181,7 @@ extension ComputeOptimizer {
         ///  Contains the source options for external metrics preferences.
         public let source: ExternalMetricsSource?
 
+        @inlinable
         public init(source: ExternalMetricsSource? = nil) {
             self.source = source
         }
@@ -2145,6 +2197,7 @@ extension ComputeOptimizer {
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter and the resource type that you wish to filter results for:   Specify Optimized or NotOptimized if you specify the name parameter as Finding and you want to filter results for Auto Scaling groups.   Specify Underprovisioned, Overprovisioned, or Optimized if you specify the name parameter as Finding and you want to filter results for EC2 instances.   Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as RecommendationSourceType.   Specify one of the following options if you specify the name parameter as FindingReasonCodes:     CPUOverprovisioned — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload.     CPUUnderprovisioned — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance.     MemoryOverprovisioned — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload.     MemoryUnderprovisioned — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance.     EBSThroughputOverprovisioned — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload.     EBSThroughputUnderprovisioned — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance.     EBSIOPSOverprovisioned — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload.     EBSIOPSUnderprovisioned  — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance.     NetworkBandwidthOverprovisioned — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload.     NetworkBandwidthUnderprovisioned — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload.     NetworkPPSUnderprovisioned — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance.     DiskIOPSOverprovisioned  — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload.     DiskIOPSUnderprovisioned  — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance.     DiskThroughputOverprovisioned — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload.     DiskThroughputUnderprovisioned — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance.
         public let values: [String]?
 
+        @inlinable
         public init(name: FilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -2170,6 +2223,7 @@ extension ComputeOptimizer {
         /// An object to specify the preferences for the Auto Scaling group recommendations to return in the response.
         public let recommendationPreferences: RecommendationPreferences?
 
+        @inlinable
         public init(accountIds: [String]? = nil, autoScalingGroupArns: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationPreferences: RecommendationPreferences? = nil) {
             self.accountIds = accountIds
             self.autoScalingGroupArns = autoScalingGroupArns
@@ -2202,6 +2256,7 @@ extension ComputeOptimizer {
         /// The token to use to advance to the next page of Auto Scaling group recommendations. This value is null when there are no more pages of Auto Scaling group recommendations to return.
         public let nextToken: String?
 
+        @inlinable
         public init(autoScalingGroupRecommendations: [AutoScalingGroupRecommendation]? = nil, errors: [GetRecommendationError]? = nil, nextToken: String? = nil) {
             self.autoScalingGroupRecommendations = autoScalingGroupRecommendations
             self.errors = errors
@@ -2227,6 +2282,7 @@ extension ComputeOptimizer {
         /// The Amazon Resource Name (ARN) of the volumes for which to return recommendations.
         public let volumeArns: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, filters: [EBSFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, volumeArns: [String]? = nil) {
             self.accountIds = accountIds
             self.filters = filters
@@ -2257,6 +2313,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe volume recommendations.
         public let volumeRecommendations: [VolumeRecommendation]?
 
+        @inlinable
         public init(errors: [GetRecommendationError]? = nil, nextToken: String? = nil, volumeRecommendations: [VolumeRecommendation]? = nil) {
             self.errors = errors
             self.nextToken = nextToken
@@ -2284,6 +2341,7 @@ extension ComputeOptimizer {
         /// An object to specify the preferences for the Amazon EC2 instance recommendations to return in the response.
         public let recommendationPreferences: RecommendationPreferences?
 
+        @inlinable
         public init(accountIds: [String]? = nil, filters: [Filter]? = nil, instanceArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationPreferences: RecommendationPreferences? = nil) {
             self.accountIds = accountIds
             self.filters = filters
@@ -2316,6 +2374,7 @@ extension ComputeOptimizer {
         /// The token to use to advance to the next page of instance recommendations. This value is null when there are no more pages of instance recommendations to return.
         public let nextToken: String?
 
+        @inlinable
         public init(errors: [GetRecommendationError]? = nil, instanceRecommendations: [InstanceRecommendation]? = nil, nextToken: String? = nil) {
             self.errors = errors
             self.instanceRecommendations = instanceRecommendations
@@ -2343,6 +2402,7 @@ extension ComputeOptimizer {
         /// The statistic of the projected metrics.
         public let stat: MetricStatistic
 
+        @inlinable
         public init(endTime: Date, instanceArn: String, period: Int = 0, recommendationPreferences: RecommendationPreferences? = nil, startTime: Date, stat: MetricStatistic) {
             self.endTime = endTime
             self.instanceArn = instanceArn
@@ -2366,6 +2426,7 @@ extension ComputeOptimizer {
         /// An array of objects that describes projected metrics.
         public let recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]?
 
+        @inlinable
         public init(recommendedOptionProjectedMetrics: [RecommendedOptionProjectedMetric]? = nil) {
             self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
         }
@@ -2387,6 +2448,7 @@ extension ComputeOptimizer {
         ///  The statistic of the projected metrics.
         public let stat: MetricStatistic
 
+        @inlinable
         public init(endTime: Date, period: Int = 0, serviceArn: String, startTime: Date, stat: MetricStatistic) {
             self.endTime = endTime
             self.period = period
@@ -2408,6 +2470,7 @@ extension ComputeOptimizer {
         ///  An array of objects that describes the projected metrics.
         public let recommendedOptionProjectedMetrics: [ECSServiceRecommendedOptionProjectedMetric]?
 
+        @inlinable
         public init(recommendedOptionProjectedMetrics: [ECSServiceRecommendedOptionProjectedMetric]? = nil) {
             self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
         }
@@ -2429,6 +2492,7 @@ extension ComputeOptimizer {
         ///  The ARN that identifies the Amazon ECS service.   The following is the format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
         public let serviceArns: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, filters: [ECSServiceRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceArns: [String]? = nil) {
             self.accountIds = accountIds
             self.filters = filters
@@ -2459,6 +2523,7 @@ extension ComputeOptimizer {
         ///  The token to advance to the next page of Amazon ECS service recommendations.
         public let nextToken: String?
 
+        @inlinable
         public init(ecsServiceRecommendations: [ECSServiceRecommendation]? = nil, errors: [GetRecommendationError]? = nil, nextToken: String? = nil) {
             self.ecsServiceRecommendations = ecsServiceRecommendations
             self.errors = errors
@@ -2476,6 +2541,7 @@ extension ComputeOptimizer {
         /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2497,6 +2563,7 @@ extension ComputeOptimizer {
         ///  The resource’s CPU and memory utilization preferences, such as threshold and headroom,  that were used to generate rightsizing recommendations. It considers all applicable preferences  that you set at the resource, account, and organization level.  To validate that the preference is applied to your last generated set of recommendations, review the  effectiveRecommendationPreferences value in the response of the  GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
         public let utilizationPreferences: [UtilizationPreference]?
 
+        @inlinable
         public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [EffectivePreferredResource]? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
@@ -2530,6 +2597,7 @@ extension ComputeOptimizer {
         /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
         public let statusReason: String?
 
+        @inlinable
         public init(lastUpdatedTimestamp: Date? = nil, memberAccountsEnrolled: Bool? = nil, numberOfMemberAccountsOptedIn: Int? = nil, status: Status? = nil, statusReason: String? = nil) {
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.memberAccountsEnrolled = memberAccountsEnrolled
@@ -2555,6 +2623,7 @@ extension ComputeOptimizer {
         /// The token to advance to the next page of account enrollment statuses.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [EnrollmentFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2579,6 +2648,7 @@ extension ComputeOptimizer {
         /// The token to use to advance to the next page of account enrollment statuses. This value is null when there are no more pages of account enrollment statuses to return.
         public let nextToken: String?
 
+        @inlinable
         public init(accountEnrollmentStatuses: [AccountEnrollmentStatus]? = nil, nextToken: String? = nil) {
             self.accountEnrollmentStatuses = accountEnrollmentStatuses
             self.nextToken = nextToken
@@ -2602,6 +2672,7 @@ extension ComputeOptimizer {
         /// The token to advance to the next page of function recommendations.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, filters: [LambdaFunctionRecommendationFilter]? = nil, functionArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.filters = filters
@@ -2630,6 +2701,7 @@ extension ComputeOptimizer {
         /// The token to use to advance to the next page of function recommendations. This value is null when there are no more pages of function recommendations to return.
         public let nextToken: String?
 
+        @inlinable
         public init(lambdaFunctionRecommendations: [LambdaFunctionRecommendation]? = nil, nextToken: String? = nil) {
             self.lambdaFunctionRecommendations = lambdaFunctionRecommendations
             self.nextToken = nextToken
@@ -2653,6 +2725,7 @@ extension ComputeOptimizer {
         ///  The ARN that identifies the Amazon EC2 instance.   The following is the format of the ARN:   arn:aws:ec2:region:aws_account_id:instance/instance-id
         public let resourceArns: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, filters: [LicenseRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil) {
             self.accountIds = accountIds
             self.filters = filters
@@ -2683,6 +2756,7 @@ extension ComputeOptimizer {
         ///  The token to use to advance to the next page of license recommendations.
         public let nextToken: String?
 
+        @inlinable
         public init(errors: [GetRecommendationError]? = nil, licenseRecommendations: [LicenseRecommendation]? = nil, nextToken: String? = nil) {
             self.errors = errors
             self.licenseRecommendations = licenseRecommendations
@@ -2709,6 +2783,7 @@ extension ComputeOptimizer {
         ///  The statistic of the projected metrics.
         public let stat: MetricStatistic
 
+        @inlinable
         public init(endTime: Date, period: Int = 0, recommendationPreferences: RecommendationPreferences? = nil, resourceArn: String, startTime: Date, stat: MetricStatistic) {
             self.endTime = endTime
             self.period = period
@@ -2732,6 +2807,7 @@ extension ComputeOptimizer {
         ///  An array of objects that describes the projected metrics.
         public let recommendedOptionProjectedMetrics: [RDSDatabaseRecommendedOptionProjectedMetric]?
 
+        @inlinable
         public init(recommendedOptionProjectedMetrics: [RDSDatabaseRecommendedOptionProjectedMetric]? = nil) {
             self.recommendedOptionProjectedMetrics = recommendedOptionProjectedMetrics
         }
@@ -2754,6 +2830,7 @@ extension ComputeOptimizer {
         ///  The ARN that identifies the Amazon RDS.   The following is the format of the ARN:   arn:aws:rds:{region}:{accountId}:db:{resourceName}  The following is the format of a DB Cluster ARN:   arn:aws:rds:{region}:{accountId}:cluster:{resourceName}
         public let resourceArns: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, filters: [RDSDBRecommendationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationPreferences: RecommendationPreferences? = nil, resourceArns: [String]? = nil) {
             self.accountIds = accountIds
             self.filters = filters
@@ -2786,6 +2863,7 @@ extension ComputeOptimizer {
         ///  An array of objects that describe the Amazon RDS recommendations.
         public let rdsDBRecommendations: [RDSDBRecommendation]?
 
+        @inlinable
         public init(errors: [GetRecommendationError]? = nil, nextToken: String? = nil, rdsDBRecommendations: [RDSDBRecommendation]? = nil) {
             self.errors = errors
             self.nextToken = nextToken
@@ -2807,6 +2885,7 @@ extension ComputeOptimizer {
         /// The message, or reason, for the error.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, identifier: String? = nil, message: String? = nil) {
             self.code = code
             self.identifier = identifier
@@ -2830,6 +2909,7 @@ extension ComputeOptimizer {
         /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let scope: Scope?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: ResourceType, scope: Scope? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2856,6 +2936,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe recommendation preferences.
         public let recommendationPreferencesDetails: [RecommendationPreferencesDetail]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationPreferencesDetails: [RecommendationPreferencesDetail]? = nil) {
             self.nextToken = nextToken
             self.recommendationPreferencesDetails = recommendationPreferencesDetails
@@ -2875,6 +2956,7 @@ extension ComputeOptimizer {
         /// The token to advance to the next page of recommendation summaries.
         public let nextToken: String?
 
+        @inlinable
         public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountIds = accountIds
             self.maxResults = maxResults
@@ -2899,6 +2981,7 @@ extension ComputeOptimizer {
         /// An array of objects that summarize a recommendation.
         public let recommendationSummaries: [RecommendationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, recommendationSummaries: [RecommendationSummary]? = nil) {
             self.nextToken = nextToken
             self.recommendationSummaries = recommendationSummaries
@@ -2916,6 +2999,7 @@ extension ComputeOptimizer {
         ///  The total size of the memory for the GPU accelerators for the instance type, in MiB.
         public let gpuMemorySizeInMiB: Int?
 
+        @inlinable
         public init(gpuCount: Int? = nil, gpuMemorySizeInMiB: Int? = nil) {
             self.gpuCount = gpuCount
             self.gpuMemorySizeInMiB = gpuMemorySizeInMiB
@@ -2931,6 +3015,7 @@ extension ComputeOptimizer {
         ///  Describes the GPU accelerators for the instance type.
         public let gpus: [Gpu]?
 
+        @inlinable
         public init(gpus: [Gpu]? = nil) {
             self.gpus = gpus
         }
@@ -2946,6 +3031,7 @@ extension ComputeOptimizer {
         /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:    AmazonEmr - Infers that Amazon EMR might be running on the instance.    ApacheCassandra - Infers that Apache Cassandra might be running on the instance.    ApacheHadoop - Infers that Apache Hadoop might be running on the instance.    Memcached - Infers that Memcached might be running on the instance.    NGINX - Infers that NGINX might be running on the instance.    PostgreSql - Infers that PostgreSQL might be running on the instance.    Redis - Infers that Redis might be running on the instance.    Kafka - Infers that Kafka might be running on the instance.    SQLServer - Infers that SQLServer might be running on the instance.
         public let inferredWorkloadTypes: [InferredWorkloadType]?
 
+        @inlinable
         public init(estimatedMonthlySavings: EstimatedMonthlySavings? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.inferredWorkloadTypes = inferredWorkloadTypes
@@ -2963,6 +3049,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -3014,6 +3101,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the instance.
         public let utilizationMetrics: [UtilizationMetric]?
 
+        @inlinable
         public init(accountId: String? = nil, currentInstanceGpuInfo: GpuInfo? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, externalMetricStatus: ExternalMetricStatus? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, idle: InstanceIdle? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, instanceArn: String? = nil, instanceName: String? = nil, instanceState: InstanceState? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, tags: [Tag]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentInstanceGpuInfo = currentInstanceGpuInfo
@@ -3079,6 +3167,7 @@ extension ComputeOptimizer {
         ///  An object that describes the savings opportunity for the instance recommendation option that includes Savings Plans and Reserved Instances  discounts. Savings opportunity includes the estimated monthly savings and percentage.
         public let savingsOpportunityAfterDiscounts: InstanceSavingsOpportunityAfterDiscounts?
 
+        @inlinable
         public init(instanceGpuInfo: GpuInfo? = nil, instanceType: String? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: InstanceSavingsOpportunityAfterDiscounts? = nil) {
             self.instanceGpuInfo = instanceGpuInfo
             self.instanceType = instanceType
@@ -3108,6 +3197,7 @@ extension ComputeOptimizer {
         ///  Describes the source for calculating the savings opportunity for Amazon EC2 instances.
         public let source: InstanceSavingsEstimationModeSource?
 
+        @inlinable
         public init(source: InstanceSavingsEstimationModeSource? = nil) {
             self.source = source
         }
@@ -3123,6 +3213,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost after applying the Savings Plans and Reserved Instances discounts.  This saving can be achieved by adopting Compute Optimizer’s EC2 instance recommendations.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: InstanceEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -3140,6 +3231,7 @@ extension ComputeOptimizer {
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   Specify Ec2Instance or AutoScalingGroup if you specify the name parameter as ResourceType. There is no filter for EBS volumes because volume recommendations cannot be exported at this time.   Specify Queued, InProgress, Complete, or Failed if you specify the name parameter as JobStatus.
         public let values: [String]?
 
+        @inlinable
         public init(name: JobFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -3155,6 +3247,7 @@ extension ComputeOptimizer {
         ///  Describes the savings estimation mode applied for calculating savings opportunity for Lambda functions.
         public let savingsEstimationMode: LambdaSavingsEstimationMode?
 
+        @inlinable
         public init(savingsEstimationMode: LambdaSavingsEstimationMode? = nil) {
             self.savingsEstimationMode = savingsEstimationMode
         }
@@ -3170,6 +3263,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -3189,6 +3283,7 @@ extension ComputeOptimizer {
         /// The values of the projected utilization metrics.
         public let value: Double?
 
+        @inlinable
         public init(name: LambdaFunctionMemoryMetricName? = nil, statistic: LambdaFunctionMemoryMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -3214,6 +3309,7 @@ extension ComputeOptimizer {
         ///  An object that describes the savings opportunity for the Lambda recommendation option which includes Saving Plans  discounts. Savings opportunity includes the estimated monthly savings and percentage.
         public let savingsOpportunityAfterDiscounts: LambdaSavingsOpportunityAfterDiscounts?
 
+        @inlinable
         public init(memorySize: Int? = nil, projectedUtilizationMetrics: [LambdaFunctionMemoryProjectedMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: LambdaSavingsOpportunityAfterDiscounts? = nil) {
             self.memorySize = memorySize
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
@@ -3261,6 +3357,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the function.
         public let utilizationMetrics: [LambdaFunctionUtilizationMetric]?
 
+        @inlinable
         public init(accountId: String? = nil, currentMemorySize: Int? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: LambdaEffectiveRecommendationPreferences? = nil, finding: LambdaFunctionRecommendationFinding? = nil, findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]? = nil, functionArn: String? = nil, functionVersion: String? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, memorySizeRecommendationOptions: [LambdaFunctionMemoryRecommendationOption]? = nil, numberOfInvocations: Int64? = nil, tags: [Tag]? = nil, utilizationMetrics: [LambdaFunctionUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentMemorySize = currentMemorySize
@@ -3302,6 +3399,7 @@ extension ComputeOptimizer {
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   Specify Optimized, NotOptimized, or Unavailable if you specify the name parameter as Finding.   Specify MemoryOverprovisioned, MemoryUnderprovisioned, InsufficientData, or Inconclusive if you specify the name parameter as FindingReasonCode.
         public let values: [String]?
 
+        @inlinable
         public init(name: LambdaFunctionRecommendationFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -3321,6 +3419,7 @@ extension ComputeOptimizer {
         /// The value of the utilization metric.
         public let value: Double?
 
+        @inlinable
         public init(name: LambdaFunctionMetricName? = nil, statistic: LambdaFunctionMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -3338,6 +3437,7 @@ extension ComputeOptimizer {
         ///  Describes the source for calculation of savings opportunity for Lambda functions.
         public let source: LambdaSavingsEstimationModeSource?
 
+        @inlinable
         public init(source: LambdaSavingsEstimationModeSource? = nil) {
             self.source = source
         }
@@ -3353,6 +3453,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s Lambda  function recommendations. This includes any applicable Savings Plans discounts.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: LambdaEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -3382,6 +3483,7 @@ extension ComputeOptimizer {
         ///  The operating system of the instance.
         public let operatingSystem: String?
 
+        @inlinable
         public init(instanceType: String? = nil, licenseEdition: LicenseEdition? = nil, licenseModel: LicenseModel? = nil, licenseName: LicenseName? = nil, licenseVersion: String? = nil, metricsSource: [MetricSource]? = nil, numberOfCores: Int? = nil, operatingSystem: String? = nil) {
             self.instanceType = instanceType
             self.licenseEdition = licenseEdition
@@ -3425,6 +3527,7 @@ extension ComputeOptimizer {
         ///  A list of tags assigned to an EC2 instance.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountId: String? = nil, currentLicenseConfiguration: LicenseConfiguration? = nil, finding: LicenseFinding? = nil, findingReasonCodes: [LicenseFindingReasonCode]? = nil, lastRefreshTimestamp: Date? = nil, licenseRecommendationOptions: [LicenseRecommendationOption]? = nil, lookbackPeriodInDays: Double? = nil, resourceArn: String? = nil, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.currentLicenseConfiguration = currentLicenseConfiguration
@@ -3456,6 +3559,7 @@ extension ComputeOptimizer {
         /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:   If you specify the name parameter as Finding, then specify Optimized, NotOptimized, or InsufficentMetrics.   If you specify the name parameter as FindingReasonCode, then specify Optimized, LicenseOverprovisioned, InvalidCloudwatchApplicationInsights, or CloudwatchApplicationInsightsError.
         public let values: [String]?
 
+        @inlinable
         public init(name: LicenseRecommendationFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -3478,6 +3582,7 @@ extension ComputeOptimizer {
         public let rank: Int?
         public let savingsOpportunity: SavingsOpportunity?
 
+        @inlinable
         public init(licenseEdition: LicenseEdition? = nil, licenseModel: LicenseModel? = nil, operatingSystem: String? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.licenseEdition = licenseEdition
             self.licenseModel = licenseModel
@@ -3501,6 +3606,7 @@ extension ComputeOptimizer {
         ///  The limit of memory reserve for the container.
         public let memoryReservation: Int?
 
+        @inlinable
         public init(memory: Int? = nil, memoryReservation: Int? = nil) {
             self.memory = memory
             self.memoryReservation = memoryReservation
@@ -3518,6 +3624,7 @@ extension ComputeOptimizer {
         ///  The ARN of the metric source provider.
         public let providerArn: String?
 
+        @inlinable
         public init(provider: MetricSourceProvider? = nil, providerArn: String? = nil) {
             self.provider = provider
             self.providerArn = providerArn
@@ -3537,6 +3644,7 @@ extension ComputeOptimizer {
         ///  The type of preferred resource to customize.   Compute Optimizer only supports the customization of Ec2InstanceTypes.
         public let name: PreferredResourceName?
 
+        @inlinable
         public init(excludeList: [String]? = nil, includeList: [String]? = nil, name: PreferredResourceName? = nil) {
             self.excludeList = excludeList
             self.includeList = includeList
@@ -3558,6 +3666,7 @@ extension ComputeOptimizer {
         /// The values of the projected utilization metrics.
         public let values: [Double]?
 
+        @inlinable
         public init(name: MetricName? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
             self.name = name
             self.timestamps = timestamps
@@ -3591,6 +3700,7 @@ extension ComputeOptimizer {
         ///  The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. When this  preference isn't specified, we use the following default values.  CPU utilization:    P99_5 for threshold    PERCENT_20 for headroom   Memory utilization:    PERCENT_20 for headroom      You can only set CPU and memory utilization preferences for the Amazon EC2 instance resource type.   The threshold setting isn’t available for memory utilization.
         public let utilizationPreferences: [UtilizationPreference]?
 
+        @inlinable
         public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [PreferredResource]? = nil, resourceType: ResourceType, savingsEstimationMode: SavingsEstimationMode? = nil, scope: Scope? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
@@ -3633,6 +3743,7 @@ extension ComputeOptimizer {
         ///  Describes the savings opportunity for Amazon RDS recommendations or for the recommendation option.  Savings opportunity represents the estimated monthly savings after applying Savings Plans discounts.  You can achieve this by implementing a given Compute Optimizer recommendation.
         public let savingsOpportunityAfterDiscounts: RDSInstanceSavingsOpportunityAfterDiscounts?
 
+        @inlinable
         public init(dbInstanceClass: String? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [RDSDBUtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: RDSInstanceSavingsOpportunityAfterDiscounts? = nil) {
             self.dbInstanceClass = dbInstanceClass
             self.performanceRisk = performanceRisk
@@ -3690,6 +3801,7 @@ extension ComputeOptimizer {
         ///  An array of objects that describe the utilization metrics of the Amazon RDS.
         public let utilizationMetrics: [RDSDBUtilizationMetric]?
 
+        @inlinable
         public init(accountId: String? = nil, currentDBInstanceClass: String? = nil, currentStorageConfiguration: DBStorageConfiguration? = nil, effectiveRecommendationPreferences: RDSEffectiveRecommendationPreferences? = nil, engine: String? = nil, engineVersion: String? = nil, idle: Idle? = nil, instanceFinding: RDSInstanceFinding? = nil, instanceFindingReasonCodes: [RDSInstanceFindingReasonCode]? = nil, instanceRecommendationOptions: [RDSDBInstanceRecommendationOption]? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, resourceArn: String? = nil, storageFinding: RDSStorageFinding? = nil, storageFindingReasonCodes: [RDSStorageFindingReasonCode]? = nil, storageRecommendationOptions: [RDSDBStorageRecommendationOption]? = nil, tags: [Tag]? = nil, utilizationMetrics: [RDSDBUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentDBInstanceClass = currentDBInstanceClass
@@ -3739,6 +3851,7 @@ extension ComputeOptimizer {
         ///  The value of the filter.
         public let values: [String]?
 
+        @inlinable
         public init(name: RDSDBRecommendationFilterName? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -3759,6 +3872,7 @@ extension ComputeOptimizer {
         ///  The recommended storage configuration.
         public let storageConfiguration: DBStorageConfiguration?
 
+        @inlinable
         public init(rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: RDSStorageSavingsOpportunityAfterDiscounts? = nil, storageConfiguration: DBStorageConfiguration? = nil) {
             self.rank = rank
             self.savingsOpportunity = savingsOpportunity
@@ -3782,6 +3896,7 @@ extension ComputeOptimizer {
         ///  The value of the utilization metric.
         public let value: Double?
 
+        @inlinable
         public init(name: RDSDBMetricName? = nil, statistic: RDSDBMetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -3803,6 +3918,7 @@ extension ComputeOptimizer {
         ///  The values for the projected metric.
         public let values: [Double]?
 
+        @inlinable
         public init(name: RDSDBMetricName? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
             self.name = name
             self.timestamps = timestamps
@@ -3824,6 +3940,7 @@ extension ComputeOptimizer {
         ///  The recommended DB instance class for the Amazon RDS.
         public let recommendedDBInstanceClass: String?
 
+        @inlinable
         public init(projectedMetrics: [RDSDatabaseProjectedMetric]? = nil, rank: Int? = nil, recommendedDBInstanceClass: String? = nil) {
             self.projectedMetrics = projectedMetrics
             self.rank = rank
@@ -3847,6 +3964,7 @@ extension ComputeOptimizer {
         ///  Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon RDS.
         public let savingsEstimationMode: RDSSavingsEstimationMode?
 
+        @inlinable
         public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, savingsEstimationMode: RDSSavingsEstimationMode? = nil) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
@@ -3868,6 +3986,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings for Amazon RDS instances.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -3885,6 +4004,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s  Amazon RDS instance recommendations. This includes any applicable Savings Plans discounts.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: RDSInstanceEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -3900,6 +4020,7 @@ extension ComputeOptimizer {
         ///  Describes the source for calculating the savings opportunity for Amazon RDS.
         public let source: RDSSavingsEstimationModeSource?
 
+        @inlinable
         public init(source: RDSSavingsEstimationModeSource? = nil) {
             self.source = source
         }
@@ -3915,6 +4036,7 @@ extension ComputeOptimizer {
         ///  The value of the estimated monthly savings for Amazon RDS storage.
         public let value: Double?
 
+        @inlinable
         public init(currency: Currency? = nil, value: Double? = nil) {
             self.currency = currency
             self.value = value
@@ -3932,6 +4054,7 @@ extension ComputeOptimizer {
         ///  The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer’s  Amazon RDS storage recommendations. This includes any applicable Savings Plans discounts.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: RDSStorageEstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -3949,6 +4072,7 @@ extension ComputeOptimizer {
         /// The value of the finding reason code summary.
         public let value: Double?
 
+        @inlinable
         public init(name: FindingReasonCode? = nil, value: Double? = nil) {
             self.name = name
             self.value = value
@@ -3976,6 +4100,7 @@ extension ComputeOptimizer {
         /// The status of the export job.
         public let status: JobStatus?
 
+        @inlinable
         public init(creationTimestamp: Date? = nil, destination: ExportDestination? = nil, failureReason: String? = nil, jobId: String? = nil, lastUpdatedTimestamp: Date? = nil, resourceType: ResourceType? = nil, status: JobStatus? = nil) {
             self.creationTimestamp = creationTimestamp
             self.destination = destination
@@ -4001,6 +4126,7 @@ extension ComputeOptimizer {
         /// Specifies the CPU vendor and architecture for Amazon EC2 instance and Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton instance types only.
         public let cpuVendorArchitectures: [CpuVendorArchitecture]?
 
+        @inlinable
         public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
         }
@@ -4030,6 +4156,7 @@ extension ComputeOptimizer {
         ///  The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom.  If the preference isn’t set, this object is null.    This preference is only available for the Amazon EC2 instance resource type.
         public let utilizationPreferences: [UtilizationPreference]?
 
+        @inlinable
         public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, externalMetricsPreference: ExternalMetricsPreference? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, lookBackPeriod: LookBackPeriodPreference? = nil, preferredResources: [EffectivePreferredResource]? = nil, resourceType: ResourceType? = nil, savingsEstimationMode: SavingsEstimationMode? = nil, scope: Scope? = nil, utilizationPreferences: [UtilizationPreference]? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
             self.externalMetricsPreference = externalMetricsPreference
@@ -4061,6 +4188,7 @@ extension ComputeOptimizer {
         /// The resource type of the recommendation source.
         public let recommendationSourceType: RecommendationSourceType?
 
+        @inlinable
         public init(recommendationSourceArn: String? = nil, recommendationSourceType: RecommendationSourceType? = nil) {
             self.recommendationSourceArn = recommendationSourceArn
             self.recommendationSourceType = recommendationSourceType
@@ -4086,6 +4214,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe a recommendation summary.
         public let summaries: [Summary]?
 
+        @inlinable
         public init(accountId: String? = nil, currentPerformanceRiskRatings: CurrentPerformanceRiskRatings? = nil, inferredWorkloadSavings: [InferredWorkloadSaving]? = nil, recommendationResourceType: RecommendationSourceType? = nil, savingsOpportunity: SavingsOpportunity? = nil, summaries: [Summary]? = nil) {
             self.accountId = accountId
             self.currentPerformanceRiskRatings = currentPerformanceRiskRatings
@@ -4113,6 +4242,7 @@ extension ComputeOptimizer {
         /// The recommended instance type.
         public let recommendedInstanceType: String?
 
+        @inlinable
         public init(projectedMetrics: [ProjectedMetric]? = nil, rank: Int? = nil, recommendedInstanceType: String? = nil) {
             self.projectedMetrics = projectedMetrics
             self.rank = rank
@@ -4134,6 +4264,7 @@ extension ComputeOptimizer {
         /// The Amazon S3 bucket key of a metadata file. The key uniquely identifies the object, or metadata file, in the S3 bucket.
         public let metadataKey: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil, metadataKey: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -4153,6 +4284,7 @@ extension ComputeOptimizer {
         /// The Amazon S3 bucket prefix for an export job.
         public let keyPrefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, keyPrefix: String? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -4170,6 +4302,7 @@ extension ComputeOptimizer {
         /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer recommendations for a given resource.
         public let savingsOpportunityPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlySavings: EstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.savingsOpportunityPercentage = savingsOpportunityPercentage
@@ -4187,6 +4320,7 @@ extension ComputeOptimizer {
         /// The value of the scope. If you specified the name of the scope as:    Organization - The value must be ALL_ACCOUNTS.    AccountId - The value must be a 12-digit Amazon Web Services account ID.    ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group.   Only EC2 instance and Auto Scaling group ARNs are currently supported.
         public let value: String?
 
+        @inlinable
         public init(name: ScopeName? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -4210,6 +4344,7 @@ extension ComputeOptimizer {
         ///  The task definition ARN used by the tasks in the Amazon ECS service.
         public let taskDefinitionArn: String?
 
+        @inlinable
         public init(autoScalingConfiguration: AutoScalingConfiguration? = nil, containerConfigurations: [ContainerConfiguration]? = nil, cpu: Int? = nil, memory: Int? = nil, taskDefinitionArn: String? = nil) {
             self.autoScalingConfiguration = autoScalingConfiguration
             self.containerConfigurations = containerConfigurations
@@ -4235,6 +4370,7 @@ extension ComputeOptimizer {
         /// The value of the recommendation summary.
         public let value: Double?
 
+        @inlinable
         public init(name: Finding? = nil, reasonCodeSummaries: [ReasonCodeSummary]? = nil, value: Double? = nil) {
             self.name = name
             self.reasonCodeSummaries = reasonCodeSummaries
@@ -4254,6 +4390,7 @@ extension ComputeOptimizer {
         ///  One part of a key-value pair that make up a tag. A value acts as a descriptor  within a tag category (key). The value can be empty or null.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4271,6 +4408,7 @@ extension ComputeOptimizer {
         /// The new enrollment status of the account. The following status options are available:    Active - Opts in your account to the Compute Optimizer service. Compute Optimizer begins analyzing the configuration and utilization metrics of your Amazon Web Services resources after you opt in. For more information, see Metrics analyzed by Compute Optimizer in the Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute Optimizer service. Your account's recommendations and related metrics data will be deleted from Compute Optimizer after you opt out.    The Pending and Failed options cannot be used to update the enrollment status of an account. They are returned in the response of a request to update the enrollment status of an account.
         public let status: Status
 
+        @inlinable
         public init(includeMemberAccounts: Bool? = nil, status: Status) {
             self.includeMemberAccounts = includeMemberAccounts
             self.status = status
@@ -4288,6 +4426,7 @@ extension ComputeOptimizer {
         /// The reason for the enrollment status of the account. For example, an account might show a status of Pending because member accounts of an organization require more time to be enrolled in the service.
         public let statusReason: String?
 
+        @inlinable
         public init(status: Status? = nil, statusReason: String? = nil) {
             self.status = status
             self.statusReason = statusReason
@@ -4307,6 +4446,7 @@ extension ComputeOptimizer {
         /// The value of the utilization metric.
         public let value: Double?
 
+        @inlinable
         public init(name: MetricName? = nil, statistic: MetricStatistic? = nil, value: Double? = nil) {
             self.name = name
             self.statistic = statistic
@@ -4326,6 +4466,7 @@ extension ComputeOptimizer {
         ///  The parameters to set when customizing the resource utilization thresholds.
         public let metricParameters: CustomizableMetricParameters?
 
+        @inlinable
         public init(metricName: CustomizableMetricName? = nil, metricParameters: CustomizableMetricParameters? = nil) {
             self.metricName = metricName
             self.metricParameters = metricParameters
@@ -4353,6 +4494,7 @@ extension ComputeOptimizer {
         /// The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.
         public let volumeType: String?
 
+        @inlinable
         public init(rootVolume: Bool? = nil, volumeBaselineIOPS: Int? = nil, volumeBaselineThroughput: Int? = nil, volumeBurstIOPS: Int? = nil, volumeBurstThroughput: Int? = nil, volumeSize: Int? = nil, volumeType: String? = nil) {
             self.rootVolume = rootVolume
             self.volumeBaselineIOPS = volumeBaselineIOPS
@@ -4398,6 +4540,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the recommendation options for the volume.
         public let volumeRecommendationOptions: [VolumeRecommendationOption]?
 
+        @inlinable
         public init(accountId: String? = nil, currentConfiguration: VolumeConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EBSEffectiveRecommendationPreferences? = nil, finding: EBSFinding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, tags: [Tag]? = nil, utilizationMetrics: [EBSUtilizationMetric]? = nil, volumeArn: String? = nil, volumeRecommendationOptions: [VolumeRecommendationOption]? = nil) {
             self.accountId = accountId
             self.currentConfiguration = currentConfiguration
@@ -4439,6 +4582,7 @@ extension ComputeOptimizer {
         ///  An object that describes the savings opportunity for the Amazon EBS volume recommendation option with specific discounts. Savings  opportunity includes the estimated monthly savings  and percentage.
         public let savingsOpportunityAfterDiscounts: EBSSavingsOpportunityAfterDiscounts?
 
+        @inlinable
         public init(configuration: VolumeConfiguration? = nil, performanceRisk: Double? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil, savingsOpportunityAfterDiscounts: EBSSavingsOpportunityAfterDiscounts? = nil) {
             self.configuration = configuration
             self.performanceRisk = performanceRisk

@@ -53,6 +53,7 @@ extension ApplicationCostProfiler {
         /// Required. ID of the report to delete.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -76,6 +77,7 @@ extension ApplicationCostProfiler {
         /// ID of the report that was deleted.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }
@@ -89,6 +91,7 @@ extension ApplicationCostProfiler {
         /// ID of the report to retrieve.
         public let reportId: String
 
+        @inlinable
         public init(reportId: String) {
             self.reportId = reportId
         }
@@ -124,6 +127,7 @@ extension ApplicationCostProfiler {
         /// ID of the report retrieved.
         public let reportId: String
 
+        @inlinable
         public init(createdAt: Date, destinationS3Location: S3Location, format: Format, lastUpdated: Date, reportDescription: String, reportFrequency: ReportFrequency, reportId: String) {
             self.createdAt = createdAt
             self.destinationS3Location = destinationS3Location
@@ -149,6 +153,7 @@ extension ApplicationCostProfiler {
         /// Amazon S3 location to import application usage data from.
         public let sourceS3Location: SourceS3Location
 
+        @inlinable
         public init(sourceS3Location: SourceS3Location) {
             self.sourceS3Location = sourceS3Location
         }
@@ -166,6 +171,7 @@ extension ApplicationCostProfiler {
         /// ID of the import request.
         public let importId: String
 
+        @inlinable
         public init(importId: String) {
             self.importId = importId
         }
@@ -181,6 +187,7 @@ extension ApplicationCostProfiler {
         /// The token value from a previous call to access the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -210,6 +217,7 @@ extension ApplicationCostProfiler {
         /// The retrieved reports.
         public let reportDefinitions: [ReportDefinition]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportDefinitions: [ReportDefinition]? = nil) {
             self.nextToken = nextToken
             self.reportDefinitions = reportDefinitions
@@ -233,6 +241,7 @@ extension ApplicationCostProfiler {
         /// Required. ID of the report. You can choose any valid string matching the pattern for the ID.
         public let reportId: String
 
+        @inlinable
         public init(destinationS3Location: S3Location, format: Format, reportDescription: String, reportFrequency: ReportFrequency, reportId: String) {
             self.destinationS3Location = destinationS3Location
             self.format = format
@@ -264,6 +273,7 @@ extension ApplicationCostProfiler {
         /// ID of the report.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }
@@ -289,6 +299,7 @@ extension ApplicationCostProfiler {
         /// The ID of the report.
         public let reportId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, destinationS3Location: S3Location? = nil, format: Format? = nil, lastUpdatedAt: Date? = nil, reportDescription: String? = nil, reportFrequency: ReportFrequency? = nil, reportId: String? = nil) {
             self.createdAt = createdAt
             self.destinationS3Location = destinationS3Location
@@ -316,6 +327,7 @@ extension ApplicationCostProfiler {
         /// Prefix for the location to write to.
         public let prefix: String
 
+        @inlinable
         public init(bucket: String, prefix: String) {
             self.bucket = bucket
             self.prefix = prefix
@@ -344,6 +356,7 @@ extension ApplicationCostProfiler {
         /// Region of the bucket. Only required for Regions that are disabled by default. For more infomration about Regions that are disabled by default, see  Enabling a Region in the AWS General Reference guide.
         public let region: S3BucketRegion?
 
+        @inlinable
         public init(bucket: String, key: String, region: S3BucketRegion? = nil) {
             self.bucket = bucket
             self.key = key
@@ -378,6 +391,7 @@ extension ApplicationCostProfiler {
         /// Required. ID of the report to update.
         public let reportId: String
 
+        @inlinable
         public init(destinationS3Location: S3Location, format: Format, reportDescription: String, reportFrequency: ReportFrequency, reportId: String) {
             self.destinationS3Location = destinationS3Location
             self.format = format
@@ -418,6 +432,7 @@ extension ApplicationCostProfiler {
         /// ID of the report.
         public let reportId: String?
 
+        @inlinable
         public init(reportId: String? = nil) {
             self.reportId = reportId
         }

@@ -164,6 +164,7 @@ extension MigrationHubRefactorSpaces {
         /// The VpcLink ID of the API Gateway proxy.
         public let vpcLinkId: String?
 
+        @inlinable
         public init(apiGatewayId: String? = nil, endpointType: ApiGatewayEndpointType? = nil, nlbArn: String? = nil, nlbName: String? = nil, proxyUrl: String? = nil, stageName: String? = nil, vpcLinkId: String? = nil) {
             self.apiGatewayId = apiGatewayId
             self.endpointType = endpointType
@@ -191,6 +192,7 @@ extension MigrationHubRefactorSpaces {
         /// The name of the API Gateway stage. The name defaults to prod.
         public let stageName: String?
 
+        @inlinable
         public init(endpointType: ApiGatewayEndpointType? = nil, stageName: String? = nil) {
             self.endpointType = endpointType
             self.stageName = stageName
@@ -224,6 +226,7 @@ extension MigrationHubRefactorSpaces {
         /// The VpcLink ID of the API Gateway proxy.
         public let vpcLinkId: String?
 
+        @inlinable
         public init(apiGatewayId: String? = nil, endpointType: ApiGatewayEndpointType? = nil, nlbArn: String? = nil, nlbName: String? = nil, proxyUrl: String? = nil, stageName: String? = nil, vpcLinkId: String? = nil) {
             self.apiGatewayId = apiGatewayId
             self.endpointType = endpointType
@@ -275,6 +278,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the virtual private cloud (VPC).
         public let vpcId: String?
 
+        @inlinable
         public init(apiGatewayProxy: ApiGatewayProxySummary? = nil, applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ownerAccountId: String? = nil, proxyType: ProxyType? = nil, state: ApplicationState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.apiGatewayProxy = apiGatewayProxy
             self.applicationId = applicationId
@@ -326,6 +330,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the virtual private cloud (VPC).
         public let vpcId: String
 
+        @inlinable
         public init(apiGatewayProxy: ApiGatewayProxyInput? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), environmentIdentifier: String, name: String, proxyType: ProxyType, tags: [String: String]? = nil, vpcId: String) {
             self.apiGatewayProxy = apiGatewayProxy
             self.clientToken = clientToken
@@ -405,6 +410,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the Amazon VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(apiGatewayProxy: ApiGatewayProxyInput? = nil, applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, environmentId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ownerAccountId: String? = nil, proxyType: ProxyType? = nil, state: ApplicationState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.apiGatewayProxy = apiGatewayProxy
             self.applicationId = applicationId
@@ -450,6 +456,7 @@ extension MigrationHubRefactorSpaces {
         /// The tags to assign to the environment. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateEnvironmentRequest.idempotencyToken(), description: String? = nil, name: String, networkFabricType: NetworkFabricType, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -502,6 +509,7 @@ extension MigrationHubRefactorSpaces {
         /// The tags assigned to the created environment. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair..
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, environmentId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkFabricType: NetworkFabricType? = nil, ownerAccountId: String? = nil, state: EnvironmentState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -547,6 +555,7 @@ extension MigrationHubRefactorSpaces {
         /// The configuration for the URI path route type.
         public let uriPathRoute: UriPathRouteInput?
 
+        @inlinable
         public init(applicationIdentifier: String, clientToken: String? = CreateRouteRequest.idempotencyToken(), defaultRoute: DefaultRouteInput? = nil, environmentIdentifier: String, routeType: RouteType, serviceIdentifier: String, tags: [String: String]? = nil, uriPathRoute: UriPathRouteInput? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.clientToken = clientToken
@@ -626,6 +635,7 @@ extension MigrationHubRefactorSpaces {
         /// Configuration for the URI path route type.
         public let uriPathRoute: UriPathRouteInput?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, ownerAccountId: String? = nil, routeId: String? = nil, routeType: RouteType? = nil, serviceId: String? = nil, state: RouteState? = nil, tags: [String: String]? = nil, uriPathRoute: UriPathRouteInput? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -679,6 +689,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(applicationIdentifier: String, clientToken: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, endpointType: ServiceEndpointType, environmentIdentifier: String, lambdaEndpoint: LambdaEndpointInput? = nil, name: String, tags: [String: String]? = nil, urlEndpoint: UrlEndpointInput? = nil, vpcId: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.clientToken = clientToken
@@ -777,6 +788,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the VPC.
         public let vpcId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, description: String? = nil, endpointType: ServiceEndpointType? = nil, environmentId: String? = nil, lambdaEndpoint: LambdaEndpointInput? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ownerAccountId: String? = nil, serviceId: String? = nil, state: ServiceState? = nil, tags: [String: String]? = nil, urlEndpoint: UrlEndpointInput? = nil, vpcId: String? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -820,6 +832,7 @@ extension MigrationHubRefactorSpaces {
         /// If set to ACTIVE, traffic is forwarded to this route’s service after the route is created.
         public let activationState: RouteActivationState?
 
+        @inlinable
         public init(activationState: RouteActivationState? = nil) {
             self.activationState = activationState
         }
@@ -835,6 +848,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the environment.
         public let environmentIdentifier: String
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -873,6 +887,7 @@ extension MigrationHubRefactorSpaces {
         /// The current state of the application.
         public let state: ApplicationState?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, environmentId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, state: ApplicationState? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -896,6 +911,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the environment.
         public let environmentIdentifier: String
 
+        @inlinable
         public init(environmentIdentifier: String) {
             self.environmentIdentifier = environmentIdentifier
         }
@@ -927,6 +943,7 @@ extension MigrationHubRefactorSpaces {
         /// The current state of the environment.
         public let state: EnvironmentState?
 
+        @inlinable
         public init(arn: String? = nil, environmentId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, state: EnvironmentState? = nil) {
             self.arn = arn
             self.environmentId = environmentId
@@ -948,6 +965,7 @@ extension MigrationHubRefactorSpaces {
         /// Amazon Resource Name (ARN) of the resource associated with the policy.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -979,6 +997,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the route to delete.
         public let routeIdentifier: String
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String, routeIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1022,6 +1041,7 @@ extension MigrationHubRefactorSpaces {
         /// The current state of the route.
         public let state: RouteState?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, lastUpdatedTime: Date? = nil, routeId: String? = nil, serviceId: String? = nil, state: RouteState? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -1049,6 +1069,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the service to delete.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String, serviceIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1094,6 +1115,7 @@ extension MigrationHubRefactorSpaces {
         /// The current state of the service.
         public let state: ServiceState?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, environmentId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, serviceId: String? = nil, state: ServiceState? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -1141,6 +1163,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the Transit Gateway set up by the environment.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkFabricType: NetworkFabricType? = nil, ownerAccountId: String? = nil, state: EnvironmentState? = nil, tags: [String: String]? = nil, transitGatewayId: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1188,6 +1211,7 @@ extension MigrationHubRefactorSpaces {
         /// The name of the VPC at the time it is added to the environment.
         public let vpcName: String?
 
+        @inlinable
         public init(accountId: String? = nil, cidrBlocks: [String]? = nil, createdTime: Date? = nil, environmentId: String? = nil, lastUpdatedTime: Date? = nil, vpcId: String? = nil, vpcName: String? = nil) {
             self.accountId = accountId
             self.cidrBlocks = cidrBlocks
@@ -1223,6 +1247,7 @@ extension MigrationHubRefactorSpaces {
         /// The type of resource.
         public let resourceType: ErrorResourceType?
 
+        @inlinable
         public init(accountId: String? = nil, additionalDetails: [String: String]? = nil, code: ErrorCode? = nil, message: String? = nil, resourceIdentifier: String? = nil, resourceType: ErrorResourceType? = nil) {
             self.accountId = accountId
             self.additionalDetails = additionalDetails
@@ -1248,6 +1273,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the environment.
         public let environmentIdentifier: String
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1302,6 +1328,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the virtual private cloud (VPC).
         public let vpcId: String?
 
+        @inlinable
         public init(apiGatewayProxy: ApiGatewayProxyConfig? = nil, applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ownerAccountId: String? = nil, proxyType: ProxyType? = nil, state: ApplicationState? = nil, tags: [String: String]? = nil, vpcId: String? = nil) {
             self.apiGatewayProxy = apiGatewayProxy
             self.applicationId = applicationId
@@ -1341,6 +1368,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the environment.
         public let environmentIdentifier: String
 
+        @inlinable
         public init(environmentIdentifier: String) {
             self.environmentIdentifier = environmentIdentifier
         }
@@ -1386,6 +1414,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the Transit Gateway set up by the environment, if applicable.
         public let transitGatewayId: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, networkFabricType: NetworkFabricType? = nil, ownerAccountId: String? = nil, state: EnvironmentState? = nil, tags: [String: String]? = nil, transitGatewayId: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1421,6 +1450,7 @@ extension MigrationHubRefactorSpaces {
         /// The Amazon Resource Name (ARN) of the resource associated with the policy.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -1444,6 +1474,7 @@ extension MigrationHubRefactorSpaces {
         /// A JSON-formatted string for an Amazon Web Services resource-based policy.
         public let policy: String?
 
+        @inlinable
         public init(policy: String? = nil) {
             self.policy = policy
         }
@@ -1461,6 +1492,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the route.
         public let routeIdentifier: String
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String, routeIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1528,6 +1560,7 @@ extension MigrationHubRefactorSpaces {
         /// The tags assigned to the route. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appendSourcePath: Bool? = nil, applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, includeChildPaths: Bool? = nil, lastUpdatedTime: Date? = nil, methods: [HttpMethod]? = nil, ownerAccountId: String? = nil, pathResourceToId: [String: String]? = nil, routeId: String? = nil, routeType: RouteType? = nil, serviceId: String? = nil, sourcePath: String? = nil, state: RouteState? = nil, tags: [String: String]? = nil) {
             self.appendSourcePath = appendSourcePath
             self.applicationId = applicationId
@@ -1579,6 +1612,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the service.
         public let serviceIdentifier: String
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String, serviceIdentifier: String) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1644,6 +1678,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the virtual private cloud (VPC).
         public let vpcId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, description: String? = nil, endpointType: ServiceEndpointType? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lambdaEndpoint: LambdaEndpointConfig? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ownerAccountId: String? = nil, serviceId: String? = nil, state: ServiceState? = nil, tags: [String: String]? = nil, urlEndpoint: UrlEndpointConfig? = nil, vpcId: String? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -1689,6 +1724,7 @@ extension MigrationHubRefactorSpaces {
         /// The Amazon Resource Name (ARN) of the Lambda endpoint.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1702,6 +1738,7 @@ extension MigrationHubRefactorSpaces {
         /// The Amazon Resource Name (ARN) of the Lambda function or alias.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1721,6 +1758,7 @@ extension MigrationHubRefactorSpaces {
         /// The Amazon Resource Name (ARN) of the Lambda endpoint.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1738,6 +1776,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
@@ -1772,6 +1811,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationSummaryList: [ApplicationSummary]? = nil, nextToken: String? = nil) {
             self.applicationSummaryList = applicationSummaryList
             self.nextToken = nextToken
@@ -1791,6 +1831,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.environmentIdentifier = environmentIdentifier
             self.maxResults = maxResults
@@ -1825,6 +1866,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentVpcList: [EnvironmentVpc]? = nil, nextToken: String? = nil) {
             self.environmentVpcList = environmentVpcList
             self.nextToken = nextToken
@@ -1842,6 +1884,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1871,6 +1914,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentSummaryList: [EnvironmentSummary]? = nil, nextToken: String? = nil) {
             self.environmentSummaryList = environmentSummaryList
             self.nextToken = nextToken
@@ -1892,6 +1936,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1931,6 +1976,7 @@ extension MigrationHubRefactorSpaces {
         /// The list of RouteSummary objects.
         public let routeSummaryList: [RouteSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, routeSummaryList: [RouteSummary]? = nil) {
             self.nextToken = nextToken
             self.routeSummaryList = routeSummaryList
@@ -1952,6 +1998,7 @@ extension MigrationHubRefactorSpaces {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationIdentifier: String, environmentIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationIdentifier = applicationIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -1991,6 +2038,7 @@ extension MigrationHubRefactorSpaces {
         ///  The list of ServiceSummary objects.
         public let serviceSummaryList: [ServiceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, serviceSummaryList: [ServiceSummary]? = nil) {
             self.nextToken = nextToken
             self.serviceSummaryList = serviceSummaryList
@@ -2006,6 +2054,7 @@ extension MigrationHubRefactorSpaces {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2023,6 +2072,7 @@ extension MigrationHubRefactorSpaces {
         /// The list of tags assigned to the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2038,6 +2088,7 @@ extension MigrationHubRefactorSpaces {
         /// The Amazon Resource Name (ARN) of the resource to which the policy is being attached.
         public let resourceArn: String
 
+        @inlinable
         public init(policy: String, resourceArn: String) {
             self.policy = policy
             self.resourceArn = resourceArn
@@ -2100,6 +2151,7 @@ extension MigrationHubRefactorSpaces {
         /// The tags assigned to the route.
         public let tags: [String: String]?
 
+        @inlinable
         public init(appendSourcePath: Bool? = nil, applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, includeChildPaths: Bool? = nil, lastUpdatedTime: Date? = nil, methods: [HttpMethod]? = nil, ownerAccountId: String? = nil, pathResourceToId: [String: String]? = nil, routeId: String? = nil, routeType: RouteType? = nil, serviceId: String? = nil, sourcePath: String? = nil, state: RouteState? = nil, tags: [String: String]? = nil) {
             self.appendSourcePath = appendSourcePath
             self.applicationId = applicationId
@@ -2179,6 +2231,7 @@ extension MigrationHubRefactorSpaces {
         /// The ID of the virtual private cloud (VPC).
         public let vpcId: String?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, createdByAccountId: String? = nil, createdTime: Date? = nil, description: String? = nil, endpointType: ServiceEndpointType? = nil, environmentId: String? = nil, error: ErrorResponse? = nil, lambdaEndpoint: LambdaEndpointSummary? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, ownerAccountId: String? = nil, serviceId: String? = nil, state: ServiceState? = nil, tags: [String: String]? = nil, urlEndpoint: UrlEndpointSummary? = nil, vpcId: String? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -2226,6 +2279,7 @@ extension MigrationHubRefactorSpaces {
         /// The new or modified tags for the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2257,6 +2311,7 @@ extension MigrationHubRefactorSpaces {
         /// The list of keys of the tags to be removed from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2286,6 +2341,7 @@ extension MigrationHubRefactorSpaces {
         ///  The unique identifier of the route to update.
         public let routeIdentifier: String
 
+        @inlinable
         public init(activationState: RouteActivationState, applicationIdentifier: String, environmentIdentifier: String, routeIdentifier: String) {
             self.activationState = activationState
             self.applicationIdentifier = applicationIdentifier
@@ -2335,6 +2391,7 @@ extension MigrationHubRefactorSpaces {
         ///  The current state of the route.
         public let state: RouteState?
 
+        @inlinable
         public init(applicationId: String? = nil, arn: String? = nil, lastUpdatedTime: Date? = nil, routeId: String? = nil, serviceId: String? = nil, state: RouteState? = nil) {
             self.applicationId = applicationId
             self.arn = arn
@@ -2366,6 +2423,7 @@ extension MigrationHubRefactorSpaces {
         /// This is the path that Refactor Spaces uses to match traffic. Paths must start with / and are relative to the base of the application. To use path parameters in the source path, add a variable in curly braces. For example, the resource path {user} represents a path parameter called 'user'.
         public let sourcePath: String
 
+        @inlinable
         public init(activationState: RouteActivationState, appendSourcePath: Bool? = nil, includeChildPaths: Bool? = nil, methods: [HttpMethod]? = nil, sourcePath: String) {
             self.activationState = activationState
             self.appendSourcePath = appendSourcePath
@@ -2395,6 +2453,7 @@ extension MigrationHubRefactorSpaces {
         /// The HTTP URL endpoint.
         public let url: String?
 
+        @inlinable
         public init(healthUrl: String? = nil, url: String? = nil) {
             self.healthUrl = healthUrl
             self.url = url
@@ -2412,6 +2471,7 @@ extension MigrationHubRefactorSpaces {
         /// The URL to route traffic to. The URL must be an rfc3986-formatted URL. If the host is a domain name, the name must be resolvable over the public internet. If the scheme is https, the top level domain of the host must be listed in the IANA root zone database.
         public let url: String
 
+        @inlinable
         public init(healthUrl: String? = nil, url: String) {
             self.healthUrl = healthUrl
             self.url = url
@@ -2438,6 +2498,7 @@ extension MigrationHubRefactorSpaces {
         ///  The URL to route traffic to. The URL must be an rfc3986-formatted URL. If the host is a domain name, the name must be resolvable over the public internet. If the scheme is https, the top level domain of the host must be listed in the IANA root zone database.
         public let url: String?
 
+        @inlinable
         public init(healthUrl: String? = nil, url: String? = nil) {
             self.healthUrl = healthUrl
             self.url = url

@@ -68,6 +68,7 @@ extension SupplyChain {
         /// The BillOfMaterialsImportJob ConfigurationJobStatus.
         public let status: ConfigurationJobStatus
 
+        @inlinable
         public init(instanceId: String, jobId: String, message: String? = nil, s3uri: String, status: ConfigurationJobStatus) {
             self.instanceId = instanceId
             self.jobId = jobId
@@ -93,6 +94,7 @@ extension SupplyChain {
         /// The S3 URI of the CSV file to be imported. The bucket must grant permissions for AWS Supply Chain to read the file.
         public let s3uri: String
 
+        @inlinable
         public init(clientToken: String? = CreateBillOfMaterialsImportJobRequest.idempotencyToken(), instanceId: String, s3uri: String) {
             self.clientToken = clientToken
             self.instanceId = instanceId
@@ -127,6 +129,7 @@ extension SupplyChain {
         /// The new BillOfMaterialsImportJob identifier.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -142,6 +145,7 @@ extension SupplyChain {
         /// The BillOfMaterialsImportJob identifier.
         public let jobId: String
 
+        @inlinable
         public init(instanceId: String, jobId: String) {
             self.instanceId = instanceId
             self.jobId = jobId
@@ -170,6 +174,7 @@ extension SupplyChain {
         /// The BillOfMaterialsImportJob.
         public let job: BillOfMaterialsImportJob
 
+        @inlinable
         public init(job: BillOfMaterialsImportJob) {
             self.job = job
         }
@@ -193,6 +198,7 @@ extension SupplyChain {
         /// The AWS Supply Chain instance identifier.
         public let instanceId: String
 
+        @inlinable
         public init(clientToken: String? = SendDataIntegrationEventRequest.idempotencyToken(), data: String, eventGroupId: String, eventTimestamp: Date? = nil, eventType: DataIntegrationEventType, instanceId: String) {
             self.clientToken = clientToken
             self.data = data
@@ -238,6 +244,7 @@ extension SupplyChain {
         /// The unique event identifier.
         public let eventId: String
 
+        @inlinable
         public init(eventId: String) {
             self.eventId = eventId
         }

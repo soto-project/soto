@@ -538,6 +538,7 @@ extension WorkSpaces {
         /// The identifier of the account link.
         public let linkId: String
 
+        @inlinable
         public init(clientToken: String? = nil, linkId: String) {
             self.clientToken = clientToken
             self.linkId = linkId
@@ -558,6 +559,7 @@ extension WorkSpaces {
         /// Information about the account link.
         public let accountLink: AccountLink?
 
+        @inlinable
         public init(accountLink: AccountLink? = nil) {
             self.accountLink = accountLink
         }
@@ -577,6 +579,7 @@ extension WorkSpaces {
         /// The identifier of the target account.
         public let targetAccountId: String?
 
+        @inlinable
         public init(accountLinkId: String? = nil, accountLinkStatus: AccountLinkStatusEnum? = nil, sourceAccountId: String? = nil, targetAccountId: String? = nil) {
             self.accountLinkId = accountLinkId
             self.accountLinkStatus = accountLinkStatus
@@ -606,6 +609,7 @@ extension WorkSpaces {
         /// The timestamp when the modification of the BYOL configuration was started.
         public let startTime: Date?
 
+        @inlinable
         public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil, errorCode: String? = nil, errorMessage: String? = nil, modificationState: DedicatedTenancyModificationStateEnum? = nil, startTime: Date? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
@@ -631,6 +635,7 @@ extension WorkSpaces {
         /// Indicates the secret ARN on the service account.
         public let serviceAccountSecretArn: String
 
+        @inlinable
         public init(domainName: String, serviceAccountSecretArn: String) {
             self.domainName = domainName
             self.serviceAccountSecretArn = serviceAccountSecretArn
@@ -663,6 +668,7 @@ extension WorkSpaces {
         /// The reason the association deployment failed.
         public let stateReason: AssociationStateReason?
 
+        @inlinable
         public init(applicationId: String? = nil, associatedResourceId: String? = nil, associatedResourceType: ApplicationAssociatedResourceType? = nil, created: Date? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil) {
             self.applicationId = applicationId
             self.associatedResourceId = associatedResourceId
@@ -690,6 +696,7 @@ extension WorkSpaces {
         /// Enables or disables persistent application settings for users during their pool sessions.
         public let status: ApplicationSettingsStatusEnum
 
+        @inlinable
         public init(settingsGroup: String? = nil, status: ApplicationSettingsStatusEnum) {
             self.settingsGroup = settingsGroup
             self.status = status
@@ -714,6 +721,7 @@ extension WorkSpaces {
         /// Specifies whether persistent application settings are enabled for users during their pool sessions.
         public let status: ApplicationSettingsStatusEnum
 
+        @inlinable
         public init(s3BucketName: String? = nil, settingsGroup: String? = nil, status: ApplicationSettingsStatusEnum) {
             self.s3BucketName = s3BucketName
             self.settingsGroup = settingsGroup
@@ -733,6 +741,7 @@ extension WorkSpaces {
         /// The identifier of the directory to associate the connection alias with.
         public let resourceId: String
 
+        @inlinable
         public init(aliasId: String, resourceId: String) {
             self.aliasId = aliasId
             self.resourceId = resourceId
@@ -755,6 +764,7 @@ extension WorkSpaces {
         /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
         public let connectionIdentifier: String?
 
+        @inlinable
         public init(connectionIdentifier: String? = nil) {
             self.connectionIdentifier = connectionIdentifier
         }
@@ -770,6 +780,7 @@ extension WorkSpaces {
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]
 
+        @inlinable
         public init(directoryId: String, groupIds: [String]) {
             self.directoryId = directoryId
             self.groupIds = groupIds
@@ -800,6 +811,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(applicationId: String, workspaceId: String) {
             self.applicationId = applicationId
             self.workspaceId = workspaceId
@@ -820,6 +832,7 @@ extension WorkSpaces {
         /// Information about the association between the specified WorkSpace and the specified application.
         public let association: WorkspaceResourceAssociation?
 
+        @inlinable
         public init(association: WorkspaceResourceAssociation? = nil) {
             self.association = association
         }
@@ -835,6 +848,7 @@ extension WorkSpaces {
         /// The error message of the association deployment failure.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: AssociationErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -852,6 +866,7 @@ extension WorkSpaces {
         /// The rules to add to the group.
         public let userRules: [IpRuleItem]
 
+        @inlinable
         public init(groupId: String, userRules: [IpRuleItem]) {
             self.groupId = groupId
             self.userRules = userRules
@@ -887,6 +902,7 @@ extension WorkSpaces {
         /// The reason the association deployment failed.
         public let stateReason: AssociationStateReason?
 
+        @inlinable
         public init(associatedResourceId: String? = nil, associatedResourceType: BundleAssociatedResourceType? = nil, bundleId: String? = nil, created: Date? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil) {
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
@@ -912,6 +928,7 @@ extension WorkSpaces {
         /// The desired number of user sessions for the WorkSpaces in the pool.
         public let desiredUserSessions: Int
 
+        @inlinable
         public init(desiredUserSessions: Int) {
             self.desiredUserSessions = desiredUserSessions
         }
@@ -935,6 +952,7 @@ extension WorkSpaces {
         /// The total number of sessions slots that are either running or pending. This  represents the total number of concurrent streaming sessions your pool can support  in a steady state.
         public let desiredUserSessions: Int
 
+        @inlinable
         public init(activeUserSessions: Int, actualUserSessions: Int, availableUserSessions: Int, desiredUserSessions: Int) {
             self.activeUserSessions = activeUserSessions
             self.actualUserSessions = actualUserSessions
@@ -956,6 +974,7 @@ extension WorkSpaces {
         /// The status of the certificate-based authentication properties.
         public let status: CertificateBasedAuthStatusEnum?
 
+        @inlinable
         public init(certificateAuthorityArn: String? = nil, status: CertificateBasedAuthStatusEnum? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.status = status
@@ -979,6 +998,7 @@ extension WorkSpaces {
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials.
         public let reconnectEnabled: ReconnectEnum?
 
+        @inlinable
         public init(logUploadEnabled: LogUploadEnum? = nil, reconnectEnabled: ReconnectEnum? = nil) {
             self.logUploadEnabled = logUploadEnabled
             self.reconnectEnabled = reconnectEnabled
@@ -996,6 +1016,7 @@ extension WorkSpaces {
         /// The resource identifier, in the form of a directory ID.
         public let resourceId: String?
 
+        @inlinable
         public init(clientProperties: ClientProperties? = nil, resourceId: String? = nil) {
             self.clientProperties = clientProperties
             self.resourceId = resourceId
@@ -1011,6 +1032,7 @@ extension WorkSpaces {
         /// The compute type.
         public let name: Compute?
 
+        @inlinable
         public init(name: Compute? = nil) {
             self.name = name
         }
@@ -1030,6 +1052,7 @@ extension WorkSpaces {
         /// The endpoint URL of the client add-in.
         public let url: String?
 
+        @inlinable
         public init(addInId: String? = nil, name: String? = nil, resourceId: String? = nil, url: String? = nil) {
             self.addInId = addInId
             self.name = name
@@ -1057,6 +1080,7 @@ extension WorkSpaces {
         /// The current state of the connection alias.
         public let state: ConnectionAliasState?
 
+        @inlinable
         public init(aliasId: String? = nil, associations: [ConnectionAliasAssociation]? = nil, connectionString: String? = nil, ownerAccountId: String? = nil, state: ConnectionAliasState? = nil) {
             self.aliasId = aliasId
             self.associations = associations
@@ -1084,6 +1108,7 @@ extension WorkSpaces {
         /// The identifier of the directory associated with a connection alias.
         public let resourceId: String?
 
+        @inlinable
         public init(associatedAccountId: String? = nil, associationStatus: AssociationStatus? = nil, connectionIdentifier: String? = nil, resourceId: String? = nil) {
             self.associatedAccountId = associatedAccountId
             self.associationStatus = associationStatus
@@ -1105,6 +1130,7 @@ extension WorkSpaces {
         /// The identifier of the Amazon Web Services account that the connection alias is shared with.
         public let sharedAccountId: String
 
+        @inlinable
         public init(allowAssociation: Bool, sharedAccountId: String) {
             self.allowAssociation = allowAssociation
             self.sharedAccountId = sharedAccountId
@@ -1132,6 +1158,7 @@ extension WorkSpaces {
         /// The tags for the image.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String, sourceImageId: String, sourceRegion: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -1169,6 +1196,7 @@ extension WorkSpaces {
         /// The identifier of the image.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -1184,6 +1212,7 @@ extension WorkSpaces {
         /// The identifier of the target account.
         public let targetAccountId: String
 
+        @inlinable
         public init(clientToken: String? = nil, targetAccountId: String) {
             self.clientToken = clientToken
             self.targetAccountId = targetAccountId
@@ -1204,6 +1233,7 @@ extension WorkSpaces {
         /// Information about the account link.
         public let accountLink: AccountLink?
 
+        @inlinable
         public init(accountLink: AccountLink? = nil) {
             self.accountLink = accountLink
         }
@@ -1221,6 +1251,7 @@ extension WorkSpaces {
         /// The endpoint URL of the Amazon Connect client add-in.
         public let url: String
 
+        @inlinable
         public init(name: String, resourceId: String, url: String) {
             self.name = name
             self.resourceId = resourceId
@@ -1250,6 +1281,7 @@ extension WorkSpaces {
         /// The client add-in identifier.
         public let addInId: String?
 
+        @inlinable
         public init(addInId: String? = nil) {
             self.addInId = addInId
         }
@@ -1265,6 +1297,7 @@ extension WorkSpaces {
         /// The tags to associate with the connection alias.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectionString: String, tags: [Tag]? = nil) {
             self.connectionString = connectionString
             self.tags = tags
@@ -1289,6 +1322,7 @@ extension WorkSpaces {
         /// The identifier of the connection alias.
         public let aliasId: String?
 
+        @inlinable
         public init(aliasId: String? = nil) {
             self.aliasId = aliasId
         }
@@ -1308,6 +1342,7 @@ extension WorkSpaces {
         /// The rules to add to the group.
         public let userRules: [IpRuleItem]?
 
+        @inlinable
         public init(groupDesc: String? = nil, groupName: String, tags: [Tag]? = nil, userRules: [IpRuleItem]? = nil) {
             self.groupDesc = groupDesc
             self.groupName = groupName
@@ -1333,6 +1368,7 @@ extension WorkSpaces {
         /// The identifier of the group.
         public let groupId: String?
 
+        @inlinable
         public init(groupId: String? = nil) {
             self.groupId = groupId
         }
@@ -1348,6 +1384,7 @@ extension WorkSpaces {
         /// Information about the standby WorkSpace to be created.
         public let standbyWorkspaces: [StandbyWorkspace]
 
+        @inlinable
         public init(primaryRegion: String, standbyWorkspaces: [StandbyWorkspace]) {
             self.primaryRegion = primaryRegion
             self.standbyWorkspaces = standbyWorkspaces
@@ -1374,6 +1411,7 @@ extension WorkSpaces {
         /// Information about the standby WorkSpace that was created.
         public let pendingStandbyRequests: [PendingCreateStandbyWorkspacesRequest]?
 
+        @inlinable
         public init(failedStandbyRequests: [FailedCreateStandbyWorkspacesRequest]? = nil, pendingStandbyRequests: [PendingCreateStandbyWorkspacesRequest]? = nil) {
             self.failedStandbyRequests = failedStandbyRequests
             self.pendingStandbyRequests = pendingStandbyRequests
@@ -1391,6 +1429,7 @@ extension WorkSpaces {
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
@@ -1423,6 +1462,7 @@ extension WorkSpaces {
         /// The tags that you want to add to the new updated WorkSpace image.  To add tags at the same time when you're creating the updated image, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String, name: String, sourceImageId: String, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -1455,6 +1495,7 @@ extension WorkSpaces {
         /// The identifier of the new updated WorkSpace image.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -1477,6 +1518,7 @@ extension WorkSpaces {
         public let tags: [Tag]?
         public let userStorage: UserStorage
 
+        @inlinable
         public init(bundleDescription: String, bundleName: String, computeType: ComputeType, imageId: String, rootStorage: RootStorage? = nil, tags: [Tag]? = nil, userStorage: UserStorage) {
             self.bundleDescription = bundleDescription
             self.bundleName = bundleName
@@ -1516,6 +1558,7 @@ extension WorkSpaces {
     public struct CreateWorkspaceBundleResult: AWSDecodableShape {
         public let workspaceBundle: WorkspaceBundle?
 
+        @inlinable
         public init(workspaceBundle: WorkspaceBundle? = nil) {
             self.workspaceBundle = workspaceBundle
         }
@@ -1535,6 +1578,7 @@ extension WorkSpaces {
         /// The identifier of the source WorkSpace
         public let workspaceId: String
 
+        @inlinable
         public init(description: String, name: String, tags: [Tag]? = nil, workspaceId: String) {
             self.description = description
             self.name = name
@@ -1581,6 +1625,7 @@ extension WorkSpaces {
         /// The availability status of the image.
         public let state: WorkspaceImageState?
 
+        @inlinable
         public init(created: Date? = nil, description: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil) {
             self.created = created
             self.description = description
@@ -1622,6 +1667,7 @@ extension WorkSpaces {
         /// Indicates the timeout settings of the pool.
         public let timeoutSettings: TimeoutSettings?
 
+        @inlinable
         public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String, capacity: Capacity, description: String, directoryId: String, poolName: String, tags: [Tag]? = nil, timeoutSettings: TimeoutSettings? = nil) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
@@ -1666,6 +1712,7 @@ extension WorkSpaces {
         /// Indicates the pool to create.
         public let workspacesPool: WorkspacesPool?
 
+        @inlinable
         public init(workspacesPool: WorkspacesPool? = nil) {
             self.workspacesPool = workspacesPool
         }
@@ -1679,6 +1726,7 @@ extension WorkSpaces {
         /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
         public let workspaces: [WorkspaceRequest]
 
+        @inlinable
         public init(workspaces: [WorkspaceRequest]) {
             self.workspaces = workspaces
         }
@@ -1702,6 +1750,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces that were created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call DescribeWorkspaces before the WorkSpace is created, the information returned can be incomplete.
         public let pendingRequests: [Workspace]?
 
+        @inlinable
         public init(failedRequests: [FailedCreateWorkspaceRequest]? = nil, pendingRequests: [Workspace]? = nil) {
             self.failedRequests = failedRequests
             self.pendingRequests = pendingRequests
@@ -1719,6 +1768,7 @@ extension WorkSpaces {
         /// The date and time at which the last successful snapshot was taken of the  primary WorkSpace used for replicating data.
         public let recoverySnapshotTime: Date?
 
+        @inlinable
         public init(dataReplication: DataReplication? = nil, recoverySnapshotTime: Date? = nil) {
             self.dataReplication = dataReplication
             self.recoverySnapshotTime = recoverySnapshotTime
@@ -1742,6 +1792,7 @@ extension WorkSpaces {
         /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive.You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
         public let supportLink: String?
 
+        @inlinable
         public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logoUrl: String? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
@@ -1771,6 +1822,7 @@ extension WorkSpaces {
         /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
         public let supportLink: String?
 
+        @inlinable
         public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: AWSBase64Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
@@ -1825,6 +1877,7 @@ extension WorkSpaces {
         /// Specifies whether WorkSpace users are local administrators on their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
+        @inlinable
         public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
@@ -1852,6 +1905,7 @@ extension WorkSpaces {
         /// The identifier of the account link.
         public let linkId: String
 
+        @inlinable
         public init(clientToken: String? = nil, linkId: String) {
             self.clientToken = clientToken
             self.linkId = linkId
@@ -1872,6 +1926,7 @@ extension WorkSpaces {
         /// Information about the account link.
         public let accountLink: AccountLink?
 
+        @inlinable
         public init(accountLink: AccountLink? = nil) {
             self.accountLink = accountLink
         }
@@ -1887,6 +1942,7 @@ extension WorkSpaces {
         /// The directory identifier of the WorkSpace for which you want to delete client branding.
         public let resourceId: String
 
+        @inlinable
         public init(platforms: [ClientDeviceType], resourceId: String) {
             self.platforms = platforms
             self.resourceId = resourceId
@@ -1916,6 +1972,7 @@ extension WorkSpaces {
         /// The directory identifier for which the client add-in is configured.
         public let resourceId: String
 
+        @inlinable
         public init(addInId: String, resourceId: String) {
             self.addInId = addInId
             self.resourceId = resourceId
@@ -1944,6 +2001,7 @@ extension WorkSpaces {
         /// The identifier of the connection alias to delete.
         public let aliasId: String
 
+        @inlinable
         public init(aliasId: String) {
             self.aliasId = aliasId
         }
@@ -1967,6 +2025,7 @@ extension WorkSpaces {
         /// The identifier of the IP access control group.
         public let groupId: String
 
+        @inlinable
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -1990,6 +2049,7 @@ extension WorkSpaces {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
@@ -2016,6 +2076,7 @@ extension WorkSpaces {
         /// The identifier of the bundle.
         public let bundleId: String?
 
+        @inlinable
         public init(bundleId: String? = nil) {
             self.bundleId = bundleId
         }
@@ -2037,6 +2098,7 @@ extension WorkSpaces {
         /// The identifier of the image.
         public let imageId: String
 
+        @inlinable
         public init(imageId: String) {
             self.imageId = imageId
         }
@@ -2060,6 +2122,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(force: Bool? = nil, workspaceId: String) {
             self.force = force
             self.workspaceId = workspaceId
@@ -2079,6 +2142,7 @@ extension WorkSpaces {
         /// The list of deployed associations and information about them.
         public let deployment: WorkSpaceApplicationDeployment?
 
+        @inlinable
         public init(deployment: WorkSpaceApplicationDeployment? = nil) {
             self.deployment = deployment
         }
@@ -2092,6 +2156,7 @@ extension WorkSpaces {
         /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
         public let directoryId: String
 
+        @inlinable
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -2115,6 +2180,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -2135,6 +2201,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(accountModifications: [AccountModification]? = nil, nextToken: String? = nil) {
             self.accountModifications = accountModifications
             self.nextToken = nextToken
@@ -2158,6 +2225,7 @@ extension WorkSpaces {
         /// The status of BYOL (whether BYOL is enabled or disabled).
         public let dedicatedTenancySupport: DedicatedTenancySupportResultEnum?
 
+        @inlinable
         public init(dedicatedTenancyAccountType: DedicatedTenancyAccountType? = nil, dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportResultEnum? = nil) {
             self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
@@ -2181,6 +2249,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationId: String, associatedResourceTypes: [ApplicationAssociatedResourceType], maxResults: Int? = nil, nextToken: String? = nil) {
             self.applicationId = applicationId
             self.associatedResourceTypes = associatedResourceTypes
@@ -2210,6 +2279,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(associations: [ApplicationResourceAssociation]? = nil, nextToken: String? = nil) {
             self.associations = associations
             self.nextToken = nextToken
@@ -2237,6 +2307,7 @@ extension WorkSpaces {
         /// The owner of the applications.
         public let owner: String?
 
+        @inlinable
         public init(applicationIds: [String]? = nil, computeTypeNames: [Compute]? = nil, licenseType: WorkSpaceApplicationLicenseType? = nil, maxResults: Int? = nil, nextToken: String? = nil, operatingSystemNames: [OperatingSystemName]? = nil, owner: String? = nil) {
             self.applicationIds = applicationIds
             self.computeTypeNames = computeTypeNames
@@ -2277,6 +2348,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [WorkSpaceApplication]? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.nextToken = nextToken
@@ -2294,6 +2366,7 @@ extension WorkSpaces {
         /// The identifier of the bundle.
         public let bundleId: String
 
+        @inlinable
         public init(associatedResourceTypes: [BundleAssociatedResourceType], bundleId: String) {
             self.associatedResourceTypes = associatedResourceTypes
             self.bundleId = bundleId
@@ -2313,6 +2386,7 @@ extension WorkSpaces {
         /// List of information about the specified associations.
         public let associations: [BundleResourceAssociation]?
 
+        @inlinable
         public init(associations: [BundleResourceAssociation]? = nil) {
             self.associations = associations
         }
@@ -2326,6 +2400,7 @@ extension WorkSpaces {
         /// The directory identifier of the WorkSpace for which you want to view client branding information.
         public let resourceId: String
 
+        @inlinable
         public init(resourceId: String) {
             self.resourceId = resourceId
         }
@@ -2355,6 +2430,7 @@ extension WorkSpaces {
         /// The branding information for Windows devices.
         public let deviceTypeWindows: DefaultClientBrandingAttributes?
 
+        @inlinable
         public init(deviceTypeAndroid: DefaultClientBrandingAttributes? = nil, deviceTypeIos: IosClientBrandingAttributes? = nil, deviceTypeLinux: DefaultClientBrandingAttributes? = nil, deviceTypeOsx: DefaultClientBrandingAttributes? = nil, deviceTypeWeb: DefaultClientBrandingAttributes? = nil, deviceTypeWindows: DefaultClientBrandingAttributes? = nil) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeIos = deviceTypeIos
@@ -2378,6 +2454,7 @@ extension WorkSpaces {
         /// The resource identifier, in the form of directory IDs.
         public let resourceIds: [String]
 
+        @inlinable
         public init(resourceIds: [String]) {
             self.resourceIds = resourceIds
         }
@@ -2399,6 +2476,7 @@ extension WorkSpaces {
         /// Information about the specified Amazon WorkSpaces clients.
         public let clientPropertiesList: [ClientPropertiesResult]?
 
+        @inlinable
         public init(clientPropertiesList: [ClientPropertiesResult]? = nil) {
             self.clientPropertiesList = clientPropertiesList
         }
@@ -2416,6 +2494,7 @@ extension WorkSpaces {
         /// The directory identifier for which the client add-in is configured.
         public let resourceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2445,6 +2524,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(addIns: [ConnectClientAddIn]? = nil, nextToken: String? = nil) {
             self.addIns = addIns
             self.nextToken = nextToken
@@ -2464,6 +2544,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(aliasId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.aliasId = aliasId
             self.maxResults = maxResults
@@ -2495,6 +2576,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(aliasId: String? = nil, connectionAliasPermissions: [ConnectionAliasPermission]? = nil, nextToken: String? = nil) {
             self.aliasId = aliasId
             self.connectionAliasPermissions = connectionAliasPermissions
@@ -2518,6 +2600,7 @@ extension WorkSpaces {
         /// The identifier of the directory associated with the connection alias.
         public let resourceId: String?
 
+        @inlinable
         public init(aliasIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil, resourceId: String? = nil) {
             self.aliasIds = aliasIds
             self.limit = limit
@@ -2554,6 +2637,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(connectionAliases: [ConnectionAlias]? = nil, nextToken: String? = nil) {
             self.connectionAliases = connectionAliases
             self.nextToken = nextToken
@@ -2571,6 +2655,7 @@ extension WorkSpaces {
         /// The identifier of the image.
         public let imageId: String
 
+        @inlinable
         public init(associatedResourceTypes: [ImageAssociatedResourceType], imageId: String) {
             self.associatedResourceTypes = associatedResourceTypes
             self.imageId = imageId
@@ -2590,6 +2675,7 @@ extension WorkSpaces {
         /// List of information about the specified associations.
         public let associations: [ImageResourceAssociation]?
 
+        @inlinable
         public init(associations: [ImageResourceAssociation]? = nil) {
             self.associations = associations
         }
@@ -2607,6 +2693,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(groupIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.groupIds = groupIds
             self.maxResults = maxResults
@@ -2636,6 +2723,7 @@ extension WorkSpaces {
         /// Information about the IP access control groups.
         public let result: [WorkspacesIpGroup]?
 
+        @inlinable
         public init(nextToken: String? = nil, result: [WorkspacesIpGroup]? = nil) {
             self.nextToken = nextToken
             self.result = result
@@ -2651,6 +2739,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
 
+        @inlinable
         public init(resourceId: String) {
             self.resourceId = resourceId
         }
@@ -2668,6 +2757,7 @@ extension WorkSpaces {
         /// The tags.
         public let tagList: [Tag]?
 
+        @inlinable
         public init(tagList: [Tag]? = nil) {
             self.tagList = tagList
         }
@@ -2683,6 +2773,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(associatedResourceTypes: [WorkSpaceAssociatedResourceType], workspaceId: String) {
             self.associatedResourceTypes = associatedResourceTypes
             self.workspaceId = workspaceId
@@ -2702,6 +2793,7 @@ extension WorkSpaces {
         /// List of information about the specified associations.
         public let associations: [WorkspaceResourceAssociation]?
 
+        @inlinable
         public init(associations: [WorkspaceResourceAssociation]? = nil) {
             self.associations = associations
         }
@@ -2719,6 +2811,7 @@ extension WorkSpaces {
         /// The owner of the bundles. You cannot combine this parameter with any other filter. To describe the bundles provided by Amazon Web Services, specify AMAZON.  To describe the bundles that belong to your account, don't specify a value.
         public let owner: String?
 
+        @inlinable
         public init(bundleIds: [String]? = nil, nextToken: String? = nil, owner: String? = nil) {
             self.bundleIds = bundleIds
             self.nextToken = nextToken
@@ -2748,6 +2841,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more  results to return. This token is valid for one day and must be used within that time frame.
         public let nextToken: String?
 
+        @inlinable
         public init(bundles: [WorkspaceBundle]? = nil, nextToken: String? = nil) {
             self.bundles = bundles
             self.nextToken = nextToken
@@ -2765,6 +2859,7 @@ extension WorkSpaces {
         /// The values for filtering WorkSpaces
         public let values: [String]
 
+        @inlinable
         public init(name: DescribeWorkspaceDirectoriesFilterName, values: [String]) {
             self.name = name
             self.values = values
@@ -2796,6 +2891,7 @@ extension WorkSpaces {
         /// The names of the WorkSpace directories.
         public let workspaceDirectoryNames: [String]?
 
+        @inlinable
         public init(directoryIds: [String]? = nil, filters: [DescribeWorkspaceDirectoriesFilter]? = nil, limit: Int? = nil, nextToken: String? = nil, workspaceDirectoryNames: [String]? = nil) {
             self.directoryIds = directoryIds
             self.filters = filters
@@ -2843,6 +2939,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(directories: [WorkspaceDirectory]? = nil, nextToken: String? = nil) {
             self.directories = directories
             self.nextToken = nextToken
@@ -2862,6 +2959,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(imageId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageId = imageId
             self.maxResults = maxResults
@@ -2891,6 +2989,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(imageId: String? = nil, imagePermissions: [ImagePermission]? = nil, nextToken: String? = nil) {
             self.imageId = imageId
             self.imagePermissions = imagePermissions
@@ -2914,6 +3013,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(imageIds: [String]? = nil, imageType: ImageType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageIds = imageIds
             self.imageType = imageType
@@ -2947,6 +3047,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(images: [WorkspaceImage]? = nil, nextToken: String? = nil) {
             self.images = images
             self.nextToken = nextToken
@@ -2962,6 +3063,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -2981,6 +3083,7 @@ extension WorkSpaces {
         /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
         public let restoreSnapshots: [Snapshot]?
 
+        @inlinable
         public init(rebuildSnapshots: [Snapshot]? = nil, restoreSnapshots: [Snapshot]? = nil) {
             self.rebuildSnapshots = rebuildSnapshots
             self.restoreSnapshots = restoreSnapshots
@@ -2998,6 +3101,7 @@ extension WorkSpaces {
         /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
         public let workspaceIds: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, workspaceIds: [String]? = nil) {
             self.nextToken = nextToken
             self.workspaceIds = workspaceIds
@@ -3025,6 +3129,7 @@ extension WorkSpaces {
         /// Information about the connection status of the WorkSpace.
         public let workspacesConnectionStatus: [WorkspaceConnectionStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, workspacesConnectionStatus: [WorkspaceConnectionStatus]? = nil) {
             self.nextToken = nextToken
             self.workspacesConnectionStatus = workspacesConnectionStatus
@@ -3046,6 +3151,7 @@ extension WorkSpaces {
         /// The identifier of the user.
         public let userId: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, poolId: String, userId: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -3077,6 +3183,7 @@ extension WorkSpaces {
         /// Describes the pool sessions.
         public let sessions: [WorkspacesPoolSession]?
 
+        @inlinable
         public init(nextToken: String? = nil, sessions: [WorkspacesPoolSession]? = nil) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -3096,6 +3203,7 @@ extension WorkSpaces {
         /// The values for filtering WorkSpaces Pools.
         public let values: [String]
 
+        @inlinable
         public init(name: DescribeWorkspacesPoolsFilterName, operator: DescribeWorkspacesPoolsFilterOperator, values: [String]) {
             self.name = name
             self.`operator` = `operator`
@@ -3129,6 +3237,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpaces Pools.
         public let poolIds: [String]?
 
+        @inlinable
         public init(filters: [DescribeWorkspacesPoolsFilter]? = nil, limit: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
             self.filters = filters
             self.limit = limit
@@ -3167,6 +3276,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces Pools.
         public let workspacesPools: [WorkspacesPool]?
 
+        @inlinable
         public init(nextToken: String? = nil, workspacesPools: [WorkspacesPool]? = nil) {
             self.nextToken = nextToken
             self.workspacesPools = workspacesPools
@@ -3194,6 +3304,7 @@ extension WorkSpaces {
         /// The name of the user-decoupled WorkSpace.
         public let workspaceName: String?
 
+        @inlinable
         public init(bundleId: String? = nil, directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil, userName: String? = nil, workspaceIds: [String]? = nil, workspaceName: String? = nil) {
             self.bundleId = bundleId
             self.directoryId = directoryId
@@ -3240,6 +3351,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces. Because CreateWorkspaces is an asynchronous operation, some of the returned information could be incomplete.
         public let workspaces: [Workspace]?
 
+        @inlinable
         public init(nextToken: String? = nil, workspaces: [Workspace]? = nil) {
             self.nextToken = nextToken
             self.workspaces = workspaces
@@ -3255,6 +3367,7 @@ extension WorkSpaces {
         /// The identifier of the connection alias to disassociate.
         public let aliasId: String
 
+        @inlinable
         public init(aliasId: String) {
             self.aliasId = aliasId
         }
@@ -3280,6 +3393,7 @@ extension WorkSpaces {
         /// The identifiers of one or more IP access control groups.
         public let groupIds: [String]
 
+        @inlinable
         public init(directoryId: String, groupIds: [String]) {
             self.directoryId = directoryId
             self.groupIds = groupIds
@@ -3310,6 +3424,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(applicationId: String, workspaceId: String) {
             self.applicationId = applicationId
             self.workspaceId = workspaceId
@@ -3330,6 +3445,7 @@ extension WorkSpaces {
         /// Information about the targeted association.
         public let association: WorkspaceResourceAssociation?
 
+        @inlinable
         public init(association: WorkspaceResourceAssociation? = nil) {
             self.association = association
         }
@@ -3345,6 +3461,7 @@ extension WorkSpaces {
         /// The text of the error message related the error code.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: WorkspaceImageErrorDetailCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3364,6 +3481,7 @@ extension WorkSpaces {
         /// Information about the standby WorkSpace that could not be created.
         public let standbyWorkspaceRequest: StandbyWorkspace?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, standbyWorkspaceRequest: StandbyWorkspace? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3385,6 +3503,7 @@ extension WorkSpaces {
         /// Information about the WorkSpace.
         public let workspaceRequest: WorkspaceRequest?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, workspaceRequest: WorkspaceRequest? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3406,6 +3525,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, workspaceId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -3425,6 +3545,7 @@ extension WorkSpaces {
         /// The identifier of the account to link.
         public let linkId: String?
 
+        @inlinable
         public init(linkedAccountId: String? = nil, linkId: String? = nil) {
             self.linkedAccountId = linkedAccountId
             self.linkId = linkId
@@ -3445,6 +3566,7 @@ extension WorkSpaces {
         /// The account link of the account link to retrieve.
         public let accountLink: AccountLink?
 
+        @inlinable
         public init(accountLink: AccountLink? = nil) {
             self.accountLink = accountLink
         }
@@ -3460,6 +3582,7 @@ extension WorkSpaces {
         /// The Amazon Resource Name (ARN) of the identity center instance.
         public let instanceArn: String?
 
+        @inlinable
         public init(applicationArn: String? = nil, instanceArn: String? = nil) {
             self.applicationArn = applicationArn
             self.instanceArn = instanceArn
@@ -3475,6 +3598,7 @@ extension WorkSpaces {
         /// The identifier of the Amazon Web Services account that an image has been shared with.
         public let sharedAccountId: String?
 
+        @inlinable
         public init(sharedAccountId: String? = nil) {
             self.sharedAccountId = sharedAccountId
         }
@@ -3500,6 +3624,7 @@ extension WorkSpaces {
         /// The reason the association deployment failed.
         public let stateReason: AssociationStateReason?
 
+        @inlinable
         public init(associatedResourceId: String? = nil, associatedResourceType: ImageAssociatedResourceType? = nil, created: Date? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil) {
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
@@ -3537,6 +3662,7 @@ extension WorkSpaces {
         /// The directory identifier of the WorkSpace for which you want to import client branding.
         public let resourceId: String
 
+        @inlinable
         public init(deviceTypeAndroid: DefaultImportClientBrandingAttributes? = nil, deviceTypeIos: IosImportClientBrandingAttributes? = nil, deviceTypeLinux: DefaultImportClientBrandingAttributes? = nil, deviceTypeOsx: DefaultImportClientBrandingAttributes? = nil, deviceTypeWeb: DefaultImportClientBrandingAttributes? = nil, deviceTypeWindows: DefaultImportClientBrandingAttributes? = nil, resourceId: String) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeIos = deviceTypeIos
@@ -3584,6 +3710,7 @@ extension WorkSpaces {
         /// The branding information configured for Windows devices.
         public let deviceTypeWindows: DefaultClientBrandingAttributes?
 
+        @inlinable
         public init(deviceTypeAndroid: DefaultClientBrandingAttributes? = nil, deviceTypeIos: IosClientBrandingAttributes? = nil, deviceTypeLinux: DefaultClientBrandingAttributes? = nil, deviceTypeOsx: DefaultClientBrandingAttributes? = nil, deviceTypeWeb: DefaultClientBrandingAttributes? = nil, deviceTypeWindows: DefaultClientBrandingAttributes? = nil) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeIos = deviceTypeIos
@@ -3617,6 +3744,7 @@ extension WorkSpaces {
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(applications: [Application]? = nil, ec2ImageId: String, imageDescription: String, imageName: String, ingestionProcess: WorkspaceImageIngestionProcess, tags: [Tag]? = nil) {
             self.applications = applications
             self.ec2ImageId = ec2ImageId
@@ -3655,6 +3783,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace image.
         public let imageId: String?
 
+        @inlinable
         public init(imageId: String? = nil) {
             self.imageId = imageId
         }
@@ -3680,6 +3809,7 @@ extension WorkSpaces {
         /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
         public let supportLink: String?
 
+        @inlinable
         public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo2xUrl: String? = nil, logo3xUrl: String? = nil, logoUrl: String? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
@@ -3717,6 +3847,7 @@ extension WorkSpaces {
         /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
         public let supportLink: String?
 
+        @inlinable
         public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: AWSBase64Data? = nil, logo2x: AWSBase64Data? = nil, logo3x: AWSBase64Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
@@ -3769,6 +3900,7 @@ extension WorkSpaces {
         /// The description.
         public let ruleDesc: String?
 
+        @inlinable
         public init(ipRule: String? = nil, ruleDesc: String? = nil) {
             self.ipRule = ipRule
             self.ruleDesc = ruleDesc
@@ -3788,6 +3920,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(linkStatusFilter: [AccountLinkStatusEnum]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.linkStatusFilter = linkStatusFilter
             self.maxResults = maxResults
@@ -3814,6 +3947,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(accountLinks: [AccountLink]? = nil, nextToken: String? = nil) {
             self.accountLinks = accountLinks
             self.nextToken = nextToken
@@ -3833,6 +3967,7 @@ extension WorkSpaces {
         /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(managementCidrRangeConstraint: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.managementCidrRangeConstraint = managementCidrRangeConstraint
             self.maxResults = maxResults
@@ -3860,6 +3995,7 @@ extension WorkSpaces {
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(managementCidrRanges: [String]? = nil, nextToken: String? = nil) {
             self.managementCidrRanges = managementCidrRanges
             self.nextToken = nextToken
@@ -3877,6 +4013,7 @@ extension WorkSpaces {
         /// The identifier of the tenant.
         public let tenantId: String?
 
+        @inlinable
         public init(applicationConfigSecretArn: String? = nil, tenantId: String? = nil) {
             self.applicationConfigSecretArn = applicationConfigSecretArn
             self.tenantId = tenantId
@@ -3899,6 +4036,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace to migrate from.
         public let sourceWorkspaceId: String
 
+        @inlinable
         public init(bundleId: String, sourceWorkspaceId: String) {
             self.bundleId = bundleId
             self.sourceWorkspaceId = sourceWorkspaceId
@@ -3921,6 +4059,7 @@ extension WorkSpaces {
         /// The new identifier of the WorkSpace that is being migrated. If the migration does not succeed, the target WorkSpace ID will not be used, and the WorkSpace will still have the original WorkSpace ID.
         public let targetWorkspaceId: String?
 
+        @inlinable
         public init(sourceWorkspaceId: String? = nil, targetWorkspaceId: String? = nil) {
             self.sourceWorkspaceId = sourceWorkspaceId
             self.targetWorkspaceId = targetWorkspaceId
@@ -3938,6 +4077,7 @@ extension WorkSpaces {
         /// The modification state.
         public let state: ModificationStateEnum?
 
+        @inlinable
         public init(resource: ModificationResourceEnum? = nil, state: ModificationStateEnum? = nil) {
             self.resource = resource
             self.state = state
@@ -3955,6 +4095,7 @@ extension WorkSpaces {
         /// The status of BYOL.
         public let dedicatedTenancySupport: DedicatedTenancySupportEnum?
 
+        @inlinable
         public init(dedicatedTenancyManagementCidrRange: String? = nil, dedicatedTenancySupport: DedicatedTenancySupportEnum? = nil) {
             self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = dedicatedTenancySupport
@@ -3982,6 +4123,7 @@ extension WorkSpaces {
         /// The resource identifiers, in the form of directory IDs.
         public let resourceId: String
 
+        @inlinable
         public init(certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, propertiesToDelete: [DeletableCertificateBasedAuthProperty]? = nil, resourceId: String) {
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
             self.propertiesToDelete = propertiesToDelete
@@ -4012,6 +4154,7 @@ extension WorkSpaces {
         /// The resource identifiers, in the form of directory IDs.
         public let resourceId: String
 
+        @inlinable
         public init(clientProperties: ClientProperties, resourceId: String) {
             self.clientProperties = clientProperties
             self.resourceId = resourceId
@@ -4039,6 +4182,7 @@ extension WorkSpaces {
         /// The properties for configuring SAML 2.0 authentication.
         public let samlProperties: SamlProperties?
 
+        @inlinable
         public init(propertiesToDelete: [DeletableSamlProperty]? = nil, resourceId: String, samlProperties: SamlProperties? = nil) {
             self.propertiesToDelete = propertiesToDelete
             self.resourceId = resourceId
@@ -4069,6 +4213,7 @@ extension WorkSpaces {
         /// The permissions to enable or disable self-service capabilities.
         public let selfservicePermissions: SelfservicePermissions
 
+        @inlinable
         public init(resourceId: String, selfservicePermissions: SelfservicePermissions) {
             self.resourceId = resourceId
             self.selfservicePermissions = selfservicePermissions
@@ -4096,6 +4241,7 @@ extension WorkSpaces {
         /// The streaming properties to configure.
         public let streamingProperties: StreamingProperties?
 
+        @inlinable
         public init(resourceId: String, streamingProperties: StreamingProperties? = nil) {
             self.resourceId = resourceId
             self.streamingProperties = streamingProperties
@@ -4124,6 +4270,7 @@ extension WorkSpaces {
         /// The device types and operating systems to enable or disable for access.
         public let workspaceAccessProperties: WorkspaceAccessProperties
 
+        @inlinable
         public init(resourceId: String, workspaceAccessProperties: WorkspaceAccessProperties) {
             self.resourceId = resourceId
             self.workspaceAccessProperties = workspaceAccessProperties
@@ -4151,6 +4298,7 @@ extension WorkSpaces {
         /// The default properties for creating WorkSpaces.
         public let workspaceCreationProperties: WorkspaceCreationProperties
 
+        @inlinable
         public init(resourceId: String, workspaceCreationProperties: WorkspaceCreationProperties) {
             self.resourceId = resourceId
             self.workspaceCreationProperties = workspaceCreationProperties
@@ -4181,6 +4329,7 @@ extension WorkSpaces {
         /// The properties of the WorkSpace.
         public let workspaceProperties: WorkspaceProperties?
 
+        @inlinable
         public init(dataReplication: DataReplication? = nil, workspaceId: String, workspaceProperties: WorkspaceProperties? = nil) {
             self.dataReplication = dataReplication
             self.workspaceId = workspaceId
@@ -4208,6 +4357,7 @@ extension WorkSpaces {
         /// The WorkSpace state.
         public let workspaceState: TargetWorkspaceState
 
+        @inlinable
         public init(workspaceId: String, workspaceState: TargetWorkspaceState) {
             self.workspaceId = workspaceId
             self.workspaceState = workspaceState
@@ -4233,6 +4383,7 @@ extension WorkSpaces {
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
         public let eniPrivateIpAddress: String?
 
+        @inlinable
         public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
             self.eniId = eniId
             self.eniPrivateIpAddress = eniPrivateIpAddress
@@ -4248,6 +4399,7 @@ extension WorkSpaces {
         /// The operating system.
         public let type: OperatingSystemType?
 
+        @inlinable
         public init(type: OperatingSystemType? = nil) {
             self.type = type
         }
@@ -4267,6 +4419,7 @@ extension WorkSpaces {
         /// The identifier of the standby WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(directoryId: String? = nil, state: WorkspaceState? = nil, userName: String? = nil, workspaceId: String? = nil) {
             self.directoryId = directoryId
             self.state = state
@@ -4286,6 +4439,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -4303,6 +4457,7 @@ extension WorkSpaces {
         /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
         public let rebootWorkspaceRequests: [RebootRequest]
 
+        @inlinable
         public init(rebootWorkspaceRequests: [RebootRequest]) {
             self.rebootWorkspaceRequests = rebootWorkspaceRequests
         }
@@ -4324,6 +4479,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces that could not be rebooted.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
 
+        @inlinable
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -4337,6 +4493,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -4354,6 +4511,7 @@ extension WorkSpaces {
         /// The WorkSpace to rebuild. You can specify a single WorkSpace.
         public let rebuildWorkspaceRequests: [RebuildRequest]
 
+        @inlinable
         public init(rebuildWorkspaceRequests: [RebuildRequest]) {
             self.rebuildWorkspaceRequests = rebuildWorkspaceRequests
         }
@@ -4375,6 +4533,7 @@ extension WorkSpaces {
         /// Information about the WorkSpace that could not be rebuilt.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
 
+        @inlinable
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -4412,6 +4571,7 @@ extension WorkSpaces {
         /// Indicates whether the directory's WorkSpace type is personal or pools.
         public let workspaceType: WorkspaceType?
 
+        @inlinable
         public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, directoryId: String? = nil, enableSelfService: Bool? = nil, enableWorkDocs: Bool? = nil, idcInstanceArn: String? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.directoryId = directoryId
@@ -4471,6 +4631,7 @@ extension WorkSpaces {
         /// The registration status of the WorkSpace directory.
         public let state: WorkspaceDirectoryState?
 
+        @inlinable
         public init(directoryId: String? = nil, state: WorkspaceDirectoryState? = nil) {
             self.directoryId = directoryId
             self.state = state
@@ -4488,6 +4649,7 @@ extension WorkSpaces {
         /// The identifier of the account link
         public let linkId: String
 
+        @inlinable
         public init(clientToken: String? = nil, linkId: String) {
             self.clientToken = clientToken
             self.linkId = linkId
@@ -4508,6 +4670,7 @@ extension WorkSpaces {
         /// Information about the account link.
         public let accountLink: AccountLink?
 
+        @inlinable
         public init(accountLink: AccountLink? = nil) {
             self.accountLink = accountLink
         }
@@ -4527,6 +4690,7 @@ extension WorkSpaces {
         /// The identifier of the related WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(region: String? = nil, state: WorkspaceState? = nil, type: StandbyWorkspaceRelationshipType? = nil, workspaceId: String? = nil) {
             self.region = region
             self.state = state
@@ -4546,6 +4710,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -4569,6 +4734,7 @@ extension WorkSpaces {
         /// The rules to remove from the group.
         public let userRules: [String]
 
+        @inlinable
         public init(groupId: String, userRules: [String]) {
             self.groupId = groupId
             self.userRules = userRules
@@ -4592,6 +4758,7 @@ extension WorkSpaces {
         /// The size of the root volume.
         public let capacity: String
 
+        @inlinable
         public init(capacity: String) {
             self.capacity = capacity
         }
@@ -4613,6 +4780,7 @@ extension WorkSpaces {
         /// The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in  order to federate from the IdP and directly access the application, without any SAML 2.0 service provider (SP)  bindings.
         public let userAccessUrl: String?
 
+        @inlinable
         public init(relayStateParameterName: String? = nil, status: SamlStatusEnum? = nil, userAccessUrl: String? = nil) {
             self.relayStateParameterName = relayStateParameterName
             self.status = status
@@ -4645,6 +4813,7 @@ extension WorkSpaces {
         /// Specifies whether users can switch the running mode of their WorkSpace.
         public let switchRunningMode: ReconnectEnum?
 
+        @inlinable
         public init(changeComputeType: ReconnectEnum? = nil, increaseVolumeSize: ReconnectEnum? = nil, rebuildWorkspace: ReconnectEnum? = nil, restartWorkspace: ReconnectEnum? = nil, switchRunningMode: ReconnectEnum? = nil) {
             self.changeComputeType = changeComputeType
             self.increaseVolumeSize = increaseVolumeSize
@@ -4666,6 +4835,7 @@ extension WorkSpaces {
         /// The time when the snapshot was created.
         public let snapshotTime: Date?
 
+        @inlinable
         public init(snapshotTime: Date? = nil) {
             self.snapshotTime = snapshotTime
         }
@@ -4687,6 +4857,7 @@ extension WorkSpaces {
         /// The volume encryption key of the standby WorkSpace.
         public let volumeEncryptionKey: String?
 
+        @inlinable
         public init(dataReplication: DataReplication? = nil, directoryId: String, primaryWorkspaceId: String, tags: [Tag]? = nil, volumeEncryptionKey: String? = nil) {
             self.dataReplication = dataReplication
             self.directoryId = directoryId
@@ -4722,6 +4893,7 @@ extension WorkSpaces {
         /// The identifier of the standby WorkSpace
         public let standbyWorkspaceId: String?
 
+        @inlinable
         public init(dataReplication: DataReplication? = nil, recoverySnapshotTime: Date? = nil, standbyWorkspaceId: String? = nil) {
             self.dataReplication = dataReplication
             self.recoverySnapshotTime = recoverySnapshotTime
@@ -4739,6 +4911,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(workspaceId: String? = nil) {
             self.workspaceId = workspaceId
         }
@@ -4756,6 +4929,7 @@ extension WorkSpaces {
         /// The identifier of the pool.
         public let poolId: String
 
+        @inlinable
         public init(poolId: String) {
             self.poolId = poolId
         }
@@ -4777,6 +4951,7 @@ extension WorkSpaces {
         /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
         public let startWorkspaceRequests: [StartRequest]
 
+        @inlinable
         public init(startWorkspaceRequests: [StartRequest]) {
             self.startWorkspaceRequests = startWorkspaceRequests
         }
@@ -4798,6 +4973,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces that could not be started.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
 
+        @inlinable
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -4811,6 +4987,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(workspaceId: String? = nil) {
             self.workspaceId = workspaceId
         }
@@ -4828,6 +5005,7 @@ extension WorkSpaces {
         /// The identifier of the pool.
         public let poolId: String
 
+        @inlinable
         public init(poolId: String) {
             self.poolId = poolId
         }
@@ -4849,6 +5027,7 @@ extension WorkSpaces {
         /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
         public let stopWorkspaceRequests: [StopRequest]
 
+        @inlinable
         public init(stopWorkspaceRequests: [StopRequest]) {
             self.stopWorkspaceRequests = stopWorkspaceRequests
         }
@@ -4870,6 +5049,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces that could not be stopped.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
 
+        @inlinable
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -4885,6 +5065,7 @@ extension WorkSpaces {
         /// Indicates if the storage connetor is enabled or disabled.
         public let status: StorageConnectorStatusEnum
 
+        @inlinable
         public init(connectorType: StorageConnectorTypeEnum, status: StorageConnectorStatusEnum) {
             self.connectorType = connectorType
             self.status = status
@@ -4904,6 +5085,7 @@ extension WorkSpaces {
         /// Indicates the permission settings asscoiated with the user.
         public let userSettings: [UserSetting]?
 
+        @inlinable
         public init(storageConnectors: [StorageConnector]? = nil, streamingExperiencePreferredProtocol: StreamingExperiencePreferredProtocolEnum? = nil, userSettings: [UserSetting]? = nil) {
             self.storageConnectors = storageConnectors
             self.streamingExperiencePreferredProtocol = streamingExperiencePreferredProtocol
@@ -4931,6 +5113,7 @@ extension WorkSpaces {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4952,6 +5135,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String
 
+        @inlinable
         public init(workspaceId: String) {
             self.workspaceId = workspaceId
         }
@@ -4969,6 +5153,7 @@ extension WorkSpaces {
         /// The identifier of the pool.
         public let poolId: String
 
+        @inlinable
         public init(poolId: String) {
             self.poolId = poolId
         }
@@ -4990,6 +5175,7 @@ extension WorkSpaces {
         /// The identifier of the pool session.
         public let sessionId: String
 
+        @inlinable
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -5013,6 +5199,7 @@ extension WorkSpaces {
         /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
         public let terminateWorkspaceRequests: [TerminateRequest]
 
+        @inlinable
         public init(terminateWorkspaceRequests: [TerminateRequest]) {
             self.terminateWorkspaceRequests = terminateWorkspaceRequests
         }
@@ -5034,6 +5221,7 @@ extension WorkSpaces {
         /// Information about the WorkSpaces that could not be terminated.
         public let failedRequests: [FailedWorkspaceChangeRequest]?
 
+        @inlinable
         public init(failedRequests: [FailedWorkspaceChangeRequest]? = nil) {
             self.failedRequests = failedRequests
         }
@@ -5051,6 +5239,7 @@ extension WorkSpaces {
         /// Specifies the maximum amount of time, in seconds, that a streaming session can remain active.  If users are still connected to a streaming instance five minutes before this limit is reached,  they are prompted to save any open documents before being disconnected. After this time elapses,  the instance is terminated and replaced by a new instance.
         public let maxUserDurationInSeconds: Int?
 
+        @inlinable
         public init(disconnectTimeoutInSeconds: Int? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, maxUserDurationInSeconds: Int? = nil) {
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.idleDisconnectTimeoutInSeconds = idleDisconnectTimeoutInSeconds
@@ -5083,6 +5272,7 @@ extension WorkSpaces {
         /// The endpoint URL of the Amazon Connect client add-in.
         public let url: String?
 
+        @inlinable
         public init(addInId: String, name: String? = nil, resourceId: String, url: String? = nil) {
             self.addInId = addInId
             self.name = name
@@ -5123,6 +5313,7 @@ extension WorkSpaces {
         /// Indicates whether to share or unshare the connection alias with the specified Amazon Web Services account.
         public let connectionAliasPermission: ConnectionAliasPermission
 
+        @inlinable
         public init(aliasId: String, connectionAliasPermission: ConnectionAliasPermission) {
             self.aliasId = aliasId
             self.connectionAliasPermission = connectionAliasPermission
@@ -5151,6 +5342,7 @@ extension WorkSpaces {
         /// Indicates whether updated drivers or other components are available for the specified WorkSpace image.
         public let updateAvailable: Bool?
 
+        @inlinable
         public init(description: String? = nil, updateAvailable: Bool? = nil) {
             self.description = description
             self.updateAvailable = updateAvailable
@@ -5168,6 +5360,7 @@ extension WorkSpaces {
         /// One or more rules.
         public let userRules: [IpRuleItem]
 
+        @inlinable
         public init(groupId: String, userRules: [IpRuleItem]) {
             self.groupId = groupId
             self.userRules = userRules
@@ -5193,6 +5386,7 @@ extension WorkSpaces {
         /// The identifier of the image.
         public let imageId: String?
 
+        @inlinable
         public init(bundleId: String? = nil, imageId: String? = nil) {
             self.bundleId = bundleId
             self.imageId = imageId
@@ -5221,6 +5415,7 @@ extension WorkSpaces {
         /// The identifier of the Amazon Web Services account to share or unshare the image with.  Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID.
         public let sharedAccountId: String
 
+        @inlinable
         public init(allowCopyImage: Bool, imageId: String, sharedAccountId: String) {
             self.allowCopyImage = allowCopyImage
             self.imageId = imageId
@@ -5259,6 +5454,7 @@ extension WorkSpaces {
         /// Indicates the timeout settings of the specified pool.
         public let timeoutSettings: TimeoutSettings?
 
+        @inlinable
         public init(applicationSettings: ApplicationSettingsRequest? = nil, bundleId: String? = nil, capacity: Capacity? = nil, description: String? = nil, directoryId: String? = nil, poolId: String, timeoutSettings: TimeoutSettings? = nil) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
@@ -5298,6 +5494,7 @@ extension WorkSpaces {
         /// Describes the specified pool.
         public let workspacesPool: WorkspacesPool?
 
+        @inlinable
         public init(workspacesPool: WorkspacesPool? = nil) {
             self.workspacesPool = workspacesPool
         }
@@ -5315,6 +5512,7 @@ extension WorkSpaces {
         /// Indicates if the setting is enabled or disabled.
         public let permission: UserSettingPermissionEnum
 
+        @inlinable
         public init(action: UserSettingActionEnum, maximumLength: Int? = nil, permission: UserSettingPermissionEnum) {
             self.action = action
             self.maximumLength = maximumLength
@@ -5336,6 +5534,7 @@ extension WorkSpaces {
         /// The size of the user volume.
         public let capacity: String
 
+        @inlinable
         public init(capacity: String) {
             self.capacity = capacity
         }
@@ -5369,6 +5568,7 @@ extension WorkSpaces {
         /// The supported operating systems of the WorkSpace application.
         public let supportedOperatingSystemNames: [OperatingSystemName]?
 
+        @inlinable
         public init(applicationId: String? = nil, created: Date? = nil, description: String? = nil, licenseType: WorkSpaceApplicationLicenseType? = nil, name: String? = nil, owner: String? = nil, state: WorkSpaceApplicationState? = nil, supportedComputeTypeNames: [Compute]? = nil, supportedOperatingSystemNames: [OperatingSystemName]? = nil) {
             self.applicationId = applicationId
             self.created = created
@@ -5398,6 +5598,7 @@ extension WorkSpaces {
         /// The associations between the applications and the associated resources.
         public let associations: [WorkspaceResourceAssociation]?
 
+        @inlinable
         public init(associations: [WorkspaceResourceAssociation]? = nil) {
             self.associations = associations
         }
@@ -5447,6 +5648,7 @@ extension WorkSpaces {
         /// The properties of the WorkSpace.
         public let workspaceProperties: WorkspaceProperties?
 
+        @inlinable
         public init(bundleId: String? = nil, computerName: String? = nil, dataReplicationSettings: DataReplicationSettings? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, relatedWorkspaces: [RelatedWorkspaceProperties]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, standbyWorkspacesProperties: [StandbyWorkspacesProperties]? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceName: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.computerName = computerName
@@ -5510,6 +5712,7 @@ extension WorkSpaces {
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public let deviceTypeZeroClient: AccessPropertyValue?
 
+        @inlinable
         public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeLinux: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
@@ -5559,6 +5762,7 @@ extension WorkSpaces {
         /// The size of the user volume.
         public let userStorage: UserStorage?
 
+        @inlinable
         public init(bundleId: String? = nil, bundleType: BundleType? = nil, computeType: ComputeType? = nil, creationTime: Date? = nil, description: String? = nil, imageId: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owner: String? = nil, rootStorage: RootStorage? = nil, state: WorkspaceBundleState? = nil, userStorage: UserStorage? = nil) {
             self.bundleId = bundleId
             self.bundleType = bundleType
@@ -5600,6 +5804,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(connectionState: ConnectionState? = nil, connectionStateCheckTimestamp: Date? = nil, lastKnownUserConnectionTimestamp: Date? = nil, workspaceId: String? = nil) {
             self.connectionState = connectionState
             self.connectionStateCheckTimestamp = connectionStateCheckTimestamp
@@ -5631,6 +5836,7 @@ extension WorkSpaces {
         /// Indicates whether users are local administrators of their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
 
+        @inlinable
         public init(customSecurityGroupId: String? = nil, defaultOu: String? = nil, enableInternetAccess: Bool? = nil, enableMaintenanceMode: Bool? = nil, enableWorkDocs: Bool? = nil, instanceIamRoleArn: String? = nil, userEnabledAsLocalAdministrator: Bool? = nil) {
             self.customSecurityGroupId = customSecurityGroupId
             self.defaultOu = defaultOu
@@ -5715,6 +5921,7 @@ extension WorkSpaces {
         /// Indicates whether the directory's WorkSpace type is personal or pools.
         public let workspaceType: WorkspaceType?
 
+        @inlinable
         public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, idcConfig: IDCConfig? = nil, ipGroupIds: [String]? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.alias = alias
@@ -5802,6 +6009,7 @@ extension WorkSpaces {
         /// The updates (if any) that are available for the specified image.
         public let updates: UpdateResult?
 
+        @inlinable
         public init(created: Date? = nil, description: String? = nil, errorCode: String? = nil, errorDetails: [ErrorDetails]? = nil, errorMessage: String? = nil, imageId: String? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, ownerAccountId: String? = nil, requiredTenancy: WorkspaceImageRequiredTenancy? = nil, state: WorkspaceImageState? = nil, updates: UpdateResult? = nil) {
             self.created = created
             self.description = description
@@ -5849,6 +6057,7 @@ extension WorkSpaces {
         /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let userVolumeSizeGib: Int?
 
+        @inlinable
         public init(computeTypeName: Compute? = nil, operatingSystemName: OperatingSystemName? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
             self.computeTypeName = computeTypeName
             self.operatingSystemName = operatingSystemName
@@ -5890,6 +6099,7 @@ extension WorkSpaces {
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?
 
+        @inlinable
         public init(bundleId: String, directoryId: String, rootVolumeEncryptionEnabled: Bool? = nil, tags: [Tag]? = nil, userName: String, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceName: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.directoryId = directoryId
@@ -5944,6 +6154,7 @@ extension WorkSpaces {
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
 
+        @inlinable
         public init(associatedResourceId: String? = nil, associatedResourceType: WorkSpaceAssociatedResourceType? = nil, created: Date? = nil, lastUpdatedTime: Date? = nil, state: AssociationState? = nil, stateReason: AssociationStateReason? = nil, workspaceId: String? = nil) {
             self.associatedResourceId = associatedResourceId
             self.associatedResourceType = associatedResourceType
@@ -5975,6 +6186,7 @@ extension WorkSpaces {
         /// The rules.
         public let userRules: [IpRuleItem]?
 
+        @inlinable
         public init(groupDesc: String? = nil, groupId: String? = nil, groupName: String? = nil, userRules: [IpRuleItem]? = nil) {
             self.groupDesc = groupDesc
             self.groupId = groupId
@@ -6016,6 +6228,7 @@ extension WorkSpaces {
         /// The amount of time that a pool session remains active after users disconnect.  If they try to reconnect to the pool session after a disconnection or network interruption  within this time interval, they are connected to their previous session.  Otherwise, they are connected to a new session with a new pool instance.
         public let timeoutSettings: TimeoutSettings?
 
+        @inlinable
         public init(applicationSettings: ApplicationSettingsResponse? = nil, bundleId: String, capacityStatus: CapacityStatus, createdAt: Date, description: String? = nil, directoryId: String, errors: [WorkspacesPoolError]? = nil, poolArn: String, poolId: String, poolName: String, state: WorkspacesPoolState, timeoutSettings: TimeoutSettings? = nil) {
             self.applicationSettings = applicationSettings
             self.bundleId = bundleId
@@ -6053,6 +6266,7 @@ extension WorkSpaces {
         /// The error message.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: WorkspacesPoolErrorCode? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -6084,6 +6298,7 @@ extension WorkSpaces {
         /// The identifier of the user.
         public let userId: String
 
+        @inlinable
         public init(authenticationType: AuthenticationType? = nil, connectionState: SessionConnectionState? = nil, expirationTime: Date? = nil, instanceId: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, poolId: String, sessionId: String, startTime: Date? = nil, userId: String) {
             self.authenticationType = authenticationType
             self.connectionState = connectionState

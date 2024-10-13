@@ -161,6 +161,7 @@ extension Organizations {
         /// The unique identifier (ID) of the handshake that you want to accept. The regex pattern for  handshake ID string requires "h-"  followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
+        @inlinable
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
         }
@@ -179,6 +180,7 @@ extension Organizations {
         /// A structure that contains details about the accepted handshake.
         public let handshake: Handshake?
 
+        @inlinable
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
@@ -204,6 +206,7 @@ extension Organizations {
         /// The status of the account in the organization.
         public let status: AccountStatus?
 
+        @inlinable
         public init(arn: String? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: Date? = nil, name: String? = nil, status: AccountStatus? = nil) {
             self.arn = arn
             self.email = email
@@ -231,6 +234,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let targetId: String
 
+        @inlinable
         public init(policyId: String, targetId: String) {
             self.policyId = policyId
             self.targetId = targetId
@@ -253,6 +257,7 @@ extension Organizations {
         /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the ListHandshakesForOrganization operation. The regex pattern for  handshake ID string requires "h-"  followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
+        @inlinable
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
         }
@@ -271,6 +276,7 @@ extension Organizations {
         /// A structure that contains details about the handshake that you canceled.
         public let handshake: Handshake?
 
+        @inlinable
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
@@ -286,6 +292,7 @@ extension Organizations {
         /// The type of this child entity.
         public let type: ChildType?
 
+        @inlinable
         public init(id: String? = nil, type: ChildType? = nil) {
             self.id = id
             self.type = type
@@ -301,6 +308,7 @@ extension Organizations {
         /// Retrieves the Amazon Web Services account Id for the current CloseAccount API request.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -327,6 +335,7 @@ extension Organizations {
         /// A list of tags that you want to attach to the newly created account. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, tags: [Tag]? = nil) {
             self.accountName = accountName
             self.email = email
@@ -362,6 +371,7 @@ extension Organizations {
         /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to DescribeCreateAccountStatus to get status about the progress of the request at later times. You can also check the CloudTrail log for the CreateAccountResult event. For more information, see Logging and monitoring in Organizations in the Organizations User Guide.
         public let createAccountStatus: CreateAccountStatus?
 
+        @inlinable
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
         }
@@ -389,6 +399,7 @@ extension Organizations {
         /// The status of the asynchronous request to create an Amazon Web Services account.
         public let state: CreateAccountState?
 
+        @inlinable
         public init(accountId: String? = nil, accountName: String? = nil, completedTimestamp: Date? = nil, failureReason: CreateAccountFailureReason? = nil, govCloudAccountId: String? = nil, id: String? = nil, requestedTimestamp: Date? = nil, state: CreateAccountState? = nil) {
             self.accountId = accountId
             self.accountName = accountName
@@ -424,6 +435,7 @@ extension Organizations {
         /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, tags: [Tag]? = nil) {
             self.accountName = accountName
             self.email = email
@@ -458,6 +470,7 @@ extension Organizations {
     public struct CreateGovCloudAccountResponse: AWSDecodableShape {
         public let createAccountStatus: CreateAccountStatus?
 
+        @inlinable
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
         }
@@ -471,6 +484,7 @@ extension Organizations {
         /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the management account. For more information, see Consolidated billing in the Organizations User Guide. The consolidated billing feature subset isn't available for organizations in the Amazon Web Services GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the management account can also apply any policy type to any member account in the organization. For more information, see All features in the Organizations User Guide.
         public let featureSet: OrganizationFeatureSet?
 
+        @inlinable
         public init(featureSet: OrganizationFeatureSet? = nil) {
             self.featureSet = featureSet
         }
@@ -484,6 +498,7 @@ extension Organizations {
         /// A structure that contains details about the newly created organization.
         public let organization: Organization?
 
+        @inlinable
         public init(organization: Organization? = nil) {
             self.organization = organization
         }
@@ -501,6 +516,7 @@ extension Organizations {
         /// A list of tags that you want to attach to the newly created OU. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the allowed number of tags for an OU, then the entire request fails and the OU is not created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(name: String, parentId: String, tags: [Tag]? = nil) {
             self.name = name
             self.parentId = parentId
@@ -529,6 +545,7 @@ extension Organizations {
         /// A structure that contains details about the newly created OU.
         public let organizationalUnit: OrganizationalUnit?
 
+        @inlinable
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
         }
@@ -550,6 +567,7 @@ extension Organizations {
         /// The type of policy to create. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY
         public let type: PolicyType
 
+        @inlinable
         public init(content: String, description: String, name: String, tags: [Tag]? = nil, type: PolicyType) {
             self.content = content
             self.description = description
@@ -584,6 +602,7 @@ extension Organizations {
         /// A structure that contains details about the newly created policy.
         public let policy: Policy?
 
+        @inlinable
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
@@ -597,6 +616,7 @@ extension Organizations {
         /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for  handshake ID string requires "h-"  followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
+        @inlinable
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
         }
@@ -615,6 +635,7 @@ extension Organizations {
         /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
         public let handshake: Handshake?
 
+        @inlinable
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
@@ -642,6 +663,7 @@ extension Organizations {
         /// The status of the delegated administrator's account in the organization.
         public let status: AccountStatus?
 
+        @inlinable
         public init(arn: String? = nil, delegationEnabledDate: Date? = nil, email: String? = nil, id: String? = nil, joinedMethod: AccountJoinedMethod? = nil, joinedTimestamp: Date? = nil, name: String? = nil, status: AccountStatus? = nil) {
             self.arn = arn
             self.delegationEnabledDate = delegationEnabledDate
@@ -671,6 +693,7 @@ extension Organizations {
         /// The name of an Amazon Web Services service that can request an operation for the specified service. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
         public let servicePrincipal: String?
 
+        @inlinable
         public init(delegationEnabledDate: Date? = nil, servicePrincipal: String? = nil) {
             self.delegationEnabledDate = delegationEnabledDate
             self.servicePrincipal = servicePrincipal
@@ -686,6 +709,7 @@ extension Organizations {
         /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires  "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the  OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters  or digits.
         public let organizationalUnitId: String
 
+        @inlinable
         public init(organizationalUnitId: String) {
             self.organizationalUnitId = organizationalUnitId
         }
@@ -704,6 +728,7 @@ extension Organizations {
         /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -724,6 +749,7 @@ extension Organizations {
         /// The service principal name of an Amazon Web Services service for which the account is a delegated administrator. Delegated administrator privileges are revoked for only the specified Amazon Web Services service from the member account. If the specified service is the only service for which the member account is a delegated administrator, the operation also revokes Organizations read action permissions.
         public let servicePrincipal: String
 
+        @inlinable
         public init(accountId: String, servicePrincipal: String) {
             self.accountId = accountId
             self.servicePrincipal = servicePrincipal
@@ -747,6 +773,7 @@ extension Organizations {
         /// The unique identifier (ID) of the Amazon Web Services account that you want information about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -765,6 +792,7 @@ extension Organizations {
         /// A structure that contains information about the requested account.
         public let account: Account?
 
+        @inlinable
         public init(account: Account? = nil) {
             self.account = account
         }
@@ -778,6 +806,7 @@ extension Organizations {
         /// Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string  requires "car-" followed by from 8 to 32 lowercase letters or digits.
         public let createAccountRequestId: String
 
+        @inlinable
         public init(createAccountRequestId: String) {
             self.createAccountRequestId = createAccountRequestId
         }
@@ -796,6 +825,7 @@ extension Organizations {
         /// A structure that contains the current status of an account creation request.
         public let createAccountStatus: CreateAccountStatus?
 
+        @inlinable
         public init(createAccountStatus: CreateAccountStatus? = nil) {
             self.createAccountStatus = createAccountStatus
         }
@@ -811,6 +841,7 @@ extension Organizations {
         /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
         public let targetId: String?
 
+        @inlinable
         public init(policyType: EffectivePolicyType, targetId: String? = nil) {
             self.policyType = policyType
             self.targetId = targetId
@@ -831,6 +862,7 @@ extension Organizations {
         /// The contents of the effective policy.
         public let effectivePolicy: EffectivePolicy?
 
+        @inlinable
         public init(effectivePolicy: EffectivePolicy? = nil) {
             self.effectivePolicy = effectivePolicy
         }
@@ -844,6 +876,7 @@ extension Organizations {
         /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to InviteAccountToOrganization, or from a call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for  handshake ID string requires "h-"  followed by from 8 to 32 lowercase letters or digits.
         public let handshakeId: String
 
+        @inlinable
         public init(handshakeId: String) {
             self.handshakeId = handshakeId
         }
@@ -862,6 +895,7 @@ extension Organizations {
         /// A structure that contains information about the specified handshake.
         public let handshake: Handshake?
 
+        @inlinable
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
@@ -875,6 +909,7 @@ extension Organizations {
         /// A structure that contains information about the organization.  The AvailablePolicyTypes part of the response is deprecated, and you shouldn't use it in your apps. It doesn't include any policy type supported by Organizations other than SCPs. To determine which policy types are enabled in your organization, use the  ListRoots operation.
         public let organization: Organization?
 
+        @inlinable
         public init(organization: Organization? = nil) {
             self.organization = organization
         }
@@ -888,6 +923,7 @@ extension Organizations {
         /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires  "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the  OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters  or digits.
         public let organizationalUnitId: String
 
+        @inlinable
         public init(organizationalUnitId: String) {
             self.organizationalUnitId = organizationalUnitId
         }
@@ -906,6 +942,7 @@ extension Organizations {
         /// A structure that contains details about the specified OU.
         public let organizationalUnit: OrganizationalUnit?
 
+        @inlinable
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
         }
@@ -919,6 +956,7 @@ extension Organizations {
         /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
+        @inlinable
         public init(policyId: String) {
             self.policyId = policyId
         }
@@ -937,6 +975,7 @@ extension Organizations {
         /// A structure that contains details about the specified policy.
         public let policy: Policy?
 
+        @inlinable
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
@@ -950,6 +989,7 @@ extension Organizations {
         /// A structure that contains details about the resource policy.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -965,6 +1005,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root, OU, or account that you want to detach the policy from. You can get the ID from the ListRoots, ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let targetId: String
 
+        @inlinable
         public init(policyId: String, targetId: String) {
             self.policyId = policyId
             self.targetId = targetId
@@ -987,6 +1028,7 @@ extension Organizations {
         /// The service principal name of the Amazon Web Services service for which you want to disable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
         public let servicePrincipal: String
 
+        @inlinable
         public init(servicePrincipal: String) {
             self.servicePrincipal = servicePrincipal
         }
@@ -1008,6 +1050,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
         public let rootId: String
 
+        @inlinable
         public init(policyType: PolicyType, rootId: String) {
             self.policyType = policyType
             self.rootId = rootId
@@ -1028,6 +1071,7 @@ extension Organizations {
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
 
+        @inlinable
         public init(root: Root? = nil) {
             self.root = root
         }
@@ -1047,6 +1091,7 @@ extension Organizations {
         /// The account ID of the policy target.
         public let targetId: String?
 
+        @inlinable
         public init(lastUpdatedTimestamp: Date? = nil, policyContent: String? = nil, policyType: EffectivePolicyType? = nil, targetId: String? = nil) {
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.policyContent = policyContent
@@ -1066,6 +1111,7 @@ extension Organizations {
         /// The service principal name of the Amazon Web Services service for which you want to enable integration with your organization. This is typically in the form of a URL, such as  service-abbreviation.amazonaws.com.
         public let servicePrincipal: String
 
+        @inlinable
         public init(servicePrincipal: String) {
             self.servicePrincipal = servicePrincipal
         }
@@ -1089,6 +1135,7 @@ extension Organizations {
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?
 
+        @inlinable
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
@@ -1104,6 +1151,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
         public let rootId: String
 
+        @inlinable
         public init(policyType: PolicyType, rootId: String) {
             self.policyType = policyType
             self.rootId = rootId
@@ -1124,6 +1172,7 @@ extension Organizations {
         /// A structure that shows the root with the updated list of enabled policy types.
         public let root: Root?
 
+        @inlinable
         public init(root: Root? = nil) {
             self.root = root
         }
@@ -1139,6 +1188,7 @@ extension Organizations {
         /// The name of the service principal. This is typically in the form of a URL, such as:  servicename.amazonaws.com.
         public let servicePrincipal: String?
 
+        @inlinable
         public init(dateEnabled: Date? = nil, servicePrincipal: String? = nil) {
             self.dateEnabled = dateEnabled
             self.servicePrincipal = servicePrincipal
@@ -1168,6 +1218,7 @@ extension Organizations {
         /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:    REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.    OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.    CANCELED: This handshake is no longer active because it was canceled by the originating account.    ACCEPTED: This handshake is complete because it has been accepted by the recipient.    DECLINED: This handshake is no longer active because it was declined by the recipient account.    EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).
         public let state: HandshakeState?
 
+        @inlinable
         public init(action: ActionType? = nil, arn: String? = nil, expirationTimestamp: Date? = nil, id: String? = nil, parties: [HandshakeParty]? = nil, requestedTimestamp: Date? = nil, resources: [HandshakeResource]? = nil, state: HandshakeState? = nil) {
             self.action = action
             self.arn = arn
@@ -1197,6 +1248,7 @@ extension Organizations {
         /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for  handshake ID string requires "h-"  followed by from 8 to 32 lowercase letters or digits.
         public let parentHandshakeId: String?
 
+        @inlinable
         public init(actionType: ActionType? = nil, parentHandshakeId: String? = nil) {
             self.actionType = actionType
             self.parentHandshakeId = parentHandshakeId
@@ -1219,6 +1271,7 @@ extension Organizations {
         /// The type of party.
         public let type: HandshakePartyType
 
+        @inlinable
         public init(id: String, type: HandshakePartyType) {
             self.id = id
             self.type = type
@@ -1244,6 +1297,7 @@ extension Organizations {
         /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
         public let value: String?
 
+        @inlinable
         public init(resources: [HandshakeResource]? = nil, type: HandshakeResourceType? = nil, value: String? = nil) {
             self.resources = resources
             self.type = type
@@ -1265,6 +1319,7 @@ extension Organizations {
         /// The identifier (ID) of the Amazon Web Services account that you want to invite to join your organization. This is a JSON object that contains the following elements:  { "Type": "ACCOUNT", "Id": " account id number >" }  If you use the CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", you must provide the Amazon Web Services account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL
         public let target: HandshakeParty
 
+        @inlinable
         public init(notes: String? = nil, tags: [Tag]? = nil, target: HandshakeParty) {
             self.notes = notes
             self.tags = tags
@@ -1291,6 +1346,7 @@ extension Organizations {
         /// A structure that contains details about the handshake that is created to support this invitation request.
         public let handshake: Handshake?
 
+        @inlinable
         public init(handshake: Handshake? = nil) {
             self.handshake = handshake
         }
@@ -1306,6 +1362,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1330,6 +1387,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(enabledServicePrincipals: [EnabledServicePrincipal]? = nil, nextToken: String? = nil) {
             self.enabledServicePrincipals = enabledServicePrincipals
             self.nextToken = nextToken
@@ -1349,6 +1407,7 @@ extension Organizations {
         /// The unique identifier (ID) for the parent root or organization unit (OU) whose accounts you want to list.
         public let parentId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, parentId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1377,6 +1436,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
@@ -1394,6 +1454,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1418,6 +1479,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(accounts: [Account]? = nil, nextToken: String? = nil) {
             self.accounts = accounts
             self.nextToken = nextToken
@@ -1439,6 +1501,7 @@ extension Organizations {
         /// The unique identifier (ID) for the parent root or OU whose children you want to list. The regex pattern for a parent ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let parentId: String
 
+        @inlinable
         public init(childType: ChildType, maxResults: Int? = nil, nextToken: String? = nil, parentId: String) {
             self.childType = childType
             self.maxResults = maxResults
@@ -1469,6 +1532,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(children: [Child]? = nil, nextToken: String? = nil) {
             self.children = children
             self.nextToken = nextToken
@@ -1488,6 +1552,7 @@ extension Organizations {
         /// A list of one or more states that you want included in the response. If this parameter isn't present, all requests are included in the response.
         public let states: [CreateAccountState]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, states: [CreateAccountState]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1514,6 +1579,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(createAccountStatuses: [CreateAccountStatus]? = nil, nextToken: String? = nil) {
             self.createAccountStatuses = createAccountStatuses
             self.nextToken = nextToken
@@ -1533,6 +1599,7 @@ extension Organizations {
         /// Specifies a service principal name. If specified, then the operation lists the delegated administrators only for the specified service. If you don't specify a service principal, the operation lists all delegated administrators for all services in your organization.
         public let servicePrincipal: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, servicePrincipal: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1562,6 +1629,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(delegatedAdministrators: [DelegatedAdministrator]? = nil, nextToken: String? = nil) {
             self.delegatedAdministrators = delegatedAdministrators
             self.nextToken = nextToken
@@ -1581,6 +1649,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1609,6 +1678,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(delegatedServices: [DelegatedService]? = nil, nextToken: String? = nil) {
             self.delegatedServices = delegatedServices
             self.nextToken = nextToken
@@ -1628,6 +1698,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: HandshakeFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1655,6 +1726,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
             self.handshakes = handshakes
             self.nextToken = nextToken
@@ -1674,6 +1746,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: HandshakeFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1701,6 +1774,7 @@ extension Organizations {
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
 
+        @inlinable
         public init(handshakes: [Handshake]? = nil, nextToken: String? = nil) {
             self.handshakes = handshakes
             self.nextToken = nextToken
@@ -1720,6 +1794,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The regex pattern for a parent ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let parentId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, parentId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1748,6 +1823,7 @@ extension Organizations {
         /// A list of the OUs in the specified root or parent OU.
         public let organizationalUnits: [OrganizationalUnit]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationalUnits: [OrganizationalUnit]? = nil) {
             self.nextToken = nextToken
             self.organizationalUnits = organizationalUnits
@@ -1767,6 +1843,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(childId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.childId = childId
             self.maxResults = maxResults
@@ -1795,6 +1872,7 @@ extension Organizations {
         /// A list of parents for the specified child account or OU.
         public let parents: [Parent]?
 
+        @inlinable
         public init(nextToken: String? = nil, parents: [Parent]? = nil) {
             self.nextToken = nextToken
             self.parents = parents
@@ -1816,6 +1894,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The regex pattern for a target ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32  lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let targetId: String
 
+        @inlinable
         public init(filter: PolicyType, maxResults: Int? = nil, nextToken: String? = nil, targetId: String) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1846,6 +1925,7 @@ extension Organizations {
         /// The list of policies that match the criteria in the request.
         public let policies: [PolicySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, policies: [PolicySummary]? = nil) {
             self.nextToken = nextToken
             self.policies = policies
@@ -1865,6 +1945,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: PolicyType, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -1891,6 +1972,7 @@ extension Organizations {
         /// A list of policies that match the filter criteria in the request. The output list doesn't include the policy contents. To see the content for a policy, see DescribePolicy.
         public let policies: [PolicySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, policies: [PolicySummary]? = nil) {
             self.nextToken = nextToken
             self.policies = policies
@@ -1908,6 +1990,7 @@ extension Organizations {
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1932,6 +2015,7 @@ extension Organizations {
         /// A list of roots that are defined in an organization.
         public let roots: [Root]?
 
+        @inlinable
         public init(nextToken: String? = nil, roots: [Root]? = nil) {
             self.nextToken = nextToken
             self.roots = roots
@@ -1949,6 +2033,7 @@ extension Organizations {
         /// The ID of the resource with the tags to list. You can specify any of the following taggable resources.   Amazon Web Services account – specify the account ID number.   Organizational unit  – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
         public let resourceId: String
 
+        @inlinable
         public init(nextToken: String? = nil, resourceId: String) {
             self.nextToken = nextToken
             self.resourceId = resourceId
@@ -1973,6 +2058,7 @@ extension Organizations {
         /// The tags that are assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1992,6 +2078,7 @@ extension Organizations {
         /// The unique identifier (ID) of the policy whose attachments you want to know. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, policyId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2020,6 +2107,7 @@ extension Organizations {
         /// A list of structures, each of which contains details about one of the entities to which the specified policy is attached.
         public let targets: [PolicyTargetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, targets: [PolicyTargetSummary]? = nil) {
             self.nextToken = nextToken
             self.targets = targets
@@ -2039,6 +2127,7 @@ extension Organizations {
         /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The regex pattern for a parent ID string requires one of the  following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or  digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second  "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let sourceParentId: String
 
+        @inlinable
         public init(accountId: String, destinationParentId: String, sourceParentId: String) {
             self.accountId = accountId
             self.destinationParentId = destinationParentId
@@ -2077,6 +2166,7 @@ extension Organizations {
         /// The unique identifier (ID) of the management account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let masterAccountId: String?
 
+        @inlinable
         public init(arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, featureSet: OrganizationFeatureSet? = nil, id: String? = nil, masterAccountArn: String? = nil, masterAccountEmail: String? = nil, masterAccountId: String? = nil) {
             self.arn = arn
             self.availablePolicyTypes = availablePolicyTypes
@@ -2106,6 +2196,7 @@ extension Organizations {
         /// The friendly name of this OU. The regex pattern  that is used to validate this parameter is a string of any of the characters in the ASCII  character range.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2125,6 +2216,7 @@ extension Organizations {
         /// The type of the parent entity.
         public let type: ParentType?
 
+        @inlinable
         public init(id: String? = nil, type: ParentType? = nil) {
             self.id = id
             self.type = type
@@ -2142,6 +2234,7 @@ extension Organizations {
         /// A structure that contains additional details about the policy.
         public let policySummary: PolicySummary?
 
+        @inlinable
         public init(content: String? = nil, policySummary: PolicySummary? = nil) {
             self.content = content
             self.policySummary = policySummary
@@ -2167,6 +2260,7 @@ extension Organizations {
         /// The type of policy.
         public let type: PolicyType?
 
+        @inlinable
         public init(arn: String? = nil, awsManaged: Bool? = nil, description: String? = nil, id: String? = nil, name: String? = nil, type: PolicyType? = nil) {
             self.arn = arn
             self.awsManaged = awsManaged
@@ -2196,6 +2290,7 @@ extension Organizations {
         /// The type of the policy target.
         public let type: TargetType?
 
+        @inlinable
         public init(arn: String? = nil, name: String? = nil, targetId: String? = nil, type: TargetType? = nil) {
             self.arn = arn
             self.name = name
@@ -2217,6 +2312,7 @@ extension Organizations {
         /// The name of the policy type.
         public let type: PolicyType?
 
+        @inlinable
         public init(status: PolicyTypeStatus? = nil, type: PolicyType? = nil) {
             self.status = status
             self.type = type
@@ -2234,6 +2330,7 @@ extension Organizations {
         /// A list of tags that you want to attach to the newly created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is not valid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(content: String, tags: [Tag]? = nil) {
             self.content = content
             self.tags = tags
@@ -2258,6 +2355,7 @@ extension Organizations {
         /// A structure that contains details about the resource policy.
         public let resourcePolicy: ResourcePolicy?
 
+        @inlinable
         public init(resourcePolicy: ResourcePolicy? = nil) {
             self.resourcePolicy = resourcePolicy
         }
@@ -2273,6 +2371,7 @@ extension Organizations {
         /// The service principal of the Amazon Web Services service for which you want to make the member account a delegated administrator.
         public let servicePrincipal: String
 
+        @inlinable
         public init(accountId: String, servicePrincipal: String) {
             self.accountId = accountId
             self.servicePrincipal = servicePrincipal
@@ -2296,6 +2395,7 @@ extension Organizations {
         /// The unique identifier (ID) of the member account that you want to remove from the organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -2316,6 +2416,7 @@ extension Organizations {
         /// A structure that contains resource policy ID and Amazon Resource Name (ARN).
         public let resourcePolicySummary: ResourcePolicySummary?
 
+        @inlinable
         public init(content: String? = nil, resourcePolicySummary: ResourcePolicySummary? = nil) {
             self.content = content
             self.resourcePolicySummary = resourcePolicySummary
@@ -2333,6 +2434,7 @@ extension Organizations {
         /// The unique identifier (ID) of the resource policy.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2354,6 +2456,7 @@ extension Organizations {
         /// The types of policies that are currently enabled for the root and therefore can be attached to the root or to its OUs or accounts.  Even if a policy type is shown as available in the organization, you can separately enable and disable them at the root level by using EnablePolicyType and DisablePolicyType. Use DescribeOrganization to see the availability of the policy types in that organization.
         public let policyTypes: [PolicyTypeSummary]?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, policyTypes: [PolicyTypeSummary]? = nil) {
             self.arn = arn
             self.id = id
@@ -2375,6 +2478,7 @@ extension Organizations {
         /// The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2400,6 +2504,7 @@ extension Organizations {
         /// A list of tags to add to the specified resource. For each tag in the list, you must specify both a tag key and a value. The value can be an empty string, but you can't set it to null.  If any one of the tags is not valid or if you exceed the maximum allowed number of tags for a resource, then the entire request fails.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
@@ -2425,6 +2530,7 @@ extension Organizations {
         /// The list of keys for tags to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
@@ -2452,6 +2558,7 @@ extension Organizations {
         /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for an organizational unit ID string requires  "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the  OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters  or digits.
         public let organizationalUnitId: String
 
+        @inlinable
         public init(name: String? = nil, organizationalUnitId: String) {
             self.name = name
             self.organizationalUnitId = organizationalUnitId
@@ -2475,6 +2582,7 @@ extension Organizations {
         /// A structure that contains the details about the specified OU, including its new name.
         public let organizationalUnit: OrganizationalUnit?
 
+        @inlinable
         public init(organizationalUnit: OrganizationalUnit? = nil) {
             self.organizationalUnit = organizationalUnit
         }
@@ -2494,6 +2602,7 @@ extension Organizations {
         /// The unique identifier (ID) of the policy that you want to update. The regex pattern for a policy ID string requires "p-" followed  by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let policyId: String
 
+        @inlinable
         public init(content: String? = nil, description: String? = nil, name: String? = nil, policyId: String) {
             self.content = content
             self.description = description
@@ -2525,6 +2634,7 @@ extension Organizations {
         /// A structure that contains details about the updated policy, showing the requested changes.
         public let policy: Policy?
 
+        @inlinable
         public init(policy: Policy? = nil) {
             self.policy = policy
         }

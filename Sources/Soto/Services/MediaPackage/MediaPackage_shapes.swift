@@ -159,6 +159,7 @@ extension MediaPackage {
         /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to communicate with AWS Secrets Manager.
         public let secretsRoleArn: String?
 
+        @inlinable
         public init(cdnIdentifierSecret: String? = nil, secretsRoleArn: String? = nil) {
             self.cdnIdentifierSecret = cdnIdentifierSecret
             self.secretsRoleArn = secretsRoleArn
@@ -184,6 +185,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -215,6 +217,7 @@ extension MediaPackage {
         public let keyRotationIntervalSeconds: Int?
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -241,6 +244,7 @@ extension MediaPackage {
         public let segmentPrefix: String?
         public let streamSelection: StreamSelection?
 
+        @inlinable
         public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifest]? = nil, segmentDurationSeconds: Int? = nil, segmentPrefix: String? = nil, streamSelection: StreamSelection? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -269,6 +273,7 @@ extension MediaPackage {
         public let segmentPrefix: String?
         public let streamSelection: StreamSelection?
 
+        @inlinable
         public init(encryption: CmafEncryption? = nil, hlsManifests: [HlsManifestCreateOrUpdateParameters]? = nil, segmentDurationSeconds: Int? = nil, segmentPrefix: String? = nil, streamSelection: StreamSelection? = nil) {
             self.encryption = encryption
             self.hlsManifests = hlsManifests
@@ -292,6 +297,7 @@ extension MediaPackage {
         public let id: String
         public let ingressAccessLogs: IngressAccessLogs?
 
+        @inlinable
         public init(egressAccessLogs: EgressAccessLogs? = nil, id: String, ingressAccessLogs: IngressAccessLogs? = nil) {
             self.egressAccessLogs = egressAccessLogs
             self.id = id
@@ -326,6 +332,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -357,6 +364,7 @@ extension MediaPackage {
         public let id: String?
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.id = id
@@ -384,6 +392,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -420,6 +429,7 @@ extension MediaPackage {
         /// The start of the time-window which will be harvested
         public let startTime: String?
 
+        @inlinable
         public init(endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil) {
             self.endTime = endTime
             self.id = id
@@ -460,6 +470,7 @@ extension MediaPackage {
         /// include an explanation of why the HarvestJob failed.
         public let status: Status?
 
+        @inlinable
         public init(arn: String? = nil, channelId: String? = nil, createdAt: String? = nil, endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil, status: Status? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -515,6 +526,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
+        @inlinable
         public init(authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
             self.authorization = authorization
             self.channelId = channelId
@@ -584,6 +596,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
+        @inlinable
         public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
@@ -630,6 +643,7 @@ extension MediaPackage {
         public let keyRotationIntervalSeconds: Int?
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(keyRotationIntervalSeconds: Int? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
             self.spekeKeyProvider = spekeKeyProvider
@@ -675,6 +689,7 @@ extension MediaPackage {
         /// Specifies the value attribute of the UTCTiming field when utcTiming is set to HTTP-ISO, HTTP-HEAD or HTTP-XSDATE
         public let utcTimingUri: String?
 
+        @inlinable
         public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, encryption: DashEncryption? = nil, includeIframeOnlyStream: Bool? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [PeriodTriggersElement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: UtcTiming? = nil, utcTimingUri: String? = nil) {
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
             self.adTriggers = adTriggers
@@ -718,6 +733,7 @@ extension MediaPackage {
         /// The ID of the Channel to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -739,6 +755,7 @@ extension MediaPackage {
         /// The ID of the OriginEndpoint to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -760,6 +777,7 @@ extension MediaPackage {
         /// The ID of a Channel.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -787,6 +805,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -814,6 +833,7 @@ extension MediaPackage {
         /// The ID of the HarvestJob.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -850,6 +870,7 @@ extension MediaPackage {
         /// include an explanation of why the HarvestJob failed.
         public let status: Status?
 
+        @inlinable
         public init(arn: String? = nil, channelId: String? = nil, createdAt: String? = nil, endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil, status: Status? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -879,6 +900,7 @@ extension MediaPackage {
         /// The ID of the OriginEndpoint.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -926,6 +948,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
+        @inlinable
         public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
@@ -971,6 +994,7 @@ extension MediaPackage {
         /// Customize the log group name.
         public let logGroupName: String?
 
+        @inlinable
         public init(logGroupName: String? = nil) {
             self.logGroupName = logGroupName
         }
@@ -986,6 +1010,7 @@ extension MediaPackage {
         /// A collection of video encryption presets.
         public let presetSpeke20Video: PresetSpeke20Video?
 
+        @inlinable
         public init(presetSpeke20Audio: PresetSpeke20Audio? = nil, presetSpeke20Video: PresetSpeke20Video? = nil) {
             self.presetSpeke20Audio = presetSpeke20Audio
             self.presetSpeke20Video = presetSpeke20Video
@@ -1020,6 +1045,7 @@ extension MediaPackage {
         /// include an explanation of why the HarvestJob failed.
         public let status: Status?
 
+        @inlinable
         public init(arn: String? = nil, channelId: String? = nil, createdAt: String? = nil, endTime: String? = nil, id: String? = nil, originEndpointId: String? = nil, s3Destination: S3Destination? = nil, startTime: String? = nil, status: Status? = nil) {
             self.arn = arn
             self.channelId = channelId
@@ -1057,6 +1083,7 @@ extension MediaPackage {
         public let repeatExtXKey: Bool?
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(constantInitializationVector: String? = nil, encryptionMethod: EncryptionMethod? = nil, keyRotationIntervalSeconds: Int? = nil, repeatExtXKey: Bool? = nil, spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
@@ -1078,6 +1105,7 @@ extension MediaPackage {
         /// A list of endpoints to which the source stream should be sent.
         public let ingestEndpoints: [IngestEndpoint]?
 
+        @inlinable
         public init(ingestEndpoints: [IngestEndpoint]? = nil) {
             self.ingestEndpoints = ingestEndpoints
         }
@@ -1125,6 +1153,7 @@ extension MediaPackage {
         /// The URL of the packaged OriginEndpoint for consumption.
         public let url: String?
 
+        @inlinable
         public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, url: String? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -1188,6 +1217,7 @@ extension MediaPackage {
         /// it will be passed through to HLS output.
         public let programDateTimeIntervalSeconds: Int?
 
+        @inlinable
         public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, id: String? = nil, includeIframeOnlyStream: Bool? = nil, manifestName: String? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -1254,6 +1284,7 @@ extension MediaPackage {
         /// When enabled, audio streams will be placed in rendition groups in the output.
         public let useAudioRenditionGroup: Bool?
 
+        @inlinable
         public init(adMarkers: AdMarkers? = nil, adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, encryption: HlsEncryption? = nil, includeDvbSubtitles: Bool? = nil, includeIframeOnlyStream: Bool? = nil, playlistType: PlaylistType? = nil, playlistWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, segmentDurationSeconds: Int? = nil, streamSelection: StreamSelection? = nil, useAudioRenditionGroup: Bool? = nil) {
             self.adMarkers = adMarkers
             self.adsOnDeliveryRestrictions = adsOnDeliveryRestrictions
@@ -1295,6 +1326,7 @@ extension MediaPackage {
         /// The system generated username for ingest authentication.
         public let username: String?
 
+        @inlinable
         public init(id: String? = nil, password: String? = nil, url: String? = nil, username: String? = nil) {
             self.id = id
             self.password = password
@@ -1314,6 +1346,7 @@ extension MediaPackage {
         /// Customize the log group name.
         public let logGroupName: String?
 
+        @inlinable
         public init(logGroupName: String? = nil) {
             self.logGroupName = logGroupName
         }
@@ -1329,6 +1362,7 @@ extension MediaPackage {
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1355,6 +1389,7 @@ extension MediaPackage {
         /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(channels: [Channel]? = nil, nextToken: String? = nil) {
             self.channels = channels
             self.nextToken = nextToken
@@ -1376,6 +1411,7 @@ extension MediaPackage {
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(includeChannelId: String? = nil, includeStatus: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.includeChannelId = includeChannelId
             self.includeStatus = includeStatus
@@ -1406,6 +1442,7 @@ extension MediaPackage {
         /// A token that can be used to resume pagination from the end of the collection.
         public let nextToken: String?
 
+        @inlinable
         public init(harvestJobs: [HarvestJob]? = nil, nextToken: String? = nil) {
             self.harvestJobs = harvestJobs
             self.nextToken = nextToken
@@ -1425,6 +1462,7 @@ extension MediaPackage {
         /// A token used to resume pagination from the end of a previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(channelId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.channelId = channelId
             self.maxResults = maxResults
@@ -1453,6 +1491,7 @@ extension MediaPackage {
         /// A list of OriginEndpoint records.
         public let originEndpoints: [OriginEndpoint]?
 
+        @inlinable
         public init(nextToken: String? = nil, originEndpoints: [OriginEndpoint]? = nil) {
             self.nextToken = nextToken
             self.originEndpoints = originEndpoints
@@ -1467,6 +1506,7 @@ extension MediaPackage {
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1483,6 +1523,7 @@ extension MediaPackage {
     public struct ListTagsForResourceResponse: AWSDecodableShape {
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1495,6 +1536,7 @@ extension MediaPackage {
     public struct MssEncryption: AWSEncodableShape & AWSDecodableShape {
         public let spekeKeyProvider: SpekeKeyProvider?
 
+        @inlinable
         public init(spekeKeyProvider: SpekeKeyProvider? = nil) {
             self.spekeKeyProvider = spekeKeyProvider
         }
@@ -1512,6 +1554,7 @@ extension MediaPackage {
         public let segmentDurationSeconds: Int?
         public let streamSelection: StreamSelection?
 
+        @inlinable
         public init(encryption: MssEncryption? = nil, manifestWindowSeconds: Int? = nil, segmentDurationSeconds: Int? = nil, streamSelection: StreamSelection? = nil) {
             self.encryption = encryption
             self.manifestWindowSeconds = manifestWindowSeconds
@@ -1561,6 +1604,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
+        @inlinable
         public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization
@@ -1606,6 +1650,7 @@ extension MediaPackage {
         /// The ID of the channel to update.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1633,6 +1678,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1662,6 +1708,7 @@ extension MediaPackage {
         /// The id of the IngestEndpoint whose credentials should be rotated
         public let ingestEndpointId: String
 
+        @inlinable
         public init(id: String, ingestEndpointId: String) {
             self.id = id
             self.ingestEndpointId = ingestEndpointId
@@ -1691,6 +1738,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1722,6 +1770,7 @@ extension MediaPackage {
         /// The IAM role used to write to the specified S3 bucket
         public let roleArn: String?
 
+        @inlinable
         public init(bucketName: String? = nil, manifestKey: String? = nil, roleArn: String? = nil) {
             self.bucketName = bucketName
             self.manifestKey = manifestKey
@@ -1751,6 +1800,7 @@ extension MediaPackage {
         /// The URL of the external key provider service.
         public let url: String?
 
+        @inlinable
         public init(certificateArn: String? = nil, encryptionContractConfiguration: EncryptionContractConfiguration? = nil, resourceId: String? = nil, roleArn: String? = nil, systemIds: [String]? = nil, url: String? = nil) {
             self.certificateArn = certificateArn
             self.encryptionContractConfiguration = encryptionContractConfiguration
@@ -1778,6 +1828,7 @@ extension MediaPackage {
         /// A directive that determines the order of streams in the output.
         public let streamOrder: StreamOrder?
 
+        @inlinable
         public init(maxVideoBitsPerSecond: Int? = nil, minVideoBitsPerSecond: Int? = nil, streamOrder: StreamOrder? = nil) {
             self.maxVideoBitsPerSecond = maxVideoBitsPerSecond
             self.minVideoBitsPerSecond = minVideoBitsPerSecond
@@ -1795,6 +1846,7 @@ extension MediaPackage {
         public let resourceArn: String
         public let tags: [String: String]?
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]? = nil) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1817,6 +1869,7 @@ extension MediaPackage {
         /// The key(s) of tag to be deleted
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]? = nil) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1838,6 +1891,7 @@ extension MediaPackage {
         /// The ID of the Channel to update.
         public let id: String
 
+        @inlinable
         public init(description: String? = nil, id: String) {
             self.description = description
             self.id = id
@@ -1869,6 +1923,7 @@ extension MediaPackage {
         public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1917,6 +1972,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
+        @inlinable
         public init(authorization: Authorization? = nil, cmafPackage: CmafPackageCreateOrUpdateParameters? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, timeDelaySeconds: Int? = nil, whitelist: [String]? = nil) {
             self.authorization = authorization
             self.cmafPackage = cmafPackage
@@ -1998,6 +2054,7 @@ extension MediaPackage {
         /// A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
         public let whitelist: [String]?
 
+        @inlinable
         public init(arn: String? = nil, authorization: Authorization? = nil, channelId: String? = nil, cmafPackage: CmafPackage? = nil, createdAt: String? = nil, dashPackage: DashPackage? = nil, description: String? = nil, hlsPackage: HlsPackage? = nil, id: String? = nil, manifestName: String? = nil, mssPackage: MssPackage? = nil, origination: Origination? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, timeDelaySeconds: Int? = nil, url: String? = nil, whitelist: [String]? = nil) {
             self.arn = arn
             self.authorization = authorization

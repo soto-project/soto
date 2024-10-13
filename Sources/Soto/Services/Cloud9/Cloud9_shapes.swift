@@ -118,6 +118,7 @@ extension Cloud9 {
         /// An array of key-value pairs that will be associated with the new Cloud9 development environment.
         public let tags: [Tag]?
 
+        @inlinable
         public init(automaticStopTimeMinutes: Int? = nil, clientRequestToken: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, dryRun: Bool? = nil, imageId: String, instanceType: String, name: String, ownerArn: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil) {
             self.automaticStopTimeMinutes = automaticStopTimeMinutes
             self.clientRequestToken = clientRequestToken
@@ -172,6 +173,7 @@ extension Cloud9 {
         /// The ID of the environment that was created.
         public let environmentId: String?
 
+        @inlinable
         public init(environmentId: String? = nil) {
             self.environmentId = environmentId
         }
@@ -189,6 +191,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of the environment member you want to add.
         public let userArn: String
 
+        @inlinable
         public init(environmentId: String, permissions: MemberPermissions, userArn: String) {
             self.environmentId = environmentId
             self.permissions = permissions
@@ -211,6 +214,7 @@ extension Cloud9 {
         /// Information about the environment member that was added.
         public let membership: EnvironmentMember
 
+        @inlinable
         public init(membership: EnvironmentMember) {
             self.membership = membership
         }
@@ -226,6 +230,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of the environment member to delete from the environment.
         public let userArn: String
 
+        @inlinable
         public init(environmentId: String, userArn: String) {
             self.environmentId = environmentId
             self.userArn = userArn
@@ -250,6 +255,7 @@ extension Cloud9 {
         /// The ID of the environment to delete.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -279,6 +285,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of an individual environment member to get information about. If no value is specified, information about all environment members are returned.
         public let userArn: String?
 
+        @inlinable
         public init(environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, permissions: [Permissions]? = nil, userArn: String? = nil) {
             self.environmentId = environmentId
             self.maxResults = maxResults
@@ -309,6 +316,7 @@ extension Cloud9 {
         /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
+        @inlinable
         public init(memberships: [EnvironmentMember]? = nil, nextToken: String? = nil) {
             self.memberships = memberships
             self.nextToken = nextToken
@@ -324,6 +332,7 @@ extension Cloud9 {
         /// The ID of the environment to get status information about.
         public let environmentId: String
 
+        @inlinable
         public init(environmentId: String) {
             self.environmentId = environmentId
         }
@@ -343,6 +352,7 @@ extension Cloud9 {
         /// The status of the environment. Available values include:    connecting: The environment is connecting.    creating: The environment is being created.    deleting: The environment is being deleted.    error: The environment is in an error state.    ready: The environment is ready.    stopped: The environment is stopped.    stopping: The environment is stopping.
         public let status: EnvironmentStatus
 
+        @inlinable
         public init(message: String, status: EnvironmentStatus) {
             self.message = message
             self.status = status
@@ -358,6 +368,7 @@ extension Cloud9 {
         /// The IDs of individual environments to get information about.
         public let environmentIds: [String]
 
+        @inlinable
         public init(environmentIds: [String]) {
             self.environmentIds = environmentIds
         }
@@ -379,6 +390,7 @@ extension Cloud9 {
         /// Information about the environments that are returned.
         public let environments: [Environment]?
 
+        @inlinable
         public init(environments: [Environment]? = nil) {
             self.environments = environments
         }
@@ -408,6 +420,7 @@ extension Cloud9 {
         /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.
         public let type: EnvironmentType
 
+        @inlinable
         public init(arn: String, connectionType: ConnectionType? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, managedCredentialsStatus: ManagedCredentialsStatus? = nil, name: String? = nil, ownerArn: String, type: EnvironmentType) {
             self.arn = arn
             self.connectionType = connectionType
@@ -441,6 +454,7 @@ extension Cloud9 {
         /// The current creation or deletion lifecycle state of the environment.    CREATING: The environment is in the process of being created.    CREATED: The environment was successfully created.    CREATE_FAILED: The environment failed to be created.    DELETING: The environment is in the process of being deleted.    DELETE_FAILED: The environment failed to delete.
         public let status: EnvironmentLifecycleStatus?
 
+        @inlinable
         public init(failureResource: String? = nil, reason: String? = nil, status: EnvironmentLifecycleStatus? = nil) {
             self.failureResource = failureResource
             self.reason = reason
@@ -466,6 +480,7 @@ extension Cloud9 {
         /// The user ID in Identity and Access Management (IAM) of the environment member.
         public let userId: String
 
+        @inlinable
         public init(environmentId: String, lastAccess: Date? = nil, permissions: Permissions, userArn: String, userId: String) {
             self.environmentId = environmentId
             self.lastAccess = lastAccess
@@ -489,6 +504,7 @@ extension Cloud9 {
         /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -511,6 +527,7 @@ extension Cloud9 {
         /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
         public let nextToken: String?
 
+        @inlinable
         public init(environmentIds: [String]? = nil, nextToken: String? = nil) {
             self.environmentIds = environmentIds
             self.nextToken = nextToken
@@ -526,6 +543,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of the Cloud9 development environment to get the tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -543,6 +561,7 @@ extension Cloud9 {
         /// The list of tags associated with the Cloud9 development environment.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -558,6 +577,7 @@ extension Cloud9 {
         /// The value part of a tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -581,6 +601,7 @@ extension Cloud9 {
         /// The list of tags to add to the given Cloud9 development environment.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -610,6 +631,7 @@ extension Cloud9 {
         /// The tag names of the tags to remove from the given Cloud9 development environment.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -642,6 +664,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of the environment member whose settings you want to change.
         public let userArn: String
 
+        @inlinable
         public init(environmentId: String, permissions: MemberPermissions, userArn: String) {
             self.environmentId = environmentId
             self.permissions = permissions
@@ -664,6 +687,7 @@ extension Cloud9 {
         /// Information about the environment member whose settings were changed.
         public let membership: EnvironmentMember?
 
+        @inlinable
         public init(membership: EnvironmentMember? = nil) {
             self.membership = membership
         }
@@ -683,6 +707,7 @@ extension Cloud9 {
         /// A replacement name for the environment.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, environmentId: String, managedCredentialsAction: ManagedCredentialsAction? = nil, name: String? = nil) {
             self.description = description
             self.environmentId = environmentId

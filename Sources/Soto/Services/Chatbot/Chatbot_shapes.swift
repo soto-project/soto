@@ -34,6 +34,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(trainingDataCollectionEnabled: Bool? = nil, userAuthorizationRequired: Bool? = nil) {
             self.trainingDataCollectionEnabled = trainingDataCollectionEnabled
             self.userAuthorizationRequired = userAuthorizationRequired
@@ -61,6 +62,7 @@ extension Chatbot {
         /// A description of the webhook. We recommend using the convention RoomName/WebhookName. For more information, see Tutorial: Get started with Amazon Chime in the  AWS Chatbot Administrator Guide.
         public let webhookDescription: String
 
+        @inlinable
         public init(chatConfigurationArn: String, configurationName: String? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, webhookDescription: String) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
@@ -90,6 +92,7 @@ extension Chatbot {
         /// The ID of the Microsoft Teams tenant.
         public let tenantId: String
 
+        @inlinable
         public init(teamId: String, teamName: String? = nil, tenantId: String) {
             self.teamId = teamId
             self.teamName = teamName
@@ -119,6 +122,7 @@ extension Chatbot {
         /// The URL for the Amazon Chime webhook.
         public let webhookUrl: String
 
+        @inlinable
         public init(configurationName: String, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, webhookDescription: String, webhookUrl: String) {
             self.configurationName = configurationName
             self.iamRoleArn = iamRoleArn
@@ -169,6 +173,7 @@ extension Chatbot {
         /// An Amazon Chime webhook configuration.
         public let webhookConfiguration: ChimeWebhookConfiguration?
 
+        @inlinable
         public init(webhookConfiguration: ChimeWebhookConfiguration? = nil) {
             self.webhookConfiguration = webhookConfiguration
         }
@@ -200,6 +205,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(configurationName: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String? = nil, slackTeamId: String, snsTopicArns: [String]? = nil, tags: [Tag]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.configurationName = configurationName
             self.guardrailPolicyArns = guardrailPolicyArns
@@ -264,6 +270,7 @@ extension Chatbot {
         /// The configuration for a Slack channel configured with AWS Chatbot.
         public let channelConfiguration: SlackChannelConfiguration?
 
+        @inlinable
         public init(channelConfiguration: SlackChannelConfiguration? = nil) {
             self.channelConfiguration = channelConfiguration
         }
@@ -299,6 +306,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(channelId: String, channelName: String? = nil, configurationName: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String]? = nil, tags: [Tag]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
             self.channelId = channelId
             self.channelName = channelName
@@ -374,6 +382,7 @@ extension Chatbot {
         /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
         public let channelConfiguration: TeamsChannelConfiguration?
 
+        @inlinable
         public init(channelConfiguration: TeamsChannelConfiguration? = nil) {
             self.channelConfiguration = channelConfiguration
         }
@@ -387,6 +396,7 @@ extension Chatbot {
         /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to delete.
         public let chatConfigurationArn: String
 
+        @inlinable
         public init(chatConfigurationArn: String) {
             self.chatConfigurationArn = chatConfigurationArn
         }
@@ -412,6 +422,7 @@ extension Chatbot {
         /// The Microsoft Teams user ID.
         public let userId: String
 
+        @inlinable
         public init(chatConfigurationArn: String, userId: String) {
             self.chatConfigurationArn = chatConfigurationArn
             self.userId = userId
@@ -440,6 +451,7 @@ extension Chatbot {
         /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to delete.
         public let chatConfigurationArn: String
 
+        @inlinable
         public init(chatConfigurationArn: String) {
             self.chatConfigurationArn = chatConfigurationArn
         }
@@ -467,6 +479,7 @@ extension Chatbot {
         /// The ID of the user in Slack
         public let slackUserId: String
 
+        @inlinable
         public init(chatConfigurationArn: String, slackTeamId: String, slackUserId: String) {
             self.chatConfigurationArn = chatConfigurationArn
             self.slackTeamId = slackTeamId
@@ -500,6 +513,7 @@ extension Chatbot {
         /// The ID of the Slack workspace authorized with AWS Chatbot.
         public let slackTeamId: String
 
+        @inlinable
         public init(slackTeamId: String) {
             self.slackTeamId = slackTeamId
         }
@@ -523,6 +537,7 @@ extension Chatbot {
         /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
         public let chatConfigurationArn: String
 
+        @inlinable
         public init(chatConfigurationArn: String) {
             self.chatConfigurationArn = chatConfigurationArn
         }
@@ -546,6 +561,7 @@ extension Chatbot {
         /// The ID of the Microsoft Teams team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the  AWS Chatbot Administrator Guide.
         public let teamId: String
 
+        @inlinable
         public init(teamId: String) {
             self.teamId = teamId
         }
@@ -573,6 +589,7 @@ extension Chatbot {
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(chatConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.maxResults = maxResults
@@ -603,6 +620,7 @@ extension Chatbot {
         /// A list of Amazon Chime webhooks associated with the account.
         public let webhookConfigurations: [ChimeWebhookConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, webhookConfigurations: [ChimeWebhookConfiguration]? = nil) {
             self.nextToken = nextToken
             self.webhookConfigurations = webhookConfigurations
@@ -622,6 +640,7 @@ extension Chatbot {
         ///  An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(chatConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.maxResults = maxResults
@@ -652,6 +671,7 @@ extension Chatbot {
         /// A list of Slack channel configurations.
         public let slackChannelConfigurations: [SlackChannelConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, slackChannelConfigurations: [SlackChannelConfiguration]? = nil) {
             self.nextToken = nextToken
             self.slackChannelConfigurations = slackChannelConfigurations
@@ -671,6 +691,7 @@ extension Chatbot {
         ///  An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(chatConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.maxResults = maxResults
@@ -701,6 +722,7 @@ extension Chatbot {
         /// A list of Slack User Identities.
         public let slackUserIdentities: [SlackUserIdentity]?
 
+        @inlinable
         public init(nextToken: String? = nil, slackUserIdentities: [SlackUserIdentity]? = nil) {
             self.nextToken = nextToken
             self.slackUserIdentities = slackUserIdentities
@@ -718,6 +740,7 @@ extension Chatbot {
         ///  An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -743,6 +766,7 @@ extension Chatbot {
         /// A list of Slack workspaces registered with AWS Chatbot.
         public let slackWorkspaces: [SlackWorkspace]?
 
+        @inlinable
         public init(nextToken: String? = nil, slackWorkspaces: [SlackWorkspace]? = nil) {
             self.nextToken = nextToken
             self.slackWorkspaces = slackWorkspaces
@@ -762,6 +786,7 @@ extension Chatbot {
         /// The preferences related to AWS Chatbot usage in the calling AWS account.
         public let accountPreferences: AccountPreferences?
 
+        @inlinable
         public init(accountPreferences: AccountPreferences? = nil) {
             self.accountPreferences = accountPreferences
         }
@@ -775,6 +800,7 @@ extension Chatbot {
         /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration to retrieve.
         public let chatConfigurationArn: String
 
+        @inlinable
         public init(chatConfigurationArn: String) {
             self.chatConfigurationArn = chatConfigurationArn
         }
@@ -794,6 +820,7 @@ extension Chatbot {
         /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
         public let channelConfiguration: TeamsChannelConfiguration?
 
+        @inlinable
         public init(channelConfiguration: TeamsChannelConfiguration? = nil) {
             self.channelConfiguration = channelConfiguration
         }
@@ -809,6 +836,7 @@ extension Chatbot {
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -834,6 +862,7 @@ extension Chatbot {
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(configuredTeams: [ConfiguredTeam]? = nil, nextToken: String? = nil) {
             self.configuredTeams = configuredTeams
             self.nextToken = nextToken
@@ -853,6 +882,7 @@ extension Chatbot {
         /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
         public let nextToken: String?
 
+        @inlinable
         public init(chatConfigurationArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.maxResults = maxResults
@@ -883,6 +913,7 @@ extension Chatbot {
         /// User level permissions associated to a channel configuration.
         public let teamsUserIdentities: [TeamsUserIdentity]?
 
+        @inlinable
         public init(nextToken: String? = nil, teamsUserIdentities: [TeamsUserIdentity]? = nil) {
             self.nextToken = nextToken
             self.teamsUserIdentities = teamsUserIdentities
@@ -898,6 +929,7 @@ extension Chatbot {
         /// The ARN you specified to list the tags of.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -917,6 +949,7 @@ extension Chatbot {
         /// Key-value pairs that are assigned to a resource, usually for the purpose of grouping and searching for items. Tags are metadata that you define.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -934,6 +967,7 @@ extension Chatbot {
         ///  The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the  AWS Chatbot Administrator Guide.
         public let teamId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, teamId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -964,6 +998,7 @@ extension Chatbot {
         /// A list of AWS Chatbot channel configurations for Microsoft Teams.
         public let teamChannelConfigurations: [TeamsChannelConfiguration]?
 
+        @inlinable
         public init(nextToken: String? = nil, teamChannelConfigurations: [TeamsChannelConfiguration]? = nil) {
             self.nextToken = nextToken
             self.teamChannelConfigurations = teamChannelConfigurations
@@ -1001,6 +1036,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String, slackTeamId: String, slackTeamName: String, snsTopicArns: [String], tags: [Tag]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
@@ -1044,6 +1080,7 @@ extension Chatbot {
         /// The ID of the user in Slack
         public let slackUserId: String
 
+        @inlinable
         public init(awsUserIdentity: String? = nil, chatConfigurationArn: String, iamRoleArn: String, slackTeamId: String, slackUserId: String) {
             self.awsUserIdentity = awsUserIdentity
             self.chatConfigurationArn = chatConfigurationArn
@@ -1067,6 +1104,7 @@ extension Chatbot {
         /// The name of the Slack workspace.
         public let slackTeamName: String
 
+        @inlinable
         public init(slackTeamId: String, slackTeamName: String) {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
@@ -1084,6 +1122,7 @@ extension Chatbot {
         /// The value of the tag.
         public let tagValue: String
 
+        @inlinable
         public init(tagKey: String, tagValue: String) {
             self.tagKey = tagKey
             self.tagValue = tagValue
@@ -1107,6 +1146,7 @@ extension Chatbot {
         /// A list of tags to apply to the configuration.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1160,6 +1200,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(channelId: String, channelName: String? = nil, chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
             self.channelId = channelId
             self.channelName = channelName
@@ -1209,6 +1250,7 @@ extension Chatbot {
         /// The Microsoft Teams user ID.
         public let userId: String?
 
+        @inlinable
         public init(awsUserIdentity: String? = nil, chatConfigurationArn: String, iamRoleArn: String, teamId: String, teamsChannelId: String? = nil, teamsTenantId: String? = nil, userId: String? = nil) {
             self.awsUserIdentity = awsUserIdentity
             self.chatConfigurationArn = chatConfigurationArn
@@ -1236,6 +1278,7 @@ extension Chatbot {
         /// TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1268,6 +1311,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(trainingDataCollectionEnabled: Bool? = nil, userAuthorizationRequired: Bool? = nil) {
             self.trainingDataCollectionEnabled = trainingDataCollectionEnabled
             self.userAuthorizationRequired = userAuthorizationRequired
@@ -1283,6 +1327,7 @@ extension Chatbot {
         /// Preferences related to AWS Chatbot usage in the calling AWS account.
         public let accountPreferences: AccountPreferences?
 
+        @inlinable
         public init(accountPreferences: AccountPreferences? = nil) {
             self.accountPreferences = accountPreferences
         }
@@ -1306,6 +1351,7 @@ extension Chatbot {
         /// The URL for the Amazon Chime webhook.
         public let webhookUrl: String?
 
+        @inlinable
         public init(chatConfigurationArn: String, iamRoleArn: String? = nil, loggingLevel: String? = nil, snsTopicArns: [String]? = nil, webhookDescription: String? = nil, webhookUrl: String? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.iamRoleArn = iamRoleArn
@@ -1351,6 +1397,7 @@ extension Chatbot {
         /// A Amazon Chime webhook configuration.
         public let webhookConfiguration: ChimeWebhookConfiguration?
 
+        @inlinable
         public init(webhookConfiguration: ChimeWebhookConfiguration? = nil) {
             self.webhookConfiguration = webhookConfiguration
         }
@@ -1378,6 +1425,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(chatConfigurationArn: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String? = nil, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String? = nil, snsTopicArns: [String]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.guardrailPolicyArns = guardrailPolicyArns
@@ -1432,6 +1480,7 @@ extension Chatbot {
         /// The configuration for a Slack channel configured with AWS Chatbot.
         public let channelConfiguration: SlackChannelConfiguration?
 
+        @inlinable
         public init(channelConfiguration: SlackChannelConfiguration? = nil) {
             self.channelConfiguration = channelConfiguration
         }
@@ -1459,6 +1508,7 @@ extension Chatbot {
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
+        @inlinable
         public init(channelId: String, channelName: String? = nil, chatConfigurationArn: String, guardrailPolicyArns: [String]? = nil, iamRoleArn: String? = nil, loggingLevel: String? = nil, snsTopicArns: [String]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.channelId = channelId
             self.channelName = channelName
@@ -1514,6 +1564,7 @@ extension Chatbot {
         /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
         public let channelConfiguration: TeamsChannelConfiguration?
 
+        @inlinable
         public init(channelConfiguration: TeamsChannelConfiguration? = nil) {
             self.channelConfiguration = channelConfiguration
         }

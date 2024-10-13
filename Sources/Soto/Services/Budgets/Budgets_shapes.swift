@@ -154,6 +154,7 @@ extension Budgets {
         public let status: ActionStatus
         public let subscribers: [Subscriber]
 
+        @inlinable
         public init(actionId: String, actionThreshold: ActionThreshold, actionType: ActionType, approvalModel: ApprovalModel, budgetName: String, definition: Definition, executionRoleArn: String, notificationType: NotificationType, status: ActionStatus, subscribers: [Subscriber]) {
             self.actionId = actionId
             self.actionThreshold = actionThreshold
@@ -191,6 +192,7 @@ extension Budgets {
         public let status: ActionStatus
         public let timestamp: Date
 
+        @inlinable
         public init(actionHistoryDetails: ActionHistoryDetails, eventType: EventType, status: ActionStatus, timestamp: Date) {
             self.actionHistoryDetails = actionHistoryDetails
             self.eventType = eventType
@@ -211,6 +213,7 @@ extension Budgets {
         public let action: Action
         public let message: String
 
+        @inlinable
         public init(action: Action, message: String) {
             self.action = action
             self.message = message
@@ -226,6 +229,7 @@ extension Budgets {
         public let actionThresholdType: ThresholdType
         public let actionThresholdValue: Double
 
+        @inlinable
         public init(actionThresholdType: ThresholdType, actionThresholdValue: Double) {
             self.actionThresholdType = actionThresholdType
             self.actionThresholdValue = actionThresholdValue
@@ -252,6 +256,7 @@ extension Budgets {
         /// The last time that your budget was auto-adjusted.
         public let lastAutoAdjustTime: Date?
 
+        @inlinable
         public init(autoAdjustType: AutoAdjustType, historicalOptions: HistoricalOptions? = nil, lastAutoAdjustTime: Date? = nil) {
             self.autoAdjustType = autoAdjustType
             self.historicalOptions = historicalOptions
@@ -333,6 +338,7 @@ extension Budgets {
         /// The length of time until a budget resets the actual and forecasted spend.
         public let timeUnit: TimeUnit
 
+        @inlinable
         public init(autoAdjustData: AutoAdjustData? = nil, budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, lastUpdatedTime: Date? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
             self.autoAdjustData = autoAdjustData
             self.budgetLimit = budgetLimit
@@ -384,6 +390,7 @@ extension Budgets {
         public let budgetName: String?
         public let notifications: [Notification]?
 
+        @inlinable
         public init(budgetName: String? = nil, notifications: [Notification]? = nil) {
             self.budgetName = budgetName
             self.notifications = notifications
@@ -407,6 +414,7 @@ extension Budgets {
         public let costTypes: CostTypes?
         public let timeUnit: TimeUnit?
 
+        @inlinable
         public init(budgetedAndActualAmountsList: [BudgetedAndActualAmounts]? = nil, budgetName: String? = nil, budgetType: BudgetType? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, timeUnit: TimeUnit? = nil) {
             self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
             self.budgetName = budgetName
@@ -434,6 +442,7 @@ extension Budgets {
         /// The time period that's covered by this budget comparison.
         public let timePeriod: TimePeriod?
 
+        @inlinable
         public init(actualAmount: Spend? = nil, budgetedAmount: Spend? = nil, timePeriod: TimePeriod? = nil) {
             self.actualAmount = actualAmount
             self.budgetedAmount = budgetedAmount
@@ -454,6 +463,7 @@ extension Budgets {
         /// 			use.
         public let forecastedSpend: Spend?
 
+        @inlinable
         public init(actualSpend: Spend, forecastedSpend: Spend? = nil) {
             self.actualSpend = actualSpend
             self.forecastedSpend = forecastedSpend
@@ -494,6 +504,7 @@ extension Budgets {
         /// Specifies whether a budget uses a blended rate. The default value is false.
         public let useBlended: Bool?
 
+        @inlinable
         public init(includeCredit: Bool? = nil, includeDiscount: Bool? = nil, includeOtherSubscription: Bool? = nil, includeRecurring: Bool? = nil, includeRefund: Bool? = nil, includeSubscription: Bool? = nil, includeSupport: Bool? = nil, includeTax: Bool? = nil, includeUpfront: Bool? = nil, useAmortized: Bool? = nil, useBlended: Bool? = nil) {
             self.includeCredit = includeCredit
             self.includeDiscount = includeDiscount
@@ -539,6 +550,7 @@ extension Budgets {
         public let resourceTags: [ResourceTag]?
         public let subscribers: [Subscriber]
 
+        @inlinable
         public init(accountId: String, actionThreshold: ActionThreshold, actionType: ActionType, approvalModel: ApprovalModel, budgetName: String, definition: Definition, executionRoleArn: String, notificationType: NotificationType, resourceTags: [ResourceTag]? = nil, subscribers: [Subscriber]) {
             self.accountId = accountId
             self.actionThreshold = actionThreshold
@@ -595,6 +607,7 @@ extension Budgets {
         public let actionId: String
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, actionId: String, budgetName: String) {
             self.accountId = accountId
             self.actionId = actionId
@@ -618,6 +631,7 @@ extension Budgets {
         /// An optional list of tags to associate with the specified budget. Each tag consists of a key and a value, and each key must be unique for the resource.
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(accountId: String, budget: Budget, notificationsWithSubscribers: [NotificationWithSubscribers]? = nil, resourceTags: [ResourceTag]? = nil) {
             self.accountId = accountId
             self.budget = budget
@@ -662,6 +676,7 @@ extension Budgets {
         /// A list of subscribers that you want to associate with the notification. Each notification can have one SNS subscriber and up to 10 email subscribers.
         public let subscribers: [Subscriber]
 
+        @inlinable
         public init(accountId: String, budgetName: String, notification: Notification, subscribers: [Subscriber]) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -706,6 +721,7 @@ extension Budgets {
         /// The subscriber that you want to associate with a budget notification.
         public let subscriber: Subscriber
 
+        @inlinable
         public init(accountId: String, budgetName: String, notification: Notification, subscriber: Subscriber) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -744,6 +760,7 @@ extension Budgets {
         /// The Amazon Web Services Systems Manager (SSM) action definition details.
         public let ssmActionDefinition: SsmActionDefinition?
 
+        @inlinable
         public init(iamActionDefinition: IamActionDefinition? = nil, scpActionDefinition: ScpActionDefinition? = nil, ssmActionDefinition: SsmActionDefinition? = nil) {
             self.iamActionDefinition = iamActionDefinition
             self.scpActionDefinition = scpActionDefinition
@@ -769,6 +786,7 @@ extension Budgets {
         public let actionId: String
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, actionId: String, budgetName: String) {
             self.accountId = accountId
             self.actionId = actionId
@@ -799,6 +817,7 @@ extension Budgets {
         public let action: Action
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, action: Action, budgetName: String) {
             self.accountId = accountId
             self.action = action
@@ -818,6 +837,7 @@ extension Budgets {
         /// The name of the budget that you want to delete.
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, budgetName: String) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -850,6 +870,7 @@ extension Budgets {
         /// The notification that you want to delete.
         public let notification: Notification
 
+        @inlinable
         public init(accountId: String, budgetName: String, notification: Notification) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -887,6 +908,7 @@ extension Budgets {
         /// The subscriber that you want to delete.
         public let subscriber: Subscriber
 
+        @inlinable
         public init(accountId: String, budgetName: String, notification: Notification, subscriber: Subscriber) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -926,6 +948,7 @@ extension Budgets {
         public let nextToken: String?
         public let timePeriod: TimePeriod?
 
+        @inlinable
         public init(accountId: String, actionId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil, timePeriod: TimePeriod? = nil) {
             self.accountId = accountId
             self.actionId = actionId
@@ -966,6 +989,7 @@ extension Budgets {
         public let actionHistories: [ActionHistory]
         public let nextToken: String?
 
+        @inlinable
         public init(actionHistories: [ActionHistory], nextToken: String? = nil) {
             self.actionHistories = actionHistories
             self.nextToken = nextToken
@@ -983,6 +1007,7 @@ extension Budgets {
         public let actionId: String
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, actionId: String, budgetName: String) {
             self.accountId = accountId
             self.actionId = actionId
@@ -1014,6 +1039,7 @@ extension Budgets {
         public let action: Action
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, action: Action, budgetName: String) {
             self.accountId = accountId
             self.action = action
@@ -1032,6 +1058,7 @@ extension Budgets {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1060,6 +1087,7 @@ extension Budgets {
         public let actions: [Action]
         public let nextToken: String?
 
+        @inlinable
         public init(actions: [Action], nextToken: String? = nil) {
             self.actions = actions
             self.nextToken = nextToken
@@ -1077,6 +1105,7 @@ extension Budgets {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -1110,6 +1139,7 @@ extension Budgets {
         public let actions: [Action]
         public let nextToken: String?
 
+        @inlinable
         public init(actions: [Action], nextToken: String? = nil) {
             self.actions = actions
             self.nextToken = nextToken
@@ -1128,6 +1158,7 @@ extension Budgets {
         public let maxResults: Int?
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1156,6 +1187,7 @@ extension Budgets {
         public let budgetNotificationsForAccount: [BudgetNotificationsForAccount]?
         public let nextToken: String?
 
+        @inlinable
         public init(budgetNotificationsForAccount: [BudgetNotificationsForAccount]? = nil, nextToken: String? = nil) {
             self.budgetNotificationsForAccount = budgetNotificationsForAccount
             self.nextToken = nextToken
@@ -1175,6 +1207,7 @@ extension Budgets {
         /// Retrieves how often the budget went into an ALARM state for the specified time period.
         public let timePeriod: TimePeriod?
 
+        @inlinable
         public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil, timePeriod: TimePeriod? = nil) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -1210,6 +1243,7 @@ extension Budgets {
         public let budgetPerformanceHistory: BudgetPerformanceHistory?
         public let nextToken: String?
 
+        @inlinable
         public init(budgetPerformanceHistory: BudgetPerformanceHistory? = nil, nextToken: String? = nil) {
             self.budgetPerformanceHistory = budgetPerformanceHistory
             self.nextToken = nextToken
@@ -1227,6 +1261,7 @@ extension Budgets {
         /// The name of the budget that you want a description of.
         public let budgetName: String
 
+        @inlinable
         public init(accountId: String, budgetName: String) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -1251,6 +1286,7 @@ extension Budgets {
         /// The description of the budget.
         public let budget: Budget?
 
+        @inlinable
         public init(budget: Budget? = nil) {
             self.budget = budget
         }
@@ -1268,6 +1304,7 @@ extension Budgets {
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1297,6 +1334,7 @@ extension Budgets {
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(budgets: [Budget]? = nil, nextToken: String? = nil) {
             self.budgets = budgets
             self.nextToken = nextToken
@@ -1318,6 +1356,7 @@ extension Budgets {
         /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -1352,6 +1391,7 @@ extension Budgets {
         /// A list of notifications that are associated with a budget.
         public let notifications: [Notification]?
 
+        @inlinable
         public init(nextToken: String? = nil, notifications: [Notification]? = nil) {
             self.nextToken = nextToken
             self.notifications = notifications
@@ -1375,6 +1415,7 @@ extension Budgets {
         /// The notification whose subscribers you want to list.
         public let notification: Notification
 
+        @inlinable
         public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil, notification: Notification) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -1412,6 +1453,7 @@ extension Budgets {
         /// A list of subscribers that are associated with a notification.
         public let subscribers: [Subscriber]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscribers: [Subscriber]? = nil) {
             self.nextToken = nextToken
             self.subscribers = subscribers
@@ -1431,6 +1473,7 @@ extension Budgets {
         ///  The type of execution.
         public let executionType: ExecutionType
 
+        @inlinable
         public init(accountId: String, actionId: String, budgetName: String, executionType: ExecutionType) {
             self.accountId = accountId
             self.actionId = actionId
@@ -1466,6 +1509,7 @@ extension Budgets {
         ///  The type of execution.
         public let executionType: ExecutionType
 
+        @inlinable
         public init(accountId: String, actionId: String, budgetName: String, executionType: ExecutionType) {
             self.accountId = accountId
             self.actionId = actionId
@@ -1502,6 +1546,7 @@ extension Budgets {
         /// 			historical cost data.
         public let lookBackAvailablePeriods: Int?
 
+        @inlinable
         public init(budgetAdjustmentPeriod: Int, lookBackAvailablePeriods: Int? = nil) {
             self.budgetAdjustmentPeriod = budgetAdjustmentPeriod
             self.lookBackAvailablePeriods = lookBackAvailablePeriods
@@ -1530,6 +1575,7 @@ extension Budgets {
         /// A list of users to be attached. There must be at least one user.
         public let users: [String]?
 
+        @inlinable
         public init(groups: [String]? = nil, policyArn: String, roles: [String]? = nil, users: [String]? = nil) {
             self.groups = groups
             self.policyArn = policyArn
@@ -1576,6 +1622,7 @@ extension Budgets {
         /// The unique identifier for the resource.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1594,6 +1641,7 @@ extension Budgets {
         /// The tags associated with the resource.
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(resourceTags: [ResourceTag]? = nil) {
             self.resourceTags = resourceTags
         }
@@ -1627,6 +1675,7 @@ extension Budgets {
         /// 			80%, Amazon Web Services notifies you when you go over 160 dollars.
         public let thresholdType: ThresholdType?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator, notificationState: NotificationState? = nil, notificationType: NotificationType, threshold: Double, thresholdType: ThresholdType? = nil) {
             self.comparisonOperator = comparisonOperator
             self.notificationState = notificationState
@@ -1655,6 +1704,7 @@ extension Budgets {
         /// A list of subscribers who are subscribed to this notification.
         public let subscribers: [Subscriber]
 
+        @inlinable
         public init(notification: Notification, subscribers: [Subscriber]) {
             self.notification = notification
             self.subscribers = subscribers
@@ -1681,6 +1731,7 @@ extension Budgets {
         /// The value that's associated with the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1704,6 +1755,7 @@ extension Budgets {
         /// A list of target IDs.
         public let targetIds: [String]
 
+        @inlinable
         public init(policyId: String, targetIds: [String]) {
             self.policyId = policyId
             self.targetIds = targetIds
@@ -1736,6 +1788,7 @@ extension Budgets {
         /// 			threshold.
         public let unit: String
 
+        @inlinable
         public init(amount: String, unit: String) {
             self.amount = amount
             self.unit = unit
@@ -1764,6 +1817,7 @@ extension Budgets {
         /// The Region to run the SSM document.
         public let region: String
 
+        @inlinable
         public init(actionSubType: ActionSubType, instanceIds: [String], region: String) {
             self.actionSubType = actionSubType
             self.instanceIds = instanceIds
@@ -1798,6 +1852,7 @@ extension Budgets {
         /// The type of notification that Amazon Web Services sends to a subscriber.
         public let subscriptionType: SubscriptionType
 
+        @inlinable
         public init(address: String, subscriptionType: SubscriptionType) {
             self.address = address
             self.subscriptionType = subscriptionType
@@ -1821,6 +1876,7 @@ extension Budgets {
         /// The tags associated with the resource.
         public let resourceTags: [ResourceTag]
 
+        @inlinable
         public init(resourceARN: String, resourceTags: [ResourceTag]) {
             self.resourceARN = resourceARN
             self.resourceTags = resourceTags
@@ -1861,6 +1917,7 @@ extension Budgets {
         /// 			defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
         public let start: Date?
 
+        @inlinable
         public init(end: Date? = nil, start: Date? = nil) {
             self.end = end
             self.start = start
@@ -1878,6 +1935,7 @@ extension Budgets {
         /// The key that's associated with the tag.
         public let resourceTagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, resourceTagKeys: [String]) {
             self.resourceARN = resourceARN
             self.resourceTagKeys = resourceTagKeys
@@ -1917,6 +1975,7 @@ extension Budgets {
         public let notificationType: NotificationType?
         public let subscribers: [Subscriber]?
 
+        @inlinable
         public init(accountId: String, actionId: String, actionThreshold: ActionThreshold? = nil, approvalModel: ApprovalModel? = nil, budgetName: String, definition: Definition? = nil, executionRoleArn: String? = nil, notificationType: NotificationType? = nil, subscribers: [Subscriber]? = nil) {
             self.accountId = accountId
             self.actionId = actionId
@@ -1972,6 +2031,7 @@ extension Budgets {
         ///  The previous action resource information.
         public let oldAction: Action
 
+        @inlinable
         public init(accountId: String, budgetName: String, newAction: Action, oldAction: Action) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -1993,6 +2053,7 @@ extension Budgets {
         /// The budget that you want to update your budget to.
         public let newBudget: Budget
 
+        @inlinable
         public init(accountId: String, newBudget: Budget) {
             self.accountId = accountId
             self.newBudget = newBudget
@@ -2025,6 +2086,7 @@ extension Budgets {
         /// The previous notification that is associated with a budget.
         public let oldNotification: Notification
 
+        @inlinable
         public init(accountId: String, budgetName: String, newNotification: Notification, oldNotification: Notification) {
             self.accountId = accountId
             self.budgetName = budgetName
@@ -2067,6 +2129,7 @@ extension Budgets {
         /// The previous subscriber that is associated with a budget notification.
         public let oldSubscriber: Subscriber
 
+        @inlinable
         public init(accountId: String, budgetName: String, newSubscriber: Subscriber, notification: Notification, oldSubscriber: Subscriber) {
             self.accountId = accountId
             self.budgetName = budgetName

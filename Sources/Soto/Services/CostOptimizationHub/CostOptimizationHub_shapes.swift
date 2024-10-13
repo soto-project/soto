@@ -220,6 +220,7 @@ extension CostOptimizationHub {
         /// The account enrollment status.
         public let status: EnrollmentStatus?
 
+        @inlinable
         public init(accountId: String? = nil, createdTimestamp: Date? = nil, lastUpdatedTimestamp: Date? = nil, status: EnrollmentStatus? = nil) {
             self.accountId = accountId
             self.createdTimestamp = createdTimestamp
@@ -241,6 +242,7 @@ extension CostOptimizationHub {
         /// The throughput that the volume supports.
         public let throughput: Double?
 
+        @inlinable
         public init(iops: Double? = nil, throughput: Double? = nil) {
             self.iops = iops
             self.throughput = throughput
@@ -262,6 +264,7 @@ extension CostOptimizationHub {
         /// The number of vCPU cores in the resource.
         public let vCpu: Double?
 
+        @inlinable
         public init(architecture: String? = nil, memorySizeInMB: Int? = nil, platform: String? = nil, vCpu: Double? = nil) {
             self.architecture = architecture
             self.memorySizeInMB = memorySizeInMB
@@ -283,6 +286,7 @@ extension CostOptimizationHub {
         /// Cost impact of the Savings Plans purchase recommendation.
         public let costCalculation: SavingsPlansCostCalculation?
 
+        @inlinable
         public init(configuration: ComputeSavingsPlansConfiguration? = nil, costCalculation: SavingsPlansCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -304,6 +308,7 @@ extension CostOptimizationHub {
         /// The Savings Plans recommendation term in years.
         public let term: String?
 
+        @inlinable
         public init(accountScope: String? = nil, hourlyCommitment: String? = nil, paymentOption: String? = nil, term: String? = nil) {
             self.accountScope = accountScope
             self.hourlyCommitment = hourlyCommitment
@@ -323,6 +328,7 @@ extension CostOptimizationHub {
         /// The DB instance class of the DB instance.
         public let dbInstanceClass: String?
 
+        @inlinable
         public init(dbInstanceClass: String? = nil) {
             self.dbInstanceClass = dbInstanceClass
         }
@@ -338,6 +344,7 @@ extension CostOptimizationHub {
         /// Cost impact of the recommendation.
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: EbsVolumeConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -357,6 +364,7 @@ extension CostOptimizationHub {
         /// The disk storage of the Amazon Elastic Block Store volume.
         public let storage: StorageConfiguration?
 
+        @inlinable
         public init(attachmentState: String? = nil, performance: BlockStoragePerformanceConfiguration? = nil, storage: StorageConfiguration? = nil) {
             self.attachmentState = attachmentState
             self.performance = performance
@@ -376,6 +384,7 @@ extension CostOptimizationHub {
         /// Cost impact of the recommendation.
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: Ec2AutoScalingGroupConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -391,6 +400,7 @@ extension CostOptimizationHub {
         /// Details about the instance.
         public let instance: InstanceConfiguration?
 
+        @inlinable
         public init(instance: InstanceConfiguration? = nil) {
             self.instance = instance
         }
@@ -406,6 +416,7 @@ extension CostOptimizationHub {
         /// Cost impact of the recommendation.
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: Ec2InstanceConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -421,6 +432,7 @@ extension CostOptimizationHub {
         /// Details about the instance.
         public let instance: InstanceConfiguration?
 
+        @inlinable
         public init(instance: InstanceConfiguration? = nil) {
             self.instance = instance
         }
@@ -436,6 +448,7 @@ extension CostOptimizationHub {
         /// Cost impact of the Savings Plans purchase recommendation.
         public let costCalculation: SavingsPlansCostCalculation?
 
+        @inlinable
         public init(configuration: Ec2InstanceSavingsPlansConfiguration? = nil, costCalculation: SavingsPlansCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -461,6 +474,7 @@ extension CostOptimizationHub {
         /// The Savings Plans recommendation term in years.
         public let term: String?
 
+        @inlinable
         public init(accountScope: String? = nil, hourlyCommitment: String? = nil, instanceFamily: String? = nil, paymentOption: String? = nil, savingsPlansRegion: String? = nil, term: String? = nil) {
             self.accountScope = accountScope
             self.hourlyCommitment = hourlyCommitment
@@ -486,6 +500,7 @@ extension CostOptimizationHub {
         /// Cost impact of the purchase recommendation.
         public let costCalculation: ReservedInstancesCostCalculation?
 
+        @inlinable
         public init(configuration: Ec2ReservedInstancesConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -531,6 +546,7 @@ extension CostOptimizationHub {
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountScope: String? = nil, currentGeneration: String? = nil, instanceFamily: String? = nil, instanceType: String? = nil, monthlyRecurringCost: String? = nil, normalizedUnitsToPurchase: String? = nil, numberOfInstancesToPurchase: String? = nil, offeringClass: String? = nil, paymentOption: String? = nil, platform: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, sizeFlexEligible: Bool? = nil, tenancy: String? = nil, term: String? = nil, upfrontCost: String? = nil) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
@@ -576,6 +592,7 @@ extension CostOptimizationHub {
         /// Cost impact of the recommendation.
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: EcsServiceConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -591,6 +608,7 @@ extension CostOptimizationHub {
         /// Details about the compute configuration.
         public let compute: ComputeConfiguration?
 
+        @inlinable
         public init(compute: ComputeConfiguration? = nil) {
             self.compute = compute
         }
@@ -606,6 +624,7 @@ extension CostOptimizationHub {
         /// Cost impact of the purchase recommendation.
         public let costCalculation: ReservedInstancesCostCalculation?
 
+        @inlinable
         public init(configuration: ElastiCacheReservedInstancesConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -645,6 +664,7 @@ extension CostOptimizationHub {
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountScope: String? = nil, currentGeneration: String? = nil, instanceFamily: String? = nil, instanceType: String? = nil, monthlyRecurringCost: String? = nil, normalizedUnitsToPurchase: String? = nil, numberOfInstancesToPurchase: String? = nil, paymentOption: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, sizeFlexEligible: Bool? = nil, term: String? = nil, upfrontCost: String? = nil) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
@@ -686,6 +706,7 @@ extension CostOptimizationHub {
         /// Estimated Savings Plans discounts.
         public let savingsPlansDiscount: Double?
 
+        @inlinable
         public init(otherDiscount: Double? = nil, reservedInstancesDiscount: Double? = nil, savingsPlansDiscount: Double? = nil) {
             self.otherDiscount = otherDiscount
             self.reservedInstancesDiscount = reservedInstancesDiscount
@@ -723,6 +744,7 @@ extension CostOptimizationHub {
         /// A list of tags assigned to the recommendation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, actionTypes: [ActionType]? = nil, implementationEfforts: [ImplementationEffort]? = nil, recommendationIds: [String]? = nil, regions: [String]? = nil, resourceArns: [String]? = nil, resourceIds: [String]? = nil, resourceTypes: [ResourceType]? = nil, restartNeeded: Bool? = nil, rollbackPossible: Bool? = nil, tags: [Tag]? = nil) {
             self.accountIds = accountIds
             self.actionTypes = actionTypes
@@ -786,6 +808,7 @@ extension CostOptimizationHub {
         /// Retrieves the status of the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
+        @inlinable
         public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
             self.savingsEstimationMode = savingsEstimationMode
@@ -801,6 +824,7 @@ extension CostOptimizationHub {
         /// The ID for the recommendation.
         public let recommendationId: String
 
+        @inlinable
         public init(recommendationId: String) {
             self.recommendationId = recommendationId
         }
@@ -858,6 +882,7 @@ extension CostOptimizationHub {
         /// A list of tags associated with the resource for which the recommendation exists.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountId: String? = nil, actionType: ActionType? = nil, costCalculationLookbackPeriodInDays: Int? = nil, currencyCode: String? = nil, currentResourceDetails: ResourceDetails? = nil, currentResourceType: ResourceType? = nil, estimatedMonthlyCost: Double? = nil, estimatedMonthlySavings: Double? = nil, estimatedSavingsOverCostCalculationLookbackPeriod: Double? = nil, estimatedSavingsPercentage: Double? = nil, implementationEffort: ImplementationEffort? = nil, lastRefreshTimestamp: Date? = nil, recommendationId: String? = nil, recommendationLookbackPeriodInDays: Int? = nil, recommendedResourceDetails: ResourceDetails? = nil, recommendedResourceType: ResourceType? = nil, region: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, restartNeeded: Bool? = nil, rollbackPossible: Bool? = nil, source: Source? = nil, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.actionType = actionType
@@ -915,6 +940,7 @@ extension CostOptimizationHub {
         /// Details about the type.
         public let type: String?
 
+        @inlinable
         public init(type: String? = nil) {
             self.type = type
         }
@@ -930,6 +956,7 @@ extension CostOptimizationHub {
         /// Cost impact of the recommendation.
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: LambdaFunctionConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -945,6 +972,7 @@ extension CostOptimizationHub {
         /// Details about the compute configuration.
         public let compute: ComputeConfiguration?
 
+        @inlinable
         public init(compute: ComputeConfiguration? = nil) {
             self.compute = compute
         }
@@ -964,6 +992,7 @@ extension CostOptimizationHub {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String? = nil, includeOrganizationInfo: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.includeOrganizationInfo = includeOrganizationInfo
@@ -993,6 +1022,7 @@ extension CostOptimizationHub {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(includeMemberAccounts: Bool? = nil, items: [AccountEnrollmentStatus]? = nil, nextToken: String? = nil) {
             self.includeMemberAccounts = includeMemberAccounts
             self.items = items
@@ -1017,6 +1047,7 @@ extension CostOptimizationHub {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: Filter? = nil, groupBy: String, maxResults: Int? = nil, metrics: [SummaryMetrics]? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.groupBy = groupBy
@@ -1056,6 +1087,7 @@ extension CostOptimizationHub {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, estimatedTotalDedupedSavings: Double? = nil, groupBy: String? = nil, items: [RecommendationSummary]? = nil, metrics: SummaryMetricsResult? = nil, nextToken: String? = nil) {
             self.currencyCode = currencyCode
             self.estimatedTotalDedupedSavings = estimatedTotalDedupedSavings
@@ -1087,6 +1119,7 @@ extension CostOptimizationHub {
         /// The ordering of recommendations by a dimension.
         public let orderBy: OrderBy?
 
+        @inlinable
         public init(filter: Filter? = nil, includeAllRecommendations: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil) {
             self.filter = filter
             self.includeAllRecommendations = includeAllRecommendations
@@ -1116,6 +1149,7 @@ extension CostOptimizationHub {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [Recommendation]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -1133,6 +1167,7 @@ extension CostOptimizationHub {
         /// Cost impact of the purchase recommendation.
         public let costCalculation: ReservedInstancesCostCalculation?
 
+        @inlinable
         public init(configuration: OpenSearchReservedInstancesConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1170,6 +1205,7 @@ extension CostOptimizationHub {
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountScope: String? = nil, currentGeneration: String? = nil, instanceType: String? = nil, monthlyRecurringCost: String? = nil, normalizedUnitsToPurchase: String? = nil, numberOfInstancesToPurchase: String? = nil, paymentOption: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, sizeFlexEligible: Bool? = nil, term: String? = nil, upfrontCost: String? = nil) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
@@ -1207,6 +1243,7 @@ extension CostOptimizationHub {
         /// The order that's used to sort the data.
         public let order: Order?
 
+        @inlinable
         public init(dimension: String? = nil, order: Order? = nil) {
             self.dimension = dimension
             self.order = order
@@ -1223,6 +1260,7 @@ extension CostOptimizationHub {
         public let configuration: RdsDbInstanceConfiguration?
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: RdsDbInstanceConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1238,6 +1276,7 @@ extension CostOptimizationHub {
         /// Details about the instance configuration.
         public let instance: DbInstanceConfiguration?
 
+        @inlinable
         public init(instance: DbInstanceConfiguration? = nil) {
             self.instance = instance
         }
@@ -1252,6 +1291,7 @@ extension CostOptimizationHub {
         public let configuration: RdsDbInstanceStorageConfiguration?
         public let costCalculation: ResourceCostCalculation?
 
+        @inlinable
         public init(configuration: RdsDbInstanceStorageConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1273,6 +1313,7 @@ extension CostOptimizationHub {
         /// The storage type to associate with the DB instance.
         public let storageType: String?
 
+        @inlinable
         public init(allocatedStorageInGb: Double? = nil, iops: Double? = nil, storageThroughput: Double? = nil, storageType: String? = nil) {
             self.allocatedStorageInGb = allocatedStorageInGb
             self.iops = iops
@@ -1294,6 +1335,7 @@ extension CostOptimizationHub {
         /// Cost impact of the purchase recommendation.
         public let costCalculation: ReservedInstancesCostCalculation?
 
+        @inlinable
         public init(configuration: RdsReservedInstancesConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1341,6 +1383,7 @@ extension CostOptimizationHub {
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountScope: String? = nil, currentGeneration: String? = nil, databaseEdition: String? = nil, databaseEngine: String? = nil, deploymentOption: String? = nil, instanceFamily: String? = nil, instanceType: String? = nil, licenseModel: String? = nil, monthlyRecurringCost: String? = nil, normalizedUnitsToPurchase: String? = nil, numberOfInstancesToPurchase: String? = nil, paymentOption: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, sizeFlexEligible: Bool? = nil, term: String? = nil, upfrontCost: String? = nil) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
@@ -1426,6 +1469,7 @@ extension CostOptimizationHub {
         /// A list of tags assigned to the recommendation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accountId: String? = nil, actionType: String? = nil, currencyCode: String? = nil, currentResourceSummary: String? = nil, currentResourceType: String? = nil, estimatedMonthlyCost: Double? = nil, estimatedMonthlySavings: Double? = nil, estimatedSavingsPercentage: Double? = nil, implementationEffort: String? = nil, lastRefreshTimestamp: Date? = nil, recommendationId: String? = nil, recommendationLookbackPeriodInDays: Int? = nil, recommendedResourceSummary: String? = nil, recommendedResourceType: String? = nil, region: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, restartNeeded: Bool? = nil, rollbackPossible: Bool? = nil, source: Source? = nil, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.actionType = actionType
@@ -1483,6 +1527,7 @@ extension CostOptimizationHub {
         /// The total number of instance recommendations.
         public let recommendationCount: Int?
 
+        @inlinable
         public init(estimatedMonthlySavings: Double? = nil, group: String? = nil, recommendationCount: Int? = nil) {
             self.estimatedMonthlySavings = estimatedMonthlySavings
             self.group = group
@@ -1502,6 +1547,7 @@ extension CostOptimizationHub {
         /// Cost impact of the purchase recommendation.
         public let costCalculation: ReservedInstancesCostCalculation?
 
+        @inlinable
         public init(configuration: RedshiftReservedInstancesConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1541,6 +1587,7 @@ extension CostOptimizationHub {
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountScope: String? = nil, currentGeneration: String? = nil, instanceFamily: String? = nil, instanceType: String? = nil, monthlyRecurringCost: String? = nil, normalizedUnitsToPurchase: String? = nil, numberOfInstancesToPurchase: String? = nil, paymentOption: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, sizeFlexEligible: Bool? = nil, term: String? = nil, upfrontCost: String? = nil) {
             self.accountScope = accountScope
             self.currentGeneration = currentGeneration
@@ -1578,6 +1625,7 @@ extension CostOptimizationHub {
         /// Pricing details of the purchase recommendation.
         public let pricing: ReservedInstancesPricing?
 
+        @inlinable
         public init(pricing: ReservedInstancesPricing? = nil) {
             self.pricing = pricing
         }
@@ -1597,6 +1645,7 @@ extension CostOptimizationHub {
         /// The savings percentage relative to the total On-Demand costs that are associated with this instance.
         public let savingsPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlyAmortizedReservationCost: Double? = nil, estimatedOnDemandCost: Double? = nil, monthlyReservationEligibleCost: Double? = nil, savingsPercentage: Double? = nil) {
             self.estimatedMonthlyAmortizedReservationCost = estimatedMonthlyAmortizedReservationCost
             self.estimatedOnDemandCost = estimatedOnDemandCost
@@ -1618,6 +1667,7 @@ extension CostOptimizationHub {
         /// Usage details of the resource recommendation.
         public let usages: [Usage]?
 
+        @inlinable
         public init(pricing: ResourcePricing? = nil, usages: [Usage]? = nil) {
             self.pricing = pricing
             self.usages = usages
@@ -1639,6 +1689,7 @@ extension CostOptimizationHub {
         /// The estimated net unused amortized commitment for the recommendation.
         public let estimatedNetUnusedAmortizedCommitments: Double?
 
+        @inlinable
         public init(estimatedCostAfterDiscounts: Double? = nil, estimatedCostBeforeDiscounts: Double? = nil, estimatedDiscounts: EstimatedDiscounts? = nil, estimatedNetUnusedAmortizedCommitments: Double? = nil) {
             self.estimatedCostAfterDiscounts = estimatedCostAfterDiscounts
             self.estimatedCostBeforeDiscounts = estimatedCostBeforeDiscounts
@@ -1660,6 +1711,7 @@ extension CostOptimizationHub {
         /// Cost impact of the Savings Plans purchase recommendation.
         public let costCalculation: SavingsPlansCostCalculation?
 
+        @inlinable
         public init(configuration: SageMakerSavingsPlansConfiguration? = nil, costCalculation: SavingsPlansCostCalculation? = nil) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1681,6 +1733,7 @@ extension CostOptimizationHub {
         /// The Savings Plans recommendation term in years.
         public let term: String?
 
+        @inlinable
         public init(accountScope: String? = nil, hourlyCommitment: String? = nil, paymentOption: String? = nil, term: String? = nil) {
             self.accountScope = accountScope
             self.hourlyCommitment = hourlyCommitment
@@ -1700,6 +1753,7 @@ extension CostOptimizationHub {
         /// Pricing details of the purchase recommendation.
         public let pricing: SavingsPlansPricing?
 
+        @inlinable
         public init(pricing: SavingsPlansPricing? = nil) {
             self.pricing = pricing
         }
@@ -1719,6 +1773,7 @@ extension CostOptimizationHub {
         /// Estimated savings as a percentage of your overall costs after buying the Savings Plan.
         public let savingsPercentage: Double?
 
+        @inlinable
         public init(estimatedMonthlyCommitment: Double? = nil, estimatedOnDemandCost: Double? = nil, monthlySavingsPlansEligibleCost: Double? = nil, savingsPercentage: Double? = nil) {
             self.estimatedMonthlyCommitment = estimatedMonthlyCommitment
             self.estimatedOnDemandCost = estimatedOnDemandCost
@@ -1740,6 +1795,7 @@ extension CostOptimizationHub {
         /// The storage type.
         public let type: String?
 
+        @inlinable
         public init(sizeInGb: Double? = nil, type: String? = nil) {
             self.sizeInGb = sizeInGb
             self.type = type
@@ -1755,6 +1811,7 @@ extension CostOptimizationHub {
         /// The savings percentage based on your Amazon Web Services spend over the past 30 days.  Savings percentage is only supported when filtering by Region, account ID, or tags.
         public let savingsPercentage: String?
 
+        @inlinable
         public init(savingsPercentage: String? = nil) {
             self.savingsPercentage = savingsPercentage
         }
@@ -1770,6 +1827,7 @@ extension CostOptimizationHub {
         /// The value that's associated with the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1787,6 +1845,7 @@ extension CostOptimizationHub {
         /// Sets the account status.
         public let status: EnrollmentStatus
 
+        @inlinable
         public init(includeMemberAccounts: Bool? = nil, status: EnrollmentStatus) {
             self.includeMemberAccounts = includeMemberAccounts
             self.status = status
@@ -1802,6 +1861,7 @@ extension CostOptimizationHub {
         /// The enrollment status of the account.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -1817,6 +1877,7 @@ extension CostOptimizationHub {
         /// Sets the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
+        @inlinable
         public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
             self.savingsEstimationMode = savingsEstimationMode
@@ -1834,6 +1895,7 @@ extension CostOptimizationHub {
         /// Shows the status of the "savings estimation mode" preference.
         public let savingsEstimationMode: SavingsEstimationMode?
 
+        @inlinable
         public init(memberAccountDiscountVisibility: MemberAccountDiscountVisibility? = nil, savingsEstimationMode: SavingsEstimationMode? = nil) {
             self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
             self.savingsEstimationMode = savingsEstimationMode
@@ -1857,6 +1919,7 @@ extension CostOptimizationHub {
         /// The usage type.
         public let usageType: String?
 
+        @inlinable
         public init(operation: String? = nil, productCode: String? = nil, unit: String? = nil, usageAmount: Double? = nil, usageType: String? = nil) {
             self.operation = operation
             self.productCode = productCode

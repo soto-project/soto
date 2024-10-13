@@ -56,6 +56,7 @@ extension FreeTier {
         /// The metadata values you can specify to filter upon, so that the results all match at least one of the specified values.
         public let values: [String]
 
+        @inlinable
         public init(key: Dimension, matchOptions: [MatchOption], values: [String]) {
             self.key = key
             self.matchOptions = matchOptions
@@ -88,6 +89,7 @@ extension FreeTier {
         /// Return results that match any of the Expressions  that you specified. in the array.
         public let or: [Expression]?
 
+        @inlinable
         public init(and: [Expression]? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil) {
             self.and = and
             self.dimensions = dimensions
@@ -136,6 +138,7 @@ extension FreeTier {
         /// Describes the usage details of the offer. For example, this might be Global-BoxUsage:freetrial.
         public let usageType: String?
 
+        @inlinable
         public init(actualUsageAmount: Double? = nil, description: String? = nil, forecastedUsageAmount: Double? = nil, freeTierType: String? = nil, limit: Double? = nil, operation: String? = nil, region: String? = nil, service: String? = nil, unit: String? = nil, usageType: String? = nil) {
             self.actualUsageAmount = actualUsageAmount
             self.description = description
@@ -171,6 +174,7 @@ extension FreeTier {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: Expression? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -199,6 +203,7 @@ extension FreeTier {
         /// The pagination token that indicates the next set of results to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(freeTierUsages: [FreeTierUsage], nextToken: String? = nil) {
             self.freeTierUsages = freeTierUsages
             self.nextToken = nextToken

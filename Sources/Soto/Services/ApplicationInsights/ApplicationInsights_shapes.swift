@@ -162,6 +162,7 @@ extension ApplicationInsights {
         /// The configuration settings of the workload. The value is the escaped JSON of the configuration.
         public let workloadConfiguration: WorkloadConfiguration
 
+        @inlinable
         public init(componentName: String, resourceGroupName: String, workloadConfiguration: WorkloadConfiguration) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -191,6 +192,7 @@ extension ApplicationInsights {
         /// The ID of the workload.
         public let workloadId: String?
 
+        @inlinable
         public init(workloadConfiguration: WorkloadConfiguration? = nil, workloadId: String? = nil) {
             self.workloadConfiguration = workloadConfiguration
             self.workloadId = workloadId
@@ -218,6 +220,7 @@ extension ApplicationInsights {
         /// The stack tier of the application component.
         public let tier: Tier?
 
+        @inlinable
         public init(componentName: String? = nil, componentRemarks: String? = nil, detectedWorkload: [Tier: [String: String]]? = nil, monitor: Bool? = nil, osType: OsType? = nil, resourceType: String? = nil, tier: Tier? = nil) {
             self.componentName = componentName
             self.componentRemarks = componentRemarks
@@ -261,6 +264,7 @@ extension ApplicationInsights {
         /// The name of the resource group used for the application.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(accountId: String? = nil, attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, discoveryType: DiscoveryType? = nil, lifeCycle: String? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, remarks: String? = nil, resourceGroupName: String? = nil) {
             self.accountId = accountId
             self.attachMissingPermission = attachMissingPermission
@@ -306,6 +310,7 @@ extension ApplicationInsights {
         /// The name of the resource group of the application to which the configuration event belongs.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(accountId: String? = nil, eventDetail: String? = nil, eventResourceName: String? = nil, eventResourceType: ConfigurationEventResourceType? = nil, eventStatus: ConfigurationEventStatus? = nil, eventTime: Date? = nil, monitoredResourceARN: String? = nil, resourceGroupName: String? = nil) {
             self.accountId = accountId
             self.eventDetail = eventDetail
@@ -349,6 +354,7 @@ extension ApplicationInsights {
         /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]?
 
+        @inlinable
         public init(attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cweMonitorEnabled: Bool? = nil, groupingType: GroupingType? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
             self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
@@ -391,6 +397,7 @@ extension ApplicationInsights {
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
 
+        @inlinable
         public init(applicationInfo: ApplicationInfo? = nil) {
             self.applicationInfo = applicationInfo
         }
@@ -408,6 +415,7 @@ extension ApplicationInsights {
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]
 
+        @inlinable
         public init(componentName: String, resourceGroupName: String, resourceList: [String]) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -451,6 +459,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(pattern: String, patternName: String, patternSetName: String, rank: Int = 0, resourceGroupName: String) {
             self.pattern = pattern
             self.patternName = patternName
@@ -489,6 +498,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
             self.logPattern = logPattern
             self.resourceGroupName = resourceGroupName
@@ -504,6 +514,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(resourceGroupName: String) {
             self.resourceGroupName = resourceGroupName
         }
@@ -529,6 +540,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(componentName: String, resourceGroupName: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -561,6 +573,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(patternName: String, patternSetName: String, resourceGroupName: String) {
             self.patternName = patternName
             self.patternSetName = patternSetName
@@ -596,6 +609,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, resourceGroupName: String) {
             self.accountId = accountId
             self.resourceGroupName = resourceGroupName
@@ -620,6 +634,7 @@ extension ApplicationInsights {
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
 
+        @inlinable
         public init(applicationInfo: ApplicationInfo? = nil) {
             self.applicationInfo = applicationInfo
         }
@@ -641,6 +656,7 @@ extension ApplicationInsights {
         /// The name of the workload.
         public let workloadName: String?
 
+        @inlinable
         public init(componentName: String, recommendationType: RecommendationType? = nil, resourceGroupName: String, tier: Tier, workloadName: String? = nil) {
             self.componentName = componentName
             self.recommendationType = recommendationType
@@ -674,6 +690,7 @@ extension ApplicationInsights {
         /// The recommended configuration settings of the component. The value is the escaped JSON of the configuration.
         public let componentConfiguration: String?
 
+        @inlinable
         public init(componentConfiguration: String? = nil) {
             self.componentConfiguration = componentConfiguration
         }
@@ -691,6 +708,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, componentName: String, resourceGroupName: String) {
             self.accountId = accountId
             self.componentName = componentName
@@ -724,6 +742,7 @@ extension ApplicationInsights {
         /// The tier of the application component. Supported tiers include DOT_NET_CORE, DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT
         public let tier: Tier?
 
+        @inlinable
         public init(componentConfiguration: String? = nil, monitor: Bool? = nil, tier: Tier? = nil) {
             self.componentConfiguration = componentConfiguration
             self.monitor = monitor
@@ -745,6 +764,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, componentName: String, resourceGroupName: String) {
             self.accountId = accountId
             self.componentName = componentName
@@ -775,6 +795,7 @@ extension ApplicationInsights {
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]?
 
+        @inlinable
         public init(applicationComponent: ApplicationComponent? = nil, resourceList: [String]? = nil) {
             self.applicationComponent = applicationComponent
             self.resourceList = resourceList
@@ -796,6 +817,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, patternName: String, patternSetName: String, resourceGroupName: String) {
             self.accountId = accountId
             self.patternName = patternName
@@ -834,6 +856,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(accountId: String? = nil, logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
             self.accountId = accountId
             self.logPattern = logPattern
@@ -853,6 +876,7 @@ extension ApplicationInsights {
         /// The ID of the observation.
         public let observationId: String
 
+        @inlinable
         public init(accountId: String? = nil, observationId: String) {
             self.accountId = accountId
             self.observationId = observationId
@@ -877,6 +901,7 @@ extension ApplicationInsights {
         /// Information about the observation.
         public let observation: Observation?
 
+        @inlinable
         public init(observation: Observation? = nil) {
             self.observation = observation
         }
@@ -892,6 +917,7 @@ extension ApplicationInsights {
         /// The ID of the problem.
         public let problemId: String
 
+        @inlinable
         public init(accountId: String? = nil, problemId: String) {
             self.accountId = accountId
             self.problemId = problemId
@@ -916,6 +942,7 @@ extension ApplicationInsights {
         /// Observations related to the problem.
         public let relatedObservations: RelatedObservations?
 
+        @inlinable
         public init(relatedObservations: RelatedObservations? = nil) {
             self.relatedObservations = relatedObservations
         }
@@ -931,6 +958,7 @@ extension ApplicationInsights {
         /// The ID of the problem.
         public let problemId: String
 
+        @inlinable
         public init(accountId: String? = nil, problemId: String) {
             self.accountId = accountId
             self.problemId = problemId
@@ -955,6 +983,7 @@ extension ApplicationInsights {
         /// Information about the problem.
         public let problem: Problem?
 
+        @inlinable
         public init(problem: Problem? = nil) {
             self.problem = problem
         }
@@ -974,6 +1003,7 @@ extension ApplicationInsights {
         /// The ID of the workload.
         public let workloadId: String
 
+        @inlinable
         public init(accountId: String? = nil, componentName: String, resourceGroupName: String, workloadId: String) {
             self.accountId = accountId
             self.componentName = componentName
@@ -1012,6 +1042,7 @@ extension ApplicationInsights {
         /// If logging is supported for the resource type, shows whether the component has configured logs to be monitored.
         public let workloadRemarks: String?
 
+        @inlinable
         public init(workloadConfiguration: WorkloadConfiguration? = nil, workloadId: String? = nil, workloadRemarks: String? = nil) {
             self.workloadConfiguration = workloadConfiguration
             self.workloadId = workloadId
@@ -1033,6 +1064,7 @@ extension ApplicationInsights {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1063,6 +1095,7 @@ extension ApplicationInsights {
         /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationInfoList: [ApplicationInfo]? = nil, nextToken: String? = nil) {
             self.applicationInfoList = applicationInfoList
             self.nextToken = nextToken
@@ -1084,6 +1117,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1119,6 +1153,7 @@ extension ApplicationInsights {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationComponentList: [ApplicationComponent]? = nil, nextToken: String? = nil) {
             self.applicationComponentList = applicationComponentList
             self.nextToken = nextToken
@@ -1146,6 +1181,7 @@ extension ApplicationInsights {
         /// The start time of the event.
         public let startTime: Date?
 
+        @inlinable
         public init(accountId: String? = nil, endTime: Date? = nil, eventStatus: ConfigurationEventStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil) {
             self.accountId = accountId
             self.endTime = endTime
@@ -1187,6 +1223,7 @@ extension ApplicationInsights {
         /// The NextToken value to include in a future ListConfigurationHistory request. When the results of a ListConfigurationHistory request exceed MaxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(eventList: [ConfigurationEvent]? = nil, nextToken: String? = nil) {
             self.eventList = eventList
             self.nextToken = nextToken
@@ -1208,6 +1245,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1247,6 +1285,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(accountId: String? = nil, logPatternSets: [String]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
             self.accountId = accountId
             self.logPatternSets = logPatternSets
@@ -1274,6 +1313,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, patternSetName: String? = nil, resourceGroupName: String) {
             self.accountId = accountId
             self.maxResults = maxResults
@@ -1318,6 +1358,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(accountId: String? = nil, logPatterns: [LogPattern]? = nil, nextToken: String? = nil, resourceGroupName: String? = nil) {
             self.accountId = accountId
             self.logPatterns = logPatterns
@@ -1351,6 +1392,7 @@ extension ApplicationInsights {
         /// Specifies whether or not you can view the problem. If not specified, visible and ignored problems are returned.
         public let visibility: Visibility?
 
+        @inlinable
         public init(accountId: String? = nil, componentName: String? = nil, endTime: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String? = nil, startTime: Date? = nil, visibility: Visibility? = nil) {
             self.accountId = accountId
             self.componentName = componentName
@@ -1401,6 +1443,7 @@ extension ApplicationInsights {
         ///  The name of the resource group.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(accountId: String? = nil, nextToken: String? = nil, problemList: [Problem]? = nil, resourceGroupName: String? = nil) {
             self.accountId = accountId
             self.nextToken = nextToken
@@ -1420,6 +1463,7 @@ extension ApplicationInsights {
         /// The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1439,6 +1483,7 @@ extension ApplicationInsights {
         /// An array that lists all the tags that are associated with the application. Each tag consists of a required tag key (Key) and an associated tag value (Value).
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1460,6 +1505,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(accountId: String? = nil, componentName: String, maxResults: Int? = nil, nextToken: String? = nil, resourceGroupName: String) {
             self.accountId = accountId
             self.componentName = componentName
@@ -1500,6 +1546,7 @@ extension ApplicationInsights {
         /// The list of workloads.
         public let workloadList: [Workload]?
 
+        @inlinable
         public init(nextToken: String? = nil, workloadList: [Workload]? = nil) {
             self.nextToken = nextToken
             self.workloadList = workloadList
@@ -1521,6 +1568,7 @@ extension ApplicationInsights {
         /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
         public let rank: Int?
 
+        @inlinable
         public init(pattern: String? = nil, patternName: String? = nil, patternSetName: String? = nil, rank: Int? = nil) {
             self.pattern = pattern
             self.patternName = patternName
@@ -1628,6 +1676,7 @@ extension ApplicationInsights {
         ///  The X-Ray request throttle percentage for this node.
         public let xRayThrottlePercent: Int?
 
+        @inlinable
         public init(cloudWatchEventDetailType: String? = nil, cloudWatchEventId: String? = nil, cloudWatchEventSource: CloudWatchEventSource? = nil, codeDeployApplication: String? = nil, codeDeployDeploymentGroup: String? = nil, codeDeployDeploymentId: String? = nil, codeDeployInstanceGroupId: String? = nil, codeDeployState: String? = nil, ebsCause: String? = nil, ebsEvent: String? = nil, ebsRequestId: String? = nil, ebsResult: String? = nil, ec2State: String? = nil, endTime: Date? = nil, healthEventArn: String? = nil, healthEventDescription: String? = nil, healthEventTypeCategory: String? = nil, healthEventTypeCode: String? = nil, healthService: String? = nil, id: String? = nil, lineTime: Date? = nil, logFilter: LogFilter? = nil, logGroup: String? = nil, logText: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, rdsEventCategories: String? = nil, rdsEventMessage: String? = nil, s3EventName: String? = nil, sourceARN: String? = nil, sourceType: String? = nil, startTime: Date? = nil, statesArn: String? = nil, statesExecutionArn: String? = nil, statesInput: String? = nil, statesStatus: String? = nil, unit: String? = nil, value: Double? = nil, xRayErrorPercent: Int? = nil, xRayFaultPercent: Int? = nil, xRayNodeName: String? = nil, xRayNodeType: String? = nil, xRayRequestAverageLatency: Int64? = nil, xRayRequestCount: Int? = nil, xRayThrottlePercent: Int? = nil) {
             self.cloudWatchEventDetailType = cloudWatchEventDetailType
             self.cloudWatchEventId = cloudWatchEventId
@@ -1757,6 +1806,7 @@ extension ApplicationInsights {
         /// Specifies whether or not you can view the problem. Updates to ignored problems do not generate notifications.
         public let visibility: Visibility?
 
+        @inlinable
         public init(accountId: String? = nil, affectedResource: String? = nil, endTime: Date? = nil, feedback: [FeedbackKey: FeedbackValue]? = nil, id: String? = nil, insights: String? = nil, lastRecurrenceTime: Date? = nil, recurringCount: Int64? = nil, resolutionMethod: ResolutionMethod? = nil, resourceGroupName: String? = nil, severityLevel: SeverityLevel? = nil, startTime: Date? = nil, status: Status? = nil, title: String? = nil, visibility: Visibility? = nil) {
             self.accountId = accountId
             self.affectedResource = affectedResource
@@ -1798,6 +1848,7 @@ extension ApplicationInsights {
         /// The list of observations related to the problem.
         public let observationList: [Observation]?
 
+        @inlinable
         public init(observationList: [Observation]? = nil) {
             self.observationList = observationList
         }
@@ -1815,6 +1866,7 @@ extension ApplicationInsights {
         /// The ID of the workload.
         public let workloadId: String
 
+        @inlinable
         public init(componentName: String, resourceGroupName: String, workloadId: String) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -1850,6 +1902,7 @@ extension ApplicationInsights {
         /// The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want an application to have a specific tag value, don't specify a value for this parameter.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1875,6 +1928,7 @@ extension ApplicationInsights {
         /// A list of tags that to add to the application. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1906,6 +1960,7 @@ extension ApplicationInsights {
         /// The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the application, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1949,6 +2004,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(attachMissingPermission: Bool? = nil, autoConfigEnabled: Bool? = nil, cweMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, removeSNSTopic: Bool? = nil, resourceGroupName: String) {
             self.attachMissingPermission = attachMissingPermission
             self.autoConfigEnabled = autoConfigEnabled
@@ -1983,6 +2039,7 @@ extension ApplicationInsights {
         /// Information about the application.
         public let applicationInfo: ApplicationInfo?
 
+        @inlinable
         public init(applicationInfo: ApplicationInfo? = nil) {
             self.applicationInfo = applicationInfo
         }
@@ -2006,6 +2063,7 @@ extension ApplicationInsights {
         /// The tier of the application component.
         public let tier: Tier?
 
+        @inlinable
         public init(autoConfigEnabled: Bool? = nil, componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: Tier? = nil) {
             self.autoConfigEnabled = autoConfigEnabled
             self.componentConfiguration = componentConfiguration
@@ -2051,6 +2109,7 @@ extension ApplicationInsights {
         /// The list of resource ARNs that belong to the component.
         public let resourceList: [String]?
 
+        @inlinable
         public init(componentName: String, newComponentName: String? = nil, resourceGroupName: String, resourceList: [String]? = nil) {
             self.componentName = componentName
             self.newComponentName = newComponentName
@@ -2099,6 +2158,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String
 
+        @inlinable
         public init(pattern: String? = nil, patternName: String, patternSetName: String, rank: Int? = nil, resourceGroupName: String) {
             self.pattern = pattern
             self.patternName = patternName
@@ -2137,6 +2197,7 @@ extension ApplicationInsights {
         /// The name of the resource group.
         public let resourceGroupName: String?
 
+        @inlinable
         public init(logPattern: LogPattern? = nil, resourceGroupName: String? = nil) {
             self.logPattern = logPattern
             self.resourceGroupName = resourceGroupName
@@ -2156,6 +2217,7 @@ extension ApplicationInsights {
         /// The visibility of a problem. When you pass a value of IGNORED, the problem is removed from the default view, and all notifications for the problem are suspended. When VISIBLE is passed, the IGNORED action is reversed.
         public let visibility: Visibility?
 
+        @inlinable
         public init(problemId: String, updateStatus: UpdateStatus? = nil, visibility: Visibility? = nil) {
             self.problemId = problemId
             self.updateStatus = updateStatus
@@ -2189,6 +2251,7 @@ extension ApplicationInsights {
         /// The ID of the workload.
         public let workloadId: String?
 
+        @inlinable
         public init(componentName: String, resourceGroupName: String, workloadConfiguration: WorkloadConfiguration, workloadId: String? = nil) {
             self.componentName = componentName
             self.resourceGroupName = resourceGroupName
@@ -2223,6 +2286,7 @@ extension ApplicationInsights {
         /// The ID of the workload.
         public let workloadId: String?
 
+        @inlinable
         public init(workloadConfiguration: WorkloadConfiguration? = nil, workloadId: String? = nil) {
             self.workloadConfiguration = workloadConfiguration
             self.workloadId = workloadId
@@ -2246,6 +2310,7 @@ extension ApplicationInsights {
         /// If logging is supported for the resource type, shows whether the component has configured logs to be monitored.
         public let workloadRemarks: String?
 
+        @inlinable
         public init(componentName: String? = nil, tier: Tier? = nil, workloadId: String? = nil, workloadName: String? = nil, workloadRemarks: String? = nil) {
             self.componentName = componentName
             self.tier = tier
@@ -2271,6 +2336,7 @@ extension ApplicationInsights {
         /// The name of the workload.
         public let workloadName: String?
 
+        @inlinable
         public init(configuration: String? = nil, tier: Tier? = nil, workloadName: String? = nil) {
             self.configuration = configuration
             self.tier = tier

@@ -274,6 +274,7 @@ extension DirectoryService {
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
 
+        @inlinable
         public init(sharedDirectoryId: String) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -291,6 +292,7 @@ extension DirectoryService {
         /// The shared directory in the directory consumer account.
         public let sharedDirectory: SharedDirectory?
 
+        @inlinable
         public init(sharedDirectory: SharedDirectory? = nil) {
             self.sharedDirectory = sharedDirectory
         }
@@ -308,6 +310,7 @@ extension DirectoryService {
         /// If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
         public let updateSecurityGroupForDirectoryControllers: Bool?
 
+        @inlinable
         public init(directoryId: String, ipRoutes: [IpRoute], updateSecurityGroupForDirectoryControllers: Bool? = nil) {
             self.directoryId = directoryId
             self.ipRoutes = ipRoutes
@@ -339,6 +342,7 @@ extension DirectoryService {
         public let regionName: String
         public let vpcSettings: DirectoryVpcSettings
 
+        @inlinable
         public init(directoryId: String, regionName: String, vpcSettings: DirectoryVpcSettings) {
             self.directoryId = directoryId
             self.regionName = regionName
@@ -369,6 +373,7 @@ extension DirectoryService {
         /// The tags to be assigned to the directory.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
@@ -397,6 +402,7 @@ extension DirectoryService {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -418,6 +424,7 @@ extension DirectoryService {
         /// The identifier of the schema extension that will be canceled.
         public let schemaExtensionId: String
 
+        @inlinable
         public init(directoryId: String, schemaExtensionId: String) {
             self.directoryId = directoryId
             self.schemaExtensionId = schemaExtensionId
@@ -456,6 +463,7 @@ extension DirectoryService {
         /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
         public let type: CertificateType?
 
+        @inlinable
         public init(certificateId: String? = nil, clientCertAuthSettings: ClientCertAuthSettings? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, registeredDateTime: Date? = nil, state: CertificateState? = nil, stateReason: String? = nil, type: CertificateType? = nil) {
             self.certificateId = certificateId
             self.clientCertAuthSettings = clientCertAuthSettings
@@ -491,6 +499,7 @@ extension DirectoryService {
         /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
         public let type: CertificateType?
 
+        @inlinable
         public init(certificateId: String? = nil, commonName: String? = nil, expiryDateTime: Date? = nil, state: CertificateState? = nil, type: CertificateType? = nil) {
             self.certificateId = certificateId
             self.commonName = commonName
@@ -516,6 +525,7 @@ extension DirectoryService {
         /// The type of client authentication for the specified directory. If no type is specified, a list of all client authentication types that are supported for the directory is retrieved.
         public let type: ClientAuthenticationType?
 
+        @inlinable
         public init(lastUpdatedDateTime: Date? = nil, status: ClientAuthenticationStatus? = nil, type: ClientAuthenticationType? = nil) {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.status = status
@@ -533,6 +543,7 @@ extension DirectoryService {
         /// Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate.
         public let ocspUrl: String?
 
+        @inlinable
         public init(ocspUrl: String? = nil) {
             self.ocspUrl = ocspUrl
         }
@@ -556,6 +567,7 @@ extension DirectoryService {
         /// The computer name.
         public let computerName: String?
 
+        @inlinable
         public init(computerAttributes: [Attribute]? = nil, computerId: String? = nil, computerName: String? = nil) {
             self.computerAttributes = computerAttributes
             self.computerId = computerId
@@ -577,6 +589,7 @@ extension DirectoryService {
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your Amazon Web Services directory.
         public let replicationScope: ReplicationScope?
 
+        @inlinable
         public init(dnsIpAddrs: [String]? = nil, remoteDomainName: String? = nil, replicationScope: ReplicationScope? = nil) {
             self.dnsIpAddrs = dnsIpAddrs
             self.remoteDomainName = remoteDomainName
@@ -606,6 +619,7 @@ extension DirectoryService {
         /// The tags to be assigned to AD Connector.
         public let tags: [Tag]?
 
+        @inlinable
         public init(connectSettings: DirectoryConnectSettings, description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil) {
             self.connectSettings = connectSettings
             self.description = description
@@ -644,6 +658,7 @@ extension DirectoryService {
         /// The identifier of the new directory.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -659,6 +674,7 @@ extension DirectoryService {
         /// The identifier of the directory for which to create the alias.
         public let directoryId: String
 
+        @inlinable
         public init(alias: String, directoryId: String) {
             self.alias = alias
             self.directoryId = directoryId
@@ -683,6 +699,7 @@ extension DirectoryService {
         /// The identifier of the directory.
         public let directoryId: String?
 
+        @inlinable
         public init(alias: String? = nil, directoryId: String? = nil) {
             self.alias = alias
             self.directoryId = directoryId
@@ -706,6 +723,7 @@ extension DirectoryService {
         /// A one-time password that is used to join the computer to the directory. You should generate a random, strong password to use for this parameter.
         public let password: String
 
+        @inlinable
         public init(computerAttributes: [Attribute]? = nil, computerName: String, directoryId: String, organizationalUnitDistinguishedName: String? = nil, password: String) {
             self.computerAttributes = computerAttributes
             self.computerName = computerName
@@ -741,6 +759,7 @@ extension DirectoryService {
         /// A Computer object that represents the computer account.
         public let computer: Computer?
 
+        @inlinable
         public init(computer: Computer? = nil) {
             self.computer = computer
         }
@@ -758,6 +777,7 @@ extension DirectoryService {
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
         public let remoteDomainName: String
 
+        @inlinable
         public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
@@ -800,6 +820,7 @@ extension DirectoryService {
         /// A DirectoryVpcSettings object that contains additional information for the operation.
         public let vpcSettings: DirectoryVpcSettings?
 
+        @inlinable
         public init(description: String? = nil, name: String, password: String, shortName: String? = nil, size: DirectorySize, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
             self.description = description
             self.name = name
@@ -837,6 +858,7 @@ extension DirectoryService {
         /// The identifier of the directory that was created.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -852,6 +874,7 @@ extension DirectoryService {
         /// The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
         public let logGroupName: String
 
+        @inlinable
         public init(directoryId: String, logGroupName: String) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
@@ -890,6 +913,7 @@ extension DirectoryService {
         /// Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
         public let vpcSettings: DirectoryVpcSettings
 
+        @inlinable
         public init(description: String? = nil, edition: DirectoryEdition? = nil, name: String, password: String, shortName: String? = nil, tags: [Tag]? = nil, vpcSettings: DirectoryVpcSettings) {
             self.description = description
             self.edition = edition
@@ -927,6 +951,7 @@ extension DirectoryService {
         /// The identifier of the directory that was created.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -942,6 +967,7 @@ extension DirectoryService {
         /// The descriptive name to apply to the snapshot.
         public let name: String?
 
+        @inlinable
         public init(directoryId: String, name: String? = nil) {
             self.directoryId = directoryId
             self.name = name
@@ -963,6 +989,7 @@ extension DirectoryService {
         /// The identifier of the snapshot that was created.
         public let snapshotId: String?
 
+        @inlinable
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
         }
@@ -988,6 +1015,7 @@ extension DirectoryService {
         /// The trust relationship type. Forest is the default.
         public let trustType: TrustType?
 
+        @inlinable
         public init(conditionalForwarderIpAddrs: [String]? = nil, directoryId: String, remoteDomainName: String, selectiveAuth: SelectiveAuth? = nil, trustDirection: TrustDirection, trustPassword: String, trustType: TrustType? = nil) {
             self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
             self.directoryId = directoryId
@@ -1025,6 +1053,7 @@ extension DirectoryService {
         /// A unique identifier for the trust relationship that was created.
         public let trustId: String?
 
+        @inlinable
         public init(trustId: String? = nil) {
             self.trustId = trustId
         }
@@ -1040,6 +1069,7 @@ extension DirectoryService {
         /// The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
         public let remoteDomainName: String
 
+        @inlinable
         public init(directoryId: String, remoteDomainName: String) {
             self.directoryId = directoryId
             self.remoteDomainName = remoteDomainName
@@ -1065,6 +1095,7 @@ extension DirectoryService {
         /// The identifier of the directory to delete.
         public let directoryId: String
 
+        @inlinable
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -1082,6 +1113,7 @@ extension DirectoryService {
         /// The directory identifier.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -1095,6 +1127,7 @@ extension DirectoryService {
         /// Identifier of the directory whose log subscription you want to delete.
         public let directoryId: String
 
+        @inlinable
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -1116,6 +1149,7 @@ extension DirectoryService {
         /// The identifier of the directory snapshot to be deleted.
         public let snapshotId: String
 
+        @inlinable
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
         }
@@ -1133,6 +1167,7 @@ extension DirectoryService {
         /// The identifier of the directory snapshot that was deleted.
         public let snapshotId: String?
 
+        @inlinable
         public init(snapshotId: String? = nil) {
             self.snapshotId = snapshotId
         }
@@ -1148,6 +1183,7 @@ extension DirectoryService {
         /// The Trust ID of the trust relationship to be deleted.
         public let trustId: String
 
+        @inlinable
         public init(deleteAssociatedConditionalForwarder: Bool? = nil, trustId: String) {
             self.deleteAssociatedConditionalForwarder = deleteAssociatedConditionalForwarder
             self.trustId = trustId
@@ -1167,6 +1203,7 @@ extension DirectoryService {
         /// The Trust ID of the trust relationship that was deleted.
         public let trustId: String?
 
+        @inlinable
         public init(trustId: String? = nil) {
             self.trustId = trustId
         }
@@ -1182,6 +1219,7 @@ extension DirectoryService {
         /// The identifier of the directory.
         public let directoryId: String
 
+        @inlinable
         public init(certificateId: String, directoryId: String) {
             self.certificateId = certificateId
             self.directoryId = directoryId
@@ -1208,6 +1246,7 @@ extension DirectoryService {
         /// The name of the Amazon SNS topic from which to remove the directory as a publisher.
         public let topicName: String
 
+        @inlinable
         public init(directoryId: String, topicName: String) {
             self.directoryId = directoryId
             self.topicName = topicName
@@ -1236,6 +1275,7 @@ extension DirectoryService {
         /// The identifier of the directory.
         public let directoryId: String
 
+        @inlinable
         public init(certificateId: String, directoryId: String) {
             self.certificateId = certificateId
             self.directoryId = directoryId
@@ -1256,6 +1296,7 @@ extension DirectoryService {
         /// Information about the certificate, including registered date time, certificate state, the reason for the state, expiration date time, and certificate common name.
         public let certificate: Certificate?
 
+        @inlinable
         public init(certificate: Certificate? = nil) {
             self.certificate = certificate
         }
@@ -1275,6 +1316,7 @@ extension DirectoryService {
         /// The type of client authentication for which to retrieve information. If no type is specified, a list of all client authentication types that are supported for the specified directory is retrieved.
         public let type: ClientAuthenticationType?
 
+        @inlinable
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil, type: ClientAuthenticationType? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -1302,6 +1344,7 @@ extension DirectoryService {
         /// The next token used to retrieve the client authentication settings if the number of setting types exceeds page limit and there is another page.
         public let nextToken: String?
 
+        @inlinable
         public init(clientAuthenticationSettingsInfo: [ClientAuthenticationSettingInfo]? = nil, nextToken: String? = nil) {
             self.clientAuthenticationSettingsInfo = clientAuthenticationSettingsInfo
             self.nextToken = nextToken
@@ -1319,6 +1362,7 @@ extension DirectoryService {
         /// The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
         public let remoteDomainNames: [String]?
 
+        @inlinable
         public init(directoryId: String, remoteDomainNames: [String]? = nil) {
             self.directoryId = directoryId
             self.remoteDomainNames = remoteDomainNames
@@ -1342,6 +1386,7 @@ extension DirectoryService {
         /// The list of conditional forwarders that have been created.
         public let conditionalForwarders: [ConditionalForwarder]?
 
+        @inlinable
         public init(conditionalForwarders: [ConditionalForwarder]? = nil) {
             self.conditionalForwarders = conditionalForwarders
         }
@@ -1359,6 +1404,7 @@ extension DirectoryService {
         /// The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryIds = directoryIds
             self.limit = limit
@@ -1385,6 +1431,7 @@ extension DirectoryService {
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryDescriptions: [DirectoryDescription]? = nil, nextToken: String? = nil) {
             self.directoryDescriptions = directoryDescriptions
             self.nextToken = nextToken
@@ -1406,6 +1453,7 @@ extension DirectoryService {
         /// The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryId: String, domainControllerIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.domainControllerIds = domainControllerIds
@@ -1435,6 +1483,7 @@ extension DirectoryService {
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDomainControllers retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(domainControllers: [DomainController]? = nil, nextToken: String? = nil) {
             self.domainControllers = domainControllers
             self.nextToken = nextToken
@@ -1452,6 +1501,7 @@ extension DirectoryService {
         /// A list of Amazon SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
         public let topicNames: [String]?
 
+        @inlinable
         public init(directoryId: String? = nil, topicNames: [String]? = nil) {
             self.directoryId = directoryId
             self.topicNames = topicNames
@@ -1476,6 +1526,7 @@ extension DirectoryService {
         /// A list of Amazon SNS topic names that receive status messages from the specified Directory ID.
         public let eventTopics: [EventTopic]?
 
+        @inlinable
         public init(eventTopics: [EventTopic]? = nil) {
             self.eventTopics = eventTopics
         }
@@ -1495,6 +1546,7 @@ extension DirectoryService {
         /// The type of LDAP security to enable. Currently only the value Client is supported.
         public let type: LDAPSType?
 
+        @inlinable
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil, type: LDAPSType? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -1522,6 +1574,7 @@ extension DirectoryService {
         /// The next token used to retrieve the LDAPS settings if the number of setting types exceeds page limit and there is another page.
         public let nextToken: String?
 
+        @inlinable
         public init(ldapsSettingsInfo: [LDAPSSettingInfo]? = nil, nextToken: String? = nil) {
             self.ldapsSettingsInfo = ldapsSettingsInfo
             self.nextToken = nextToken
@@ -1541,6 +1594,7 @@ extension DirectoryService {
         /// The name of the Region. For example, us-east-1.
         public let regionName: String?
 
+        @inlinable
         public init(directoryId: String, nextToken: String? = nil, regionName: String? = nil) {
             self.directoryId = directoryId
             self.nextToken = nextToken
@@ -1566,6 +1620,7 @@ extension DirectoryService {
         /// List of Region information related to the directory for each replicated Region.
         public let regionsDescription: [RegionDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, regionsDescription: [RegionDescription]? = nil) {
             self.nextToken = nextToken
             self.regionsDescription = regionsDescription
@@ -1585,6 +1640,7 @@ extension DirectoryService {
         /// The status of the directory settings for which to retrieve information.
         public let status: DirectoryConfigurationStatus?
 
+        @inlinable
         public init(directoryId: String, nextToken: String? = nil, status: DirectoryConfigurationStatus? = nil) {
             self.directoryId = directoryId
             self.nextToken = nextToken
@@ -1610,6 +1666,7 @@ extension DirectoryService {
         /// The list of SettingEntry objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let settingEntries: [SettingEntry]?
 
+        @inlinable
         public init(directoryId: String? = nil, nextToken: String? = nil, settingEntries: [SettingEntry]? = nil) {
             self.directoryId = directoryId
             self.nextToken = nextToken
@@ -1633,6 +1690,7 @@ extension DirectoryService {
         /// A list of identifiers of all shared directories in your account.
         public let sharedDirectoryIds: [String]?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, ownerDirectoryId: String, sharedDirectoryIds: [String]? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -1662,6 +1720,7 @@ extension DirectoryService {
         /// A list of all shared directories in your account.
         public let sharedDirectories: [SharedDirectory]?
 
+        @inlinable
         public init(nextToken: String? = nil, sharedDirectories: [SharedDirectory]? = nil) {
             self.nextToken = nextToken
             self.sharedDirectories = sharedDirectories
@@ -1683,6 +1742,7 @@ extension DirectoryService {
         /// A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
         public let snapshotIds: [String]?
 
+        @inlinable
         public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil, snapshotIds: [String]? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -1712,6 +1772,7 @@ extension DirectoryService {
         /// The list of Snapshot objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let snapshots: [Snapshot]?
 
+        @inlinable
         public init(nextToken: String? = nil, snapshots: [Snapshot]? = nil) {
             self.nextToken = nextToken
             self.snapshots = snapshots
@@ -1733,6 +1794,7 @@ extension DirectoryService {
         /// A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
         public let trustIds: [String]?
 
+        @inlinable
         public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil, trustIds: [String]? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -1762,6 +1824,7 @@ extension DirectoryService {
         /// The list of Trust objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let trusts: [Trust]?
 
+        @inlinable
         public init(nextToken: String? = nil, trusts: [Trust]? = nil) {
             self.nextToken = nextToken
             self.trusts = trusts
@@ -1783,6 +1846,7 @@ extension DirectoryService {
         ///  The type of updates you want to describe for the directory.
         public let updateType: UpdateType
 
+        @inlinable
         public init(directoryId: String, nextToken: String? = nil, regionName: String? = nil, updateType: UpdateType) {
             self.directoryId = directoryId
             self.nextToken = nextToken
@@ -1810,6 +1874,7 @@ extension DirectoryService {
         ///  The list of update activities on a directory for the requested update type.
         public let updateActivities: [UpdateInfoEntry]?
 
+        @inlinable
         public init(nextToken: String? = nil, updateActivities: [UpdateInfoEntry]? = nil) {
             self.nextToken = nextToken
             self.updateActivities = updateActivities
@@ -1831,6 +1896,7 @@ extension DirectoryService {
         /// The identifier of the VPC in which the AD Connector is created.
         public let vpcId: String
 
+        @inlinable
         public init(customerDnsIps: [String], customerUserName: String, subnetIds: [String], vpcId: String) {
             self.customerDnsIps = customerDnsIps
             self.customerUserName = customerUserName
@@ -1872,6 +1938,7 @@ extension DirectoryService {
         /// The identifier of the VPC that the AD Connector is in.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, connectIps: [String]? = nil, customerUserName: String? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.connectIps = connectIps
@@ -1945,6 +2012,7 @@ extension DirectoryService {
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
+        @inlinable
         public init(accessUrl: String? = nil, alias: String? = nil, connectSettings: DirectoryConnectSettingsDescription? = nil, description: String? = nil, desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, edition: DirectoryEdition? = nil, launchTime: Date? = nil, name: String? = nil, osVersion: OSVersion? = nil, ownerDirectoryDescription: OwnerDirectoryDescription? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, regionsInfo: RegionsInfo? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil, shortName: String? = nil, size: DirectorySize? = nil, ssoEnabled: Bool? = nil, stage: DirectoryStage? = nil, stageLastUpdatedDateTime: Date? = nil, stageReason: String? = nil, type: DirectoryType? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accessUrl = accessUrl
             self.alias = alias
@@ -2024,6 +2092,7 @@ extension DirectoryService {
         /// Indicates if the connected directory limit has been reached.
         public let connectedDirectoriesLimitReached: Bool?
 
+        @inlinable
         public init(cloudOnlyDirectoriesCurrentCount: Int? = nil, cloudOnlyDirectoriesLimit: Int? = nil, cloudOnlyDirectoriesLimitReached: Bool? = nil, cloudOnlyMicrosoftADCurrentCount: Int? = nil, cloudOnlyMicrosoftADLimit: Int? = nil, cloudOnlyMicrosoftADLimitReached: Bool? = nil, connectedDirectoriesCurrentCount: Int? = nil, connectedDirectoriesLimit: Int? = nil, connectedDirectoriesLimitReached: Bool? = nil) {
             self.cloudOnlyDirectoriesCurrentCount = cloudOnlyDirectoriesCurrentCount
             self.cloudOnlyDirectoriesLimit = cloudOnlyDirectoriesLimit
@@ -2055,6 +2124,7 @@ extension DirectoryService {
         /// The identifier of the VPC in which to create the directory.
         public let vpcId: String
 
+        @inlinable
         public init(subnetIds: [String], vpcId: String) {
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -2083,6 +2153,7 @@ extension DirectoryService {
         /// The identifier of the VPC that the directory is in.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZones: [String]? = nil, securityGroupId: String? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupId = securityGroupId
@@ -2104,6 +2175,7 @@ extension DirectoryService {
         /// The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
         public let type: ClientAuthenticationType
 
+        @inlinable
         public init(directoryId: String, type: ClientAuthenticationType) {
             self.directoryId = directoryId
             self.type = type
@@ -2129,6 +2201,7 @@ extension DirectoryService {
         /// The type of LDAP security to enable. Currently only the value Client is supported.
         public let type: LDAPSType
 
+        @inlinable
         public init(directoryId: String, type: LDAPSType) {
             self.directoryId = directoryId
             self.type = type
@@ -2152,6 +2225,7 @@ extension DirectoryService {
         /// The identifier of the directory for which to disable MFA.
         public let directoryId: String
 
+        @inlinable
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -2177,6 +2251,7 @@ extension DirectoryService {
         /// The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
         public let userName: String?
 
+        @inlinable
         public init(directoryId: String, password: String? = nil, userName: String? = nil) {
             self.directoryId = directoryId
             self.password = password
@@ -2224,6 +2299,7 @@ extension DirectoryService {
         /// The identifier of the VPC that contains the domain controller.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, directoryId: String? = nil, dnsIpAddr: String? = nil, domainControllerId: String? = nil, launchTime: Date? = nil, status: DomainControllerStatus? = nil, statusLastUpdatedDateTime: Date? = nil, statusReason: String? = nil, subnetId: String? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.directoryId = directoryId
@@ -2257,6 +2333,7 @@ extension DirectoryService {
         /// The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Connector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in your self-managed AD.
         public let type: ClientAuthenticationType
 
+        @inlinable
         public init(directoryId: String, type: ClientAuthenticationType) {
             self.directoryId = directoryId
             self.type = type
@@ -2282,6 +2359,7 @@ extension DirectoryService {
         /// The type of LDAP security to enable. Currently only the value Client is supported.
         public let type: LDAPSType
 
+        @inlinable
         public init(directoryId: String, type: LDAPSType) {
             self.directoryId = directoryId
             self.type = type
@@ -2307,6 +2385,7 @@ extension DirectoryService {
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
 
+        @inlinable
         public init(directoryId: String, radiusSettings: RadiusSettings) {
             self.directoryId = directoryId
             self.radiusSettings = radiusSettings
@@ -2335,6 +2414,7 @@ extension DirectoryService {
         /// The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
         public let userName: String?
 
+        @inlinable
         public init(directoryId: String, password: String? = nil, userName: String? = nil) {
             self.directoryId = directoryId
             self.password = password
@@ -2372,6 +2452,7 @@ extension DirectoryService {
         /// The name of an Amazon SNS topic the receives status messages from the directory.
         public let topicName: String?
 
+        @inlinable
         public init(createdDateTime: Date? = nil, directoryId: String? = nil, status: TopicStatus? = nil, topicArn: String? = nil, topicName: String? = nil) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
@@ -2397,6 +2478,7 @@ extension DirectoryService {
         /// A DirectoryLimits object that contains the directory limits for the current Region.
         public let directoryLimits: DirectoryLimits?
 
+        @inlinable
         public init(directoryLimits: DirectoryLimits? = nil) {
             self.directoryLimits = directoryLimits
         }
@@ -2410,6 +2492,7 @@ extension DirectoryService {
         /// Contains the identifier of the directory to obtain the limits for.
         public let directoryId: String
 
+        @inlinable
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -2427,6 +2510,7 @@ extension DirectoryService {
         /// A SnapshotLimits object that contains the manual snapshot limits for the specified directory.
         public let snapshotLimits: SnapshotLimits?
 
+        @inlinable
         public init(snapshotLimits: SnapshotLimits? = nil) {
             self.snapshotLimits = snapshotLimits
         }
@@ -2442,6 +2526,7 @@ extension DirectoryService {
         /// Description of the address block.
         public let description: String?
 
+        @inlinable
         public init(cidrIp: String? = nil, description: String? = nil) {
             self.cidrIp = cidrIp
             self.description = description
@@ -2473,6 +2558,7 @@ extension DirectoryService {
         /// The reason for the IpRouteStatusMsg.
         public let ipRouteStatusReason: String?
 
+        @inlinable
         public init(addedDateTime: Date? = nil, cidrIp: String? = nil, description: String? = nil, directoryId: String? = nil, ipRouteStatusMsg: IpRouteStatusMsg? = nil, ipRouteStatusReason: String? = nil) {
             self.addedDateTime = addedDateTime
             self.cidrIp = cidrIp
@@ -2500,6 +2586,7 @@ extension DirectoryService {
         /// Describes a state change for LDAPS.
         public let ldapsStatusReason: String?
 
+        @inlinable
         public init(lastUpdatedDateTime: Date? = nil, ldapsStatus: LDAPSStatus? = nil, ldapsStatusReason: String? = nil) {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.ldapsStatus = ldapsStatus
@@ -2521,6 +2608,7 @@ extension DirectoryService {
         /// A token for requesting another page of certificates if the NextToken response element indicates that more certificates are available. Use the value of the returned NextToken element in your request until the token comes back as null. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2546,6 +2634,7 @@ extension DirectoryService {
         /// Indicates whether another page of certificates is available when the number of available certificates exceeds the page limit.
         public let nextToken: String?
 
+        @inlinable
         public init(certificatesInfo: [CertificateInfo]? = nil, nextToken: String? = nil) {
             self.certificatesInfo = certificatesInfo
             self.nextToken = nextToken
@@ -2565,6 +2654,7 @@ extension DirectoryService {
         /// The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2589,6 +2679,7 @@ extension DirectoryService {
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to ListIpRoutes to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(ipRoutesInfo: [IpRouteInfo]? = nil, nextToken: String? = nil) {
             self.ipRoutesInfo = ipRoutesInfo
             self.nextToken = nextToken
@@ -2608,6 +2699,7 @@ extension DirectoryService {
         /// The token for the next set of items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryId: String? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2632,6 +2724,7 @@ extension DirectoryService {
         /// The token for the next set of items to return.
         public let nextToken: String?
 
+        @inlinable
         public init(logSubscriptions: [LogSubscription]? = nil, nextToken: String? = nil) {
             self.logSubscriptions = logSubscriptions
             self.nextToken = nextToken
@@ -2651,6 +2744,7 @@ extension DirectoryService {
         /// The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil) {
             self.directoryId = directoryId
             self.limit = limit
@@ -2675,6 +2769,7 @@ extension DirectoryService {
         /// Information about the schema extensions applied to the directory.
         public let schemaExtensionsInfo: [SchemaExtensionInfo]?
 
+        @inlinable
         public init(nextToken: String? = nil, schemaExtensionsInfo: [SchemaExtensionInfo]? = nil) {
             self.nextToken = nextToken
             self.schemaExtensionsInfo = schemaExtensionsInfo
@@ -2694,6 +2789,7 @@ extension DirectoryService {
         /// Identifier (ID) of the directory for which you want to retrieve tags.
         public let resourceId: String
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.limit = limit
             self.nextToken = nextToken
@@ -2718,6 +2814,7 @@ extension DirectoryService {
         /// List of tags returned by the ListTagsForResource operation.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2737,6 +2834,7 @@ extension DirectoryService {
         /// The date and time that the log subscription was created.
         public let subscriptionCreatedDateTime: Date?
 
+        @inlinable
         public init(directoryId: String? = nil, logGroupName: String? = nil, subscriptionCreatedDateTime: Date? = nil) {
             self.directoryId = directoryId
             self.logGroupName = logGroupName
@@ -2754,6 +2852,7 @@ extension DirectoryService {
         ///  OS version that the directory needs to be updated to.
         public let osVersion: OSVersion?
 
+        @inlinable
         public init(osVersion: OSVersion? = nil) {
             self.osVersion = osVersion
         }
@@ -2777,6 +2876,7 @@ extension DirectoryService {
         /// Information about the VPC settings for the directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
+        @inlinable
         public init(accountId: String? = nil, directoryId: String? = nil, dnsIpAddrs: [String]? = nil, radiusSettings: RadiusSettings? = nil, radiusStatus: RadiusStatus? = nil, vpcSettings: DirectoryVpcSettingsDescription? = nil) {
             self.accountId = accountId
             self.directoryId = directoryId
@@ -2814,6 +2914,7 @@ extension DirectoryService {
         /// Not currently used.
         public let useSameUsername: Bool?
 
+        @inlinable
         public init(authenticationProtocol: RadiusAuthenticationProtocol? = nil, displayLabel: String? = nil, radiusPort: Int? = nil, radiusRetries: Int? = nil, radiusServers: [String]? = nil, radiusTimeout: Int? = nil, sharedSecret: String? = nil, useSameUsername: Bool? = nil) {
             self.authenticationProtocol = authenticationProtocol
             self.displayLabel = displayLabel
@@ -2874,6 +2975,7 @@ extension DirectoryService {
         public let statusLastUpdatedDateTime: Date?
         public let vpcSettings: DirectoryVpcSettings?
 
+        @inlinable
         public init(desiredNumberOfDomainControllers: Int? = nil, directoryId: String? = nil, lastUpdatedDateTime: Date? = nil, launchTime: Date? = nil, regionName: String? = nil, regionType: RegionType? = nil, status: DirectoryStage? = nil, statusLastUpdatedDateTime: Date? = nil, vpcSettings: DirectoryVpcSettings? = nil) {
             self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
             self.directoryId = directoryId
@@ -2905,6 +3007,7 @@ extension DirectoryService {
         /// The Region where the Managed Microsoft AD directory was originally created.
         public let primaryRegion: String?
 
+        @inlinable
         public init(additionalRegions: [String]? = nil, primaryRegion: String? = nil) {
             self.additionalRegions = additionalRegions
             self.primaryRegion = primaryRegion
@@ -2926,6 +3029,7 @@ extension DirectoryService {
         /// The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
         public let type: CertificateType?
 
+        @inlinable
         public init(certificateData: String, clientCertAuthSettings: ClientCertAuthSettings? = nil, directoryId: String, type: CertificateType? = nil) {
             self.certificateData = certificateData
             self.clientCertAuthSettings = clientCertAuthSettings
@@ -2952,6 +3056,7 @@ extension DirectoryService {
         /// The identifier of the certificate.
         public let certificateId: String?
 
+        @inlinable
         public init(certificateId: String? = nil) {
             self.certificateId = certificateId
         }
@@ -2967,6 +3072,7 @@ extension DirectoryService {
         /// The Amazon SNS topic name to which the directory will publish status messages. This Amazon SNS topic must be in the same region as the specified Directory ID.
         public let topicName: String
 
+        @inlinable
         public init(directoryId: String, topicName: String) {
             self.directoryId = directoryId
             self.topicName = topicName
@@ -2993,6 +3099,7 @@ extension DirectoryService {
         /// Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
         public let sharedDirectoryId: String
 
+        @inlinable
         public init(sharedDirectoryId: String) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -3010,6 +3117,7 @@ extension DirectoryService {
         /// Identifier of the shared directory in the directory consumer account.
         public let sharedDirectoryId: String?
 
+        @inlinable
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -3025,6 +3133,7 @@ extension DirectoryService {
         /// Identifier (ID) of the directory from which you want to remove the IP addresses.
         public let directoryId: String
 
+        @inlinable
         public init(cidrIps: [String], directoryId: String) {
             self.cidrIps = cidrIps
             self.directoryId = directoryId
@@ -3051,6 +3160,7 @@ extension DirectoryService {
         /// The identifier of the directory for which you want to remove Region replication.
         public let directoryId: String
 
+        @inlinable
         public init(directoryId: String) {
             self.directoryId = directoryId
         }
@@ -3074,6 +3184,7 @@ extension DirectoryService {
         /// The tag key (name) of the tag to be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
@@ -3106,6 +3217,7 @@ extension DirectoryService {
         /// The user name of the user whose password will be reset.
         public let userName: String
 
+        @inlinable
         public init(directoryId: String, newPassword: String, userName: String) {
             self.directoryId = directoryId
             self.newPassword = newPassword
@@ -3136,6 +3248,7 @@ extension DirectoryService {
         /// The identifier of the snapshot to restore from.
         public let snapshotId: String
 
+        @inlinable
         public init(snapshotId: String) {
             self.snapshotId = snapshotId
         }
@@ -3169,6 +3282,7 @@ extension DirectoryService {
         /// The date and time that the schema extension started being applied to the directory.
         public let startDateTime: Date?
 
+        @inlinable
         public init(description: String? = nil, directoryId: String? = nil, endDateTime: Date? = nil, schemaExtensionId: String? = nil, schemaExtensionStatus: SchemaExtensionStatus? = nil, schemaExtensionStatusReason: String? = nil, startDateTime: Date? = nil) {
             self.description = description
             self.directoryId = directoryId
@@ -3196,6 +3310,7 @@ extension DirectoryService {
         /// The value of the directory setting for which to retrieve information. For example, for TLS_1_0, the valid values are: Enable and Disable.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -3240,6 +3355,7 @@ extension DirectoryService {
         /// The type, or category, of a directory setting. Similar settings have the same type. For example, Protocol, Cipher,  or Certificate-Based Authentication.
         public let type: String?
 
+        @inlinable
         public init(allowedValues: String? = nil, appliedValue: String? = nil, dataType: String? = nil, lastRequestedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, requestDetailedStatus: [String: DirectoryConfigurationStatus]? = nil, requestedValue: String? = nil, requestStatus: DirectoryConfigurationStatus? = nil, requestStatusMessage: String? = nil, type: String? = nil) {
             self.allowedValues = allowedValues
             self.appliedValue = appliedValue
@@ -3279,6 +3395,7 @@ extension DirectoryService {
         /// Identifier for the directory consumer account with whom the directory is to be shared.
         public let shareTarget: ShareTarget
 
+        @inlinable
         public init(directoryId: String, shareMethod: ShareMethod, shareNotes: String? = nil, shareTarget: ShareTarget) {
             self.directoryId = directoryId
             self.shareMethod = shareMethod
@@ -3304,6 +3421,7 @@ extension DirectoryService {
         /// Identifier of the directory that is stored in the directory consumer account that is shared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
 
+        @inlinable
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -3319,6 +3437,7 @@ extension DirectoryService {
         /// Type of identifier to be used in the Id field.
         public let type: TargetType
 
+        @inlinable
         public init(id: String, type: TargetType) {
             self.id = id
             self.type = type
@@ -3355,6 +3474,7 @@ extension DirectoryService {
         /// Current directory status of the shared Managed Microsoft AD directory.
         public let shareStatus: ShareStatus?
 
+        @inlinable
         public init(createdDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, ownerAccountId: String? = nil, ownerDirectoryId: String? = nil, sharedAccountId: String? = nil, sharedDirectoryId: String? = nil, shareMethod: ShareMethod? = nil, shareNotes: String? = nil, shareStatus: ShareStatus? = nil) {
             self.createdDateTime = createdDateTime
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3394,6 +3514,7 @@ extension DirectoryService {
         /// The snapshot type.
         public let type: SnapshotType?
 
+        @inlinable
         public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
             self.directoryId = directoryId
             self.name = name
@@ -3421,6 +3542,7 @@ extension DirectoryService {
         /// Indicates if the manual snapshot limit has been reached.
         public let manualSnapshotsLimitReached: Bool?
 
+        @inlinable
         public init(manualSnapshotsCurrentCount: Int? = nil, manualSnapshotsLimit: Int? = nil, manualSnapshotsLimitReached: Bool? = nil) {
             self.manualSnapshotsCurrentCount = manualSnapshotsCurrentCount
             self.manualSnapshotsLimit = manualSnapshotsLimit
@@ -3444,6 +3566,7 @@ extension DirectoryService {
         /// The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with \n. See the example request below for more details. The file size can be no larger than 1MB.
         public let ldifContent: String
 
+        @inlinable
         public init(createSnapshotBeforeSchemaExtension: Bool = false, description: String, directoryId: String, ldifContent: String) {
             self.createSnapshotBeforeSchemaExtension = createSnapshotBeforeSchemaExtension
             self.description = description
@@ -3471,6 +3594,7 @@ extension DirectoryService {
         /// The identifier of the schema extension that will be applied.
         public let schemaExtensionId: String?
 
+        @inlinable
         public init(schemaExtensionId: String? = nil) {
             self.schemaExtensionId = schemaExtensionId
         }
@@ -3486,6 +3610,7 @@ extension DirectoryService {
         /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3529,6 +3654,7 @@ extension DirectoryService {
         /// The trust relationship type. Forest is the default.
         public let trustType: TrustType?
 
+        @inlinable
         public init(createdDateTime: Date? = nil, directoryId: String? = nil, lastUpdatedDateTime: Date? = nil, remoteDomainName: String? = nil, selectiveAuth: SelectiveAuth? = nil, stateLastUpdatedDateTime: Date? = nil, trustDirection: TrustDirection? = nil, trustId: String? = nil, trustState: TrustState? = nil, trustStateReason: String? = nil, trustType: TrustType? = nil) {
             self.createdDateTime = createdDateTime
             self.directoryId = directoryId
@@ -3564,6 +3690,7 @@ extension DirectoryService {
         /// Identifier for the directory consumer account with whom the directory has to be unshared.
         public let unshareTarget: UnshareTarget
 
+        @inlinable
         public init(directoryId: String, unshareTarget: UnshareTarget) {
             self.directoryId = directoryId
             self.unshareTarget = unshareTarget
@@ -3584,6 +3711,7 @@ extension DirectoryService {
         /// Identifier of the directory stored in the directory consumer account that is to be unshared from the specified directory (DirectoryId).
         public let sharedDirectoryId: String?
 
+        @inlinable
         public init(sharedDirectoryId: String? = nil) {
             self.sharedDirectoryId = sharedDirectoryId
         }
@@ -3599,6 +3727,7 @@ extension DirectoryService {
         /// Type of identifier to be used in the Id field.
         public let type: TargetType
 
+        @inlinable
         public init(id: String, type: TargetType) {
             self.id = id
             self.type = type
@@ -3623,6 +3752,7 @@ extension DirectoryService {
         /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
         public let remoteDomainName: String
 
+        @inlinable
         public init(directoryId: String, dnsIpAddrs: [String], remoteDomainName: String) {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
@@ -3659,6 +3789,7 @@ extension DirectoryService {
         ///  The type of update that needs to be performed on the directory. For example, OS.
         public let updateType: UpdateType
 
+        @inlinable
         public init(createSnapshotBeforeUpdate: Bool? = nil, directoryId: String, osUpdateSettings: OSUpdateSettings? = nil, updateType: UpdateType) {
             self.createSnapshotBeforeUpdate = createSnapshotBeforeUpdate
             self.directoryId = directoryId
@@ -3700,6 +3831,7 @@ extension DirectoryService {
         ///  The reason for the current status of the update type activity.
         public let statusReason: String?
 
+        @inlinable
         public init(initiatedBy: String? = nil, lastUpdatedDateTime: Date? = nil, newValue: UpdateValue? = nil, previousValue: UpdateValue? = nil, region: String? = nil, startTime: Date? = nil, status: UpdateStatus? = nil, statusReason: String? = nil) {
             self.initiatedBy = initiatedBy
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -3729,6 +3861,7 @@ extension DirectoryService {
         /// Identifier of the directory to which the domain controllers will be added or removed.
         public let directoryId: String
 
+        @inlinable
         public init(desiredNumber: Int, directoryId: String) {
             self.desiredNumber = desiredNumber
             self.directoryId = directoryId
@@ -3755,6 +3888,7 @@ extension DirectoryService {
         /// A RadiusSettings object that contains information about the RADIUS server.
         public let radiusSettings: RadiusSettings
 
+        @inlinable
         public init(directoryId: String, radiusSettings: RadiusSettings) {
             self.directoryId = directoryId
             self.radiusSettings = radiusSettings
@@ -3781,6 +3915,7 @@ extension DirectoryService {
         /// The list of Setting objects.
         public let settings: [Setting]
 
+        @inlinable
         public init(directoryId: String, settings: [Setting]) {
             self.directoryId = directoryId
             self.settings = settings
@@ -3803,6 +3938,7 @@ extension DirectoryService {
         /// The identifier of the directory.
         public let directoryId: String?
 
+        @inlinable
         public init(directoryId: String? = nil) {
             self.directoryId = directoryId
         }
@@ -3818,6 +3954,7 @@ extension DirectoryService {
         /// Identifier of the trust relationship.
         public let trustId: String
 
+        @inlinable
         public init(selectiveAuth: SelectiveAuth? = nil, trustId: String) {
             self.selectiveAuth = selectiveAuth
             self.trustId = trustId
@@ -3838,6 +3975,7 @@ extension DirectoryService {
         /// Identifier of the trust relationship.
         public let trustId: String?
 
+        @inlinable
         public init(requestId: String? = nil, trustId: String? = nil) {
             self.requestId = requestId
             self.trustId = trustId
@@ -3853,6 +3991,7 @@ extension DirectoryService {
         ///  The OS update related settings.
         public let osUpdateSettings: OSUpdateSettings?
 
+        @inlinable
         public init(osUpdateSettings: OSUpdateSettings? = nil) {
             self.osUpdateSettings = osUpdateSettings
         }
@@ -3866,6 +4005,7 @@ extension DirectoryService {
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
 
+        @inlinable
         public init(trustId: String) {
             self.trustId = trustId
         }
@@ -3883,6 +4023,7 @@ extension DirectoryService {
         /// The unique Trust ID of the trust relationship that was verified.
         public let trustId: String?
 
+        @inlinable
         public init(trustId: String? = nil) {
             self.trustId = trustId
         }

@@ -60,6 +60,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -83,6 +84,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
 
+        @inlinable
         public init(identityPoolId: String? = nil) {
             self.identityPoolId = identityPoolId
         }
@@ -100,6 +102,7 @@ extension CognitoSync {
         /// The name of the Cognito stream to receive updates. This stream must be in the developers account and in the same region as the identity pool.
         public let streamName: String?
 
+        @inlinable
         public init(roleArn: String? = nil, streamingStatus: StreamingStatus? = nil, streamName: String? = nil) {
             self.roleArn = roleArn
             self.streamingStatus = streamingStatus
@@ -137,6 +140,7 @@ extension CognitoSync {
         /// Number of records in this dataset.
         public let numRecords: Int64?
 
+        @inlinable
         public init(creationDate: Date? = nil, datasetName: String? = nil, dataStorage: Int64? = nil, identityId: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, numRecords: Int64? = nil) {
             self.creationDate = creationDate
             self.datasetName = datasetName
@@ -166,6 +170,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
+        @inlinable
         public init(datasetName: String, identityId: String, identityPoolId: String) {
             self.datasetName = datasetName
             self.identityId = identityId
@@ -199,6 +204,7 @@ extension CognitoSync {
         /// A collection of data for an identity pool. An identity pool can have multiple datasets. A dataset is per identity and can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
         public let dataset: Dataset?
 
+        @inlinable
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
         }
@@ -216,6 +222,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
+        @inlinable
         public init(datasetName: String, identityId: String, identityPoolId: String) {
             self.datasetName = datasetName
             self.identityId = identityId
@@ -249,6 +256,7 @@ extension CognitoSync {
         /// Meta data for a collection of data for an identity. An identity can have multiple datasets. A dataset can be general or associated with a particular entity in an application (like a saved game). Datasets are automatically created if they don't exist. Data is synced by dataset, and a dataset can hold up to 1MB of key-value pairs.
         public let dataset: Dataset?
 
+        @inlinable
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
         }
@@ -262,6 +270,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -285,6 +294,7 @@ extension CognitoSync {
         /// Information about the usage of the identity pool.
         public let identityPoolUsage: IdentityPoolUsage?
 
+        @inlinable
         public init(identityPoolUsage: IdentityPoolUsage? = nil) {
             self.identityPoolUsage = identityPoolUsage
         }
@@ -300,6 +310,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityId: String, identityPoolId: String) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
@@ -328,6 +339,7 @@ extension CognitoSync {
         /// Usage information for the identity.
         public let identityUsage: IdentityUsage?
 
+        @inlinable
         public init(identityUsage: IdentityUsage? = nil) {
             self.identityUsage = identityUsage
         }
@@ -341,6 +353,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -372,6 +385,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
         public let identityPoolId: String?
 
+        @inlinable
         public init(bulkPublishCompleteTime: Date? = nil, bulkPublishStartTime: Date? = nil, bulkPublishStatus: BulkPublishStatus? = nil, failureMessage: String? = nil, identityPoolId: String? = nil) {
             self.bulkPublishCompleteTime = bulkPublishCompleteTime
             self.bulkPublishStartTime = bulkPublishStartTime
@@ -393,6 +407,7 @@ extension CognitoSync {
         /// The Cognito Identity Pool ID for the request
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -416,6 +431,7 @@ extension CognitoSync {
         /// The Cognito Events returned from the GetCognitoEvents request
         public let events: [String: String]?
 
+        @inlinable
         public init(events: [String: String]? = nil) {
             self.events = events
         }
@@ -429,6 +445,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
         public let identityPoolId: String
 
+        @inlinable
         public init(identityPoolId: String) {
             self.identityPoolId = identityPoolId
         }
@@ -456,6 +473,7 @@ extension CognitoSync {
         /// Options to apply to this identity pool for push synchronization.
         public let pushSync: PushSync?
 
+        @inlinable
         public init(cognitoStreams: CognitoStreams? = nil, identityPoolId: String? = nil, pushSync: PushSync? = nil) {
             self.cognitoStreams = cognitoStreams
             self.identityPoolId = identityPoolId
@@ -479,6 +497,7 @@ extension CognitoSync {
         /// Number of sync sessions for the identity pool.
         public let syncSessionsCount: Int64?
 
+        @inlinable
         public init(dataStorage: Int64? = nil, identityPoolId: String? = nil, lastModifiedDate: Date? = nil, syncSessionsCount: Int64? = nil) {
             self.dataStorage = dataStorage
             self.identityPoolId = identityPoolId
@@ -506,6 +525,7 @@ extension CognitoSync {
         /// Date on which the identity was last modified.
         public let lastModifiedDate: Date?
 
+        @inlinable
         public init(datasetCount: Int? = nil, dataStorage: Int64? = nil, identityId: String? = nil, identityPoolId: String? = nil, lastModifiedDate: Date? = nil) {
             self.datasetCount = datasetCount
             self.dataStorage = dataStorage
@@ -533,6 +553,7 @@ extension CognitoSync {
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(identityId: String, identityPoolId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
@@ -569,6 +590,7 @@ extension CognitoSync {
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(count: Int? = nil, datasets: [Dataset]? = nil, nextToken: String? = nil) {
             self.count = count
             self.datasets = datasets
@@ -588,6 +610,7 @@ extension CognitoSync {
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -613,6 +636,7 @@ extension CognitoSync {
         /// A pagination token for obtaining the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(count: Int? = nil, identityPoolUsages: [IdentityPoolUsage]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.count = count
             self.identityPoolUsages = identityPoolUsages
@@ -644,6 +668,7 @@ extension CognitoSync {
         /// A token containing a session ID, identity ID, and expiration.
         public let syncSessionToken: String?
 
+        @inlinable
         public init(datasetName: String, identityId: String, identityPoolId: String, lastSyncCount: Int64? = nil, maxResults: Int? = nil, nextToken: String? = nil, syncSessionToken: String? = nil) {
             self.datasetName = datasetName
             self.identityId = identityId
@@ -701,6 +726,7 @@ extension CognitoSync {
         /// A token containing a session ID, identity ID, and expiration.
         public let syncSessionToken: String?
 
+        @inlinable
         public init(count: Int? = nil, datasetDeletedAfterRequestedSyncCount: Bool? = nil, datasetExists: Bool? = nil, datasetSyncCount: Int64? = nil, lastModifiedBy: String? = nil, mergedDatasetNames: [String]? = nil, nextToken: String? = nil, records: [Record]? = nil, syncSessionToken: String? = nil) {
             self.count = count
             self.datasetDeletedAfterRequestedSyncCount = datasetDeletedAfterRequestedSyncCount
@@ -732,6 +758,7 @@ extension CognitoSync {
         /// A role configured to allow Cognito to call SNS on behalf of the developer.
         public let roleArn: String?
 
+        @inlinable
         public init(applicationArns: [String]? = nil, roleArn: String? = nil) {
             self.applicationArns = applicationArns
             self.roleArn = roleArn
@@ -766,6 +793,7 @@ extension CognitoSync {
         /// The value for the record.
         public let value: String?
 
+        @inlinable
         public init(deviceLastModifiedDate: Date? = nil, key: String? = nil, lastModifiedBy: String? = nil, lastModifiedDate: Date? = nil, syncCount: Int64? = nil, value: String? = nil) {
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
@@ -797,6 +825,7 @@ extension CognitoSync {
         /// The value associated with the record patch.
         public let value: String?
 
+        @inlinable
         public init(deviceLastModifiedDate: Date? = nil, key: String, op: Operation, syncCount: Int64, value: String? = nil) {
             self.deviceLastModifiedDate = deviceLastModifiedDate
             self.key = key
@@ -830,6 +859,7 @@ extension CognitoSync {
         /// The push token.
         public let token: String
 
+        @inlinable
         public init(identityId: String, identityPoolId: String, platform: Platform, token: String) {
             self.identityId = identityId
             self.identityPoolId = identityPoolId
@@ -865,6 +895,7 @@ extension CognitoSync {
         /// The unique ID generated for this device by Cognito.
         public let deviceId: String?
 
+        @inlinable
         public init(deviceId: String? = nil) {
             self.deviceId = deviceId
         }
@@ -880,6 +911,7 @@ extension CognitoSync {
         /// The Cognito Identity Pool to use when configuring Cognito Events
         public let identityPoolId: String
 
+        @inlinable
         public init(events: [String: String], identityPoolId: String) {
             self.events = events
             self.identityPoolId = identityPoolId
@@ -912,6 +944,7 @@ extension CognitoSync {
         /// Options to apply to this identity pool for push synchronization.
         public let pushSync: PushSync?
 
+        @inlinable
         public init(cognitoStreams: CognitoStreams? = nil, identityPoolId: String, pushSync: PushSync? = nil) {
             self.cognitoStreams = cognitoStreams
             self.identityPoolId = identityPoolId
@@ -948,6 +981,7 @@ extension CognitoSync {
         /// Options to apply to this identity pool for push synchronization.
         public let pushSync: PushSync?
 
+        @inlinable
         public init(cognitoStreams: CognitoStreams? = nil, identityPoolId: String? = nil, pushSync: PushSync? = nil) {
             self.cognitoStreams = cognitoStreams
             self.identityPoolId = identityPoolId
@@ -971,6 +1005,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
         public let identityPoolId: String
 
+        @inlinable
         public init(datasetName: String, deviceId: String, identityId: String, identityPoolId: String) {
             self.datasetName = datasetName
             self.deviceId = deviceId
@@ -1018,6 +1053,7 @@ extension CognitoSync {
         /// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs.
         public let identityPoolId: String
 
+        @inlinable
         public init(datasetName: String, deviceId: String, identityId: String, identityPoolId: String) {
             self.datasetName = datasetName
             self.deviceId = deviceId
@@ -1071,6 +1107,7 @@ extension CognitoSync {
         /// The SyncSessionToken returned by a previous call to ListRecords for this dataset and identity.
         public let syncSessionToken: String
 
+        @inlinable
         public init(clientContext: String? = nil, datasetName: String, deviceId: String? = nil, identityId: String, identityPoolId: String, recordPatches: [RecordPatch]? = nil, syncSessionToken: String) {
             self.clientContext = clientContext
             self.datasetName = datasetName
@@ -1121,6 +1158,7 @@ extension CognitoSync {
         /// A list of records that have been updated.
         public let records: [Record]?
 
+        @inlinable
         public init(records: [Record]? = nil) {
             self.records = records
         }

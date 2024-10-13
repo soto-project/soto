@@ -158,6 +158,7 @@ extension WorkMail {
         /// User IDs to include in the rule.
         public let userIds: [String]?
 
+        @inlinable
         public init(actions: [String]? = nil, dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, effect: AccessControlRuleEffect? = nil, impersonationRoleIds: [String]? = nil, ipRanges: [String]? = nil, name: String? = nil, notActions: [String]? = nil, notImpersonationRoleIds: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, userIds: [String]? = nil) {
             self.actions = actions
             self.dateCreated = dateCreated
@@ -199,6 +200,7 @@ extension WorkMail {
         /// The resource for which members (users or groups) are associated. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
+        @inlinable
         public init(entityId: String, organizationId: String, resourceId: String) {
             self.entityId = entityId
             self.organizationId = organizationId
@@ -236,6 +238,7 @@ extension WorkMail {
         /// The organization under which the group exists.
         public let organizationId: String
 
+        @inlinable
         public init(groupId: String, memberId: String, organizationId: String) {
             self.groupId = groupId
             self.memberId = memberId
@@ -271,6 +274,7 @@ extension WorkMail {
         /// The WorkMail organization under which the impersonation role will be assumed.
         public let organizationId: String
 
+        @inlinable
         public init(impersonationRoleId: String, organizationId: String) {
             self.impersonationRoleId = impersonationRoleId
             self.organizationId = organizationId
@@ -297,6 +301,7 @@ extension WorkMail {
         /// The authentication token for the impersonation role.
         public let token: String?
 
+        @inlinable
         public init(expiresIn: Int64? = nil, token: String? = nil) {
             self.expiresIn = expiresIn
             self.token = token
@@ -322,6 +327,7 @@ extension WorkMail {
         /// Displays the provider type that applies to this domain.
         public let providerType: AvailabilityProviderType?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, domainName: String? = nil, ewsProvider: RedactedEwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, providerType: AvailabilityProviderType? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -349,6 +355,7 @@ extension WorkMail {
         /// The resource's ability to automatically decline any recurring requests.
         public let autoDeclineRecurringRequests: Bool?
 
+        @inlinable
         public init(autoAcceptRequests: Bool? = nil, autoDeclineConflictingRequests: Bool? = nil, autoDeclineRecurringRequests: Bool? = nil) {
             self.autoAcceptRequests = autoAcceptRequests
             self.autoDeclineConflictingRequests = autoDeclineConflictingRequests
@@ -370,6 +377,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(clientToken: String = CancelMailboxExportJobRequest.idempotencyToken(), jobId: String, organizationId: String) {
             self.clientToken = clientToken
             self.jobId = jobId
@@ -407,6 +415,7 @@ extension WorkMail {
         /// The organization under which the member (user or group) exists.
         public let organizationId: String
 
+        @inlinable
         public init(alias: String, entityId: String, organizationId: String) {
             self.alias = alias
             self.entityId = entityId
@@ -447,6 +456,7 @@ extension WorkMail {
         /// The WorkMail organization for which the AvailabilityConfiguration will be created.
         public let organizationId: String
 
+        @inlinable
         public init(clientToken: String? = CreateAvailabilityConfigurationRequest.idempotencyToken(), domainName: String, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
             self.clientToken = clientToken
             self.domainName = domainName
@@ -490,6 +500,7 @@ extension WorkMail {
         /// The organization under which the group is to be created.
         public let organizationId: String
 
+        @inlinable
         public init(hiddenFromGlobalAddressList: Bool? = nil, name: String, organizationId: String) {
             self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
             self.name = name
@@ -516,6 +527,7 @@ extension WorkMail {
         /// The identifier of the group.
         public let groupId: String?
 
+        @inlinable
         public init(groupId: String? = nil) {
             self.groupId = groupId
         }
@@ -539,6 +551,7 @@ extension WorkMail {
         /// The impersonation role's type. The available impersonation role types are READ_ONLY or FULL_ACCESS.
         public let type: ImpersonationRoleType
 
+        @inlinable
         public init(clientToken: String? = CreateImpersonationRoleRequest.idempotencyToken(), description: String? = nil, name: String, organizationId: String, rules: [ImpersonationRule], type: ImpersonationRoleType) {
             self.clientToken = clientToken
             self.description = description
@@ -581,6 +594,7 @@ extension WorkMail {
         /// The new impersonation role ID.
         public let impersonationRoleId: String?
 
+        @inlinable
         public init(impersonationRoleId: String? = nil) {
             self.impersonationRoleId = impersonationRoleId
         }
@@ -618,6 +632,7 @@ extension WorkMail {
         /// The WorkMail organization under which the rule will be created.
         public let organizationId: String
 
+        @inlinable
         public init(clientToken: String? = CreateMobileDeviceAccessRuleRequest.idempotencyToken(), description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect, name: String, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil, organizationId: String) {
             self.clientToken = clientToken
             self.description = description
@@ -726,6 +741,7 @@ extension WorkMail {
         /// The identifier for the newly created mobile device access rule.
         public let mobileDeviceAccessRuleId: String?
 
+        @inlinable
         public init(mobileDeviceAccessRuleId: String? = nil) {
             self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
         }
@@ -749,6 +765,7 @@ extension WorkMail {
         /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(alias: String, clientToken: String? = CreateOrganizationRequest.idempotencyToken(), directoryId: String? = nil, domains: [Domain]? = nil, enableInteroperability: Bool? = nil, kmsKeyArn: String? = nil) {
             self.alias = alias
             self.clientToken = clientToken
@@ -791,6 +808,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String?
 
+        @inlinable
         public init(organizationId: String? = nil) {
             self.organizationId = organizationId
         }
@@ -812,6 +830,7 @@ extension WorkMail {
         /// The type of the new resource. The available types are equipment and room.
         public let type: ResourceType
 
+        @inlinable
         public init(description: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String, organizationId: String, type: ResourceType) {
             self.description = description
             self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
@@ -844,6 +863,7 @@ extension WorkMail {
         /// The identifier of the new resource.
         public let resourceId: String?
 
+        @inlinable
         public init(resourceId: String? = nil) {
             self.resourceId = resourceId
         }
@@ -871,6 +891,7 @@ extension WorkMail {
         /// The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a single request. When a user role is not selected, the default role of USER is selected.
         public let role: UserRole?
 
+        @inlinable
         public init(displayName: String, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, lastName: String? = nil, name: String, organizationId: String, password: String? = nil, role: UserRole? = nil) {
             self.displayName = displayName
             self.firstName = firstName
@@ -912,6 +933,7 @@ extension WorkMail {
         /// The identifier for the new user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -927,6 +949,7 @@ extension WorkMail {
         /// The type of the delegate: user or group.
         public let type: MemberType
 
+        @inlinable
         public init(id: String, type: MemberType) {
             self.id = id
             self.type = type
@@ -944,6 +967,7 @@ extension WorkMail {
         /// The identifier for the organization.
         public let organizationId: String
 
+        @inlinable
         public init(name: String, organizationId: String) {
             self.name = name
             self.organizationId = organizationId
@@ -976,6 +1000,7 @@ extension WorkMail {
         /// The identifier for the organization under which the user exists.
         public let organizationId: String
 
+        @inlinable
         public init(alias: String, entityId: String, organizationId: String) {
             self.alias = alias
             self.entityId = entityId
@@ -1010,6 +1035,7 @@ extension WorkMail {
         /// The WorkMail organization for which the AvailabilityConfiguration will be deleted.
         public let organizationId: String
 
+        @inlinable
         public init(domainName: String, organizationId: String) {
             self.domainName = domainName
             self.organizationId = organizationId
@@ -1038,6 +1064,7 @@ extension WorkMail {
         /// The ID of the organization from which the email monitoring configuration is deleted.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -1063,6 +1090,7 @@ extension WorkMail {
         /// The organization that contains the group.
         public let organizationId: String
 
+        @inlinable
         public init(groupId: String, organizationId: String) {
             self.groupId = groupId
             self.organizationId = organizationId
@@ -1093,6 +1121,7 @@ extension WorkMail {
         /// The WorkMail organization from which to delete the impersonation role.
         public let organizationId: String
 
+        @inlinable
         public init(impersonationRoleId: String, organizationId: String) {
             self.impersonationRoleId = impersonationRoleId
             self.organizationId = organizationId
@@ -1125,6 +1154,7 @@ extension WorkMail {
         /// The identifier of the organization under which the member (user or group) exists.
         public let organizationId: String
 
+        @inlinable
         public init(entityId: String, granteeId: String, organizationId: String) {
             self.entityId = entityId
             self.granteeId = granteeId
@@ -1162,6 +1192,7 @@ extension WorkMail {
         /// The WorkMail user for which you want to delete the override. Accepts the following types of user identities:   User ID:  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String
 
+        @inlinable
         public init(deviceId: String, organizationId: String, userId: String) {
             self.deviceId = deviceId
             self.organizationId = organizationId
@@ -1197,6 +1228,7 @@ extension WorkMail {
         /// The WorkMail organization under which the rule will be deleted.
         public let organizationId: String
 
+        @inlinable
         public init(mobileDeviceAccessRuleId: String, organizationId: String) {
             self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
             self.organizationId = organizationId
@@ -1231,6 +1263,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool = false, forceDelete: Bool? = nil, organizationId: String) {
             self.clientToken = clientToken
             self.deleteDirectory = deleteDirectory
@@ -1261,6 +1294,7 @@ extension WorkMail {
         /// The state of the organization.
         public let state: String?
 
+        @inlinable
         public init(organizationId: String? = nil, state: String? = nil) {
             self.organizationId = organizationId
             self.state = state
@@ -1278,6 +1312,7 @@ extension WorkMail {
         /// The identifier of the resource to be deleted. The identifier can accept ResourceId, or Resourcename. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Resource name: resource
         public let resourceId: String
 
+        @inlinable
         public init(organizationId: String, resourceId: String) {
             self.organizationId = organizationId
             self.resourceId = resourceId
@@ -1308,6 +1343,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(id: String, organizationId: String) {
             self.id = id
             self.organizationId = organizationId
@@ -1338,6 +1374,7 @@ extension WorkMail {
         /// The identifier of the user to be deleted. The identifier can be the UserId or Username. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   User name: user
         public let userId: String
 
+        @inlinable
         public init(organizationId: String, userId: String) {
             self.organizationId = organizationId
             self.userId = userId
@@ -1368,6 +1405,7 @@ extension WorkMail {
         /// The identifier for the organization under which the WorkMail entity exists.
         public let organizationId: String
 
+        @inlinable
         public init(entityId: String, organizationId: String) {
             self.entityId = entityId
             self.organizationId = organizationId
@@ -1398,6 +1436,7 @@ extension WorkMail {
         /// The WorkMail organization for which the domain will be deregistered.
         public let organizationId: String
 
+        @inlinable
         public init(domainName: String, organizationId: String) {
             self.domainName = domainName
             self.organizationId = organizationId
@@ -1426,6 +1465,7 @@ extension WorkMail {
         /// The ID of the organization for which the email monitoring configuration is described.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -1447,6 +1487,7 @@ extension WorkMail {
         /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
         public let roleArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil, roleArn: String? = nil) {
             self.logGroupArn = logGroupArn
             self.roleArn = roleArn
@@ -1464,6 +1505,7 @@ extension WorkMail {
         /// The identifier for the organization under which the entity exists.
         public let organizationId: String
 
+        @inlinable
         public init(email: String, organizationId: String) {
             self.email = email
             self.organizationId = organizationId
@@ -1492,6 +1534,7 @@ extension WorkMail {
         /// Entity type.
         public let type: EntityType?
 
+        @inlinable
         public init(entityId: String? = nil, name: String? = nil, type: EntityType? = nil) {
             self.entityId = entityId
             self.name = name
@@ -1511,6 +1554,7 @@ extension WorkMail {
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
 
+        @inlinable
         public init(groupId: String, organizationId: String) {
             self.groupId = groupId
             self.organizationId = organizationId
@@ -1547,6 +1591,7 @@ extension WorkMail {
         /// The state of the user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
         public let state: EntityState?
 
+        @inlinable
         public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, groupId: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
@@ -1572,6 +1617,7 @@ extension WorkMail {
         /// Lists the ID of the given organization.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -1591,6 +1637,7 @@ extension WorkMail {
         /// Lists the enforcement setting of the applied policy.
         public let enforced: Bool?
 
+        @inlinable
         public init(enforced: Bool? = nil) {
             self.enforced = enforced
         }
@@ -1606,6 +1653,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(jobId: String, organizationId: String) {
             self.jobId = jobId
             self.organizationId = organizationId
@@ -1652,6 +1700,7 @@ extension WorkMail {
         /// The state of the mailbox export job.
         public let state: MailboxExportJobState?
 
+        @inlinable
         public init(description: String? = nil, endTime: Date? = nil, entityId: String? = nil, errorInfo: String? = nil, estimatedProgress: Int? = nil, kmsKeyArn: String? = nil, roleArn: String? = nil, s3BucketName: String? = nil, s3Path: String? = nil, s3Prefix: String? = nil, startTime: Date? = nil, state: MailboxExportJobState? = nil) {
             self.description = description
             self.endTime = endTime
@@ -1687,6 +1736,7 @@ extension WorkMail {
         /// The identifier for the organization to be described.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -1726,6 +1776,7 @@ extension WorkMail {
         /// The state of an organization.
         public let state: String?
 
+        @inlinable
         public init(alias: String? = nil, arn: String? = nil, completedDate: Date? = nil, defaultMailDomain: String? = nil, directoryId: String? = nil, directoryType: String? = nil, errorMessage: String? = nil, interoperabilityEnabled: Bool? = nil, migrationAdmin: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
             self.arn = arn
@@ -1761,6 +1812,7 @@ extension WorkMail {
         /// The identifier of the resource to be described. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
+        @inlinable
         public init(organizationId: String, resourceId: String) {
             self.organizationId = organizationId
             self.resourceId = resourceId
@@ -1803,6 +1855,7 @@ extension WorkMail {
         /// The type of the described resource.
         public let type: ResourceType?
 
+        @inlinable
         public init(bookingOptions: BookingOptions? = nil, description: String? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
             self.description = description
@@ -1836,6 +1889,7 @@ extension WorkMail {
         /// The identifier for the user to be described. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
 
+        @inlinable
         public init(organizationId: String, userId: String) {
             self.organizationId = organizationId
             self.userId = userId
@@ -1904,6 +1958,7 @@ extension WorkMail {
         /// Zip code of the user.
         public let zipCode: String?
 
+        @inlinable
         public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, mailboxDeprovisionedDate: Date? = nil, mailboxProvisionedDate: Date? = nil, name: String? = nil, office: String? = nil, state: EntityState? = nil, street: String? = nil, telephone: String? = nil, userId: String? = nil, userRole: UserRole? = nil, zipCode: String? = nil) {
             self.city = city
             self.company = company
@@ -1965,6 +2020,7 @@ extension WorkMail {
         /// The identifier of the resource from which delegates' set members are removed.  The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
+        @inlinable
         public init(entityId: String, organizationId: String, resourceId: String) {
             self.entityId = entityId
             self.organizationId = organizationId
@@ -2002,6 +2058,7 @@ extension WorkMail {
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
 
+        @inlinable
         public init(groupId: String, memberId: String, organizationId: String) {
             self.groupId = groupId
             self.memberId = memberId
@@ -2039,6 +2096,7 @@ extension WorkMail {
         /// The value returned by the DNS for a query to that hostname and record type.
         public let value: String?
 
+        @inlinable
         public init(hostname: String? = nil, type: String? = nil, value: String? = nil) {
             self.hostname = hostname
             self.type = type
@@ -2058,6 +2116,7 @@ extension WorkMail {
         /// The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53.
         public let hostedZoneId: String?
 
+        @inlinable
         public init(domainName: String, hostedZoneId: String? = nil) {
             self.domainName = domainName
             self.hostedZoneId = hostedZoneId
@@ -2086,6 +2145,7 @@ extension WorkMail {
         /// The username used to authenticate the remote EWS server.
         public let ewsUsername: String
 
+        @inlinable
         public init(ewsEndpoint: String, ewsPassword: String, ewsUsername: String) {
             self.ewsEndpoint = ewsEndpoint
             self.ewsPassword = ewsPassword
@@ -2116,6 +2176,7 @@ extension WorkMail {
         /// The number of days for which the folder-configuration action applies.
         public let period: Int?
 
+        @inlinable
         public init(action: RetentionAction, name: FolderName, period: Int? = nil) {
             self.action = action
             self.name = name
@@ -2146,6 +2207,7 @@ extension WorkMail {
         /// The user ID.
         public let userId: String?
 
+        @inlinable
         public init(action: String, impersonationRoleId: String? = nil, ipAddress: String, organizationId: String, userId: String? = nil) {
             self.action = action
             self.impersonationRoleId = impersonationRoleId
@@ -2186,6 +2248,7 @@ extension WorkMail {
         /// The rules that match the given parameters, resulting in an effect.
         public let matchedRules: [String]?
 
+        @inlinable
         public init(effect: AccessControlRuleEffect? = nil, matchedRules: [String]? = nil) {
             self.effect = effect
             self.matchedRules = matchedRules
@@ -2201,6 +2264,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -2226,6 +2290,7 @@ extension WorkMail {
         /// The retention policy name.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, folderConfigurations: [FolderConfiguration]? = nil, id: String? = nil, name: String? = nil) {
             self.description = description
             self.folderConfigurations = folderConfigurations
@@ -2249,6 +2314,7 @@ extension WorkMail {
         /// The WorkMail organization user chosen to test the impersonation role. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let targetUser: String
 
+        @inlinable
         public init(impersonationRoleId: String, organizationId: String, targetUser: String) {
             self.impersonationRoleId = impersonationRoleId
             self.organizationId = organizationId
@@ -2282,6 +2348,7 @@ extension WorkMail {
         /// The impersonation role type.
         public let type: ImpersonationRoleType?
 
+        @inlinable
         public init(effect: AccessEffect? = nil, matchedRules: [ImpersonationMatchedRule]? = nil, type: ImpersonationRoleType? = nil) {
             self.effect = effect
             self.matchedRules = matchedRules
@@ -2301,6 +2368,7 @@ extension WorkMail {
         /// The WorkMail organization from which to retrieve the impersonation role.
         public let organizationId: String
 
+        @inlinable
         public init(impersonationRoleId: String, organizationId: String) {
             self.impersonationRoleId = impersonationRoleId
             self.organizationId = organizationId
@@ -2337,6 +2405,7 @@ extension WorkMail {
         /// The impersonation role type.
         public let type: ImpersonationRoleType?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, impersonationRoleId: String? = nil, name: String? = nil, rules: [ImpersonationRule]? = nil, type: ImpersonationRoleType? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -2364,6 +2433,7 @@ extension WorkMail {
         /// The WorkMail organization for which the domain is retrieved.
         public let organizationId: String
 
+        @inlinable
         public init(domainName: String, organizationId: String) {
             self.domainName = domainName
             self.organizationId = organizationId
@@ -2396,6 +2466,7 @@ extension WorkMail {
         /// A list of the DNS records that WorkMail recommends adding in your DNS provider for the best user experience. The records configure your domain with DMARC, SPF, DKIM, and direct incoming  email traffic to SES. See admin guide for more details.
         public let records: [DnsRecord]?
 
+        @inlinable
         public init(dkimVerificationStatus: DnsRecordVerificationStatus? = nil, isDefault: Bool? = nil, isTestDomain: Bool? = nil, ownershipVerificationStatus: DnsRecordVerificationStatus? = nil, records: [DnsRecord]? = nil) {
             self.dkimVerificationStatus = dkimVerificationStatus
             self.isDefault = isDefault
@@ -2419,6 +2490,7 @@ extension WorkMail {
         /// The identifier for the user whose mailbox details are being requested. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
 
+        @inlinable
         public init(organizationId: String, userId: String) {
             self.organizationId = organizationId
             self.userId = userId
@@ -2445,6 +2517,7 @@ extension WorkMail {
         /// The current mailbox size, in MB, for the specified user.
         public let mailboxSize: Double?
 
+        @inlinable
         public init(mailboxQuota: Int? = nil, mailboxSize: Double? = nil) {
             self.mailboxQuota = mailboxQuota
             self.mailboxSize = mailboxSize
@@ -2468,6 +2541,7 @@ extension WorkMail {
         /// The WorkMail organization to simulate the access effect for.
         public let organizationId: String
 
+        @inlinable
         public init(deviceModel: String? = nil, deviceOperatingSystem: String? = nil, deviceType: String? = nil, deviceUserAgent: String? = nil, organizationId: String) {
             self.deviceModel = deviceModel
             self.deviceOperatingSystem = deviceOperatingSystem
@@ -2509,6 +2583,7 @@ extension WorkMail {
         /// A list of the rules which matched the simulated user input and produced the effect.
         public let matchedRules: [MobileDeviceAccessMatchedRule]?
 
+        @inlinable
         public init(effect: MobileDeviceAccessRuleEffect? = nil, matchedRules: [MobileDeviceAccessMatchedRule]? = nil) {
             self.effect = effect
             self.matchedRules = matchedRules
@@ -2528,6 +2603,7 @@ extension WorkMail {
         /// Identifies the WorkMail user for the override. Accepts the following types of user identities:    User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String
 
+        @inlinable
         public init(deviceId: String, organizationId: String, userId: String) {
             self.deviceId = deviceId
             self.organizationId = organizationId
@@ -2567,6 +2643,7 @@ extension WorkMail {
         /// The WorkMail user to which the access override applies.
         public let userId: String?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, deviceId: String? = nil, effect: MobileDeviceAccessRuleEffect? = nil, userId: String? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -2600,6 +2677,7 @@ extension WorkMail {
         /// The state of the group, which can be ENABLED, DISABLED, or DELETED.
         public let state: EntityState?
 
+        @inlinable
         public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil) {
             self.disabledDate = disabledDate
             self.email = email
@@ -2625,6 +2703,7 @@ extension WorkMail {
         /// Group name that matched the group.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -2642,6 +2721,7 @@ extension WorkMail {
         /// The name of the rule that matched the input.
         public let name: String?
 
+        @inlinable
         public init(impersonationRuleId: String? = nil, name: String? = nil) {
             self.impersonationRuleId = impersonationRuleId
             self.name = name
@@ -2665,6 +2745,7 @@ extension WorkMail {
         /// The impersonation role type.
         public let type: ImpersonationRoleType?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, impersonationRoleId: String? = nil, name: String? = nil, type: ImpersonationRoleType? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -2696,6 +2777,7 @@ extension WorkMail {
         /// A list of user IDs that match the rule.
         public let targetUsers: [String]?
 
+        @inlinable
         public init(description: String? = nil, effect: AccessEffect, impersonationRuleId: String, name: String? = nil, notTargetUsers: [String]? = nil, targetUsers: [String]? = nil) {
             self.description = description
             self.effect = effect
@@ -2745,6 +2827,7 @@ extension WorkMail {
         /// The Amazon Resource Name (ARN) of the Lambda that acts as the availability provider.
         public let lambdaArn: String
 
+        @inlinable
         public init(lambdaArn: String) {
             self.lambdaArn = lambdaArn
         }
@@ -2764,6 +2847,7 @@ extension WorkMail {
         /// The identifier for the organization.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -2783,6 +2867,7 @@ extension WorkMail {
         /// The access control rules.
         public let rules: [AccessControlRule]?
 
+        @inlinable
         public init(rules: [AccessControlRule]? = nil) {
             self.rules = rules
         }
@@ -2802,6 +2887,7 @@ extension WorkMail {
         /// The identifier for the organization under which the entity exists.
         public let organizationId: String
 
+        @inlinable
         public init(entityId: String, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.maxResults = maxResults
@@ -2836,6 +2922,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(aliases: [String]? = nil, nextToken: String? = nil) {
             self.aliases = aliases
             self.nextToken = nextToken
@@ -2855,6 +2942,7 @@ extension WorkMail {
         /// The WorkMail organization for which the AvailabilityConfiguration's will be listed.
         public let organizationId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2885,6 +2973,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. The value is null when there are no further results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(availabilityConfigurations: [AvailabilityConfiguration]? = nil, nextToken: String? = nil) {
             self.availabilityConfigurations = availabilityConfigurations
             self.nextToken = nextToken
@@ -2906,6 +2995,7 @@ extension WorkMail {
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
 
+        @inlinable
         public init(groupId: String, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.groupId = groupId
             self.maxResults = maxResults
@@ -2941,6 +3031,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [Member]? = nil, nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -2960,6 +3051,7 @@ extension WorkMail {
         /// Filters only groups with the provided state.
         public let state: EntityState?
 
+        @inlinable
         public init(namePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil) {
             self.namePrefix = namePrefix
             self.primaryEmailPrefix = primaryEmailPrefix
@@ -2982,6 +3074,7 @@ extension WorkMail {
         /// Filters only group names that start with the provided name prefix.
         public let groupNamePrefix: String?
 
+        @inlinable
         public init(groupNamePrefix: String? = nil) {
             self.groupNamePrefix = groupNamePrefix
         }
@@ -3007,6 +3100,7 @@ extension WorkMail {
         /// The identifier for the organization under which the entity exists.
         public let organizationId: String
 
+        @inlinable
         public init(entityId: String, filters: ListGroupsForEntityFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.filters = filters
@@ -3045,6 +3139,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [GroupIdentifier]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -3066,6 +3161,7 @@ extension WorkMail {
         /// The identifier for the organization under which the groups exist.
         public let organizationId: String
 
+        @inlinable
         public init(filters: ListGroupsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3099,6 +3195,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. The value is "null" when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [Group]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -3118,6 +3215,7 @@ extension WorkMail {
         /// The WorkMail organization to which the listed impersonation roles belong.
         public let organizationId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3148,6 +3246,7 @@ extension WorkMail {
         /// The list of impersonation roles under the given WorkMail organization.
         public let roles: [ImpersonationRole]?
 
+        @inlinable
         public init(nextToken: String? = nil, roles: [ImpersonationRole]? = nil) {
             self.nextToken = nextToken
             self.roles = roles
@@ -3167,6 +3266,7 @@ extension WorkMail {
         /// The WorkMail organization for which to list domains.
         public let organizationId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3197,6 +3297,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. The value becomes null when there are no more results to return.
         public let nextToken: String?
 
+        @inlinable
         public init(mailDomains: [MailDomainSummary]? = nil, nextToken: String? = nil) {
             self.mailDomains = mailDomains
             self.nextToken = nextToken
@@ -3216,6 +3317,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3246,6 +3348,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(jobs: [MailboxExportJob]? = nil, nextToken: String? = nil) {
             self.jobs = jobs
             self.nextToken = nextToken
@@ -3267,6 +3370,7 @@ extension WorkMail {
         /// The identifier of the organization under which the user, group, or resource exists.
         public let organizationId: String
 
+        @inlinable
         public init(entityId: String, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.entityId = entityId
             self.maxResults = maxResults
@@ -3302,6 +3406,7 @@ extension WorkMail {
         /// One page of the user, group, or resource mailbox permissions.
         public let permissions: [Permission]?
 
+        @inlinable
         public init(nextToken: String? = nil, permissions: [Permission]? = nil) {
             self.nextToken = nextToken
             self.permissions = permissions
@@ -3325,6 +3430,7 @@ extension WorkMail {
         /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String?
 
+        @inlinable
         public init(deviceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, userId: String? = nil) {
             self.deviceId = deviceId
             self.maxResults = maxResults
@@ -3365,6 +3471,7 @@ extension WorkMail {
         /// The list of mobile device access overrides that exist for the specified WorkMail organization and user.
         public let overrides: [MobileDeviceAccessOverride]?
 
+        @inlinable
         public init(nextToken: String? = nil, overrides: [MobileDeviceAccessOverride]? = nil) {
             self.nextToken = nextToken
             self.overrides = overrides
@@ -3380,6 +3487,7 @@ extension WorkMail {
         /// The WorkMail organization for which to list the rules.
         public let organizationId: String
 
+        @inlinable
         public init(organizationId: String) {
             self.organizationId = organizationId
         }
@@ -3399,6 +3507,7 @@ extension WorkMail {
         /// The list of mobile device access rules that exist under the specified WorkMail organization.
         public let rules: [MobileDeviceAccessRule]?
 
+        @inlinable
         public init(rules: [MobileDeviceAccessRule]? = nil) {
             self.rules = rules
         }
@@ -3414,6 +3523,7 @@ extension WorkMail {
         /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3439,6 +3549,7 @@ extension WorkMail {
         /// The overview of owned organizations presented as a list of organization summaries.
         public let organizationSummaries: [OrganizationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, organizationSummaries: [OrganizationSummary]? = nil) {
             self.nextToken = nextToken
             self.organizationSummaries = organizationSummaries
@@ -3460,6 +3571,7 @@ extension WorkMail {
         /// The identifier for the resource whose delegates are listed. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld   Resource name: resource
         public let resourceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3495,6 +3607,7 @@ extension WorkMail {
         /// The token used to paginate through the delegates associated with a resource. While results are still available, it has an associated value. When the last page is reached, the token is empty.
         public let nextToken: String?
 
+        @inlinable
         public init(delegates: [Delegate]? = nil, nextToken: String? = nil) {
             self.delegates = delegates
             self.nextToken = nextToken
@@ -3514,6 +3627,7 @@ extension WorkMail {
         /// Filters only resource with the provided state.
         public let state: EntityState?
 
+        @inlinable
         public init(namePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil) {
             self.namePrefix = namePrefix
             self.primaryEmailPrefix = primaryEmailPrefix
@@ -3542,6 +3656,7 @@ extension WorkMail {
         /// The identifier for the organization under which the resources exist.
         public let organizationId: String
 
+        @inlinable
         public init(filters: ListResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3575,6 +3690,7 @@ extension WorkMail {
         /// One page of the organization's resource representation.
         public let resources: [Resource]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -3590,6 +3706,7 @@ extension WorkMail {
         /// The resource ARN.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -3609,6 +3726,7 @@ extension WorkMail {
         /// A list of tag key-value pairs.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -3628,6 +3746,7 @@ extension WorkMail {
         /// Filters only users with the provided username prefix.
         public let usernamePrefix: String?
 
+        @inlinable
         public init(displayNamePrefix: String? = nil, primaryEmailPrefix: String? = nil, state: EntityState? = nil, usernamePrefix: String? = nil) {
             self.displayNamePrefix = displayNamePrefix
             self.primaryEmailPrefix = primaryEmailPrefix
@@ -3659,6 +3778,7 @@ extension WorkMail {
         /// The identifier for the organization under which the users exist.
         public let organizationId: String
 
+        @inlinable
         public init(filters: ListUsersFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -3692,6 +3812,7 @@ extension WorkMail {
         /// The overview of users for an organization.
         public let users: [User]?
 
+        @inlinable
         public init(nextToken: String? = nil, users: [User]? = nil) {
             self.nextToken = nextToken
             self.users = users
@@ -3709,6 +3830,7 @@ extension WorkMail {
         /// The domain name.
         public let domainName: String?
 
+        @inlinable
         public init(defaultDomain: Bool? = nil, domainName: String? = nil) {
             self.defaultDomain = defaultDomain
             self.domainName = domainName
@@ -3740,6 +3862,7 @@ extension WorkMail {
         /// The state of the mailbox export job.
         public let state: MailboxExportJobState?
 
+        @inlinable
         public init(description: String? = nil, endTime: Date? = nil, entityId: String? = nil, estimatedProgress: Int? = nil, jobId: String? = nil, s3BucketName: String? = nil, s3Path: String? = nil, startTime: Date? = nil, state: MailboxExportJobState? = nil) {
             self.description = description
             self.endTime = endTime
@@ -3779,6 +3902,7 @@ extension WorkMail {
         /// A member can be a user or group.
         public let type: MemberType?
 
+        @inlinable
         public init(disabledDate: Date? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: MemberType? = nil) {
             self.disabledDate = disabledDate
             self.enabledDate = enabledDate
@@ -3804,6 +3928,7 @@ extension WorkMail {
         /// Name of a rule that a simulated user matches.
         public let name: String?
 
+        @inlinable
         public init(mobileDeviceAccessRuleId: String? = nil, name: String? = nil) {
             self.mobileDeviceAccessRuleId = mobileDeviceAccessRuleId
             self.name = name
@@ -3829,6 +3954,7 @@ extension WorkMail {
         /// The WorkMail user to which the access override applies.
         public let userId: String?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, deviceId: String? = nil, effect: MobileDeviceAccessRuleEffect? = nil, userId: String? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -3878,6 +4004,7 @@ extension WorkMail {
         /// Device user agents that a rule will not match. All other device user agents will match.
         public let notDeviceUserAgents: [String]?
 
+        @inlinable
         public init(dateCreated: Date? = nil, dateModified: Date? = nil, description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect? = nil, mobileDeviceAccessRuleId: String? = nil, name: String? = nil, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil) {
             self.dateCreated = dateCreated
             self.dateModified = dateModified
@@ -3925,6 +4052,7 @@ extension WorkMail {
         /// The state associated with the organization.
         public let state: String?
 
+        @inlinable
         public init(alias: String? = nil, defaultMailDomain: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
             self.defaultMailDomain = defaultMailDomain
@@ -3950,6 +4078,7 @@ extension WorkMail {
         /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
         public let permissionValues: [PermissionType]
 
+        @inlinable
         public init(granteeId: String, granteeType: MemberType, permissionValues: [PermissionType]) {
             self.granteeId = granteeId
             self.granteeType = granteeType
@@ -3989,6 +4118,7 @@ extension WorkMail {
         /// User IDs to include in the rule.
         public let userIds: [String]?
 
+        @inlinable
         public init(actions: [String]? = nil, description: String, effect: AccessControlRuleEffect, impersonationRoleIds: [String]? = nil, ipRanges: [String]? = nil, name: String, notActions: [String]? = nil, notImpersonationRoleIds: [String]? = nil, notIpRanges: [String]? = nil, notUserIds: [String]? = nil, organizationId: String, userIds: [String]? = nil) {
             self.actions = actions
             self.description = description
@@ -4089,6 +4219,7 @@ extension WorkMail {
         /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
         public let roleArn: String
 
+        @inlinable
         public init(logGroupArn: String, organizationId: String, roleArn: String) {
             self.logGroupArn = logGroupArn
             self.organizationId = organizationId
@@ -4124,6 +4255,7 @@ extension WorkMail {
         /// The ID of the organization that you are applying the DMARC policy to.
         public let organizationId: String
 
+        @inlinable
         public init(enforced: Bool, organizationId: String) {
             self.enforced = enforced
             self.organizationId = organizationId
@@ -4155,6 +4287,7 @@ extension WorkMail {
         /// The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
         public let permissionValues: [PermissionType]
 
+        @inlinable
         public init(entityId: String, granteeId: String, organizationId: String, permissionValues: [PermissionType]) {
             self.entityId = entityId
             self.granteeId = granteeId
@@ -4198,6 +4331,7 @@ extension WorkMail {
         /// The WorkMail user for which you create the override. Accepts the following types of user identities:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234    Email address: user@domain.tld    User name: user
         public let userId: String
 
+        @inlinable
         public init(description: String? = nil, deviceId: String, effect: MobileDeviceAccessRuleEffect, organizationId: String, userId: String) {
             self.description = description
             self.deviceId = deviceId
@@ -4246,6 +4380,7 @@ extension WorkMail {
         /// The organization ID.
         public let organizationId: String
 
+        @inlinable
         public init(description: String? = nil, folderConfigurations: [FolderConfiguration], id: String? = nil, name: String, organizationId: String) {
             self.description = description
             self.folderConfigurations = folderConfigurations
@@ -4290,6 +4425,7 @@ extension WorkMail {
         /// The username used to authenticate the remote EWS server.
         public let ewsUsername: String?
 
+        @inlinable
         public init(ewsEndpoint: String? = nil, ewsUsername: String? = nil) {
             self.ewsEndpoint = ewsEndpoint
             self.ewsUsername = ewsUsername
@@ -4309,6 +4445,7 @@ extension WorkMail {
         /// The WorkMail organization under which you're creating the domain.
         public let organizationId: String
 
+        @inlinable
         public init(clientToken: String? = RegisterMailDomainRequest.idempotencyToken(), domainName: String, organizationId: String) {
             self.clientToken = clientToken
             self.domainName = domainName
@@ -4346,6 +4483,7 @@ extension WorkMail {
         /// The identifier for the organization under which the user, group, or resource exists.
         public let organizationId: String
 
+        @inlinable
         public init(email: String, entityId: String, organizationId: String) {
             self.email = email
             self.entityId = entityId
@@ -4383,6 +4521,7 @@ extension WorkMail {
         /// The identifier of the user for whom the password is reset.
         public let userId: String
 
+        @inlinable
         public init(organizationId: String, password: String, userId: String) {
             self.organizationId = organizationId
             self.password = password
@@ -4428,6 +4567,7 @@ extension WorkMail {
         /// The type of the resource: equipment or room.
         public let type: ResourceType?
 
+        @inlinable
         public init(description: String? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.description = description
             self.disabledDate = disabledDate
@@ -4469,6 +4609,7 @@ extension WorkMail {
         /// The S3 bucket prefix.
         public let s3Prefix: String
 
+        @inlinable
         public init(clientToken: String = StartMailboxExportJobRequest.idempotencyToken(), description: String? = nil, entityId: String, kmsKeyArn: String, organizationId: String, roleArn: String, s3BucketName: String, s3Prefix: String) {
             self.clientToken = clientToken
             self.description = description
@@ -4522,6 +4663,7 @@ extension WorkMail {
         /// The job ID.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -4537,6 +4679,7 @@ extension WorkMail {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -4560,6 +4703,7 @@ extension WorkMail {
         /// The tag key-value pairs.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -4593,6 +4737,7 @@ extension WorkMail {
         /// The WorkMail organization where the availability provider will be tested.
         public let organizationId: String
 
+        @inlinable
         public init(domainName: String? = nil, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
             self.domainName = domainName
             self.ewsProvider = ewsProvider
@@ -4625,6 +4770,7 @@ extension WorkMail {
         /// Boolean indicating whether the test passed or failed.
         public let testPassed: Bool?
 
+        @inlinable
         public init(failureReason: String? = nil, testPassed: Bool? = nil) {
             self.failureReason = failureReason
             self.testPassed = testPassed
@@ -4642,6 +4788,7 @@ extension WorkMail {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4678,6 +4825,7 @@ extension WorkMail {
         /// The WorkMail organization for which the AvailabilityConfiguration will be updated.
         public let organizationId: String
 
+        @inlinable
         public init(domainName: String, ewsProvider: EwsAvailabilityProvider? = nil, lambdaProvider: LambdaAvailabilityProvider? = nil, organizationId: String) {
             self.domainName = domainName
             self.ewsProvider = ewsProvider
@@ -4714,6 +4862,7 @@ extension WorkMail {
         /// The WorkMail organization for which to list domains.
         public let organizationId: String
 
+        @inlinable
         public init(domainName: String, organizationId: String) {
             self.domainName = domainName
             self.organizationId = organizationId
@@ -4746,6 +4895,7 @@ extension WorkMail {
         /// The identifier for the organization under which the group exists.
         public let organizationId: String
 
+        @inlinable
         public init(groupId: String, hiddenFromGlobalAddressList: Bool? = nil, organizationId: String) {
             self.groupId = groupId
             self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
@@ -4786,6 +4936,7 @@ extension WorkMail {
         /// The updated impersonation role type.
         public let type: ImpersonationRoleType
 
+        @inlinable
         public init(description: String? = nil, impersonationRoleId: String, name: String, organizationId: String, rules: [ImpersonationRule], type: ImpersonationRoleType) {
             self.description = description
             self.impersonationRoleId = impersonationRoleId
@@ -4836,6 +4987,7 @@ extension WorkMail {
         /// The identifer for the user for whom to update the mailbox quota. The identifier can be the UserId, Username, or email. The following identity formats are available:   User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name: user
         public let userId: String
 
+        @inlinable
         public init(mailboxQuota: Int, organizationId: String, userId: String) {
             self.mailboxQuota = mailboxQuota
             self.organizationId = organizationId
@@ -4891,6 +5043,7 @@ extension WorkMail {
         /// The WorkMail organization under which the rule will be updated.
         public let organizationId: String
 
+        @inlinable
         public init(description: String? = nil, deviceModels: [String]? = nil, deviceOperatingSystems: [String]? = nil, deviceTypes: [String]? = nil, deviceUserAgents: [String]? = nil, effect: MobileDeviceAccessRuleEffect, mobileDeviceAccessRuleId: String, name: String, notDeviceModels: [String]? = nil, notDeviceOperatingSystems: [String]? = nil, notDeviceTypes: [String]? = nil, notDeviceUserAgents: [String]? = nil, organizationId: String) {
             self.description = description
             self.deviceModels = deviceModels
@@ -5007,6 +5160,7 @@ extension WorkMail {
         /// The organization that contains the user, group, or resource to update.
         public let organizationId: String
 
+        @inlinable
         public init(email: String, entityId: String, organizationId: String) {
             self.email = email
             self.entityId = entityId
@@ -5052,6 +5206,7 @@ extension WorkMail {
         /// Updates the resource type.
         public let type: ResourceType?
 
+        @inlinable
         public init(bookingOptions: BookingOptions? = nil, description: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, name: String? = nil, organizationId: String, resourceId: String, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
             self.description = description
@@ -5126,6 +5281,7 @@ extension WorkMail {
         /// Updates the user's zipcode.
         public let zipCode: String?
 
+        @inlinable
         public init(city: String? = nil, company: String? = nil, country: String? = nil, department: String? = nil, displayName: String? = nil, firstName: String? = nil, hiddenFromGlobalAddressList: Bool? = nil, initials: String? = nil, jobTitle: String? = nil, lastName: String? = nil, office: String? = nil, organizationId: String, role: UserRole? = nil, street: String? = nil, telephone: String? = nil, userId: String, zipCode: String? = nil) {
             self.city = city
             self.company = company
@@ -5211,6 +5367,7 @@ extension WorkMail {
         /// The role of the user.
         public let userRole: UserRole?
 
+        @inlinable
         public init(disabledDate: Date? = nil, displayName: String? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, userRole: UserRole? = nil) {
             self.disabledDate = disabledDate
             self.displayName = displayName

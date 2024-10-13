@@ -114,6 +114,7 @@ extension Translate {
         /// The specific terms of the custom terminology applied to the input text by Amazon Translate for the translated text response. A maximum of 250 terms will be returned, and the specific terms applied will be the first 250 terms in the source text.
         public let terms: [Term]?
 
+        @inlinable
         public init(name: String? = nil, terms: [Term]? = nil) {
             self.name = name
             self.terms = terms
@@ -138,6 +139,7 @@ extension Translate {
         /// Tags to be associated with this resource. A tag is a key-value pair that adds metadata to a resource. Each tag key for the resource must be unique. For more information, see  Tagging your resources.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = CreateParallelDataRequest.idempotencyToken(), description: String? = nil, encryptionKey: EncryptionKey? = nil, name: String, parallelDataConfig: ParallelDataConfig, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -180,6 +182,7 @@ extension Translate {
         /// The status of the parallel data resource. When the resource is ready for you to use, the status is ACTIVE.
         public let status: ParallelDataStatus?
 
+        @inlinable
         public init(name: String? = nil, status: ParallelDataStatus? = nil) {
             self.name = name
             self.status = status
@@ -195,6 +198,7 @@ extension Translate {
         /// The name of the parallel data resource that is being deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -216,6 +220,7 @@ extension Translate {
         /// The status of the parallel data deletion.
         public let status: ParallelDataStatus?
 
+        @inlinable
         public init(name: String? = nil, status: ParallelDataStatus? = nil) {
             self.name = name
             self.status = status
@@ -231,6 +236,7 @@ extension Translate {
         /// The name of the custom terminology being deleted.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -250,6 +256,7 @@ extension Translate {
         /// The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its response.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -269,6 +276,7 @@ extension Translate {
         /// An object that contains the properties associated with an asynchronous batch translation job.
         public let textTranslationJobProperties: TextTranslationJobProperties?
 
+        @inlinable
         public init(textTranslationJobProperties: TextTranslationJobProperties? = nil) {
             self.textTranslationJobProperties = textTranslationJobProperties
         }
@@ -284,6 +292,7 @@ extension Translate {
         /// Describes the format of the document. You can specify one of the following:    text/html - The input data consists of HTML content.  Amazon Translate translates only the text in the HTML element.    text/plain - The input data consists of unformatted text.  Amazon Translate translates every character in the content.     application/vnd.openxmlformats-officedocument.wordprocessingml.document - The  input data consists of a Word document (.docx).
         public let contentType: String
 
+        @inlinable
         public init(content: AWSBase64Data, contentType: String) {
             self.content = content
             self.contentType = contentType
@@ -307,6 +316,7 @@ extension Translate {
         /// The type of encryption key used by Amazon Translate to encrypt this object.
         public let type: EncryptionKeyType
 
+        @inlinable
         public init(id: String, type: EncryptionKeyType) {
             self.id = id
             self.type = type
@@ -328,6 +338,7 @@ extension Translate {
         /// The name of the parallel data resource that is being retrieved.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -353,6 +364,7 @@ extension Translate {
         /// The properties of the parallel data resource that is being retrieved.
         public let parallelDataProperties: ParallelDataProperties?
 
+        @inlinable
         public init(auxiliaryDataLocation: ParallelDataDataLocation? = nil, dataLocation: ParallelDataDataLocation? = nil, latestUpdateAttemptAuxiliaryDataLocation: ParallelDataDataLocation? = nil, parallelDataProperties: ParallelDataProperties? = nil) {
             self.auxiliaryDataLocation = auxiliaryDataLocation
             self.dataLocation = dataLocation
@@ -374,6 +386,7 @@ extension Translate {
         /// The data format of the custom terminology being retrieved. If you don't specify this parameter, Amazon Translate returns a file with the same format as the file that was imported to create the terminology.  If you specify this parameter when you retrieve a multi-directional terminology resource, you must specify the same format as the input file that was imported to create it. Otherwise, Amazon Translate throws an error.
         public let terminologyDataFormat: TerminologyDataFormat?
 
+        @inlinable
         public init(name: String, terminologyDataFormat: TerminologyDataFormat? = nil) {
             self.name = name
             self.terminologyDataFormat = terminologyDataFormat
@@ -399,6 +412,7 @@ extension Translate {
         /// The properties of the custom terminology being retrieved.
         public let terminologyProperties: TerminologyProperties?
 
+        @inlinable
         public init(auxiliaryDataLocation: TerminologyDataLocation? = nil, terminologyDataLocation: TerminologyDataLocation? = nil, terminologyProperties: TerminologyProperties? = nil) {
             self.auxiliaryDataLocation = auxiliaryDataLocation
             self.terminologyDataLocation = terminologyDataLocation
@@ -426,6 +440,7 @@ extension Translate {
         /// The terminology data for the custom terminology being imported.
         public let terminologyData: TerminologyData
 
+        @inlinable
         public init(description: String? = nil, encryptionKey: EncryptionKey? = nil, mergeStrategy: MergeStrategy, name: String, tags: [Tag]? = nil, terminologyData: TerminologyData) {
             self.description = description
             self.encryptionKey = encryptionKey
@@ -465,6 +480,7 @@ extension Translate {
         /// The properties of the custom terminology being imported.
         public let terminologyProperties: TerminologyProperties?
 
+        @inlinable
         public init(auxiliaryDataLocation: TerminologyDataLocation? = nil, terminologyProperties: TerminologyProperties? = nil) {
             self.auxiliaryDataLocation = auxiliaryDataLocation
             self.terminologyProperties = terminologyProperties
@@ -482,6 +498,7 @@ extension Translate {
         /// The URI of the AWS S3 folder that contains the input files. Amazon Translate translates all the files in the folder and all its sub-folders. The folder must be in the same Region as the API endpoint you are calling.
         public let s3Uri: String
 
+        @inlinable
         public init(contentType: String, s3Uri: String) {
             self.contentType = contentType
             self.s3Uri = s3Uri
@@ -508,6 +525,7 @@ extension Translate {
         /// The number of documents successfully processed during a translation job.
         public let translatedDocumentsCount: Int?
 
+        @inlinable
         public init(documentsWithErrorsCount: Int? = nil, inputDocumentsCount: Int? = nil, translatedDocumentsCount: Int? = nil) {
             self.documentsWithErrorsCount = documentsWithErrorsCount
             self.inputDocumentsCount = inputDocumentsCount
@@ -527,6 +545,7 @@ extension Translate {
         /// Language name of the supported language.
         public let languageName: String
 
+        @inlinable
         public init(languageCode: String, languageName: String) {
             self.languageCode = languageCode
             self.languageName = languageName
@@ -546,6 +565,7 @@ extension Translate {
         /// Include the NextToken value to fetch the next group of supported languages.
         public let nextToken: String?
 
+        @inlinable
         public init(displayLanguageCode: DisplayLanguageCode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.displayLanguageCode = displayLanguageCode
             self.maxResults = maxResults
@@ -574,6 +594,7 @@ extension Translate {
         ///  If the response does not include all remaining results, use the NextToken in the next request to fetch the next group of supported languages.
         public let nextToken: String?
 
+        @inlinable
         public init(displayLanguageCode: DisplayLanguageCode? = nil, languages: [Language]? = nil, nextToken: String? = nil) {
             self.displayLanguageCode = displayLanguageCode
             self.languages = languages
@@ -593,6 +614,7 @@ extension Translate {
         /// A string that specifies the next page of results to return in a paginated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -617,6 +639,7 @@ extension Translate {
         /// The properties of the parallel data resources returned by this request.
         public let parallelDataPropertiesList: [ParallelDataProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, parallelDataPropertiesList: [ParallelDataProperties]? = nil) {
             self.nextToken = nextToken
             self.parallelDataPropertiesList = parallelDataPropertiesList
@@ -632,6 +655,7 @@ extension Translate {
         /// The Amazon Resource Name (ARN) of the given Amazon Translate resource you are querying.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -650,6 +674,7 @@ extension Translate {
         /// Tags associated with the Amazon Translate resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Translate. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -665,6 +690,7 @@ extension Translate {
         /// If the result of the request to ListTerminologies was truncated, include the NextToken to fetch the next group of custom terminologies.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -689,6 +715,7 @@ extension Translate {
         /// The properties list of the custom terminologies returned on the list request.
         public let terminologyPropertiesList: [TerminologyProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, terminologyPropertiesList: [TerminologyProperties]? = nil) {
             self.nextToken = nextToken
             self.terminologyPropertiesList = terminologyPropertiesList
@@ -708,6 +735,7 @@ extension Translate {
         /// The token to request the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: TextTranslationJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.maxResults = maxResults
@@ -735,6 +763,7 @@ extension Translate {
         /// A list containing the properties of each job that is returned.
         public let textTranslationJobPropertiesList: [TextTranslationJobProperties]?
 
+        @inlinable
         public init(nextToken: String? = nil, textTranslationJobPropertiesList: [TextTranslationJobProperties]? = nil) {
             self.nextToken = nextToken
             self.textTranslationJobPropertiesList = textTranslationJobPropertiesList
@@ -751,6 +780,7 @@ extension Translate {
         /// The URI of the S3 folder that contains a translation job's output file. The folder must be in the same Region as the API endpoint that you are calling.
         public let s3Uri: String
 
+        @inlinable
         public init(encryptionKey: EncryptionKey? = nil, s3Uri: String) {
             self.encryptionKey = encryptionKey
             self.s3Uri = s3Uri
@@ -774,6 +804,7 @@ extension Translate {
         /// The URI of the Amazon S3 folder that contains the parallel data input file. The folder must be in the same Region as the API endpoint you are calling.
         public let s3Uri: String?
 
+        @inlinable
         public init(format: ParallelDataFormat? = nil, s3Uri: String? = nil) {
             self.format = format
             self.s3Uri = s3Uri
@@ -796,6 +827,7 @@ extension Translate {
         /// Describes the repository that contains the parallel data input file.
         public let repositoryType: String
 
+        @inlinable
         public init(location: String, repositoryType: String) {
             self.location = location
             self.repositoryType = repositoryType
@@ -842,6 +874,7 @@ extension Translate {
         /// The language codes for the target languages available in the parallel data file. All possible target languages are returned as an array.
         public let targetLanguageCodes: [String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, encryptionKey: EncryptionKey? = nil, failedRecordCount: Int64? = nil, importedDataSize: Int64? = nil, importedRecordCount: Int64? = nil, lastUpdatedAt: Date? = nil, latestUpdateAttemptAt: Date? = nil, latestUpdateAttemptStatus: ParallelDataStatus? = nil, message: String? = nil, name: String? = nil, parallelDataConfig: ParallelDataConfig? = nil, skippedRecordCount: Int64? = nil, sourceLanguageCode: String? = nil, status: ParallelDataStatus? = nil, targetLanguageCodes: [String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -905,6 +938,7 @@ extension Translate {
         /// The name of a custom terminology resource to add to the translation job. This resource lists examples source terms and the desired translation for each term. This parameter accepts only one custom terminology resource. If you specify multiple target languages for the job, translate uses the designated terminology for each requested target language that has an entry for the source term in the terminology file. For a list of available custom terminology resources, use the ListTerminologies operation. For more information, see Custom terminology.
         public let terminologyNames: [String]?
 
+        @inlinable
         public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, parallelDataNames: [String]? = nil, settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -969,6 +1003,7 @@ extension Translate {
         /// The status of the job. Possible values include:    SUBMITTED - The job has been received and is queued for processing.    IN_PROGRESS - Amazon Translate is processing the job.    COMPLETED - The job was successfully completed and the output is available.    COMPLETED_WITH_ERROR - The job was completed with errors. The errors can be analyzed in the job's output.    FAILED - The job did not complete. To get details, use the DescribeTextTranslationJob operation.    STOP_REQUESTED - The user who started the job has requested that it be stopped.    STOPPED - The job has been stopped.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -984,6 +1019,7 @@ extension Translate {
         /// The job ID of the job to be stopped.
         public let jobId: String
 
+        @inlinable
         public init(jobId: String) {
             self.jobId = jobId
         }
@@ -1005,6 +1041,7 @@ extension Translate {
         /// The status of the designated job. Upon successful completion, the job's status will be STOPPED.
         public let jobStatus: JobStatus?
 
+        @inlinable
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
             self.jobId = jobId
             self.jobStatus = jobStatus
@@ -1022,6 +1059,7 @@ extension Translate {
         ///  The second part of a key-value pair that forms a tag associated with a given resource.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1045,6 +1083,7 @@ extension Translate {
         /// Tags being associated with a specific Amazon Translate resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1075,6 +1114,7 @@ extension Translate {
         /// The target text of the term being translated by the custom terminology.
         public let targetText: String?
 
+        @inlinable
         public init(sourceText: String? = nil, targetText: String? = nil) {
             self.sourceText = sourceText
             self.targetText = targetText
@@ -1094,6 +1134,7 @@ extension Translate {
         /// The data format of the custom terminology.
         public let format: TerminologyDataFormat
 
+        @inlinable
         public init(directionality: Directionality? = nil, file: AWSBase64Data, format: TerminologyDataFormat) {
             self.directionality = directionality
             self.file = file
@@ -1117,6 +1158,7 @@ extension Translate {
         /// The repository type for the custom terminology data.
         public let repositoryType: String
 
+        @inlinable
         public init(location: String, repositoryType: String) {
             self.location = location
             self.repositoryType = repositoryType
@@ -1158,6 +1200,7 @@ extension Translate {
         /// The number of terms included in the custom terminology.
         public let termCount: Int?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, directionality: Directionality? = nil, encryptionKey: EncryptionKey? = nil, format: TerminologyDataFormat? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, name: String? = nil, sizeBytes: Int? = nil, skippedTermCount: Int? = nil, sourceLanguageCode: String? = nil, targetLanguageCodes: [String]? = nil, termCount: Int? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -1203,6 +1246,7 @@ extension Translate {
         /// Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
         public let submittedBeforeTime: Date?
 
+        @inlinable
         public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submittedAfterTime: Date? = nil, submittedBeforeTime: Date? = nil) {
             self.jobName = jobName
             self.jobStatus = jobStatus
@@ -1256,6 +1300,7 @@ extension Translate {
         /// A list containing the names of the terminologies applied to a translation job. Only one terminology can be applied per StartTextTranslationJob request at this time.
         public let terminologyNames: [String]?
 
+        @inlinable
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, parallelDataNames: [String]? = nil, settings: TranslationSettings? = nil, sourceLanguageCode: String? = nil, submittedTime: Date? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
@@ -1305,6 +1350,7 @@ extension Translate {
         /// The name of a terminology list file to add to the translation job. This file provides source terms and the desired translation for each term.  A terminology list can contain a maximum of 256 terms. You can use one custom terminology resource in your translation request. Use the ListTerminologies operation to get the available terminology lists. For more information about custom terminology lists, see Custom terminology.
         public let terminologyNames: [String]?
 
+        @inlinable
         public init(document: Document, settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCode: String, terminologyNames: [String]? = nil) {
             self.document = document
             self.settings = settings
@@ -1346,6 +1392,7 @@ extension Translate {
         /// The document containing the translated content. The document format matches the source document format.
         public let translatedDocument: TranslatedDocument
 
+        @inlinable
         public init(appliedSettings: TranslationSettings? = nil, appliedTerminologies: [AppliedTerminology]? = nil, sourceLanguageCode: String, targetLanguageCode: String, translatedDocument: TranslatedDocument) {
             self.appliedSettings = appliedSettings
             self.appliedTerminologies = appliedTerminologies
@@ -1375,6 +1422,7 @@ extension Translate {
         /// The text to translate. The text string can be a maximum of 10,000 bytes long. Depending on your character set, this may be fewer than 10,000 characters.
         public let text: String
 
+        @inlinable
         public init(settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCode: String, terminologyNames: [String]? = nil, text: String) {
             self.settings = settings
             self.sourceLanguageCode = sourceLanguageCode
@@ -1419,6 +1467,7 @@ extension Translate {
         /// The translated text.
         public let translatedText: String
 
+        @inlinable
         public init(appliedSettings: TranslationSettings? = nil, appliedTerminologies: [AppliedTerminology]? = nil, sourceLanguageCode: String, targetLanguageCode: String, translatedText: String) {
             self.appliedSettings = appliedSettings
             self.appliedTerminologies = appliedTerminologies
@@ -1440,6 +1489,7 @@ extension Translate {
         /// The document containing the translated content.
         public let content: AWSBase64Data
 
+        @inlinable
         public init(content: AWSBase64Data) {
             self.content = content
         }
@@ -1457,6 +1507,7 @@ extension Translate {
         /// You can enable the profanity setting if you want to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate doesn't detect profanity in all of its supported languages. For languages that don't support profanity detection, see Unsupported languages in the Amazon Translate Developer Guide. If you specify multiple target languages for the job, all the target languages must support profanity masking. If any of the target languages don't support profanity masking, the translation job won't mask profanity for any target language.
         public let profanity: Profanity?
 
+        @inlinable
         public init(brevity: Brevity? = nil, formality: Formality? = nil, profanity: Profanity? = nil) {
             self.brevity = brevity
             self.formality = formality
@@ -1476,6 +1527,7 @@ extension Translate {
         /// The initial part of a key-value pair that forms a tag being removed from a given resource. Keys must be unique and cannot be duplicated for a particular resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1511,6 +1563,7 @@ extension Translate {
         /// Specifies the format and S3 location of the parallel data input file.
         public let parallelDataConfig: ParallelDataConfig
 
+        @inlinable
         public init(clientToken: String = UpdateParallelDataRequest.idempotencyToken(), description: String? = nil, name: String, parallelDataConfig: ParallelDataConfig) {
             self.clientToken = clientToken
             self.description = description
@@ -1548,6 +1601,7 @@ extension Translate {
         /// The status of the parallel data resource that you are attempting to update. Your update request is accepted only if this status is either ACTIVE or FAILED.
         public let status: ParallelDataStatus?
 
+        @inlinable
         public init(latestUpdateAttemptAt: Date? = nil, latestUpdateAttemptStatus: ParallelDataStatus? = nil, name: String? = nil, status: ParallelDataStatus? = nil) {
             self.latestUpdateAttemptAt = latestUpdateAttemptAt
             self.latestUpdateAttemptStatus = latestUpdateAttemptStatus

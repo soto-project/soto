@@ -125,6 +125,7 @@ extension Detective {
         /// The ARN of the behavior graph that the member account is accepting the invitation for. The member account status in the behavior graph must be INVITED.
         public let graphArn: String
 
+        @inlinable
         public init(graphArn: String) {
             self.graphArn = graphArn
         }
@@ -144,6 +145,7 @@ extension Detective {
         /// The Amazon Web Services account root user email address for the Amazon Web Services account.
         public let emailAddress: String
 
+        @inlinable
         public init(accountId: String, emailAddress: String) {
             self.accountId = accountId
             self.emailAddress = emailAddress
@@ -173,6 +175,7 @@ extension Detective {
         /// The ARN of the organization behavior graph.
         public let graphArn: String?
 
+        @inlinable
         public init(accountId: String? = nil, delegationTime: Date? = nil, graphArn: String? = nil) {
             self.accountId = accountId
             self.delegationTime = delegationTime
@@ -192,6 +195,7 @@ extension Detective {
         /// The ARN of the behavior graph.
         public let graphArn: String
 
+        @inlinable
         public init(accountIds: [String], graphArn: String) {
             self.accountIds = accountIds
             self.graphArn = graphArn
@@ -220,6 +224,7 @@ extension Detective {
         /// Accounts that data source package information could not be retrieved for.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(memberDatasources: [MembershipDatasources]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.memberDatasources = memberDatasources
             self.unprocessedAccounts = unprocessedAccounts
@@ -235,6 +240,7 @@ extension Detective {
         /// The ARN of the behavior graph.
         public let graphArns: [String]
 
+        @inlinable
         public init(graphArns: [String]) {
             self.graphArns = graphArns
         }
@@ -258,6 +264,7 @@ extension Detective {
         /// Graphs that data source package information could not be retrieved for.
         public let unprocessedGraphs: [UnprocessedGraph]?
 
+        @inlinable
         public init(membershipDatasources: [MembershipDatasources]? = nil, unprocessedGraphs: [UnprocessedGraph]? = nil) {
             self.membershipDatasources = membershipDatasources
             self.unprocessedGraphs = unprocessedGraphs
@@ -273,6 +280,7 @@ extension Detective {
         /// The tags to assign to the new behavior graph. You can add up to 50 tags. For each tag, you provide the tag key and the tag value. Each tag key can contain up to 128 characters. Each tag value can contain up to 256 characters.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -297,6 +305,7 @@ extension Detective {
         /// The ARN of the new behavior graph.
         public let graphArn: String?
 
+        @inlinable
         public init(graphArn: String? = nil) {
             self.graphArn = graphArn
         }
@@ -316,6 +325,7 @@ extension Detective {
         /// Customized message text to include in the invitation email message to the invited member accounts.
         public let message: String?
 
+        @inlinable
         public init(accounts: [Account], disableEmailNotification: Bool? = nil, graphArn: String, message: String? = nil) {
             self.accounts = accounts
             self.disableEmailNotification = disableEmailNotification
@@ -348,6 +358,7 @@ extension Detective {
         /// The list of accounts for which Detective was unable to process the invitation or enablement request. For each account, the list provides the reason why the request could not be processed. The list includes accounts that are already member accounts in the behavior graph.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(members: [MemberDetail]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.members = members
             self.unprocessedAccounts = unprocessedAccounts
@@ -365,6 +376,7 @@ extension Detective {
         /// The date a data source package was enabled for this account
         public let lastIngestStateChange: [DatasourcePackageIngestState: TimestampForCollection]?
 
+        @inlinable
         public init(datasourcePackageIngestState: DatasourcePackageIngestState? = nil, lastIngestStateChange: [DatasourcePackageIngestState: TimestampForCollection]? = nil) {
             self.datasourcePackageIngestState = datasourcePackageIngestState
             self.lastIngestStateChange = lastIngestStateChange
@@ -383,6 +395,7 @@ extension Detective {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var volumeUsageUpdateTime: Date?
 
+        @inlinable
         public init(volumeUsageInBytes: Int64? = nil, volumeUsageUpdateTime: Date? = nil) {
             self.volumeUsageInBytes = volumeUsageInBytes
             self.volumeUsageUpdateTime = volumeUsageUpdateTime
@@ -402,6 +415,7 @@ extension Detective {
         @CustomCoding<ISO8601DateCoder>
         public var startInclusive: Date
 
+        @inlinable
         public init(endInclusive: Date, startInclusive: Date) {
             self.endInclusive = endInclusive
             self.startInclusive = startInclusive
@@ -417,6 +431,7 @@ extension Detective {
         /// The ARN of the behavior graph to disable.
         public let graphArn: String
 
+        @inlinable
         public init(graphArn: String) {
             self.graphArn = graphArn
         }
@@ -436,6 +451,7 @@ extension Detective {
         /// The ARN of the behavior graph to remove members from.
         public let graphArn: String
 
+        @inlinable
         public init(accountIds: [String], graphArn: String) {
             self.accountIds = accountIds
             self.graphArn = graphArn
@@ -464,6 +480,7 @@ extension Detective {
         /// The list of member accounts that Detective was not able to remove from the behavior graph. For each member account, provides the reason that the deletion could not be processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.accountIds = accountIds
             self.unprocessedAccounts = unprocessedAccounts
@@ -479,6 +496,7 @@ extension Detective {
         /// The ARN of the organization behavior graph.
         public let graphArn: String
 
+        @inlinable
         public init(graphArn: String) {
             self.graphArn = graphArn
         }
@@ -496,6 +514,7 @@ extension Detective {
         /// Indicates whether to automatically enable new organization accounts as member accounts in the organization behavior graph.
         public let autoEnable: Bool?
 
+        @inlinable
         public init(autoEnable: Bool? = nil) {
             self.autoEnable = autoEnable
         }
@@ -509,6 +528,7 @@ extension Detective {
         /// The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED.
         public let graphArn: String
 
+        @inlinable
         public init(graphArn: String) {
             self.graphArn = graphArn
         }
@@ -526,6 +546,7 @@ extension Detective {
         /// The Amazon Web Services account identifier of the account to designate as the Detective administrator account for the organization.
         public let accountId: String
 
+        @inlinable
         public init(accountId: String) {
             self.accountId = accountId
         }
@@ -553,6 +574,7 @@ extension Detective {
         /// Filter the investigation results based on the status.
         public let status: StringFilter?
 
+        @inlinable
         public init(createdTime: DateFilter? = nil, entityArn: StringFilter? = nil, severity: StringFilter? = nil, state: StringFilter? = nil, status: StringFilter? = nil) {
             self.createdTime = createdTime
             self.entityArn = entityArn
@@ -583,6 +605,7 @@ extension Detective {
         /// Details the reason the IP address was flagged as suspicious.
         public let reason: Reason?
 
+        @inlinable
         public init(ipAddress: String? = nil, reason: Reason? = nil) {
             self.ipAddress = ipAddress
             self.reason = reason
@@ -600,6 +623,7 @@ extension Detective {
         /// The investigation ID of the investigation report.
         public let investigationId: String
 
+        @inlinable
         public init(graphArn: String, investigationId: String) {
             self.graphArn = graphArn
             self.investigationId = investigationId
@@ -643,6 +667,7 @@ extension Detective {
         /// The status based on the completion status of the investigation.
         public let status: Status?
 
+        @inlinable
         public init(createdTime: Date? = nil, entityArn: String? = nil, entityType: EntityType? = nil, graphArn: String? = nil, investigationId: String? = nil, scopeEndTime: Date? = nil, scopeStartTime: Date? = nil, severity: Severity? = nil, state: State? = nil, status: Status? = nil) {
             self.createdTime = createdTime
             self.entityArn = entityArn
@@ -676,6 +701,7 @@ extension Detective {
         /// The ARN of the behavior graph for which to request the member details.
         public let graphArn: String
 
+        @inlinable
         public init(accountIds: [String], graphArn: String) {
             self.accountIds = accountIds
             self.graphArn = graphArn
@@ -704,6 +730,7 @@ extension Detective {
         /// The requested member accounts for which Detective was unable to return member details. For each account, provides the reason why the request could not be processed.
         public let unprocessedAccounts: [UnprocessedAccount]?
 
+        @inlinable
         public init(memberDetails: [MemberDetail]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
             self.memberDetails = memberDetails
             self.unprocessedAccounts = unprocessedAccounts
@@ -722,6 +749,7 @@ extension Detective {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTime: Date?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -745,6 +773,7 @@ extension Detective {
         /// Location where the resource was first used in the impossible travel.
         public let startingLocation: String?
 
+        @inlinable
         public init(endingIpAddress: String? = nil, endingLocation: String? = nil, hourlyTimeDelta: Int? = nil, startingIpAddress: String? = nil, startingLocation: String? = nil) {
             self.endingIpAddress = endingIpAddress
             self.endingLocation = endingLocation
@@ -768,6 +797,7 @@ extension Detective {
         /// The type of indicator.
         public let indicatorType: IndicatorType?
 
+        @inlinable
         public init(indicatorDetail: IndicatorDetail? = nil, indicatorType: IndicatorType? = nil) {
             self.indicatorDetail = indicatorDetail
             self.indicatorType = indicatorType
@@ -797,6 +827,7 @@ extension Detective {
         /// Details about the indicator of compromise.
         public let ttPsObservedDetail: TTPsObservedDetail?
 
+        @inlinable
         public init(flaggedIpAddressDetail: FlaggedIpAddressDetail? = nil, impossibleTravelDetail: ImpossibleTravelDetail? = nil, newAsoDetail: NewAsoDetail? = nil, newGeolocationDetail: NewGeolocationDetail? = nil, newUserAgentDetail: NewUserAgentDetail? = nil, relatedFindingDetail: RelatedFindingDetail? = nil, relatedFindingGroupDetail: RelatedFindingGroupDetail? = nil, ttPsObservedDetail: TTPsObservedDetail? = nil) {
             self.flaggedIpAddressDetail = flaggedIpAddressDetail
             self.impossibleTravelDetail = impossibleTravelDetail
@@ -837,6 +868,7 @@ extension Detective {
         /// Status based on the completion status of the investigation.
         public let status: Status?
 
+        @inlinable
         public init(createdTime: Date? = nil, entityArn: String? = nil, entityType: EntityType? = nil, investigationId: String? = nil, severity: Severity? = nil, state: State? = nil, status: Status? = nil) {
             self.createdTime = createdTime
             self.entityArn = entityArn
@@ -866,6 +898,7 @@ extension Detective {
         /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(graphArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.graphArn = graphArn
             self.maxResults = maxResults
@@ -893,6 +926,7 @@ extension Detective {
         /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(datasourcePackages: [DatasourcePackage: DatasourcePackageIngestDetail]? = nil, nextToken: String? = nil) {
             self.datasourcePackages = datasourcePackages
             self.nextToken = nextToken
@@ -910,6 +944,7 @@ extension Detective {
         /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -934,6 +969,7 @@ extension Detective {
         /// If there are more behavior graphs remaining in the results, then this is the pagination token to use to request the next page of behavior graphs.
         public let nextToken: String?
 
+        @inlinable
         public init(graphList: [Graph]? = nil, nextToken: String? = nil) {
             self.graphList = graphList
             self.nextToken = nextToken
@@ -957,6 +993,7 @@ extension Detective {
         /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
         public let nextToken: String?
 
+        @inlinable
         public init(graphArn: String, indicatorType: IndicatorType? = nil, investigationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.graphArn = graphArn
             self.indicatorType = indicatorType
@@ -995,6 +1032,7 @@ extension Detective {
         /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
         public let nextToken: String?
 
+        @inlinable
         public init(graphArn: String? = nil, indicators: [Indicator]? = nil, investigationId: String? = nil, nextToken: String? = nil) {
             self.graphArn = graphArn
             self.indicators = indicators
@@ -1022,6 +1060,7 @@ extension Detective {
         /// Sorts the investigation results based on a criteria.
         public let sortCriteria: SortCriteria?
 
+        @inlinable
         public init(filterCriteria: FilterCriteria? = nil, graphArn: String, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: SortCriteria? = nil) {
             self.filterCriteria = filterCriteria
             self.graphArn = graphArn
@@ -1054,6 +1093,7 @@ extension Detective {
         /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
         public let nextToken: String?
 
+        @inlinable
         public init(investigationDetails: [InvestigationDetail]? = nil, nextToken: String? = nil) {
             self.investigationDetails = investigationDetails
             self.nextToken = nextToken
@@ -1071,6 +1111,7 @@ extension Detective {
         /// For requests to retrieve the next page of results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1095,6 +1136,7 @@ extension Detective {
         /// If there are more behavior graphs remaining in the results, then this is the pagination token to use to request the next page of behavior graphs.
         public let nextToken: String?
 
+        @inlinable
         public init(invitations: [MemberDetail]? = nil, nextToken: String? = nil) {
             self.invitations = invitations
             self.nextToken = nextToken
@@ -1114,6 +1156,7 @@ extension Detective {
         /// For requests to retrieve the next page of member account results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(graphArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.graphArn = graphArn
             self.maxResults = maxResults
@@ -1141,6 +1184,7 @@ extension Detective {
         /// If there are more member accounts remaining in the results, then use this pagination token to request the next page of member accounts.
         public let nextToken: String?
 
+        @inlinable
         public init(memberDetails: [MemberDetail]? = nil, nextToken: String? = nil) {
             self.memberDetails = memberDetails
             self.nextToken = nextToken
@@ -1158,6 +1202,7 @@ extension Detective {
         /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1182,6 +1227,7 @@ extension Detective {
         /// If there are more accounts remaining in the results, then this is the pagination token to use to request the next page of accounts.
         public let nextToken: String?
 
+        @inlinable
         public init(administrators: [Administrator]? = nil, nextToken: String? = nil) {
             self.administrators = administrators
             self.nextToken = nextToken
@@ -1197,6 +1243,7 @@ extension Detective {
         /// The ARN of the behavior graph for which to retrieve the tag values.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1218,6 +1265,7 @@ extension Detective {
         /// The tag values that are assigned to the behavior graph. The request returns up to 50 tag values.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1265,6 +1313,7 @@ extension Detective {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var volumeUsageUpdatedTime: Date?
 
+        @inlinable
         public init(accountId: String? = nil, administratorId: String? = nil, datasourcePackageIngestStates: [DatasourcePackage: DatasourcePackageIngestState]? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitationType: InvitationType? = nil, invitedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageByDatasourcePackage: [DatasourcePackage: DatasourcePackageUsageInfo]? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
@@ -1285,6 +1334,7 @@ extension Detective {
         }
 
         @available(*, deprecated, message: "Members masterId, percentOfGraphUtilization, percentOfGraphUtilizationUpdatedTime, volumeUsageInBytes, volumeUsageUpdatedTime have been deprecated")
+        @inlinable
         public init(accountId: String? = nil, administratorId: String? = nil, datasourcePackageIngestStates: [DatasourcePackage: DatasourcePackageIngestState]? = nil, disabledReason: MemberDisabledReason? = nil, emailAddress: String? = nil, graphArn: String? = nil, invitationType: InvitationType? = nil, invitedTime: Date? = nil, masterId: String? = nil, percentOfGraphUtilization: Double? = nil, percentOfGraphUtilizationUpdatedTime: Date? = nil, status: MemberStatus? = nil, updatedTime: Date? = nil, volumeUsageByDatasourcePackage: [DatasourcePackage: DatasourcePackageUsageInfo]? = nil, volumeUsageInBytes: Int64? = nil, volumeUsageUpdatedTime: Date? = nil) {
             self.accountId = accountId
             self.administratorId = administratorId
@@ -1332,6 +1382,7 @@ extension Detective {
         /// The ARN of the organization behavior graph.
         public let graphArn: String?
 
+        @inlinable
         public init(accountId: String? = nil, datasourcePackageIngestHistory: [DatasourcePackage: [DatasourcePackageIngestState: TimestampForCollection]]? = nil, graphArn: String? = nil) {
             self.accountId = accountId
             self.datasourcePackageIngestHistory = datasourcePackageIngestHistory
@@ -1351,6 +1402,7 @@ extension Detective {
         /// Checks if the Autonomous System Organization (ASO) is new for the entire account.
         public let isNewForEntireAccount: Bool?
 
+        @inlinable
         public init(aso: String? = nil, isNewForEntireAccount: Bool? = nil) {
             self.aso = aso
             self.isNewForEntireAccount = isNewForEntireAccount
@@ -1370,6 +1422,7 @@ extension Detective {
         /// Location where the resource was accessed.
         public let location: String?
 
+        @inlinable
         public init(ipAddress: String? = nil, isNewForEntireAccount: Bool? = nil, location: String? = nil) {
             self.ipAddress = ipAddress
             self.isNewForEntireAccount = isNewForEntireAccount
@@ -1389,6 +1442,7 @@ extension Detective {
         /// New user agent which accessed the resource.
         public let userAgent: String?
 
+        @inlinable
         public init(isNewForEntireAccount: Bool? = nil, userAgent: String? = nil) {
             self.isNewForEntireAccount = isNewForEntireAccount
             self.userAgent = userAgent
@@ -1404,6 +1458,7 @@ extension Detective {
         /// The ARN of the behavior graph to reject the invitation to. The member account's current member status in the behavior graph must be INVITED.
         public let graphArn: String
 
+        @inlinable
         public init(graphArn: String) {
             self.graphArn = graphArn
         }
@@ -1425,6 +1480,7 @@ extension Detective {
         /// The type of finding.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, ipAddress: String? = nil, type: String? = nil) {
             self.arn = arn
             self.ipAddress = ipAddress
@@ -1442,6 +1498,7 @@ extension Detective {
         /// The unique identifier for the finding group.
         public let id: String?
 
+        @inlinable
         public init(id: String? = nil) {
             self.id = id
         }
@@ -1457,6 +1514,7 @@ extension Detective {
         /// The order by which the sorted findings are displayed.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(field: Field? = nil, sortOrder: SortOrder? = nil) {
             self.field = field
             self.sortOrder = sortOrder
@@ -1480,6 +1538,7 @@ extension Detective {
         @CustomCoding<ISO8601DateCoder>
         public var scopeStartTime: Date
 
+        @inlinable
         public init(entityArn: String, graphArn: String, scopeEndTime: Date, scopeStartTime: Date) {
             self.entityArn = entityArn
             self.graphArn = graphArn
@@ -1504,6 +1563,7 @@ extension Detective {
         /// The investigation ID of the investigation report.
         public let investigationId: String?
 
+        @inlinable
         public init(investigationId: String? = nil) {
             self.investigationId = investigationId
         }
@@ -1519,6 +1579,7 @@ extension Detective {
         /// The ARN of the behavior graph.
         public let graphArn: String
 
+        @inlinable
         public init(accountId: String, graphArn: String) {
             self.accountId = accountId
             self.graphArn = graphArn
@@ -1541,6 +1602,7 @@ extension Detective {
         /// The string filter value.
         public let value: String
 
+        @inlinable
         public init(value: String) {
             self.value = value
         }
@@ -1571,6 +1633,7 @@ extension Detective {
         /// The technique used, identified by the investigation.
         public let technique: String?
 
+        @inlinable
         public init(apiFailureCount: Int64? = nil, apiName: String? = nil, apiSuccessCount: Int64? = nil, ipAddress: String? = nil, procedure: String? = nil, tactic: String? = nil, technique: String? = nil) {
             self.apiFailureCount = apiFailureCount
             self.apiName = apiName
@@ -1598,6 +1661,7 @@ extension Detective {
         /// The tags to assign to the behavior graph. You can add up to 50 tags. For each tag, you provide the tag key and the tag value. Each tag key can contain up to 128 characters. Each tag value can contain up to 256 characters.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1636,6 +1700,7 @@ extension Detective {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var timestamp: Date?
 
+        @inlinable
         public init(timestamp: Date? = nil) {
             self.timestamp = timestamp
         }
@@ -1651,6 +1716,7 @@ extension Detective {
         /// The reason that the member account request could not be processed.
         public let reason: String?
 
+        @inlinable
         public init(accountId: String? = nil, reason: String? = nil) {
             self.accountId = accountId
             self.reason = reason
@@ -1668,6 +1734,7 @@ extension Detective {
         /// The reason data source package information could not be processed for a behavior graph.
         public let reason: String?
 
+        @inlinable
         public init(graphArn: String? = nil, reason: String? = nil) {
             self.graphArn = graphArn
             self.reason = reason
@@ -1685,6 +1752,7 @@ extension Detective {
         /// The tag keys of the tags to remove from the behavior graph. You can remove up to 50 tags at a time.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1721,6 +1789,7 @@ extension Detective {
         /// The ARN of the behavior graph.
         public let graphArn: String
 
+        @inlinable
         public init(datasourcePackages: [DatasourcePackage], graphArn: String) {
             self.datasourcePackages = datasourcePackages
             self.graphArn = graphArn
@@ -1746,6 +1815,7 @@ extension Detective {
         /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
         public let state: State
 
+        @inlinable
         public init(graphArn: String, investigationId: String, state: State) {
             self.graphArn = graphArn
             self.investigationId = investigationId
@@ -1772,6 +1842,7 @@ extension Detective {
         /// The ARN of the organization behavior graph.
         public let graphArn: String
 
+        @inlinable
         public init(autoEnable: Bool? = nil, graphArn: String) {
             self.autoEnable = autoEnable
             self.graphArn = graphArn

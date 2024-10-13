@@ -669,6 +669,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE; otherwise this request will fail.
         public let ticketId: String?
 
+        @inlinable
         public init(acceptanceType: AcceptanceType? = nil, playerIds: [String]? = nil, ticketId: String? = nil) {
             self.acceptanceType = acceptanceType
             self.playerIds = playerIds
@@ -711,6 +712,7 @@ extension GameLift {
         /// The routing configuration, including routing type and fleet target, for the alias.
         public let routingStrategy: RoutingStrategy?
 
+        @inlinable
         public init(aliasArn: String? = nil, aliasId: String? = nil, creationTime: Date? = nil, description: String? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, routingStrategy: RoutingStrategy? = nil) {
             self.aliasArn = aliasArn
             self.aliasId = aliasId
@@ -736,6 +738,7 @@ extension GameLift {
         /// The cost to run your fleet per hour. Amazon GameLift uses the provided cost of your fleet to balance usage in queues. For more information about queues, see Setting up queues in the Amazon GameLift Developer Guide.
         public let cost: String?
 
+        @inlinable
         public init(cost: String? = nil) {
             self.cost = cost
         }
@@ -761,6 +764,7 @@ extension GameLift {
         /// For a list of up to 100 strings. Maximum length for each string is 100 characters. Duplicate values are not recognized; all occurrences of the repeated value after the first of a repeated value are ignored.
         public let sl: [String]?
 
+        @inlinable
         public init(n: Double? = nil, s: String? = nil, sdm: [String: Double]? = nil, sl: [String]? = nil) {
             self.n = n
             self.s = s
@@ -797,6 +801,7 @@ extension GameLift {
         /// The token that users must pass to the service API to use the temporary credentials.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.secretAccessKey = secretAccessKey
@@ -830,6 +835,7 @@ extension GameLift {
         /// Version information associated with a build or script. Version strings don't need to be unique.
         public let version: String?
 
+        @inlinable
         public init(buildArn: String? = nil, buildId: String? = nil, creationTime: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, serverSdkVersion: String? = nil, sizeOnDisk: Int64? = nil, status: BuildStatus? = nil, version: String? = nil) {
             self.buildArn = buildArn
             self.buildId = buildId
@@ -859,6 +865,7 @@ extension GameLift {
         /// Indicates whether a TLS/SSL certificate is generated for a fleet.  Valid values include:     GENERATED - Generate a TLS/SSL certificate for this fleet.    DISABLED - (default) Do not generate a TLS/SSL certificate for this fleet.
         public let certificateType: CertificateType?
 
+        @inlinable
         public init(certificateType: CertificateType? = nil) {
             self.certificateType = certificateType
         }
@@ -872,6 +879,7 @@ extension GameLift {
         /// List of instance statuses that game servers may be claimed on. If provided, the list must contain the ACTIVE status.
         public let instanceStatuses: [FilterInstanceStatus]?
 
+        @inlinable
         public init(instanceStatuses: [FilterInstanceStatus]? = nil) {
             self.instanceStatuses = instanceStatuses
         }
@@ -891,6 +899,7 @@ extension GameLift {
         /// A custom string that uniquely identifies the game server to claim. If this parameter is left empty, Amazon GameLift FleetIQ searches for an available game server in the specified game server group.
         public let gameServerId: String?
 
+        @inlinable
         public init(filterOption: ClaimFilterOption? = nil, gameServerData: String? = nil, gameServerGroupName: String? = nil, gameServerId: String? = nil) {
             self.filterOption = filterOption
             self.gameServerData = gameServerData
@@ -922,6 +931,7 @@ extension GameLift {
         /// Object that describes the newly claimed game server.
         public let gameServer: GameServer?
 
+        @inlinable
         public init(gameServer: GameServer? = nil) {
             self.gameServer = gameServer
         }
@@ -963,6 +973,7 @@ extension GameLift {
         /// The Amazon EC2 instance type that the fleet uses. For registered computes in an Amazon GameLift Anywhere fleet, this property is empty.
         public let type: EC2InstanceType?
 
+        @inlinable
         public init(computeArn: String? = nil, computeName: String? = nil, computeStatus: ComputeStatus? = nil, containerAttributes: ContainerAttributes? = nil, creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameLiftAgentEndpoint: String? = nil, gameLiftServiceSdkEndpoint: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, location: String? = nil, operatingSystem: OperatingSystem? = nil, type: EC2InstanceType? = nil) {
             self.computeArn = computeArn
             self.computeName = computeName
@@ -1006,6 +1017,7 @@ extension GameLift {
         /// Ending value for the port. Port numbers are end-inclusive. This value must be equal to or greater than FromPort.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.toPort = toPort
@@ -1028,6 +1040,7 @@ extension GameLift {
         ///  Describes how container ports map to connection ports on the fleet instance. Incoming traffic connects to a game via a connection port. A ContainerPortMapping directs the traffic from a connection port to a port on the container that hosts the game session.
         public let containerPortMappings: [ContainerPortMapping]?
 
+        @inlinable
         public init(containerPortMappings: [ContainerPortMapping]? = nil) {
             self.containerPortMappings = containerPortMappings
         }
@@ -1065,6 +1078,7 @@ extension GameLift {
         /// The directory in the container where commands are run. See the ContainerDefinition::workingDirectory parameter in the Amazon Elastic Container Service API Reference.
         public let workingDirectory: String?
 
+        @inlinable
         public init(command: [String]? = nil, containerName: String? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, entryPoint: [String]? = nil, environment: [ContainerEnvironment]? = nil, essential: Bool? = nil, healthCheck: ContainerHealthCheck? = nil, imageUri: String? = nil, memoryLimits: ContainerMemoryLimits? = nil, portConfiguration: ContainerPortConfiguration? = nil, resolvedImageDigest: String? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.containerName = containerName
@@ -1124,6 +1138,7 @@ extension GameLift {
         /// The directory in the container where commands are run. See the ContainerDefinition::workingDirectory parameter in the Amazon Elastic Container Service API Reference.
         public let workingDirectory: String?
 
+        @inlinable
         public init(command: [String]? = nil, containerName: String? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, entryPoint: [String]? = nil, environment: [ContainerEnvironment]? = nil, essential: Bool? = nil, healthCheck: ContainerHealthCheck? = nil, imageUri: String? = nil, memoryLimits: ContainerMemoryLimits? = nil, portConfiguration: ContainerPortConfiguration? = nil, workingDirectory: String? = nil) {
             self.command = command
             self.containerName = containerName
@@ -1199,6 +1214,7 @@ extension GameLift {
         /// A descriptive label for the container definition that this container depends on.
         public let containerName: String?
 
+        @inlinable
         public init(condition: ContainerDependencyCondition? = nil, containerName: String? = nil) {
             self.condition = condition
             self.containerName = containerName
@@ -1222,6 +1238,7 @@ extension GameLift {
         /// The environment variable value.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1264,6 +1281,7 @@ extension GameLift {
         /// The amount of memory (in MiB) on a fleet instance to allocate for the container group. All containers in the group share these resources.  You can set additional limits for each ContainerDefinition in the group. If individual containers have limits, this value must meet the following requirements:    Equal to or greater than the sum of all container-specific soft memory limits in the group.   Equal to or greater than any container-specific hard limits in the group.   For more details on memory allocation, see the Container fleet design guide.
         public let totalMemoryLimit: Int?
 
+        @inlinable
         public init(containerDefinitions: [ContainerDefinition]? = nil, containerGroupDefinitionArn: String? = nil, creationTime: Date? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil, status: ContainerGroupDefinitionStatus? = nil, statusReason: String? = nil, totalCpuLimit: Int? = nil, totalMemoryLimit: Int? = nil) {
             self.containerDefinitions = containerDefinitions
             self.containerGroupDefinitionArn = containerGroupDefinitionArn
@@ -1297,6 +1315,7 @@ extension GameLift {
         /// The method for scheduling and maintaining copies of the container group across a container fleet.
         public let schedulingStrategy: ContainerSchedulingStrategy?
 
+        @inlinable
         public init(containerGroupDefinitionName: String? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil) {
             self.containerGroupDefinitionName = containerGroupDefinitionName
             self.schedulingStrategy = schedulingStrategy
@@ -1316,6 +1335,7 @@ extension GameLift {
         /// Details about the number of replica container groups that Amazon GameLift deploys to each instance in the container fleet.
         public let containerGroupsPerInstance: ContainerGroupsPerInstance?
 
+        @inlinable
         public init(connectionPortRange: ConnectionPortRange? = nil, containerGroupDefinitionProperties: [ContainerGroupDefinitionProperty]? = nil, containerGroupsPerInstance: ContainerGroupsPerInstance? = nil) {
             self.connectionPortRange = connectionPortRange
             self.containerGroupDefinitionProperties = containerGroupDefinitionProperties
@@ -1337,6 +1357,7 @@ extension GameLift {
         /// The number of times to replicate the replica container group on each instance in a container fleet. By default, Amazon GameLift calculates the maximum number of replica container groups that can fit on a fleet instance (based on CPU and memory resources). Leave this parameter empty if you want to use the maximum number, or specify a desired number to override the maximum. The desired number is used if it's less than the maximum number.
         public let desiredReplicaContainerGroupsPerInstance: Int?
 
+        @inlinable
         public init(connectionPortRange: ConnectionPortRange? = nil, containerGroupDefinitionNames: [String]? = nil, desiredReplicaContainerGroupsPerInstance: Int? = nil) {
             self.connectionPortRange = connectionPortRange
             self.containerGroupDefinitionNames = containerGroupDefinitionNames
@@ -1369,6 +1390,7 @@ extension GameLift {
         /// The maximum possible number of replica container groups that each fleet instance can have.
         public let maxReplicaContainerGroupsPerInstance: Int?
 
+        @inlinable
         public init(desiredReplicaContainerGroupsPerInstance: Int? = nil, maxReplicaContainerGroupsPerInstance: Int? = nil) {
             self.desiredReplicaContainerGroupsPerInstance = desiredReplicaContainerGroupsPerInstance
             self.maxReplicaContainerGroupsPerInstance = maxReplicaContainerGroupsPerInstance
@@ -1392,6 +1414,7 @@ extension GameLift {
         /// The time period (in seconds) to wait for a health check to succeed before a failed health check is counted.
         public let timeout: Int?
 
+        @inlinable
         public init(command: [String]? = nil, interval: Int? = nil, retries: Int? = nil, startPeriod: Int? = nil, timeout: Int? = nil) {
             self.command = command
             self.interval = interval
@@ -1432,6 +1455,7 @@ extension GameLift {
         /// The amount of memory that is reserved for a container. When the container group's shared memory is under contention, the system attempts to maintain the container memory usage at this soft limit. However, the container can use more memory when needed, if available. This property is similar to the Amazon ECS container definition parameter memoryreservation (Amazon Elastic Container Service Developer Guide).
         public let softLimit: Int?
 
+        @inlinable
         public init(hardLimit: Int? = nil, softLimit: Int? = nil) {
             self.hardLimit = hardLimit
             self.softLimit = softLimit
@@ -1454,6 +1478,7 @@ extension GameLift {
         /// Specifies one or more ranges of ports on a container. These ranges must not overlap.
         public let containerPortRanges: [ContainerPortRange]?
 
+        @inlinable
         public init(containerPortRanges: [ContainerPortRange]? = nil) {
             self.containerPortRanges = containerPortRanges
         }
@@ -1479,6 +1504,7 @@ extension GameLift {
         /// The network protocol that this mapping supports.
         public let `protocol`: IpProtocol?
 
+        @inlinable
         public init(connectionPort: Int? = nil, containerPort: Int? = nil, protocol: IpProtocol? = nil) {
             self.connectionPort = connectionPort
             self.containerPort = containerPort
@@ -1500,6 +1526,7 @@ extension GameLift {
         /// An ending value for the range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, protocol: IpProtocol? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.`protocol` = `protocol`
@@ -1530,6 +1557,7 @@ extension GameLift {
         /// A list of labels to assign to the new alias resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, routingStrategy: RoutingStrategy? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.name = name
@@ -1562,6 +1590,7 @@ extension GameLift {
         /// The newly created alias resource.
         public let alias: Alias?
 
+        @inlinable
         public init(alias: Alias? = nil) {
             self.alias = alias
         }
@@ -1585,6 +1614,7 @@ extension GameLift {
         /// Version information associated with a build or script. Version strings don't need to be unique. You can change this value later.
         public let version: String?
 
+        @inlinable
         public init(name: String? = nil, operatingSystem: OperatingSystem? = nil, serverSdkVersion: String? = nil, storageLocation: S3Location? = nil, tags: [Tag]? = nil, version: String? = nil) {
             self.name = name
             self.operatingSystem = operatingSystem
@@ -1626,6 +1656,7 @@ extension GameLift {
         /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials.
         public let uploadCredentials: AwsCredentials?
 
+        @inlinable
         public init(build: Build? = nil, storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
             self.build = build
             self.storageLocation = storageLocation
@@ -1655,6 +1686,7 @@ extension GameLift {
         /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for individual containers, set this parameter based on the following guidelines. The value must be (1) greater than the sum of the soft memory limits for all containers in the group, and (2) greater than any individual container's hard memory limit.
         public let totalMemoryLimit: Int?
 
+        @inlinable
         public init(containerDefinitions: [ContainerDefinitionInput]? = nil, name: String? = nil, operatingSystem: ContainerOperatingSystem? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil, tags: [Tag]? = nil, totalCpuLimit: Int? = nil, totalMemoryLimit: Int? = nil) {
             self.containerDefinitions = containerDefinitions
             self.name = name
@@ -1699,6 +1731,7 @@ extension GameLift {
         /// The properties of the newly created container group definition resource. You use this resource  to create a container fleet.
         public let containerGroupDefinition: ContainerGroupDefinition?
 
+        @inlinable
         public init(containerGroupDefinition: ContainerGroupDefinition? = nil) {
             self.containerGroupDefinition = containerGroupDefinition
         }
@@ -1758,6 +1791,7 @@ extension GameLift {
         /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, containerGroupsConfiguration: ContainerGroupsConfiguration? = nil, description: String? = nil, ec2InboundPermissions: [IpPermission]? = nil, ec2InstanceType: EC2InstanceType? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildId = buildId
@@ -1865,6 +1899,7 @@ extension GameLift {
         /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2.
         public let locations: [LocationConfiguration]?
 
+        @inlinable
         public init(fleetId: String? = nil, locations: [LocationConfiguration]? = nil) {
             self.fleetId = fleetId
             self.locations = locations
@@ -1893,6 +1928,7 @@ extension GameLift {
         /// The remote locations that are being added to the fleet, and the life-cycle status of each location. For new locations, the status is set to NEW. During location creation, Amazon GameLift updates each location's status as instances are deployed there and prepared for game hosting. This list does not include the fleet home Region or any remote locations that were already added to the fleet.
         public let locationStates: [LocationState]?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, locationStates: [LocationState]? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -1912,6 +1948,7 @@ extension GameLift {
         /// The fleet's locations and life-cycle status of each location. For new fleets, the status of all locations is set to NEW. During fleet creation, Amazon GameLift updates each location status as instances are deployed there and prepared for game hosting. This list includes an entry for the fleet's home Region. For fleets with no remote locations, only one entry, representing the home Region, is returned.
         public let locationStates: [LocationState]?
 
+        @inlinable
         public init(fleetAttributes: FleetAttributes? = nil, locationStates: [LocationState]? = nil) {
             self.fleetAttributes = fleetAttributes
             self.locationStates = locationStates
@@ -1947,6 +1984,7 @@ extension GameLift {
         /// A list of virtual private cloud (VPC) subnets to use with instances in the game server group. By default, all Amazon GameLift FleetIQ-supported Availability Zones are used. You can use this parameter to specify VPCs that you've set up. This property cannot be updated after the game server group is created, and the corresponding Auto Scaling group will always use the property value that is set with this request, even if the Auto Scaling group is updated directly.
         public let vpcSubnets: [String]?
 
+        @inlinable
         public init(autoScalingPolicy: GameServerGroupAutoScalingPolicy? = nil, balancingStrategy: BalancingStrategy? = nil, gameServerGroupName: String? = nil, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxSize: Int? = nil, minSize: Int? = nil, roleArn: String? = nil, tags: [Tag]? = nil, vpcSubnets: [String]? = nil) {
             self.autoScalingPolicy = autoScalingPolicy
             self.balancingStrategy = balancingStrategy
@@ -2009,6 +2047,7 @@ extension GameLift {
         /// The newly created game server group object, including the new ARN value for the Amazon GameLift FleetIQ game server group and the object's status. The Amazon EC2 Auto Scaling group ARN is initially null, since the group has not yet been created. This value is added once the game server group status reaches ACTIVE.
         public let gameServerGroup: GameServerGroup?
 
+        @inlinable
         public init(gameServerGroup: GameServerGroup? = nil) {
             self.gameServerGroup = gameServerGroup
         }
@@ -2040,6 +2079,7 @@ extension GameLift {
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
 
+        @inlinable
         public init(aliasId: String? = nil, creatorId: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, idempotencyToken: String? = nil, location: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil) {
             self.aliasId = aliasId
             self.creatorId = creatorId
@@ -2096,6 +2136,7 @@ extension GameLift {
         /// Object that describes the newly created game session record.
         public let gameSession: GameSession?
 
+        @inlinable
         public init(gameSession: GameSession? = nil) {
             self.gameSession = gameSession
         }
@@ -2125,6 +2166,7 @@ extension GameLift {
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(customEventData: String? = nil, destinations: [GameSessionQueueDestination]? = nil, filterConfiguration: FilterConfiguration? = nil, name: String? = nil, notificationTarget: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, priorityConfiguration: PriorityConfiguration? = nil, tags: [Tag]? = nil, timeoutInSeconds: Int? = nil) {
             self.customEventData = customEventData
             self.destinations = destinations
@@ -2177,6 +2219,7 @@ extension GameLift {
         /// An object that describes the newly created game session queue.
         public let gameSessionQueue: GameSessionQueue?
 
+        @inlinable
         public init(gameSessionQueue: GameSessionQueue? = nil) {
             self.gameSessionQueue = gameSessionQueue
         }
@@ -2192,6 +2235,7 @@ extension GameLift {
         /// A list of labels to assign to the new resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management, and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Rareference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(locationName: String? = nil, tags: [Tag]? = nil) {
             self.locationName = locationName
             self.tags = tags
@@ -2217,6 +2261,7 @@ extension GameLift {
         /// The details of the custom location you created.
         public let location: LocationModel?
 
+        @inlinable
         public init(location: LocationModel? = nil) {
             self.location = location
         }
@@ -2258,6 +2303,7 @@ extension GameLift {
         /// A list of labels to assign to the new matchmaking configuration resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetName: String? = nil, tags: [Tag]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
@@ -2332,6 +2378,7 @@ extension GameLift {
         /// Object that describes the newly created matchmaking configuration.
         public let configuration: MatchmakingConfiguration?
 
+        @inlinable
         public init(configuration: MatchmakingConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -2349,6 +2396,7 @@ extension GameLift {
         /// A list of labels to assign to the new matchmaking rule set resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
 
+        @inlinable
         public init(name: String? = nil, ruleSetBody: String? = nil, tags: [Tag]? = nil) {
             self.name = name
             self.ruleSetBody = ruleSetBody
@@ -2377,6 +2425,7 @@ extension GameLift {
         /// The newly created matchmaking rule set.
         public let ruleSet: MatchmakingRuleSet?
 
+        @inlinable
         public init(ruleSet: MatchmakingRuleSet? = nil) {
             self.ruleSet = ruleSet
         }
@@ -2394,6 +2443,7 @@ extension GameLift {
         /// A unique identifier for a player. Player IDs are developer-defined.
         public let playerId: String?
 
+        @inlinable
         public init(gameSessionId: String? = nil, playerData: String? = nil, playerId: String? = nil) {
             self.gameSessionId = gameSessionId
             self.playerData = playerData
@@ -2421,6 +2471,7 @@ extension GameLift {
         /// Object that describes the newly created player session record.
         public let playerSession: PlayerSession?
 
+        @inlinable
         public init(playerSession: PlayerSession? = nil) {
             self.playerSession = playerSession
         }
@@ -2438,6 +2489,7 @@ extension GameLift {
         /// List of unique identifiers for the players to be added.
         public let playerIds: [String]?
 
+        @inlinable
         public init(gameSessionId: String? = nil, playerDataMap: [String: String]? = nil, playerIds: [String]? = nil) {
             self.gameSessionId = gameSessionId
             self.playerDataMap = playerDataMap
@@ -2473,6 +2525,7 @@ extension GameLift {
         /// A collection of player session objects created for the added players.
         public let playerSessions: [PlayerSession]?
 
+        @inlinable
         public init(playerSessions: [PlayerSession]? = nil) {
             self.playerSessions = playerSessions
         }
@@ -2494,6 +2547,7 @@ extension GameLift {
         /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
         public let zipFile: AWSBase64Data?
 
+        @inlinable
         public init(name: String? = nil, storageLocation: S3Location? = nil, tags: [Tag]? = nil, version: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.name = name
             self.storageLocation = storageLocation
@@ -2528,6 +2582,7 @@ extension GameLift {
         /// The newly created script record with a unique script ID and ARN. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
         public let script: Script?
 
+        @inlinable
         public init(script: Script? = nil) {
             self.script = script
         }
@@ -2543,6 +2598,7 @@ extension GameLift {
         /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the  VPC Dashboard in the Amazon Web Services Management Console.  Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String?
 
+        @inlinable
         public init(gameLiftAwsAccountId: String? = nil, peerVpcId: String? = nil) {
             self.gameLiftAwsAccountId = gameLiftAwsAccountId
             self.peerVpcId = peerVpcId
@@ -2565,6 +2621,7 @@ extension GameLift {
         /// Details on the requested VPC peering authorization, including expiration.
         public let vpcPeeringAuthorization: VpcPeeringAuthorization?
 
+        @inlinable
         public init(vpcPeeringAuthorization: VpcPeeringAuthorization? = nil) {
             self.vpcPeeringAuthorization = vpcPeeringAuthorization
         }
@@ -2582,6 +2639,7 @@ extension GameLift {
         /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the  VPC Dashboard in the Amazon Web Services Management Console.  Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String?
 
+        @inlinable
         public init(fleetId: String? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil) {
             self.fleetId = fleetId
             self.peerVpcAwsAccountId = peerVpcAwsAccountId
@@ -2611,6 +2669,7 @@ extension GameLift {
         /// A unique identifier of the alias that you want to delete. You can use either the alias ID or ARN value.
         public let aliasId: String?
 
+        @inlinable
         public init(aliasId: String? = nil) {
             self.aliasId = aliasId
         }
@@ -2628,6 +2687,7 @@ extension GameLift {
         /// A unique identifier for the build to delete. You can use either the build ID or ARN value.
         public let buildId: String?
 
+        @inlinable
         public init(buildId: String? = nil) {
             self.buildId = buildId
         }
@@ -2645,6 +2705,7 @@ extension GameLift {
         /// The unique identifier for the container group definition to delete. You can use either the Name or ARN value.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2664,6 +2725,7 @@ extension GameLift {
         /// A unique identifier for the fleet to be deleted. You can use either the fleet ID or ARN value.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetId: String? = nil) {
             self.fleetId = fleetId
         }
@@ -2683,6 +2745,7 @@ extension GameLift {
         /// The list of fleet locations to delete. Specify locations in the form of an Amazon Web Services Region code, such as us-west-2.
         public let locations: [String]?
 
+        @inlinable
         public init(fleetId: String? = nil, locations: [String]? = nil) {
             self.fleetId = fleetId
             self.locations = locations
@@ -2713,6 +2776,7 @@ extension GameLift {
         /// The remote locations that are being deleted, with each location status set to DELETING.
         public let locationStates: [LocationState]?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, locationStates: [LocationState]? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -2732,6 +2796,7 @@ extension GameLift {
         /// A unique identifier for the game server group. Use either the name or ARN value.
         public let gameServerGroupName: String?
 
+        @inlinable
         public init(deleteOption: GameServerGroupDeleteOption? = nil, gameServerGroupName: String? = nil) {
             self.deleteOption = deleteOption
             self.gameServerGroupName = gameServerGroupName
@@ -2753,6 +2818,7 @@ extension GameLift {
         /// An object that describes the deleted game server group resource, with status updated to DELETE_SCHEDULED.
         public let gameServerGroup: GameServerGroup?
 
+        @inlinable
         public init(gameServerGroup: GameServerGroup? = nil) {
             self.gameServerGroup = gameServerGroup
         }
@@ -2766,6 +2832,7 @@ extension GameLift {
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region. You can use either the queue ID or ARN value.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2789,6 +2856,7 @@ extension GameLift {
         /// The location name of the custom location to be deleted.
         public let locationName: String?
 
+        @inlinable
         public init(locationName: String? = nil) {
             self.locationName = locationName
         }
@@ -2812,6 +2880,7 @@ extension GameLift {
         /// A unique identifier for the matchmaking configuration. You can use either the configuration name or ARN value.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2835,6 +2904,7 @@ extension GameLift {
         /// A unique identifier for the matchmaking rule set to be deleted. (Note: The rule set name is different from the optional "name" field in the rule set body.) You can use either the rule set name or ARN value.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -2860,6 +2930,7 @@ extension GameLift {
         /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique.
         public let name: String?
 
+        @inlinable
         public init(fleetId: String? = nil, name: String? = nil) {
             self.fleetId = fleetId
             self.name = name
@@ -2881,6 +2952,7 @@ extension GameLift {
         /// A unique identifier for the Realtime script to delete. You can use either the script ID or ARN value.
         public let scriptId: String?
 
+        @inlinable
         public init(scriptId: String? = nil) {
             self.scriptId = scriptId
         }
@@ -2900,6 +2972,7 @@ extension GameLift {
         /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the  VPC Dashboard in the Amazon Web Services Management Console.  Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String?
 
+        @inlinable
         public init(gameLiftAwsAccountId: String? = nil, peerVpcId: String? = nil) {
             self.gameLiftAwsAccountId = gameLiftAwsAccountId
             self.peerVpcId = peerVpcId
@@ -2928,6 +3001,7 @@ extension GameLift {
         /// A unique identifier for a VPC peering connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(fleetId: String? = nil, vpcPeeringConnectionId: String? = nil) {
             self.fleetId = fleetId
             self.vpcPeeringConnectionId = vpcPeeringConnectionId
@@ -2955,6 +3029,7 @@ extension GameLift {
         /// A unique identifier for the fleet the compute resource is currently registered to.
         public let fleetId: String?
 
+        @inlinable
         public init(computeName: String? = nil, fleetId: String? = nil) {
             self.computeName = computeName
             self.fleetId = fleetId
@@ -2982,6 +3057,7 @@ extension GameLift {
         /// A custom string that uniquely identifies the game server to deregister.
         public let gameServerId: String?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil, gameServerId: String? = nil) {
             self.gameServerGroupName = gameServerGroupName
             self.gameServerId = gameServerId
@@ -3006,6 +3082,7 @@ extension GameLift {
         /// The unique identifier for the fleet alias that you want to retrieve. You can use either the alias ID or ARN value.
         public let aliasId: String?
 
+        @inlinable
         public init(aliasId: String? = nil) {
             self.aliasId = aliasId
         }
@@ -3023,6 +3100,7 @@ extension GameLift {
         /// The requested alias resource.
         public let alias: Alias?
 
+        @inlinable
         public init(alias: Alias? = nil) {
             self.alias = alias
         }
@@ -3036,6 +3114,7 @@ extension GameLift {
         /// A unique identifier for the build to retrieve properties for. You can use either the build ID or ARN value.
         public let buildId: String?
 
+        @inlinable
         public init(buildId: String? = nil) {
             self.buildId = buildId
         }
@@ -3053,6 +3132,7 @@ extension GameLift {
         /// Set of properties describing the requested build.
         public let build: Build?
 
+        @inlinable
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -3068,6 +3148,7 @@ extension GameLift {
         /// A unique identifier for the fleet that the compute belongs to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
 
+        @inlinable
         public init(computeName: String? = nil, fleetId: String? = nil) {
             self.computeName = computeName
             self.fleetId = fleetId
@@ -3089,6 +3170,7 @@ extension GameLift {
         /// The set of properties for the requested compute resource.
         public let compute: Compute?
 
+        @inlinable
         public init(compute: Compute? = nil) {
             self.compute = compute
         }
@@ -3102,6 +3184,7 @@ extension GameLift {
         /// The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -3121,6 +3204,7 @@ extension GameLift {
         /// The properties of the requested container group definition resource.
         public let containerGroupDefinition: ContainerGroupDefinition?
 
+        @inlinable
         public init(containerGroupDefinition: ContainerGroupDefinition? = nil) {
             self.containerGroupDefinition = containerGroupDefinition
         }
@@ -3136,6 +3220,7 @@ extension GameLift {
         /// The name of a remote location to request instance limits for, in the form of an Amazon Web Services Region code such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(ec2InstanceType: EC2InstanceType? = nil, location: String? = nil) {
             self.ec2InstanceType = ec2InstanceType
             self.location = location
@@ -3157,6 +3242,7 @@ extension GameLift {
         /// The maximum number of instances for the specified instance type.
         public let ec2InstanceLimits: [EC2InstanceLimit]?
 
+        @inlinable
         public init(ec2InstanceLimits: [EC2InstanceLimit]? = nil) {
             self.ec2InstanceLimits = ec2InstanceLimits
         }
@@ -3174,6 +3260,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.fleetIds = fleetIds
             self.limit = limit
@@ -3203,6 +3290,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetAttributes: [FleetAttributes]? = nil, nextToken: String? = nil) {
             self.fleetAttributes = fleetAttributes
             self.nextToken = nextToken
@@ -3222,6 +3310,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.fleetIds = fleetIds
             self.limit = limit
@@ -3251,6 +3340,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetCapacity: [FleetCapacity]? = nil, nextToken: String? = nil) {
             self.fleetCapacity = fleetCapacity
             self.nextToken = nextToken
@@ -3274,6 +3364,7 @@ extension GameLift {
         /// The earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: "1469498468.057").
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, fleetId: String? = nil, limit: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.fleetId = fleetId
@@ -3304,6 +3395,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(events: [Event]? = nil, nextToken: String? = nil) {
             self.events = events
             self.nextToken = nextToken
@@ -3325,6 +3417,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetId: String? = nil, limit: Int? = nil, locations: [String]? = nil, nextToken: String? = nil) {
             self.fleetId = fleetId
             self.limit = limit
@@ -3364,6 +3457,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, locationAttributes: [LocationAttributes]? = nil, nextToken: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -3385,6 +3479,7 @@ extension GameLift {
         /// The fleet location to retrieve capacity information for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(fleetId: String? = nil, location: String? = nil) {
             self.fleetId = fleetId
             self.location = location
@@ -3407,6 +3502,7 @@ extension GameLift {
         /// Resource capacity information for the requested fleet location. Capacity objects are returned only for fleets and locations that currently exist. Changes in desired instance value can take up to 1 minute to be reflected.
         public let fleetCapacity: FleetCapacity?
 
+        @inlinable
         public init(fleetCapacity: FleetCapacity? = nil) {
             self.fleetCapacity = fleetCapacity
         }
@@ -3422,6 +3518,7 @@ extension GameLift {
         /// The fleet location to retrieve utilization information for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(fleetId: String? = nil, location: String? = nil) {
             self.fleetId = fleetId
             self.location = location
@@ -3444,6 +3541,7 @@ extension GameLift {
         /// Utilization information for the requested fleet location. Utilization objects are returned only for fleets and locations that currently exist.
         public let fleetUtilization: FleetUtilization?
 
+        @inlinable
         public init(fleetUtilization: FleetUtilization? = nil) {
             self.fleetUtilization = fleetUtilization
         }
@@ -3459,6 +3557,7 @@ extension GameLift {
         /// A remote location to check for status of port setting updates. Use the Amazon Web Services Region code format, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(fleetId: String? = nil, location: String? = nil) {
             self.fleetId = fleetId
             self.location = location
@@ -3489,6 +3588,7 @@ extension GameLift {
         /// The current status of updates to the fleet's port settings in the requested fleet location. A status of PENDING_UPDATE indicates that an update was requested for the fleet but has not yet been completed for the location.
         public let updateStatus: LocationUpdateStatus?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, inboundPermissions: [IpPermission]? = nil, location: String? = nil, updateStatus: LocationUpdateStatus? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -3514,6 +3614,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.fleetIds = fleetIds
             self.limit = limit
@@ -3543,6 +3644,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetUtilization: [FleetUtilization]? = nil, nextToken: String? = nil) {
             self.fleetUtilization = fleetUtilization
             self.nextToken = nextToken
@@ -3558,6 +3660,7 @@ extension GameLift {
         /// A unique identifier for the game server group. Use either the name or ARN value.
         public let gameServerGroupName: String?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil) {
             self.gameServerGroupName = gameServerGroupName
         }
@@ -3577,6 +3680,7 @@ extension GameLift {
         /// An object with the property settings for the requested game server group resource.
         public let gameServerGroup: GameServerGroup?
 
+        @inlinable
         public init(gameServerGroup: GameServerGroup? = nil) {
             self.gameServerGroup = gameServerGroup
         }
@@ -3592,6 +3696,7 @@ extension GameLift {
         /// A custom string that uniquely identifies the game server information to be retrieved.
         public let gameServerId: String?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil, gameServerId: String? = nil) {
             self.gameServerGroupName = gameServerGroupName
             self.gameServerId = gameServerId
@@ -3622,6 +3727,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil, instanceIds: [String]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.gameServerGroupName = gameServerGroupName
             self.instanceIds = instanceIds
@@ -3659,6 +3765,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(gameServerInstances: [GameServerInstance]? = nil, nextToken: String? = nil) {
             self.gameServerInstances = gameServerInstances
             self.nextToken = nextToken
@@ -3674,6 +3781,7 @@ extension GameLift {
         /// Object that describes the requested game server.
         public let gameServer: GameServer?
 
+        @inlinable
         public init(gameServer: GameServer? = nil) {
             self.gameServer = gameServer
         }
@@ -3699,6 +3807,7 @@ extension GameLift {
         /// Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED, ACTIVATING and TERMINATING (the last two are transitory).
         public let statusFilter: String?
 
+        @inlinable
         public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
             self.aliasId = aliasId
             self.fleetId = fleetId
@@ -3742,6 +3851,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(gameSessionDetails: [GameSessionDetail]? = nil, nextToken: String? = nil) {
             self.gameSessionDetails = gameSessionDetails
             self.nextToken = nextToken
@@ -3757,6 +3867,7 @@ extension GameLift {
         /// A unique identifier for a game session placement to retrieve.
         public let placementId: String?
 
+        @inlinable
         public init(placementId: String? = nil) {
             self.placementId = placementId
         }
@@ -3776,6 +3887,7 @@ extension GameLift {
         /// Object that describes the requested game session placement.
         public let gameSessionPlacement: GameSessionPlacement?
 
+        @inlinable
         public init(gameSessionPlacement: GameSessionPlacement? = nil) {
             self.gameSessionPlacement = gameSessionPlacement
         }
@@ -3793,6 +3905,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.names = names
@@ -3823,6 +3936,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(gameSessionQueues: [GameSessionQueue]? = nil, nextToken: String? = nil) {
             self.gameSessionQueues = gameSessionQueues
             self.nextToken = nextToken
@@ -3850,6 +3964,7 @@ extension GameLift {
         /// Game session status to filter results on. You can filter on the following states: ACTIVE, TERMINATED, ACTIVATING, and TERMINATING. The last two are transitory and used for only very brief periods of time.
         public let statusFilter: String?
 
+        @inlinable
         public init(aliasId: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, statusFilter: String? = nil) {
             self.aliasId = aliasId
             self.fleetId = fleetId
@@ -3893,6 +4008,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
             self.gameSessions = gameSessions
             self.nextToken = nextToken
@@ -3916,6 +4032,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetId: String? = nil, instanceId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil) {
             self.fleetId = fleetId
             self.instanceId = instanceId
@@ -3950,6 +4067,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [Instance]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -3971,6 +4089,7 @@ extension GameLift {
         /// A unique identifier for the matchmaking rule set. You can use either the rule set name or ARN value. Use this parameter to retrieve all matchmaking configurations that use this rule set.
         public let ruleSetName: String?
 
+        @inlinable
         public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil, ruleSetName: String? = nil) {
             self.limit = limit
             self.names = names
@@ -4006,6 +4125,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(configurations: [MatchmakingConfiguration]? = nil, nextToken: String? = nil) {
             self.configurations = configurations
             self.nextToken = nextToken
@@ -4021,6 +4141,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking ticket. You can include up to 10 ID values.
         public let ticketIds: [String]?
 
+        @inlinable
         public init(ticketIds: [String]? = nil) {
             self.ticketIds = ticketIds
         }
@@ -4041,6 +4162,7 @@ extension GameLift {
         /// A collection of existing matchmaking ticket objects matching the request.
         public let ticketList: [MatchmakingTicket]?
 
+        @inlinable
         public init(ticketList: [MatchmakingTicket]? = nil) {
             self.ticketList = ticketList
         }
@@ -4058,6 +4180,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.names = names
@@ -4091,6 +4214,7 @@ extension GameLift {
         /// A collection of requested matchmaking rule set objects.
         public let ruleSets: [MatchmakingRuleSet]?
 
+        @inlinable
         public init(nextToken: String? = nil, ruleSets: [MatchmakingRuleSet]? = nil) {
             self.nextToken = nextToken
             self.ruleSets = ruleSets
@@ -4116,6 +4240,7 @@ extension GameLift {
         /// Player session status to filter results on. Note that when a PlayerSessionId or PlayerId is provided in a DescribePlayerSessions request, then the PlayerSessionStatusFilter has no effect on the response. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).
         public let playerSessionStatusFilter: String?
 
+        @inlinable
         public init(gameSessionId: String? = nil, limit: Int? = nil, nextToken: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, playerSessionStatusFilter: String? = nil) {
             self.gameSessionId = gameSessionId
             self.limit = limit
@@ -4155,6 +4280,7 @@ extension GameLift {
         /// A collection of objects containing properties for each player session that matches the request.
         public let playerSessions: [PlayerSession]?
 
+        @inlinable
         public init(nextToken: String? = nil, playerSessions: [PlayerSession]? = nil) {
             self.nextToken = nextToken
             self.playerSessions = playerSessions
@@ -4170,6 +4296,7 @@ extension GameLift {
         /// A unique identifier for the fleet to get the runtime configuration for. You can use either the fleet ID or ARN value.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetId: String? = nil) {
             self.fleetId = fleetId
         }
@@ -4187,6 +4314,7 @@ extension GameLift {
         /// Instructions that describe how server processes are launched and maintained on computes in the fleet.
         public let runtimeConfiguration: RuntimeConfiguration?
 
+        @inlinable
         public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
             self.runtimeConfiguration = runtimeConfiguration
         }
@@ -4208,6 +4336,7 @@ extension GameLift {
         /// Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.    ACTIVE -- The scaling policy is currently in force.    UPDATEREQUESTED -- A request to update the scaling policy has been received.    UPDATING -- A change is being made to the scaling policy.    DELETEREQUESTED -- A request to delete the scaling policy has been received.    DELETING -- The scaling policy is being deleted.    DELETED -- The scaling policy has been deleted.    ERROR -- An error occurred in creating the policy. It should be removed and recreated.
         public let statusFilter: ScalingStatusType?
 
+        @inlinable
         public init(fleetId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, statusFilter: ScalingStatusType? = nil) {
             self.fleetId = fleetId
             self.limit = limit
@@ -4241,6 +4370,7 @@ extension GameLift {
         /// A collection of objects containing the scaling policies matching the request.
         public let scalingPolicies: [ScalingPolicy]?
 
+        @inlinable
         public init(nextToken: String? = nil, scalingPolicies: [ScalingPolicy]? = nil) {
             self.nextToken = nextToken
             self.scalingPolicies = scalingPolicies
@@ -4256,6 +4386,7 @@ extension GameLift {
         /// A unique identifier for the Realtime script to retrieve properties for. You can use either the script ID or ARN value.
         public let scriptId: String?
 
+        @inlinable
         public init(scriptId: String? = nil) {
             self.scriptId = scriptId
         }
@@ -4273,6 +4404,7 @@ extension GameLift {
         /// A set of properties describing the requested script.
         public let script: Script?
 
+        @inlinable
         public init(script: Script? = nil) {
             self.script = script
         }
@@ -4290,6 +4422,7 @@ extension GameLift {
         /// A collection of objects that describe all valid VPC peering operations for the current Amazon Web Services account.
         public let vpcPeeringAuthorizations: [VpcPeeringAuthorization]?
 
+        @inlinable
         public init(vpcPeeringAuthorizations: [VpcPeeringAuthorization]? = nil) {
             self.vpcPeeringAuthorizations = vpcPeeringAuthorizations
         }
@@ -4303,6 +4436,7 @@ extension GameLift {
         /// A unique identifier for the fleet. You can use either the fleet ID or ARN value.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetId: String? = nil) {
             self.fleetId = fleetId
         }
@@ -4320,6 +4454,7 @@ extension GameLift {
         /// A collection of VPC peering connection records that match the request.
         public let vpcPeeringConnections: [VpcPeeringConnection]?
 
+        @inlinable
         public init(vpcPeeringConnections: [VpcPeeringConnection]? = nil) {
             self.vpcPeeringConnections = vpcPeeringConnections
         }
@@ -4335,6 +4470,7 @@ extension GameLift {
         /// A unique identifier for a player to associate with the player session.
         public let playerId: String?
 
+        @inlinable
         public init(playerData: String? = nil, playerId: String? = nil) {
             self.playerData = playerData
             self.playerId = playerId
@@ -4369,6 +4505,7 @@ extension GameLift {
         /// Number of instances that are no longer active but haven't yet been terminated.
         public let terminating: Int?
 
+        @inlinable
         public init(active: Int? = nil, desired: Int? = nil, idle: Int? = nil, maximum: Int? = nil, minimum: Int? = nil, pending: Int? = nil, terminating: Int? = nil) {
             self.active = active
             self.desired = desired
@@ -4400,6 +4537,7 @@ extension GameLift {
         /// An Amazon Web Services Region code, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(currentInstances: Int? = nil, ec2InstanceType: EC2InstanceType? = nil, instanceLimit: Int? = nil, location: String? = nil) {
             self.currentInstances = currentInstances
             self.ec2InstanceType = ec2InstanceType
@@ -4431,6 +4569,7 @@ extension GameLift {
         /// A unique identifier for an event resource, such as a fleet ID.
         public let resourceId: String?
 
+        @inlinable
         public init(count: Int64? = nil, eventCode: EventCode? = nil, eventId: String? = nil, eventTime: Date? = nil, message: String? = nil, preSignedLogUrl: String? = nil, resourceId: String? = nil) {
             self.count = count
             self.eventCode = eventCode
@@ -4456,6 +4595,7 @@ extension GameLift {
         ///  A list of locations to allow game session placement in, in the form of Amazon Web Services Region codes such as us-west-2.
         public let allowedLocations: [String]?
 
+        @inlinable
         public init(allowedLocations: [String]? = nil) {
             self.allowedLocations = allowedLocations
         }
@@ -4530,6 +4670,7 @@ extension GameLift {
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
+        @inlinable
         public init(anywhereConfiguration: AnywhereConfiguration? = nil, buildArn: String? = nil, buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, computeType: ComputeType? = nil, containerGroupsAttributes: ContainerGroupsAttributes? = nil, creationTime: Date? = nil, description: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider? = nil, instanceType: EC2InstanceType? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, operatingSystem: OperatingSystem? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, scriptArn: String? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, status: FleetStatus? = nil, stoppedActions: [FleetAction]? = nil, terminationTime: Date? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.buildArn = buildArn
@@ -4605,6 +4746,7 @@ extension GameLift {
         ///  This property is used with the Amazon GameLift containers feature, which is currently in public preview. The number and status of replica container groups in a container fleet.
         public let replicaContainerGroupCounts: ReplicaContainerGroupCounts?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, instanceCounts: EC2InstanceCounts? = nil, instanceType: EC2InstanceType? = nil, location: String? = nil, replicaContainerGroupCounts: ReplicaContainerGroupCounts? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -4640,6 +4782,7 @@ extension GameLift {
         /// The maximum number of players allowed across all game sessions that are currently being hosted across all instances in the fleet location.
         public let maximumPlayerSessionCount: Int?
 
+        @inlinable
         public init(activeGameSessionCount: Int? = nil, activeServerProcessCount: Int? = nil, currentPlayerSessionCount: Int? = nil, fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil, maximumPlayerSessionCount: Int? = nil) {
             self.activeGameSessionCount = activeGameSessionCount
             self.activeServerProcessCount = activeServerProcessCount
@@ -4667,6 +4810,7 @@ extension GameLift {
         /// The game property value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4707,6 +4851,7 @@ extension GameLift {
         /// Indicates whether the game server is currently available for new games or is busy. Possible statuses include:    AVAILABLE - The game server is available to be claimed. A game server that has been claimed remains in this status until it reports game hosting activity.     UTILIZED - The game server is currently hosting a game session with players.
         public let utilizationStatus: GameServerUtilizationStatus?
 
+        @inlinable
         public init(claimStatus: GameServerClaimStatus? = nil, connectionInfo: String? = nil, gameServerData: String? = nil, gameServerGroupArn: String? = nil, gameServerGroupName: String? = nil, gameServerId: String? = nil, instanceId: String? = nil, lastClaimTime: Date? = nil, lastHealthCheckTime: Date? = nil, registrationTime: Date? = nil, utilizationStatus: GameServerUtilizationStatus? = nil) {
             self.claimStatus = claimStatus
             self.connectionInfo = connectionInfo
@@ -4762,6 +4907,7 @@ extension GameLift {
         /// A list of activities that are currently suspended for this game server group. If this property is empty, all activities are occurring.
         public let suspendedActions: [GameServerGroupAction]?
 
+        @inlinable
         public init(autoScalingGroupArn: String? = nil, balancingStrategy: BalancingStrategy? = nil, creationTime: Date? = nil, gameServerGroupArn: String? = nil, gameServerGroupName: String? = nil, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition]? = nil, lastUpdatedTime: Date? = nil, roleArn: String? = nil, status: GameServerGroupStatus? = nil, statusReason: String? = nil, suspendedActions: [GameServerGroupAction]? = nil) {
             self.autoScalingGroupArn = autoScalingGroupArn
             self.balancingStrategy = balancingStrategy
@@ -4799,6 +4945,7 @@ extension GameLift {
         /// Settings for a target-based scaling policy applied to Auto Scaling group. These settings are used to create a target-based policy that tracks the Amazon GameLift FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
+        @inlinable
         public init(estimatedInstanceWarmup: Int? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
             self.estimatedInstanceWarmup = estimatedInstanceWarmup
             self.targetTrackingConfiguration = targetTrackingConfiguration
@@ -4825,6 +4972,7 @@ extension GameLift {
         /// Current status of the game server instance
         public let instanceStatus: GameServerInstanceStatus?
 
+        @inlinable
         public init(gameServerGroupArn: String? = nil, gameServerGroupName: String? = nil, instanceId: String? = nil, instanceStatus: GameServerInstanceStatus? = nil) {
             self.gameServerGroupArn = gameServerGroupArn
             self.gameServerGroupName = gameServerGroupName
@@ -4880,6 +5028,7 @@ extension GameLift {
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, creatorId: String? = nil, currentPlayerSessionCount: Int? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, location: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, port: Int? = nil, status: GameSessionStatus? = nil, statusReason: GameSessionStatusReason? = nil, terminationTime: Date? = nil) {
             self.creationTime = creationTime
             self.creatorId = creatorId
@@ -4937,6 +5086,7 @@ extension GameLift {
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let port: Int?
 
+        @inlinable
         public init(dnsName: String? = nil, gameSessionArn: String? = nil, ipAddress: String? = nil, matchedPlayerSessions: [MatchedPlayerSession]? = nil, port: Int? = nil) {
             self.dnsName = dnsName
             self.gameSessionArn = gameSessionArn
@@ -4960,6 +5110,7 @@ extension GameLift {
         /// Current status of protection for the game session.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let protectionPolicy: ProtectionPolicy?
 
+        @inlinable
         public init(gameSession: GameSession? = nil, protectionPolicy: ProtectionPolicy? = nil) {
             self.gameSession = gameSession
             self.protectionPolicy = protectionPolicy
@@ -5009,6 +5160,7 @@ extension GameLift {
         /// Current status of the game session placement request.    PENDING -- The placement request is  in the queue waiting to be processed. Game session properties are not yet final.     FULFILLED -- A new game session has been  successfully placed. Game session properties are now final.    CANCELLED -- The placement request was canceled.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.    FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
         public let status: GameSessionPlacementState?
 
+        @inlinable
         public init(dnsName: String? = nil, endTime: Date? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, startTime: Date? = nil, status: GameSessionPlacementState? = nil) {
             self.dnsName = dnsName
             self.endTime = endTime
@@ -5072,6 +5224,7 @@ extension GameLift {
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(customEventData: String? = nil, destinations: [GameSessionQueueDestination]? = nil, filterConfiguration: FilterConfiguration? = nil, gameSessionQueueArn: String? = nil, name: String? = nil, notificationTarget: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, priorityConfiguration: PriorityConfiguration? = nil, timeoutInSeconds: Int? = nil) {
             self.customEventData = customEventData
             self.destinations = destinations
@@ -5101,6 +5254,7 @@ extension GameLift {
         /// The Amazon Resource Name (ARN) that is assigned to fleet or fleet alias. ARNs, which include a fleet ID or alias ID and a Region name, provide a unique identifier across all Regions.
         public let destinationArn: String?
 
+        @inlinable
         public init(destinationArn: String? = nil) {
             self.destinationArn = destinationArn
         }
@@ -5122,6 +5276,7 @@ extension GameLift {
         /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
 
+        @inlinable
         public init(computeName: String? = nil, fleetId: String? = nil) {
             self.computeName = computeName
             self.fleetId = fleetId
@@ -5153,6 +5308,7 @@ extension GameLift {
         /// (For container fleets only) The instance ID where the compute resource is running.
         public let target: String?
 
+        @inlinable
         public init(computeArn: String? = nil, computeName: String? = nil, credentials: AwsCredentials? = nil, fleetArn: String? = nil, fleetId: String? = nil, target: String? = nil) {
             self.computeArn = computeArn
             self.computeName = computeName
@@ -5178,6 +5334,7 @@ extension GameLift {
         /// A unique identifier for the fleet that the compute is registered to.
         public let fleetId: String?
 
+        @inlinable
         public init(computeName: String? = nil, fleetId: String? = nil) {
             self.computeName = computeName
             self.fleetId = fleetId
@@ -5209,6 +5366,7 @@ extension GameLift {
         /// A unique identifier for the fleet that the compute is registered to.
         public let fleetId: String?
 
+        @inlinable
         public init(authToken: String? = nil, computeArn: String? = nil, computeName: String? = nil, expirationTimestamp: Date? = nil, fleetArn: String? = nil, fleetId: String? = nil) {
             self.authToken = authToken
             self.computeArn = computeArn
@@ -5232,6 +5390,7 @@ extension GameLift {
         /// A unique identifier for the game session to get logs for.
         public let gameSessionId: String?
 
+        @inlinable
         public init(gameSessionId: String? = nil) {
             self.gameSessionId = gameSessionId
         }
@@ -5251,6 +5410,7 @@ extension GameLift {
         /// Location of the requested game session logs, available for download. This URL is valid for 15 minutes, after which S3 will reject any download request using this URL. You can request a new URL any time within the 14-day period that the logs are retained.
         public let preSignedUrl: String?
 
+        @inlinable
         public init(preSignedUrl: String? = nil) {
             self.preSignedUrl = preSignedUrl
         }
@@ -5266,6 +5426,7 @@ extension GameLift {
         /// A unique identifier for the instance you want to access. You can access an instance in any status.
         public let instanceId: String?
 
+        @inlinable
         public init(fleetId: String? = nil, instanceId: String? = nil) {
             self.fleetId = fleetId
             self.instanceId = instanceId
@@ -5286,6 +5447,7 @@ extension GameLift {
         /// The connection information for a fleet instance, including IP address and access credentials.
         public let instanceAccess: InstanceAccess?
 
+        @inlinable
         public init(instanceAccess: InstanceAccess? = nil) {
             self.instanceAccess = instanceAccess
         }
@@ -5317,6 +5479,7 @@ extension GameLift {
         /// EC2 instance type that defines the computing resources of this instance.
         public let type: EC2InstanceType?
 
+        @inlinable
         public init(creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, location: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
             self.creationTime = creationTime
             self.dnsName = dnsName
@@ -5356,6 +5519,7 @@ extension GameLift {
         /// Operating system that is running on the instance.
         public let operatingSystem: OperatingSystem?
 
+        @inlinable
         public init(credentials: InstanceCredentials? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil) {
             self.credentials = credentials
             self.fleetId = fleetId
@@ -5379,6 +5543,7 @@ extension GameLift {
         /// A user name for logging in.
         public let userName: String?
 
+        @inlinable
         public init(secret: String? = nil, userName: String? = nil) {
             self.secret = secret
             self.userName = userName
@@ -5396,6 +5561,7 @@ extension GameLift {
         /// Instance weighting that indicates how much this instance type contributes to the total capacity of a game server group. Instance weights are used by Amazon GameLift FleetIQ to calculate the instance type's cost per unit hour and better identify the most cost-effective options. For detailed information on weighting instance capacity, see Instance Weighting in the Amazon Elastic Compute Cloud Auto Scaling User Guide. Default value is "1".
         public let weightedCapacity: String?
 
+        @inlinable
         public init(instanceType: GameServerGroupInstanceType? = nil, weightedCapacity: String? = nil) {
             self.instanceType = instanceType
             self.weightedCapacity = weightedCapacity
@@ -5423,6 +5589,7 @@ extension GameLift {
         /// An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be equal to or greater than FromPort. For fleets using Linux builds, only ports 22 and 1026-60000 are valid. For fleets using Windows builds, only ports 1026-60000 are valid.
         public let toPort: Int?
 
+        @inlinable
         public init(fromPort: Int? = nil, ipRange: String? = nil, protocol: IpProtocol? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.ipRange = ipRange
@@ -5454,6 +5621,7 @@ extension GameLift {
         /// The version of the Amazon EC2 launch template to use. If no version is specified, the default version will be used. With Amazon EC2, you can specify a default version for a launch template. If none is set, the default is the first version created.
         public let version: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -5489,6 +5657,7 @@ extension GameLift {
         /// The routing type to filter results on. Use this parameter to retrieve only aliases with a certain routing type. To retrieve all aliases, leave this parameter empty. Possible routing types include the following:    SIMPLE -- The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL -- The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.
         public let routingStrategyType: RoutingStrategyType?
 
+        @inlinable
         public init(limit: Int? = nil, name: String? = nil, nextToken: String? = nil, routingStrategyType: RoutingStrategyType? = nil) {
             self.limit = limit
             self.name = name
@@ -5516,6 +5685,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(aliases: [Alias]? = nil, nextToken: String? = nil) {
             self.aliases = aliases
             self.nextToken = nextToken
@@ -5535,6 +5705,7 @@ extension GameLift {
         /// Build status to filter results by. To retrieve all builds, leave this parameter empty. Possible build statuses include the following:    INITIALIZED -- A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.     READY -- The game build has been successfully uploaded. You can now create new fleets for this build.    FAILED -- The game build upload failed. You cannot create new fleets for this build.
         public let status: BuildStatus?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, status: BuildStatus? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -5559,6 +5730,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(builds: [Build]? = nil, nextToken: String? = nil) {
             self.builds = builds
             self.nextToken = nextToken
@@ -5580,6 +5752,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil) {
             self.fleetId = fleetId
             self.limit = limit
@@ -5611,6 +5784,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(computeList: [Compute]? = nil, nextToken: String? = nil) {
             self.computeList = computeList
             self.nextToken = nextToken
@@ -5630,6 +5804,7 @@ extension GameLift {
         /// The type of container group definitions to retrieve.    DAEMON -- Daemon container groups run background processes and are deployed once per fleet instance.    REPLICA -- Replica container groups run your game server application and supporting software. Replica groups might be deployed multiple times per fleet instance.
         public let schedulingStrategy: ContainerSchedulingStrategy?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil, schedulingStrategy: ContainerSchedulingStrategy? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -5655,6 +5830,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(containerGroupDefinitions: [ContainerGroupDefinition]? = nil, nextToken: String? = nil) {
             self.containerGroupDefinitions = containerGroupDefinitions
             self.nextToken = nextToken
@@ -5678,6 +5854,7 @@ extension GameLift {
         /// A unique identifier for the Realtime script to request fleets for. Use this parameter to return only fleets using a specified script. Use either the script ID or ARN value.
         public let scriptId: String?
 
+        @inlinable
         public init(buildId: String? = nil, containerGroupDefinitionName: String? = nil, limit: Int? = nil, nextToken: String? = nil, scriptId: String? = nil) {
             self.buildId = buildId
             self.containerGroupDefinitionName = containerGroupDefinitionName
@@ -5712,6 +5889,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(fleetIds: [String]? = nil, nextToken: String? = nil) {
             self.fleetIds = fleetIds
             self.nextToken = nextToken
@@ -5729,6 +5907,7 @@ extension GameLift {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -5752,6 +5931,7 @@ extension GameLift {
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(gameServerGroups: [GameServerGroup]? = nil, nextToken: String? = nil) {
             self.gameServerGroups = gameServerGroups
             self.nextToken = nextToken
@@ -5773,6 +5953,7 @@ extension GameLift {
         /// Indicates how to sort the returned data based on game server registration timestamp. Use ASCENDING to retrieve oldest game servers first, or use DESCENDING to retrieve newest game servers first. If this parameter is left empty, game servers are returned in no particular order.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil, limit: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.gameServerGroupName = gameServerGroupName
             self.limit = limit
@@ -5803,6 +5984,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(gameServers: [GameServer]? = nil, nextToken: String? = nil) {
             self.gameServers = gameServers
             self.nextToken = nextToken
@@ -5822,6 +6004,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [LocationFilter]? = nil, limit: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.limit = limit
@@ -5850,6 +6033,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(locations: [LocationModel]? = nil, nextToken: String? = nil) {
             self.locations = locations
             self.nextToken = nextToken
@@ -5867,6 +6051,7 @@ extension GameLift {
         /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, don't specify a value.
         public let nextToken: String?
 
+        @inlinable
         public init(limit: Int? = nil, nextToken: String? = nil) {
             self.limit = limit
             self.nextToken = nextToken
@@ -5889,6 +6074,7 @@ extension GameLift {
         /// A set of properties describing the requested script.
         public let scripts: [Script]?
 
+        @inlinable
         public init(nextToken: String? = nil, scripts: [Script]? = nil) {
             self.nextToken = nextToken
             self.scripts = scripts
@@ -5904,6 +6090,7 @@ extension GameLift {
         /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon GameLift resource that you want to retrieve tags for. Amazon GameLift includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type.
         public let resourceARN: String?
 
+        @inlinable
         public init(resourceARN: String? = nil) {
             self.resourceARN = resourceARN
         }
@@ -5922,6 +6109,7 @@ extension GameLift {
         /// The collection of tags assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -5939,6 +6127,7 @@ extension GameLift {
         /// The status of fleet activity updates to the location. The status PENDING_UPDATE indicates that StopFleetActions or StartFleetActions has been requested but the update has not yet been completed for the location.
         public let updateStatus: LocationUpdateStatus?
 
+        @inlinable
         public init(locationState: LocationState? = nil, stoppedActions: [FleetAction]? = nil, updateStatus: LocationUpdateStatus? = nil) {
             self.locationState = locationState
             self.stoppedActions = stoppedActions
@@ -5956,6 +6145,7 @@ extension GameLift {
         /// An Amazon Web Services Region code, such as us-west-2. For a list of supported Regions and Local Zones, see  Amazon GameLift service locations for managed hosting.
         public let location: String?
 
+        @inlinable
         public init(location: String? = nil) {
             self.location = location
         }
@@ -5977,6 +6167,7 @@ extension GameLift {
         /// The location's name.
         public let locationName: String?
 
+        @inlinable
         public init(locationArn: String? = nil, locationName: String? = nil) {
             self.locationArn = locationArn
             self.locationName = locationName
@@ -5994,6 +6185,7 @@ extension GameLift {
         /// The life-cycle status of a fleet location.
         public let status: FleetStatus?
 
+        @inlinable
         public init(location: String? = nil, status: FleetStatus? = nil) {
             self.location = location
             self.status = status
@@ -6011,6 +6203,7 @@ extension GameLift {
         /// A unique identifier for a player session
         public let playerSessionId: String?
 
+        @inlinable
         public init(playerId: String? = nil, playerSessionId: String? = nil) {
             self.playerId = playerId
             self.playerSessionId = playerSessionId
@@ -6058,6 +6251,7 @@ extension GameLift {
         /// A unique identifier for the matchmaking rule set to use with this configuration. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, configurationArn: String? = nil, creationTime: Date? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetArn: String? = nil, ruleSetName: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
@@ -6109,6 +6303,7 @@ extension GameLift {
         /// A unique identifier for the matchmaking rule set
         public let ruleSetName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, ruleSetArn: String? = nil, ruleSetBody: String? = nil, ruleSetName: String? = nil) {
             self.creationTime = creationTime
             self.ruleSetArn = ruleSetArn
@@ -6148,6 +6343,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking ticket.
         public let ticketId: String?
 
+        @inlinable
         public init(configurationArn: String? = nil, configurationName: String? = nil, endTime: Date? = nil, estimatedWaitTime: Int? = nil, gameSessionConnectionInfo: GameSessionConnectionInfo? = nil, players: [Player]? = nil, startTime: Date? = nil, status: MatchmakingConfigurationStatus? = nil, statusMessage: String? = nil, statusReason: String? = nil, ticketId: String? = nil) {
             self.configurationArn = configurationArn
             self.configurationName = configurationName
@@ -6183,6 +6379,7 @@ extension GameLift {
         /// A unique identifier for a player session.
         public let playerSessionId: String?
 
+        @inlinable
         public init(playerId: String? = nil, playerSessionId: String? = nil) {
             self.playerId = playerId
             self.playerSessionId = playerSessionId
@@ -6204,6 +6401,7 @@ extension GameLift {
         /// Name of the team that the player is assigned to in a match. Team names are defined in a matchmaking rule set.
         public let team: String?
 
+        @inlinable
         public init(latencyInMs: [String: Int]? = nil, playerAttributes: [String: AttributeValue]? = nil, playerId: String? = nil, team: String? = nil) {
             self.latencyInMs = latencyInMs
             self.playerAttributes = playerAttributes
@@ -6243,6 +6441,7 @@ extension GameLift {
         /// Name of the Region that is associated with the latency value.
         public let regionIdentifier: String?
 
+        @inlinable
         public init(latencyInMilliseconds: Float? = nil, playerId: String? = nil, regionIdentifier: String? = nil) {
             self.latencyInMilliseconds = latencyInMilliseconds
             self.playerId = playerId
@@ -6269,6 +6468,7 @@ extension GameLift {
         /// The length of time, in seconds, that the policy is enforced while placing a new game session. A null value for this property means that the policy is enforced until the queue times out.
         public let policyDurationSeconds: Int?
 
+        @inlinable
         public init(maximumIndividualPlayerLatencyMilliseconds: Int? = nil, policyDurationSeconds: Int? = nil) {
             self.maximumIndividualPlayerLatencyMilliseconds = maximumIndividualPlayerLatencyMilliseconds
             self.policyDurationSeconds = policyDurationSeconds
@@ -6311,6 +6511,7 @@ extension GameLift {
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
 
+        @inlinable
         public init(creationTime: Date? = nil, dnsName: String? = nil, fleetArn: String? = nil, fleetId: String? = nil, gameSessionId: String? = nil, ipAddress: String? = nil, playerData: String? = nil, playerId: String? = nil, playerSessionId: String? = nil, port: Int? = nil, status: PlayerSessionStatus? = nil, terminationTime: Date? = nil) {
             self.creationTime = creationTime
             self.dnsName = dnsName
@@ -6348,6 +6549,7 @@ extension GameLift {
         /// The recommended sequence to use when prioritizing where to place new game sessions. Each type can only be listed once.    LATENCY -- FleetIQ prioritizes locations where the average player latency (provided in each game session request) is lowest.     COST -- FleetIQ prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) for each destination in the queue.    DESTINATION -- FleetIQ prioritizes based on the order that destinations are listed in the queue configuration.    LOCATION -- FleetIQ prioritizes based on the provided order of locations, as defined in LocationOrder.
         public let priorityOrder: [PriorityType]?
 
+        @inlinable
         public init(locationOrder: [String]? = nil, priorityOrder: [PriorityType]? = nil) {
             self.locationOrder = locationOrder
             self.priorityOrder = priorityOrder
@@ -6393,6 +6595,7 @@ extension GameLift {
         /// Metric value used to trigger a scaling event.
         public let threshold: Double?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperatorType? = nil, evaluationPeriods: Int? = nil, fleetId: String? = nil, metricName: MetricName? = nil, name: String? = nil, policyType: PolicyType? = nil, scalingAdjustment: Int? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, targetConfiguration: TargetConfiguration? = nil, threshold: Double? = nil) {
             self.comparisonOperator = comparisonOperator
             self.evaluationPeriods = evaluationPeriods
@@ -6431,6 +6634,7 @@ extension GameLift {
         /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -6454,6 +6658,7 @@ extension GameLift {
         /// The name of a custom location to associate with the compute resource being registered. This parameter is required when registering a compute for an Anywhere fleet.
         public let location: String?
 
+        @inlinable
         public init(certificatePath: String? = nil, computeName: String? = nil, dnsName: String? = nil, fleetId: String? = nil, ipAddress: String? = nil, location: String? = nil) {
             self.certificatePath = certificatePath
             self.computeName = computeName
@@ -6495,6 +6700,7 @@ extension GameLift {
         /// The details of the compute resource you registered.
         public let compute: Compute?
 
+        @inlinable
         public init(compute: Compute? = nil) {
             self.compute = compute
         }
@@ -6516,6 +6722,7 @@ extension GameLift {
         /// The unique identifier for the instance where the game server is running. This ID is available in the instance metadata. EC2 instance IDs  use a 17-character format, for example: i-1234567890abcdef0.
         public let instanceId: String?
 
+        @inlinable
         public init(connectionInfo: String? = nil, gameServerData: String? = nil, gameServerGroupName: String? = nil, gameServerId: String? = nil, instanceId: String? = nil) {
             self.connectionInfo = connectionInfo
             self.gameServerData = gameServerData
@@ -6555,6 +6762,7 @@ extension GameLift {
         /// Object that describes the newly registered game server.
         public let gameServer: GameServer?
 
+        @inlinable
         public init(gameServer: GameServer? = nil) {
             self.gameServer = gameServer
         }
@@ -6574,6 +6782,7 @@ extension GameLift {
         ///  The number of container groups that are in the process of shutting down.
         public let terminating: Int?
 
+        @inlinable
         public init(active: Int? = nil, idle: Int? = nil, pending: Int? = nil, terminating: Int? = nil) {
             self.active = active
             self.idle = idle
@@ -6593,6 +6802,7 @@ extension GameLift {
         /// A unique identifier for the build to get credentials for. You can use either the build ID or ARN value.
         public let buildId: String?
 
+        @inlinable
         public init(buildId: String? = nil) {
             self.buildId = buildId
         }
@@ -6612,6 +6822,7 @@ extension GameLift {
         /// Amazon Web Services credentials required when uploading a game build to the storage location. These credentials have a limited lifespan and are valid only for the build they were issued for.
         public let uploadCredentials: AwsCredentials?
 
+        @inlinable
         public init(storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
             self.storageLocation = storageLocation
             self.uploadCredentials = uploadCredentials
@@ -6627,6 +6838,7 @@ extension GameLift {
         /// The unique identifier of the alias that you want to retrieve a fleet ID for. You can use either the alias ID or ARN value.
         public let aliasId: String?
 
+        @inlinable
         public init(aliasId: String? = nil) {
             self.aliasId = aliasId
         }
@@ -6646,6 +6858,7 @@ extension GameLift {
         /// The fleet identifier that the alias is pointing to.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -6663,6 +6876,7 @@ extension GameLift {
         /// The time span used in evaluating the resource creation limit policy.
         public let policyPeriodInMinutes: Int?
 
+        @inlinable
         public init(newGameSessionsPerCreator: Int? = nil, policyPeriodInMinutes: Int? = nil) {
             self.newGameSessionsPerCreator = newGameSessionsPerCreator
             self.policyPeriodInMinutes = policyPeriodInMinutes
@@ -6685,6 +6899,7 @@ extension GameLift {
         /// The activity to resume for this game server group.
         public let resumeActions: [GameServerGroupAction]?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil, resumeActions: [GameServerGroupAction]? = nil) {
             self.gameServerGroupName = gameServerGroupName
             self.resumeActions = resumeActions
@@ -6708,6 +6923,7 @@ extension GameLift {
         /// An object that describes the game server group resource, with the SuspendedActions property updated to reflect the resumed activity.
         public let gameServerGroup: GameServerGroup?
 
+        @inlinable
         public init(gameServerGroup: GameServerGroup? = nil) {
             self.gameServerGroup = gameServerGroup
         }
@@ -6725,6 +6941,7 @@ extension GameLift {
         /// The type of routing strategy for the alias. Possible routing types include the following:    SIMPLE - The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL - The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the message embedded.
         public let type: RoutingStrategyType?
 
+        @inlinable
         public init(fleetId: String? = nil, message: String? = nil, type: RoutingStrategyType? = nil) {
             self.fleetId = fleetId
             self.message = message
@@ -6750,6 +6967,7 @@ extension GameLift {
         /// A collection of server process configurations that identify what server processes to run on fleet computes.
         public let serverProcesses: [ServerProcess]?
 
+        @inlinable
         public init(gameSessionActivationTimeoutSeconds: Int? = nil, maxConcurrentGameSessionActivations: Int? = nil, serverProcesses: [ServerProcess]? = nil) {
             self.gameSessionActivationTimeoutSeconds = gameSessionActivationTimeoutSeconds
             self.maxConcurrentGameSessionActivations = maxConcurrentGameSessionActivations
@@ -6785,6 +7003,7 @@ extension GameLift {
         /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access the S3 bucket.
         public let roleArn: String?
 
+        @inlinable
         public init(bucket: String? = nil, key: String? = nil, objectVersion: String? = nil, roleArn: String? = nil) {
             self.bucket = bucket
             self.key = key
@@ -6837,6 +7056,7 @@ extension GameLift {
         /// The current status of the fleet's scaling policies in a requested fleet location. The status PENDING_UPDATE indicates that an update was requested for the fleet but has not yet been completed for the location.
         public let updateStatus: LocationUpdateStatus?
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperatorType? = nil, evaluationPeriods: Int? = nil, fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil, metricName: MetricName? = nil, name: String? = nil, policyType: PolicyType? = nil, scalingAdjustment: Int? = nil, scalingAdjustmentType: ScalingAdjustmentType? = nil, status: ScalingStatusType? = nil, targetConfiguration: TargetConfiguration? = nil, threshold: Double? = nil, updateStatus: LocationUpdateStatus? = nil) {
             self.comparisonOperator = comparisonOperator
             self.evaluationPeriods = evaluationPeriods
@@ -6888,6 +7108,7 @@ extension GameLift {
         /// Version information associated with a build or script. Version strings don't need to be unique.
         public let version: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, name: String? = nil, scriptArn: String? = nil, scriptId: String? = nil, sizeOnDisk: Int64? = nil, storageLocation: S3Location? = nil, version: String? = nil) {
             self.creationTime = creationTime
             self.name = name
@@ -6925,6 +7146,7 @@ extension GameLift {
         /// Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:    Operand -- Name of a game session attribute. Valid values are gameSessionName, gameSessionId, gameSessionProperties, maximumSessions, creationTimeMillis, playerSessionCount, hasAvailablePlayerSessions.    Order -- Valid sort orders are ASC (ascending) and DESC (descending).   For example, this sort expression returns the oldest active sessions first: "SortExpression": "creationTimeMillis ASC". Results with a null value for the sort operand are returned at the end of the list.
         public let sortExpression: String?
 
+        @inlinable
         public init(aliasId: String? = nil, filterExpression: String? = nil, fleetId: String? = nil, limit: Int? = nil, location: String? = nil, nextToken: String? = nil, sortExpression: String? = nil) {
             self.aliasId = aliasId
             self.filterExpression = filterExpression
@@ -6967,6 +7189,7 @@ extension GameLift {
         /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
         public let nextToken: String?
 
+        @inlinable
         public init(gameSessions: [GameSession]? = nil, nextToken: String? = nil) {
             self.gameSessions = gameSessions
             self.nextToken = nextToken
@@ -6986,6 +7209,7 @@ extension GameLift {
         /// An optional list of parameters to pass to the server executable or Realtime script on launch.
         public let parameters: String?
 
+        @inlinable
         public init(concurrentExecutions: Int? = nil, launchPath: String? = nil, parameters: String? = nil) {
             self.concurrentExecutions = concurrentExecutions
             self.launchPath = launchPath
@@ -7017,6 +7241,7 @@ extension GameLift {
         /// The fleet location to restart fleet actions for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(actions: [FleetAction]? = nil, fleetId: String? = nil, location: String? = nil) {
             self.actions = actions
             self.fleetId = fleetId
@@ -7045,6 +7270,7 @@ extension GameLift {
         /// A unique identifier for the fleet to restart actions on.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7074,6 +7300,7 @@ extension GameLift {
         /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
         public let playerLatencies: [PlayerLatency]?
 
+        @inlinable
         public init(desiredPlayerSessions: [DesiredPlayerSession]? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, maximumPlayerSessionCount: Int? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil) {
             self.desiredPlayerSessions = desiredPlayerSessions
             self.gameProperties = gameProperties
@@ -7125,6 +7352,7 @@ extension GameLift {
         /// Object that describes the newly created game session placement. This object includes all the information provided in the request, as well as start/end time stamps and placement status.
         public let gameSessionPlacement: GameSessionPlacement?
 
+        @inlinable
         public init(gameSessionPlacement: GameSessionPlacement? = nil) {
             self.gameSessionPlacement = gameSessionPlacement
         }
@@ -7144,6 +7372,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
         public let ticketId: String?
 
+        @inlinable
         public init(configurationName: String? = nil, gameSessionArn: String? = nil, players: [Player]? = nil, ticketId: String? = nil) {
             self.configurationName = configurationName
             self.gameSessionArn = gameSessionArn
@@ -7177,6 +7406,7 @@ extension GameLift {
         /// Ticket representing the backfill matchmaking request. This object includes the information in the request, ticket status, and match results as generated during the matchmaking process.
         public let matchmakingTicket: MatchmakingTicket?
 
+        @inlinable
         public init(matchmakingTicket: MatchmakingTicket? = nil) {
             self.matchmakingTicket = matchmakingTicket
         }
@@ -7194,6 +7424,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the matchmaking ticket status and retrieve match results.
         public let ticketId: String?
 
+        @inlinable
         public init(configurationName: String? = nil, players: [Player]? = nil, ticketId: String? = nil) {
             self.configurationName = configurationName
             self.players = players
@@ -7222,6 +7453,7 @@ extension GameLift {
         /// Ticket representing the matchmaking request. This object include the information included in the request, ticket status, and match results as generated during the matchmaking process.
         public let matchmakingTicket: MatchmakingTicket?
 
+        @inlinable
         public init(matchmakingTicket: MatchmakingTicket? = nil) {
             self.matchmakingTicket = matchmakingTicket
         }
@@ -7239,6 +7471,7 @@ extension GameLift {
         /// The fleet location to stop fleet actions for. Specify a location in the form of an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(actions: [FleetAction]? = nil, fleetId: String? = nil, location: String? = nil) {
             self.actions = actions
             self.fleetId = fleetId
@@ -7267,6 +7500,7 @@ extension GameLift {
         /// A unique identifier for the fleet to stop actions on.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7282,6 +7516,7 @@ extension GameLift {
         /// A unique identifier for a game session placement to stop.
         public let placementId: String?
 
+        @inlinable
         public init(placementId: String? = nil) {
             self.placementId = placementId
         }
@@ -7301,6 +7536,7 @@ extension GameLift {
         /// Object that describes the canceled game session placement, with CANCELLED status and an end time stamp.
         public let gameSessionPlacement: GameSessionPlacement?
 
+        @inlinable
         public init(gameSessionPlacement: GameSessionPlacement? = nil) {
             self.gameSessionPlacement = gameSessionPlacement
         }
@@ -7314,6 +7550,7 @@ extension GameLift {
         /// A unique identifier for a matchmaking ticket.
         public let ticketId: String?
 
+        @inlinable
         public init(ticketId: String? = nil) {
             self.ticketId = ticketId
         }
@@ -7338,6 +7575,7 @@ extension GameLift {
         /// The activity to suspend for this game server group.
         public let suspendActions: [GameServerGroupAction]?
 
+        @inlinable
         public init(gameServerGroupName: String? = nil, suspendActions: [GameServerGroupAction]? = nil) {
             self.gameServerGroupName = gameServerGroupName
             self.suspendActions = suspendActions
@@ -7361,6 +7599,7 @@ extension GameLift {
         /// An object that describes the game server group resource, with the SuspendedActions property updated to reflect the suspended activity.
         public let gameServerGroup: GameServerGroup?
 
+        @inlinable
         public init(gameServerGroup: GameServerGroup? = nil) {
             self.gameServerGroup = gameServerGroup
         }
@@ -7376,6 +7615,7 @@ extension GameLift {
         /// The value for a developer-defined key value pair for tagging an Amazon Web Services resource.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -7399,6 +7639,7 @@ extension GameLift {
         /// A list of one or more tags to assign to the specified Amazon GameLift resource. Tags are developer-defined and structured as key-value pairs. The maximum tag limit may be lower than stated. See  Tagging Amazon Web Services Resources for tagging limits.
         public let tags: [Tag]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tags: [Tag]? = nil) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -7427,6 +7668,7 @@ extension GameLift {
         /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
         public let targetValue: Double?
 
+        @inlinable
         public init(targetValue: Double? = nil) {
             self.targetValue = targetValue
         }
@@ -7440,6 +7682,7 @@ extension GameLift {
         /// Desired value to use with a game server group target-based scaling policy.
         public let targetValue: Double?
 
+        @inlinable
         public init(targetValue: Double? = nil) {
             self.targetValue = targetValue
         }
@@ -7459,6 +7702,7 @@ extension GameLift {
         /// A list of one or more tag keys to remove from the specified Amazon GameLift resource.
         public let tagKeys: [String]?
 
+        @inlinable
         public init(resourceARN: String? = nil, tagKeys: [String]? = nil) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -7494,6 +7738,7 @@ extension GameLift {
         /// The routing configuration, including routing type and fleet target, for the alias.
         public let routingStrategy: RoutingStrategy?
 
+        @inlinable
         public init(aliasId: String? = nil, description: String? = nil, name: String? = nil, routingStrategy: RoutingStrategy? = nil) {
             self.aliasId = aliasId
             self.description = description
@@ -7523,6 +7768,7 @@ extension GameLift {
         /// The updated alias resource.
         public let alias: Alias?
 
+        @inlinable
         public init(alias: Alias? = nil) {
             self.alias = alias
         }
@@ -7540,6 +7786,7 @@ extension GameLift {
         /// Version information associated with a build or script. Version strings don't need to be unique.
         public let version: String?
 
+        @inlinable
         public init(buildId: String? = nil, name: String? = nil, version: String? = nil) {
             self.buildId = buildId
             self.name = name
@@ -7565,6 +7812,7 @@ extension GameLift {
         /// The updated build resource.
         public let build: Build?
 
+        @inlinable
         public init(build: Build? = nil) {
             self.build = build
         }
@@ -7590,6 +7838,7 @@ extension GameLift {
         /// Policy settings that limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
 
+        @inlinable
         public init(anywhereConfiguration: AnywhereConfiguration? = nil, description: String? = nil, fleetId: String? = nil, metricGroups: [String]? = nil, name: String? = nil, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil) {
             self.anywhereConfiguration = anywhereConfiguration
             self.description = description
@@ -7632,6 +7881,7 @@ extension GameLift {
         /// A unique identifier for the fleet that was updated.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7655,6 +7905,7 @@ extension GameLift {
         /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0.
         public let minSize: Int?
 
+        @inlinable
         public init(desiredInstances: Int? = nil, fleetId: String? = nil, location: String? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
             self.desiredInstances = desiredInstances
             self.fleetId = fleetId
@@ -7690,6 +7941,7 @@ extension GameLift {
         /// The remote location being updated, expressed as an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, location: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7711,6 +7963,7 @@ extension GameLift {
         /// A collection of port settings to be removed from the fleet resource.
         public let inboundPermissionRevocations: [IpPermission]?
 
+        @inlinable
         public init(fleetId: String? = nil, inboundPermissionAuthorizations: [IpPermission]? = nil, inboundPermissionRevocations: [IpPermission]? = nil) {
             self.fleetId = fleetId
             self.inboundPermissionAuthorizations = inboundPermissionAuthorizations
@@ -7742,6 +7995,7 @@ extension GameLift {
         /// A unique identifier for the fleet that was updated.
         public let fleetId: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7765,6 +8019,7 @@ extension GameLift {
         /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
         public let roleArn: String?
 
+        @inlinable
         public init(balancingStrategy: BalancingStrategy? = nil, gameServerGroupName: String? = nil, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition]? = nil, roleArn: String? = nil) {
             self.balancingStrategy = balancingStrategy
             self.gameServerGroupName = gameServerGroupName
@@ -7800,6 +8055,7 @@ extension GameLift {
         /// An object that describes the game server group resource with updated properties.
         public let gameServerGroup: GameServerGroup?
 
+        @inlinable
         public init(gameServerGroup: GameServerGroup? = nil) {
             self.gameServerGroup = gameServerGroup
         }
@@ -7821,6 +8077,7 @@ extension GameLift {
         /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTILIZED, but you can't change a the status from UTILIZED to AVAILABLE.
         public let utilizationStatus: GameServerUtilizationStatus?
 
+        @inlinable
         public init(gameServerData: String? = nil, gameServerGroupName: String? = nil, gameServerId: String? = nil, healthCheck: GameServerHealthCheck? = nil, utilizationStatus: GameServerUtilizationStatus? = nil) {
             self.gameServerData = gameServerData
             self.gameServerGroupName = gameServerGroupName
@@ -7854,6 +8111,7 @@ extension GameLift {
         /// Object that describes the newly updated game server.
         public let gameServer: GameServer?
 
+        @inlinable
         public init(gameServer: GameServer? = nil) {
             self.gameServer = gameServer
         }
@@ -7877,6 +8135,7 @@ extension GameLift {
         /// Game session protection policy to apply to this game session only.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let protectionPolicy: ProtectionPolicy?
 
+        @inlinable
         public init(gameProperties: [GameProperty]? = nil, gameSessionId: String? = nil, maximumPlayerSessionCount: Int? = nil, name: String? = nil, playerSessionCreationPolicy: PlayerSessionCreationPolicy? = nil, protectionPolicy: ProtectionPolicy? = nil) {
             self.gameProperties = gameProperties
             self.gameSessionId = gameSessionId
@@ -7913,6 +8172,7 @@ extension GameLift {
         /// The updated game session properties.
         public let gameSession: GameSession?
 
+        @inlinable
         public init(gameSession: GameSession? = nil) {
             self.gameSession = gameSession
         }
@@ -7940,6 +8200,7 @@ extension GameLift {
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. By default, this property is set to 600.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(customEventData: String? = nil, destinations: [GameSessionQueueDestination]? = nil, filterConfiguration: FilterConfiguration? = nil, name: String? = nil, notificationTarget: String? = nil, playerLatencyPolicies: [PlayerLatencyPolicy]? = nil, priorityConfiguration: PriorityConfiguration? = nil, timeoutInSeconds: Int? = nil) {
             self.customEventData = customEventData
             self.destinations = destinations
@@ -7986,6 +8247,7 @@ extension GameLift {
         /// An object that describes the newly updated game session queue.
         public let gameSessionQueue: GameSessionQueue?
 
+        @inlinable
         public init(gameSessionQueue: GameSessionQueue? = nil) {
             self.gameSessionQueue = gameSessionQueue
         }
@@ -8025,6 +8287,7 @@ extension GameLift {
         /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
         public let ruleSetName: String?
 
+        @inlinable
         public init(acceptanceRequired: Bool? = nil, acceptanceTimeoutSeconds: Int? = nil, additionalPlayerCount: Int? = nil, backfillMode: BackfillMode? = nil, customEventData: String? = nil, description: String? = nil, flexMatchMode: FlexMatchMode? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionQueueArns: [String]? = nil, name: String? = nil, notificationTarget: String? = nil, requestTimeoutSeconds: Int? = nil, ruleSetName: String? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.acceptanceTimeoutSeconds = acceptanceTimeoutSeconds
@@ -8094,6 +8357,7 @@ extension GameLift {
         /// The updated matchmaking configuration.
         public let configuration: MatchmakingConfiguration?
 
+        @inlinable
         public init(configuration: MatchmakingConfiguration? = nil) {
             self.configuration = configuration
         }
@@ -8109,6 +8373,7 @@ extension GameLift {
         /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently.
         public let runtimeConfiguration: RuntimeConfiguration?
 
+        @inlinable
         public init(fleetId: String? = nil, runtimeConfiguration: RuntimeConfiguration? = nil) {
             self.fleetId = fleetId
             self.runtimeConfiguration = runtimeConfiguration
@@ -8129,6 +8394,7 @@ extension GameLift {
         /// The runtime configuration currently in use by computes in the fleet. If the update is successful, all property changes are shown.
         public let runtimeConfiguration: RuntimeConfiguration?
 
+        @inlinable
         public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
             self.runtimeConfiguration = runtimeConfiguration
         }
@@ -8150,6 +8416,7 @@ extension GameLift {
         /// A data object containing your Realtime scripts and dependencies as a zip file. The zip file can have one or multiple files. Maximum size of a zip file is 5 MB. When using the Amazon Web Services CLI tool to create a script, this parameter is set to the zip file name. It must be prepended with the string "fileb://" to indicate that the file data is a binary object. For example: --zip-file fileb://myRealtimeScript.zip.
         public let zipFile: AWSBase64Data?
 
+        @inlinable
         public init(name: String? = nil, scriptId: String? = nil, storageLocation: S3Location? = nil, version: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.name = name
             self.scriptId = scriptId
@@ -8181,6 +8448,7 @@ extension GameLift {
         /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
         public let script: Script?
 
+        @inlinable
         public init(script: Script? = nil) {
             self.script = script
         }
@@ -8194,6 +8462,7 @@ extension GameLift {
         /// A collection of matchmaking rules to validate, formatted as a JSON string.
         public let ruleSetBody: String?
 
+        @inlinable
         public init(ruleSetBody: String? = nil) {
             self.ruleSetBody = ruleSetBody
         }
@@ -8212,6 +8481,7 @@ extension GameLift {
         /// A response indicating whether the rule set is valid.
         public let valid: Bool?
 
+        @inlinable
         public init(valid: Bool? = nil) {
             self.valid = valid
         }
@@ -8233,6 +8503,7 @@ extension GameLift {
         /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the  VPC Dashboard in the Amazon Web Services Management Console.  Learn more about VPC peering in VPC Peering with Amazon GameLift Fleets.
         public let peerVpcId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, expirationTime: Date? = nil, gameLiftAwsAccountId: String? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil) {
             self.creationTime = creationTime
             self.expirationTime = expirationTime
@@ -8266,6 +8537,7 @@ extension GameLift {
         /// A unique identifier that is automatically assigned to the connection record. This ID is referenced in VPC peering connection events, and is used when deleting a connection.
         public let vpcPeeringConnectionId: String?
 
+        @inlinable
         public init(fleetArn: String? = nil, fleetId: String? = nil, gameLiftVpcId: String? = nil, ipV4CidrBlock: String? = nil, peerVpcId: String? = nil, status: VpcPeeringConnectionStatus? = nil, vpcPeeringConnectionId: String? = nil) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -8293,6 +8565,7 @@ extension GameLift {
         /// Additional messaging associated with the connection status.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message

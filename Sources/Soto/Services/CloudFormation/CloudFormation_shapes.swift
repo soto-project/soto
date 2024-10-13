@@ -578,6 +578,7 @@ extension CloudFormation {
         /// The reason for the account gate status assigned to this account and Region for the stack set operation.
         public let statusReason: String?
 
+        @inlinable
         public init(status: AccountGateStatus? = nil, statusReason: String? = nil) {
             self.status = status
             self.statusReason = statusReason
@@ -595,6 +596,7 @@ extension CloudFormation {
         /// The value that's associated with the account limit name.
         public let value: Int?
 
+        @inlinable
         public init(name: String? = nil, value: Int? = nil) {
             self.name = name
             self.value = value
@@ -636,6 +638,7 @@ extension CloudFormation {
         /// Manually updates a previously-activated type to a new major or minor version, if available. You can also use this parameter to update the value of AutoUpdate.    MAJOR: CloudFormation updates the extension to the newest major version, if one is available.    MINOR: CloudFormation updates the extension to the newest minor version, if one is available.
         public let versionBump: VersionBump?
 
+        @inlinable
         public init(autoUpdate: Bool? = nil, executionRoleArn: String? = nil, loggingConfig: LoggingConfig? = nil, majorVersion: Int64? = nil, publicTypeArn: String? = nil, publisherId: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil, typeNameAlias: String? = nil, versionBump: VersionBump? = nil) {
             self.autoUpdate = autoUpdate
             self.executionRoleArn = executionRoleArn
@@ -687,6 +690,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the activated extension, in this account and Region.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -702,6 +706,7 @@ extension CloudFormation {
         /// If set to true, stack resources are retained when an account is removed from a target organization or OU. If set to false, stack resources are deleted. Specify only if Enabled is set to True.
         public let retainStacksOnAccountRemoval: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil, retainStacksOnAccountRemoval: Bool? = nil) {
             self.enabled = enabled
             self.retainStacksOnAccountRemoval = retainStacksOnAccountRemoval
@@ -721,6 +726,7 @@ extension CloudFormation {
         /// Identifying information for the configuration of a CloudFormation extension.
         public let typeConfigurationIdentifier: TypeConfigurationIdentifier?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, typeConfigurationIdentifier: TypeConfigurationIdentifier? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -739,6 +745,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<TypeConfigurationIdentifier>>
         public var typeConfigurationIdentifiers: [TypeConfigurationIdentifier]?
 
+        @inlinable
         public init(typeConfigurationIdentifiers: [TypeConfigurationIdentifier]? = nil) {
             self.typeConfigurationIdentifiers = typeConfigurationIdentifiers
         }
@@ -766,6 +773,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<TypeConfigurationIdentifier>>
         public var unprocessedTypeConfigurations: [TypeConfigurationIdentifier]?
 
+        @inlinable
         public init(errors: [BatchDescribeTypeConfigurationsError]? = nil, typeConfigurations: [TypeConfigurationDetails]? = nil, unprocessedTypeConfigurations: [TypeConfigurationIdentifier]? = nil) {
             self.errors = errors
             self.typeConfigurations = typeConfigurations
@@ -785,6 +793,7 @@ extension CloudFormation {
         ///  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request:  { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }   The name or the unique stack ID that's associated with the stack.
         public let stackName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.stackName = stackName
@@ -810,6 +819,7 @@ extension CloudFormation {
         /// The type of entity that CloudFormation changes.    Resource This change is for a resource.
         public let type: ChangeType?
 
+        @inlinable
         public init(hookInvocationCount: Int? = nil, resourceChange: ResourceChange? = nil, type: ChangeType? = nil) {
             self.hookInvocationCount = hookInvocationCount
             self.resourceChange = resourceChange
@@ -837,6 +847,7 @@ extension CloudFormation {
         /// The version ID of the type specified.
         public let typeVersionId: String?
 
+        @inlinable
         public init(failureMode: HookFailureMode? = nil, invocationPoint: HookInvocationPoint? = nil, targetDetails: ChangeSetHookTargetDetails? = nil, typeConfigurationVersionId: String? = nil, typeName: String? = nil, typeVersionId: String? = nil) {
             self.failureMode = failureMode
             self.invocationPoint = invocationPoint
@@ -864,6 +875,7 @@ extension CloudFormation {
         /// The type of CloudFormation resource, such as AWS::S3::Bucket.
         public let resourceType: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, resourceAction: ChangeAction? = nil, resourceType: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.resourceAction = resourceAction
@@ -883,6 +895,7 @@ extension CloudFormation {
         /// The name of the type.
         public let targetType: HookTargetType?
 
+        @inlinable
         public init(resourceTargetDetails: ChangeSetHookResourceTargetDetails? = nil, targetType: HookTargetType? = nil) {
             self.resourceTargetDetails = resourceTargetDetails
             self.targetType = targetType
@@ -922,6 +935,7 @@ extension CloudFormation {
         /// A description of the change set's status. For example, if your change set is in the FAILED state, CloudFormation shows the error message.
         public let statusReason: String?
 
+        @inlinable
         public init(changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, parentChangeSetId: String? = nil, rootChangeSetId: String? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil) {
             self.changeSetId = changeSetId
             self.changeSetName = changeSetName
@@ -966,6 +980,7 @@ extension CloudFormation {
         /// The name or the unique ID of the stack that you want to continue rolling back.  Don't specify the name of a nested stack (a stack that was created by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource).
         public let stackName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, resourcesToSkip: [String]? = nil, roleARN: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.resourcesToSkip = resourcesToSkip
@@ -1044,6 +1059,7 @@ extension CloudFormation {
         /// Whether to reuse the template that's associated with the stack to create the change set.
         public let usePreviousTemplate: Bool?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, changeSetName: String? = nil, changeSetType: ChangeSetType? = nil, clientToken: String? = nil, description: String? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, resourcesToImport: [ResourceToImport]? = nil, resourceTypes: [String]? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.changeSetName = changeSetName
@@ -1126,6 +1142,7 @@ extension CloudFormation {
         /// The unique ID of the stack.
         public let stackId: String?
 
+        @inlinable
         public init(id: String? = nil, stackId: String? = nil) {
             self.id = id
             self.stackId = stackId
@@ -1148,6 +1165,7 @@ extension CloudFormation {
         /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy.
         public let templateConfiguration: TemplateConfiguration?
 
+        @inlinable
         public init(generatedTemplateName: String? = nil, resources: [ResourceDefinition]? = nil, stackName: String? = nil, templateConfiguration: TemplateConfiguration? = nil) {
             self.generatedTemplateName = generatedTemplateName
             self.resources = resources
@@ -1177,6 +1195,7 @@ extension CloudFormation {
         /// The ID of the generated template.
         public let generatedTemplateId: String?
 
+        @inlinable
         public init(generatedTemplateId: String? = nil) {
             self.generatedTemplateId = generatedTemplateId
         }
@@ -1229,6 +1248,7 @@ extension CloudFormation {
         /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
         public let timeoutInMinutes: Int?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, enableTerminationProtection: Bool? = nil, notificationARNs: [String]? = nil, onFailure: OnFailure? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
@@ -1319,6 +1339,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to create stack instances from.
         public let stackSetName: String?
 
+        @inlinable
         public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = CreateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String]? = nil, stackSetName: String? = nil) {
             self.accounts = accounts
             self.callAs = callAs
@@ -1360,6 +1381,7 @@ extension CloudFormation {
         /// The unique identifier for this stack set operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1373,6 +1395,7 @@ extension CloudFormation {
         /// Unique identifier of the stack.
         public let stackId: String?
 
+        @inlinable
         public init(stackId: String? = nil) {
             self.stackId = stackId
         }
@@ -1417,6 +1440,7 @@ extension CloudFormation {
         /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information, see Template Anatomy in the CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
 
+        @inlinable
         public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, clientRequestToken: String? = CreateStackSetInput.idempotencyToken(), description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, stackId: String? = nil, stackSetName: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
@@ -1478,6 +1502,7 @@ extension CloudFormation {
         /// The ID of the stack set that you're creating.
         public let stackSetId: String?
 
+        @inlinable
         public init(stackSetId: String? = nil) {
             self.stackSetId = stackSetId
         }
@@ -1503,6 +1528,7 @@ extension CloudFormation {
         /// The type name of the extension, in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
         public let typeName: String?
 
+        @inlinable
         public init(arn: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil) {
             self.arn = arn
             self.type = type
@@ -1534,6 +1560,7 @@ extension CloudFormation {
         /// If you specified the name of a change set to delete, specify the stack name or Amazon Resource Name (ARN) that's associated with it.
         public let stackName: String?
 
+        @inlinable
         public init(changeSetName: String? = nil, stackName: String? = nil) {
             self.changeSetName = changeSetName
             self.stackName = stackName
@@ -1561,6 +1588,7 @@ extension CloudFormation {
         /// The name or Amazon Resource Name (ARN) of a generated template.
         public let generatedTemplateName: String?
 
+        @inlinable
         public init(generatedTemplateName: String? = nil) {
             self.generatedTemplateName = generatedTemplateName
         }
@@ -1588,6 +1616,7 @@ extension CloudFormation {
         /// The name or the unique stack ID that's associated with the stack.
         public let stackName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, deletionMode: DeletionMode? = nil, retainResources: [String]? = nil, roleARN: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.deletionMode = deletionMode
@@ -1633,6 +1662,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to delete stack instances for.
         public let stackSetName: String?
 
+        @inlinable
         public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = DeleteStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, regions: [String]? = nil, retainStacks: Bool? = nil, stackSetName: String? = nil) {
             self.accounts = accounts
             self.callAs = callAs
@@ -1674,6 +1704,7 @@ extension CloudFormation {
         /// The unique identifier for this stack set operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1689,6 +1720,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you're deleting. You can obtain this value by running ListStackSets.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.stackSetName = stackSetName
@@ -1716,6 +1748,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var organizationalUnitIds: [String]?
 
+        @inlinable
         public init(accountFilterType: AccountFilterType? = nil, accounts: [String]? = nil, accountsUrl: String? = nil, organizationalUnitIds: [String]? = nil) {
             self.accountFilterType = accountFilterType
             self.accounts = accounts
@@ -1753,6 +1786,7 @@ extension CloudFormation {
         /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.type = type
@@ -1787,6 +1821,7 @@ extension CloudFormation {
         /// A string that identifies the next page of limits that you want to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -1808,6 +1843,7 @@ extension CloudFormation {
         /// If the output exceeds 1 MB in size, a string that identifies the next page of limits. If no additional page exists, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(accountLimits: [AccountLimit]? = nil, nextToken: String? = nil) {
             self.accountLimits = accountLimits
             self.nextToken = nextToken
@@ -1829,6 +1865,7 @@ extension CloudFormation {
         /// If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe.
         public let stackName: String?
 
+        @inlinable
         public init(changeSetName: String? = nil, logicalResourceId: String? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.changeSetName = changeSetName
             self.logicalResourceId = logicalResourceId
@@ -1871,6 +1908,7 @@ extension CloudFormation {
         /// Provides the status of the change set hook.
         public let status: ChangeSetHooksStatus?
 
+        @inlinable
         public init(changeSetId: String? = nil, changeSetName: String? = nil, hooks: [ChangeSetHook]? = nil, nextToken: String? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetHooksStatus? = nil) {
             self.changeSetId = changeSetId
             self.changeSetName = changeSetName
@@ -1902,6 +1940,7 @@ extension CloudFormation {
         /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
         public let stackName: String?
 
+        @inlinable
         public init(changeSetName: String? = nil, includePropertyValues: Bool? = nil, nextToken: String? = nil, stackName: String? = nil) {
             self.changeSetName = changeSetName
             self.includePropertyValues = includePropertyValues
@@ -1976,6 +2015,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, changes: [Change]? = nil, changeSetId: String? = nil, changeSetName: String? = nil, creationTime: Date? = nil, description: String? = nil, executionStatus: ExecutionStatus? = nil, importExistingResources: Bool? = nil, includeNestedStacks: Bool? = nil, nextToken: String? = nil, notificationARNs: [String]? = nil, onStackFailure: OnStackFailure? = nil, parameters: [Parameter]? = nil, parentChangeSetId: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootChangeSetId: String? = nil, stackId: String? = nil, stackName: String? = nil, status: ChangeSetStatus? = nil, statusReason: String? = nil, tags: [Tag]? = nil) {
             self.capabilities = capabilities
             self.changes = changes
@@ -2029,6 +2069,7 @@ extension CloudFormation {
         /// The name or Amazon Resource Name (ARN) of a generated template.
         public let generatedTemplateName: String?
 
+        @inlinable
         public init(generatedTemplateName: String? = nil) {
             self.generatedTemplateName = generatedTemplateName
         }
@@ -2068,6 +2109,7 @@ extension CloudFormation {
         /// The number of warnings generated for this template. The warnings are found in the details of each of the resources in the template.
         public let totalWarnings: Int?
 
+        @inlinable
         public init(creationTime: Date? = nil, generatedTemplateId: String? = nil, generatedTemplateName: String? = nil, lastUpdatedTime: Date? = nil, progress: TemplateProgress? = nil, resources: [ResourceDetail]? = nil, stackId: String? = nil, status: GeneratedTemplateStatus? = nil, statusReason: String? = nil, templateConfiguration: TemplateConfiguration? = nil, totalWarnings: Int? = nil) {
             self.creationTime = creationTime
             self.generatedTemplateId = generatedTemplateId
@@ -2101,6 +2143,7 @@ extension CloudFormation {
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
 
+        @inlinable
         public init(callAs: CallAs? = nil) {
             self.callAs = callAs
         }
@@ -2114,6 +2157,7 @@ extension CloudFormation {
         /// Presents the status of the OrganizationAccess.
         public let status: OrganizationStatus?
 
+        @inlinable
         public init(status: OrganizationStatus? = nil) {
             self.status = status
         }
@@ -2127,6 +2171,7 @@ extension CloudFormation {
         /// The ID of the extension publisher. If you don't supply a PublisherId, and you have registered as an extension publisher, DescribePublisher returns information about your own publisher account.
         public let publisherId: String?
 
+        @inlinable
         public init(publisherId: String? = nil) {
             self.publisherId = publisherId
         }
@@ -2152,6 +2197,7 @@ extension CloudFormation {
         /// Whether the publisher is verified. Currently, all registered publishers are verified.
         public let publisherStatus: PublisherStatus?
 
+        @inlinable
         public init(identityProvider: IdentityProvider? = nil, publisherId: String? = nil, publisherProfile: String? = nil, publisherStatus: PublisherStatus? = nil) {
             self.identityProvider = identityProvider
             self.publisherId = publisherId
@@ -2171,6 +2217,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the resource scan.
         public let resourceScanId: String?
 
+        @inlinable
         public init(resourceScanId: String? = nil) {
             self.resourceScanId = resourceScanId
         }
@@ -2201,6 +2248,7 @@ extension CloudFormation {
         /// The reason for the resource scan status, providing more information if a failure happened.
         public let statusReason: String?
 
+        @inlinable
         public init(endTime: Date? = nil, percentageCompleted: Double? = nil, resourceScanId: String? = nil, resourcesRead: Int? = nil, resourcesScanned: Int? = nil, resourceTypes: [String]? = nil, startTime: Date? = nil, status: ResourceScanStatus? = nil, statusReason: String? = nil) {
             self.endTime = endTime
             self.percentageCompleted = percentageCompleted
@@ -2230,6 +2278,7 @@ extension CloudFormation {
         /// The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results CloudFormation retains for any given stack, and for how long, may vary.
         public let stackDriftDetectionId: String?
 
+        @inlinable
         public init(stackDriftDetectionId: String? = nil) {
             self.stackDriftDetectionId = stackDriftDetectionId
         }
@@ -2260,6 +2309,7 @@ extension CloudFormation {
         /// Time at which the stack drift detection operation was initiated.
         public let timestamp: Date?
 
+        @inlinable
         public init(detectionStatus: StackDriftDetectionStatus? = nil, detectionStatusReason: String? = nil, driftedStackResourceCount: Int? = nil, stackDriftDetectionId: String? = nil, stackDriftStatus: StackDriftStatus? = nil, stackId: String? = nil, timestamp: Date? = nil) {
             self.detectionStatus = detectionStatus
             self.detectionStatusReason = detectionStatusReason
@@ -2287,6 +2337,7 @@ extension CloudFormation {
         /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, stackName: String? = nil) {
             self.nextToken = nextToken
             self.stackName = stackName
@@ -2310,6 +2361,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackEvent>>
         public var stackEvents: [StackEvent]?
 
+        @inlinable
         public init(nextToken: String? = nil, stackEvents: [StackEvent]? = nil) {
             self.nextToken = nextToken
             self.stackEvents = stackEvents
@@ -2331,6 +2383,7 @@ extension CloudFormation {
         /// The name or the unique stack ID of the stack set that you want to get stack instance information for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.stackInstanceAccount = stackInstanceAccount
@@ -2355,6 +2408,7 @@ extension CloudFormation {
         /// The stack instance that matches the specified request parameters.
         public let stackInstance: StackInstance?
 
+        @inlinable
         public init(stackInstance: StackInstance? = nil) {
             self.stackInstance = stackInstance
         }
@@ -2375,6 +2429,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackResourceDriftStatus>>
         public var stackResourceDriftStatusFilters: [StackResourceDriftStatus]?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stackName: String? = nil, stackResourceDriftStatusFilters: [StackResourceDriftStatus]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2408,6 +2463,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackResourceDrift>>
         public var stackResourceDrifts: [StackResourceDrift]?
 
+        @inlinable
         public init(nextToken: String? = nil, stackResourceDrifts: [StackResourceDrift]? = nil) {
             self.nextToken = nextToken
             self.stackResourceDrifts = stackResourceDrifts
@@ -2425,6 +2481,7 @@ extension CloudFormation {
         /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, stackName: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.stackName = stackName
@@ -2440,6 +2497,7 @@ extension CloudFormation {
         /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
         public let stackResourceDetail: StackResourceDetail?
 
+        @inlinable
         public init(stackResourceDetail: StackResourceDetail? = nil) {
             self.stackResourceDetail = stackResourceDetail
         }
@@ -2457,6 +2515,7 @@ extension CloudFormation {
         /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value. Required: Conditional. If you don't specify StackName, you must specify PhysicalResourceId.
         public let stackName: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, physicalResourceId: String? = nil, stackName: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
@@ -2475,6 +2534,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackResource>>
         public var stackResources: [StackResource]?
 
+        @inlinable
         public init(stackResources: [StackResource]? = nil) {
             self.stackResources = stackResources
         }
@@ -2490,6 +2550,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set whose description you want.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.stackSetName = stackSetName
@@ -2509,6 +2570,7 @@ extension CloudFormation {
         /// The name or the unique stack ID of the stack set for the stack operation.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, operationId: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.operationId = operationId
@@ -2532,6 +2594,7 @@ extension CloudFormation {
         /// The specified stack set operation.
         public let stackSetOperation: StackSetOperation?
 
+        @inlinable
         public init(stackSetOperation: StackSetOperation? = nil) {
             self.stackSetOperation = stackSetOperation
         }
@@ -2545,6 +2608,7 @@ extension CloudFormation {
         /// The specified stack set.
         public let stackSet: StackSet?
 
+        @inlinable
         public init(stackSet: StackSet? = nil) {
             self.stackSet = stackSet
         }
@@ -2560,6 +2624,7 @@ extension CloudFormation {
         ///  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, stackName: String? = nil) {
             self.nextToken = nextToken
             self.stackName = stackName
@@ -2583,6 +2648,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<Stack>>
         public var stacks: [Stack]?
 
+        @inlinable
         public init(nextToken: String? = nil, stacks: [Stack]? = nil) {
             self.nextToken = nextToken
             self.stacks = stacks
@@ -2608,6 +2674,7 @@ extension CloudFormation {
         /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, publicVersionNumber: String? = nil, publisherId: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.publicVersionNumber = publicVersionNumber
@@ -2700,6 +2767,7 @@ extension CloudFormation {
         /// The scope at which the extension is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The extension is only visible and usable within the account in which it is registered. CloudFormation marks any extensions you register as PRIVATE.    PUBLIC: The extension is publicly visible and usable within any Amazon Web Services account.
         public let visibility: Visibility?
 
+        @inlinable
         public init(arn: String? = nil, autoUpdate: Bool? = nil, configurationSchema: String? = nil, defaultVersionId: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, description: String? = nil, documentationUrl: String? = nil, executionRoleArn: String? = nil, isActivated: Bool? = nil, isDefaultVersion: Bool? = nil, lastUpdated: Date? = nil, latestPublicVersion: String? = nil, loggingConfig: LoggingConfig? = nil, originalTypeArn: String? = nil, originalTypeName: String? = nil, provisioningType: ProvisioningType? = nil, publicVersionNumber: String? = nil, publisherId: String? = nil, requiredActivatedTypes: [RequiredActivatedType]? = nil, schema: String? = nil, sourceUrl: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, typeTestsStatus: TypeTestsStatus? = nil, typeTestsStatusDescription: String? = nil, visibility: Visibility? = nil) {
             self.arn = arn
             self.autoUpdate = autoUpdate
@@ -2765,6 +2833,7 @@ extension CloudFormation {
         /// The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using RegisterType.
         public let registrationToken: String?
 
+        @inlinable
         public init(registrationToken: String? = nil) {
             self.registrationToken = registrationToken
         }
@@ -2790,6 +2859,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of this specific version of the extension being registered. For registration requests with a ProgressStatus of other than COMPLETE, this will be null.
         public let typeVersionArn: String?
 
+        @inlinable
         public init(description: String? = nil, progressStatus: RegistrationStatus? = nil, typeArn: String? = nil, typeVersionArn: String? = nil) {
             self.description = description
             self.progressStatus = progressStatus
@@ -2812,6 +2882,7 @@ extension CloudFormation {
         /// The name of the stack for which you want to detect drift.
         public let stackName: String?
 
+        @inlinable
         public init(logicalResourceIds: [String]? = nil, stackName: String? = nil) {
             self.logicalResourceIds = logicalResourceIds
             self.stackName = stackName
@@ -2834,6 +2905,7 @@ extension CloudFormation {
         /// The ID of the drift detection results of this operation. CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results CloudFormation retains for any given stack, and for how long, may vary.
         public let stackDriftDetectionId: String?
 
+        @inlinable
         public init(stackDriftDetectionId: String? = nil) {
             self.stackDriftDetectionId = stackDriftDetectionId
         }
@@ -2849,6 +2921,7 @@ extension CloudFormation {
         /// The name of the stack to which the resource belongs.
         public let stackName: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, stackName: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.stackName = stackName
@@ -2869,6 +2942,7 @@ extension CloudFormation {
         /// Information about whether the resource's actual configuration has drifted from its expected template configuration, including actual and expected property values and any differences detected.
         public let stackResourceDrift: StackResourceDrift?
 
+        @inlinable
         public init(stackResourceDrift: StackResourceDrift? = nil) {
             self.stackResourceDrift = stackResourceDrift
         }
@@ -2888,6 +2962,7 @@ extension CloudFormation {
         /// The name of the stack set on which to perform the drift detection operation.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, operationId: String? = DetectStackSetDriftInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.operationId = operationId
@@ -2915,6 +2990,7 @@ extension CloudFormation {
         /// The ID of the drift detection stack set operation. You can use this operation ID with DescribeStackSetOperation to monitor the progress of the drift detection operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2933,6 +3009,7 @@ extension CloudFormation {
         /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to Template Anatomy in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
+        @inlinable
         public init(parameters: [Parameter]? = nil, templateBody: String? = nil, templateURL: String? = nil) {
             self.parameters = parameters
             self.templateBody = templateBody
@@ -2956,6 +3033,7 @@ extension CloudFormation {
         /// An Amazon Web Services Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
         public let url: String?
 
+        @inlinable
         public init(url: String? = nil) {
             self.url = url
         }
@@ -2977,6 +3055,7 @@ extension CloudFormation {
         /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute.
         public let stackName: String?
 
+        @inlinable
         public init(changeSetName: String? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, retainExceptOnCreate: Bool? = nil, stackName: String? = nil) {
             self.changeSetName = changeSetName
             self.clientRequestToken = clientRequestToken
@@ -3017,6 +3096,7 @@ extension CloudFormation {
         /// The value of the exported output, such as a resource physical ID. This value is defined in the Export field in the associated stack's Outputs section.
         public let value: String?
 
+        @inlinable
         public init(exportingStackId: String? = nil, name: String? = nil, value: String? = nil) {
             self.exportingStackId = exportingStackId
             self.name = name
@@ -3036,6 +3116,7 @@ extension CloudFormation {
         /// The name or Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
         public let generatedTemplateName: String?
 
+        @inlinable
         public init(format: TemplateFormat? = nil, generatedTemplateName: String? = nil) {
             self.format = format
             self.generatedTemplateName = generatedTemplateName
@@ -3058,6 +3139,7 @@ extension CloudFormation {
         /// The template body of the generated template, in the language specified by the Language parameter.
         public let templateBody: String?
 
+        @inlinable
         public init(status: GeneratedTemplateStatus? = nil, templateBody: String? = nil) {
             self.status = status
             self.templateBody = templateBody
@@ -3073,6 +3155,7 @@ extension CloudFormation {
         /// The name or unique stack ID that's associated with the stack whose policy you want to get.
         public let stackName: String?
 
+        @inlinable
         public init(stackName: String? = nil) {
             self.stackName = stackName
         }
@@ -3086,6 +3169,7 @@ extension CloudFormation {
         /// Structure containing the stack policy body. (For more information, go to  Prevent Updates to Stack Resources in the CloudFormation User Guide.)
         public let stackPolicyBody: String?
 
+        @inlinable
         public init(stackPolicyBody: String? = nil) {
             self.stackPolicyBody = stackPolicyBody
         }
@@ -3103,6 +3187,7 @@ extension CloudFormation {
         /// For templates that include transforms, the stage of the template that CloudFormation returns. To get the user-submitted template, specify Original. To get the template after CloudFormation has processed all transforms, specify Processed. If the template doesn't include transforms, Original and Processed return the same template. By default, CloudFormation specifies Processed.
         public let templateStage: TemplateStage?
 
+        @inlinable
         public init(changeSetName: String? = nil, stackName: String? = nil, templateStage: TemplateStage? = nil) {
             self.changeSetName = changeSetName
             self.stackName = stackName
@@ -3129,6 +3214,7 @@ extension CloudFormation {
         /// Structure containing the template body. (For more information, go to Template Anatomy in the CloudFormation User Guide.) CloudFormation returns the same template that was used when the stack was created.
         public let templateBody: String?
 
+        @inlinable
         public init(stagesAvailable: [TemplateStage]? = nil, templateBody: String? = nil) {
             self.stagesAvailable = stagesAvailable
             self.templateBody = templateBody
@@ -3154,6 +3240,7 @@ extension CloudFormation {
         /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information about templates, see Template anatomy in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateURL: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, stackName: String? = nil, stackSetName: String? = nil, templateBody: String? = nil, templateSummaryConfig: TemplateSummaryConfig? = nil, templateURL: String? = nil) {
             self.callAs = callAs
             self.stackName = stackName
@@ -3209,6 +3296,7 @@ extension CloudFormation {
         /// An object containing any warnings returned.
         public let warnings: Warnings?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, description: String? = nil, metadata: String? = nil, parameters: [ParameterDeclaration]? = nil, resourceIdentifierSummaries: [ResourceIdentifierSummary]? = nil, resourceTypes: [String]? = nil, version: String? = nil, warnings: Warnings? = nil) {
             self.capabilities = capabilities
             self.capabilitiesReason = capabilitiesReason
@@ -3254,6 +3342,7 @@ extension CloudFormation {
         /// The name of the stack set. The name must be unique in the Region where you create your stack set.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, operationId: String? = ImportStacksToStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, organizationalUnitIds: [String]? = nil, stackIds: [String]? = nil, stackIdsUrl: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.operationId = operationId
@@ -3293,6 +3382,7 @@ extension CloudFormation {
         /// The unique identifier for the stack set operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -3308,6 +3398,7 @@ extension CloudFormation {
         /// The name or the Amazon Resource Name (ARN) of the stack for which you want to list change sets.
         public let stackName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, stackName: String? = nil) {
             self.nextToken = nextToken
             self.stackName = stackName
@@ -3333,6 +3424,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<ChangeSetSummary>>
         public var summaries: [ChangeSetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [ChangeSetSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3348,6 +3440,7 @@ extension CloudFormation {
         /// A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -3369,6 +3462,7 @@ extension CloudFormation {
         /// If the output exceeds 100 exported output values, a string that identifies the next page of exports. If there is no additional page, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(exports: [Export]? = nil, nextToken: String? = nil) {
             self.exports = exports
             self.nextToken = nextToken
@@ -3386,6 +3480,7 @@ extension CloudFormation {
         /// A string that identifies the next page of resource scan results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3411,6 +3506,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<TemplateSummary>>
         public var summaries: [TemplateSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [TemplateSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3428,6 +3524,7 @@ extension CloudFormation {
         /// A string (provided by the ListImports response output) that identifies the next page of stacks that are importing the specified exported output value.
         public let nextToken: String?
 
+        @inlinable
         public init(exportName: String? = nil, nextToken: String? = nil) {
             self.exportName = exportName
             self.nextToken = nextToken
@@ -3451,6 +3548,7 @@ extension CloudFormation {
         /// A string that identifies the next page of exports. If there is no additional page, this value is null.
         public let nextToken: String?
 
+        @inlinable
         public init(imports: [String]? = nil, nextToken: String? = nil) {
             self.imports = imports
             self.nextToken = nextToken
@@ -3473,6 +3571,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the resource scan.
         public let resourceScanId: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resources: [ScannedResourceIdentifier]? = nil, resourceScanId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3505,6 +3604,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<ScannedResource>>
         public var relatedResources: [ScannedResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, relatedResources: [ScannedResource]? = nil) {
             self.nextToken = nextToken
             self.relatedResources = relatedResources
@@ -3532,6 +3632,7 @@ extension CloudFormation {
         /// If specified, the returned resources will have a matching tag value.
         public let tagValue: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceIdentifier: String? = nil, resourceScanId: String? = nil, resourceTypePrefix: String? = nil, tagKey: String? = nil, tagValue: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3569,6 +3670,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<ScannedResource>>
         public var resources: [ScannedResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [ScannedResource]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -3586,6 +3688,7 @@ extension CloudFormation {
         /// A string that identifies the next page of resource scan results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3609,6 +3712,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<ResourceScanSummary>>
         public var resourceScanSummaries: [ResourceScanSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceScanSummaries: [ResourceScanSummary]? = nil) {
             self.nextToken = nextToken
             self.resourceScanSummaries = resourceScanSummaries
@@ -3639,6 +3743,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to list drifted resources for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackInstanceResourceDriftStatuses: [StackResourceDriftStatus]? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.maxResults = maxResults
@@ -3684,6 +3789,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackInstanceResourceDriftsSummary>>
         public var summaries: [StackInstanceResourceDriftsSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [StackInstanceResourceDriftsSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3712,6 +3818,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to list stack instances for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, filters: [StackInstanceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackInstanceAccount: String? = nil, stackInstanceRegion: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.filters = filters
@@ -3753,6 +3860,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackInstanceSummary>>
         public var summaries: [StackInstanceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [StackInstanceSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3770,6 +3878,7 @@ extension CloudFormation {
         /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
         public let stackName: String?
 
+        @inlinable
         public init(nextToken: String? = nil, stackName: String? = nil) {
             self.nextToken = nextToken
             self.stackName = stackName
@@ -3793,6 +3902,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackResourceSummary>>
         public var stackResourceSummaries: [StackResourceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, stackResourceSummaries: [StackResourceSummary]? = nil) {
             self.nextToken = nextToken
             self.stackResourceSummaries = stackResourceSummaries
@@ -3814,6 +3924,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get automatic deployment targets for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.maxResults = maxResults
@@ -3844,6 +3955,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackSetAutoDeploymentTargetSummary>>
         public var summaries: [StackSetAutoDeploymentTargetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [StackSetAutoDeploymentTargetSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3870,6 +3982,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get operation results for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, filters: [OperationResultFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationId: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.filters = filters
@@ -3910,6 +4023,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackSetOperationResultSummary>>
         public var summaries: [StackSetOperationResultSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [StackSetOperationResultSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3931,6 +4045,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to get operation summaries for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.maxResults = maxResults
@@ -3960,6 +4075,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackSetOperationSummary>>
         public var summaries: [StackSetOperationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [StackSetOperationSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -3981,6 +4097,7 @@ extension CloudFormation {
         /// The status of the stack sets that you want to get summary information about.
         public let status: StackSetStatus?
 
+        @inlinable
         public init(callAs: CallAs? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: StackSetStatus? = nil) {
             self.callAs = callAs
             self.maxResults = maxResults
@@ -4010,6 +4127,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackSetSummary>>
         public var summaries: [StackSetSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, summaries: [StackSetSummary]? = nil) {
             self.nextToken = nextToken
             self.summaries = summaries
@@ -4028,6 +4146,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackStatus>>
         public var stackStatusFilter: [StackStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, stackStatusFilter: [StackStatus]? = nil) {
             self.nextToken = nextToken
             self.stackStatusFilter = stackStatusFilter
@@ -4051,6 +4170,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<StackSummary>>
         public var stackSummaries: [StackSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, stackSummaries: [StackSummary]? = nil) {
             self.nextToken = nextToken
             self.stackSummaries = stackSummaries
@@ -4076,6 +4196,7 @@ extension CloudFormation {
         /// The name of the extension. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, registrationStatusFilter: RegistrationStatus? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4114,6 +4235,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var registrationTokenList: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, registrationTokenList: [String]? = nil) {
             self.nextToken = nextToken
             self.registrationTokenList = registrationTokenList
@@ -4141,6 +4263,7 @@ extension CloudFormation {
         /// The name of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
 
+        @inlinable
         public init(arn: String? = nil, deprecatedStatus: DeprecatedStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, publisherId: String? = nil, type: RegistryType? = nil, typeName: String? = nil) {
             self.arn = arn
             self.deprecatedStatus = deprecatedStatus
@@ -4184,6 +4307,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<TypeVersionSummary>>
         public var typeVersionSummaries: [TypeVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, typeVersionSummaries: [TypeVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.typeVersionSummaries = typeVersionSummaries
@@ -4211,6 +4335,7 @@ extension CloudFormation {
         /// The scope at which the extensions are visible and usable in CloudFormation operations. Valid values include:    PRIVATE: Extensions that are visible and usable within this account and Region. This includes:   Private extensions you have registered in this account and Region.   Public extensions that you have activated in this account and Region.      PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services, in addition to third-party publishers.   The default is PRIVATE.
         public let visibility: Visibility?
 
+        @inlinable
         public init(deprecatedStatus: DeprecatedStatus? = nil, filters: TypeFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, provisioningType: ProvisioningType? = nil, type: RegistryType? = nil, visibility: Visibility? = nil) {
             self.deprecatedStatus = deprecatedStatus
             self.filters = filters
@@ -4247,6 +4372,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<TypeSummary>>
         public var typeSummaries: [TypeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, typeSummaries: [TypeSummary]? = nil) {
             self.nextToken = nextToken
             self.typeSummaries = typeSummaries
@@ -4264,6 +4390,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the role that CloudFormation should assume when sending log entries to CloudWatch Logs.
         public let logRoleArn: String?
 
+        @inlinable
         public init(logGroupName: String? = nil, logRoleArn: String? = nil) {
             self.logGroupName = logGroupName
             self.logRoleArn = logRoleArn
@@ -4288,6 +4415,7 @@ extension CloudFormation {
         /// When true, StackSets performs non-conflicting operations concurrently and queues conflicting operations. After conflicting operations finish, StackSets starts queued operations in request order.  If there are already running or queued operations, StackSets queues all incoming operations even if they are non-conflicting. You can't modify your stack set's execution configuration while there are running or queued operations for that stack set.  When false (default), StackSets performs one operation at a time in request order.
         public let active: Bool?
 
+        @inlinable
         public init(active: Bool? = nil) {
             self.active = active
         }
@@ -4303,6 +4431,7 @@ extension CloudFormation {
         /// A concatenated list of the module type or types containing the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE.  AWS::First::Example::MODULE/AWS::Second::Example::MODULE
         public let typeHierarchy: String?
 
+        @inlinable
         public init(logicalIdHierarchy: String? = nil, typeHierarchy: String? = nil) {
             self.logicalIdHierarchy = logicalIdHierarchy
             self.typeHierarchy = typeHierarchy
@@ -4320,6 +4449,7 @@ extension CloudFormation {
         /// The value to filter by.
         public let values: String?
 
+        @inlinable
         public init(name: OperationResultFilterName? = nil, values: String? = nil) {
             self.name = name
             self.values = values
@@ -4347,6 +4477,7 @@ extension CloudFormation {
         /// The value associated with the output.
         public let outputValue: String?
 
+        @inlinable
         public init(description: String? = nil, exportName: String? = nil, outputKey: String? = nil, outputValue: String? = nil) {
             self.description = description
             self.exportName = exportName
@@ -4372,6 +4503,7 @@ extension CloudFormation {
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public let usePreviousValue: Bool?
 
+        @inlinable
         public init(parameterKey: String? = nil, parameterValue: String? = nil, resolvedValue: String? = nil, usePreviousValue: Bool? = nil) {
             self.parameterKey = parameterKey
             self.parameterValue = parameterValue
@@ -4392,6 +4524,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var allowedValues: [String]?
 
+        @inlinable
         public init(allowedValues: [String]? = nil) {
             self.allowedValues = allowedValues
         }
@@ -4415,6 +4548,7 @@ extension CloudFormation {
         /// The type of parameter.
         public let parameterType: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, noEcho: Bool? = nil, parameterConstraints: ParameterConstraints? = nil, parameterKey: String? = nil, parameterType: String? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -4440,6 +4574,7 @@ extension CloudFormation {
         /// The resource context value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -4461,6 +4596,7 @@ extension CloudFormation {
         /// The fully-qualified path to the resource property.
         public let propertyPath: String?
 
+        @inlinable
         public init(actualValue: String? = nil, differenceType: DifferenceType? = nil, expectedValue: String? = nil, propertyPath: String? = nil) {
             self.actualValue = actualValue
             self.differenceType = differenceType
@@ -4486,6 +4622,7 @@ extension CloudFormation {
         /// The name of the extension. Conditional: You must specify Arn, or TypeName and Type.
         public let typeName: String?
 
+        @inlinable
         public init(arn: String? = nil, publicVersionNumber: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil) {
             self.arn = arn
             self.publicVersionNumber = publicVersionNumber
@@ -4515,6 +4652,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) assigned to the public extension upon publication.
         public let publicTypeArn: String?
 
+        @inlinable
         public init(publicTypeArn: String? = nil) {
             self.publicTypeArn = publicTypeArn
         }
@@ -4540,6 +4678,7 @@ extension CloudFormation {
         /// Reserved for use by the CloudFormation CLI.
         public let statusMessage: String?
 
+        @inlinable
         public init(bearerToken: String? = nil, clientRequestToken: String? = nil, currentOperationStatus: OperationStatus? = nil, errorCode: HandlerErrorCode? = nil, operationStatus: OperationStatus? = nil, resourceModel: String? = nil, statusMessage: String? = nil) {
             self.bearerToken = bearerToken
             self.clientRequestToken = clientRequestToken
@@ -4582,6 +4721,7 @@ extension CloudFormation {
         /// If you are using a Bitbucket or GitHub account for identity verification, the Amazon Resource Name (ARN) for your connection to that account. For more information, see Registering your account to publish CloudFormation extensions in the CloudFormation CLI User Guide.
         public let connectionArn: String?
 
+        @inlinable
         public init(acceptTermsAndConditions: Bool? = nil, connectionArn: String? = nil) {
             self.acceptTermsAndConditions = acceptTermsAndConditions
             self.connectionArn = connectionArn
@@ -4603,6 +4743,7 @@ extension CloudFormation {
         /// The ID assigned this account by CloudFormation for publishing extensions.
         public let publisherId: String?
 
+        @inlinable
         public init(publisherId: String? = nil) {
             self.publisherId = publisherId
         }
@@ -4626,6 +4767,7 @@ extension CloudFormation {
         /// The name of the extension being registered. We suggest that extension names adhere to the following patterns:   For resource types, company_or_organization::service::type.   For modules, company_or_organization::service::type::MODULE.   For hooks, MyCompany::Testing::MyTestHook.    The following organization namespaces are reserved and can't be used in your extension names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
         public let typeName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, executionRoleArn: String? = nil, loggingConfig: LoggingConfig? = nil, schemaHandlerPackage: String? = nil, type: RegistryType? = nil, typeName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.executionRoleArn = executionRoleArn
@@ -4664,6 +4806,7 @@ extension CloudFormation {
         /// The identifier for this registration request. Use this registration token when calling DescribeTypeRegistration, which returns information about the status and IDs of the extension registration.
         public let registrationToken: String?
 
+        @inlinable
         public init(registrationToken: String? = nil) {
             self.registrationToken = registrationToken
         }
@@ -4684,6 +4827,7 @@ extension CloudFormation {
         /// An alias assigned to the public extension, in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console.
         public let typeNameAlias: String?
 
+        @inlinable
         public init(originalTypeName: String? = nil, publisherId: String? = nil, supportedMajorVersions: [Int]? = nil, typeNameAlias: String? = nil) {
             self.originalTypeName = originalTypeName
             self.publisherId = publisherId
@@ -4727,6 +4871,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<ResourceAttribute>>
         public var scope: [ResourceAttribute]?
 
+        @inlinable
         public init(action: ChangeAction? = nil, afterContext: String? = nil, beforeContext: String? = nil, changeSetId: String? = nil, details: [ResourceChangeDetail]? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, policyAction: PolicyAction? = nil, replacement: Replacement? = nil, resourceType: String? = nil, scope: [ResourceAttribute]? = nil) {
             self.action = action
             self.afterContext = afterContext
@@ -4768,6 +4913,7 @@ extension CloudFormation {
         /// A ResourceTargetDefinition structure that describes the field that CloudFormation will change and whether the resource will be recreated.
         public let target: ResourceTargetDefinition?
 
+        @inlinable
         public init(causingEntity: String? = nil, changeSource: ChangeSource? = nil, evaluation: EvaluationType? = nil, target: ResourceTargetDefinition? = nil) {
             self.causingEntity = causingEntity
             self.changeSource = changeSource
@@ -4792,6 +4938,7 @@ extension CloudFormation {
         /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see IaC generator supported resource types in the CloudFormation User Guide
         public let resourceType: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, resourceIdentifier: [String: String]? = nil, resourceType: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.resourceIdentifier = resourceIdentifier
@@ -4834,6 +4981,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<WarningDetail>>
         public var warnings: [WarningDetail]?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, resourceIdentifier: [String: String]? = nil, resourceStatus: GeneratedTemplateResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil, warnings: [WarningDetail]? = nil) {
             self.logicalResourceId = logicalResourceId
             self.resourceIdentifier = resourceIdentifier
@@ -4863,6 +5011,7 @@ extension CloudFormation {
         /// The template resource type of the target resources, such as AWS::S3::Bucket.
         public let resourceType: String?
 
+        @inlinable
         public init(logicalResourceIds: [String]? = nil, resourceIdentifiers: [String]? = nil, resourceType: String? = nil) {
             self.logicalResourceIds = logicalResourceIds
             self.resourceIdentifiers = resourceIdentifiers
@@ -4890,6 +5039,7 @@ extension CloudFormation {
         /// The reason for the resource scan status, providing more information if a failure happened.
         public let statusReason: String?
 
+        @inlinable
         public init(endTime: Date? = nil, percentageCompleted: Double? = nil, resourceScanId: String? = nil, startTime: Date? = nil, status: ResourceScanStatus? = nil, statusReason: String? = nil) {
             self.endTime = endTime
             self.percentageCompleted = percentageCompleted
@@ -4925,6 +5075,7 @@ extension CloudFormation {
         /// If the Attribute value is Properties, indicates whether a change to this property causes the resource to be recreated. The value can be Never, Always, or Conditionally. To determine the conditions for a Conditionally recreation, see the update behavior for that property in the CloudFormation User Guide.
         public let requiresRecreation: RequiresRecreation?
 
+        @inlinable
         public init(afterValue: String? = nil, attribute: ResourceAttribute? = nil, attributeChangeType: AttributeChangeType? = nil, beforeValue: String? = nil, name: String? = nil, path: String? = nil, requiresRecreation: RequiresRecreation? = nil) {
             self.afterValue = afterValue
             self.attribute = attribute
@@ -4955,6 +5106,7 @@ extension CloudFormation {
         /// The type of resource to import into your stack, such as AWS::S3::Bucket. For a list of supported resource types, see Resources that support import operations in the CloudFormation User Guide.
         public let resourceType: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, resourceIdentifier: [String: String]? = nil, resourceType: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.resourceIdentifier = resourceIdentifier
@@ -4988,6 +5140,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<RollbackTrigger>>
         public var rollbackTriggers: [RollbackTrigger]?
 
+        @inlinable
         public init(monitoringTimeInMinutes: Int? = nil, rollbackTriggers: [RollbackTrigger]? = nil) {
             self.monitoringTimeInMinutes = monitoringTimeInMinutes
             self.rollbackTriggers = rollbackTriggers
@@ -5015,6 +5168,7 @@ extension CloudFormation {
         /// The name that's associated with the stack.
         public let stackName: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, stackName: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.retainExceptOnCreate = retainExceptOnCreate
@@ -5044,6 +5198,7 @@ extension CloudFormation {
         /// Unique identifier of the stack.
         public let stackId: String?
 
+        @inlinable
         public init(stackId: String? = nil) {
             self.stackId = stackId
         }
@@ -5059,6 +5214,7 @@ extension CloudFormation {
         /// The resource type of the rollback trigger. Specify either AWS::CloudWatch::Alarm or AWS::CloudWatch::CompositeAlarm resource types.
         public let type: String?
 
+        @inlinable
         public init(arn: String? = nil, type: String? = nil) {
             self.arn = arn
             self.type = type
@@ -5079,6 +5235,7 @@ extension CloudFormation {
         /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see Resource type support In the CloudFormation User Guide
         public let resourceType: String?
 
+        @inlinable
         public init(managedByStack: Bool? = nil, resourceIdentifier: [String: String]? = nil, resourceType: String? = nil) {
             self.managedByStack = managedByStack
             self.resourceIdentifier = resourceIdentifier
@@ -5099,6 +5256,7 @@ extension CloudFormation {
         /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see IaC generator supported resource types In the CloudFormation User Guide.
         public let resourceType: String?
 
+        @inlinable
         public init(resourceIdentifier: [String: String]? = nil, resourceType: String? = nil) {
             self.resourceIdentifier = resourceIdentifier
             self.resourceType = resourceType
@@ -5123,6 +5281,7 @@ extension CloudFormation {
         /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
         public let stackPolicyURL: String?
 
+        @inlinable
         public init(stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyURL: String? = nil) {
             self.stackName = stackName
             self.stackPolicyBody = stackPolicyBody
@@ -5155,6 +5314,7 @@ extension CloudFormation {
         /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
         public let typeName: String?
 
+        @inlinable
         public init(configuration: String? = nil, configurationAlias: String? = nil, type: ThirdPartyType? = nil, typeArn: String? = nil, typeName: String? = nil) {
             self.configuration = configuration
             self.configurationAlias = configurationAlias
@@ -5190,6 +5350,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) for the configuration data, in this account and Region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
         public let configurationArn: String?
 
+        @inlinable
         public init(configurationArn: String? = nil) {
             self.configurationArn = configurationArn
         }
@@ -5209,6 +5370,7 @@ extension CloudFormation {
         /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it is registered.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.type = type
@@ -5249,6 +5411,7 @@ extension CloudFormation {
         /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
         public let uniqueId: String?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, stackName: String? = nil, status: ResourceSignalStatus? = nil, uniqueId: String? = nil) {
             self.logicalResourceId = logicalResourceId
             self.stackName = stackName
@@ -5328,6 +5491,7 @@ extension CloudFormation {
         /// The amount of time within which stack creation should complete.
         public let timeoutInMinutes: Int?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, changeSetId: String? = nil, creationTime: Date? = nil, deletionMode: DeletionMode? = nil, deletionTime: Date? = nil, description: String? = nil, detailedStatus: DetailedStatus? = nil, disableRollback: Bool? = nil, driftInformation: StackDriftInformation? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: Date? = nil, notificationARNs: [String]? = nil, outputs: [Output]? = nil, parameters: [Parameter]? = nil, parentId: String? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String? = nil, stackStatus: StackStatus? = nil, stackStatusReason: String? = nil, tags: [Tag]? = nil, timeoutInMinutes: Int? = nil) {
             self.capabilities = capabilities
             self.changeSetId = changeSetId
@@ -5391,6 +5555,7 @@ extension CloudFormation {
         /// Status of the stack's actual configuration compared to its expected template configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
         public let stackDriftStatus: StackDriftStatus?
 
+        @inlinable
         public init(lastCheckTimestamp: Date? = nil, stackDriftStatus: StackDriftStatus? = nil) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
@@ -5408,6 +5573,7 @@ extension CloudFormation {
         /// Status of the stack's actual configuration compared to its expected template configuration.    DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.    NOT_CHECKED: CloudFormation hasn't checked if the stack differs from its expected template configuration.    IN_SYNC: The stack's actual configuration matches its expected template configuration.    UNKNOWN: This value is reserved for future use.
         public let stackDriftStatus: StackDriftStatus?
 
+        @inlinable
         public init(lastCheckTimestamp: Date? = nil, stackDriftStatus: StackDriftStatus? = nil) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
@@ -5455,6 +5621,7 @@ extension CloudFormation {
         /// Time the status was updated.
         public let timestamp: Date?
 
+        @inlinable
         public init(clientRequestToken: String? = nil, detailedStatus: DetailedStatus? = nil, eventId: String? = nil, hookFailureMode: HookFailureMode? = nil, hookInvocationPoint: HookInvocationPoint? = nil, hookStatus: HookStatus? = nil, hookStatusReason: String? = nil, hookType: String? = nil, logicalResourceId: String? = nil, physicalResourceId: String? = nil, resourceProperties: String? = nil, resourceStatus: ResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil, stackId: String? = nil, stackName: String? = nil, timestamp: Date? = nil) {
             self.clientRequestToken = clientRequestToken
             self.detailedStatus = detailedStatus
@@ -5523,6 +5690,7 @@ extension CloudFormation {
         /// The explanation for the specific status code that's assigned to this stack instance.
         public let statusReason: String?
 
+        @inlinable
         public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, lastOperationId: String? = nil, organizationalUnitId: String? = nil, parameterOverrides: [Parameter]? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
@@ -5558,6 +5726,7 @@ extension CloudFormation {
         ///    CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the stack set operation, or because the failure tolerance of the stack set operation has been exceeded.    FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.    FAILED_IMPORT: The import of the stack instance in the specified account and Region failed and left the stack in an unstable state. Once the issues causing the failure are fixed, the import operation can be retried. If enough stack set operations fail in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.    INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.    PENDING: The operation in the specified account and Region has yet to start.    RUNNING: The operation in the specified account and Region is currently in progress.    SKIPPED_SUSPENDED_ACCOUNT: The operation in the specified account and Region has been skipped because the account was suspended at the time of the operation.    SUCCEEDED: The operation in the specified account and Region completed successfully.
         public let detailedStatus: StackInstanceDetailedStatus?
 
+        @inlinable
         public init(detailedStatus: StackInstanceDetailedStatus? = nil) {
             self.detailedStatus = detailedStatus
         }
@@ -5573,6 +5742,7 @@ extension CloudFormation {
         /// The status to filter by.
         public let values: String?
 
+        @inlinable
         public init(name: StackInstanceFilterName? = nil, values: String? = nil) {
             self.name = name
             self.values = values
@@ -5610,6 +5780,7 @@ extension CloudFormation {
         /// Time at which the stack instance drift detection operation was initiated.
         public let timestamp: Date?
 
+        @inlinable
         public init(logicalResourceId: String? = nil, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String? = nil, stackId: String? = nil, stackResourceDriftStatus: StackResourceDriftStatus? = nil, timestamp: Date? = nil) {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
@@ -5657,6 +5828,7 @@ extension CloudFormation {
         /// The explanation for the specific status code assigned to this stack instance.
         public let statusReason: String?
 
+        @inlinable
         public init(account: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, lastOperationId: String? = nil, organizationalUnitId: String? = nil, region: String? = nil, stackId: String? = nil, stackInstanceStatus: StackInstanceComprehensiveStatus? = nil, stackSetId: String? = nil, status: StackInstanceStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.driftStatus = driftStatus
@@ -5710,6 +5882,7 @@ extension CloudFormation {
         /// Time the status was updated.
         public let timestamp: Date?
 
+        @inlinable
         public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil, stackId: String? = nil, stackName: String? = nil, timestamp: Date? = nil) {
             self.description = description
             self.driftInformation = driftInformation
@@ -5765,6 +5938,7 @@ extension CloudFormation {
         /// The name associated with the stack.
         public let stackName: String?
 
+        @inlinable
         public init(description: String? = nil, driftInformation: StackResourceDriftInformation? = nil, lastUpdatedTimestamp: Date? = nil, logicalResourceId: String? = nil, metadata: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil, stackId: String? = nil, stackName: String? = nil) {
             self.description = description
             self.driftInformation = driftInformation
@@ -5822,6 +5996,7 @@ extension CloudFormation {
         /// Time at which CloudFormation performed drift detection on the stack resource.
         public let timestamp: Date?
 
+        @inlinable
         public init(actualProperties: String? = nil, expectedProperties: String? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, physicalResourceIdContext: [PhysicalResourceIdContextKeyValuePair]? = nil, propertyDifferences: [PropertyDifference]? = nil, resourceType: String? = nil, stackId: String? = nil, stackResourceDriftStatus: StackResourceDriftStatus? = nil, timestamp: Date? = nil) {
             self.actualProperties = actualProperties
             self.expectedProperties = expectedProperties
@@ -5857,6 +6032,7 @@ extension CloudFormation {
         /// Status of the resource's actual configuration compared to its expected configuration    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: CloudFormation has not checked if the resource differs from its expected configuration. Any resources that do not currently support drift detection have a status of NOT_CHECKED. For more information, see Resources that Support Drift Detection.    IN_SYNC: The resource's actual configuration matches its expected configuration.
         public let stackResourceDriftStatus: StackResourceDriftStatus?
 
+        @inlinable
         public init(lastCheckTimestamp: Date? = nil, stackResourceDriftStatus: StackResourceDriftStatus? = nil) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackResourceDriftStatus = stackResourceDriftStatus
@@ -5874,6 +6050,7 @@ extension CloudFormation {
         /// Status of the resource's actual configuration compared to its expected configuration.    DELETED: The resource differs from its expected configuration in that it has been deleted.    MODIFIED: The resource differs from its expected configuration.    NOT_CHECKED: CloudFormation hasn't checked if the resource differs from its expected configuration. Any resources that don't currently support drift detection have a status of NOT_CHECKED. For more information, see Resources that Support Drift Detection. If you performed an ContinueUpdateRollback operation on a stack, any resources included in ResourcesToSkip will also have a status of NOT_CHECKED. For more information about skipping resources during rollback operations, see Continue Rolling Back an Update in the CloudFormation User Guide.    IN_SYNC: The resource's actual configuration matches its expected configuration.
         public let stackResourceDriftStatus: StackResourceDriftStatus?
 
+        @inlinable
         public init(lastCheckTimestamp: Date? = nil, stackResourceDriftStatus: StackResourceDriftStatus? = nil) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackResourceDriftStatus = stackResourceDriftStatus
@@ -5903,6 +6080,7 @@ extension CloudFormation {
         /// Type of resource. (For more information, go to Amazon Web Services Resource Types Reference in the CloudFormation User Guide.)
         public let resourceType: String?
 
+        @inlinable
         public init(driftInformation: StackResourceDriftInformationSummary? = nil, lastUpdatedTimestamp: Date? = nil, logicalResourceId: String? = nil, moduleInfo: ModuleInfo? = nil, physicalResourceId: String? = nil, resourceStatus: ResourceStatus? = nil, resourceStatusReason: String? = nil, resourceType: String? = nil) {
             self.driftInformation = driftInformation
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -5967,6 +6145,7 @@ extension CloudFormation {
         /// The structure that contains the body of the template that was used to create or update the stack set.
         public let templateBody: String?
 
+        @inlinable
         public init(administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, capabilities: [Capability]? = nil, description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, organizationalUnitIds: [String]? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetARN: String? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil, tags: [Tag]? = nil, templateBody: String? = nil) {
             self.administrationRoleARN = administrationRoleARN
             self.autoDeployment = autoDeployment
@@ -6015,6 +6194,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var regions: [String]?
 
+        @inlinable
         public init(organizationalUnitId: String? = nil, regions: [String]? = nil) {
             self.organizationalUnitId = organizationalUnitId
             self.regions = regions
@@ -6044,6 +6224,7 @@ extension CloudFormation {
         /// The total number of stack instances belonging to this stack set. The total number of stack instances is equal to the total of:   Stack instances that match the stack set configuration.   Stack instances that have drifted from the stack set configuration.   Stack instances where the drift detection operation has failed.   Stack instances currently being checked for drift.
         public let totalStackInstancesCount: Int?
 
+        @inlinable
         public init(driftDetectionStatus: StackSetDriftDetectionStatus? = nil, driftedStackInstancesCount: Int? = nil, driftStatus: StackSetDriftStatus? = nil, failedStackInstancesCount: Int? = nil, inProgressStackInstancesCount: Int? = nil, inSyncStackInstancesCount: Int? = nil, lastDriftCheckTimestamp: Date? = nil, totalStackInstancesCount: Int? = nil) {
             self.driftDetectionStatus = driftDetectionStatus
             self.driftedStackInstancesCount = driftedStackInstancesCount
@@ -6097,6 +6278,7 @@ extension CloudFormation {
         /// The status of the operation in details.
         public let statusReason: String?
 
+        @inlinable
         public init(action: StackSetOperationAction? = nil, administrationRoleARN: String? = nil, creationTimestamp: Date? = nil, deploymentTargets: DeploymentTargets? = nil, endTimestamp: Date? = nil, executionRoleName: String? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, retainStacks: Bool? = nil, stackSetDriftDetectionDetails: StackSetDriftDetectionDetails? = nil, stackSetId: String? = nil, status: StackSetOperationStatus? = nil, statusDetails: StackSetOperationStatusDetails? = nil, statusReason: String? = nil) {
             self.action = action
             self.administrationRoleARN = administrationRoleARN
@@ -6149,6 +6331,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var regionOrder: [String]?
 
+        @inlinable
         public init(concurrencyMode: ConcurrencyMode? = nil, failureToleranceCount: Int? = nil, failureTolerancePercentage: Int? = nil, maxConcurrentCount: Int? = nil, maxConcurrentPercentage: Int? = nil, regionConcurrencyType: RegionConcurrencyType? = nil, regionOrder: [String]? = nil) {
             self.concurrencyMode = concurrencyMode
             self.failureToleranceCount = failureToleranceCount
@@ -6196,6 +6379,7 @@ extension CloudFormation {
         /// The reason for the assigned result status.
         public let statusReason: String?
 
+        @inlinable
         public init(account: String? = nil, accountGateResult: AccountGateResult? = nil, organizationalUnitId: String? = nil, region: String? = nil, status: StackSetOperationResultStatus? = nil, statusReason: String? = nil) {
             self.account = account
             self.accountGateResult = accountGateResult
@@ -6219,6 +6403,7 @@ extension CloudFormation {
         /// The number of stack instances for which the StackSet operation failed.
         public let failedStackInstancesCount: Int?
 
+        @inlinable
         public init(failedStackInstancesCount: Int? = nil) {
             self.failedStackInstancesCount = failedStackInstancesCount
         }
@@ -6246,6 +6431,7 @@ extension CloudFormation {
         /// The status of the operation in details.
         public let statusReason: String?
 
+        @inlinable
         public init(action: StackSetOperationAction? = nil, creationTimestamp: Date? = nil, endTimestamp: Date? = nil, operationId: String? = nil, operationPreferences: StackSetOperationPreferences? = nil, status: StackSetOperationStatus? = nil, statusDetails: StackSetOperationStatusDetails? = nil, statusReason: String? = nil) {
             self.action = action
             self.creationTimestamp = creationTimestamp
@@ -6289,6 +6475,7 @@ extension CloudFormation {
         /// The status of the stack set.
         public let status: StackSetStatus?
 
+        @inlinable
         public init(autoDeployment: AutoDeployment? = nil, description: String? = nil, driftStatus: StackDriftStatus? = nil, lastDriftCheckTimestamp: Date? = nil, managedExecution: ManagedExecution? = nil, permissionModel: PermissionModels? = nil, stackSetId: String? = nil, stackSetName: String? = nil, status: StackSetStatus? = nil) {
             self.autoDeployment = autoDeployment
             self.description = description
@@ -6338,6 +6525,7 @@ extension CloudFormation {
         /// The template description of the template used to create the stack.
         public let templateDescription: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, deletionTime: Date? = nil, driftInformation: StackDriftInformationSummary? = nil, lastUpdatedTime: Date? = nil, parentId: String? = nil, rootId: String? = nil, stackId: String? = nil, stackName: String? = nil, stackStatus: StackStatus? = nil, stackStatusReason: String? = nil, templateDescription: String? = nil) {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
@@ -6371,6 +6559,7 @@ extension CloudFormation {
         /// A unique identifier for this StartResourceScan request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to start a new resource scan.
         public let clientRequestToken: String?
 
+        @inlinable
         public init(clientRequestToken: String? = nil) {
             self.clientRequestToken = clientRequestToken
         }
@@ -6390,6 +6579,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the resource scan. The format is arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}. An example is arn:aws:cloudformation:us-east-1:123456789012:resourceScan/f5b490f7-7ed4-428a-aa06-31ff25db0772 .
         public let resourceScanId: String?
 
+        @inlinable
         public init(resourceScanId: String? = nil) {
             self.resourceScanId = resourceScanId
         }
@@ -6407,6 +6597,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set that you want to stop the operation for.
         public let stackSetName: String?
 
+        @inlinable
         public init(callAs: CallAs? = nil, operationId: String? = nil, stackSetName: String? = nil) {
             self.callAs = callAs
             self.operationId = operationId
@@ -6436,6 +6627,7 @@ extension CloudFormation {
         ///  Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -6460,6 +6652,7 @@ extension CloudFormation {
         /// The UpdateReplacePolicy assigned to resources in the generated template. Supported values are:    DELETE - delete all resources when the resource is replaced during an update operation.    RETAIN - retain all resources when the resource is replaced during an update operation.   For more information, see UpdateReplacePolicy attribute in the CloudFormation User Guide.
         public let updateReplacePolicy: GeneratedTemplateUpdateReplacePolicy?
 
+        @inlinable
         public init(deletionPolicy: GeneratedTemplateDeletionPolicy? = nil, updateReplacePolicy: GeneratedTemplateUpdateReplacePolicy? = nil) {
             self.deletionPolicy = deletionPolicy
             self.updateReplacePolicy = updateReplacePolicy
@@ -6481,6 +6674,7 @@ extension CloudFormation {
         /// The name associated with the parameter.
         public let parameterKey: String?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, noEcho: Bool? = nil, parameterKey: String? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -6506,6 +6700,7 @@ extension CloudFormation {
         /// The number of resources that succeeded the template generation.
         public let resourcesSucceeded: Int?
 
+        @inlinable
         public init(resourcesFailed: Int? = nil, resourcesPending: Int? = nil, resourcesProcessing: Int? = nil, resourcesSucceeded: Int? = nil) {
             self.resourcesFailed = resourcesFailed
             self.resourcesPending = resourcesPending
@@ -6537,6 +6732,7 @@ extension CloudFormation {
         /// The reason for the current template generation status. This will provide more details if a failure happened.
         public let statusReason: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, generatedTemplateId: String? = nil, generatedTemplateName: String? = nil, lastUpdatedTime: Date? = nil, numberOfResources: Int? = nil, status: GeneratedTemplateStatus? = nil, statusReason: String? = nil) {
             self.creationTime = creationTime
             self.generatedTemplateId = generatedTemplateId
@@ -6562,6 +6758,7 @@ extension CloudFormation {
         /// If set to True, any unrecognized resource types generate warnings and not an error. Any unrecognized resource types are returned in the Warnings output parameter.
         public let treatUnrecognizedResourceTypesAsWarnings: Bool?
 
+        @inlinable
         public init(treatUnrecognizedResourceTypesAsWarnings: Bool? = nil) {
             self.treatUnrecognizedResourceTypesAsWarnings = treatUnrecognizedResourceTypesAsWarnings
         }
@@ -6583,6 +6780,7 @@ extension CloudFormation {
         /// The version of the extension to test. You can specify the version id with either Arn, or with TypeName and Type. If you don't specify a version, CloudFormation uses the default version of the extension in this account and Region for testing.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, logDeliveryBucket: String? = nil, type: ThirdPartyType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.logDeliveryBucket = logDeliveryBucket
@@ -6618,6 +6816,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the extension.
         public let typeVersionArn: String?
 
+        @inlinable
         public init(typeVersionArn: String? = nil) {
             self.typeVersionArn = typeVersionArn
         }
@@ -6643,6 +6842,7 @@ extension CloudFormation {
         /// The name of the extension.
         public let typeName: String?
 
+        @inlinable
         public init(alias: String? = nil, arn: String? = nil, configuration: String? = nil, isDefaultConfiguration: Bool? = nil, lastUpdated: Date? = nil, typeArn: String? = nil, typeName: String? = nil) {
             self.alias = alias
             self.arn = arn
@@ -6676,6 +6876,7 @@ extension CloudFormation {
         /// The name of the extension type to which this configuration applies.
         public let typeName: String?
 
+        @inlinable
         public init(type: ThirdPartyType? = nil, typeArn: String? = nil, typeConfigurationAlias: String? = nil, typeConfigurationArn: String? = nil, typeName: String? = nil) {
             self.type = type
             self.typeArn = typeArn
@@ -6714,6 +6915,7 @@ extension CloudFormation {
         /// A prefix to use as a filter for results.
         public let typeNamePrefix: String?
 
+        @inlinable
         public init(category: Category? = nil, publisherId: String? = nil, typeNamePrefix: String? = nil) {
             self.category = category
             self.publisherId = publisherId
@@ -6764,6 +6966,7 @@ extension CloudFormation {
         /// The name of the extension. If you specified a TypeNameAlias when you call the ActivateType API operation in your account and Region, CloudFormation considers that alias as the type name.
         public let typeName: String?
 
+        @inlinable
         public init(defaultVersionId: String? = nil, description: String? = nil, isActivated: Bool? = nil, lastUpdated: Date? = nil, latestPublicVersion: String? = nil, originalTypeName: String? = nil, publicVersionNumber: String? = nil, publisherId: String? = nil, publisherIdentity: IdentityProvider? = nil, publisherName: String? = nil, type: RegistryType? = nil, typeArn: String? = nil, typeName: String? = nil) {
             self.defaultVersionId = defaultVersionId
             self.description = description
@@ -6815,6 +7018,7 @@ extension CloudFormation {
         /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it's registered.
         public let versionId: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, isDefaultVersion: Bool? = nil, publicVersionNumber: String? = nil, timeCreated: Date? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
             self.description = description
@@ -6854,6 +7058,7 @@ extension CloudFormation {
         /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy.
         public let templateConfiguration: TemplateConfiguration?
 
+        @inlinable
         public init(addResources: [ResourceDefinition]? = nil, generatedTemplateName: String? = nil, newGeneratedTemplateName: String? = nil, refreshAllResources: Bool? = nil, removeResources: [String]? = nil, templateConfiguration: TemplateConfiguration? = nil) {
             self.addResources = addResources
             self.generatedTemplateName = generatedTemplateName
@@ -6891,6 +7096,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
         public let generatedTemplateId: String?
 
+        @inlinable
         public init(generatedTemplateId: String? = nil) {
             self.generatedTemplateId = generatedTemplateId
         }
@@ -6943,6 +7149,7 @@ extension CloudFormation {
         /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, clientRequestToken: String? = nil, disableRollback: Bool? = nil, notificationARNs: [String]? = nil, parameters: [Parameter]? = nil, resourceTypes: [String]? = nil, retainExceptOnCreate: Bool? = nil, roleARN: String? = nil, rollbackConfiguration: RollbackConfiguration? = nil, stackName: String? = nil, stackPolicyBody: String? = nil, stackPolicyDuringUpdateBody: String? = nil, stackPolicyDuringUpdateURL: String? = nil, stackPolicyURL: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.capabilities = capabilities
             self.clientRequestToken = clientRequestToken
@@ -7036,6 +7243,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack set associated with the stack instances.
         public let stackSetName: String?
 
+        @inlinable
         public init(accounts: [String]? = nil, callAs: CallAs? = nil, deploymentTargets: DeploymentTargets? = nil, operationId: String? = UpdateStackInstancesInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameterOverrides: [Parameter]? = nil, regions: [String]? = nil, stackSetName: String? = nil) {
             self.accounts = accounts
             self.callAs = callAs
@@ -7078,6 +7286,7 @@ extension CloudFormation {
         /// The unique identifier for this stack set operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -7091,6 +7300,7 @@ extension CloudFormation {
         /// Unique identifier of the stack.
         public let stackId: String?
 
+        @inlinable
         public init(stackId: String? = nil) {
             self.stackId = stackId
         }
@@ -7145,6 +7355,7 @@ extension CloudFormation {
         /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
 
+        @inlinable
         public init(accounts: [String]? = nil, administrationRoleARN: String? = nil, autoDeployment: AutoDeployment? = nil, callAs: CallAs? = nil, capabilities: [Capability]? = nil, deploymentTargets: DeploymentTargets? = nil, description: String? = nil, executionRoleName: String? = nil, managedExecution: ManagedExecution? = nil, operationId: String? = UpdateStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, parameters: [Parameter]? = nil, permissionModel: PermissionModels? = nil, regions: [String]? = nil, stackSetName: String? = nil, tags: [Tag]? = nil, templateBody: String? = nil, templateURL: String? = nil, usePreviousTemplate: Bool? = nil) {
             self.accounts = accounts
             self.administrationRoleARN = administrationRoleARN
@@ -7222,6 +7433,7 @@ extension CloudFormation {
         /// The unique ID for this stack set operation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -7237,6 +7449,7 @@ extension CloudFormation {
         /// The name or unique ID of the stack for which you want to set termination protection.
         public let stackName: String?
 
+        @inlinable
         public init(enableTerminationProtection: Bool? = nil, stackName: String? = nil) {
             self.enableTerminationProtection = enableTerminationProtection
             self.stackName = stackName
@@ -7257,6 +7470,7 @@ extension CloudFormation {
         /// The unique ID of the stack.
         public let stackId: String?
 
+        @inlinable
         public init(stackId: String? = nil) {
             self.stackId = stackId
         }
@@ -7272,6 +7486,7 @@ extension CloudFormation {
         /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to Template Anatomy in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
+        @inlinable
         public init(templateBody: String? = nil, templateURL: String? = nil) {
             self.templateBody = templateBody
             self.templateURL = templateURL
@@ -7304,6 +7519,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<TemplateParameter>>
         public var parameters: [TemplateParameter]?
 
+        @inlinable
         public init(capabilities: [Capability]? = nil, capabilitiesReason: String? = nil, declaredTransforms: [String]? = nil, description: String? = nil, parameters: [TemplateParameter]? = nil) {
             self.capabilities = capabilities
             self.capabilitiesReason = capabilitiesReason
@@ -7328,6 +7544,7 @@ extension CloudFormation {
         /// The type of this warning. For more information, see IaC generator and write-only properties in the CloudFormation User Guide.    MUTUALLY_EXCLUSIVE_PROPERTIES - The resource requires mutually-exclusive write-only properties. The IaC generator selects one set of mutually exclusive properties and converts the included properties into parameters. The parameter names have a suffix OneOf and the parameter descriptions indicate that the corresponding property can be replaced with other exclusive properties.    UNSUPPORTED_PROPERTIES - Unsupported properties are present in the resource. One example of unsupported properties would be a required write-only property that is an array, because a parameter cannot be an array. Another example is an optional write-only property.    MUTUALLY_EXCLUSIVE_TYPES - One or more required write-only properties are found in the resource, and the type of that property can be any of several types.    Currently the resource and property reference documentation does not indicate if a property uses a type of oneOf or anyOf. You need to look at the resource provider schema.
         public let type: WarningType?
 
+        @inlinable
         public init(properties: [WarningProperty]? = nil, type: WarningType? = nil) {
             self.properties = properties
             self.type = type
@@ -7347,6 +7564,7 @@ extension CloudFormation {
         /// If true, the specified property is required.
         public let required: Bool?
 
+        @inlinable
         public init(description: String? = nil, propertyPath: String? = nil, required: Bool? = nil) {
             self.description = description
             self.propertyPath = propertyPath
@@ -7365,6 +7583,7 @@ extension CloudFormation {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var unrecognizedResourceTypes: [String]?
 
+        @inlinable
         public init(unrecognizedResourceTypes: [String]? = nil) {
             self.unrecognizedResourceTypes = unrecognizedResourceTypes
         }

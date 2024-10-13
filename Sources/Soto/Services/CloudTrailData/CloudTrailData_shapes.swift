@@ -36,6 +36,7 @@ extension CloudTrailData {
         /// The original event ID from the source event.
         public let id: String
 
+        @inlinable
         public init(eventData: String, eventDataChecksum: String? = nil, id: String) {
             self.eventData = eventData
             self.eventDataChecksum = eventDataChecksum
@@ -61,6 +62,7 @@ extension CloudTrailData {
         /// The original event ID from the source event.
         public let id: String
 
+        @inlinable
         public init(eventID: String, id: String) {
             self.eventID = eventID
             self.id = id
@@ -80,6 +82,7 @@ extension CloudTrailData {
         /// A unique identifier that is conditionally required when the channel's resource policy includes an external  ID. This value can be any string,  such as a passphrase or account number.
         public let externalId: String?
 
+        @inlinable
         public init(auditEvents: [AuditEvent], channelArn: String, externalId: String? = nil) {
             self.auditEvents = auditEvents
             self.channelArn = channelArn
@@ -117,6 +120,7 @@ extension CloudTrailData {
         /// Lists events in the provided event payload that were successfully ingested  into CloudTrail.
         public let successful: [AuditEventResultEntry]
 
+        @inlinable
         public init(failed: [ResultErrorEntry], successful: [AuditEventResultEntry]) {
             self.failed = failed
             self.successful = successful
@@ -136,6 +140,7 @@ extension CloudTrailData {
         /// The original event ID from the source event that could not be ingested by CloudTrail.
         public let id: String
 
+        @inlinable
         public init(errorCode: String, errorMessage: String, id: String) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage

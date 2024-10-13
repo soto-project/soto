@@ -339,6 +339,7 @@ extension Pipes {
         /// Specifies the subnets associated with the task. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]
 
+        @inlinable
         public init(assignPublicIp: AssignPublicIp? = nil, securityGroups: [String]? = nil, subnets: [String]) {
             self.assignPublicIp = assignPublicIp
             self.securityGroups = securityGroups
@@ -371,6 +372,7 @@ extension Pipes {
         /// The size of the array, if this is an array batch job.
         public let size: Int?
 
+        @inlinable
         public init(size: Int? = nil) {
             self.size = size
         }
@@ -395,6 +397,7 @@ extension Pipes {
         /// The type and amount of resources to assign to a container. This overrides the settings in the job definition. The supported resources include GPU, MEMORY, and VCPU.
         public let resourceRequirements: [BatchResourceRequirement]?
 
+        @inlinable
         public init(command: [String]? = nil, environment: [BatchEnvironmentVariable]? = nil, instanceType: String? = nil, resourceRequirements: [BatchResourceRequirement]? = nil) {
             self.command = command
             self.environment = environment
@@ -416,6 +419,7 @@ extension Pipes {
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -433,6 +437,7 @@ extension Pipes {
         /// The type of the job dependency.
         public let type: BatchJobDependencyType?
 
+        @inlinable
         public init(jobId: String? = nil, type: BatchJobDependencyType? = nil) {
             self.jobId = jobId
             self.type = type
@@ -450,6 +455,7 @@ extension Pipes {
         /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified.  type="GPU"  The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on.  GPUs aren't available for jobs that are running on Fargate resources.   type="MEMORY"  The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the  Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the  Create a container section of the Docker Remote API and the --memory option to docker run.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.  For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value.  value = 512   VCPU = 0.25  value = 1024   VCPU = 0.25 or 0.5  value = 2048   VCPU = 0.25, 0.5, or 1  value = 3072   VCPU = 0.5, or 1  value = 4096   VCPU = 0.5, 1, or 2  value = 5120, 6144, or 7168   VCPU = 1 or 2  value = 8192   VCPU = 1, 2, 4, or 8  value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360   VCPU = 2 or 4  value = 16384   VCPU = 2, 4, or 8  value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720   VCPU = 4  value = 20480, 24576, or 28672   VCPU = 4 or 8  value = 36864, 45056, 53248, or 61440   VCPU = 8  value = 32768, 40960, 49152, or 57344   VCPU = 8 or 16  value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880   VCPU = 16    type="VCPU"  The number of vCPUs reserved for the container. This parameter maps to CpuShares in the  Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see Fargate quotas in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16  value = 0.25   MEMORY = 512, 1024, or 2048  value = 0.5   MEMORY = 1024, 2048, 3072, or 4096  value = 1   MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192  value = 2   MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384  value = 4   MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720  value = 8   MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440   value = 16   MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
         public let value: String
 
+        @inlinable
         public init(type: BatchResourceRequirementType, value: String) {
             self.type = type
             self.value = value
@@ -465,6 +471,7 @@ extension Pipes {
         /// The number of times to move a job to the RUNNABLE status. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
         public let attempts: Int?
 
+        @inlinable
         public init(attempts: Int? = nil) {
             self.attempts = attempts
         }
@@ -487,6 +494,7 @@ extension Pipes {
         /// The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into consideration after the base value, if defined, is satisfied.
         public let weight: Int?
 
+        @inlinable
         public init(base: Int? = nil, capacityProvider: String, weight: Int? = nil) {
             self.base = base
             self.capacityProvider = capacityProvider
@@ -513,6 +521,7 @@ extension Pipes {
         /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
         public let logGroupArn: String?
 
+        @inlinable
         public init(logGroupArn: String? = nil) {
             self.logGroupArn = logGroupArn
         }
@@ -526,6 +535,7 @@ extension Pipes {
         /// The Amazon Web Services Resource Name (ARN) for the CloudWatch log group to which EventBridge sends the log records.
         public let logGroupArn: String
 
+        @inlinable
         public init(logGroupArn: String) {
             self.logGroupArn = logGroupArn
         }
@@ -569,6 +579,7 @@ extension Pipes {
         /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
+        @inlinable
         public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, kmsKeyIdentifier: String? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, source: String, sourceParameters: PipeSourceParameters? = nil, tags: [String: String]? = nil, target: String, targetParameters: PipeTargetParameters? = nil) {
             self.description = description
             self.desiredState = desiredState
@@ -665,6 +676,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, desiredState: RequestedPipeState? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -688,6 +700,7 @@ extension Pipes {
         /// The ARN of the specified target for the dead-letter queue.  For Amazon Kinesis stream and Amazon DynamoDB stream sources, specify either an Amazon SNS topic or Amazon SQS queue ARN.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -707,6 +720,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -740,6 +754,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, desiredState: RequestedPipeStateDescribeResponse? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -763,6 +778,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -820,6 +836,7 @@ extension Pipes {
         /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, description: String? = nil, desiredState: RequestedPipeStateDescribeResponse? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, logConfiguration: PipeLogConfiguration? = nil, name: String? = nil, roleArn: String? = nil, source: String? = nil, sourceParameters: PipeSourceParameters? = nil, stateReason: String? = nil, tags: [String: String]? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -871,6 +888,7 @@ extension Pipes {
         /// The data type of the dimension for the time-series data.
         public let dimensionValueType: DimensionValueType
 
+        @inlinable
         public init(dimensionName: String, dimensionValue: String, dimensionValueType: DimensionValueType) {
             self.dimensionName = dimensionName
             self.dimensionValue = dimensionValue
@@ -909,6 +927,7 @@ extension Pipes {
         /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
         public let resourceRequirements: [EcsResourceRequirement]?
 
+        @inlinable
         public init(command: [String]? = nil, cpu: Int? = nil, environment: [EcsEnvironmentVariable]? = nil, environmentFiles: [EcsEnvironmentFile]? = nil, memory: Int? = nil, memoryReservation: Int? = nil, name: String? = nil, resourceRequirements: [EcsResourceRequirement]? = nil) {
             self.command = command
             self.cpu = cpu
@@ -938,6 +957,7 @@ extension Pipes {
         /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the environment variable file.
         public let value: String
 
+        @inlinable
         public init(type: EcsEnvironmentFileType, value: String) {
             self.type = type
             self.value = value
@@ -955,6 +975,7 @@ extension Pipes {
         /// The value of the key-value pair. For environment variables, this is the value of the environment variable.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -970,6 +991,7 @@ extension Pipes {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         public let sizeInGiB: Int
 
+        @inlinable
         public init(sizeInGiB: Int) {
             self.sizeInGiB = sizeInGiB
         }
@@ -990,6 +1012,7 @@ extension Pipes {
         /// The Elastic Inference accelerator type to use.
         public let deviceType: String?
 
+        @inlinable
         public init(deviceName: String? = nil, deviceType: String? = nil) {
             self.deviceName = deviceName
             self.deviceType = deviceType
@@ -1007,6 +1030,7 @@ extension Pipes {
         /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. If the InferenceAccelerator type is used, the value matches the deviceName for an InferenceAccelerator specified in a task definition.
         public let value: String
 
+        @inlinable
         public init(type: EcsResourceRequirementType, value: String) {
             self.type = type
             self.value = value
@@ -1034,6 +1058,7 @@ extension Pipes {
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see IAM Role for Tasks in the Amazon Elastic Container Service Developer Guide.
         public let taskRoleArn: String?
 
+        @inlinable
         public init(containerOverrides: [EcsContainerOverride]? = nil, cpu: String? = nil, ephemeralStorage: EcsEphemeralStorage? = nil, executionRoleArn: String? = nil, inferenceAcceleratorOverrides: [EcsInferenceAcceleratorOverride]? = nil, memory: String? = nil, taskRoleArn: String? = nil) {
             self.containerOverrides = containerOverrides
             self.cpu = cpu
@@ -1069,6 +1094,7 @@ extension Pipes {
         /// The event pattern.
         public let pattern: String?
 
+        @inlinable
         public init(pattern: String? = nil) {
             self.pattern = pattern
         }
@@ -1086,6 +1112,7 @@ extension Pipes {
         /// The event patterns.
         public let filters: [Filter]?
 
+        @inlinable
         public init(filters: [Filter]? = nil) {
             self.filters = filters
         }
@@ -1106,6 +1133,7 @@ extension Pipes {
         /// The Amazon Resource Name (ARN) of the Firehose delivery stream to which EventBridge delivers the pipe log records.
         public let deliveryStreamArn: String?
 
+        @inlinable
         public init(deliveryStreamArn: String? = nil) {
             self.deliveryStreamArn = deliveryStreamArn
         }
@@ -1119,6 +1147,7 @@ extension Pipes {
         /// Specifies the Amazon Resource Name (ARN) of the Firehose delivery stream to which EventBridge delivers the pipe log records.
         public let deliveryStreamArn: String
 
+        @inlinable
         public init(deliveryStreamArn: String) {
             self.deliveryStreamArn = deliveryStreamArn
         }
@@ -1150,6 +1179,7 @@ extension Pipes {
         /// The prefix matching the pipe target.
         public let targetPrefix: String?
 
+        @inlinable
         public init(currentState: PipeState? = nil, desiredState: RequestedPipeState? = nil, limit: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil, sourcePrefix: String? = nil, targetPrefix: String? = nil) {
             self.currentState = currentState
             self.desiredState = desiredState
@@ -1195,6 +1225,7 @@ extension Pipes {
         /// The pipes returned by the call.
         public let pipes: [Pipe]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipes: [Pipe]? = nil) {
             self.nextToken = nextToken
             self.pipes = pipes
@@ -1210,6 +1241,7 @@ extension Pipes {
         /// The ARN of the pipe for which you want to view tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1233,6 +1265,7 @@ extension Pipes {
         /// The list of key-value pairs to associate with the pipe.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1250,6 +1283,7 @@ extension Pipes {
         /// Target measure name to be used.
         public let multiMeasureAttributeName: String
 
+        @inlinable
         public init(measureValue: String, measureValueType: MeasureValueType, multiMeasureAttributeName: String) {
             self.measureValue = measureValue
             self.measureValueType = measureValueType
@@ -1276,6 +1310,7 @@ extension Pipes {
         /// The name of the multiple measurements per record (multi-measure).
         public let multiMeasureName: String
 
+        @inlinable
         public init(multiMeasureAttributeMappings: [MultiMeasureAttributeMapping], multiMeasureName: String) {
             self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
             self.multiMeasureName = multiMeasureName
@@ -1301,6 +1336,7 @@ extension Pipes {
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
+        @inlinable
         public init(awsvpcConfiguration: AwsVpcConfiguration? = nil) {
             self.awsvpcConfiguration = awsvpcConfiguration
         }
@@ -1336,6 +1372,7 @@ extension Pipes {
         /// The ARN of the target resource.
         public let target: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, source: String? = nil, stateReason: String? = nil, target: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1371,6 +1408,7 @@ extension Pipes {
         /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
+        @inlinable
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
@@ -1408,6 +1446,7 @@ extension Pipes {
         /// Valid JSON text passed to the enrichment. In this case, nothing from the event itself is passed to the enrichment. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format. To remove an input template, specify an empty string.
         public let inputTemplate: String?
 
+        @inlinable
         public init(httpParameters: PipeEnrichmentHttpParameters? = nil, inputTemplate: String? = nil) {
             self.httpParameters = httpParameters
             self.inputTemplate = inputTemplate
@@ -1436,6 +1475,7 @@ extension Pipes {
         /// The Amazon S3 logging configuration settings for the pipe.
         public let s3LogDestination: S3LogDestination?
 
+        @inlinable
         public init(cloudwatchLogsLogDestination: CloudwatchLogsLogDestination? = nil, firehoseLogDestination: FirehoseLogDestination? = nil, includeExecutionData: [IncludeExecutionDataOption]? = nil, level: LogLevel? = nil, s3LogDestination: S3LogDestination? = nil) {
             self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
             self.firehoseLogDestination = firehoseLogDestination
@@ -1465,6 +1505,7 @@ extension Pipes {
         /// The Amazon S3 logging configuration settings for the pipe.
         public let s3LogDestination: S3LogDestinationParameters?
 
+        @inlinable
         public init(cloudwatchLogsLogDestination: CloudwatchLogsLogDestinationParameters? = nil, firehoseLogDestination: FirehoseLogDestinationParameters? = nil, includeExecutionData: [IncludeExecutionDataOption]? = nil, level: LogLevel, s3LogDestination: S3LogDestinationParameters? = nil) {
             self.cloudwatchLogsLogDestination = cloudwatchLogsLogDestination
             self.firehoseLogDestination = firehoseLogDestination
@@ -1497,6 +1538,7 @@ extension Pipes {
         /// The name of the destination queue to consume.
         public let queueName: String
 
+        @inlinable
         public init(batchSize: Int? = nil, credentials: MQBrokerAccessCredentials, maximumBatchingWindowInSeconds: Int? = nil, queueName: String) {
             self.batchSize = batchSize
             self.credentials = credentials
@@ -1544,6 +1586,7 @@ extension Pipes {
         /// (Streams only) The position in a stream from which to start reading.
         public let startingPosition: DynamoDBStreamStartPosition
 
+        @inlinable
         public init(batchSize: Int? = nil, deadLetterConfig: DeadLetterConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, onPartialBatchItemFailure: OnPartialBatchItemFailureStreams? = nil, parallelizationFactor: Int? = nil, startingPosition: DynamoDBStreamStartPosition) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
@@ -1604,6 +1647,7 @@ extension Pipes {
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading, in Unix time seconds.
         public let startingPositionTimestamp: Date?
 
+        @inlinable
         public init(batchSize: Int? = nil, deadLetterConfig: DeadLetterConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, onPartialBatchItemFailure: OnPartialBatchItemFailureStreams? = nil, parallelizationFactor: Int? = nil, startingPosition: KinesisStreamStartPosition, startingPositionTimestamp: Date? = nil) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
@@ -1657,6 +1701,7 @@ extension Pipes {
         /// The name of the topic that the pipe will read from.
         public let topicName: String
 
+        @inlinable
         public init(batchSize: Int? = nil, consumerGroupID: String? = nil, credentials: MSKAccessCredentials? = nil, maximumBatchingWindowInSeconds: Int? = nil, startingPosition: MSKStartPosition? = nil, topicName: String) {
             self.batchSize = batchSize
             self.consumerGroupID = consumerGroupID
@@ -1708,6 +1753,7 @@ extension Pipes {
         /// The parameters for using a Amazon SQS stream as a source.
         public let sqsQueueParameters: PipeSourceSqsQueueParameters?
 
+        @inlinable
         public init(activeMQBrokerParameters: PipeSourceActiveMQBrokerParameters? = nil, dynamoDBStreamParameters: PipeSourceDynamoDBStreamParameters? = nil, filterCriteria: FilterCriteria? = nil, kinesisStreamParameters: PipeSourceKinesisStreamParameters? = nil, managedStreamingKafkaParameters: PipeSourceManagedStreamingKafkaParameters? = nil, rabbitMQBrokerParameters: PipeSourceRabbitMQBrokerParameters? = nil, selfManagedKafkaParameters: PipeSourceSelfManagedKafkaParameters? = nil, sqsQueueParameters: PipeSourceSqsQueueParameters? = nil) {
             self.activeMQBrokerParameters = activeMQBrokerParameters
             self.dynamoDBStreamParameters = dynamoDBStreamParameters
@@ -1754,6 +1800,7 @@ extension Pipes {
         /// The name of the virtual host associated with the source broker.
         public let virtualHost: String?
 
+        @inlinable
         public init(batchSize: Int? = nil, credentials: MQBrokerAccessCredentials, maximumBatchingWindowInSeconds: Int? = nil, queueName: String, virtualHost: String? = nil) {
             self.batchSize = batchSize
             self.credentials = credentials
@@ -1805,6 +1852,7 @@ extension Pipes {
         /// This structure specifies the VPC subnets and security groups for the stream, and whether a public IP address is to be used.
         public let vpc: SelfManagedKafkaAccessConfigurationVpc?
 
+        @inlinable
         public init(additionalBootstrapServers: [String]? = nil, batchSize: Int? = nil, consumerGroupID: String? = nil, credentials: SelfManagedKafkaAccessConfigurationCredentials? = nil, maximumBatchingWindowInSeconds: Int? = nil, serverRootCaCertificate: String? = nil, startingPosition: SelfManagedKafkaStartPosition? = nil, topicName: String, vpc: SelfManagedKafkaAccessConfigurationVpc? = nil) {
             self.additionalBootstrapServers = additionalBootstrapServers
             self.batchSize = batchSize
@@ -1860,6 +1908,7 @@ extension Pipes {
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, maximumBatchingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -1894,6 +1943,7 @@ extension Pipes {
         /// The retry strategy to use for failed jobs. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: BatchRetryStrategy?
 
+        @inlinable
         public init(arrayProperties: BatchArrayProperties? = nil, containerOverrides: BatchContainerOverrides? = nil, dependsOn: [BatchJobDependency]? = nil, jobDefinition: String, jobName: String, parameters: [String: String]? = nil, retryStrategy: BatchRetryStrategy? = nil) {
             self.arrayProperties = arrayProperties
             self.containerOverrides = containerOverrides
@@ -1927,6 +1977,7 @@ extension Pipes {
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: String?
 
+        @inlinable
         public init(logStreamName: String? = nil, timestamp: String? = nil) {
             self.logStreamName = logStreamName
             self.timestamp = timestamp
@@ -1978,6 +2029,7 @@ extension Pipes {
         /// The ARN of the task definition to use if the event target is an Amazon ECS task.
         public let taskDefinitionArn: String
 
+        @inlinable
         public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: EcsTaskOverride? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, referenceId: String? = nil, tags: [Tag]? = nil, taskCount: Int? = nil, taskDefinitionArn: String) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.enableECSManagedTags = enableECSManagedTags
@@ -2052,6 +2104,7 @@ extension Pipes {
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: String?
 
+        @inlinable
         public init(detailType: String? = nil, endpointId: String? = nil, resources: [String]? = nil, source: String? = nil, time: String? = nil) {
             self.detailType = detailType
             self.endpointId = endpointId
@@ -2097,6 +2150,7 @@ extension Pipes {
         /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
         public let queryStringParameters: [String: String]?
 
+        @inlinable
         public init(headerParameters: [String: String]? = nil, pathParameterValues: [String]? = nil, queryStringParameters: [String: String]? = nil) {
             self.headerParameters = headerParameters
             self.pathParameterValues = pathParameterValues
@@ -2132,6 +2186,7 @@ extension Pipes {
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
         public let partitionKey: String
 
+        @inlinable
         public init(partitionKey: String) {
             self.partitionKey = partitionKey
         }
@@ -2149,6 +2204,7 @@ extension Pipes {
         /// Specify whether to invoke the function synchronously or asynchronously.    REQUEST_RESPONSE (default) - Invoke synchronously. This corresponds to the RequestResponse option in the InvocationType parameter for the Lambda Invoke API.    FIRE_AND_FORGET - Invoke asynchronously. This corresponds to the Event option in the InvocationType parameter for the Lambda Invoke API.   For more information, see Invocation types in the Amazon EventBridge User Guide.
         public let invocationType: PipeTargetInvocationType?
 
+        @inlinable
         public init(invocationType: PipeTargetInvocationType? = nil) {
             self.invocationType = invocationType
         }
@@ -2186,6 +2242,7 @@ extension Pipes {
         /// The parameters for using a Timestream for LiveAnalytics table as a target.
         public let timestreamParameters: PipeTargetTimestreamParameters?
 
+        @inlinable
         public init(batchJobParameters: PipeTargetBatchJobParameters? = nil, cloudWatchLogsParameters: PipeTargetCloudWatchLogsParameters? = nil, ecsTaskParameters: PipeTargetEcsTaskParameters? = nil, eventBridgeEventBusParameters: PipeTargetEventBridgeEventBusParameters? = nil, httpParameters: PipeTargetHttpParameters? = nil, inputTemplate: String? = nil, kinesisStreamParameters: PipeTargetKinesisStreamParameters? = nil, lambdaFunctionParameters: PipeTargetLambdaFunctionParameters? = nil, redshiftDataParameters: PipeTargetRedshiftDataParameters? = nil, sageMakerPipelineParameters: PipeTargetSageMakerPipelineParameters? = nil, sqsQueueParameters: PipeTargetSqsQueueParameters? = nil, stepFunctionStateMachineParameters: PipeTargetStateMachineParameters? = nil, timestreamParameters: PipeTargetTimestreamParameters? = nil) {
             self.batchJobParameters = batchJobParameters
             self.cloudWatchLogsParameters = cloudWatchLogsParameters
@@ -2247,6 +2304,7 @@ extension Pipes {
         /// Indicates whether to send an event back to EventBridge after the SQL statement runs.
         public let withEvent: Bool?
 
+        @inlinable
         public init(database: String, dbUser: String? = nil, secretManagerArn: String? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil) {
             self.database = database
             self.dbUser = dbUser
@@ -2288,6 +2346,7 @@ extension Pipes {
         /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
         public let pipelineParameterList: [SageMakerPipelineParameter]?
 
+        @inlinable
         public init(pipelineParameterList: [SageMakerPipelineParameter]? = nil) {
             self.pipelineParameterList = pipelineParameterList
         }
@@ -2310,6 +2369,7 @@ extension Pipes {
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
 
+        @inlinable
         public init(messageDeduplicationId: String? = nil, messageGroupId: String? = nil) {
             self.messageDeduplicationId = messageDeduplicationId
             self.messageGroupId = messageGroupId
@@ -2330,6 +2390,7 @@ extension Pipes {
         /// Specify whether to invoke the Step Functions state machine synchronously or asynchronously.    REQUEST_RESPONSE (default) - Invoke synchronously. For more information, see StartSyncExecution in the Step Functions API Reference.   REQUEST_RESPONSE is not supported for STANDARD state machine workflows.     FIRE_AND_FORGET - Invoke asynchronously. For more information, see StartExecution in the Step Functions API Reference.   For more information, see Invocation types in the Amazon EventBridge User Guide.
         public let invocationType: PipeTargetInvocationType?
 
+        @inlinable
         public init(invocationType: PipeTargetInvocationType? = nil) {
             self.invocationType = invocationType
         }
@@ -2357,6 +2418,7 @@ extension Pipes {
         /// 64 bit version value or source data field that represents the version value for your data. Write requests with a higher version number will update the existing measure values of the record and version.  In cases where the measure value is the same, the version will still be updated.  Default value is 1.  Timestream for LiveAnalytics does not support updating partial measure values in a record. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1.   Version must be 1 or greater, or you will receive a ValidationException error.
         public let versionValue: String
 
+        @inlinable
         public init(dimensionMappings: [DimensionMapping], epochTimeUnit: EpochTimeUnit? = nil, multiMeasureMappings: [MultiMeasureMapping]? = nil, singleMeasureMappings: [SingleMeasureMapping]? = nil, timeFieldType: TimeFieldType? = nil, timestampFormat: String? = nil, timeValue: String, versionValue: String) {
             self.dimensionMappings = dimensionMappings
             self.epochTimeUnit = epochTimeUnit
@@ -2408,6 +2470,7 @@ extension Pipes {
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
         public let type: PlacementConstraintType?
 
+        @inlinable
         public init(expression: String? = nil, type: PlacementConstraintType? = nil) {
             self.expression = expression
             self.type = type
@@ -2429,6 +2492,7 @@ extension Pipes {
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
         public let type: PlacementStrategyType?
 
+        @inlinable
         public init(field: String? = nil, type: PlacementStrategyType? = nil) {
             self.field = field
             self.type = type
@@ -2454,6 +2518,7 @@ extension Pipes {
         /// The prefix text with which to begin Amazon S3 log object names. For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String? = nil, bucketOwner: String? = nil, outputFormat: S3OutputFormat? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.bucketOwner = bucketOwner
@@ -2479,6 +2544,7 @@ extension Pipes {
         /// Specifies any prefix text with which to begin Amazon S3 log object names. You can use prefixes to organize the data that you store in Amazon S3 buckets. A prefix is a string of characters at the beginning of the object key name. A prefix can be any length, subject to the maximum length of the object key name (1,024 bytes). For more information, see Organizing objects using prefixes in the Amazon Simple Storage Service User Guide.
         public let prefix: String?
 
+        @inlinable
         public init(bucketName: String, bucketOwner: String, outputFormat: S3OutputFormat? = nil, prefix: String? = nil) {
             self.bucketName = bucketName
             self.bucketOwner = bucketOwner
@@ -2500,6 +2566,7 @@ extension Pipes {
         /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
         public let value: String
 
+        @inlinable
         public init(name: String, value: String) {
             self.name = name
             self.value = value
@@ -2524,6 +2591,7 @@ extension Pipes {
         /// Specifies the subnets associated with the stream. These subnets must all be in the same VPC. You can specify as many as 16 subnets.
         public let subnets: [String]?
 
+        @inlinable
         public init(securityGroup: [String]? = nil, subnets: [String]? = nil) {
             self.securityGroup = securityGroup
             self.subnets = subnets
@@ -2558,6 +2626,7 @@ extension Pipes {
         /// Data type of the source field.
         public let measureValueType: MeasureValueType
 
+        @inlinable
         public init(measureName: String, measureValue: String, measureValueType: MeasureValueType) {
             self.measureName = measureName
             self.measureValue = measureValue
@@ -2582,6 +2651,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2615,6 +2685,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, desiredState: RequestedPipeState? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2638,6 +2709,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -2671,6 +2743,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, desiredState: RequestedPipeState? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2696,6 +2769,7 @@ extension Pipes {
         /// The value for the specified tag key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -2719,6 +2793,7 @@ extension Pipes {
         /// The list of key-value pairs associated with the pipe.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2759,6 +2834,7 @@ extension Pipes {
         /// The list of tag keys to remove from the pipe.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2813,6 +2889,7 @@ extension Pipes {
         /// The parameters required to set up a target for your pipe. For more information about pipe target parameters, including how to use dynamic path parameters, see Target parameters in the Amazon EventBridge User Guide.
         public let targetParameters: PipeTargetParameters?
 
+        @inlinable
         public init(description: String? = nil, desiredState: RequestedPipeState? = nil, enrichment: String? = nil, enrichmentParameters: PipeEnrichmentParameters? = nil, kmsKeyIdentifier: String? = nil, logConfiguration: PipeLogConfigurationParameters? = nil, name: String, roleArn: String, sourceParameters: UpdatePipeSourceParameters? = nil, target: String? = nil, targetParameters: PipeTargetParameters? = nil) {
             self.description = description
             self.desiredState = desiredState
@@ -2893,6 +2970,7 @@ extension Pipes {
         /// The name of the pipe.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, currentState: PipeState? = nil, desiredState: RequestedPipeState? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2920,6 +2998,7 @@ extension Pipes {
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, credentials: MQBrokerAccessCredentials, maximumBatchingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.credentials = credentials
@@ -2960,6 +3039,7 @@ extension Pipes {
         /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, deadLetterConfig: DeadLetterConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, onPartialBatchItemFailure: OnPartialBatchItemFailureStreams? = nil, parallelizationFactor: Int? = nil) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
@@ -3014,6 +3094,7 @@ extension Pipes {
         /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, deadLetterConfig: DeadLetterConfig? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, onPartialBatchItemFailure: OnPartialBatchItemFailureStreams? = nil, parallelizationFactor: Int? = nil) {
             self.batchSize = batchSize
             self.deadLetterConfig = deadLetterConfig
@@ -3057,6 +3138,7 @@ extension Pipes {
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, credentials: MSKAccessCredentials? = nil, maximumBatchingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.credentials = credentials
@@ -3096,6 +3178,7 @@ extension Pipes {
         /// The parameters for using a Amazon SQS stream as a source.
         public let sqsQueueParameters: UpdatePipeSourceSqsQueueParameters?
 
+        @inlinable
         public init(activeMQBrokerParameters: UpdatePipeSourceActiveMQBrokerParameters? = nil, dynamoDBStreamParameters: UpdatePipeSourceDynamoDBStreamParameters? = nil, filterCriteria: FilterCriteria? = nil, kinesisStreamParameters: UpdatePipeSourceKinesisStreamParameters? = nil, managedStreamingKafkaParameters: UpdatePipeSourceManagedStreamingKafkaParameters? = nil, rabbitMQBrokerParameters: UpdatePipeSourceRabbitMQBrokerParameters? = nil, selfManagedKafkaParameters: UpdatePipeSourceSelfManagedKafkaParameters? = nil, sqsQueueParameters: UpdatePipeSourceSqsQueueParameters? = nil) {
             self.activeMQBrokerParameters = activeMQBrokerParameters
             self.dynamoDBStreamParameters = dynamoDBStreamParameters
@@ -3138,6 +3221,7 @@ extension Pipes {
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, credentials: MQBrokerAccessCredentials, maximumBatchingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.credentials = credentials
@@ -3171,6 +3255,7 @@ extension Pipes {
         /// This structure specifies the VPC subnets and security groups for the stream, and whether a public IP address is to be used.
         public let vpc: SelfManagedKafkaAccessConfigurationVpc?
 
+        @inlinable
         public init(batchSize: Int? = nil, credentials: SelfManagedKafkaAccessConfigurationCredentials? = nil, maximumBatchingWindowInSeconds: Int? = nil, serverRootCaCertificate: String? = nil, vpc: SelfManagedKafkaAccessConfigurationVpc? = nil) {
             self.batchSize = batchSize
             self.credentials = credentials
@@ -3206,6 +3291,7 @@ extension Pipes {
         /// The maximum length of a time to wait for events.
         public let maximumBatchingWindowInSeconds: Int?
 
+        @inlinable
         public init(batchSize: Int? = nil, maximumBatchingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3228,6 +3314,7 @@ extension Pipes {
         /// The ARN of the Secrets Manager secret.
         public let basicAuth: String?
 
+        @inlinable
         public init(basicAuth: String? = nil) {
             self.basicAuth = basicAuth
         }

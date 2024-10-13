@@ -85,6 +85,7 @@ extension Synthetics {
         /// A structure that contains the configuration of the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.  Artifact encryption functionality is available only for canaries that use Synthetics runtime version  syn-nodejs-puppeteer-3.3 or later. For more information, see Encrypting canary artifacts
         public let s3Encryption: S3EncryptionConfig?
 
+        @inlinable
         public init(s3Encryption: S3EncryptionConfig? = nil) {
             self.s3Encryption = s3Encryption
         }
@@ -102,6 +103,7 @@ extension Synthetics {
         /// A structure that contains the configuration of encryption settings for canary artifacts that are stored in Amazon S3.
         public let s3Encryption: S3EncryptionConfig?
 
+        @inlinable
         public init(s3Encryption: S3EncryptionConfig? = nil) {
             self.s3Encryption = s3Encryption
         }
@@ -117,6 +119,7 @@ extension Synthetics {
         /// The ARN of the canary that you want to associate with the specified group.
         public let resourceArn: String
 
+        @inlinable
         public init(groupIdentifier: String, resourceArn: String) {
             self.groupIdentifier = groupIdentifier
             self.resourceArn = resourceArn
@@ -152,6 +155,7 @@ extension Synthetics {
         /// The name of the screenshot. This is generated the first time the canary is run after the UpdateCanary operation that specified for this canary to perform visual monitoring.
         public let screenshotName: String
 
+        @inlinable
         public init(ignoreCoordinates: [String]? = nil, screenshotName: String) {
             self.ignoreCoordinates = ignoreCoordinates
             self.screenshotName = screenshotName
@@ -205,6 +209,7 @@ extension Synthetics {
         public let visualReference: VisualReferenceOutput?
         public let vpcConfig: VpcConfigOutput?
 
+        @inlinable
         public init(artifactConfig: ArtifactConfigOutput? = nil, artifactS3Location: String? = nil, code: CanaryCodeOutput? = nil, engineArn: String? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, id: String? = nil, name: String? = nil, runConfig: CanaryRunConfigOutput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleOutput? = nil, status: CanaryStatus? = nil, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, timeline: CanaryTimeline? = nil, visualReference: VisualReferenceOutput? = nil, vpcConfig: VpcConfigOutput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
@@ -259,6 +264,7 @@ extension Synthetics {
         /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that  contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an S3 location instead of inputting it  directly with this parameter.
         public let zipFile: AWSBase64Data?
 
+        @inlinable
         public init(handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.handler = handler
             self.s3Bucket = s3Bucket
@@ -296,6 +302,7 @@ extension Synthetics {
         /// The ARN of the Lambda layer where Synthetics stores the canary script code.
         public let sourceLocationArn: String?
 
+        @inlinable
         public init(handler: String? = nil, sourceLocationArn: String? = nil) {
             self.handler = handler
             self.sourceLocationArn = sourceLocationArn
@@ -313,6 +320,7 @@ extension Synthetics {
         /// The results from this canary's most recent run.
         public let lastRun: CanaryRun?
 
+        @inlinable
         public init(canaryName: String? = nil, lastRun: CanaryRun? = nil) {
             self.canaryName = canaryName
             self.lastRun = lastRun
@@ -336,6 +344,7 @@ extension Synthetics {
         /// A structure that contains the start and end times of this run.
         public let timeline: CanaryRunTimeline?
 
+        @inlinable
         public init(artifactS3Location: String? = nil, id: String? = nil, name: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
             self.artifactS3Location = artifactS3Location
             self.id = id
@@ -363,6 +372,7 @@ extension Synthetics {
         /// How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(activeTracing: Bool? = nil, environmentVariables: [String: String]? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
             self.activeTracing = activeTracing
             self.environmentVariables = environmentVariables
@@ -396,6 +406,7 @@ extension Synthetics {
         /// How long the canary is allowed to run before it must stop.
         public let timeoutInSeconds: Int?
 
+        @inlinable
         public init(activeTracing: Bool? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
             self.activeTracing = activeTracing
             self.memoryInMB = memoryInMB
@@ -417,6 +428,7 @@ extension Synthetics {
         /// If this value is CANARY_FAILURE, an exception occurred in the  canary code. If this value is EXECUTION_FAILURE, an exception occurred in  CloudWatch Synthetics.
         public let stateReasonCode: CanaryRunStateReasonCode?
 
+        @inlinable
         public init(state: CanaryRunState? = nil, stateReason: String? = nil, stateReasonCode: CanaryRunStateReasonCode? = nil) {
             self.state = state
             self.stateReason = stateReason
@@ -436,6 +448,7 @@ extension Synthetics {
         /// The start time of the run.
         public let started: Date?
 
+        @inlinable
         public init(completed: Date? = nil, started: Date? = nil) {
             self.completed = completed
             self.started = started
@@ -453,6 +466,7 @@ extension Synthetics {
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every  10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value  that causes the  canary to run only once when it is started. Use cron(expression) to specify a cron  expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see   Scheduling canary runs using cron.
         public let expression: String
 
+        @inlinable
         public init(durationInSeconds: Int64? = nil, expression: String) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
@@ -477,6 +491,7 @@ extension Synthetics {
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour.  For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every  10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value  that causes the  canary to run only once when it is started. Use cron(expression) to specify a cron  expression. For information about the syntax for cron expressions, see   Scheduling canary runs using cron.
         public let expression: String?
 
+        @inlinable
         public init(durationInSeconds: Int64? = nil, expression: String? = nil) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
@@ -496,6 +511,7 @@ extension Synthetics {
         /// If the canary cannot run or has failed, this field displays the reason.
         public let stateReasonCode: CanaryStateReasonCode?
 
+        @inlinable
         public init(state: CanaryState? = nil, stateReason: String? = nil, stateReasonCode: CanaryStateReasonCode? = nil) {
             self.state = state
             self.stateReason = stateReason
@@ -519,6 +535,7 @@ extension Synthetics {
         /// The date and time that the canary's most recent run ended.
         public let lastStopped: Date?
 
+        @inlinable
         public init(created: Date? = nil, lastModified: Date? = nil, lastStarted: Date? = nil, lastStopped: Date? = nil) {
             self.created = created
             self.lastModified = lastModified
@@ -562,6 +579,7 @@ extension Synthetics {
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
+        @inlinable
         public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String, code: CanaryCodeInput, executionRoleArn: String, failureRetentionPeriodInDays: Int? = nil, name: String, resourcesToReplicateTags: [ResourceToTag]? = nil, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String, schedule: CanaryScheduleInput, successRetentionPeriodInDays: Int? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
@@ -631,6 +649,7 @@ extension Synthetics {
         /// The full details about the canary you have created.
         public let canary: Canary?
 
+        @inlinable
         public init(canary: Canary? = nil) {
             self.canary = canary
         }
@@ -646,6 +665,7 @@ extension Synthetics {
         /// A list of key-value pairs to associate with the group.  You can associate as many as 50 tags with a group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by  granting a user permission to access or change only the resources that have certain tag values.
         public let tags: [String: String]?
 
+        @inlinable
         public init(name: String, tags: [String: String]? = nil) {
             self.name = name
             self.tags = tags
@@ -674,6 +694,7 @@ extension Synthetics {
         /// A structure that contains information about the group that was just created.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -689,6 +710,7 @@ extension Synthetics {
         /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
         public let name: String
 
+        @inlinable
         public init(deleteLambda: Bool? = nil, name: String) {
             self.deleteLambda = deleteLambda
             self.name = name
@@ -718,6 +740,7 @@ extension Synthetics {
         /// Specifies which group to delete. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
 
+        @inlinable
         public init(groupIdentifier: String) {
             self.groupIdentifier = groupIdentifier
         }
@@ -748,6 +771,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanariesLastRun operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.names = names
@@ -781,6 +805,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanariesLastRun operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(canariesLastRun: [CanaryLastRun]? = nil, nextToken: String? = nil) {
             self.canariesLastRun = canariesLastRun
             self.nextToken = nextToken
@@ -800,6 +825,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.names = names
@@ -833,6 +859,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(canaries: [Canary]? = nil, nextToken: String? = nil) {
             self.canaries = canaries
             self.nextToken = nextToken
@@ -850,6 +877,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -874,6 +902,7 @@ extension Synthetics {
         /// An array of objects that display the details about each Synthetics canary runtime version.
         public let runtimeVersions: [RuntimeVersion]?
 
+        @inlinable
         public init(nextToken: String? = nil, runtimeVersions: [RuntimeVersion]? = nil) {
             self.nextToken = nextToken
             self.runtimeVersions = runtimeVersions
@@ -891,6 +920,7 @@ extension Synthetics {
         /// The ARN of the canary that you want to remove from the specified group.
         public let resourceArn: String
 
+        @inlinable
         public init(groupIdentifier: String, resourceArn: String) {
             self.groupIdentifier = groupIdentifier
             self.resourceArn = resourceArn
@@ -924,6 +954,7 @@ extension Synthetics {
         /// The name of the canary that you want details for.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -947,6 +978,7 @@ extension Synthetics {
         /// A structure that contains the full information about the canary.
         public let canary: Canary?
 
+        @inlinable
         public init(canary: Canary? = nil) {
             self.canary = canary
         }
@@ -964,6 +996,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -1000,6 +1033,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns  operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(canaryRuns: [CanaryRun]? = nil, nextToken: String? = nil) {
             self.canaryRuns = canaryRuns
             self.nextToken = nextToken
@@ -1015,6 +1049,7 @@ extension Synthetics {
         /// Specifies the group to return information for. You can specify the group name, the ARN, or the  group ID as the GroupIdentifier.
         public let groupIdentifier: String
 
+        @inlinable
         public init(groupIdentifier: String) {
             self.groupIdentifier = groupIdentifier
         }
@@ -1037,6 +1072,7 @@ extension Synthetics {
         /// A structure that contains information about the group.
         public let group: Group?
 
+        @inlinable
         public init(group: Group? = nil) {
             self.group = group
         }
@@ -1060,6 +1096,7 @@ extension Synthetics {
         /// The list of key-value pairs that are associated with the canary.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -1087,6 +1124,7 @@ extension Synthetics {
         /// The name of the group.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -1108,6 +1146,7 @@ extension Synthetics {
         /// The ARN of the canary that you want to view groups for.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1145,6 +1184,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent ListAssociatedGroups operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -1164,6 +1204,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(groupIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.groupIdentifier = groupIdentifier
             self.maxResults = maxResults
@@ -1200,6 +1241,7 @@ extension Synthetics {
         /// An array of ARNs. These ARNs are for the canaries that are associated with the group.
         public let resources: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, resources: [String]? = nil) {
             self.nextToken = nextToken
             self.resources = resources
@@ -1217,6 +1259,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1242,6 +1285,7 @@ extension Synthetics {
         /// A token that indicates that there is more data available. You can use this token in a subsequent ListGroups operation to retrieve the next  set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(groups: [GroupSummary]? = nil, nextToken: String? = nil) {
             self.groups = groups
             self.nextToken = nextToken
@@ -1257,6 +1301,7 @@ extension Synthetics {
         /// The ARN of the canary or group that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1280,6 +1325,7 @@ extension Synthetics {
         /// The list of tag keys and values associated with the resource that you specified.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1299,6 +1345,7 @@ extension Synthetics {
         /// The name of the runtime version. For a list of valid runtime versions,  see  Canary Runtime Versions.
         public let versionName: String?
 
+        @inlinable
         public init(deprecationDate: Date? = nil, description: String? = nil, releaseDate: Date? = nil, versionName: String? = nil) {
             self.deprecationDate = deprecationDate
             self.description = description
@@ -1320,6 +1367,7 @@ extension Synthetics {
         /// The ARN of the customer-managed KMS key to use, if you specify SSE-KMS for EncryptionMode
         public let kmsKeyArn: String?
 
+        @inlinable
         public init(encryptionMode: EncryptionMode? = nil, kmsKeyArn: String? = nil) {
             self.encryptionMode = encryptionMode
             self.kmsKeyArn = kmsKeyArn
@@ -1341,6 +1389,7 @@ extension Synthetics {
         /// The name of the canary that you want to run. To find canary names, use DescribeCanaries.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1368,6 +1417,7 @@ extension Synthetics {
         /// The name of the canary that you want to stop. To find the names of your  canaries, use ListCanaries.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1398,6 +1448,7 @@ extension Synthetics {
         /// The list of key-value pairs to associate with the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1439,6 +1490,7 @@ extension Synthetics {
         /// The list of tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1497,6 +1549,7 @@ extension Synthetics {
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint.  For more information, see  Running a Canary in a VPC.
         public let vpcConfig: VpcConfigInput?
 
+        @inlinable
         public init(artifactConfig: ArtifactConfigInput? = nil, artifactS3Location: String? = nil, code: CanaryCodeInput? = nil, executionRoleArn: String? = nil, failureRetentionPeriodInDays: Int? = nil, name: String, runConfig: CanaryRunConfigInput? = nil, runtimeVersion: String? = nil, schedule: CanaryScheduleInput? = nil, successRetentionPeriodInDays: Int? = nil, visualReference: VisualReferenceInput? = nil, vpcConfig: VpcConfigInput? = nil) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
@@ -1577,6 +1630,7 @@ extension Synthetics {
         /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
         public let baseScreenshots: [BaseScreenshot]?
 
+        @inlinable
         public init(baseCanaryRunId: String, baseScreenshots: [BaseScreenshot]? = nil) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
@@ -1602,6 +1656,7 @@ extension Synthetics {
         /// An array of screenshots that are used as the baseline for comparisons during visual monitoring.
         public let baseScreenshots: [BaseScreenshot]?
 
+        @inlinable
         public init(baseCanaryRunId: String? = nil, baseScreenshots: [BaseScreenshot]? = nil) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
@@ -1619,6 +1674,7 @@ extension Synthetics {
         /// The IDs of the subnets where this canary is to run.
         public let subnetIds: [String]?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1643,6 +1699,7 @@ extension Synthetics {
         /// The IDs of the VPC where this canary is to run.
         public let vpcId: String?
 
+        @inlinable
         public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds

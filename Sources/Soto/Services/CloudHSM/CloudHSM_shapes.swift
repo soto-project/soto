@@ -63,6 +63,7 @@ extension CloudHSM {
         /// One or more tags.
         public let tagList: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tagList: [Tag]) {
             self.resourceArn = resourceArn
             self.tagList = tagList
@@ -85,6 +86,7 @@ extension CloudHSM {
         /// The status of the operation.
         public let status: String
 
+        @inlinable
         public init(status: String) {
             self.status = status
         }
@@ -98,6 +100,7 @@ extension CloudHSM {
         /// The label of the new high-availability partition group.
         public let label: String
 
+        @inlinable
         public init(label: String) {
             self.label = label
         }
@@ -115,6 +118,7 @@ extension CloudHSM {
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
 
+        @inlinable
         public init(hapgArn: String? = nil) {
             self.hapgArn = hapgArn
         }
@@ -141,6 +145,7 @@ extension CloudHSM {
         /// The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
         public let syslogIp: String?
 
+        @inlinable
         public init(clientToken: String? = nil, eniIp: String? = nil, externalId: String? = nil, iamRoleArn: String, sshKey: String, subnetId: String, subscriptionType: SubscriptionType, syslogIp: String? = nil) {
             self.clientToken = clientToken
             self.eniIp = eniIp
@@ -178,6 +183,7 @@ extension CloudHSM {
         /// The ARN of the HSM.
         public let hsmArn: String?
 
+        @inlinable
         public init(hsmArn: String? = nil) {
             self.hsmArn = hsmArn
         }
@@ -193,6 +199,7 @@ extension CloudHSM {
         /// The label for the client.
         public let label: String?
 
+        @inlinable
         public init(certificate: String, label: String? = nil) {
             self.certificate = certificate
             self.label = label
@@ -215,6 +222,7 @@ extension CloudHSM {
         /// The ARN of the client.
         public let clientArn: String?
 
+        @inlinable
         public init(clientArn: String? = nil) {
             self.clientArn = clientArn
         }
@@ -228,6 +236,7 @@ extension CloudHSM {
         /// The ARN of the high-availability partition group to delete.
         public let hapgArn: String
 
+        @inlinable
         public init(hapgArn: String) {
             self.hapgArn = hapgArn
         }
@@ -245,6 +254,7 @@ extension CloudHSM {
         /// The status of the action.
         public let status: String
 
+        @inlinable
         public init(status: String) {
             self.status = status
         }
@@ -258,6 +268,7 @@ extension CloudHSM {
         /// The ARN of the HSM to delete.
         public let hsmArn: String
 
+        @inlinable
         public init(hsmArn: String) {
             self.hsmArn = hsmArn
         }
@@ -275,6 +286,7 @@ extension CloudHSM {
         /// The status of the operation.
         public let status: String
 
+        @inlinable
         public init(status: String) {
             self.status = status
         }
@@ -288,6 +300,7 @@ extension CloudHSM {
         /// The ARN of the client to delete.
         public let clientArn: String
 
+        @inlinable
         public init(clientArn: String) {
             self.clientArn = clientArn
         }
@@ -305,6 +318,7 @@ extension CloudHSM {
         /// The status of the action.
         public let status: String
 
+        @inlinable
         public init(status: String) {
             self.status = status
         }
@@ -318,6 +332,7 @@ extension CloudHSM {
         /// The ARN of the high-availability partition group to describe.
         public let hapgArn: String
 
+        @inlinable
         public init(hapgArn: String) {
             self.hapgArn = hapgArn
         }
@@ -348,6 +363,7 @@ extension CloudHSM {
         /// The state of the high-availability partition group.
         public let state: CloudHsmObjectState?
 
+        @inlinable
         public init(hapgArn: String? = nil, hapgSerial: String? = nil, hsmsLastActionFailed: [String]? = nil, hsmsPendingDeletion: [String]? = nil, hsmsPendingRegistration: [String]? = nil, label: String? = nil, lastModifiedTimestamp: String? = nil, partitionSerialList: [String]? = nil, state: CloudHsmObjectState? = nil) {
             self.hapgArn = hapgArn
             self.hapgSerial = hapgSerial
@@ -379,6 +395,7 @@ extension CloudHSM {
         /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
         public let hsmSerialNumber: String?
 
+        @inlinable
         public init(hsmArn: String? = nil, hsmSerialNumber: String? = nil) {
             self.hsmArn = hsmArn
             self.hsmSerialNumber = hsmSerialNumber
@@ -438,6 +455,7 @@ extension CloudHSM {
         /// The identifier of the VPC that the HSM is in.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, eniId: String? = nil, eniIp: String? = nil, hsmArn: String? = nil, hsmType: String? = nil, iamRoleArn: String? = nil, partitions: [String]? = nil, serialNumber: String? = nil, serverCertLastUpdated: String? = nil, serverCertUri: String? = nil, softwareVersion: String? = nil, sshKeyLastUpdated: String? = nil, sshPublicKey: String? = nil, status: HsmStatus? = nil, statusDetails: String? = nil, subnetId: String? = nil, subscriptionEndDate: String? = nil, subscriptionStartDate: String? = nil, subscriptionType: SubscriptionType? = nil, vendorName: String? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.eniId = eniId
@@ -493,6 +511,7 @@ extension CloudHSM {
         /// The ARN of the client.
         public let clientArn: String?
 
+        @inlinable
         public init(certificateFingerprint: String? = nil, clientArn: String? = nil) {
             self.certificateFingerprint = certificateFingerprint
             self.clientArn = clientArn
@@ -521,6 +540,7 @@ extension CloudHSM {
         /// The date and time the client was last modified.
         public let lastModifiedTimestamp: String?
 
+        @inlinable
         public init(certificate: String? = nil, certificateFingerprint: String? = nil, clientArn: String? = nil, label: String? = nil, lastModifiedTimestamp: String? = nil) {
             self.certificate = certificate
             self.certificateFingerprint = certificateFingerprint
@@ -546,6 +566,7 @@ extension CloudHSM {
         /// A list of ARNs that identify the high-availability partition groups that are associated with the client.
         public let hapgList: [String]
 
+        @inlinable
         public init(clientArn: String, clientVersion: ClientVersion, hapgList: [String]) {
             self.clientArn = clientArn
             self.clientVersion = clientVersion
@@ -574,6 +595,7 @@ extension CloudHSM {
         /// The type of credentials.
         public let configType: String?
 
+        @inlinable
         public init(configCred: String? = nil, configFile: String? = nil, configType: String? = nil) {
             self.configCred = configCred
             self.configFile = configFile
@@ -595,6 +617,7 @@ extension CloudHSM {
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let azList: [String]?
 
+        @inlinable
         public init(azList: [String]? = nil) {
             self.azList = azList
         }
@@ -608,6 +631,7 @@ extension CloudHSM {
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -627,6 +651,7 @@ extension CloudHSM {
         /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(hapgList: [String], nextToken: String? = nil) {
             self.hapgList = hapgList
             self.nextToken = nextToken
@@ -642,6 +667,7 @@ extension CloudHSM {
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -661,6 +687,7 @@ extension CloudHSM {
         /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(hsmList: [String]? = nil, nextToken: String? = nil) {
             self.hsmList = hsmList
             self.nextToken = nextToken
@@ -676,6 +703,7 @@ extension CloudHSM {
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -695,6 +723,7 @@ extension CloudHSM {
         /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
         public let nextToken: String?
 
+        @inlinable
         public init(clientList: [String], nextToken: String? = nil) {
             self.clientList = clientList
             self.nextToken = nextToken
@@ -710,6 +739,7 @@ extension CloudHSM {
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -727,6 +757,7 @@ extension CloudHSM {
         /// One or more tags.
         public let tagList: [Tag]
 
+        @inlinable
         public init(tagList: [Tag]) {
             self.tagList = tagList
         }
@@ -744,6 +775,7 @@ extension CloudHSM {
         /// The list of partition serial numbers to make members of the high-availability partition group.
         public let partitionSerialList: [String]?
 
+        @inlinable
         public init(hapgArn: String, label: String? = nil, partitionSerialList: [String]? = nil) {
             self.hapgArn = hapgArn
             self.label = label
@@ -769,6 +801,7 @@ extension CloudHSM {
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
 
+        @inlinable
         public init(hapgArn: String? = nil) {
             self.hapgArn = hapgArn
         }
@@ -792,6 +825,7 @@ extension CloudHSM {
         /// The new IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
         public let syslogIp: String?
 
+        @inlinable
         public init(eniIp: String? = nil, externalId: String? = nil, hsmArn: String, iamRoleArn: String? = nil, subnetId: String? = nil, syslogIp: String? = nil) {
             self.eniIp = eniIp
             self.externalId = externalId
@@ -824,6 +858,7 @@ extension CloudHSM {
         /// The ARN of the HSM.
         public let hsmArn: String?
 
+        @inlinable
         public init(hsmArn: String? = nil) {
             self.hsmArn = hsmArn
         }
@@ -839,6 +874,7 @@ extension CloudHSM {
         /// The ARN of the client.
         public let clientArn: String
 
+        @inlinable
         public init(certificate: String, clientArn: String) {
             self.certificate = certificate
             self.clientArn = clientArn
@@ -861,6 +897,7 @@ extension CloudHSM {
         /// The ARN of the client.
         public let clientArn: String?
 
+        @inlinable
         public init(clientArn: String? = nil) {
             self.clientArn = clientArn
         }
@@ -876,6 +913,7 @@ extension CloudHSM {
         /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
         public let tagKeyList: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeyList: [String]) {
             self.resourceArn = resourceArn
             self.tagKeyList = tagKeyList
@@ -899,6 +937,7 @@ extension CloudHSM {
         /// The status of the operation.
         public let status: String
 
+        @inlinable
         public init(status: String) {
             self.status = status
         }
@@ -914,6 +953,7 @@ extension CloudHSM {
         /// The value of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value

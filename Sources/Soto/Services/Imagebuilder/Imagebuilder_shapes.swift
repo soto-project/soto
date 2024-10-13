@@ -274,6 +274,7 @@ extension Imagebuilder {
         /// 			for all of the findings.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(accountId: String? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.severityCounts = severityCounts
@@ -297,6 +298,7 @@ extension Imagebuilder {
         /// 				IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$:  #!/bin/bash  mkdir -p /var/bb/ touch /var
         public let userDataOverride: String?
 
+        @inlinable
         public init(systemsManagerAgent: SystemsManagerAgent? = nil, userDataOverride: String? = nil) {
             self.systemsManagerAgent = systemsManagerAgent
             self.userDataOverride = userDataOverride
@@ -327,6 +329,7 @@ extension Imagebuilder {
         public let region: String?
         public let state: ImageState?
 
+        @inlinable
         public init(accountId: String? = nil, description: String? = nil, image: String? = nil, name: String? = nil, region: String? = nil, state: ImageState? = nil) {
             self.accountId = accountId
             self.description = description
@@ -362,6 +365,7 @@ extension Imagebuilder {
         /// The ID of an account to which you want to distribute an image.
         public let targetAccountIds: [String]?
 
+        @inlinable
         public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil, targetAccountIds: [String]? = nil) {
             self.amiTags = amiTags
             self.description = description
@@ -412,6 +416,7 @@ extension Imagebuilder {
         /// 			for.
         public let imageBuildVersionArn: String
 
+        @inlinable
         public init(clientToken: String = CancelImageCreationRequest.idempotencyToken(), imageBuildVersionArn: String) {
             self.clientToken = clientToken
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -437,6 +442,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -456,6 +462,7 @@ extension Imagebuilder {
         /// Identifies the specific runtime instance of the image lifecycle to cancel.
         public let lifecycleExecutionId: String
 
+        @inlinable
         public init(clientToken: String = CancelLifecycleExecutionRequest.idempotencyToken(), lifecycleExecutionId: String) {
             self.clientToken = clientToken
             self.lifecycleExecutionId = lifecycleExecutionId
@@ -477,6 +484,7 @@ extension Imagebuilder {
         /// The unique identifier for the image lifecycle runtime instance that was canceled.
         public let lifecycleExecutionId: String?
 
+        @inlinable
         public init(lifecycleExecutionId: String? = nil) {
             self.lifecycleExecutionId = lifecycleExecutionId
         }
@@ -532,6 +540,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, obfuscate: Bool? = nil, owner: String? = nil, parameters: [ComponentParameterDetail]? = nil, platform: Platform? = nil, publisher: String? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
@@ -582,6 +591,7 @@ extension Imagebuilder {
         /// 			recipe.
         public let parameters: [ComponentParameter]?
 
+        @inlinable
         public init(componentArn: String, parameters: [ComponentParameter]? = nil) {
             self.componentArn = componentArn
             self.parameters = parameters
@@ -607,6 +617,7 @@ extension Imagebuilder {
         /// Sets the value for the named component parameter.
         public let value: [String]
 
+        @inlinable
         public init(name: String, value: [String]) {
             self.name = name
             self.value = value
@@ -638,6 +649,7 @@ extension Imagebuilder {
         /// 			"string".
         public let type: String
 
+        @inlinable
         public init(defaultValue: [String]? = nil, description: String? = nil, name: String, type: String) {
             self.defaultValue = defaultValue
             self.description = description
@@ -659,6 +671,7 @@ extension Imagebuilder {
         /// The current state of the component.
         public let status: ComponentStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: ComponentStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -705,6 +718,7 @@ extension Imagebuilder {
         /// The version of the component.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, obfuscate: Bool? = nil, owner: String? = nil, platform: Platform? = nil, publisher: String? = nil, state: ComponentState? = nil, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
@@ -773,6 +787,7 @@ extension Imagebuilder {
         /// 	wildcards.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, platform: Platform? = nil, supportedOsVersions: [String]? = nil, type: ComponentType? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -805,6 +820,7 @@ extension Imagebuilder {
         /// 			the container.
         public let region: String?
 
+        @inlinable
         public init(imageUris: [String]? = nil, region: String? = nil) {
             self.imageUris = imageUris
             self.region = region
@@ -824,6 +840,7 @@ extension Imagebuilder {
         /// The destination repository for the container distribution configuration.
         public let targetRepository: TargetContainerRepository
 
+        @inlinable
         public init(containerTags: [String]? = nil, description: String? = nil, targetRepository: TargetContainerRepository) {
             self.containerTags = containerTags
             self.description = description
@@ -900,6 +917,7 @@ extension Imagebuilder {
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
 
+        @inlinable
         public init(arn: String? = nil, components: [ComponentConfiguration]? = nil, containerType: ContainerType? = nil, dateCreated: String? = nil, description: String? = nil, dockerfileTemplateData: String? = nil, encrypted: Bool? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, targetRepository: TargetContainerRepository? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.arn = arn
             self.components = components
@@ -959,6 +977,7 @@ extension Imagebuilder {
         /// Tags that are attached to the container recipe.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, containerType: ContainerType? = nil, dateCreated: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.containerType = containerType
@@ -1022,6 +1041,7 @@ extension Imagebuilder {
         /// 				data property. You cannot specify both properties.
         public let uri: String?
 
+        @inlinable
         public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
@@ -1088,6 +1108,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, componentBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.componentBuildVersionArn = componentBuildVersionArn
@@ -1145,6 +1166,7 @@ extension Imagebuilder {
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
 
+        @inlinable
         public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String? = nil, dockerfileTemplateUri: String? = nil, imageOsVersionOverride: String? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
             self.clientToken = clientToken
             self.components = components
@@ -1227,6 +1249,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, containerRecipeArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
@@ -1252,6 +1275,7 @@ extension Imagebuilder {
         /// The tags of the distribution configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributions: [Distribution], name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1297,6 +1321,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, distributionConfigurationArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.distributionConfigurationArn = distributionConfigurationArn
@@ -1349,6 +1374,7 @@ extension Imagebuilder {
         /// Contains an array of workflow configuration objects.
         public let workflows: [WorkflowConfiguration]?
 
+        @inlinable
         public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
@@ -1424,6 +1450,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imagePipelineArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imagePipelineArn = imagePipelineArn
@@ -1470,6 +1497,7 @@ extension Imagebuilder {
         /// The working directory used during build and test workflows.
         public let workingDirectory: String?
 
+        @inlinable
         public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.blockDeviceMappings = blockDeviceMappings
@@ -1535,6 +1563,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imageRecipeArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageRecipeArn = imageRecipeArn
@@ -1579,6 +1608,7 @@ extension Imagebuilder {
         /// Contains an array of workflow configuration objects.
         public let workflows: [WorkflowConfiguration]?
 
+        @inlinable
         public init(clientToken: String = CreateImageRequest.idempotencyToken(), containerRecipeArn: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
@@ -1641,6 +1671,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -1695,6 +1726,7 @@ extension Imagebuilder {
         /// 			test phase of your workflow fails.
         public let terminateInstanceOnFailure: Bool?
 
+        @inlinable
         public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1777,6 +1809,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -1811,6 +1844,7 @@ extension Imagebuilder {
         /// Tags to apply to the lifecycle policy resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String = CreateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, executionRole: String, name: String, policyDetails: [LifecyclePolicyDetail], resourceSelection: LifecyclePolicyResourceSelection, resourceType: LifecyclePolicyResourceType, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -1867,6 +1901,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the lifecycle policy that the request created.
         public let lifecyclePolicyArn: String?
 
+        @inlinable
         public init(clientToken: String? = nil, lifecyclePolicyArn: String? = nil) {
             self.clientToken = clientToken
             self.lifecyclePolicyArn = lifecyclePolicyArn
@@ -1914,6 +1949,7 @@ extension Imagebuilder {
         /// 			data property. You cannot specify both properties.
         public let uri: String?
 
+        @inlinable
         public init(changeDescription: String? = nil, clientToken: String = CreateWorkflowRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, semanticVersion: String, tags: [String: String]? = nil, type: WorkflowType, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
@@ -1971,6 +2007,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
         public let workflowBuildVersionArn: String?
 
+        @inlinable
         public init(clientToken: String? = nil, workflowBuildVersionArn: String? = nil) {
             self.clientToken = clientToken
             self.workflowBuildVersionArn = workflowBuildVersionArn
@@ -1992,6 +2029,7 @@ extension Imagebuilder {
         /// The CVSS version that generated the score.
         public let version: String?
 
+        @inlinable
         public init(baseScore: Double? = nil, scoringVector: String? = nil, source: String? = nil, version: String? = nil) {
             self.baseScore = baseScore
             self.scoringVector = scoringVector
@@ -2013,6 +2051,7 @@ extension Imagebuilder {
         /// The reason for the CVSS score adjustment.
         public let reason: String?
 
+        @inlinable
         public init(metric: String? = nil, reason: String? = nil) {
             self.metric = metric
             self.reason = reason
@@ -2039,6 +2078,7 @@ extension Imagebuilder {
         /// The CVSS version that generated the score.
         public let version: String?
 
+        @inlinable
         public init(adjustments: [CvssScoreAdjustment]? = nil, cvssSource: String? = nil, score: Double? = nil, scoreSource: String? = nil, scoringVector: String? = nil, version: String? = nil) {
             self.adjustments = adjustments
             self.cvssSource = cvssSource
@@ -2062,6 +2102,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the component build version to delete.
         public let componentBuildVersionArn: String
 
+        @inlinable
         public init(componentBuildVersionArn: String) {
             self.componentBuildVersionArn = componentBuildVersionArn
         }
@@ -2085,6 +2126,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(componentBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.componentBuildVersionArn = componentBuildVersionArn
             self.requestId = requestId
@@ -2100,6 +2142,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the container recipe to delete.
         public let containerRecipeArn: String
 
+        @inlinable
         public init(containerRecipeArn: String) {
             self.containerRecipeArn = containerRecipeArn
         }
@@ -2123,6 +2166,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(containerRecipeArn: String? = nil, requestId: String? = nil) {
             self.containerRecipeArn = containerRecipeArn
             self.requestId = requestId
@@ -2138,6 +2182,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the distribution configuration to delete.
         public let distributionConfigurationArn: String
 
+        @inlinable
         public init(distributionConfigurationArn: String) {
             self.distributionConfigurationArn = distributionConfigurationArn
         }
@@ -2162,6 +2207,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(distributionConfigurationArn: String? = nil, requestId: String? = nil) {
             self.distributionConfigurationArn = distributionConfigurationArn
             self.requestId = requestId
@@ -2177,6 +2223,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image pipeline to delete.
         public let imagePipelineArn: String
 
+        @inlinable
         public init(imagePipelineArn: String) {
             self.imagePipelineArn = imagePipelineArn
         }
@@ -2200,6 +2247,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imagePipelineArn: String? = nil, requestId: String? = nil) {
             self.imagePipelineArn = imagePipelineArn
             self.requestId = requestId
@@ -2215,6 +2263,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image recipe to delete.
         public let imageRecipeArn: String
 
+        @inlinable
         public init(imageRecipeArn: String) {
             self.imageRecipeArn = imageRecipeArn
         }
@@ -2238,6 +2287,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageRecipeArn: String? = nil, requestId: String? = nil) {
             self.imageRecipeArn = imageRecipeArn
             self.requestId = requestId
@@ -2253,6 +2303,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the Image Builder image resource to delete.
         public let imageBuildVersionArn: String
 
+        @inlinable
         public init(imageBuildVersionArn: String) {
             self.imageBuildVersionArn = imageBuildVersionArn
         }
@@ -2276,6 +2327,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.requestId = requestId
@@ -2291,6 +2343,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete.
         public let infrastructureConfigurationArn: String
 
+        @inlinable
         public init(infrastructureConfigurationArn: String) {
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
         }
@@ -2315,6 +2368,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.requestId = requestId
@@ -2330,6 +2384,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the lifecycle policy resource to delete.
         public let lifecyclePolicyArn: String
 
+        @inlinable
         public init(lifecyclePolicyArn: String) {
             self.lifecyclePolicyArn = lifecyclePolicyArn
         }
@@ -2352,6 +2407,7 @@ extension Imagebuilder {
         /// The ARN of the lifecycle policy that was deleted.
         public let lifecyclePolicyArn: String?
 
+        @inlinable
         public init(lifecyclePolicyArn: String? = nil) {
             self.lifecyclePolicyArn = lifecyclePolicyArn
         }
@@ -2365,6 +2421,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the workflow resource to delete.
         public let workflowBuildVersionArn: String
 
+        @inlinable
         public init(workflowBuildVersionArn: String) {
             self.workflowBuildVersionArn = workflowBuildVersionArn
         }
@@ -2387,6 +2444,7 @@ extension Imagebuilder {
         /// The ARN of the workflow resource that this request deleted.
         public let workflowBuildVersionArn: String?
 
+        @inlinable
         public init(workflowBuildVersionArn: String? = nil) {
             self.workflowBuildVersionArn = workflowBuildVersionArn
         }
@@ -2416,6 +2474,7 @@ extension Imagebuilder {
         /// 			a file format that is compatible with your VMs in that Region.
         public let s3ExportConfiguration: S3ExportConfiguration?
 
+        @inlinable
         public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, fastLaunchConfigurations: [FastLaunchConfiguration]? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String, s3ExportConfiguration: S3ExportConfiguration? = nil) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
@@ -2479,6 +2538,7 @@ extension Imagebuilder {
         /// The maximum duration in minutes for this distribution configuration.
         public let timeoutMinutes: Int
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributions: [Distribution]? = nil, name: String? = nil, tags: [String: String]? = nil, timeoutMinutes: Int) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -2518,6 +2578,7 @@ extension Imagebuilder {
         /// The tags associated with the distribution configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, name: String? = nil, regions: [String]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -2558,6 +2619,7 @@ extension Imagebuilder {
         /// Use to override the device's volume type.
         public let volumeType: EbsVolumeType?
 
+        @inlinable
         public init(deleteOnTermination: Bool? = nil, encrypted: Bool? = nil, iops: Int? = nil, kmsKeyId: String? = nil, snapshotId: String? = nil, throughput: Int? = nil, volumeSize: Int? = nil, volumeType: EbsVolumeType? = nil) {
             self.deleteOnTermination = deleteOnTermination
             self.encrypted = encrypted
@@ -2605,6 +2667,7 @@ extension Imagebuilder {
         /// 			output container images.
         public let repositoryName: String?
 
+        @inlinable
         public init(containerTags: [String]? = nil, repositoryName: String? = nil) {
             self.containerTags = containerTags
             self.repositoryName = repositoryName
@@ -2642,6 +2705,7 @@ extension Imagebuilder {
         /// 			pre-provisioned instances for the Windows AMI when faster launching is enabled.
         public let snapshotConfiguration: FastLaunchSnapshotConfiguration?
 
+        @inlinable
         public init(accountId: String? = nil, enabled: Bool, launchTemplate: FastLaunchLaunchTemplateSpecification? = nil, maxParallelLaunches: Int? = nil, snapshotConfiguration: FastLaunchSnapshotConfiguration? = nil) {
             self.accountId = accountId
             self.enabled = enabled
@@ -2675,6 +2739,7 @@ extension Imagebuilder {
         /// 			AMI.
         public let launchTemplateVersion: String?
 
+        @inlinable
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, launchTemplateVersion: String? = nil) {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
@@ -2701,6 +2766,7 @@ extension Imagebuilder {
         /// 			Windows AMI.
         public let targetResourceCount: Int?
 
+        @inlinable
         public init(targetResourceCount: Int? = nil) {
             self.targetResourceCount = targetResourceCount
         }
@@ -2721,6 +2787,7 @@ extension Imagebuilder {
         /// The filter values. Filter values are case-sensitive.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -2746,6 +2813,7 @@ extension Imagebuilder {
         /// 			retrieve.
         public let componentArn: String
 
+        @inlinable
         public init(componentArn: String) {
             self.componentArn = componentArn
         }
@@ -2769,6 +2837,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(policy: String? = nil, requestId: String? = nil) {
             self.policy = policy
             self.requestId = requestId
@@ -2785,6 +2854,7 @@ extension Imagebuilder {
         /// 			the suffix /\d+$.
         public let componentBuildVersionArn: String
 
+        @inlinable
         public init(componentBuildVersionArn: String) {
             self.componentBuildVersionArn = componentBuildVersionArn
         }
@@ -2808,6 +2878,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(component: Component? = nil, requestId: String? = nil) {
             self.component = component
             self.requestId = requestId
@@ -2824,6 +2895,7 @@ extension Imagebuilder {
         /// 			requested.
         public let containerRecipeArn: String
 
+        @inlinable
         public init(containerRecipeArn: String) {
             self.containerRecipeArn = containerRecipeArn
         }
@@ -2847,6 +2919,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(policy: String? = nil, requestId: String? = nil) {
             self.policy = policy
             self.requestId = requestId
@@ -2862,6 +2935,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the container recipe to retrieve.
         public let containerRecipeArn: String
 
+        @inlinable
         public init(containerRecipeArn: String) {
             self.containerRecipeArn = containerRecipeArn
         }
@@ -2885,6 +2959,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(containerRecipe: ContainerRecipe? = nil, requestId: String? = nil) {
             self.containerRecipe = containerRecipe
             self.requestId = requestId
@@ -2901,6 +2976,7 @@ extension Imagebuilder {
         /// 			retrieve.
         public let distributionConfigurationArn: String
 
+        @inlinable
         public init(distributionConfigurationArn: String) {
             self.distributionConfigurationArn = distributionConfigurationArn
         }
@@ -2924,6 +3000,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(distributionConfiguration: DistributionConfiguration? = nil, requestId: String? = nil) {
             self.distributionConfiguration = distributionConfiguration
             self.requestId = requestId
@@ -2939,6 +3016,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve.
         public let imagePipelineArn: String
 
+        @inlinable
         public init(imagePipelineArn: String) {
             self.imagePipelineArn = imagePipelineArn
         }
@@ -2962,6 +3040,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imagePipeline: ImagePipeline? = nil, requestId: String? = nil) {
             self.imagePipeline = imagePipeline
             self.requestId = requestId
@@ -2977,6 +3056,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve.
         public let imageArn: String
 
+        @inlinable
         public init(imageArn: String) {
             self.imageArn = imageArn
         }
@@ -3000,6 +3080,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(policy: String? = nil, requestId: String? = nil) {
             self.policy = policy
             self.requestId = requestId
@@ -3016,6 +3097,7 @@ extension Imagebuilder {
         /// 			retrieve.
         public let imageRecipeArn: String
 
+        @inlinable
         public init(imageRecipeArn: String) {
             self.imageRecipeArn = imageRecipeArn
         }
@@ -3039,6 +3121,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(policy: String? = nil, requestId: String? = nil) {
             self.policy = policy
             self.requestId = requestId
@@ -3054,6 +3137,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
         public let imageRecipeArn: String
 
+        @inlinable
         public init(imageRecipeArn: String) {
             self.imageRecipeArn = imageRecipeArn
         }
@@ -3077,6 +3161,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageRecipe: ImageRecipe? = nil, requestId: String? = nil) {
             self.imageRecipe = imageRecipe
             self.requestId = requestId
@@ -3092,6 +3177,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image that you want to get.
         public let imageBuildVersionArn: String
 
+        @inlinable
         public init(imageBuildVersionArn: String) {
             self.imageBuildVersionArn = imageBuildVersionArn
         }
@@ -3115,6 +3201,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(image: Image? = nil, requestId: String? = nil) {
             self.image = image
             self.requestId = requestId
@@ -3131,6 +3218,7 @@ extension Imagebuilder {
         /// 			retrieve.
         public let infrastructureConfigurationArn: String
 
+        @inlinable
         public init(infrastructureConfigurationArn: String) {
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
         }
@@ -3154,6 +3242,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(infrastructureConfiguration: InfrastructureConfiguration? = nil, requestId: String? = nil) {
             self.infrastructureConfiguration = infrastructureConfiguration
             self.requestId = requestId
@@ -3169,6 +3258,7 @@ extension Imagebuilder {
         /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
         public let lifecycleExecutionId: String
 
+        @inlinable
         public init(lifecycleExecutionId: String) {
             self.lifecycleExecutionId = lifecycleExecutionId
         }
@@ -3190,6 +3280,7 @@ extension Imagebuilder {
         /// Runtime details for the specified runtime instance of the lifecycle policy.
         public let lifecycleExecution: LifecycleExecution?
 
+        @inlinable
         public init(lifecycleExecution: LifecycleExecution? = nil) {
             self.lifecycleExecution = lifecycleExecution
         }
@@ -3203,6 +3294,7 @@ extension Imagebuilder {
         /// Specifies the Amazon Resource Name (ARN) of the image lifecycle policy resource to get.
         public let lifecyclePolicyArn: String
 
+        @inlinable
         public init(lifecyclePolicyArn: String) {
             self.lifecyclePolicyArn = lifecyclePolicyArn
         }
@@ -3225,6 +3317,7 @@ extension Imagebuilder {
         /// The ARN of the image lifecycle policy resource that was returned.
         public let lifecyclePolicy: LifecyclePolicy?
 
+        @inlinable
         public init(lifecyclePolicy: LifecyclePolicy? = nil) {
             self.lifecyclePolicy = lifecyclePolicy
         }
@@ -3239,6 +3332,7 @@ extension Imagebuilder {
         /// 			runtime details.
         public let workflowExecutionId: String
 
+        @inlinable
         public init(workflowExecutionId: String) {
             self.workflowExecutionId = workflowExecutionId
         }
@@ -3295,6 +3389,7 @@ extension Imagebuilder {
         /// 			when it ran the workflow.
         public let workflowExecutionId: String?
 
+        @inlinable
         public init(endTime: String? = nil, imageBuildVersionArn: String? = nil, message: String? = nil, parallelGroup: String? = nil, requestId: String? = nil, startTime: String? = nil, status: WorkflowExecutionStatus? = nil, totalStepCount: Int? = nil, totalStepsFailed: Int? = nil, totalStepsSkipped: Int? = nil, totalStepsSucceeded: Int? = nil, type: WorkflowType? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.endTime = endTime
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -3334,6 +3429,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the workflow resource that you want to get.
         public let workflowBuildVersionArn: String
 
+        @inlinable
         public init(workflowBuildVersionArn: String) {
             self.workflowBuildVersionArn = workflowBuildVersionArn
         }
@@ -3355,6 +3451,7 @@ extension Imagebuilder {
         /// The workflow resource specified in the request.
         public let workflow: Workflow?
 
+        @inlinable
         public init(workflow: Workflow? = nil) {
             self.workflow = workflow
         }
@@ -3369,6 +3466,7 @@ extension Imagebuilder {
         /// 			get runtime details for that step.
         public let stepExecutionId: String
 
+        @inlinable
         public init(stepExecutionId: String) {
             self.stepExecutionId = stepExecutionId
         }
@@ -3428,6 +3526,7 @@ extension Imagebuilder {
         /// 			when it ran the workflow.
         public let workflowExecutionId: String?
 
+        @inlinable
         public init(action: String? = nil, description: String? = nil, endTime: String? = nil, imageBuildVersionArn: String? = nil, inputs: String? = nil, message: String? = nil, name: String? = nil, onFailure: String? = nil, outputs: String? = nil, requestId: String? = nil, rollbackStatus: WorkflowStepExecutionRollbackStatus? = nil, startTime: String? = nil, status: WorkflowStepExecutionStatus? = nil, stepExecutionId: String? = nil, timeoutSeconds: Int? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.action = action
             self.description = description
@@ -3542,6 +3641,7 @@ extension Imagebuilder {
         /// Contains the build and test workflows that are associated with the image.
         public let workflows: [WorkflowConfiguration]?
 
+        @inlinable
         public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipe: ImageRecipe? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageSource: ImageSource? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, lifecycleExecutionId: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, scanState: ImageScanState? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.arn = arn
             self.buildType = buildType
@@ -3608,6 +3708,7 @@ extension Imagebuilder {
         /// 			for all of the findings for the specified image.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(imageBuildVersionArn: String? = nil, severityCounts: SeverityCounts? = nil) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.severityCounts = severityCounts
@@ -3625,6 +3726,7 @@ extension Imagebuilder {
         /// The version of the package as reported to the operating system package manager.
         public let packageVersion: String?
 
+        @inlinable
         public init(packageName: String? = nil, packageVersion: String? = nil) {
             self.packageName = packageName
             self.packageVersion = packageVersion
@@ -3685,6 +3787,7 @@ extension Imagebuilder {
         /// Contains the workflows that run for the image pipeline.
         public let workflows: [WorkflowConfiguration]?
 
+        @inlinable
         public init(arn: String? = nil, containerRecipeArn: String? = nil, dateCreated: String? = nil, dateLastRun: String? = nil, dateNextRun: String? = nil, dateUpdated: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String? = nil, name: String? = nil, platform: Platform? = nil, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.arn = arn
             self.containerRecipeArn = containerRecipeArn
@@ -3740,6 +3843,7 @@ extension Imagebuilder {
         /// 			for all of the findings for the specified image pipeline.
         public let severityCounts: SeverityCounts?
 
+        @inlinable
         public init(imagePipelineArn: String? = nil, severityCounts: SeverityCounts? = nil) {
             self.imagePipelineArn = imagePipelineArn
             self.severityCounts = severityCounts
@@ -3786,6 +3890,7 @@ extension Imagebuilder {
         /// The working directory to be used during build and test workflows.
         public let workingDirectory: String?
 
+        @inlinable
         public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, arn: String? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, components: [ComponentConfiguration]? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.arn = arn
@@ -3837,6 +3942,7 @@ extension Imagebuilder {
         /// The tags of the image recipe.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, owner: String? = nil, parentImage: String? = nil, platform: Platform? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -3893,6 +3999,7 @@ extension Imagebuilder {
         /// The timestamp when the finding was last updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(awsAccountId: String? = nil, description: String? = nil, firstObservedAt: Date? = nil, fixAvailable: String? = nil, imageBuildVersionArn: String? = nil, imagePipelineArn: String? = nil, inspectorScore: Double? = nil, inspectorScoreDetails: InspectorScoreDetails? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation? = nil, severity: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.description = description
@@ -3939,6 +4046,7 @@ extension Imagebuilder {
         /// Returns an object that contains severity counts based on vulnerability ID.
         public let vulnerabilityIdAggregation: VulnerabilityIdAggregation?
 
+        @inlinable
         public init(accountAggregation: AccountAggregation? = nil, imageAggregation: ImageAggregation? = nil, imagePipelineAggregation: ImagePipelineAggregation? = nil, vulnerabilityIdAggregation: VulnerabilityIdAggregation? = nil) {
             self.accountAggregation = accountAggregation
             self.imageAggregation = imageAggregation
@@ -3960,6 +4068,7 @@ extension Imagebuilder {
         /// The filter values. Filter values are case-sensitive.
         public let values: [String]?
 
+        @inlinable
         public init(name: String? = nil, values: [String]? = nil) {
             self.name = name
             self.values = values
@@ -3986,6 +4095,7 @@ extension Imagebuilder {
         /// The current state of vulnerability scans for the image.
         public let status: ImageScanStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: ImageScanStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -4004,6 +4114,7 @@ extension Imagebuilder {
         /// 			Amazon Inspector runs against the build instance when you create a new image.
         public let imageScanningEnabled: Bool?
 
+        @inlinable
         public init(ecrConfiguration: EcrConfiguration? = nil, imageScanningEnabled: Bool? = nil) {
             self.ecrConfiguration = ecrConfiguration
             self.imageScanningEnabled = imageScanningEnabled
@@ -4025,6 +4136,7 @@ extension Imagebuilder {
         /// The status of the image.
         public let status: ImageStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: ImageStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -4073,6 +4185,7 @@ extension Imagebuilder {
         /// The version of the image.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, deprecationTime: Date? = nil, imageSource: ImageSource? = nil, lifecycleExecutionId: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
@@ -4118,6 +4231,7 @@ extension Imagebuilder {
         /// 				ignored.
         public let timeoutMinutes: Int?
 
+        @inlinable
         public init(imageTestsEnabled: Bool? = nil, timeoutMinutes: Int? = nil) {
             self.imageTestsEnabled = imageTestsEnabled
             self.timeoutMinutes = timeoutMinutes
@@ -4173,6 +4287,7 @@ extension Imagebuilder {
         /// 	wildcards.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, imageSource: ImageSource? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
             self.buildType = buildType
@@ -4238,6 +4353,7 @@ extension Imagebuilder {
         /// 			data within the component.
         public let uri: String?
 
+        @inlinable
         public init(changeDescription: String? = nil, clientToken: String = ImportComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, format: ComponentFormat, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, type: ComponentType, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
@@ -4300,6 +4416,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, componentBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.componentBuildVersionArn = componentBuildVersionArn
@@ -4339,6 +4456,7 @@ extension Imagebuilder {
         /// 			the AMI that is created from the VM source as the base image for your recipe.
         public let vmImportTaskId: String
 
+        @inlinable
         public init(clientToken: String = ImportVmImageRequest.idempotencyToken(), description: String? = nil, name: String, osVersion: String? = nil, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, vmImportTaskId: String) {
             self.clientToken = clientToken
             self.description = description
@@ -4392,6 +4510,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imageArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageArn = imageArn
@@ -4443,6 +4562,7 @@ extension Imagebuilder {
         /// 			configuration.
         public let terminateInstanceOnFailure: Bool?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -4502,6 +4622,7 @@ extension Imagebuilder {
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, name: String? = nil, resourceTags: [String: String]? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -4532,6 +4653,7 @@ extension Imagebuilder {
         /// 			for the finding.
         public let adjustedCvss: CvssScoreDetails?
 
+        @inlinable
         public init(adjustedCvss: CvssScoreDetails? = nil) {
             self.adjustedCvss = adjustedCvss
         }
@@ -4551,6 +4673,7 @@ extension Imagebuilder {
         /// Use to manage instance ephemeral devices.
         public let virtualName: String?
 
+        @inlinable
         public init(deviceName: String? = nil, ebs: EbsInstanceBlockDeviceSpecification? = nil, noDevice: String? = nil, virtualName: String? = nil) {
             self.deviceName = deviceName
             self.ebs = ebs
@@ -4583,6 +4706,7 @@ extension Imagebuilder {
         /// 			specified, Image Builder will use the appropriate ECS-optimized AMI as a base image.
         public let image: String?
 
+        @inlinable
         public init(blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, image: String? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.image = image
@@ -4615,6 +4739,7 @@ extension Imagebuilder {
         /// 					Otherwise, version 1.0 credentials are returned.   The default setting is optional.
         public let httpTokens: String?
 
+        @inlinable
         public init(httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil) {
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
@@ -4646,6 +4771,7 @@ extension Imagebuilder {
         /// The Amazon Web Services account ID.
         public let userIds: [String]?
 
+        @inlinable
         public init(organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil) {
             self.organizationalUnitArns = organizationalUnitArns
             self.organizationArns = organizationArns
@@ -4692,6 +4818,7 @@ extension Imagebuilder {
         /// 			specified account.
         public let setDefaultVersion: Bool?
 
+        @inlinable
         public init(accountId: String? = nil, launchTemplateId: String, setDefaultVersion: Bool? = nil) {
             self.accountId = accountId
             self.launchTemplateId = launchTemplateId
@@ -4726,6 +4853,7 @@ extension Imagebuilder {
         /// 			failed, or was skipped.
         public let state: LifecycleExecutionState?
 
+        @inlinable
         public init(endTime: Date? = nil, lifecycleExecutionId: String? = nil, lifecyclePolicyArn: String? = nil, resourcesImpactedSummary: LifecycleExecutionResourcesImpactedSummary? = nil, startTime: Date? = nil, state: LifecycleExecutionState? = nil) {
             self.endTime = endTime
             self.lifecycleExecutionId = lifecycleExecutionId
@@ -4768,6 +4896,7 @@ extension Imagebuilder {
         /// The runtime state for the lifecycle execution.
         public let state: LifecycleExecutionResourceState?
 
+        @inlinable
         public init(accountId: String? = nil, action: LifecycleExecutionResourceAction? = nil, endTime: Date? = nil, imageUris: [String]? = nil, region: String? = nil, resourceId: String? = nil, snapshots: [LifecycleExecutionSnapshotResource]? = nil, startTime: Date? = nil, state: LifecycleExecutionResourceState? = nil) {
             self.accountId = accountId
             self.action = action
@@ -4799,6 +4928,7 @@ extension Imagebuilder {
         /// The reason why the lifecycle policy action is taken.
         public let reason: String?
 
+        @inlinable
         public init(name: LifecycleExecutionResourceActionName? = nil, reason: String? = nil) {
             self.name = name
             self.reason = reason
@@ -4817,6 +4947,7 @@ extension Imagebuilder {
         /// 			impacted resource.
         public let status: LifecycleExecutionResourceStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: LifecycleExecutionResourceStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -4833,6 +4964,7 @@ extension Imagebuilder {
         /// 			associated resources that are also impacted.
         public let hasImpactedResources: Bool?
 
+        @inlinable
         public init(hasImpactedResources: Bool? = nil) {
             self.hasImpactedResources = hasImpactedResources
         }
@@ -4848,6 +4980,7 @@ extension Imagebuilder {
         /// The runtime status of the lifecycle action taken for the snapshot.
         public let state: LifecycleExecutionResourceState?
 
+        @inlinable
         public init(snapshotId: String? = nil, state: LifecycleExecutionResourceState? = nil) {
             self.snapshotId = snapshotId
             self.state = state
@@ -4865,6 +4998,7 @@ extension Imagebuilder {
         /// The runtime status of the lifecycle execution.
         public let status: LifecycleExecutionStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: LifecycleExecutionStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -4905,6 +5039,7 @@ extension Imagebuilder {
         /// 			an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: Date? = nil, dateLastRun: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, executionRole: String? = nil, name: String? = nil, policyDetails: [LifecyclePolicyDetail]? = nil, resourceSelection: LifecyclePolicyResourceSelection? = nil, resourceType: LifecyclePolicyResourceType? = nil, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -4944,6 +5079,7 @@ extension Imagebuilder {
         /// Specifies the resources that the lifecycle policy applies to.
         public let filter: LifecyclePolicyDetailFilter
 
+        @inlinable
         public init(action: LifecyclePolicyDetailAction, exclusionRules: LifecyclePolicyDetailExclusionRules? = nil, filter: LifecyclePolicyDetailFilter) {
             self.action = action
             self.exclusionRules = exclusionRules
@@ -4968,6 +5104,7 @@ extension Imagebuilder {
         /// Specifies the lifecycle action to take.
         public let type: LifecyclePolicyDetailActionType
 
+        @inlinable
         public init(includeResources: LifecyclePolicyDetailActionIncludeResources? = nil, type: LifecyclePolicyDetailActionType) {
             self.includeResources = includeResources
             self.type = type
@@ -4987,6 +5124,7 @@ extension Imagebuilder {
         /// Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs.
         public let snapshots: Bool?
 
+        @inlinable
         public init(amis: Bool? = nil, containers: Bool? = nil, snapshots: Bool? = nil) {
             self.amis = amis
             self.containers = containers
@@ -5008,6 +5146,7 @@ extension Imagebuilder {
         /// 			resources that have them.
         public let tagMap: [String: String]?
 
+        @inlinable
         public init(amis: LifecyclePolicyDetailExclusionRulesAmis? = nil, tagMap: [String: String]? = nil) {
             self.amis = amis
             self.tagMap = tagMap
@@ -5044,6 +5183,7 @@ extension Imagebuilder {
         /// Lists tags that should be excluded from lifecycle actions for the AMIs that have them.
         public let tagMap: [String: String]?
 
+        @inlinable
         public init(isPublic: Bool? = nil, lastLaunched: LifecyclePolicyDetailExclusionRulesAmisLastLaunched? = nil, regions: [String]? = nil, sharedAccounts: [String]? = nil, tagMap: [String: String]? = nil) {
             self.isPublic = isPublic
             self.lastLaunched = lastLaunched
@@ -5089,6 +5229,7 @@ extension Imagebuilder {
         /// The integer number of units for the time period. For example 6 (months).
         public let value: Int
 
+        @inlinable
         public init(unit: LifecyclePolicyTimeUnit, value: Int) {
             self.unit = unit
             self.value = value
@@ -5122,6 +5263,7 @@ extension Imagebuilder {
         /// 				excluded from lifecycle actions.
         public let value: Int
 
+        @inlinable
         public init(retainAtLeast: Int? = nil, type: LifecyclePolicyDetailFilterType, unit: LifecyclePolicyTimeUnit? = nil, value: Int) {
             self.retainAtLeast = retainAtLeast
             self.type = type
@@ -5152,6 +5294,7 @@ extension Imagebuilder {
         /// 			resources that the lifecycle policy applies to.
         public let tagMap: [String: String]?
 
+        @inlinable
         public init(recipes: [LifecyclePolicyResourceSelectionRecipe]? = nil, tagMap: [String: String]? = nil) {
             self.recipes = recipes
             self.tagMap = tagMap
@@ -5185,6 +5328,7 @@ extension Imagebuilder {
         /// The version of the Image Builder recipe specified by the name field.
         public let semanticVersion: String
 
+        @inlinable
         public init(name: String, semanticVersion: String) {
             self.name = name
             self.semanticVersion = semanticVersion
@@ -5225,6 +5369,7 @@ extension Imagebuilder {
         /// 			an optional value, both of which you define.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: Date? = nil, dateLastRun: Date? = nil, dateUpdated: Date? = nil, description: String? = nil, executionRole: String? = nil, name: String? = nil, resourceType: LifecyclePolicyResourceType? = nil, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
@@ -5262,6 +5407,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(componentVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.componentVersionArn = componentVersionArn
             self.maxResults = maxResults
@@ -5293,6 +5439,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(componentSummaryList: [ComponentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.componentSummaryList = componentSummaryList
             self.nextToken = nextToken
@@ -5322,6 +5469,7 @@ extension Imagebuilder {
         /// 			components that other accounts have shared with you.
         public let owner: Ownership?
 
+        @inlinable
         public init(byName: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
             self.byName = byName
             self.filters = filters
@@ -5362,6 +5510,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(componentVersionList: [ComponentVersion]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.componentVersionList = componentVersionList
             self.nextToken = nextToken
@@ -5388,6 +5537,7 @@ extension Imagebuilder {
         /// 			account.
         public let owner: Ownership?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5425,6 +5575,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(containerRecipeSummaryList: [ContainerRecipeSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.containerRecipeSummaryList = containerRecipeSummaryList
             self.nextToken = nextToken
@@ -5447,6 +5598,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5482,6 +5634,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(distributionConfigurationSummaryList: [DistributionConfigurationSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.distributionConfigurationSummaryList = distributionConfigurationSummaryList
             self.nextToken = nextToken
@@ -5507,6 +5660,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, imageVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.imageVersionArn = imageVersionArn
@@ -5545,6 +5699,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageSummaryList: [ImageSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.imageSummaryList = imageSummaryList
             self.nextToken = nextToken
@@ -5567,6 +5722,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(imageBuildVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.maxResults = maxResults
@@ -5598,6 +5754,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imagePackageList: [ImagePackage]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.imagePackageList = imagePackageList
             self.nextToken = nextToken
@@ -5623,6 +5780,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, imagePipelineArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.imagePipelineArn = imagePipelineArn
@@ -5661,6 +5819,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageSummaryList: [ImageSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.imageSummaryList = imageSummaryList
             self.nextToken = nextToken
@@ -5683,6 +5842,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5718,6 +5878,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imagePipelineList: [ImagePipeline]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.imagePipelineList = imagePipelineList
             self.nextToken = nextToken
@@ -5745,6 +5906,7 @@ extension Imagebuilder {
         /// 			have been shared with you by other customers.
         public let owner: Ownership?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5782,6 +5944,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageRecipeSummaryList: [ImageRecipeSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.imageRecipeSummaryList = imageRecipeSummaryList
             self.nextToken = nextToken
@@ -5801,6 +5964,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filter: Filter? = nil, nextToken: String? = nil) {
             self.filter = filter
             self.nextToken = nextToken
@@ -5833,6 +5997,7 @@ extension Imagebuilder {
         /// An array of image scan finding aggregations that match the filter criteria.
         public let responses: [ImageScanFindingAggregation]?
 
+        @inlinable
         public init(aggregationType: String? = nil, nextToken: String? = nil, requestId: String? = nil, responses: [ImageScanFindingAggregation]? = nil) {
             self.aggregationType = aggregationType
             self.nextToken = nextToken
@@ -5858,6 +6023,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ImageScanFindingsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -5894,6 +6060,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(findings: [ImageScanFinding]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.findings = findings
             self.nextToken = nextToken
@@ -5925,6 +6092,7 @@ extension Imagebuilder {
         /// 			other customers.
         public let owner: Ownership?
 
+        @inlinable
         public init(byName: Bool? = nil, filters: [Filter]? = nil, includeDeprecated: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
             self.byName = byName
             self.filters = filters
@@ -5970,6 +6138,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageVersionList: [ImageVersion]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.imageVersionList = imageVersionList
             self.nextToken = nextToken
@@ -5992,6 +6161,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -6027,6 +6197,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
             self.infrastructureConfigurationSummaryList = infrastructureConfigurationSummaryList
             self.nextToken = nextToken
@@ -6053,6 +6224,7 @@ extension Imagebuilder {
         /// 			AMIs or container images stored in ECR repositories.
         public let parentResourceId: String?
 
+        @inlinable
         public init(lifecycleExecutionId: String, maxResults: Int? = nil, nextToken: String? = nil, parentResourceId: String? = nil) {
             self.lifecycleExecutionId = lifecycleExecutionId
             self.maxResults = maxResults
@@ -6090,6 +6262,7 @@ extension Imagebuilder {
         /// A list of resources that were identified for lifecycle actions.
         public let resources: [LifecycleExecutionResource]?
 
+        @inlinable
         public init(lifecycleExecutionId: String? = nil, lifecycleExecutionState: LifecycleExecutionState? = nil, nextToken: String? = nil, resources: [LifecycleExecutionResource]? = nil) {
             self.lifecycleExecutionId = lifecycleExecutionId
             self.lifecycleExecutionState = lifecycleExecutionState
@@ -6114,6 +6287,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6143,6 +6317,7 @@ extension Imagebuilder {
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
 
+        @inlinable
         public init(lifecycleExecutions: [LifecycleExecution]? = nil, nextToken: String? = nil) {
             self.lifecycleExecutions = lifecycleExecutions
             self.nextToken = nextToken
@@ -6164,6 +6339,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -6198,6 +6374,7 @@ extension Imagebuilder {
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
 
+        @inlinable
         public init(lifecyclePolicySummaryList: [LifecyclePolicySummary]? = nil, nextToken: String? = nil) {
             self.lifecyclePolicySummaryList = lifecyclePolicySummaryList
             self.nextToken = nextToken
@@ -6213,6 +6390,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -6234,6 +6412,7 @@ extension Imagebuilder {
         /// The tags for the specified resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -6250,6 +6429,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6277,6 +6457,7 @@ extension Imagebuilder {
         /// 			Amazon Web Services account.
         public let steps: [WorkflowStepExecution]?
 
+        @inlinable
         public init(nextToken: String? = nil, steps: [WorkflowStepExecution]? = nil) {
             self.nextToken = nextToken
             self.steps = steps
@@ -6297,6 +6478,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
         public let workflowVersionArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workflowVersionArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6327,6 +6509,7 @@ extension Imagebuilder {
         /// 			the workflow resource specified in the request.
         public let workflowSummaryList: [WorkflowSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workflowSummaryList: [WorkflowSummary]? = nil) {
             self.nextToken = nextToken
             self.workflowSummaryList = workflowSummaryList
@@ -6348,6 +6531,7 @@ extension Imagebuilder {
         /// 	from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(imageBuildVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.maxResults = maxResults
@@ -6385,6 +6569,7 @@ extension Imagebuilder {
         /// 			the requested image build version.
         public let workflowExecutions: [WorkflowExecutionMetadata]?
 
+        @inlinable
         public init(imageBuildVersionArn: String? = nil, message: String? = nil, nextToken: String? = nil, requestId: String? = nil, workflowExecutions: [WorkflowExecutionMetadata]? = nil) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.message = message
@@ -6412,6 +6597,7 @@ extension Imagebuilder {
         /// 			when it ran the workflow.
         public let workflowExecutionId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workflowExecutionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -6455,6 +6641,7 @@ extension Imagebuilder {
         /// 			when it ran the workflow.
         public let workflowExecutionId: String?
 
+        @inlinable
         public init(imageBuildVersionArn: String? = nil, message: String? = nil, nextToken: String? = nil, requestId: String? = nil, steps: [WorkflowStepMetadata]? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.imageBuildVersionArn = imageBuildVersionArn
             self.message = message
@@ -6489,6 +6676,7 @@ extension Imagebuilder {
         /// Used to get a list of workflow build version filtered by the identity of the creator.
         public let owner: Ownership?
 
+        @inlinable
         public init(byName: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
             self.byName = byName
             self.filters = filters
@@ -6526,6 +6714,7 @@ extension Imagebuilder {
         /// A list of workflow build versions that match the request criteria.
         public let workflowVersionList: [WorkflowVersion]?
 
+        @inlinable
         public init(nextToken: String? = nil, workflowVersionList: [WorkflowVersion]? = nil) {
             self.nextToken = nextToken
             self.workflowVersionList = workflowVersionList
@@ -6541,6 +6730,7 @@ extension Imagebuilder {
         /// The Amazon S3 logging configuration.
         public let s3Logs: S3Logs?
 
+        @inlinable
         public init(s3Logs: S3Logs? = nil) {
             self.s3Logs = s3Logs
         }
@@ -6561,6 +6751,7 @@ extension Imagebuilder {
         /// 			repository.
         public let containers: [Container]?
 
+        @inlinable
         public init(amis: [Ami]? = nil, containers: [Container]? = nil) {
             self.amis = amis
             self.containers = containers
@@ -6598,6 +6789,7 @@ extension Imagebuilder {
         /// The packages that this vulnerability impacts.
         public let vulnerablePackages: [VulnerablePackage]?
 
+        @inlinable
         public init(cvss: [CvssScore]? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: String? = nil, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil, vulnerabilityId: String, vulnerablePackages: [VulnerablePackage]? = nil) {
             self.cvss = cvss
             self.referenceUrls = referenceUrls
@@ -6632,6 +6824,7 @@ extension Imagebuilder {
         /// The policy to apply.
         public let policy: String
 
+        @inlinable
         public init(componentArn: String, policy: String) {
             self.componentArn = componentArn
             self.policy = policy
@@ -6656,6 +6849,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(componentArn: String? = nil, requestId: String? = nil) {
             self.componentArn = componentArn
             self.requestId = requestId
@@ -6674,6 +6868,7 @@ extension Imagebuilder {
         /// The policy to apply to the container recipe.
         public let policy: String
 
+        @inlinable
         public init(containerRecipeArn: String, policy: String) {
             self.containerRecipeArn = containerRecipeArn
             self.policy = policy
@@ -6698,6 +6893,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(containerRecipeArn: String? = nil, requestId: String? = nil) {
             self.containerRecipeArn = containerRecipeArn
             self.requestId = requestId
@@ -6716,6 +6912,7 @@ extension Imagebuilder {
         /// The policy to apply.
         public let policy: String
 
+        @inlinable
         public init(imageArn: String, policy: String) {
             self.imageArn = imageArn
             self.policy = policy
@@ -6739,6 +6936,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageArn: String? = nil, requestId: String? = nil) {
             self.imageArn = imageArn
             self.requestId = requestId
@@ -6757,6 +6955,7 @@ extension Imagebuilder {
         /// The policy to apply.
         public let policy: String
 
+        @inlinable
         public init(imageRecipeArn: String, policy: String) {
             self.imageRecipeArn = imageRecipeArn
             self.policy = policy
@@ -6781,6 +6980,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(imageRecipeArn: String? = nil, requestId: String? = nil) {
             self.imageRecipeArn = imageRecipeArn
             self.requestId = requestId
@@ -6797,6 +6997,7 @@ extension Imagebuilder {
         /// 			remediate the finding.
         public let recommendation: RemediationRecommendation?
 
+        @inlinable
         public init(recommendation: RemediationRecommendation? = nil) {
             self.recommendation = recommendation
         }
@@ -6813,6 +7014,7 @@ extension Imagebuilder {
         /// 			vulnerability.
         public let url: String?
 
+        @inlinable
         public init(text: String? = nil, url: String? = nil) {
             self.text = text
             self.url = url
@@ -6828,6 +7030,7 @@ extension Imagebuilder {
         /// Shows the current lifecycle policy action that was applied to an impacted resource.
         public let status: ResourceStatus?
 
+        @inlinable
         public init(status: ResourceStatus? = nil) {
             self.status = status
         }
@@ -6840,6 +7043,7 @@ extension Imagebuilder {
     public struct ResourceStateUpdateExclusionRules: AWSEncodableShape {
         public let amis: LifecyclePolicyDetailExclusionRulesAmis?
 
+        @inlinable
         public init(amis: LifecyclePolicyDetailExclusionRulesAmis? = nil) {
             self.amis = amis
         }
@@ -6861,6 +7065,7 @@ extension Imagebuilder {
         /// Specifies whether the lifecycle action should apply to snapshots associated with distributed AMIs.
         public let snapshots: Bool?
 
+        @inlinable
         public init(amis: Bool? = nil, containers: Bool? = nil, snapshots: Bool? = nil) {
             self.amis = amis
             self.containers = containers
@@ -6889,6 +7094,7 @@ extension Imagebuilder {
         /// 			stored.
         public let s3Prefix: String?
 
+        @inlinable
         public init(diskImageFormat: DiskImageFormat, roleName: String, s3Bucket: String, s3Prefix: String? = nil) {
             self.diskImageFormat = diskImageFormat
             self.roleName = roleName
@@ -6919,6 +7125,7 @@ extension Imagebuilder {
         /// The Amazon S3 path to the bucket where the logs are stored.
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(s3BucketName: String? = nil, s3KeyPrefix: String? = nil) {
             self.s3BucketName = s3BucketName
             self.s3KeyPrefix = s3KeyPrefix
@@ -6955,6 +7162,7 @@ extension Imagebuilder {
         /// 			"America/Los_Angeles" in the IANA timezone format. If not specified this defaults to UTC.
         public let timezone: String?
 
+        @inlinable
         public init(pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil, timezone: String? = nil) {
             self.pipelineExecutionStartCondition = pipelineExecutionStartCondition
             self.scheduleExpression = scheduleExpression
@@ -6989,6 +7197,7 @@ extension Imagebuilder {
         /// Uniquely identifies the workflow step that sent the step action.
         public let stepExecutionId: String
 
+        @inlinable
         public init(action: WorkflowStepActionType, clientToken: String = SendWorkflowStepActionRequest.idempotencyToken(), imageBuildVersionArn: String, reason: String? = nil, stepExecutionId: String) {
             self.action = action
             self.clientToken = clientToken
@@ -7024,6 +7233,7 @@ extension Imagebuilder {
         /// The workflow step that sent the step action.
         public let stepExecutionId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, stepExecutionId: String? = nil) {
             self.clientToken = clientToken
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -7047,6 +7257,7 @@ extension Imagebuilder {
         /// The number of medium severity findings for the specified filter.
         public let medium: Int64?
 
+        @inlinable
         public init(all: Int64? = nil, critical: Int64? = nil, high: Int64? = nil, medium: Int64? = nil) {
             self.all = all
             self.critical = critical
@@ -7069,6 +7280,7 @@ extension Imagebuilder {
         /// 			invoke.
         public let imagePipelineArn: String
 
+        @inlinable
         public init(clientToken: String = StartImagePipelineExecutionRequest.idempotencyToken(), imagePipelineArn: String) {
             self.clientToken = clientToken
             self.imagePipelineArn = imagePipelineArn
@@ -7094,6 +7306,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -7125,6 +7338,7 @@ extension Imagebuilder {
         /// The timestamp that indicates when resources are updated by a lifecycle action.
         public let updateAt: Date?
 
+        @inlinable
         public init(clientToken: String = StartResourceStateUpdateRequest.idempotencyToken(), exclusionRules: ResourceStateUpdateExclusionRules? = nil, executionRole: String? = nil, includeResources: ResourceStateUpdateIncludeResources? = nil, resourceArn: String, state: ResourceState, updateAt: Date? = nil) {
             self.clientToken = clientToken
             self.exclusionRules = exclusionRules
@@ -7163,6 +7377,7 @@ extension Imagebuilder {
         /// The requested ARN of the Image Builder resource for the asynchronous update.
         public let resourceArn: String?
 
+        @inlinable
         public init(lifecycleExecutionId: String? = nil, resourceArn: String? = nil) {
             self.lifecycleExecutionId = lifecycleExecutionId
             self.resourceArn = resourceArn
@@ -7181,6 +7396,7 @@ extension Imagebuilder {
         /// 			new AMI. The default value is false.
         public let uninstallAfterBuild: Bool?
 
+        @inlinable
         public init(uninstallAfterBuild: Bool? = nil) {
             self.uninstallAfterBuild = uninstallAfterBuild
         }
@@ -7196,6 +7412,7 @@ extension Imagebuilder {
         /// The tags to apply to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -7236,6 +7453,7 @@ extension Imagebuilder {
         /// Specifies the service in which this image was registered.
         public let service: ContainerRepositoryService
 
+        @inlinable
         public init(repositoryName: String, service: ContainerRepositoryService) {
             self.repositoryName = repositoryName
             self.service = service
@@ -7258,6 +7476,7 @@ extension Imagebuilder {
         /// The tag keys to remove from the resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -7299,6 +7518,7 @@ extension Imagebuilder {
         /// The distributions of the distribution configuration.
         public let distributions: [Distribution]
 
+        @inlinable
         public init(clientToken: String = UpdateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String, distributions: [Distribution]) {
             self.clientToken = clientToken
             self.description = description
@@ -7334,6 +7554,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, distributionConfigurationArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.distributionConfigurationArn = distributionConfigurationArn
@@ -7383,6 +7604,7 @@ extension Imagebuilder {
         /// Contains the workflows to run for the pipeline.
         public let workflows: [WorkflowConfiguration]?
 
+        @inlinable
         public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imagePipelineArn: String, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
@@ -7448,6 +7670,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, imagePipelineArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imagePipelineArn = imagePipelineArn
@@ -7504,6 +7727,7 @@ extension Imagebuilder {
         /// 			test phase of your workflow fails.
         public let terminateInstanceOnFailure: Bool?
 
+        @inlinable
         public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -7576,6 +7800,7 @@ extension Imagebuilder {
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
+        @inlinable
         public init(clientToken: String? = nil, infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -7608,6 +7833,7 @@ extension Imagebuilder {
         /// Indicates whether the lifecycle policy resource is enabled.
         public let status: LifecyclePolicyStatus?
 
+        @inlinable
         public init(clientToken: String = UpdateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, executionRole: String, lifecyclePolicyArn: String, policyDetails: [LifecyclePolicyDetail], resourceSelection: LifecyclePolicyResourceSelection, resourceType: LifecyclePolicyResourceType, status: LifecyclePolicyStatus? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -7653,6 +7879,7 @@ extension Imagebuilder {
         /// The ARN of the image lifecycle policy resource that was updated.
         public let lifecyclePolicyArn: String?
 
+        @inlinable
         public init(lifecyclePolicyArn: String? = nil) {
             self.lifecyclePolicyArn = lifecyclePolicyArn
         }
@@ -7669,6 +7896,7 @@ extension Imagebuilder {
         /// The vulnerability Id for this set of counts.
         public let vulnerabilityId: String?
 
+        @inlinable
         public init(severityCounts: SeverityCounts? = nil, vulnerabilityId: String? = nil) {
             self.severityCounts = severityCounts
             self.vulnerabilityId = vulnerabilityId
@@ -7702,6 +7930,7 @@ extension Imagebuilder {
         /// The version of the vulnerable package.
         public let version: String?
 
+        @inlinable
         public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, remediation: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
             self.arch = arch
             self.epoch = epoch
@@ -7762,6 +7991,7 @@ extension Imagebuilder {
         /// 			To make a change, you can clone a workflow or create a new version.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, changeDescription: String? = nil, data: String? = nil, dateCreated: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String? = nil, owner: String? = nil, parameters: [WorkflowParameterDetail]? = nil, state: WorkflowState? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
@@ -7811,6 +8041,7 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the workflow resource.
         public let workflowArn: String
 
+        @inlinable
         public init(onFailure: OnWorkflowFailure? = nil, parallelGroup: String? = nil, parameters: [WorkflowParameter]? = nil, workflowArn: String) {
             self.onFailure = onFailure
             self.parallelGroup = parallelGroup
@@ -7865,6 +8096,7 @@ extension Imagebuilder {
         /// 			workflow.
         public let workflowExecutionId: String?
 
+        @inlinable
         public init(endTime: String? = nil, message: String? = nil, parallelGroup: String? = nil, startTime: String? = nil, status: WorkflowExecutionStatus? = nil, totalStepCount: Int? = nil, totalStepsFailed: Int? = nil, totalStepsSkipped: Int? = nil, totalStepsSucceeded: Int? = nil, type: WorkflowType? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.endTime = endTime
             self.message = message
@@ -7902,6 +8134,7 @@ extension Imagebuilder {
         /// Sets the value for the named workflow parameter.
         public let value: [String]
 
+        @inlinable
         public init(name: String, value: [String]) {
             self.name = name
             self.value = value
@@ -7933,6 +8166,7 @@ extension Imagebuilder {
         /// 			"string".
         public let type: String
 
+        @inlinable
         public init(defaultValue: [String]? = nil, description: String? = nil, name: String, type: String) {
             self.defaultValue = defaultValue
             self.description = description
@@ -7954,6 +8188,7 @@ extension Imagebuilder {
         /// The current state of the workflow.
         public let status: WorkflowStatus?
 
+        @inlinable
         public init(reason: String? = nil, status: WorkflowStatus? = nil) {
             self.reason = reason
             self.status = status
@@ -7983,6 +8218,7 @@ extension Imagebuilder {
         /// 			the workflow step that ran for the associated image build version.
         public let workflowExecutionId: String?
 
+        @inlinable
         public init(action: String? = nil, imageBuildVersionArn: String? = nil, name: String? = nil, startTime: String? = nil, stepExecutionId: String? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.action = action
             self.imageBuildVersionArn = imageBuildVersionArn
@@ -8028,6 +8264,7 @@ extension Imagebuilder {
         /// A unique identifier for the workflow step, assigned at runtime.
         public let stepExecutionId: String?
 
+        @inlinable
         public init(action: String? = nil, description: String? = nil, endTime: String? = nil, inputs: String? = nil, message: String? = nil, name: String? = nil, outputs: String? = nil, rollbackStatus: WorkflowStepExecutionRollbackStatus? = nil, startTime: String? = nil, status: WorkflowStepExecutionStatus? = nil, stepExecutionId: String? = nil) {
             self.action = action
             self.description = description
@@ -8080,6 +8317,7 @@ extension Imagebuilder {
         /// The version of the workflow.
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, changeDescription: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, state: WorkflowState? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, version: String? = nil) {
             self.arn = arn
             self.changeDescription = changeDescription
@@ -8124,6 +8362,7 @@ extension Imagebuilder {
         /// The semantic version of the workflow resource. The format includes three nodes: ...
         public let version: String?
 
+        @inlinable
         public init(arn: String? = nil, dateCreated: String? = nil, description: String? = nil, name: String? = nil, owner: String? = nil, type: WorkflowType? = nil, version: String? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated

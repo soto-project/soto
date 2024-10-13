@@ -148,6 +148,7 @@ extension Athena {
         /// The Amazon S3 canned ACL that Athena should specify when storing query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. If a query runs in a workgroup and the workgroup overrides client-side settings, then the Amazon S3 canned ACL specified in the workgroup's settings is used for all queries that run in the workgroup. For more information about Amazon S3 canned ACLs, see Canned ACL in the Amazon S3 User Guide.
         public let s3AclOption: S3AclOption
 
+        @inlinable
         public init(s3AclOption: S3AclOption) {
             self.s3AclOption = s3AclOption
         }
@@ -163,6 +164,7 @@ extension Athena {
         /// A list of the supported DPU sizes that the application runtime supports.
         public let supportedDPUSizes: [Int]?
 
+        @inlinable
         public init(applicationRuntimeId: String? = nil, supportedDPUSizes: [Int]? = nil) {
             self.applicationRuntimeId = applicationRuntimeId
             self.supportedDPUSizes = supportedDPUSizes
@@ -184,6 +186,7 @@ extension Athena {
         /// True if the query might succeed if resubmitted.
         public let retryable: Bool?
 
+        @inlinable
         public init(errorCategory: Int? = nil, errorMessage: String? = nil, errorType: Int? = nil, retryable: Bool? = nil) {
             self.errorCategory = errorCategory
             self.errorMessage = errorMessage
@@ -203,6 +206,7 @@ extension Athena {
         /// An array of query IDs.
         public let namedQueryIds: [String]
 
+        @inlinable
         public init(namedQueryIds: [String]) {
             self.namedQueryIds = namedQueryIds
         }
@@ -228,6 +232,7 @@ extension Athena {
         /// Information about provided query IDs.
         public let unprocessedNamedQueryIds: [UnprocessedNamedQueryId]?
 
+        @inlinable
         public init(namedQueries: [NamedQuery]? = nil, unprocessedNamedQueryIds: [UnprocessedNamedQueryId]? = nil) {
             self.namedQueries = namedQueries
             self.unprocessedNamedQueryIds = unprocessedNamedQueryIds
@@ -245,6 +250,7 @@ extension Athena {
         /// The name of the workgroup to which the prepared statements belong.
         public let workGroup: String
 
+        @inlinable
         public init(preparedStatementNames: [String], workGroup: String) {
             self.preparedStatementNames = preparedStatementNames
             self.workGroup = workGroup
@@ -271,6 +277,7 @@ extension Athena {
         /// A list of one or more prepared statements that were requested but could not be returned.
         public let unprocessedPreparedStatementNames: [UnprocessedPreparedStatementName]?
 
+        @inlinable
         public init(preparedStatements: [PreparedStatement]? = nil, unprocessedPreparedStatementNames: [UnprocessedPreparedStatementName]? = nil) {
             self.preparedStatements = preparedStatements
             self.unprocessedPreparedStatementNames = unprocessedPreparedStatementNames
@@ -286,6 +293,7 @@ extension Athena {
         /// An array of query execution IDs.
         public let queryExecutionIds: [String]
 
+        @inlinable
         public init(queryExecutionIds: [String]) {
             self.queryExecutionIds = queryExecutionIds
         }
@@ -311,6 +319,7 @@ extension Athena {
         /// Information about the query executions that failed to run.
         public let unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]?
 
+        @inlinable
         public init(queryExecutions: [QueryExecution]? = nil, unprocessedQueryExecutionIds: [UnprocessedQueryExecutionId]? = nil) {
             self.queryExecutions = queryExecutions
             self.unprocessedQueryExecutionIds = unprocessedQueryExecutionIds
@@ -326,6 +335,7 @@ extension Athena {
         /// A string that contains the code for the calculation.
         public let codeBlock: String?
 
+        @inlinable
         public init(codeBlock: String? = nil) {
             self.codeBlock = codeBlock
         }
@@ -349,6 +359,7 @@ extension Athena {
         /// The Amazon S3 location of the stdout file for the calculation.
         public let stdOutS3Uri: String?
 
+        @inlinable
         public init(resultS3Uri: String? = nil, resultType: String? = nil, stdErrorS3Uri: String? = nil, stdOutS3Uri: String? = nil) {
             self.resultS3Uri = resultS3Uri
             self.resultType = resultType
@@ -370,6 +381,7 @@ extension Athena {
         /// The progress of the calculation.
         public let progress: String?
 
+        @inlinable
         public init(dpuExecutionInMillis: Int64? = nil, progress: String? = nil) {
             self.dpuExecutionInMillis = dpuExecutionInMillis
             self.progress = progress
@@ -391,6 +403,7 @@ extension Athena {
         /// The date and time the calculation was submitted for processing.
         public let submissionDateTime: Date?
 
+        @inlinable
         public init(completionDateTime: Date? = nil, state: CalculationExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: Date? = nil) {
             self.completionDateTime = completionDateTime
             self.state = state
@@ -414,6 +427,7 @@ extension Athena {
         /// Contains information about the status of the calculation.
         public let status: CalculationStatus?
 
+        @inlinable
         public init(calculationExecutionId: String? = nil, description: String? = nil, status: CalculationStatus? = nil) {
             self.calculationExecutionId = calculationExecutionId
             self.description = description
@@ -431,6 +445,7 @@ extension Athena {
         /// The name of the capacity reservation to cancel.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -460,6 +475,7 @@ extension Athena {
         /// The status message of the capacity allocation.
         public let statusMessage: String?
 
+        @inlinable
         public init(requestCompletionTime: Date? = nil, requestTime: Date, status: CapacityAllocationStatus, statusMessage: String? = nil) {
             self.requestCompletionTime = requestCompletionTime
             self.requestTime = requestTime
@@ -479,6 +495,7 @@ extension Athena {
         /// The list of workgroup names for the capacity assignment.
         public let workGroupNames: [String]?
 
+        @inlinable
         public init(workGroupNames: [String]? = nil) {
             self.workGroupNames = workGroupNames
         }
@@ -500,6 +517,7 @@ extension Athena {
         /// The name of the reservation that the capacity assignment configuration is for.
         public let capacityReservationName: String?
 
+        @inlinable
         public init(capacityAssignments: [CapacityAssignment]? = nil, capacityReservationName: String? = nil) {
             self.capacityAssignments = capacityAssignments
             self.capacityReservationName = capacityReservationName
@@ -526,6 +544,7 @@ extension Athena {
         /// The number of data processing units requested.
         public let targetDpus: Int
 
+        @inlinable
         public init(allocatedDpus: Int, creationTime: Date, lastAllocation: CapacityAllocation? = nil, lastSuccessfulAllocationTime: Date? = nil, name: String, status: CapacityReservationStatus, targetDpus: Int) {
             self.allocatedDpus = allocatedDpus
             self.creationTime = creationTime
@@ -555,6 +574,7 @@ extension Athena {
         /// The data type of the column.
         public let type: String?
 
+        @inlinable
         public init(comment: String? = nil, name: String, type: String? = nil) {
             self.comment = comment
             self.name = name
@@ -590,6 +610,7 @@ extension Athena {
         /// The data type of the column.
         public let type: String
 
+        @inlinable
         public init(caseSensitive: Bool? = nil, catalogName: String? = nil, label: String? = nil, name: String, nullable: ColumnNullable? = nil, precision: Int? = nil, scale: Int? = nil, schemaName: String? = nil, tableName: String? = nil, type: String) {
             self.caseSensitive = caseSensitive
             self.catalogName = catalogName
@@ -625,6 +646,7 @@ extension Athena {
         /// The number of requested data processing units.
         public let targetDpus: Int
 
+        @inlinable
         public init(name: String, tags: [Tag]? = nil, targetDpus: Int) {
             self.name = name
             self.tags = tags
@@ -664,6 +686,7 @@ extension Athena {
         /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         public let type: DataCatalogType
 
+        @inlinable
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, tags: [Tag]? = nil, type: DataCatalogType) {
             self.description = description
             self.name = name
@@ -716,6 +739,7 @@ extension Athena {
         /// The name of the workgroup in which the named query is being created.
         public let workGroup: String?
 
+        @inlinable
         public init(clientRequestToken: String? = CreateNamedQueryInput.idempotencyToken(), database: String, description: String? = nil, name: String, queryString: String, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.database = database
@@ -753,6 +777,7 @@ extension Athena {
         /// The unique ID of the query.
         public let namedQueryId: String?
 
+        @inlinable
         public init(namedQueryId: String? = nil) {
             self.namedQueryId = namedQueryId
         }
@@ -770,6 +795,7 @@ extension Athena {
         /// The name of the Spark enabled workgroup in which the notebook will be created.
         public let workGroup: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, name: String, workGroup: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -797,6 +823,7 @@ extension Athena {
         /// A unique identifier for the notebook.
         public let notebookId: String?
 
+        @inlinable
         public init(notebookId: String? = nil) {
             self.notebookId = notebookId
         }
@@ -816,6 +843,7 @@ extension Athena {
         /// The name of the workgroup to which the prepared statement belongs.
         public let workGroup: String
 
+        @inlinable
         public init(description: String? = nil, queryStatement: String, statementName: String, workGroup: String) {
             self.description = description
             self.queryStatement = queryStatement
@@ -850,6 +878,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -872,6 +901,7 @@ extension Athena {
         /// The URL of the notebook. The URL includes the authentication token and notebook file name and points directly to the opened notebook.
         public let notebookUrl: String
 
+        @inlinable
         public init(authToken: String, authTokenExpirationTime: Int64, notebookUrl: String) {
             self.authToken = authToken
             self.authTokenExpirationTime = authTokenExpirationTime
@@ -895,6 +925,7 @@ extension Athena {
         /// A list of comma separated tags to add to the workgroup that is created.
         public let tags: [Tag]?
 
+        @inlinable
         public init(configuration: WorkGroupConfiguration? = nil, description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.configuration = configuration
             self.description = description
@@ -927,6 +958,7 @@ extension Athena {
         /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
         public let kmsKey: String
 
+        @inlinable
         public init(kmsKey: String) {
             self.kmsKey = kmsKey
         }
@@ -952,6 +984,7 @@ extension Athena {
         /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         public let type: DataCatalogType
 
+        @inlinable
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
             self.description = description
             self.name = name
@@ -973,6 +1006,7 @@ extension Athena {
         /// The data catalog type.
         public let type: DataCatalogType?
 
+        @inlinable
         public init(catalogName: String? = nil, type: DataCatalogType? = nil) {
             self.catalogName = catalogName
             self.type = type
@@ -992,6 +1026,7 @@ extension Athena {
         /// A set of custom key/value pairs.
         public let parameters: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil) {
             self.description = description
             self.name = name
@@ -1009,6 +1044,7 @@ extension Athena {
         /// The value of the datum.
         public let varCharValue: String?
 
+        @inlinable
         public init(varCharValue: String? = nil) {
             self.varCharValue = varCharValue
         }
@@ -1022,6 +1058,7 @@ extension Athena {
         /// The name of the capacity reservation to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1045,6 +1082,7 @@ extension Athena {
         /// The name of the data catalog to delete.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1068,6 +1106,7 @@ extension Athena {
         /// The unique ID of the query to delete.
         public let namedQueryId: String
 
+        @inlinable
         public init(namedQueryId: String = DeleteNamedQueryInput.idempotencyToken()) {
             self.namedQueryId = namedQueryId
         }
@@ -1091,6 +1130,7 @@ extension Athena {
         /// The ID of the notebook to delete.
         public let notebookId: String
 
+        @inlinable
         public init(notebookId: String) {
             self.notebookId = notebookId
         }
@@ -1116,6 +1156,7 @@ extension Athena {
         /// The workgroup to which the statement to be deleted belongs.
         public let workGroup: String
 
+        @inlinable
         public init(statementName: String, workGroup: String) {
             self.statementName = statementName
             self.workGroup = workGroup
@@ -1144,6 +1185,7 @@ extension Athena {
         /// The unique name of the workgroup to delete.
         public let workGroup: String
 
+        @inlinable
         public init(recursiveDeleteOption: Bool? = nil, workGroup: String) {
             self.recursiveDeleteOption = recursiveDeleteOption
             self.workGroup = workGroup
@@ -1169,6 +1211,7 @@ extension Athena {
         /// For SSE_KMS and CSE_KMS, this is the KMS key ARN or ID.
         public let kmsKey: String?
 
+        @inlinable
         public init(encryptionOption: EncryptionOption, kmsKey: String? = nil) {
             self.encryptionOption = encryptionOption
             self.kmsKey = kmsKey
@@ -1192,6 +1235,7 @@ extension Athena {
         /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
         public let sparkProperties: [String: String]?
 
+        @inlinable
         public init(additionalConfigs: [String: String]? = nil, coordinatorDpuSize: Int? = nil, defaultExecutorDpuSize: Int? = nil, maxConcurrentDpus: Int, sparkProperties: [String: String]? = nil) {
             self.additionalConfigs = additionalConfigs
             self.coordinatorDpuSize = coordinatorDpuSize
@@ -1236,6 +1280,7 @@ extension Athena {
         /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including AUTO. The default is AUTO.
         public let selectedEngineVersion: String?
 
+        @inlinable
         public init(effectiveEngineVersion: String? = nil, selectedEngineVersion: String? = nil) {
             self.effectiveEngineVersion = effectiveEngineVersion
             self.selectedEngineVersion = selectedEngineVersion
@@ -1268,6 +1313,7 @@ extension Athena {
         /// The date and time that the executor was terminated.
         public let terminationDateTime: Int64?
 
+        @inlinable
         public init(executorId: String, executorSize: Int64? = nil, executorState: ExecutorState? = nil, executorType: ExecutorType? = nil, startDateTime: Int64? = nil, terminationDateTime: Int64? = nil) {
             self.executorId = executorId
             self.executorSize = executorSize
@@ -1291,6 +1337,7 @@ extension Athena {
         /// The ID of the notebook to export.
         public let notebookId: String
 
+        @inlinable
         public init(notebookId: String) {
             self.notebookId = notebookId
         }
@@ -1312,6 +1359,7 @@ extension Athena {
         /// The content of the exported notebook.
         public let payload: String?
 
+        @inlinable
         public init(notebookMetadata: NotebookMetadata? = nil, payload: String? = nil) {
             self.notebookMetadata = notebookMetadata
             self.payload = payload
@@ -1327,6 +1375,7 @@ extension Athena {
         /// The name of the notebook to search for.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -1346,6 +1395,7 @@ extension Athena {
         /// The calculation execution UUID.
         public let calculationExecutionId: String
 
+        @inlinable
         public init(calculationExecutionId: String) {
             self.calculationExecutionId = calculationExecutionId
         }
@@ -1364,6 +1414,7 @@ extension Athena {
         /// The unencrypted code that was executed for the calculation.
         public let codeBlock: String?
 
+        @inlinable
         public init(codeBlock: String? = nil) {
             self.codeBlock = codeBlock
         }
@@ -1377,6 +1428,7 @@ extension Athena {
         /// The calculation execution UUID.
         public let calculationExecutionId: String
 
+        @inlinable
         public init(calculationExecutionId: String) {
             self.calculationExecutionId = calculationExecutionId
         }
@@ -1407,6 +1459,7 @@ extension Athena {
         /// The Amazon S3 location in which calculation results are stored.
         public let workingDirectory: String?
 
+        @inlinable
         public init(calculationExecutionId: String? = nil, description: String? = nil, result: CalculationResult? = nil, sessionId: String? = nil, statistics: CalculationStatistics? = nil, status: CalculationStatus? = nil, workingDirectory: String? = nil) {
             self.calculationExecutionId = calculationExecutionId
             self.description = description
@@ -1432,6 +1485,7 @@ extension Athena {
         /// The calculation execution UUID.
         public let calculationExecutionId: String
 
+        @inlinable
         public init(calculationExecutionId: String) {
             self.calculationExecutionId = calculationExecutionId
         }
@@ -1452,6 +1506,7 @@ extension Athena {
         /// Contains information about the calculation execution status.
         public let status: CalculationStatus?
 
+        @inlinable
         public init(statistics: CalculationStatistics? = nil, status: CalculationStatus? = nil) {
             self.statistics = statistics
             self.status = status
@@ -1467,6 +1522,7 @@ extension Athena {
         /// The name of the capacity reservation to retrieve the capacity assignment configuration for.
         public let capacityReservationName: String
 
+        @inlinable
         public init(capacityReservationName: String) {
             self.capacityReservationName = capacityReservationName
         }
@@ -1486,6 +1542,7 @@ extension Athena {
         /// The requested capacity assignment configuration for the specified capacity reservation.
         public let capacityAssignmentConfiguration: CapacityAssignmentConfiguration
 
+        @inlinable
         public init(capacityAssignmentConfiguration: CapacityAssignmentConfiguration) {
             self.capacityAssignmentConfiguration = capacityAssignmentConfiguration
         }
@@ -1499,6 +1556,7 @@ extension Athena {
         /// The name of the capacity reservation.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1518,6 +1576,7 @@ extension Athena {
         /// The requested capacity reservation structure.
         public let capacityReservation: CapacityReservation
 
+        @inlinable
         public init(capacityReservation: CapacityReservation) {
             self.capacityReservation = capacityReservation
         }
@@ -1533,6 +1592,7 @@ extension Athena {
         /// The name of the workgroup. Required if making an IAM Identity Center request.
         public let workGroup: String?
 
+        @inlinable
         public init(name: String, workGroup: String? = nil) {
             self.name = name
             self.workGroup = workGroup
@@ -1555,6 +1615,7 @@ extension Athena {
         /// The data catalog returned.
         public let dataCatalog: DataCatalog?
 
+        @inlinable
         public init(dataCatalog: DataCatalog? = nil) {
             self.dataCatalog = dataCatalog
         }
@@ -1572,6 +1633,7 @@ extension Athena {
         /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
         public let workGroup: String?
 
+        @inlinable
         public init(catalogName: String, databaseName: String, workGroup: String? = nil) {
             self.catalogName = catalogName
             self.databaseName = databaseName
@@ -1598,6 +1660,7 @@ extension Athena {
         /// The database returned.
         public let database: Database?
 
+        @inlinable
         public init(database: Database? = nil) {
             self.database = database
         }
@@ -1611,6 +1674,7 @@ extension Athena {
         /// The unique ID of the query. Use ListNamedQueries to get query IDs.
         public let namedQueryId: String
 
+        @inlinable
         public init(namedQueryId: String) {
             self.namedQueryId = namedQueryId
         }
@@ -1630,6 +1694,7 @@ extension Athena {
         /// Information about the query.
         public let namedQuery: NamedQuery?
 
+        @inlinable
         public init(namedQuery: NamedQuery? = nil) {
             self.namedQuery = namedQuery
         }
@@ -1643,6 +1708,7 @@ extension Athena {
         /// The ID of the notebook whose metadata is to be retrieved.
         public let notebookId: String
 
+        @inlinable
         public init(notebookId: String) {
             self.notebookId = notebookId
         }
@@ -1662,6 +1728,7 @@ extension Athena {
         /// The metadata that is returned for the specified notebook ID.
         public let notebookMetadata: NotebookMetadata?
 
+        @inlinable
         public init(notebookMetadata: NotebookMetadata? = nil) {
             self.notebookMetadata = notebookMetadata
         }
@@ -1677,6 +1744,7 @@ extension Athena {
         /// The workgroup to which the statement to be retrieved belongs.
         public let workGroup: String
 
+        @inlinable
         public init(statementName: String, workGroup: String) {
             self.statementName = statementName
             self.workGroup = workGroup
@@ -1699,6 +1767,7 @@ extension Athena {
         /// The name of the prepared statement that was retrieved.
         public let preparedStatement: PreparedStatement?
 
+        @inlinable
         public init(preparedStatement: PreparedStatement? = nil) {
             self.preparedStatement = preparedStatement
         }
@@ -1712,6 +1781,7 @@ extension Athena {
         /// The unique ID of the query execution.
         public let queryExecutionId: String
 
+        @inlinable
         public init(queryExecutionId: String) {
             self.queryExecutionId = queryExecutionId
         }
@@ -1731,6 +1801,7 @@ extension Athena {
         /// Information about the query execution.
         public let queryExecution: QueryExecution?
 
+        @inlinable
         public init(queryExecution: QueryExecution? = nil) {
             self.queryExecution = queryExecution
         }
@@ -1748,6 +1819,7 @@ extension Athena {
         /// The unique ID of the query execution.
         public let queryExecutionId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, queryExecutionId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1779,6 +1851,7 @@ extension Athena {
         /// The number of rows inserted with a CREATE TABLE AS SELECT statement.
         public let updateCount: Int64?
 
+        @inlinable
         public init(nextToken: String? = nil, resultSet: ResultSet? = nil, updateCount: Int64? = nil) {
             self.nextToken = nextToken
             self.resultSet = resultSet
@@ -1796,6 +1869,7 @@ extension Athena {
         /// The unique ID of the query execution.
         public let queryExecutionId: String
 
+        @inlinable
         public init(queryExecutionId: String) {
             self.queryExecutionId = queryExecutionId
         }
@@ -1815,6 +1889,7 @@ extension Athena {
         /// Runtime statistics about the query execution.
         public let queryRuntimeStatistics: QueryRuntimeStatistics?
 
+        @inlinable
         public init(queryRuntimeStatistics: QueryRuntimeStatistics? = nil) {
             self.queryRuntimeStatistics = queryRuntimeStatistics
         }
@@ -1828,6 +1903,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -1862,6 +1938,7 @@ extension Athena {
         /// The workgroup to which the session belongs.
         public let workGroup: String?
 
+        @inlinable
         public init(description: String? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: String? = nil, notebookVersion: String? = nil, sessionConfiguration: SessionConfiguration? = nil, sessionId: String? = nil, statistics: SessionStatistics? = nil, status: SessionStatus? = nil, workGroup: String? = nil) {
             self.description = description
             self.engineConfiguration = engineConfiguration
@@ -1891,6 +1968,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -1911,6 +1989,7 @@ extension Athena {
         /// Contains information about the status of the session.
         public let status: SessionStatus?
 
+        @inlinable
         public init(sessionId: String? = nil, status: SessionStatus? = nil) {
             self.sessionId = sessionId
             self.status = status
@@ -1932,6 +2011,7 @@ extension Athena {
         /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
         public let workGroup: String?
 
+        @inlinable
         public init(catalogName: String, databaseName: String, tableName: String, workGroup: String? = nil) {
             self.catalogName = catalogName
             self.databaseName = databaseName
@@ -1962,6 +2042,7 @@ extension Athena {
         /// An object that contains table metadata.
         public let tableMetadata: TableMetadata?
 
+        @inlinable
         public init(tableMetadata: TableMetadata? = nil) {
             self.tableMetadata = tableMetadata
         }
@@ -1975,6 +2056,7 @@ extension Athena {
         /// The name of the workgroup.
         public let workGroup: String
 
+        @inlinable
         public init(workGroup: String) {
             self.workGroup = workGroup
         }
@@ -1992,6 +2074,7 @@ extension Athena {
         /// Information about the workgroup.
         public let workGroup: WorkGroup?
 
+        @inlinable
         public init(workGroup: WorkGroup? = nil) {
             self.workGroup = workGroup
         }
@@ -2007,6 +2090,7 @@ extension Athena {
         /// The IAM Identity Center instance ARN that the workgroup associates to.
         public let identityCenterInstanceArn: String?
 
+        @inlinable
         public init(enableIdentityCenter: Bool? = nil, identityCenterInstanceArn: String? = nil) {
             self.enableIdentityCenter = enableIdentityCenter
             self.identityCenterInstanceArn = identityCenterInstanceArn
@@ -2037,6 +2121,7 @@ extension Athena {
         /// The name of the Spark enabled workgroup to import the notebook to.
         public let workGroup: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, name: String, notebookS3LocationUri: String? = nil, payload: String? = nil, type: NotebookType, workGroup: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -2074,6 +2159,7 @@ extension Athena {
         /// The ID assigned to the imported notebook.
         public let notebookId: String?
 
+        @inlinable
         public init(notebookId: String? = nil) {
             self.notebookId = notebookId
         }
@@ -2089,6 +2175,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2113,6 +2200,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(applicationDPUSizes: [ApplicationDPUSizes]? = nil, nextToken: String? = nil) {
             self.applicationDPUSizes = applicationDPUSizes
             self.nextToken = nextToken
@@ -2134,6 +2222,7 @@ extension Athena {
         /// A filter for a specific calculation execution state. A description of each state follows.  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
         public let stateFilter: CalculationExecutionState?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sessionId: String, stateFilter: CalculationExecutionState? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2163,6 +2252,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(calculations: [CalculationSummary]? = nil, nextToken: String? = nil) {
             self.calculations = calculations
             self.nextToken = nextToken
@@ -2180,6 +2270,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2204,6 +2295,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(capacityReservations: [CapacityReservation], nextToken: String? = nil) {
             self.capacityReservations = capacityReservations
             self.nextToken = nextToken
@@ -2223,6 +2315,7 @@ extension Athena {
         /// The name of the workgroup. Required if making an IAM Identity Center request.
         public let workGroup: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2250,6 +2343,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(dataCatalogsSummary: [DataCatalogSummary]? = nil, nextToken: String? = nil) {
             self.dataCatalogsSummary = dataCatalogsSummary
             self.nextToken = nextToken
@@ -2271,6 +2365,7 @@ extension Athena {
         /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
         public let workGroup: String?
 
+        @inlinable
         public init(catalogName: String, maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.catalogName = catalogName
             self.maxResults = maxResults
@@ -2303,6 +2398,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(databaseList: [Database]? = nil, nextToken: String? = nil) {
             self.databaseList = databaseList
             self.nextToken = nextToken
@@ -2320,6 +2416,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2344,6 +2441,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(engineVersions: [EngineVersion]? = nil, nextToken: String? = nil) {
             self.engineVersions = engineVersions
             self.nextToken = nextToken
@@ -2365,6 +2463,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(executorStateFilter: ExecutorState? = nil, maxResults: Int? = nil, nextToken: String? = nil, sessionId: String) {
             self.executorStateFilter = executorStateFilter
             self.maxResults = maxResults
@@ -2396,6 +2495,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(executorsSummary: [ExecutorsSummary]? = nil, nextToken: String? = nil, sessionId: String) {
             self.executorsSummary = executorsSummary
             self.nextToken = nextToken
@@ -2417,6 +2517,7 @@ extension Athena {
         /// The name of the workgroup from which the named queries are being returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned.
         public let workGroup: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2444,6 +2545,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(namedQueryIds: [String]? = nil, nextToken: String? = nil) {
             self.namedQueryIds = namedQueryIds
             self.nextToken = nextToken
@@ -2465,6 +2567,7 @@ extension Athena {
         /// The name of the Spark enabled workgroup to retrieve notebook metadata for.
         public let workGroup: String
 
+        @inlinable
         public init(filters: FilterDefinition? = nil, maxResults: Int? = nil, nextToken: String? = nil, workGroup: String) {
             self.filters = filters
             self.maxResults = maxResults
@@ -2495,6 +2598,7 @@ extension Athena {
         /// The list of notebook metadata for the specified workgroup.
         public let notebookMetadataList: [NotebookMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, notebookMetadataList: [NotebookMetadata]? = nil) {
             self.nextToken = nextToken
             self.notebookMetadataList = notebookMetadataList
@@ -2514,6 +2618,7 @@ extension Athena {
         /// The ID of the notebook to list sessions for.
         public let notebookId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, notebookId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2543,6 +2648,7 @@ extension Athena {
         /// A list of the sessions belonging to the notebook.
         public let notebookSessionsList: [NotebookSessionSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, notebookSessionsList: [NotebookSessionSummary]) {
             self.nextToken = nextToken
             self.notebookSessionsList = notebookSessionsList
@@ -2562,6 +2668,7 @@ extension Athena {
         /// The workgroup to list the prepared statements for.
         public let workGroup: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2589,6 +2696,7 @@ extension Athena {
         /// The list of prepared statements for the workgroup.
         public let preparedStatements: [PreparedStatementSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, preparedStatements: [PreparedStatementSummary]? = nil) {
             self.nextToken = nextToken
             self.preparedStatements = preparedStatements
@@ -2608,6 +2716,7 @@ extension Athena {
         /// The name of the workgroup from which queries are being returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned.
         public let workGroup: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2635,6 +2744,7 @@ extension Athena {
         /// The unique IDs of each query execution as an array of strings.
         public let queryExecutionIds: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, queryExecutionIds: [String]? = nil) {
             self.nextToken = nextToken
             self.queryExecutionIds = queryExecutionIds
@@ -2656,6 +2766,7 @@ extension Athena {
         /// The workgroup to which the session belongs.
         public let workGroup: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stateFilter: SessionState? = nil, workGroup: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2684,6 +2795,7 @@ extension Athena {
         /// A list of sessions.
         public let sessions: [SessionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, sessions: [SessionSummary]? = nil) {
             self.nextToken = nextToken
             self.sessions = sessions
@@ -2709,6 +2821,7 @@ extension Athena {
         /// The name of the workgroup for which the metadata is being fetched. Required if requesting an IAM Identity Center enabled Glue Data Catalog.
         public let workGroup: String?
 
+        @inlinable
         public init(catalogName: String, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, workGroup: String? = nil) {
             self.catalogName = catalogName
             self.databaseName = databaseName
@@ -2748,6 +2861,7 @@ extension Athena {
         /// A list of table metadata.
         public let tableMetadataList: [TableMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, tableMetadataList: [TableMetadata]? = nil) {
             self.nextToken = nextToken
             self.tableMetadataList = tableMetadataList
@@ -2767,6 +2881,7 @@ extension Athena {
         /// Lists the tags for the resource with the specified ARN.
         public let resourceARN: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceARN: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2794,6 +2909,7 @@ extension Athena {
         /// The list of tags associated with the specified resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -2811,6 +2927,7 @@ extension Athena {
         /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2835,6 +2952,7 @@ extension Athena {
         /// A list of WorkGroupSummary objects that include the names, descriptions, creation times, and states for each workgroup.
         public let workGroups: [WorkGroupSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, workGroups: [WorkGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.workGroups = workGroups
@@ -2860,6 +2978,7 @@ extension Athena {
         /// The name of the workgroup that contains the named query.
         public let workGroup: String?
 
+        @inlinable
         public init(database: String, description: String? = nil, name: String, namedQueryId: String? = nil, queryString: String, workGroup: String? = nil) {
             self.database = database
             self.description = description
@@ -2893,6 +3012,7 @@ extension Athena {
         /// The name of the Spark enabled workgroup to which the notebook belongs.
         public let workGroup: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, name: String? = nil, notebookId: String? = nil, type: NotebookType? = nil, workGroup: String? = nil) {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
@@ -2918,6 +3038,7 @@ extension Athena {
         /// The notebook session ID.
         public let sessionId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, sessionId: String? = nil) {
             self.creationTime = creationTime
             self.sessionId = sessionId
@@ -2941,6 +3062,7 @@ extension Athena {
         /// The name of the workgroup to which the prepared statement belongs.
         public let workGroupName: String?
 
+        @inlinable
         public init(description: String? = nil, lastModifiedTime: Date? = nil, queryStatement: String? = nil, statementName: String? = nil, workGroupName: String? = nil) {
             self.description = description
             self.lastModifiedTime = lastModifiedTime
@@ -2964,6 +3086,7 @@ extension Athena {
         /// The name of the prepared statement.
         public let statementName: String?
 
+        @inlinable
         public init(lastModifiedTime: Date? = nil, statementName: String? = nil) {
             self.lastModifiedTime = lastModifiedTime
             self.statementName = statementName
@@ -2981,6 +3104,7 @@ extension Athena {
         /// The name of the capacity reservation to put a capacity assignment configuration for.
         public let capacityReservationName: String
 
+        @inlinable
         public init(capacityAssignments: [CapacityAssignment], capacityReservationName: String) {
             self.capacityAssignments = capacityAssignments
             self.capacityReservationName = capacityReservationName
@@ -3033,6 +3157,7 @@ extension Athena {
         /// The name of the workgroup in which the query ran.
         public let workGroup: String?
 
+        @inlinable
         public init(engineVersion: EngineVersion? = nil, executionParameters: [String]? = nil, query: String? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryExecutionId: String? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, statementType: StatementType? = nil, statistics: QueryExecutionStatistics? = nil, status: QueryExecutionStatus? = nil, substatementType: String? = nil, workGroup: String? = nil) {
             self.engineVersion = engineVersion
             self.executionParameters = executionParameters
@@ -3072,6 +3197,7 @@ extension Athena {
         /// The name of the database used in the query execution. The database must exist in the catalog.
         public let database: String?
 
+        @inlinable
         public init(catalog: String? = nil, database: String? = nil) {
             self.catalog = catalog
             self.database = database
@@ -3111,6 +3237,7 @@ extension Athena {
         /// The number of milliseconds that Athena took to run the query.
         public let totalExecutionTimeInMillis: Int64?
 
+        @inlinable
         public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, resultReuseInformation: ResultReuseInformation? = nil, servicePreProcessingTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
             self.dataManifestLocation = dataManifestLocation
             self.dataScannedInBytes = dataScannedInBytes
@@ -3148,6 +3275,7 @@ extension Athena {
         /// The date and time that the query was submitted.
         public let submissionDateTime: Date?
 
+        @inlinable
         public init(athenaError: AthenaError? = nil, completionDateTime: Date? = nil, state: QueryExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: Date? = nil) {
             self.athenaError = athenaError
             self.completionDateTime = completionDateTime
@@ -3173,6 +3301,7 @@ extension Athena {
         /// Specifies whether Amazon S3 access grants are enabled for query results.
         public let enableS3AccessGrants: Bool
 
+        @inlinable
         public init(authenticationType: AuthenticationType, createUserLevelPrefix: Bool? = nil, enableS3AccessGrants: Bool) {
             self.authenticationType = authenticationType
             self.createUserLevelPrefix = createUserLevelPrefix
@@ -3192,6 +3321,7 @@ extension Athena {
         public let rows: QueryRuntimeStatisticsRows?
         public let timeline: QueryRuntimeStatisticsTimeline?
 
+        @inlinable
         public init(outputStage: QueryStage? = nil, rows: QueryRuntimeStatisticsRows? = nil, timeline: QueryRuntimeStatisticsTimeline? = nil) {
             self.outputStage = outputStage
             self.rows = rows
@@ -3215,6 +3345,7 @@ extension Athena {
         /// The number of rows returned by the query.
         public let outputRows: Int64?
 
+        @inlinable
         public init(inputBytes: Int64? = nil, inputRows: Int64? = nil, outputBytes: Int64? = nil, outputRows: Int64? = nil) {
             self.inputBytes = inputBytes
             self.inputRows = inputRows
@@ -3244,6 +3375,7 @@ extension Athena {
         /// The number of milliseconds that Athena took to run the query.
         public let totalExecutionTimeInMillis: Int64?
 
+        @inlinable
         public init(engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, servicePreProcessingTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
@@ -3283,6 +3415,7 @@ extension Athena {
         /// List of sub query stages that form this stage execution plan.
         public let subStages: [QueryStage]?
 
+        @inlinable
         public init(executionTime: Int64? = nil, inputBytes: Int64? = nil, inputRows: Int64? = nil, outputBytes: Int64? = nil, outputRows: Int64? = nil, queryStagePlan: QueryStagePlanNode? = nil, stageId: Int64? = nil, state: String? = nil, subStages: [QueryStage]? = nil) {
             self.executionTime = executionTime
             self.inputBytes = inputBytes
@@ -3318,6 +3451,7 @@ extension Athena {
         /// Source plan node IDs.
         public let remoteSources: [String]?
 
+        @inlinable
         public init(children: [QueryStagePlanNode]? = nil, identifier: String? = nil, name: String? = nil, remoteSources: [String]? = nil) {
             self.children = children
             self.identifier = identifier
@@ -3343,6 +3477,7 @@ extension Athena {
         /// The location in Amazon S3 where your query and calculation results are stored, such as s3://path/to/query/bucket/. To run the query, you must specify the query results location using one of the ways: either for individual queries using either this setting (client-side), or in the workgroup, using WorkGroupConfiguration. If none of them is set, Athena issues an error that no output location is provided. If workgroup settings override client-side settings, then the query uses the settings specified for the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
 
+        @inlinable
         public init(aclConfiguration: AclConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, expectedBucketOwner: String? = nil, outputLocation: String? = nil) {
             self.aclConfiguration = aclConfiguration
             self.encryptionConfiguration = encryptionConfiguration
@@ -3382,6 +3517,7 @@ extension Athena {
         /// If set to "true", indicates that the previously-specified query results location (also known as a client-side setting) for queries in this workgroup should be ignored and set to null. If set to "false" or not set, and a value is present in the OutputLocation in ResultConfigurationUpdates (the client-side setting), the OutputLocation in the workgroup's ResultConfiguration will be updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
         public let removeOutputLocation: Bool?
 
+        @inlinable
         public init(aclConfiguration: AclConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, expectedBucketOwner: String? = nil, outputLocation: String? = nil, removeAclConfiguration: Bool? = nil, removeEncryptionConfiguration: Bool? = nil, removeExpectedBucketOwner: Bool? = nil, removeOutputLocation: Bool? = nil) {
             self.aclConfiguration = aclConfiguration
             self.encryptionConfiguration = encryptionConfiguration
@@ -3417,6 +3553,7 @@ extension Athena {
         /// Specifies, in minutes, the maximum age of a previous query result that Athena should consider for reuse. The default is 60.
         public let maxAgeInMinutes: Int?
 
+        @inlinable
         public init(enabled: Bool, maxAgeInMinutes: Int? = nil) {
             self.enabled = enabled
             self.maxAgeInMinutes = maxAgeInMinutes
@@ -3437,6 +3574,7 @@ extension Athena {
         /// Specifies whether previous query results are reused, and if so, their maximum age.
         public let resultReuseByAgeConfiguration: ResultReuseByAgeConfiguration?
 
+        @inlinable
         public init(resultReuseByAgeConfiguration: ResultReuseByAgeConfiguration? = nil) {
             self.resultReuseByAgeConfiguration = resultReuseByAgeConfiguration
         }
@@ -3454,6 +3592,7 @@ extension Athena {
         /// True if a previous query result was reused; false if the result was generated from a new run of the query.
         public let reusedPreviousResult: Bool
 
+        @inlinable
         public init(reusedPreviousResult: Bool) {
             self.reusedPreviousResult = reusedPreviousResult
         }
@@ -3469,6 +3608,7 @@ extension Athena {
         /// The rows in the table.
         public let rows: [Row]?
 
+        @inlinable
         public init(resultSetMetadata: ResultSetMetadata? = nil, rows: [Row]? = nil) {
             self.resultSetMetadata = resultSetMetadata
             self.rows = rows
@@ -3484,6 +3624,7 @@ extension Athena {
         /// Information about the columns returned in a query result metadata.
         public let columnInfo: [ColumnInfo]?
 
+        @inlinable
         public init(columnInfo: [ColumnInfo]? = nil) {
             self.columnInfo = columnInfo
         }
@@ -3497,6 +3638,7 @@ extension Athena {
         /// The data that populates a row in a query result table.
         public let data: [Datum]?
 
+        @inlinable
         public init(data: [Datum]? = nil) {
             self.data = data
         }
@@ -3515,6 +3657,7 @@ extension Athena {
         /// The Amazon S3 location that stores information for the notebook.
         public let workingDirectory: String?
 
+        @inlinable
         public init(encryptionConfiguration: EncryptionConfiguration? = nil, executionRole: String? = nil, idleTimeoutSeconds: Int64? = nil, workingDirectory: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.executionRole = executionRole
@@ -3534,6 +3677,7 @@ extension Athena {
         /// The data processing unit execution time for a session in milliseconds.
         public let dpuExecutionInMillis: Int64?
 
+        @inlinable
         public init(dpuExecutionInMillis: Int64? = nil) {
             self.dpuExecutionInMillis = dpuExecutionInMillis
         }
@@ -3557,6 +3701,7 @@ extension Athena {
         /// The reason for the session state change (for example, canceled because the session was terminated).
         public let stateChangeReason: String?
 
+        @inlinable
         public init(endDateTime: Date? = nil, idleSinceDateTime: Date? = nil, lastModifiedDateTime: Date? = nil, startDateTime: Date? = nil, state: SessionState? = nil, stateChangeReason: String? = nil) {
             self.endDateTime = endDateTime
             self.idleSinceDateTime = idleSinceDateTime
@@ -3588,6 +3733,7 @@ extension Athena {
         /// Contains information about the session status.
         public let status: SessionStatus?
 
+        @inlinable
         public init(description: String? = nil, engineVersion: EngineVersion? = nil, notebookVersion: String? = nil, sessionId: String? = nil, status: SessionStatus? = nil) {
             self.description = description
             self.engineVersion = engineVersion
@@ -3617,6 +3763,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, codeBlock: String? = nil, description: String? = nil, sessionId: String) {
             self.calculationConfiguration = nil
             self.clientRequestToken = clientRequestToken
@@ -3626,6 +3773,7 @@ extension Athena {
         }
 
         @available(*, deprecated, message: "Members calculationConfiguration have been deprecated")
+        @inlinable
         public init(calculationConfiguration: CalculationConfiguration? = nil, clientRequestToken: String? = nil, codeBlock: String? = nil, description: String? = nil, sessionId: String) {
             self.calculationConfiguration = calculationConfiguration
             self.clientRequestToken = clientRequestToken
@@ -3660,6 +3808,7 @@ extension Athena {
         ///  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
         public let state: CalculationExecutionState?
 
+        @inlinable
         public init(calculationExecutionId: String? = nil, state: CalculationExecutionState? = nil) {
             self.calculationExecutionId = calculationExecutionId
             self.state = state
@@ -3687,6 +3836,7 @@ extension Athena {
         /// The name of the workgroup in which the query is being started.
         public let workGroup: String?
 
+        @inlinable
         public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), executionParameters: [String]? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.executionParameters = executionParameters
@@ -3728,6 +3878,7 @@ extension Athena {
         /// The unique ID of the query that ran as a result of this request.
         public let queryExecutionId: String?
 
+        @inlinable
         public init(queryExecutionId: String? = nil) {
             self.queryExecutionId = queryExecutionId
         }
@@ -3751,6 +3902,7 @@ extension Athena {
         /// The workgroup to which the session belongs.
         public let workGroup: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, description: String? = nil, engineConfiguration: EngineConfiguration, notebookVersion: String? = nil, sessionIdleTimeoutInMinutes: Int? = nil, workGroup: String) {
             self.clientRequestToken = clientRequestToken
             self.description = description
@@ -3789,6 +3941,7 @@ extension Athena {
         /// The state of the session. A description of each state follows.  CREATING - The session is being started, including acquiring resources.  CREATED - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY - The session is processing another task and is unable to accept a calculation.  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and its resources are no longer running.  DEGRADED - The session has no healthy coordinators.  FAILED - Due to a failure, the session and its resources are no longer running.
         public let state: SessionState?
 
+        @inlinable
         public init(sessionId: String? = nil, state: SessionState? = nil) {
             self.sessionId = sessionId
             self.state = state
@@ -3804,6 +3957,7 @@ extension Athena {
         /// The calculation execution UUID.
         public let calculationExecutionId: String
 
+        @inlinable
         public init(calculationExecutionId: String) {
             self.calculationExecutionId = calculationExecutionId
         }
@@ -3822,6 +3976,7 @@ extension Athena {
         ///  CREATING - The calculation is in the process of being created.  CREATED - The calculation has been created and is ready to run.  QUEUED - The calculation has been queued for processing.  RUNNING - The calculation is running.  CANCELING - A request to cancel the calculation has been received and the system is working to stop it.  CANCELED - The calculation is no longer running as the result of a cancel request.  COMPLETED - The calculation has completed without error.  FAILED - The calculation failed and is no longer running.
         public let state: CalculationExecutionState?
 
+        @inlinable
         public init(state: CalculationExecutionState? = nil) {
             self.state = state
         }
@@ -3835,6 +3990,7 @@ extension Athena {
         /// The unique ID of the query execution to stop.
         public let queryExecutionId: String
 
+        @inlinable
         public init(queryExecutionId: String = StopQueryExecutionInput.idempotencyToken()) {
             self.queryExecutionId = queryExecutionId
         }
@@ -3870,6 +4026,7 @@ extension Athena {
         /// The type of table. In Athena, only EXTERNAL_TABLE is supported.
         public let tableType: String?
 
+        @inlinable
         public init(columns: [Column]? = nil, createTime: Date? = nil, lastAccessTime: Date? = nil, name: String, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, tableType: String? = nil) {
             self.columns = columns
             self.createTime = createTime
@@ -3897,6 +4054,7 @@ extension Athena {
         /// A tag value. The tag value length is from 0 to 256 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag values are case-sensitive.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -3920,6 +4078,7 @@ extension Athena {
         /// A collection of one or more tags, separated by commas, to be added to an Athena resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -3947,6 +4106,7 @@ extension Athena {
         /// The session ID.
         public let sessionId: String
 
+        @inlinable
         public init(sessionId: String) {
             self.sessionId = sessionId
         }
@@ -3965,6 +4125,7 @@ extension Athena {
         /// The state of the session. A description of each state follows.  CREATING - The session is being started, including acquiring resources.  CREATED - The session has been started.  IDLE - The session is able to accept a calculation.  BUSY - The session is processing another task and is unable to accept a calculation.  TERMINATING - The session is in the process of shutting down.  TERMINATED - The session and its resources are no longer running.  DEGRADED - The session has no healthy coordinators.  FAILED - Due to a failure, the session and its resources are no longer running.
         public let state: SessionState?
 
+        @inlinable
         public init(state: SessionState? = nil) {
             self.state = state
         }
@@ -3982,6 +4143,7 @@ extension Athena {
         /// The unique identifier of the named query.
         public let namedQueryId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, namedQueryId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4003,6 +4165,7 @@ extension Athena {
         /// The name of a prepared statement that could not be returned due to an error.
         public let statementName: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, statementName: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4024,6 +4187,7 @@ extension Athena {
         /// The unique identifier of the query execution.
         public let queryExecutionId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, queryExecutionId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -4043,6 +4207,7 @@ extension Athena {
         /// A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -4073,6 +4238,7 @@ extension Athena {
         /// The new number of requested data processing units.
         public let targetDpus: Int
 
+        @inlinable
         public init(name: String, targetDpus: Int) {
             self.name = name
             self.targetDpus = targetDpus
@@ -4105,6 +4271,7 @@ extension Athena {
         /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
         public let type: DataCatalogType
 
+        @inlinable
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
             self.description = description
             self.name = name
@@ -4148,6 +4315,7 @@ extension Athena {
         /// The contents of the query with all query statements.
         public let queryString: String
 
+        @inlinable
         public init(description: String? = nil, name: String, namedQueryId: String, queryString: String) {
             self.description = description
             self.name = name
@@ -4190,6 +4358,7 @@ extension Athena {
         /// The notebook content type. Currently, the only valid type is IPYNB.
         public let type: NotebookType
 
+        @inlinable
         public init(clientRequestToken: String? = nil, notebookId: String, payload: String, sessionId: String? = nil, type: NotebookType) {
             self.clientRequestToken = clientRequestToken
             self.notebookId = notebookId
@@ -4228,6 +4397,7 @@ extension Athena {
         /// The ID of the notebook to update the metadata for.
         public let notebookId: String
 
+        @inlinable
         public init(clientRequestToken: String? = nil, name: String, notebookId: String) {
             self.clientRequestToken = clientRequestToken
             self.name = name
@@ -4271,6 +4441,7 @@ extension Athena {
         /// The workgroup for the prepared statement.
         public let workGroup: String
 
+        @inlinable
         public init(description: String? = nil, queryStatement: String, statementName: String, workGroup: String) {
             self.description = description
             self.queryStatement = queryStatement
@@ -4311,6 +4482,7 @@ extension Athena {
         /// The specified workgroup that will be updated.
         public let workGroup: String
 
+        @inlinable
         public init(configurationUpdates: WorkGroupConfigurationUpdates? = nil, description: String? = nil, state: WorkGroupState? = nil, workGroup: String) {
             self.configurationUpdates = configurationUpdates
             self.description = description
@@ -4350,6 +4522,7 @@ extension Athena {
         /// The state of the workgroup: ENABLED or DISABLED.
         public let state: WorkGroupState?
 
+        @inlinable
         public init(configuration: WorkGroupConfiguration? = nil, creationTime: Date? = nil, description: String? = nil, identityCenterApplicationArn: String? = nil, name: String, state: WorkGroupState? = nil) {
             self.configuration = configuration
             self.creationTime = creationTime
@@ -4395,6 +4568,7 @@ extension Athena {
         /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using ResultConfiguration$OutputLocation. If none of them is set, Athena issues an error that no output location is provided.
         public let resultConfiguration: ResultConfiguration?
 
+        @inlinable
         public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
@@ -4466,6 +4640,7 @@ extension Athena {
         /// The result configuration information about the queries in this workgroup that will be updated. Includes the updated results location and an updated option for encrypting query results.
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
 
+        @inlinable
         public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
@@ -4525,6 +4700,7 @@ extension Athena {
         /// The state of the workgroup.
         public let state: WorkGroupState?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, engineVersion: EngineVersion? = nil, identityCenterApplicationArn: String? = nil, name: String? = nil, state: WorkGroupState? = nil) {
             self.creationTime = creationTime
             self.description = description

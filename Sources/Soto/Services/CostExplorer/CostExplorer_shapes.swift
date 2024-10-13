@@ -346,6 +346,7 @@ extension CostExplorer {
         /// The list of identified root causes for the anomaly.
         public let rootCauses: [RootCause]?
 
+        @inlinable
         public init(anomalyEndDate: String? = nil, anomalyId: String, anomalyScore: AnomalyScore, anomalyStartDate: String? = nil, dimensionValue: String? = nil, feedback: AnomalyFeedbackType? = nil, impact: Impact, monitorArn: String, rootCauses: [RootCause]? = nil) {
             self.anomalyEndDate = anomalyEndDate
             self.anomalyId = anomalyId
@@ -377,6 +378,7 @@ extension CostExplorer {
         /// The first date an anomaly was observed.
         public let startDate: String
 
+        @inlinable
         public init(endDate: String? = nil, startDate: String) {
             self.endDate = endDate
             self.startDate = startDate
@@ -414,6 +416,7 @@ extension CostExplorer {
         /// The possible type values.
         public let monitorType: MonitorType
 
+        @inlinable
         public init(creationDate: String? = nil, dimensionalValueCount: Int? = nil, lastEvaluatedDate: String? = nil, lastUpdatedDate: String? = nil, monitorArn: String? = nil, monitorDimension: MonitorDimension? = nil, monitorName: String, monitorSpecification: Expression? = nil, monitorType: MonitorType) {
             self.creationDate = creationDate
             self.dimensionalValueCount = dimensionalValueCount
@@ -460,6 +463,7 @@ extension CostExplorer {
         /// The maximum score that's observed during the AnomalyDateInterval.
         public let maxScore: Double
 
+        @inlinable
         public init(currentScore: Double, maxScore: Double) {
             self.currentScore = currentScore
             self.maxScore = maxScore
@@ -489,6 +493,7 @@ extension CostExplorer {
         /// An Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and TotalImpactPercentage, respectively (see Impact for more details). The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000 in string format. One of Threshold or ThresholdExpression is required for this resource. You cannot specify both. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
         public let thresholdExpression: Expression?
 
+        @inlinable
         public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, thresholdExpression: Expression? = nil) {
             self.accountId = accountId
             self.frequency = frequency
@@ -501,6 +506,7 @@ extension CostExplorer {
         }
 
         @available(*, deprecated, message: "Members threshold have been deprecated")
+        @inlinable
         public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, threshold: Double? = nil, thresholdExpression: Expression? = nil) {
             self.accountId = accountId
             self.frequency = frequency
@@ -555,6 +561,7 @@ extension CostExplorer {
         /// The type of cost allocation tag. You can use AWSGenerated or UserDefined type tags. AWSGenerated type tags are tags that Amazon Web Services defines and applies to support Amazon Web Services resources for cost allocation purposes. UserDefined type tags are tags that you define, create, and apply to resources.
         public let type: CostAllocationTagType
 
+        @inlinable
         public init(lastUpdatedDate: String? = nil, lastUsedDate: String? = nil, status: CostAllocationTagStatus, tagKey: String, type: CostAllocationTagType) {
             self.lastUpdatedDate = lastUpdatedDate
             self.lastUsedDate = lastUsedDate
@@ -584,6 +591,7 @@ extension CostExplorer {
         ///  The time when the backfill was requested.
         public let requestedAt: String?
 
+        @inlinable
         public init(backfillFrom: String? = nil, backfillStatus: CostAllocationTagBackfillStatus? = nil, completedAt: String? = nil, lastUpdatedAt: String? = nil, requestedAt: String? = nil) {
             self.backfillFrom = backfillFrom
             self.backfillStatus = backfillStatus
@@ -607,6 +615,7 @@ extension CostExplorer {
         /// The key for the cost allocation tag.
         public let tagKey: String
 
+        @inlinable
         public init(status: CostAllocationTagStatus, tagKey: String) {
             self.status = status
             self.tagKey = tagKey
@@ -640,6 +649,7 @@ extension CostExplorer {
         ///  The split charge rules that are used to allocate your charges between your Cost Category values.
         public let splitChargeRules: [CostCategorySplitChargeRule]?
 
+        @inlinable
         public init(costCategoryArn: String, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String, name: String, processingStatus: [CostCategoryProcessingStatus]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion, splitChargeRules: [CostCategorySplitChargeRule]? = nil) {
             self.costCategoryArn = costCategoryArn
             self.defaultValue = defaultValue
@@ -671,6 +681,7 @@ extension CostExplorer {
         /// The name of the dimension that's used to group costs. If you specify LINKED_ACCOUNT_NAME, the cost category value is based on account name. If you specify TAG, the cost category value is based on the value of the specified tag key.
         public let dimensionName: CostCategoryInheritedValueDimensionName?
 
+        @inlinable
         public init(dimensionKey: String? = nil, dimensionName: CostCategoryInheritedValueDimensionName? = nil) {
             self.dimensionKey = dimensionKey
             self.dimensionName = dimensionName
@@ -693,6 +704,7 @@ extension CostExplorer {
         /// The process status for a specific cost category.
         public let status: CostCategoryStatus?
 
+        @inlinable
         public init(component: CostCategoryStatusComponent? = nil, status: CostCategoryStatus? = nil) {
             self.component = component
             self.status = status
@@ -720,6 +732,7 @@ extension CostExplorer {
         /// A list of unique cost category values in a specific cost category.
         public let values: [String]?
 
+        @inlinable
         public init(costCategoryArn: String? = nil, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
             self.costCategoryArn = costCategoryArn
             self.defaultValue = defaultValue
@@ -753,6 +766,7 @@ extension CostExplorer {
         public let type: CostCategoryRuleType?
         public let value: String?
 
+        @inlinable
         public init(inheritedValue: CostCategoryInheritedValueDimension? = nil, rule: Expression? = nil, type: CostCategoryRuleType? = nil, value: String? = nil) {
             self.inheritedValue = inheritedValue
             self.rule = rule
@@ -786,6 +800,7 @@ extension CostExplorer {
         /// The Cost Category values that you want to split costs across. These values can't be used as a source in other split charge rules.
         public let targets: [String]
 
+        @inlinable
         public init(method: CostCategorySplitChargeMethod, parameters: [CostCategorySplitChargeRuleParameter]? = nil, source: String, targets: [String]) {
             self.method = method
             self.parameters = parameters
@@ -823,6 +838,7 @@ extension CostExplorer {
         /// The parameter values.
         public let values: [String]
 
+        @inlinable
         public init(type: CostCategorySplitChargeRuleParameterType, values: [String]) {
             self.type = type
             self.values = values
@@ -850,6 +866,7 @@ extension CostExplorer {
         /// The specific value of the Cost Category.
         public let values: [String]?
 
+        @inlinable
         public init(key: String? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
             self.key = key
             self.matchOptions = matchOptions
@@ -881,6 +898,7 @@ extension CostExplorer {
         /// The amount of instance usage that the reservation covered, in normalized units.
         public let coverageNormalizedUnits: CoverageNormalizedUnits?
 
+        @inlinable
         public init(coverageCost: CoverageCost? = nil, coverageHours: CoverageHours? = nil, coverageNormalizedUnits: CoverageNormalizedUnits? = nil) {
             self.coverageCost = coverageCost
             self.coverageHours = coverageHours
@@ -902,6 +920,7 @@ extension CostExplorer {
         /// The total reservation coverage, in hours.
         public let total: Coverage?
 
+        @inlinable
         public init(groups: [ReservationCoverageGroup]? = nil, timePeriod: DateInterval? = nil, total: Coverage? = nil) {
             self.groups = groups
             self.timePeriod = timePeriod
@@ -919,6 +938,7 @@ extension CostExplorer {
         /// How much an On-Demand Instance costs.
         public let onDemandCost: String?
 
+        @inlinable
         public init(onDemandCost: String? = nil) {
             self.onDemandCost = onDemandCost
         }
@@ -938,6 +958,7 @@ extension CostExplorer {
         /// The total instance usage, in hours.
         public let totalRunningHours: String?
 
+        @inlinable
         public init(coverageHoursPercentage: String? = nil, onDemandHours: String? = nil, reservedHours: String? = nil, totalRunningHours: String? = nil) {
             self.coverageHoursPercentage = coverageHoursPercentage
             self.onDemandHours = onDemandHours
@@ -963,6 +984,7 @@ extension CostExplorer {
         /// The total number of normalized units that you used.
         public let totalRunningNormalizedUnits: String?
 
+        @inlinable
         public init(coverageNormalizedUnitsPercentage: String? = nil, onDemandNormalizedUnits: String? = nil, reservedNormalizedUnits: String? = nil, totalRunningNormalizedUnits: String? = nil) {
             self.coverageNormalizedUnitsPercentage = coverageNormalizedUnitsPercentage
             self.onDemandNormalizedUnits = onDemandNormalizedUnits
@@ -984,6 +1006,7 @@ extension CostExplorer {
         /// An optional list of tags to associate with the specified  AnomalyMonitor . You can use resource tags to control access to your monitor using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(anomalyMonitor: AnomalyMonitor, resourceTags: [ResourceTag]? = nil) {
             self.anomalyMonitor = anomalyMonitor
             self.resourceTags = resourceTags
@@ -1007,6 +1030,7 @@ extension CostExplorer {
         /// The unique identifier of your newly created cost anomaly detection monitor.
         public let monitorArn: String
 
+        @inlinable
         public init(monitorArn: String) {
             self.monitorArn = monitorArn
         }
@@ -1022,6 +1046,7 @@ extension CostExplorer {
         /// An optional list of tags to associate with the specified  AnomalySubscription . You can use resource tags to control access to your subscription using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(anomalySubscription: AnomalySubscription, resourceTags: [ResourceTag]? = nil) {
             self.anomalySubscription = anomalySubscription
             self.resourceTags = resourceTags
@@ -1045,6 +1070,7 @@ extension CostExplorer {
         /// The unique identifier of your newly created cost anomaly subscription.
         public let subscriptionArn: String
 
+        @inlinable
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -1067,6 +1093,7 @@ extension CostExplorer {
         ///  The split charge rules used to allocate your charges between your Cost Category values.
         public let splitChargeRules: [CostCategorySplitChargeRule]?
 
+        @inlinable
         public init(defaultValue: String? = nil, effectiveStart: String? = nil, name: String, resourceTags: [ResourceTag]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion, splitChargeRules: [CostCategorySplitChargeRule]? = nil) {
             self.defaultValue = defaultValue
             self.effectiveStart = effectiveStart
@@ -1120,6 +1147,7 @@ extension CostExplorer {
         /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
         public let effectiveStart: String?
 
+        @inlinable
         public init(costCategoryArn: String? = nil, effectiveStart: String? = nil) {
             self.costCategoryArn = costCategoryArn
             self.effectiveStart = effectiveStart
@@ -1155,6 +1183,7 @@ extension CostExplorer {
         /// The total number of hours that the instance ran during the lookback period.
         public let totalRunningHoursInLookbackPeriod: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, instanceName: String? = nil, monthlyCost: String? = nil, onDemandHoursInLookbackPeriod: String? = nil, reservationCoveredHoursInLookbackPeriod: String? = nil, resourceDetails: ResourceDetails? = nil, resourceId: String? = nil, resourceUtilization: ResourceUtilization? = nil, savingsPlansCoveredHoursInLookbackPeriod: String? = nil, tags: [TagValues]? = nil, totalRunningHoursInLookbackPeriod: String? = nil) {
             self.currencyCode = currencyCode
             self.instanceName = instanceName
@@ -1190,6 +1219,7 @@ extension CostExplorer {
         /// The beginning of the time period. The start date is inclusive. For example, if start is 2017-01-01, Amazon Web Services retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error.
         public let start: String
 
+        @inlinable
         public init(end: String, start: String) {
             self.end = end
             self.start = start
@@ -1212,6 +1242,7 @@ extension CostExplorer {
         /// The unique identifier of the cost anomaly monitor that you want to delete.
         public let monitorArn: String
 
+        @inlinable
         public init(monitorArn: String) {
             self.monitorArn = monitorArn
         }
@@ -1234,6 +1265,7 @@ extension CostExplorer {
         /// The unique identifier of the cost anomaly subscription that you want to delete.
         public let subscriptionArn: String
 
+        @inlinable
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -1256,6 +1288,7 @@ extension CostExplorer {
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
 
+        @inlinable
         public init(costCategoryArn: String) {
             self.costCategoryArn = costCategoryArn
         }
@@ -1277,6 +1310,7 @@ extension CostExplorer {
         /// The effective end date of the Cost Category as a result of deleting it. No costs after this date is categorized by the deleted Cost Category.
         public let effectiveEnd: String?
 
+        @inlinable
         public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil) {
             self.costCategoryArn = costCategoryArn
             self.effectiveEnd = effectiveEnd
@@ -1294,6 +1328,7 @@ extension CostExplorer {
         /// The date when the Cost Category was effective.
         public let effectiveOn: String?
 
+        @inlinable
         public init(costCategoryArn: String, effectiveOn: String? = nil) {
             self.costCategoryArn = costCategoryArn
             self.effectiveOn = effectiveOn
@@ -1317,6 +1352,7 @@ extension CostExplorer {
     public struct DescribeCostCategoryDefinitionResponse: AWSDecodableShape {
         public let costCategory: CostCategory?
 
+        @inlinable
         public init(costCategory: CostCategory? = nil) {
             self.costCategory = costCategory
         }
@@ -1334,6 +1370,7 @@ extension CostExplorer {
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public let values: [String]?
 
+        @inlinable
         public init(key: Dimension? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
             self.key = key
             self.matchOptions = matchOptions
@@ -1360,6 +1397,7 @@ extension CostExplorer {
         /// The value of a dimension with a specific attribute.
         public let value: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, value: String? = nil) {
             self.attributes = attributes
             self.value = value
@@ -1381,6 +1419,7 @@ extension CostExplorer {
         /// The maximum number of write operations per second.
         public let diskWriteOpsPerSecond: String?
 
+        @inlinable
         public init(diskReadBytesPerSecond: String? = nil, diskReadOpsPerSecond: String? = nil, diskWriteBytesPerSecond: String? = nil, diskWriteOpsPerSecond: String? = nil) {
             self.diskReadBytesPerSecond = diskReadBytesPerSecond
             self.diskReadOpsPerSecond = diskReadOpsPerSecond
@@ -1406,6 +1445,7 @@ extension CostExplorer {
         /// The maximum number of write operations per second.
         public let ebsWriteOpsPerSecond: String?
 
+        @inlinable
         public init(ebsReadBytesPerSecond: String? = nil, ebsReadOpsPerSecond: String? = nil, ebsWriteBytesPerSecond: String? = nil, ebsWriteOpsPerSecond: String? = nil) {
             self.ebsReadBytesPerSecond = ebsReadBytesPerSecond
             self.ebsReadOpsPerSecond = ebsReadOpsPerSecond
@@ -1439,6 +1479,7 @@ extension CostExplorer {
         /// Determines whether the recommended reservation is dedicated or shared.
         public let tenancy: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, currentGeneration: Bool? = nil, family: String? = nil, instanceType: String? = nil, platform: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil, tenancy: String? = nil) {
             self.availabilityZone = availabilityZone
             self.currentGeneration = currentGeneration
@@ -1482,6 +1523,7 @@ extension CostExplorer {
         /// The number of VCPU cores in the Amazon Web Services instance type.
         public let vcpu: String?
 
+        @inlinable
         public init(hourlyOnDemandRate: String? = nil, instanceType: String? = nil, memory: String? = nil, networkPerformance: String? = nil, platform: String? = nil, region: String? = nil, sku: String? = nil, storage: String? = nil, vcpu: String? = nil) {
             self.hourlyOnDemandRate = hourlyOnDemandRate
             self.instanceType = instanceType
@@ -1521,6 +1563,7 @@ extension CostExplorer {
         /// The network field that contains a list of network metrics that are associated with the current instance.
         public let networkResourceUtilization: NetworkResourceUtilization?
 
+        @inlinable
         public init(diskResourceUtilization: DiskResourceUtilization? = nil, ebsResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil, networkResourceUtilization: NetworkResourceUtilization? = nil) {
             self.diskResourceUtilization = diskResourceUtilization
             self.ebsResourceUtilization = ebsResourceUtilization
@@ -1544,6 +1587,7 @@ extension CostExplorer {
         /// Indicates whether you want a recommendation for standard or convertible reservations.
         public let offeringClass: OfferingClass?
 
+        @inlinable
         public init(offeringClass: OfferingClass? = nil) {
             self.offeringClass = offeringClass
         }
@@ -1565,6 +1609,7 @@ extension CostExplorer {
         /// Determines whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
 
+        @inlinable
         public init(currentGeneration: Bool? = nil, instanceClass: String? = nil, instanceSize: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.instanceClass = instanceClass
@@ -1596,6 +1641,7 @@ extension CostExplorer {
         /// Determines whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
 
+        @inlinable
         public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, productDescription: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.family = family
@@ -1629,6 +1675,7 @@ extension CostExplorer {
         /// The specific Tag to use for Expression.
         public let tags: TagValues?
 
+        @inlinable
         public init(and: [Expression]? = nil, costCategories: CostCategoryValues? = nil, dimensions: DimensionValues? = nil, not: Expression? = nil, or: [Expression]? = nil, tags: TagValues? = nil) {
             self.and = and
             self.costCategories = costCategories
@@ -1671,6 +1718,7 @@ extension CostExplorer {
         /// The period of time that the forecast covers.
         public let timePeriod: DateInterval?
 
+        @inlinable
         public init(meanValue: String? = nil, predictionIntervalLowerBound: String? = nil, predictionIntervalUpperBound: String? = nil, timePeriod: DateInterval? = nil) {
             self.meanValue = meanValue
             self.predictionIntervalLowerBound = predictionIntervalLowerBound
@@ -1698,6 +1746,7 @@ extension CostExplorer {
         /// Indicates the ID for this specific recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(estimatedCompletionTime: String? = nil, generationCompletionTime: String? = nil, generationStartedTime: String? = nil, generationStatus: GenerationStatus? = nil, recommendationId: String? = nil) {
             self.estimatedCompletionTime = estimatedCompletionTime
             self.generationCompletionTime = generationCompletionTime
@@ -1729,6 +1778,7 @@ extension CostExplorer {
         /// Filters anomaly results by the total impact field on the anomaly object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200.
         public let totalImpact: TotalImpactFilter?
 
+        @inlinable
         public init(dateInterval: AnomalyDateInterval, feedback: AnomalyFeedbackType? = nil, maxResults: Int? = nil, monitorArn: String? = nil, nextPageToken: String? = nil, totalImpact: TotalImpactFilter? = nil) {
             self.dateInterval = dateInterval
             self.feedback = feedback
@@ -1762,6 +1812,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
 
+        @inlinable
         public init(anomalies: [Anomaly], nextPageToken: String? = nil) {
             self.anomalies = anomalies
             self.nextPageToken = nextPageToken
@@ -1781,6 +1832,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, monitorArnList: [String]? = nil, nextPageToken: String? = nil) {
             self.maxResults = maxResults
             self.monitorArnList = monitorArnList
@@ -1809,6 +1861,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
 
+        @inlinable
         public init(anomalyMonitors: [AnomalyMonitor], nextPageToken: String? = nil) {
             self.anomalyMonitors = anomalyMonitors
             self.nextPageToken = nextPageToken
@@ -1830,6 +1883,7 @@ extension CostExplorer {
         /// A list of cost anomaly subscription ARNs.
         public let subscriptionArnList: [String]?
 
+        @inlinable
         public init(maxResults: Int? = nil, monitorArn: String? = nil, nextPageToken: String? = nil, subscriptionArnList: [String]? = nil) {
             self.maxResults = maxResults
             self.monitorArn = monitorArn
@@ -1862,6 +1916,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
 
+        @inlinable
         public init(anomalySubscriptions: [AnomalySubscription], nextPageToken: String? = nil) {
             self.anomalySubscriptions = anomalySubscriptions
             self.nextPageToken = nextPageToken
@@ -1881,6 +1936,7 @@ extension CostExplorer {
         /// The service metadata for the service or services you want to query. If not specified, all elements are returned.
         public let services: [String]?
 
+        @inlinable
         public init(approximationDimension: ApproximationDimension, granularity: Granularity, services: [String]? = nil) {
             self.approximationDimension = approximationDimension
             self.granularity = granularity
@@ -1909,6 +1965,7 @@ extension CostExplorer {
         /// The total number of usage records for all services in the services list.
         public let totalRecords: Int64?
 
+        @inlinable
         public init(lookbackPeriod: DateInterval? = nil, services: [String: Int64]? = nil, totalRecords: Int64? = nil) {
             self.lookbackPeriod = lookbackPeriod
             self.services = services
@@ -1936,6 +1993,7 @@ extension CostExplorer {
         /// Sets the start date and end date for retrieving Amazon Web Services costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -1979,6 +2037,7 @@ extension CostExplorer {
         /// The time period that's covered by the results in the response.
         public let resultsByTime: [ResultByTime]?
 
+        @inlinable
         public init(dimensionValueAttributes: [DimensionValuesWithAttributes]? = nil, groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
             self.dimensionValueAttributes = dimensionValueAttributes
             self.groupDefinitions = groupDefinitions
@@ -2008,6 +2067,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2051,6 +2111,7 @@ extension CostExplorer {
         /// The time period that's covered by the results in the response.
         public let resultsByTime: [ResultByTime]?
 
+        @inlinable
         public init(dimensionValueAttributes: [DimensionValuesWithAttributes]? = nil, groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
             self.dimensionValueAttributes = dimensionValueAttributes
             self.groupDefinitions = groupDefinitions
@@ -2079,6 +2140,7 @@ extension CostExplorer {
         public let sortBy: [SortDefinition]?
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(costCategoryName: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
             self.costCategoryName = costCategoryName
             self.filter = filter
@@ -2128,6 +2190,7 @@ extension CostExplorer {
         /// The total number of objects.
         public let totalSize: Int
 
+        @inlinable
         public init(costCategoryNames: [String]? = nil, costCategoryValues: [String]? = nil, nextPageToken: String? = nil, returnSize: Int, totalSize: Int) {
             self.costCategoryNames = costCategoryNames
             self.costCategoryValues = costCategoryValues
@@ -2157,6 +2220,7 @@ extension CostExplorer {
         /// The period of time that you want the forecast to cover. The start date must be equal to or no later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2187,6 +2251,7 @@ extension CostExplorer {
         /// How much you are forecasted to spend over the forecast period, in USD.
         public let total: MetricValue?
 
+        @inlinable
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
@@ -2215,6 +2280,7 @@ extension CostExplorer {
         /// The start date and end date for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(context: Context? = nil, dimension: Dimension, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
             self.context = context
             self.dimension = dimension
@@ -2261,6 +2327,7 @@ extension CostExplorer {
         /// The total number of search results.
         public let totalSize: Int
 
+        @inlinable
         public init(dimensionValues: [DimensionValuesWithAttributes], nextPageToken: String? = nil, returnSize: Int, totalSize: Int) {
             self.dimensionValues = dimensionValues
             self.nextPageToken = nextPageToken
@@ -2294,6 +2361,7 @@ extension CostExplorer {
         /// The start and end dates of the period that you want to retrieve data about reservation coverage for. You can retrieve data for a maximum of 13 months: the last 12 months and the current month. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2341,6 +2409,7 @@ extension CostExplorer {
         /// The total amount of instance usage that a reservation covered.
         public let total: Coverage?
 
+        @inlinable
         public init(coveragesByTime: [CoverageByTime], nextPageToken: String? = nil, total: Coverage? = nil) {
             self.coveragesByTime = coveragesByTime
             self.nextPageToken = nextPageToken
@@ -2375,6 +2444,7 @@ extension CostExplorer {
         /// The reservation term that you want recommendations for.
         public let termInYears: TermInYears?
 
+        @inlinable
         public init(accountId: String? = nil, accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption? = nil, service: String, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
@@ -2421,6 +2491,7 @@ extension CostExplorer {
         /// Recommendations for reservations to purchase.
         public let recommendations: [ReservationPurchaseRecommendation]?
 
+        @inlinable
         public init(metadata: ReservationPurchaseRecommendationMetadata? = nil, nextPageToken: String? = nil, recommendations: [ReservationPurchaseRecommendation]? = nil) {
             self.metadata = metadata
             self.nextPageToken = nextPageToken
@@ -2450,6 +2521,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2491,6 +2563,7 @@ extension CostExplorer {
         /// The amount of time that you used your Reserved Instances (RIs).
         public let utilizationsByTime: [UtilizationByTime]
 
+        @inlinable
         public init(nextPageToken: String? = nil, total: ReservationAggregates? = nil, utilizationsByTime: [UtilizationByTime]) {
             self.nextPageToken = nextPageToken
             self.total = total
@@ -2515,6 +2588,7 @@ extension CostExplorer {
         /// The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is "AmazonEC2".
         public let service: String
 
+        @inlinable
         public init(configuration: RightsizingRecommendationConfiguration? = nil, filter: Expression? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, service: String) {
             self.configuration = configuration
             self.filter = filter
@@ -2553,6 +2627,7 @@ extension CostExplorer {
         /// Summary of this recommendation set.
         public let summary: RightsizingRecommendationSummary?
 
+        @inlinable
         public init(configuration: RightsizingRecommendationConfiguration? = nil, metadata: RightsizingRecommendationMetadata? = nil, nextPageToken: String? = nil, rightsizingRecommendations: [RightsizingRecommendation]? = nil, summary: RightsizingRecommendationSummary? = nil) {
             self.configuration = configuration
             self.metadata = metadata
@@ -2574,6 +2649,7 @@ extension CostExplorer {
         /// The ID that is associated with the Savings Plan recommendation.
         public let recommendationDetailId: String
 
+        @inlinable
         public init(recommendationDetailId: String) {
             self.recommendationDetailId = recommendationDetailId
         }
@@ -2595,6 +2671,7 @@ extension CostExplorer {
         /// The ID that is associated with the Savings Plan recommendation.
         public let recommendationDetailId: String?
 
+        @inlinable
         public init(recommendationDetailData: RecommendationDetailData? = nil, recommendationDetailId: String? = nil) {
             self.recommendationDetailData = recommendationDetailData
             self.recommendationDetailId = recommendationDetailId
@@ -2624,6 +2701,7 @@ extension CostExplorer {
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, metrics: [String]? = nil, nextToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2669,6 +2747,7 @@ extension CostExplorer {
         /// The amount of spend that your Savings Plans covered.
         public let savingsPlansCoverages: [SavingsPlansCoverage]
 
+        @inlinable
         public init(nextToken: String? = nil, savingsPlansCoverages: [SavingsPlansCoverage]) {
             self.nextToken = nextToken
             self.savingsPlansCoverages = savingsPlansCoverages
@@ -2698,6 +2777,7 @@ extension CostExplorer {
         /// The savings plan recommendation term that's used to generate these recommendations.
         public let termInYears: TermInYears
 
+        @inlinable
         public init(accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
             self.accountScope = accountScope
             self.filter = filter
@@ -2736,6 +2816,7 @@ extension CostExplorer {
         /// Contains your request parameters, Savings Plan Recommendations Summary, and Details.
         public let savingsPlansPurchaseRecommendation: SavingsPlansPurchaseRecommendation?
 
+        @inlinable
         public init(metadata: SavingsPlansPurchaseRecommendationMetadata? = nil, nextPageToken: String? = nil, savingsPlansPurchaseRecommendation: SavingsPlansPurchaseRecommendation? = nil) {
             self.metadata = metadata
             self.nextPageToken = nextPageToken
@@ -2763,6 +2844,7 @@ extension CostExplorer {
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(dataType: [SavingsPlansDataType]? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.dataType = dataType
             self.filter = filter
@@ -2800,6 +2882,7 @@ extension CostExplorer {
         /// The total Savings Plans utilization, regardless of time period.
         public let total: SavingsPlansUtilizationAggregates?
 
+        @inlinable
         public init(nextToken: String? = nil, savingsPlansUtilizationDetails: [SavingsPlansUtilizationDetail], timePeriod: DateInterval, total: SavingsPlansUtilizationAggregates? = nil) {
             self.nextToken = nextToken
             self.savingsPlansUtilizationDetails = savingsPlansUtilizationDetails
@@ -2825,6 +2908,7 @@ extension CostExplorer {
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2852,6 +2936,7 @@ extension CostExplorer {
         /// The total amount of cost/commitment that you used your Savings Plans, regardless of date ranges.
         public let total: SavingsPlansUtilizationAggregates
 
+        @inlinable
         public init(savingsPlansUtilizationsByTime: [SavingsPlansUtilizationByTime]? = nil, total: SavingsPlansUtilizationAggregates) {
             self.savingsPlansUtilizationsByTime = savingsPlansUtilizationsByTime
             self.total = total
@@ -2878,6 +2963,7 @@ extension CostExplorer {
         /// The start and end dates for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.maxResults = maxResults
@@ -2924,6 +3010,7 @@ extension CostExplorer {
         /// The total number of query results.
         public let totalSize: Int
 
+        @inlinable
         public init(nextPageToken: String? = nil, returnSize: Int, tags: [String], totalSize: Int) {
             self.nextPageToken = nextPageToken
             self.returnSize = returnSize
@@ -2951,6 +3038,7 @@ extension CostExplorer {
         /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is included in the period, but the end date isn't included in the period. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
+        @inlinable
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
@@ -2981,6 +3069,7 @@ extension CostExplorer {
         /// How much you're forecasted to use over the forecast period.
         public let total: MetricValue?
 
+        @inlinable
         public init(forecastResultsByTime: [ForecastResult]? = nil, total: MetricValue? = nil) {
             self.forecastResultsByTime = forecastResultsByTime
             self.total = total
@@ -2998,6 +3087,7 @@ extension CostExplorer {
         /// The metrics that are included in this group.
         public let metrics: [String: MetricValue]?
 
+        @inlinable
         public init(keys: [String]? = nil, metrics: [String: MetricValue]? = nil) {
             self.keys = keys
             self.metrics = metrics
@@ -3015,6 +3105,7 @@ extension CostExplorer {
         /// The string that represents the type of group.
         public let type: GroupDefinitionType?
 
+        @inlinable
         public init(key: String? = nil, type: GroupDefinitionType? = nil) {
             self.key = key
             self.type = type
@@ -3043,6 +3134,7 @@ extension CostExplorer {
         /// The cumulative percentage difference between the total actual spend and total expected spend. It is calculated as (TotalImpact / TotalExpectedSpend) * 100. When TotalExpectedSpend is zero, this field is omitted. Expected spend can be zero in situations such as when you start to use a service for the first time.
         public let totalImpactPercentage: Double?
 
+        @inlinable
         public init(maxImpact: Double, totalActualSpend: Double? = nil, totalExpectedSpend: Double? = nil, totalImpact: Double? = nil, totalImpactPercentage: Double? = nil) {
             self.maxImpact = maxImpact
             self.totalActualSpend = totalActualSpend
@@ -3074,6 +3166,7 @@ extension CostExplorer {
         /// The Amazon Redshift reservations that Amazon Web Services recommends that you purchase.
         public let redshiftInstanceDetails: RedshiftInstanceDetails?
 
+        @inlinable
         public init(ec2InstanceDetails: EC2InstanceDetails? = nil, elastiCacheInstanceDetails: ElastiCacheInstanceDetails? = nil, esInstanceDetails: ESInstanceDetails? = nil, memoryDBInstanceDetails: MemoryDBInstanceDetails? = nil, rdsInstanceDetails: RDSInstanceDetails? = nil, redshiftInstanceDetails: RedshiftInstanceDetails? = nil) {
             self.ec2InstanceDetails = ec2InstanceDetails
             self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
@@ -3099,6 +3192,7 @@ extension CostExplorer {
         ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3123,6 +3217,7 @@ extension CostExplorer {
         ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
+        @inlinable
         public init(backfillRequests: [CostAllocationTagBackfillRequest]? = nil, nextToken: String? = nil) {
             self.backfillRequests = backfillRequests
             self.nextToken = nextToken
@@ -3146,6 +3241,7 @@ extension CostExplorer {
         /// The type of CostAllocationTag object that are returned for this request. The AWSGenerated type tags are tags that Amazon Web Services defines and applies to support Amazon Web Services resources for cost allocation purposes. The UserDefined type tags are tags that you define, create, and apply to resources.
         public let type: CostAllocationTagType?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: CostAllocationTagStatus? = nil, tagKeys: [String]? = nil, type: CostAllocationTagType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3182,6 +3278,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
+        @inlinable
         public init(costAllocationTags: [CostAllocationTag]? = nil, nextToken: String? = nil) {
             self.costAllocationTags = costAllocationTags
             self.nextToken = nextToken
@@ -3201,6 +3298,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
+        @inlinable
         public init(effectiveOn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.effectiveOn = effectiveOn
             self.maxResults = maxResults
@@ -3230,6 +3328,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
+        @inlinable
         public init(costCategoryReferences: [CostCategoryReference]? = nil, nextToken: String? = nil) {
             self.costCategoryReferences = costCategoryReferences
             self.nextToken = nextToken
@@ -3251,6 +3350,7 @@ extension CostExplorer {
         /// The IDs for each specific recommendation.
         public let recommendationIds: [String]?
 
+        @inlinable
         public init(generationStatus: GenerationStatus? = nil, nextPageToken: String? = nil, pageSize: Int? = nil, recommendationIds: [String]? = nil) {
             self.generationStatus = generationStatus
             self.nextPageToken = nextPageToken
@@ -3283,6 +3383,7 @@ extension CostExplorer {
         /// The token to retrieve the next set of results.
         public let nextPageToken: String?
 
+        @inlinable
         public init(generationSummaryList: [GenerationSummary]? = nil, nextPageToken: String? = nil) {
             self.generationSummaryList = generationSummaryList
             self.nextPageToken = nextPageToken
@@ -3298,6 +3399,7 @@ extension CostExplorer {
         /// The Amazon Resource Name (ARN) of the resource. For a list of supported resources, see ResourceTag.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -3317,6 +3419,7 @@ extension CostExplorer {
         /// A list of tag key value pairs that are associated with the resource.
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(resourceTags: [ResourceTag]? = nil) {
             self.resourceTags = resourceTags
         }
@@ -3338,6 +3441,7 @@ extension CostExplorer {
         /// Determines whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
 
+        @inlinable
         public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.family = family
@@ -3361,6 +3465,7 @@ extension CostExplorer {
         /// The unit that the metric is given in.
         public let unit: String?
 
+        @inlinable
         public init(amount: String? = nil, unit: String? = nil) {
             self.amount = amount
             self.unit = unit
@@ -3376,6 +3481,7 @@ extension CostExplorer {
         /// Determines whether this instance type is the Amazon Web Services default recommendation.
         public let targetInstances: [TargetInstance]?
 
+        @inlinable
         public init(targetInstances: [TargetInstance]? = nil) {
             self.targetInstances = targetInstances
         }
@@ -3395,6 +3501,7 @@ extension CostExplorer {
         /// The network outbound packets that are measured in packets per second.
         public let networkPacketsOutPerSecond: String?
 
+        @inlinable
         public init(networkInBytesPerSecond: String? = nil, networkOutBytesPerSecond: String? = nil, networkPacketsInPerSecond: String? = nil, networkPacketsOutPerSecond: String? = nil) {
             self.networkInBytesPerSecond = networkInBytesPerSecond
             self.networkOutBytesPerSecond = networkOutBytesPerSecond
@@ -3416,6 +3523,7 @@ extension CostExplorer {
         /// Describes whether the cost anomaly was a planned activity or you considered it an anomaly.
         public let feedback: AnomalyFeedbackType
 
+        @inlinable
         public init(anomalyId: String, feedback: AnomalyFeedbackType) {
             self.anomalyId = anomalyId
             self.feedback = feedback
@@ -3436,6 +3544,7 @@ extension CostExplorer {
         /// The ID of the modified cost anomaly.
         public let anomalyId: String
 
+        @inlinable
         public init(anomalyId: String) {
             self.anomalyId = anomalyId
         }
@@ -3465,6 +3574,7 @@ extension CostExplorer {
         /// Determines whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
 
+        @inlinable
         public init(currentGeneration: Bool? = nil, databaseEdition: String? = nil, databaseEngine: String? = nil, deploymentOption: String? = nil, family: String? = nil, instanceType: String? = nil, licenseModel: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.databaseEdition = databaseEdition
@@ -3548,6 +3658,7 @@ extension CostExplorer {
         /// The upfront cost of the recommended Savings Plan, based on the selected payment option.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountId: String? = nil, accountScope: AccountScope? = nil, currencyCode: String? = nil, currentAverageCoverage: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageCoverage: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, existingHourlyCommitment: String? = nil, generationTimestamp: String? = nil, hourlyCommitmentToPurchase: String? = nil, instanceFamily: String? = nil, latestUsageTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, metricsOverLookbackPeriod: [RecommendationDetailHourlyMetrics]? = nil, offeringId: String? = nil, paymentOption: PaymentOption? = nil, region: String? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.accountScope = accountScope
@@ -3624,6 +3735,7 @@ extension CostExplorer {
         public let estimatedOnDemandCost: String?
         public let startTime: String?
 
+        @inlinable
         public init(currentCoverage: String? = nil, estimatedCoverage: String? = nil, estimatedNewCommitmentUtilization: String? = nil, estimatedOnDemandCost: String? = nil, startTime: String? = nil) {
             self.currentCoverage = currentCoverage
             self.estimatedCoverage = estimatedCoverage
@@ -3653,6 +3765,7 @@ extension CostExplorer {
         /// Determines whether the recommended reservation is size flexible.
         public let sizeFlexEligible: Bool?
 
+        @inlinable
         public init(currentGeneration: Bool? = nil, family: String? = nil, nodeType: String? = nil, region: String? = nil, sizeFlexEligible: Bool? = nil) {
             self.currentGeneration = currentGeneration
             self.family = family
@@ -3706,6 +3819,7 @@ extension CostExplorer {
         /// The percentage of Amazon EC2 reservation time that you used. It's converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
         public let utilizationPercentageInUnits: String?
 
+        @inlinable
         public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, realizedSavings: String? = nil, riCostForUnusedHours: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unrealizedSavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
             self.amortizedRecurringFee = amortizedRecurringFee
             self.amortizedUpfrontFee = amortizedUpfrontFee
@@ -3753,6 +3867,7 @@ extension CostExplorer {
         /// How much instance usage this group of reservations covered.
         public let coverage: Coverage?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, coverage: Coverage? = nil) {
             self.attributes = attributes
             self.coverage = coverage
@@ -3780,6 +3895,7 @@ extension CostExplorer {
         /// The term of the reservation that you want recommendations for, in years.
         public let termInYears: TermInYears?
 
+        @inlinable
         public init(accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, recommendationDetails: [ReservationPurchaseRecommendationDetail]? = nil, recommendationSummary: ReservationPurchaseRecommendationSummary? = nil, serviceSpecification: ServiceSpecification? = nil, termInYears: TermInYears? = nil) {
             self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -3841,6 +3957,7 @@ extension CostExplorer {
         /// How much purchasing this instance costs you upfront.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountId: String? = nil, averageNormalizedUnitsUsedPerHour: String? = nil, averageNumberOfInstancesUsedPerHour: String? = nil, averageUtilization: String? = nil, currencyCode: String? = nil, estimatedBreakEvenInMonths: String? = nil, estimatedMonthlyOnDemandCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedMonthlySavingsPercentage: String? = nil, estimatedReservationCostForLookbackPeriod: String? = nil, instanceDetails: InstanceDetails? = nil, maximumNormalizedUnitsUsedPerHour: String? = nil, maximumNumberOfInstancesUsedPerHour: String? = nil, minimumNormalizedUnitsUsedPerHour: String? = nil, minimumNumberOfInstancesUsedPerHour: String? = nil, recommendedNormalizedUnitsToPurchase: String? = nil, recommendedNumberOfInstancesToPurchase: String? = nil, recurringStandardMonthlyCost: String? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
@@ -3894,6 +4011,7 @@ extension CostExplorer {
         /// The ID for the recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, recommendationId: String? = nil) {
             self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
@@ -3915,6 +4033,7 @@ extension CostExplorer {
         /// The total amount that Amazon Web Services estimates that this recommendation could save you in a month, as a percentage of your costs.
         public let totalEstimatedMonthlySavingsPercentage: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, totalEstimatedMonthlySavingsAmount: String? = nil, totalEstimatedMonthlySavingsPercentage: String? = nil) {
             self.currencyCode = currencyCode
             self.totalEstimatedMonthlySavingsAmount = totalEstimatedMonthlySavingsAmount
@@ -3938,6 +4057,7 @@ extension CostExplorer {
         /// The value of a specific reservation attribute.
         public let value: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, key: String? = nil, utilization: ReservationAggregates? = nil, value: String? = nil) {
             self.attributes = attributes
             self.key = key
@@ -3957,6 +4077,7 @@ extension CostExplorer {
         /// Details for the Amazon EC2 resource.
         public let ec2ResourceDetails: EC2ResourceDetails?
 
+        @inlinable
         public init(ec2ResourceDetails: EC2ResourceDetails? = nil) {
             self.ec2ResourceDetails = ec2ResourceDetails
         }
@@ -3972,6 +4093,7 @@ extension CostExplorer {
         /// The value that's associated with the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3995,6 +4117,7 @@ extension CostExplorer {
         /// The utilization of current Amazon EC2 instance.
         public let ec2ResourceUtilization: EC2ResourceUtilization?
 
+        @inlinable
         public init(ec2ResourceUtilization: EC2ResourceUtilization? = nil) {
             self.ec2ResourceUtilization = ec2ResourceUtilization
         }
@@ -4014,6 +4137,7 @@ extension CostExplorer {
         /// The total amount of cost or usage accrued during the time period.
         public let total: [String: MetricValue]?
 
+        @inlinable
         public init(estimated: Bool? = nil, groups: [Group]? = nil, timePeriod: DateInterval? = nil, total: [String: MetricValue]? = nil) {
             self.estimated = estimated
             self.groups = groups
@@ -4043,6 +4167,7 @@ extension CostExplorer {
         /// The details for termination recommendations.
         public let terminateRecommendationDetail: TerminateRecommendationDetail?
 
+        @inlinable
         public init(accountId: String? = nil, currentInstance: CurrentInstance? = nil, findingReasonCodes: [FindingReasonCode]? = nil, modifyRecommendationDetail: ModifyRecommendationDetail? = nil, rightsizingType: RightsizingType? = nil, terminateRecommendationDetail: TerminateRecommendationDetail? = nil) {
             self.accountId = accountId
             self.currentInstance = currentInstance
@@ -4068,6 +4193,7 @@ extension CostExplorer {
         /// The option to see recommendations within the same instance family or recommendations for instances across other families. The default value is SAME_INSTANCE_FAMILY.
         public let recommendationTarget: RecommendationTarget
 
+        @inlinable
         public init(benefitsConsidered: Bool, recommendationTarget: RecommendationTarget) {
             self.benefitsConsidered = benefitsConsidered
             self.recommendationTarget = recommendationTarget
@@ -4089,6 +4215,7 @@ extension CostExplorer {
         /// The ID for the recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, recommendationId: String? = nil) {
             self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
@@ -4114,6 +4241,7 @@ extension CostExplorer {
         /// The total number of instance recommendations.
         public let totalRecommendationCount: String?
 
+        @inlinable
         public init(estimatedTotalMonthlySavingsAmount: String? = nil, savingsCurrencyCode: String? = nil, savingsPercentage: String? = nil, totalRecommendationCount: String? = nil) {
             self.estimatedTotalMonthlySavingsAmount = estimatedTotalMonthlySavingsAmount
             self.savingsCurrencyCode = savingsCurrencyCode
@@ -4141,6 +4269,7 @@ extension CostExplorer {
         /// The UsageType value that's associated with the cost anomaly.
         public let usageType: String?
 
+        @inlinable
         public init(linkedAccount: String? = nil, linkedAccountName: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
             self.linkedAccount = linkedAccount
             self.linkedAccountName = linkedAccountName
@@ -4166,6 +4295,7 @@ extension CostExplorer {
         /// The total amortized amount of your Savings Plans commitment, regardless of your Savings Plans purchase method.
         public let totalAmortizedCommitment: String?
 
+        @inlinable
         public init(amortizedRecurringCommitment: String? = nil, amortizedUpfrontCommitment: String? = nil, totalAmortizedCommitment: String? = nil) {
             self.amortizedRecurringCommitment = amortizedRecurringCommitment
             self.amortizedUpfrontCommitment = amortizedUpfrontCommitment
@@ -4186,6 +4316,7 @@ extension CostExplorer {
         public let coverage: SavingsPlansCoverageData?
         public let timePeriod: DateInterval?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, coverage: SavingsPlansCoverageData? = nil, timePeriod: DateInterval? = nil) {
             self.attributes = attributes
             self.coverage = coverage
@@ -4209,6 +4340,7 @@ extension CostExplorer {
         /// The total cost of your Amazon Web Services usage, regardless of your purchase option.
         public let totalCost: String?
 
+        @inlinable
         public init(coveragePercentage: String? = nil, onDemandCost: String? = nil, spendCoveredBySavingsPlans: String? = nil, totalCost: String? = nil) {
             self.coveragePercentage = coveragePercentage
             self.onDemandCost = onDemandCost
@@ -4232,6 +4364,7 @@ extension CostExplorer {
         /// A collection of Amazon Web Services resources in a geographic area. Each Amazon Web Services Region is isolated and independent of the other Regions.
         public let region: String?
 
+        @inlinable
         public init(instanceFamily: String? = nil, offeringId: String? = nil, region: String? = nil) {
             self.instanceFamily = instanceFamily
             self.offeringId = offeringId
@@ -4261,6 +4394,7 @@ extension CostExplorer {
         /// The Savings Plans recommendation term in years. It's used to generate the recommendation.
         public let termInYears: TermInYears?
 
+        @inlinable
         public init(accountScope: AccountScope? = nil, lookbackPeriodInDays: LookbackPeriodInDays? = nil, paymentOption: PaymentOption? = nil, savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]? = nil, savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary? = nil, savingsPlansType: SupportedSavingsPlansType? = nil, termInYears: TermInYears? = nil) {
             self.accountScope = accountScope
             self.lookbackPeriodInDays = lookbackPeriodInDays
@@ -4318,6 +4452,7 @@ extension CostExplorer {
         /// The upfront cost of the recommended Savings Plans, based on the selected payment option.
         public let upfrontCost: String?
 
+        @inlinable
         public init(accountId: String? = nil, currencyCode: String? = nil, currentAverageHourlyOnDemandSpend: String? = nil, currentMaximumHourlyOnDemandSpend: String? = nil, currentMinimumHourlyOnDemandSpend: String? = nil, estimatedAverageUtilization: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCost: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedSPCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, recommendationDetailId: String? = nil, savingsPlansDetails: SavingsPlansDetails? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.currencyCode = currencyCode
@@ -4367,6 +4502,7 @@ extension CostExplorer {
         /// The unique identifier for the recommendation set.
         public let recommendationId: String?
 
+        @inlinable
         public init(additionalMetadata: String? = nil, generationTimestamp: String? = nil, recommendationId: String? = nil) {
             self.additionalMetadata = additionalMetadata
             self.generationTimestamp = generationTimestamp
@@ -4404,6 +4540,7 @@ extension CostExplorer {
         /// The aggregate number of Savings Plans recommendations that exist for your account.
         public let totalRecommendationCount: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, currentOnDemandSpend: String? = nil, dailyCommitmentToPurchase: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedOnDemandCostWithCurrentCommitment: String? = nil, estimatedROI: String? = nil, estimatedSavingsAmount: String? = nil, estimatedSavingsPercentage: String? = nil, estimatedTotalCost: String? = nil, hourlyCommitmentToPurchase: String? = nil, totalRecommendationCount: String? = nil) {
             self.currencyCode = currencyCode
             self.currentOnDemandSpend = currentOnDemandSpend
@@ -4439,6 +4576,7 @@ extension CostExplorer {
         /// How much the amount that the usage would have cost if it was accrued at the On-Demand rate.
         public let onDemandCostEquivalent: String?
 
+        @inlinable
         public init(netSavings: String? = nil, onDemandCostEquivalent: String? = nil) {
             self.netSavings = netSavings
             self.onDemandCostEquivalent = onDemandCostEquivalent
@@ -4460,6 +4598,7 @@ extension CostExplorer {
         /// The amount of UsedCommitment divided by the TotalCommitment for your Savings Plans.
         public let utilizationPercentage: String?
 
+        @inlinable
         public init(totalCommitment: String? = nil, unusedCommitment: String? = nil, usedCommitment: String? = nil, utilizationPercentage: String? = nil) {
             self.totalCommitment = totalCommitment
             self.unusedCommitment = unusedCommitment
@@ -4483,6 +4622,7 @@ extension CostExplorer {
         /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
         public let utilization: SavingsPlansUtilization
 
+        @inlinable
         public init(amortizedCommitment: SavingsPlansAmortizedCommitment? = nil, savings: SavingsPlansSavings? = nil, utilization: SavingsPlansUtilization) {
             self.amortizedCommitment = amortizedCommitment
             self.savings = savings
@@ -4505,6 +4645,7 @@ extension CostExplorer {
         /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
         public let utilization: SavingsPlansUtilization
 
+        @inlinable
         public init(amortizedCommitment: SavingsPlansAmortizedCommitment? = nil, savings: SavingsPlansSavings? = nil, timePeriod: DateInterval, utilization: SavingsPlansUtilization) {
             self.amortizedCommitment = amortizedCommitment
             self.savings = savings
@@ -4532,6 +4673,7 @@ extension CostExplorer {
         /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
         public let utilization: SavingsPlansUtilization?
 
+        @inlinable
         public init(amortizedCommitment: SavingsPlansAmortizedCommitment? = nil, attributes: [String: String]? = nil, savings: SavingsPlansSavings? = nil, savingsPlanArn: String? = nil, utilization: SavingsPlansUtilization? = nil) {
             self.amortizedCommitment = amortizedCommitment
             self.attributes = attributes
@@ -4553,6 +4695,7 @@ extension CostExplorer {
         /// The Amazon EC2 hardware specifications that you want Amazon Web Services to provide recommendations for.
         public let ec2Specification: EC2Specification?
 
+        @inlinable
         public init(ec2Specification: EC2Specification? = nil) {
             self.ec2Specification = ec2Specification
         }
@@ -4568,6 +4711,7 @@ extension CostExplorer {
         /// The order that's used to sort the data.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(key: String, sortOrder: SortOrder? = nil) {
             self.key = key
             self.sortOrder = sortOrder
@@ -4588,6 +4732,7 @@ extension CostExplorer {
         ///  The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future.
         public let backfillFrom: String
 
+        @inlinable
         public init(backfillFrom: String) {
             self.backfillFrom = backfillFrom
         }
@@ -4607,6 +4752,7 @@ extension CostExplorer {
         ///  An object containing detailed metadata of your new backfill request.
         public let backfillRequest: CostAllocationTagBackfillRequest?
 
+        @inlinable
         public init(backfillRequest: CostAllocationTagBackfillRequest? = nil) {
             self.backfillRequest = backfillRequest
         }
@@ -4628,6 +4774,7 @@ extension CostExplorer {
         /// The ID for this specific recommendation.
         public let recommendationId: String?
 
+        @inlinable
         public init(estimatedCompletionTime: String? = nil, generationStartedTime: String? = nil, recommendationId: String? = nil) {
             self.estimatedCompletionTime = estimatedCompletionTime
             self.generationStartedTime = generationStartedTime
@@ -4649,6 +4796,7 @@ extension CostExplorer {
         /// The notification delivery channel.
         public let type: SubscriberType?
 
+        @inlinable
         public init(address: String? = nil, status: SubscriberStatus? = nil, type: SubscriberType? = nil) {
             self.address = address
             self.status = status
@@ -4674,6 +4822,7 @@ extension CostExplorer {
         ///  A list of tag key-value pairs to be added to the resource. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]
 
+        @inlinable
         public init(resourceArn: String, resourceTags: [ResourceTag]) {
             self.resourceArn = resourceArn
             self.resourceTags = resourceTags
@@ -4707,6 +4856,7 @@ extension CostExplorer {
         /// The specific value of the tag.
         public let values: [String]?
 
+        @inlinable
         public init(key: String? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
             self.key = key
             self.matchOptions = matchOptions
@@ -4745,6 +4895,7 @@ extension CostExplorer {
         /// Details on the target instance type.
         public let resourceDetails: ResourceDetails?
 
+        @inlinable
         public init(currencyCode: String? = nil, defaultTargetInstance: Bool? = nil, estimatedMonthlyCost: String? = nil, estimatedMonthlySavings: String? = nil, expectedResourceUtilization: ResourceUtilization? = nil, platformDifferences: [PlatformDifference]? = nil, resourceDetails: ResourceDetails? = nil) {
             self.currencyCode = currencyCode
             self.defaultTargetInstance = defaultTargetInstance
@@ -4772,6 +4923,7 @@ extension CostExplorer {
         /// The estimated savings that result from modification, on a monthly basis.
         public let estimatedMonthlySavings: String?
 
+        @inlinable
         public init(currencyCode: String? = nil, estimatedMonthlySavings: String? = nil) {
             self.currencyCode = currencyCode
             self.estimatedMonthlySavings = estimatedMonthlySavings
@@ -4791,6 +4943,7 @@ extension CostExplorer {
         /// The lower bound dollar value that's used in the filter.
         public let startValue: Double
 
+        @inlinable
         public init(endValue: Double? = nil, numericOperator: NumericOperator, startValue: Double = 0) {
             self.endValue = endValue
             self.numericOperator = numericOperator
@@ -4810,6 +4963,7 @@ extension CostExplorer {
         /// A list of tag keys associated with tags that need to be removed from the resource. If you specify a tag key that doesn't exist, it's ignored. Although the maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web Services use.
         public let resourceTagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, resourceTagKeys: [String]) {
             self.resourceArn = resourceArn
             self.resourceTagKeys = resourceTagKeys
@@ -4843,6 +4997,7 @@ extension CostExplorer {
         /// The new name for the cost anomaly monitor.
         public let monitorName: String?
 
+        @inlinable
         public init(monitorArn: String, monitorName: String? = nil) {
             self.monitorArn = monitorArn
             self.monitorName = monitorName
@@ -4865,6 +5020,7 @@ extension CostExplorer {
         /// A cost anomaly monitor ARN.
         public let monitorArn: String
 
+        @inlinable
         public init(monitorArn: String) {
             self.monitorArn = monitorArn
         }
@@ -4890,6 +5046,7 @@ extension CostExplorer {
         /// The update to the Expression object used to specify the anomalies that you want to generate alerts for. This supports dimensions and nested expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and TotalImpactPercentage, respectively (see Impact for more details). The supported nested expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and 10,000,000,000 in string format. You can specify either Threshold or ThresholdExpression, but not both. The following are examples of valid ThresholdExpressions:   Absolute threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }    Percentage threshold: { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }     AND two thresholds together: { "And": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }     OR two thresholds together: { "Or": [ { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }
         public let thresholdExpression: Expression?
 
+        @inlinable
         public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, thresholdExpression: Expression? = nil) {
             self.frequency = frequency
             self.monitorArnList = monitorArnList
@@ -4901,6 +5058,7 @@ extension CostExplorer {
         }
 
         @available(*, deprecated, message: "Members threshold have been deprecated")
+        @inlinable
         public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, threshold: Double? = nil, thresholdExpression: Expression? = nil) {
             self.frequency = frequency
             self.monitorArnList = monitorArnList
@@ -4943,6 +5101,7 @@ extension CostExplorer {
         /// A cost anomaly subscription ARN.
         public let subscriptionArn: String
 
+        @inlinable
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -4960,6 +5119,7 @@ extension CostExplorer {
         /// The key for the cost allocation tag.
         public let tagKey: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil, tagKey: String? = nil) {
             self.code = code
             self.message = message
@@ -4977,6 +5137,7 @@ extension CostExplorer {
         /// The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request.
         public let costAllocationTagsStatus: [CostAllocationTagStatusEntry]
 
+        @inlinable
         public init(costAllocationTagsStatus: [CostAllocationTagStatusEntry]) {
             self.costAllocationTagsStatus = costAllocationTagsStatus
         }
@@ -4998,6 +5159,7 @@ extension CostExplorer {
         /// A list of UpdateCostAllocationTagsStatusError objects with error details about each cost allocation tag that can't be updated. If there's no failure, an empty array returns.
         public let errors: [UpdateCostAllocationTagsStatusError]?
 
+        @inlinable
         public init(errors: [UpdateCostAllocationTagsStatusError]? = nil) {
             self.errors = errors
         }
@@ -5019,6 +5181,7 @@ extension CostExplorer {
         ///  The split charge rules used to allocate your charges between your Cost Category values.
         public let splitChargeRules: [CostCategorySplitChargeRule]?
 
+        @inlinable
         public init(costCategoryArn: String, defaultValue: String? = nil, effectiveStart: String? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion, splitChargeRules: [CostCategorySplitChargeRule]? = nil) {
             self.costCategoryArn = costCategoryArn
             self.defaultValue = defaultValue
@@ -5066,6 +5229,7 @@ extension CostExplorer {
         /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
         public let effectiveStart: String?
 
+        @inlinable
         public init(costCategoryArn: String? = nil, effectiveStart: String? = nil) {
             self.costCategoryArn = costCategoryArn
             self.effectiveStart = effectiveStart
@@ -5085,6 +5249,7 @@ extension CostExplorer {
         /// The total number of reservation hours that were used.
         public let total: ReservationAggregates?
 
+        @inlinable
         public init(groups: [ReservationUtilizationGroup]? = nil, timePeriod: DateInterval? = nil, total: ReservationAggregates? = nil) {
             self.groups = groups
             self.timePeriod = timePeriod

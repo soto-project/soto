@@ -153,6 +153,7 @@ extension ServiceDiscovery {
         /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String? = CreateHttpNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
@@ -183,6 +184,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -206,6 +208,7 @@ extension ServiceDiscovery {
         /// The ID of the Amazon VPC that you want to associate the namespace with.
         public let vpc: String
 
+        @inlinable
         public init(creatorRequestId: String? = CreatePrivateDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, properties: PrivateDnsNamespaceProperties? = nil, tags: [Tag]? = nil, vpc: String) {
             self.creatorRequestId = creatorRequestId
             self.description = description
@@ -242,6 +245,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -263,6 +267,7 @@ extension ServiceDiscovery {
         /// The tags to add to the namespace. Each tag consists of a key and an optional value that you define. Tags keys can be up to 128 characters in length, and tag values can be up to 256 characters in length.
         public let tags: [Tag]?
 
+        @inlinable
         public init(creatorRequestId: String? = CreatePublicDnsNamespaceRequest.idempotencyToken(), description: String? = nil, name: String, properties: PublicDnsNamespaceProperties? = nil, tags: [Tag]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
@@ -296,6 +301,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -325,6 +331,7 @@ extension ServiceDiscovery {
         /// If present, specifies that the service instances are only discoverable using the DiscoverInstances API operation. No DNS records is registered for the service instances. The only valid value is HTTP.
         public let type: ServiceTypeOption?
 
+        @inlinable
         public init(creatorRequestId: String? = CreateServiceRequest.idempotencyToken(), description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, name: String, namespaceId: String? = nil, tags: [Tag]? = nil, type: ServiceTypeOption? = nil) {
             self.creatorRequestId = creatorRequestId
             self.description = description
@@ -368,6 +375,7 @@ extension ServiceDiscovery {
         /// A complex type that contains information about the new service.
         public let service: Service?
 
+        @inlinable
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -381,6 +389,7 @@ extension ServiceDiscovery {
         /// The ID of the namespace that you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -398,6 +407,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -411,6 +421,7 @@ extension ServiceDiscovery {
         /// The ID of the service that you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -434,6 +445,7 @@ extension ServiceDiscovery {
         /// The ID of the service that the instance is associated with.
         public let serviceId: String
 
+        @inlinable
         public init(instanceId: String, serviceId: String) {
             self.instanceId = instanceId
             self.serviceId = serviceId
@@ -454,6 +466,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -477,6 +490,7 @@ extension ServiceDiscovery {
         /// The name of the service that you specified when you registered the instance.
         public let serviceName: String
 
+        @inlinable
         public init(healthStatus: HealthStatusFilter? = nil, maxResults: Int? = nil, namespaceName: String, optionalParameters: [String: String]? = nil, queryParameters: [String: String]? = nil, serviceName: String) {
             self.healthStatus = healthStatus
             self.maxResults = maxResults
@@ -521,6 +535,7 @@ extension ServiceDiscovery {
         /// The increasing revision associated to the response Instances list. If a new instance is registered or deregistered, the InstancesRevision updates. The health status updates don't update InstancesRevision.
         public let instancesRevision: Int64?
 
+        @inlinable
         public init(instances: [HttpInstanceSummary]? = nil, instancesRevision: Int64? = nil) {
             self.instances = instances
             self.instancesRevision = instancesRevision
@@ -538,6 +553,7 @@ extension ServiceDiscovery {
         /// The name of the service that you specified when you registered the instance.
         public let serviceName: String
 
+        @inlinable
         public init(namespaceName: String, serviceName: String) {
             self.namespaceName = namespaceName
             self.serviceName = serviceName
@@ -558,6 +574,7 @@ extension ServiceDiscovery {
         /// The increasing revision associated to the response Instances list. If a new instance is registered or deregistered, the InstancesRevision updates. The health status updates don't update InstancesRevision.
         public let instancesRevision: Int64?
 
+        @inlinable
         public init(instancesRevision: Int64? = nil) {
             self.instancesRevision = instancesRevision
         }
@@ -575,6 +592,7 @@ extension ServiceDiscovery {
         /// The routing policy that you want to apply to all Route 53 DNS records that Cloud Map creates when you register an instance and specify this service.  If you want to use this service to register instances that create alias records, specify WEIGHTED for the routing policy.  You can specify the following values:  MULTIVALUE  If you define a health check for the service and the health check is healthy, Route 53 returns the applicable value for up to eight instances. For example, suppose that the service includes configurations for one A record and a health check. You use the service to register 10 instances. Route 53 responds to DNS queries with IP addresses for up to eight healthy instances. If fewer than eight instances are healthy, Route 53 responds to every DNS query with the IP addresses for all of the healthy instances. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the values for up to eight instances. For more information about the multivalue routing policy, see Multivalue Answer Routing in the Route 53 Developer Guide.  WEIGHTED  Route 53 returns the applicable value from one randomly selected instance from among the instances that you registered using the same service. Currently, all records have the same weight, so you can't route more or less traffic to any instances. For example, suppose that the service includes configurations for one A record and a health check. You use the service to register 10 instances. Route 53 responds to DNS queries with the IP address for one randomly selected instance from among the healthy instances. If no instances are healthy, Route 53 responds to DNS queries as if all of the instances were healthy. If you don't define a health check for the service, Route 53 assumes that all instances are healthy and returns the applicable value for one randomly selected instance. For more information about the weighted routing policy, see Weighted Routing in the Route 53 Developer Guide.
         public let routingPolicy: RoutingPolicy?
 
+        @inlinable
         public init(dnsRecords: [DnsRecord], routingPolicy: RoutingPolicy? = nil) {
             self.dnsRecords = dnsRecords
             self.namespaceId = nil
@@ -582,6 +600,7 @@ extension ServiceDiscovery {
         }
 
         @available(*, deprecated, message: "Members namespaceId have been deprecated")
+        @inlinable
         public init(dnsRecords: [DnsRecord], namespaceId: String? = nil, routingPolicy: RoutingPolicy? = nil) {
             self.dnsRecords = dnsRecords
             self.namespaceId = namespaceId
@@ -606,6 +625,7 @@ extension ServiceDiscovery {
         /// An array that contains one DnsRecord object for each Route 53 record that you want Cloud Map to create when you register an instance.
         public let dnsRecords: [DnsRecord]
 
+        @inlinable
         public init(dnsRecords: [DnsRecord]) {
             self.dnsRecords = dnsRecords
         }
@@ -627,6 +647,7 @@ extension ServiceDiscovery {
         /// Start of Authority (SOA) record for the hosted zone.
         public let soa: SOA?
 
+        @inlinable
         public init(hostedZoneId: String? = nil, soa: SOA? = nil) {
             self.hostedZoneId = hostedZoneId
             self.soa = soa
@@ -644,6 +665,7 @@ extension ServiceDiscovery {
         /// The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. You can specify values for Type in the following combinations:     A       AAAA       A and  AAAA       SRV       CNAME     If you want Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type. You specify other settings, such as the IP address for A and AAAA records, when you register an instance. For more information, see RegisterInstance. The following values are supported:  A  Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44.  AAAA  Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345.  CNAME  Route 53 returns the domain name of the resource, such as www.example.com. Note the following:   You specify the domain name that you want to route traffic to when you register an instance. For more information, see Attributes in the topic RegisterInstance.   You must specify WEIGHTED for the value of RoutingPolicy.   You can't specify both CNAME for Type and settings for HealthCheckConfig. If you do, the request will fail with an InvalidInput error.    SRV  Route 53 returns the value for an SRV record. The value for an SRV record uses the following values:  priority weight port service-hostname  Note the following about the values:   The values of priority and weight are both set to 1 and can't be changed.    The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request.   The value of service-hostname is a concatenation of the following values:   The value that you specify for InstanceId when you register an instance.   The name of the service.   The name of the namespace.    For example, if the value of InstanceId is test, the name of the service is backend, and the name of the namespace is example.com, the value of service-hostname is the following:  test.backend.example.com    If you specify settings for an SRV record, note the following:   If you specify values for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both in the RegisterInstance request, Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records.   If you're using a system that requires a specific SRV format, such as HAProxy, see the Name element in the documentation about CreateService for information about how to specify the correct name format.
         public let type: RecordType
 
+        @inlinable
         public init(ttl: Int64, type: RecordType) {
             self.ttl = ttl
             self.type = type
@@ -666,6 +688,7 @@ extension ServiceDiscovery {
         /// The ID of the service that the instance is associated with.
         public let serviceId: String
 
+        @inlinable
         public init(instanceId: String, serviceId: String) {
             self.instanceId = instanceId
             self.serviceId = serviceId
@@ -686,6 +709,7 @@ extension ServiceDiscovery {
         /// A complex type that contains information about a specified instance.
         public let instance: Instance?
 
+        @inlinable
         public init(instance: Instance? = nil) {
             self.instance = instance
         }
@@ -705,6 +729,7 @@ extension ServiceDiscovery {
         /// The ID of the service that the instance is associated with.
         public let serviceId: String
 
+        @inlinable
         public init(instances: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceId: String) {
             self.instances = instances
             self.maxResults = maxResults
@@ -737,6 +762,7 @@ extension ServiceDiscovery {
         /// A complex type that contains the IDs and the health status of the instances that you specified in the GetInstancesHealthStatus request.
         public let status: [String: HealthStatus]?
 
+        @inlinable
         public init(nextToken: String? = nil, status: [String: HealthStatus]? = nil) {
             self.nextToken = nextToken
             self.status = status
@@ -752,6 +778,7 @@ extension ServiceDiscovery {
         /// The ID of the namespace that you want to get information about.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -769,6 +796,7 @@ extension ServiceDiscovery {
         /// A complex type that contains information about the specified namespace.
         public let namespace: Namespace?
 
+        @inlinable
         public init(namespace: Namespace? = nil) {
             self.namespace = namespace
         }
@@ -782,6 +810,7 @@ extension ServiceDiscovery {
         /// The ID of the operation that you want to get more information about.
         public let operationId: String
 
+        @inlinable
         public init(operationId: String) {
             self.operationId = operationId
         }
@@ -799,6 +828,7 @@ extension ServiceDiscovery {
         /// A complex type that contains information about the operation.
         public let operation: Operation?
 
+        @inlinable
         public init(operation: Operation? = nil) {
             self.operation = operation
         }
@@ -812,6 +842,7 @@ extension ServiceDiscovery {
         /// The ID of the service that you want to get settings for.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -829,6 +860,7 @@ extension ServiceDiscovery {
         /// A complex type that contains information about the service.
         public let service: Service?
 
+        @inlinable
         public init(service: Service? = nil) {
             self.service = service
         }
@@ -846,6 +878,7 @@ extension ServiceDiscovery {
         /// The type of health check that you want to create, which indicates how Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     TCP: Route 53 tries to establish a TCP connection. If you specify TCP for Type, don't specify a value for ResourcePath.   For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
         public let type: HealthCheckType
 
+        @inlinable
         public init(failureThreshold: Int? = nil, resourcePath: String? = nil, type: HealthCheckType) {
             self.failureThreshold = failureThreshold
             self.resourcePath = resourcePath
@@ -869,11 +902,13 @@ extension ServiceDiscovery {
         ///  This parameter is no longer supported and is always set to 1. Cloud Map waits for approximately 30 seconds after receiving an UpdateInstanceCustomHealthStatus request before changing the status of the service instance.  The number of 30-second intervals that you want Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before 30 seconds has passed doesn't accelerate the change. Cloud Map still waits 30 seconds after the first request to make the change.
         public let failureThreshold: Int?
 
+        @inlinable
         public init() {
             self.failureThreshold = nil
         }
 
         @available(*, deprecated, message: "Members failureThreshold have been deprecated")
+        @inlinable
         public init(failureThreshold: Int? = nil) {
             self.failureThreshold = failureThreshold
         }
@@ -900,6 +935,7 @@ extension ServiceDiscovery {
         /// The name of the service that you specified when you registered the instance.
         public let serviceName: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, healthStatus: HealthStatus? = nil, instanceId: String? = nil, namespaceName: String? = nil, serviceName: String? = nil) {
             self.attributes = attributes
             self.healthStatus = healthStatus
@@ -921,6 +957,7 @@ extension ServiceDiscovery {
         /// An updated description for the HTTP namespace.
         public let description: String
 
+        @inlinable
         public init(description: String) {
             self.description = description
         }
@@ -938,6 +975,7 @@ extension ServiceDiscovery {
         /// The name of an HTTP namespace.
         public let httpName: String?
 
+        @inlinable
         public init(httpName: String? = nil) {
             self.httpName = httpName
         }
@@ -955,6 +993,7 @@ extension ServiceDiscovery {
         /// An identifier that you want to associate with the instance. Note the following:   If the service that's specified by ServiceId includes settings for an SRV record, the value of InstanceId is automatically included as part of the value for the SRV record. For more information, see DnsRecord > Type.   You can use this value to update an existing instance.   To register a new instance, you must specify a value that's unique among instances that you register by using the same service.    If you specify an existing InstanceId and ServiceId, Cloud Map updates the existing DNS records. If there's also an existing health check, Cloud Map deletes the old health check and creates a new one.   The health check isn't deleted immediately, so it will still appear for a while if you submit a ListHealthChecks request, for example.
         public let id: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, creatorRequestId: String? = nil, id: String) {
             self.attributes = attributes
             self.creatorRequestId = creatorRequestId
@@ -974,6 +1013,7 @@ extension ServiceDiscovery {
         /// The ID for an instance that you created by using a specified service.
         public let id: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, id: String? = nil) {
             self.attributes = attributes
             self.id = id
@@ -993,6 +1033,7 @@ extension ServiceDiscovery {
         /// The ID of the service that you want to list instances for.
         public let serviceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, serviceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1019,6 +1060,7 @@ extension ServiceDiscovery {
         /// If more than MaxResults instances match the specified criteria, you can submit another ListInstances request to get the next group of results. Specify the value of NextToken from the previous response in the next request.
         public let nextToken: String?
 
+        @inlinable
         public init(instances: [InstanceSummary]? = nil, nextToken: String? = nil) {
             self.instances = instances
             self.nextToken = nextToken
@@ -1038,6 +1080,7 @@ extension ServiceDiscovery {
         /// For the first ListNamespaces request, omit this value. If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [NamespaceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1066,6 +1109,7 @@ extension ServiceDiscovery {
         /// If the response contains NextToken, submit another ListNamespaces request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  Cloud Map gets MaxResults namespaces and then filters them based on the specified criteria. It's possible that no namespaces in the first MaxResults namespaces matched the specified criteria but that subsequent groups of MaxResults namespaces do contain namespaces that match the criteria.
         public let nextToken: String?
 
+        @inlinable
         public init(namespaces: [NamespaceSummary]? = nil, nextToken: String? = nil) {
             self.namespaces = namespaces
             self.nextToken = nextToken
@@ -1085,6 +1129,7 @@ extension ServiceDiscovery {
         /// For the first ListOperations request, omit this value. If the response contains NextToken, submit another ListOperations request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  Cloud Map gets MaxResults operations and then filters them based on the specified criteria. It's possible that no operations in the first MaxResults operations matched the specified criteria but that subsequent groups of MaxResults operations do contain operations that match the criteria.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [OperationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1113,6 +1158,7 @@ extension ServiceDiscovery {
         /// Summary information about the operations that match the specified criteria.
         public let operations: [OperationSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, operations: [OperationSummary]? = nil) {
             self.nextToken = nextToken
             self.operations = operations
@@ -1132,6 +1178,7 @@ extension ServiceDiscovery {
         /// For the first ListServices request, omit this value. If the response contains NextToken, submit another ListServices request to get the next group of results. Specify the value of NextToken from the previous response in the next request.  Cloud Map gets MaxResults services and then filters them based on the specified criteria. It's possible that no services in the first MaxResults services matched the specified criteria but that subsequent groups of MaxResults services do contain services that match the criteria.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: [ServiceFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1160,6 +1207,7 @@ extension ServiceDiscovery {
         /// An array that contains one ServiceSummary object for each service that matches the specified filter criteria.
         public let services: [ServiceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, services: [ServiceSummary]? = nil) {
             self.nextToken = nextToken
             self.services = services
@@ -1175,6 +1223,7 @@ extension ServiceDiscovery {
         /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tags for.
         public let resourceARN: String
 
+        @inlinable
         public init(resourceARN: String) {
             self.resourceARN = resourceARN
         }
@@ -1193,6 +1242,7 @@ extension ServiceDiscovery {
         /// The tags that are assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -1222,6 +1272,7 @@ extension ServiceDiscovery {
         /// The type of the namespace. The methods for discovering instances depends on the value that you specify:  HTTP  Instances can be discovered only programmatically, using the Cloud Map DiscoverInstances API.  DNS_PUBLIC  Instances can be discovered using public DNS queries and using the DiscoverInstances API.  DNS_PRIVATE  Instances can be discovered using DNS queries in VPCs and using the DiscoverInstances API.
         public let type: NamespaceType?
 
+        @inlinable
         public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -1255,6 +1306,7 @@ extension ServiceDiscovery {
         /// Specify the values that are applicable to the value that you specify for Name.    TYPE: Specify HTTP, DNS_PUBLIC, or DNS_PRIVATE.    NAME: Specify the name of the namespace, which is found in Namespace.Name.    HTTP_NAME: Specify the HTTP name of the namespace, which is found in Namespace.Properties.HttpProperties.HttpName.
         public let values: [String]
 
+        @inlinable
         public init(condition: FilterCondition? = nil, name: NamespaceFilterName, values: [String]) {
             self.condition = condition
             self.name = name
@@ -1281,6 +1333,7 @@ extension ServiceDiscovery {
         /// A complex type that contains the name of an HTTP namespace.
         public let httpProperties: HttpProperties?
 
+        @inlinable
         public init(dnsProperties: DnsProperties? = nil, httpProperties: HttpProperties? = nil) {
             self.dnsProperties = dnsProperties
             self.httpProperties = httpProperties
@@ -1310,6 +1363,7 @@ extension ServiceDiscovery {
         /// The type of the namespace, either public or private.
         public let type: NamespaceType?
 
+        @inlinable
         public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -1351,6 +1405,7 @@ extension ServiceDiscovery {
         /// The date and time that the value of Status changed to the current value, in Unix date/time format and Coordinated Universal Time (UTC). The value of UpdateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let updateDate: Date?
 
+        @inlinable
         public init(createDate: Date? = nil, errorCode: String? = nil, errorMessage: String? = nil, id: String? = nil, status: OperationStatus? = nil, targets: [OperationTargetType: String]? = nil, type: OperationType? = nil, updateDate: Date? = nil) {
             self.createDate = createDate
             self.errorCode = errorCode
@@ -1382,6 +1437,7 @@ extension ServiceDiscovery {
         /// Specify values that are applicable to the value that you specify for Name:     NAMESPACE_ID: Specify one namespace ID.    SERVICE_ID: Specify one service ID.    STATUS: Specify one or more statuses: SUBMITTED, PENDING, SUCCEED, or FAIL.    TYPE: Specify one or more of the following types: CREATE_NAMESPACE, DELETE_NAMESPACE, UPDATE_SERVICE, REGISTER_INSTANCE, or DEREGISTER_INSTANCE.    UPDATE_DATE: Specify a start date and an end date in Unix date/time format and Coordinated Universal Time (UTC). The start date must be the first value.
         public let values: [String]
 
+        @inlinable
         public init(condition: FilterCondition? = nil, name: OperationFilterName, values: [String]) {
             self.condition = condition
             self.name = name
@@ -1408,6 +1464,7 @@ extension ServiceDiscovery {
         /// The status of the operation. Values include the following:    SUBMITTED: This is the initial state immediately after you submit a request.    PENDING: Cloud Map is performing the operation.    SUCCESS: The operation succeeded.    FAIL: The operation failed. For the failure reason, see ErrorMessage.
         public let status: OperationStatus?
 
+        @inlinable
         public init(id: String? = nil, status: OperationStatus? = nil) {
             self.id = id
             self.status = status
@@ -1425,6 +1482,7 @@ extension ServiceDiscovery {
         /// Properties to be updated in the private DNS namespace.
         public let properties: PrivateDnsNamespacePropertiesChange?
 
+        @inlinable
         public init(description: String? = nil, properties: PrivateDnsNamespacePropertiesChange? = nil) {
             self.description = description
             self.properties = properties
@@ -1445,6 +1503,7 @@ extension ServiceDiscovery {
         /// DNS properties for the private DNS namespace.
         public let dnsProperties: PrivateDnsPropertiesMutable
 
+        @inlinable
         public init(dnsProperties: PrivateDnsPropertiesMutable) {
             self.dnsProperties = dnsProperties
         }
@@ -1462,6 +1521,7 @@ extension ServiceDiscovery {
         /// Updated DNS properties for the private DNS namespace.
         public let dnsProperties: PrivateDnsPropertiesMutableChange
 
+        @inlinable
         public init(dnsProperties: PrivateDnsPropertiesMutableChange) {
             self.dnsProperties = dnsProperties
         }
@@ -1479,6 +1539,7 @@ extension ServiceDiscovery {
         /// Fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace.
         public let soa: SOA
 
+        @inlinable
         public init(soa: SOA) {
             self.soa = soa
         }
@@ -1496,6 +1557,7 @@ extension ServiceDiscovery {
         /// Updated fields for the Start of Authority (SOA) record for the hosted zone for the private DNS namespace.
         public let soa: SOAChange
 
+        @inlinable
         public init(soa: SOAChange) {
             self.soa = soa
         }
@@ -1515,6 +1577,7 @@ extension ServiceDiscovery {
         /// Properties to be updated in the public DNS namespace.
         public let properties: PublicDnsNamespacePropertiesChange?
 
+        @inlinable
         public init(description: String? = nil, properties: PublicDnsNamespacePropertiesChange? = nil) {
             self.description = description
             self.properties = properties
@@ -1535,6 +1598,7 @@ extension ServiceDiscovery {
         /// DNS properties for the public DNS namespace.
         public let dnsProperties: PublicDnsPropertiesMutable
 
+        @inlinable
         public init(dnsProperties: PublicDnsPropertiesMutable) {
             self.dnsProperties = dnsProperties
         }
@@ -1552,6 +1616,7 @@ extension ServiceDiscovery {
         /// Updated DNS properties for the hosted zone for the public DNS namespace.
         public let dnsProperties: PublicDnsPropertiesMutableChange
 
+        @inlinable
         public init(dnsProperties: PublicDnsPropertiesMutableChange) {
             self.dnsProperties = dnsProperties
         }
@@ -1569,6 +1634,7 @@ extension ServiceDiscovery {
         /// Start of Authority (SOA) record for the hosted zone for the public DNS namespace.
         public let soa: SOA
 
+        @inlinable
         public init(soa: SOA) {
             self.soa = soa
         }
@@ -1586,6 +1652,7 @@ extension ServiceDiscovery {
         /// Updated fields for the Start of Authority (SOA) record for the hosted zone for the public DNS namespace.
         public let soa: SOAChange
 
+        @inlinable
         public init(soa: SOAChange) {
             self.soa = soa
         }
@@ -1609,6 +1676,7 @@ extension ServiceDiscovery {
         /// The ID of the service that you want to use for settings for the instance.
         public let serviceId: String
 
+        @inlinable
         public init(attributes: [String: String], creatorRequestId: String? = RegisterInstanceRequest.idempotencyToken(), instanceId: String, serviceId: String) {
             self.attributes = attributes
             self.creatorRequestId = creatorRequestId
@@ -1641,6 +1709,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1654,6 +1723,7 @@ extension ServiceDiscovery {
         /// The time to live (TTL) for purposes of negative caching.
         public let ttl: Int64
 
+        @inlinable
         public init(ttl: Int64) {
             self.ttl = ttl
         }
@@ -1672,6 +1742,7 @@ extension ServiceDiscovery {
         /// The updated time to live (TTL) for purposes of negative caching.
         public let ttl: Int64
 
+        @inlinable
         public init(ttl: Int64) {
             self.ttl = ttl
         }
@@ -1712,6 +1783,7 @@ extension ServiceDiscovery {
         /// Describes the systems that can be used to discover the service instances.  DNS_HTTP  The service instances can be discovered using either DNS queries or the DiscoverInstances API operation.  HTTP  The service instances can only be discovered using the DiscoverInstances API operation.  DNS  Reserved.
         public let type: ServiceType?
 
+        @inlinable
         public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, namespaceId: String? = nil, type: ServiceType? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -1751,6 +1823,7 @@ extension ServiceDiscovery {
         ///  Public DNS and HTTP namespaces only. Settings for an optional health check. If you specify settings for a health check, Cloud Map associates the health check with the records that you specify in DnsConfig.
         public let healthCheckConfig: HealthCheckConfig?
 
+        @inlinable
         public init(description: String? = nil, dnsConfig: DnsConfigChange? = nil, healthCheckConfig: HealthCheckConfig? = nil) {
             self.description = description
             self.dnsConfig = dnsConfig
@@ -1778,6 +1851,7 @@ extension ServiceDiscovery {
         /// The values that are applicable to the value that you specify for Condition to filter the list of services.
         public let values: [String]
 
+        @inlinable
         public init(condition: FilterCondition? = nil, name: ServiceFilterName, values: [String]) {
             self.condition = condition
             self.name = name
@@ -1820,6 +1894,7 @@ extension ServiceDiscovery {
         /// Describes the systems that can be used to discover the service instances.  DNS_HTTP  The service instances can be discovered using either DNS queries or the DiscoverInstances API operation.  HTTP  The service instances can only be discovered using the DiscoverInstances API operation.  DNS  Reserved.
         public let type: ServiceType?
 
+        @inlinable
         public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, dnsConfig: DnsConfig? = nil, healthCheckConfig: HealthCheckConfig? = nil, healthCheckCustomConfig: HealthCheckCustomConfig? = nil, id: String? = nil, instanceCount: Int? = nil, name: String? = nil, type: ServiceType? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -1853,6 +1928,7 @@ extension ServiceDiscovery {
         /// The string value that's associated with the key of the tag. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1876,6 +1952,7 @@ extension ServiceDiscovery {
         /// The tags to add to the specified resource. Specifying the tag key is required. You can set the value of a tag to an empty string, but you can't set the value of a tag to null.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceARN: String, tags: [Tag]) {
             self.resourceARN = resourceARN
             self.tags = tags
@@ -1906,6 +1983,7 @@ extension ServiceDiscovery {
         /// The tag keys to remove from the specified resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceARN: String, tagKeys: [String]) {
             self.resourceARN = resourceARN
             self.tagKeys = tagKeys
@@ -1939,6 +2017,7 @@ extension ServiceDiscovery {
         /// A unique string that identifies the request and that allows failed UpdateHttpNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
         public let updaterRequestId: String?
 
+        @inlinable
         public init(id: String, namespace: HttpNamespaceChange, updaterRequestId: String? = UpdateHttpNamespaceRequest.idempotencyToken()) {
             self.id = id
             self.namespace = namespace
@@ -1962,6 +2041,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -1979,6 +2059,7 @@ extension ServiceDiscovery {
         /// The new status of the instance, HEALTHY or UNHEALTHY.
         public let status: CustomHealthStatus
 
+        @inlinable
         public init(instanceId: String, serviceId: String, status: CustomHealthStatus) {
             self.instanceId = instanceId
             self.serviceId = serviceId
@@ -2005,6 +2086,7 @@ extension ServiceDiscovery {
         /// A unique string that identifies the request and that allows failed UpdatePrivateDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
         public let updaterRequestId: String?
 
+        @inlinable
         public init(id: String, namespace: PrivateDnsNamespaceChange, updaterRequestId: String? = UpdatePrivateDnsNamespaceRequest.idempotencyToken()) {
             self.id = id
             self.namespace = namespace
@@ -2028,6 +2110,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2045,6 +2128,7 @@ extension ServiceDiscovery {
         /// A unique string that identifies the request and that allows failed UpdatePublicDnsNamespace requests to be retried without the risk of running the operation twice. UpdaterRequestId can be any unique string (for example, a date/timestamp).
         public let updaterRequestId: String?
 
+        @inlinable
         public init(id: String, namespace: PublicDnsNamespaceChange, updaterRequestId: String? = UpdatePublicDnsNamespaceRequest.idempotencyToken()) {
             self.id = id
             self.namespace = namespace
@@ -2068,6 +2152,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }
@@ -2083,6 +2168,7 @@ extension ServiceDiscovery {
         /// A complex type that contains the new settings for the service.
         public let service: ServiceChange
 
+        @inlinable
         public init(id: String, service: ServiceChange) {
             self.id = id
             self.service = service
@@ -2103,6 +2189,7 @@ extension ServiceDiscovery {
         /// A value that you can use to determine whether the request completed successfully. To get the status of the operation, see GetOperation.
         public let operationId: String?
 
+        @inlinable
         public init(operationId: String? = nil) {
             self.operationId = operationId
         }

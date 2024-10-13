@@ -1502,6 +1502,7 @@ extension DataZone {
         /// Specifies the target (for example, a column name) where a prediction can be accepted.
         public let predictionTarget: String?
 
+        @inlinable
         public init(editedValue: String? = nil, predictionChoice: Int? = nil, predictionTarget: String? = nil) {
             self.editedValue = editedValue
             self.predictionChoice = predictionChoice
@@ -1534,6 +1535,7 @@ extension DataZone {
         /// The revision that is to be made to the asset.
         public let revision: String?
 
+        @inlinable
         public init(acceptChoices: [AcceptChoice]? = nil, acceptRule: AcceptRule? = nil, clientToken: String? = AcceptPredictionsInput.idempotencyToken(), domainIdentifier: String, identifier: String, revision: String? = nil) {
             self.acceptChoices = acceptChoices
             self.acceptRule = acceptRule
@@ -1582,6 +1584,7 @@ extension DataZone {
         /// The revision that is to be made to the asset.
         public let revision: String
 
+        @inlinable
         public init(assetId: String, domainId: String, revision: String) {
             self.assetId = assetId
             self.domainId = domainId
@@ -1601,6 +1604,7 @@ extension DataZone {
         /// The confidence score that specifies the condition at which a prediction can be accepted.
         public let threshold: Float?
 
+        @inlinable
         public init(rule: AcceptRuleBehavior? = nil, threshold: Float? = nil) {
             self.rule = rule
             self.threshold = threshold
@@ -1622,6 +1626,7 @@ extension DataZone {
         /// The unique identifier of the subscription request that is to be accepted.
         public let identifier: String
 
+        @inlinable
         public init(assetScopes: [AcceptedAssetScope]? = nil, decisionComment: String? = nil, domainIdentifier: String, identifier: String) {
             self.assetScopes = assetScopes
             self.decisionComment = decisionComment
@@ -1680,6 +1685,7 @@ extension DataZone {
         /// Specifies the Amazon DataZone user who updated the subscription request.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1717,6 +1723,7 @@ extension DataZone {
         /// The filter IDs of the accepted asset scope.
         public let filterIds: [String]
 
+        @inlinable
         public init(assetId: String, filterIds: [String]) {
             self.assetId = assetId
             self.filterIds = filterIds
@@ -1747,6 +1754,7 @@ extension DataZone {
         /// The owner that you want to add to the entity.
         public let owner: OwnerProperties
 
+        @inlinable
         public init(clientToken: String? = AddEntityOwnerInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: DataZoneEntityType, owner: OwnerProperties) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -1799,6 +1807,7 @@ extension DataZone {
         /// The principal to whom the permissions are granted.
         public let principal: PolicyGrantPrincipal
 
+        @inlinable
         public init(clientToken: String? = AddPolicyGrantInput.idempotencyToken(), detail: PolicyGrantDetail, domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, policyType: ManagedPolicyType, principal: PolicyGrantPrincipal) {
             self.clientToken = clientToken
             self.detail = detail
@@ -1846,6 +1855,7 @@ extension DataZone {
         /// Specifies whether the policy grant is applied to child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -1885,6 +1895,7 @@ extension DataZone {
         /// The status of the asset filter.
         public let status: FilterStatus?
 
+        @inlinable
         public init(assetId: String, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
             self.assetId = assetId
             self.createdAt = createdAt
@@ -1920,6 +1931,7 @@ extension DataZone {
         /// The entity type of the listing of the asset in a data product.
         public let entityType: String?
 
+        @inlinable
         public init(entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil) {
             self.entityId = entityId
             self.entityRevision = entityRevision
@@ -1963,6 +1975,7 @@ extension DataZone {
         /// The revision of the inventory asset type.
         public let typeRevision: String
 
+        @inlinable
         public init(additionalAttributes: AssetItemAdditionalAttributes? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String, owningProjectId: String, typeIdentifier: String, typeRevision: String) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
@@ -2006,6 +2019,7 @@ extension DataZone {
         /// The read-only forms included in the additional attributes of an inventory asset.
         public let readOnlyFormsOutput: [FormOutput]?
 
+        @inlinable
         public init(formsOutput: [FormOutput]? = nil, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, readOnlyFormsOutput: [FormOutput]? = nil) {
             self.formsOutput = formsOutput
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
@@ -2037,6 +2051,7 @@ extension DataZone {
         /// The identifier of the project where an asset published in an Amazon DataZone catalog exists.
         public let owningProjectId: String?
 
+        @inlinable
         public init(assetId: String? = nil, assetRevision: String? = nil, assetType: String? = nil, createdAt: Date? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]? = nil, owningProjectId: String? = nil) {
             self.assetId = assetId
             self.assetRevision = assetRevision
@@ -2066,6 +2081,7 @@ extension DataZone {
         /// The status of an asset published in an Amazon DataZone catalog.
         public let listingStatus: ListingStatus
 
+        @inlinable
         public init(listingId: String, listingStatus: ListingStatus) {
             self.listingId = listingId
             self.listingStatus = listingStatus
@@ -2105,6 +2121,7 @@ extension DataZone {
         /// The identifier of the project that owns the inventory asset.
         public let owningProjectId: String?
 
+        @inlinable
         public init(additionalAttributes: AssetListingItemAdditionalAttributes? = nil, createdAt: Date? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, listingCreatedBy: String? = nil, listingId: String? = nil, listingRevision: String? = nil, listingUpdatedBy: String? = nil, name: String? = nil, owningProjectId: String? = nil) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
@@ -2144,6 +2161,7 @@ extension DataZone {
         /// The latest time series data points forms included in the additional attributes of an asset.
         public let latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]?
 
+        @inlinable
         public init(forms: String? = nil, latestTimeSeriesDataPointForms: [TimeSeriesDataPointSummaryFormOutput]? = nil) {
             self.forms = forms
             self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
@@ -2167,6 +2185,7 @@ extension DataZone {
         /// The revision details of the inventory asset.
         public let revision: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String? = nil, id: String? = nil, revision: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2194,6 +2213,7 @@ extension DataZone {
         /// The status of the asset scope.
         public let status: String
 
+        @inlinable
         public init(assetId: String, errorMessage: String? = nil, filterIds: [String], status: String) {
             self.assetId = assetId
             self.errorMessage = errorMessage
@@ -2215,6 +2235,7 @@ extension DataZone {
         /// The target name in the asset target name map.
         public let targetName: String
 
+        @inlinable
         public init(assetId: String, targetName: String) {
             self.assetId = assetId
             self.targetName = targetName
@@ -2256,6 +2277,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the asset type.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, formsOutput: [String: FormEntryOutput], name: String, originDomainId: String? = nil, originProjectId: String? = nil, owningProjectId: String, revision: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2295,6 +2317,7 @@ extension DataZone {
         /// The ARN of the environment role.
         public let environmentRoleArn: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, environmentRoleArn: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -2325,6 +2348,7 @@ extension DataZone {
         /// The URI of the console link specified as part of the environment action.
         public let uri: String?
 
+        @inlinable
         public init(uri: String? = nil) {
             self.uri = uri
         }
@@ -2338,6 +2362,7 @@ extension DataZone {
         /// Specifies whether the business name generation is enabled.
         public let enabled: Bool?
 
+        @inlinable
         public init(enabled: Bool? = nil) {
             self.enabled = enabled
         }
@@ -2353,6 +2378,7 @@ extension DataZone {
         /// The ID of the metadata generation run.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -2383,6 +2409,7 @@ extension DataZone {
         /// The unique identifier of the subscription that is being cancelled.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -2427,6 +2454,7 @@ extension DataZone {
         /// The Amazon DataZone user that cancelled the subscription.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, domainId: String, id: String, retainPermissions: Bool? = nil, status: SubscriptionStatus, subscribedListing: SubscribedListing, subscribedPrincipal: SubscribedPrincipal, subscriptionRequestId: String? = nil, updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2460,6 +2488,7 @@ extension DataZone {
         /// The template URL of the cloud formation provisioning properties of the environment blueprint.
         public let templateUrl: String
 
+        @inlinable
         public init(templateUrl: String) {
             self.templateUrl = templateUrl
         }
@@ -2473,6 +2502,7 @@ extension DataZone {
         /// Specifies whether to include column names.
         public let includedColumnNames: [String]?
 
+        @inlinable
         public init(includedColumnNames: [String]? = nil) {
             self.includedColumnNames = includedColumnNames
         }
@@ -2488,6 +2518,7 @@ extension DataZone {
         /// The value of the configurable action parameter.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -2507,6 +2538,7 @@ extension DataZone {
         /// The type of a configurable action in a Amazon DataZone environment.
         public let type: String
 
+        @inlinable
         public init(auth: ConfigurableActionTypeAuthorization? = nil, parameters: [ConfigurableActionParameter], type: String) {
             self.auth = auth
             self.parameters = parameters
@@ -2534,6 +2566,7 @@ extension DataZone {
         /// The name of the asset filter.
         public let name: String
 
+        @inlinable
         public init(assetIdentifier: String, clientToken: String? = CreateAssetFilterInput.idempotencyToken(), configuration: AssetFilterConfiguration, description: String? = nil, domainIdentifier: String, name: String) {
             self.assetIdentifier = assetIdentifier
             self.clientToken = clientToken
@@ -2595,6 +2628,7 @@ extension DataZone {
         /// The status of the asset filter.
         public let status: FilterStatus?
 
+        @inlinable
         public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
             self.assetId = assetId
             self.configuration = configuration
@@ -2648,6 +2682,7 @@ extension DataZone {
         /// The revision of this asset's type.
         public let typeRevision: String?
 
+        @inlinable
         public init(clientToken: String? = CreateAssetInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, externalIdentifier: String? = nil, formsInput: [FormInput]? = nil, glossaryTerms: [String]? = nil, name: String, owningProjectIdentifier: String, predictionConfiguration: PredictionConfiguration? = nil, typeIdentifier: String, typeRevision: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2759,6 +2794,7 @@ extension DataZone {
         /// The revision type of the asset.
         public let typeRevision: String
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, predictionConfiguration: PredictionConfiguration? = nil, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2824,6 +2860,7 @@ extension DataZone {
         /// The revision type of the asset.
         public let typeRevision: String?
 
+        @inlinable
         public init(clientToken: String? = CreateAssetRevisionInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, formsInput: [FormInput]? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String, predictionConfiguration: PredictionConfiguration? = nil, typeRevision: String? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -2923,6 +2960,7 @@ extension DataZone {
         /// The revision type of the asset.
         public let typeRevision: String
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, predictionConfiguration: PredictionConfiguration? = nil, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -2980,6 +3018,7 @@ extension DataZone {
         /// The identifier of the Amazon DataZone project that is to own the custom asset type.
         public let owningProjectIdentifier: String
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, formsInput: [String: FormEntryInput], name: String, owningProjectIdentifier: String) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -3048,6 +3087,7 @@ extension DataZone {
         /// The Amazon DataZone user that created the custom asset type.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, formsOutput: [String: FormEntryOutput], name: String, originDomainId: String? = nil, originProjectId: String? = nil, owningProjectId: String? = nil, revision: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3083,6 +3123,7 @@ extension DataZone {
         /// Specifies whether the policy grant is applied to child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -3110,6 +3151,7 @@ extension DataZone {
         /// The ID of the owning project of the data product.
         public let owningProjectIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = CreateDataProductInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, formsInput: [FormInput]? = nil, glossaryTerms: [String]? = nil, items: [DataProductItem]? = nil, name: String, owningProjectIdentifier: String) {
             self.clientToken = clientToken
             self.description = description
@@ -3200,6 +3242,7 @@ extension DataZone {
         /// The status of the data product.
         public let status: DataProductStatus
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput]? = nil, glossaryTerms: [String]? = nil, id: String, items: [DataProductItem]? = nil, name: String, owningProjectId: String, revision: String, status: DataProductStatus) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3253,6 +3296,7 @@ extension DataZone {
         /// The name of the data product revision.
         public let name: String
 
+        @inlinable
         public init(clientToken: String? = CreateDataProductRevisionInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, formsInput: [FormInput]? = nil, glossaryTerms: [String]? = nil, identifier: String, items: [DataProductItem]? = nil, name: String) {
             self.clientToken = clientToken
             self.description = description
@@ -3342,6 +3386,7 @@ extension DataZone {
         /// The status of the data product revision.
         public let status: DataProductStatus
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput]? = nil, glossaryTerms: [String]? = nil, id: String, items: [DataProductItem]? = nil, name: String, owningProjectId: String, revision: String, status: DataProductStatus) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -3405,6 +3450,7 @@ extension DataZone {
         /// The type of the data source.
         public let type: String
 
+        @inlinable
         public init(assetFormsInput: [FormInput]? = nil, clientToken: String? = CreateDataSourceInput.idempotencyToken(), configuration: DataSourceConfigurationInput? = nil, description: String? = nil, domainIdentifier: String, enableSetting: EnableSetting? = nil, environmentIdentifier: String, name: String, projectIdentifier: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, type: String) {
             self.assetFormsInput = assetFormsInput
             self.clientToken = clientToken
@@ -3514,6 +3560,7 @@ extension DataZone {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
@@ -3577,6 +3624,7 @@ extension DataZone {
         /// The tags specified for the Amazon DataZone domain.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateDomainInput.idempotencyToken(), description: String? = nil, domainExecutionRole: String, kmsKeyIdentifier: String? = nil, name: String, singleSignOn: SingleSignOn? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -3636,6 +3684,7 @@ extension DataZone {
         /// The tags specified for the Amazon DataZone domain.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, domainExecutionRole: String? = nil, id: String, kmsKeyIdentifier: String? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -3677,6 +3726,7 @@ extension DataZone {
         /// The ID of the parent domain unit.
         public let parentDomainUnitIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = CreateDomainUnitInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, parentDomainUnitIdentifier: String) {
             self.clientToken = clientToken
             self.description = description
@@ -3737,6 +3787,7 @@ extension DataZone {
         /// The ID of the parent domain unit.
         public let parentDomainUnitId: String?
 
+        @inlinable
         public init(ancestorDomainUnitIds: [String], createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owners: [DomainUnitOwnerProperties], parentDomainUnitId: String? = nil) {
             self.ancestorDomainUnitIds = ancestorDomainUnitIds
             self.createdAt = createdAt
@@ -3766,6 +3817,7 @@ extension DataZone {
         /// Specifies whether the policy grant is applied to child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -3787,6 +3839,7 @@ extension DataZone {
         /// The parameters of the environment action.
         public let parameters: ActionParameters
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, environmentIdentifier: String, name: String, parameters: ActionParameters) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -3831,6 +3884,7 @@ extension DataZone {
         /// The parameters of the environment action.
         public let parameters: ActionParameters
 
+        @inlinable
         public init(description: String? = nil, domainId: String, environmentId: String, id: String, name: String, parameters: ActionParameters) {
             self.description = description
             self.domainId = domainId
@@ -3872,6 +3926,7 @@ extension DataZone {
         /// The user parameters of this Amazon DataZone environment.
         public let userParameters: [EnvironmentParameter]?
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, environmentAccountIdentifier: String? = nil, environmentAccountRegion: String? = nil, environmentBlueprintIdentifier: String? = nil, environmentProfileIdentifier: String, glossaryTerms: [String]? = nil, name: String, projectIdentifier: String, userParameters: [EnvironmentParameter]? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -3968,6 +4023,7 @@ extension DataZone {
         /// The user parameters of this Amazon DataZone environment.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -4035,6 +4091,7 @@ extension DataZone {
         /// The user parameters of this Amazon DataZone environment profile.
         public let userParameters: [EnvironmentParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, description: String? = nil, domainIdentifier: String, environmentBlueprintIdentifier: String, name: String, projectIdentifier: String, userParameters: [EnvironmentParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -4108,6 +4165,7 @@ extension DataZone {
         /// The user parameters of this Amazon DataZone environment profile.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentBlueprintId: String, id: String, name: String, projectId: String? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -4143,6 +4201,7 @@ extension DataZone {
         /// The ID of the domain unit.
         public let domainUnitId: String?
 
+        @inlinable
         public init(domainUnitId: String? = nil) {
             self.domainUnitId = domainUnitId
         }
@@ -4172,6 +4231,7 @@ extension DataZone {
         /// The status of this Amazon DataZone metadata form type.
         public let status: FormTypeStatus?
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, model: Model, name: String, owningProjectIdentifier: String, status: FormTypeStatus? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -4227,6 +4287,7 @@ extension DataZone {
         /// The revision of this Amazon DataZone metadata form type.
         public let revision: String
 
+        @inlinable
         public init(description: String? = nil, domainId: String, name: String, originDomainId: String? = nil, originProjectId: String? = nil, owningProjectId: String? = nil, revision: String) {
             self.description = description
             self.domainId = domainId
@@ -4252,6 +4313,7 @@ extension DataZone {
         /// Specifies whether the policy grant is applied to child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -4275,6 +4337,7 @@ extension DataZone {
         /// The status of this business glossary.
         public let status: GlossaryStatus?
 
+        @inlinable
         public init(clientToken: String? = CreateGlossaryInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, status: GlossaryStatus? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -4329,6 +4392,7 @@ extension DataZone {
         /// The status of this business glossary.
         public let status: GlossaryStatus?
 
+        @inlinable
         public init(description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus? = nil) {
             self.description = description
             self.domainId = domainId
@@ -4352,6 +4416,7 @@ extension DataZone {
         /// Specifies whether the policy grant is applied to child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -4379,6 +4444,7 @@ extension DataZone {
         /// The term relations of this business glossary term.
         public let termRelations: TermRelations?
 
+        @inlinable
         public init(clientToken: String? = CreateGlossaryTermInput.idempotencyToken(), domainIdentifier: String, glossaryIdentifier: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus? = nil, termRelations: TermRelations? = nil) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -4445,6 +4511,7 @@ extension DataZone {
         /// The term relations of this business glossary term.
         public let termRelations: TermRelations?
 
+        @inlinable
         public init(domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil) {
             self.domainId = domainId
             self.glossaryId = glossaryId
@@ -4476,6 +4543,7 @@ extension DataZone {
         /// The identifier of the group for which the group profile is created.
         public let groupIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = CreateGroupProfileInput.idempotencyToken(), domainIdentifier: String, groupIdentifier: String) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -4511,6 +4579,7 @@ extension DataZone {
         /// The status of the group profile.
         public let status: GroupProfileStatus?
 
+        @inlinable
         public init(domainId: String? = nil, groupName: String? = nil, id: String? = nil, status: GroupProfileStatus? = nil) {
             self.domainId = domainId
             self.groupName = groupName
@@ -4540,6 +4609,7 @@ extension DataZone {
         /// The type of an entity.
         public let entityType: EntityType
 
+        @inlinable
         public init(action: ChangeAction, clientToken: String? = CreateListingChangeSetInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityRevision: String? = nil, entityType: EntityType) {
             self.action = action
             self.clientToken = clientToken
@@ -4587,6 +4657,7 @@ extension DataZone {
         /// Specifies the status of the listing.
         public let status: ListingStatus
 
+        @inlinable
         public init(listingId: String, listingRevision: String, status: ListingStatus) {
             self.listingId = listingId
             self.listingRevision = listingRevision
@@ -4612,6 +4683,7 @@ extension DataZone {
         /// The name of the Amazon DataZone project.
         public let name: String
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, glossaryTerms: [String]? = nil, name: String) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -4664,6 +4736,7 @@ extension DataZone {
         /// The ID of the project for which this project membership was created.
         public let projectIdentifier: String
 
+        @inlinable
         public init(designation: UserDesignation, domainIdentifier: String, member: Member, projectIdentifier: String) {
             self.designation = designation
             self.domainIdentifier = domainIdentifier
@@ -4719,6 +4792,7 @@ extension DataZone {
         /// The status of the Amazon DataZone project that was created.
         public let projectStatus: ProjectStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4752,6 +4826,7 @@ extension DataZone {
         /// Specifies whether the policy grant is applied to child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -4775,6 +4850,7 @@ extension DataZone {
         /// The ID of the subscription target for which the subscription grant is created.
         public let subscriptionTargetIdentifier: String
 
+        @inlinable
         public init(assetTargetNames: [AssetTargetNameMap]? = nil, clientToken: String? = CreateSubscriptionGrantInput.idempotencyToken(), domainIdentifier: String, environmentIdentifier: String, grantedEntity: GrantedEntityInput, subscriptionTargetIdentifier: String) {
             self.assetTargetNames = assetTargetNames
             self.clientToken = clientToken
@@ -4838,6 +4914,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
 
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -4853,6 +4930,7 @@ extension DataZone {
         }
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -4894,6 +4972,7 @@ extension DataZone {
         /// The Amazon DataZone principals for whom the subscription request is created.
         public let subscribedPrincipals: [SubscribedPrincipalInput]
 
+        @inlinable
         public init(clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(), domainIdentifier: String, requestReason: String, subscribedListings: [SubscribedListingInput], subscribedPrincipals: [SubscribedPrincipalInput]) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -4962,6 +5041,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription request.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5015,6 +5095,7 @@ extension DataZone {
         /// The type of the subscription target.
         public let type: String
 
+        @inlinable
         public init(applicableAssetTypes: [String], authorizedPrincipals: [String], clientToken: String? = CreateSubscriptionTargetInput.idempotencyToken(), domainIdentifier: String, environmentIdentifier: String, manageAccessRole: String, name: String, provider: String? = nil, subscriptionTargetConfig: [SubscriptionTargetForm], type: String) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
@@ -5107,6 +5188,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription target.
         public let updatedBy: String?
 
+        @inlinable
         public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
@@ -5154,6 +5236,7 @@ extension DataZone {
         /// The user type of the user for which the user profile is created.
         public let userType: UserType?
 
+        @inlinable
         public init(clientToken: String? = CreateUserProfileInput.idempotencyToken(), domainIdentifier: String, userIdentifier: String, userType: UserType? = nil) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -5193,6 +5276,7 @@ extension DataZone {
         /// The type of the user profile.
         public let type: UserProfileType?
 
+        @inlinable
         public init(details: UserProfileDetails? = nil, domainId: String? = nil, id: String? = nil, status: UserProfileStatus? = nil, type: UserProfileType? = nil) {
             self.details = details
             self.domainId = domainId
@@ -5224,6 +5308,7 @@ extension DataZone {
         /// The key name of the parameter.
         public let keyName: String
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, fieldType: String, isEditable: Bool? = nil, isOptional: Bool? = nil, keyName: String) {
             self.defaultValue = defaultValue
             self.description = description
@@ -5253,6 +5338,7 @@ extension DataZone {
         /// The revision of the data product.
         public let revision: String?
 
+        @inlinable
         public init(glossaryTerms: [String]? = nil, identifier: String, itemType: DataProductItemType, revision: String? = nil) {
             self.glossaryTerms = glossaryTerms
             self.identifier = identifier
@@ -5295,6 +5381,7 @@ extension DataZone {
         /// The ID of the owning project of the data product listing.
         public let owningProjectId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataProductId: String? = nil, dataProductRevision: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, items: [ListingSummary]? = nil, owningProjectId: String? = nil) {
             self.createdAt = createdAt
             self.dataProductId = dataProductId
@@ -5344,6 +5431,7 @@ extension DataZone {
         /// The ID of the owning project of the asset of the data product.
         public let owningProjectId: String?
 
+        @inlinable
         public init(additionalAttributes: DataProductListingItemAdditionalAttributes? = nil, createdAt: Date? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, items: [ListingSummaryItem]? = nil, listingCreatedBy: String? = nil, listingId: String? = nil, listingRevision: String? = nil, listingUpdatedBy: String? = nil, name: String? = nil, owningProjectId: String? = nil) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
@@ -5381,6 +5469,7 @@ extension DataZone {
         /// The metadata forms of the asset of the data product.
         public let forms: String?
 
+        @inlinable
         public init(forms: String? = nil) {
             self.forms = forms
         }
@@ -5412,6 +5501,7 @@ extension DataZone {
         /// The ID of the owning project of the data product.
         public let owningProjectId: String
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, owningProjectId: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5451,6 +5541,7 @@ extension DataZone {
         /// The data product revision.
         public let revision: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String? = nil, id: String? = nil, revision: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5474,6 +5565,7 @@ extension DataZone {
         /// The type of the error message that is returned if the operation cannot be successfully completed.
         public let errorType: DataSourceErrorType
 
+        @inlinable
         public init(errorDetail: String? = nil, errorType: DataSourceErrorType) {
             self.errorDetail = errorDetail
             self.errorType = errorType
@@ -5508,6 +5600,7 @@ extension DataZone {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, dataAssetId: String? = nil, dataAssetStatus: DataAssetActivityStatus, database: String, dataSourceRunId: String, errorMessage: DataSourceErrorMessage? = nil, projectId: String, technicalDescription: String? = nil, technicalName: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataAssetId = dataAssetId
@@ -5561,6 +5654,7 @@ extension DataZone {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, dataSourceId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
@@ -5621,6 +5715,7 @@ extension DataZone {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, dataSourceId: String, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, lastRunAssetCount: Int? = nil, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, schedule: ScheduleConfiguration? = nil, status: DataSourceStatus, type: String, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
@@ -5664,6 +5759,7 @@ extension DataZone {
         /// The ID of the asset filter that you want to delete.
         public let identifier: String
 
+        @inlinable
         public init(assetIdentifier: String, domainIdentifier: String, identifier: String) {
             self.assetIdentifier = assetIdentifier
             self.domainIdentifier = domainIdentifier
@@ -5693,6 +5789,7 @@ extension DataZone {
         /// The identifier of the asset that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -5723,6 +5820,7 @@ extension DataZone {
         /// The identifier of the asset type that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -5755,6 +5853,7 @@ extension DataZone {
         /// The identifier of the data product that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -5789,6 +5888,7 @@ extension DataZone {
         /// Specifies that the granted permissions are retained in case of a self-subscribe functionality failure for a data source.
         public let retainPermissionsOnRevokeFailure: Bool?
 
+        @inlinable
         public init(clientToken: String? = DeleteDataSourceInput.idempotencyToken(), domainIdentifier: String, identifier: String, retainPermissionsOnRevokeFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -5860,6 +5960,7 @@ extension DataZone {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
@@ -5917,6 +6018,7 @@ extension DataZone {
         /// Specifies the optional flag to delete all child entities within the domain.
         public let skipDeletionCheck: Bool?
 
+        @inlinable
         public init(clientToken: String? = DeleteDomainInput.idempotencyToken(), identifier: String, skipDeletionCheck: Bool? = nil) {
             self.clientToken = clientToken
             self.identifier = identifier
@@ -5942,6 +6044,7 @@ extension DataZone {
         /// The status of the domain.
         public let status: DomainStatus
 
+        @inlinable
         public init(status: DomainStatus) {
             self.status = status
         }
@@ -5957,6 +6060,7 @@ extension DataZone {
         /// The ID of the domain unit that you want to delete.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -5991,6 +6095,7 @@ extension DataZone {
         /// The ID of the environment action that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -6019,6 +6124,7 @@ extension DataZone {
         /// The ID of the blueprint the configuration of which is deleted.
         public let environmentBlueprintIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentBlueprintIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
@@ -6049,6 +6155,7 @@ extension DataZone {
         /// The identifier of the environment that is to be deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6075,6 +6182,7 @@ extension DataZone {
         /// The ID of the environment profile that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6101,6 +6209,7 @@ extension DataZone {
         /// The ID of the metadata form type that is deleted.
         public let formTypeIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, formTypeIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.formTypeIdentifier = formTypeIdentifier
@@ -6133,6 +6242,7 @@ extension DataZone {
         /// The ID of the business glossary that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6163,6 +6273,7 @@ extension DataZone {
         /// The ID of the business glossary term that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6193,6 +6304,7 @@ extension DataZone {
         /// The ID of the listing to be deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6225,6 +6337,7 @@ extension DataZone {
         /// Specifies the optional flag to delete all child entities within the project.
         public let skipDeletionCheck: Bool?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, skipDeletionCheck: Bool? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6255,6 +6368,7 @@ extension DataZone {
         /// The ID of the Amazon DataZone project the membership to which is deleted.
         public let projectIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, member: Member, projectIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.member = member
@@ -6293,6 +6407,7 @@ extension DataZone {
         /// The ID of the subscription grant that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6337,6 +6452,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant that is deleted.
         public let updatedBy: String?
 
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -6352,6 +6468,7 @@ extension DataZone {
         }
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -6387,6 +6504,7 @@ extension DataZone {
         /// The ID of the subscription request that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -6415,6 +6533,7 @@ extension DataZone {
         /// The ID of the subscription target that is deleted.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -6450,6 +6569,7 @@ extension DataZone {
         /// The name of the time series form that you want to delete.
         public let formName: String
 
+        @inlinable
         public init(clientToken: String? = DeleteTimeSeriesDataPointsInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: TimeSeriesEntityType, formName: String) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -6499,6 +6619,7 @@ extension DataZone {
         /// The messages of the last deployment of the environment.
         public let messages: [String]?
 
+        @inlinable
         public init(deploymentId: String? = nil, deploymentStatus: DeploymentStatus? = nil, deploymentType: DeploymentType? = nil, failureReason: EnvironmentError? = nil, isDeploymentComplete: Bool? = nil, messages: [String]? = nil) {
             self.deploymentId = deploymentId
             self.deploymentStatus = deploymentStatus
@@ -6524,6 +6645,7 @@ extension DataZone {
         /// The start timeout of the environment blueprint deployment.
         public let startTimeoutMinutes: Int?
 
+        @inlinable
         public init(endTimeoutMinutes: Int? = nil, startTimeoutMinutes: Int? = nil) {
             self.endTimeoutMinutes = endTimeoutMinutes
             self.startTimeoutMinutes = startTimeoutMinutes
@@ -6541,6 +6663,7 @@ extension DataZone {
         /// The shoft description of a glossary term attached to the inventory asset.
         public let shortDescription: String?
 
+        @inlinable
         public init(name: String? = nil, shortDescription: String? = nil) {
             self.name = name
             self.shortDescription = shortDescription
@@ -6560,6 +6683,7 @@ extension DataZone {
         /// The ARN of the environment role.
         public let environmentRoleArn: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, environmentRoleArn: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -6606,6 +6730,7 @@ extension DataZone {
         /// The status of the Amazon DataZone domain.
         public let status: DomainStatus
 
+        @inlinable
         public init(arn: String, createdAt: Date, description: String? = nil, id: String, lastUpdatedAt: Date? = nil, managedAccountId: String, name: String, portalUrl: String? = nil, status: DomainStatus) {
             self.arn = arn
             self.createdAt = createdAt
@@ -6637,6 +6762,7 @@ extension DataZone {
         /// Specifies whether to include child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(domainUnit: String, includeChildDomainUnits: Bool? = nil) {
             self.domainUnit = domainUnit
             self.includeChildDomainUnits = includeChildDomainUnits
@@ -6658,6 +6784,7 @@ extension DataZone {
         /// The ID of the domain unit group.
         public let groupId: String?
 
+        @inlinable
         public init(groupId: String? = nil) {
             self.groupId = groupId
         }
@@ -6675,6 +6802,7 @@ extension DataZone {
         /// The ID of the domain unit.
         public let domainUnitIdentifier: String?
 
+        @inlinable
         public init(domainUnitDesignation: DomainUnitDesignation, domainUnitGrantFilter: DomainUnitGrantFilter? = nil, domainUnitIdentifier: String? = nil) {
             self.domainUnitDesignation = domainUnitDesignation
             self.domainUnitGrantFilter = domainUnitGrantFilter
@@ -6700,6 +6828,7 @@ extension DataZone {
         /// The name of the domain unit summary.
         public let name: String
 
+        @inlinable
         public init(id: String, name: String) {
             self.id = id
             self.name = name
@@ -6715,6 +6844,7 @@ extension DataZone {
         /// The ID of teh domain unit user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -6738,6 +6868,7 @@ extension DataZone {
         /// The parameters of the environment action.
         public let parameters: ActionParameters
 
+        @inlinable
         public init(description: String? = nil, domainId: String, environmentId: String, id: String, name: String, parameters: ActionParameters) {
             self.description = description
             self.domainId = domainId
@@ -6777,6 +6908,7 @@ extension DataZone {
         /// The timestamp of when the environment blueprint was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -6818,6 +6950,7 @@ extension DataZone {
         /// The timestamp of when the blueprint was enabled.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, id: String, name: String, provider: String, provisioningProperties: ProvisioningProperties, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -6845,6 +6978,7 @@ extension DataZone {
         /// The error message for the failure reason for the environment deployment.
         public let message: String
 
+        @inlinable
         public init(code: String? = nil, message: String) {
             self.code = code
             self.message = message
@@ -6862,6 +6996,7 @@ extension DataZone {
         /// The value of an environment profile parameter.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -6897,6 +7032,7 @@ extension DataZone {
         /// The timestamp of when the environment profile was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentBlueprintId: String, id: String, name: String, projectId: String? = nil, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -6954,6 +7090,7 @@ extension DataZone {
         /// The timestamp of when the environment was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentProfileId: String? = nil, id: String? = nil, name: String, projectId: String, provider: String, status: EnvironmentStatus? = nil, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -6993,6 +7130,7 @@ extension DataZone {
         /// The value that might be equal to an expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -7008,6 +7146,7 @@ extension DataZone {
         /// The description of the error message.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -7023,6 +7162,7 @@ extension DataZone {
         /// A search filter value in Amazon DataZone.
         public let value: String
 
+        @inlinable
         public init(attribute: String, value: String) {
             self.attribute = attribute
             self.value = value
@@ -7045,6 +7185,7 @@ extension DataZone {
         /// The search filter explresison type.
         public let type: FilterExpressionType
 
+        @inlinable
         public init(expression: String, type: FilterExpressionType) {
             self.expression = expression
             self.type = type
@@ -7064,6 +7205,7 @@ extension DataZone {
         /// The type revision of the form entry.
         public let typeRevision: String
 
+        @inlinable
         public init(required: Bool? = nil, typeIdentifier: String, typeRevision: String) {
             self.required = required
             self.typeIdentifier = typeIdentifier
@@ -7093,6 +7235,7 @@ extension DataZone {
         /// The type revision of the form entry.
         public let typeRevision: String
 
+        @inlinable
         public init(required: Bool? = nil, typeName: String, typeRevision: String) {
             self.required = required
             self.typeName = typeName
@@ -7116,6 +7259,7 @@ extension DataZone {
         /// The revision of the metadata form type.
         public let typeRevision: String?
 
+        @inlinable
         public init(content: String? = nil, formName: String, typeIdentifier: String? = nil, typeRevision: String? = nil) {
             self.content = content
             self.formName = formName
@@ -7152,6 +7296,7 @@ extension DataZone {
         /// The revision of the metadata form type.
         public let typeRevision: String?
 
+        @inlinable
         public init(content: String? = nil, formName: String, typeName: String? = nil, typeRevision: String? = nil) {
             self.content = content
             self.formName = formName
@@ -7193,6 +7338,7 @@ extension DataZone {
         /// The status of the form type.
         public let status: FormTypeStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, imports: [Import]? = nil, model: Model? = nil, name: String, originDomainId: String? = nil, originProjectId: String? = nil, owningProjectId: String? = nil, revision: String, status: FormTypeStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7232,6 +7378,7 @@ extension DataZone {
         /// The ID of the asset filter.
         public let identifier: String
 
+        @inlinable
         public init(assetIdentifier: String, domainIdentifier: String, identifier: String) {
             self.assetIdentifier = assetIdentifier
             self.domainIdentifier = domainIdentifier
@@ -7279,6 +7426,7 @@ extension DataZone {
         /// The status of the asset filter.
         public let status: FilterStatus?
 
+        @inlinable
         public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
             self.assetId = assetId
             self.configuration = configuration
@@ -7316,6 +7464,7 @@ extension DataZone {
         /// The revision of the Amazon DataZone asset.
         public let revision: String?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, revision: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -7378,6 +7527,7 @@ extension DataZone {
         /// The revision of the asset type.
         public let typeRevision: String
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, externalIdentifier: String? = nil, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput], glossaryTerms: [String]? = nil, id: String, latestTimeSeriesDataPointFormsOutput: [TimeSeriesDataPointSummaryFormOutput]? = nil, listing: AssetListingDetails? = nil, name: String, owningProjectId: String, readOnlyFormsOutput: [FormOutput]? = nil, revision: String, typeIdentifier: String, typeRevision: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7429,6 +7579,7 @@ extension DataZone {
         /// The revision of the asset type.
         public let revision: String?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, revision: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -7481,6 +7632,7 @@ extension DataZone {
         /// The Amazon DataZone user that updated the asset type.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, formsOutput: [String: FormEntryOutput], name: String, originDomainId: String? = nil, originProjectId: String? = nil, owningProjectId: String, revision: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7520,6 +7672,7 @@ extension DataZone {
         /// The revision of the data product.
         public let revision: String?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, revision: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -7574,6 +7727,7 @@ extension DataZone {
         /// The status of the data product.
         public let status: DataProductStatus
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, firstRevisionCreatedAt: Date? = nil, firstRevisionCreatedBy: String? = nil, formsOutput: [FormOutput]? = nil, glossaryTerms: [String]? = nil, id: String, items: [DataProductItem]? = nil, name: String, owningProjectId: String, revision: String, status: DataProductStatus) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7615,6 +7769,7 @@ extension DataZone {
         /// The ID of the Amazon DataZone data source.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -7684,6 +7839,7 @@ extension DataZone {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAssetCount: Int? = nil, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
@@ -7741,6 +7897,7 @@ extension DataZone {
         /// The ID of the data source run.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -7793,6 +7950,7 @@ extension DataZone {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, dataSourceConfigurationSnapshot: String? = nil, dataSourceId: String, domainId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataSourceConfigurationSnapshot = dataSourceConfigurationSnapshot
@@ -7830,6 +7988,7 @@ extension DataZone {
         /// The identifier of the specified Amazon DataZone domain.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -7875,6 +8034,7 @@ extension DataZone {
         /// The tags specified for the Amazon DataZone domain.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainExecutionRole: String, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -7914,6 +8074,7 @@ extension DataZone {
         /// The identifier of the domain unit that you want to get.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -7958,6 +8119,7 @@ extension DataZone {
         /// The ID of the parent domain unit.
         public let parentDomainUnitId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String, owners: [DomainUnitOwnerProperties], parentDomainUnitId: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -7993,6 +8155,7 @@ extension DataZone {
         /// The ID of the environment action
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -8029,6 +8192,7 @@ extension DataZone {
         /// The parameters of the environment action.
         public let parameters: ActionParameters
 
+        @inlinable
         public init(description: String? = nil, domainId: String, environmentId: String, id: String, name: String, parameters: ActionParameters) {
             self.description = description
             self.domainId = domainId
@@ -8054,6 +8218,7 @@ extension DataZone {
         /// He ID of the blueprint.
         public let environmentBlueprintIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentBlueprintIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
@@ -8094,6 +8259,7 @@ extension DataZone {
         /// The timestamp of when this blueprint was upated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -8125,6 +8291,7 @@ extension DataZone {
         /// The ID of this Amazon DataZone blueprint.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -8167,6 +8334,7 @@ extension DataZone {
         /// The user parameters of this blueprint.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(createdAt: Date? = nil, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, glossaryTerms: [String]? = nil, id: String, name: String, provider: String, provisioningProperties: ProvisioningProperties, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.createdAt = createdAt
             self.deploymentProperties = deploymentProperties
@@ -8200,6 +8368,7 @@ extension DataZone {
         /// The ID of the environment whose credentials this operation gets.
         public let environmentIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -8230,6 +8399,7 @@ extension DataZone {
         /// The session token of the environment credentials.
         public let sessionToken: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
             self.accessKeyId = accessKeyId
             self.expiration = expiration
@@ -8251,6 +8421,7 @@ extension DataZone {
         /// The ID of the Amazon DataZone environment.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -8315,6 +8486,7 @@ extension DataZone {
         /// The user parameters of this Amazon DataZone environment.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -8370,6 +8542,7 @@ extension DataZone {
         /// The ID of the environment profile.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -8416,6 +8589,7 @@ extension DataZone {
         /// The user parameters of the environment profile.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentBlueprintId: String, id: String, name: String, projectId: String? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -8455,6 +8629,7 @@ extension DataZone {
         /// The revision of this metadata form type.
         public let revision: String?
 
+        @inlinable
         public init(domainIdentifier: String, formTypeIdentifier: String, revision: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.formTypeIdentifier = formTypeIdentifier
@@ -8507,6 +8682,7 @@ extension DataZone {
         /// The status of the metadata form type.
         public let status: FormTypeStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, imports: [Import]? = nil, model: Model, name: String, originDomainId: String? = nil, originProjectId: String? = nil, owningProjectId: String? = nil, revision: String, status: FormTypeStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8544,6 +8720,7 @@ extension DataZone {
         /// The ID of the business glossary.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -8586,6 +8763,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the business glossary.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8619,6 +8797,7 @@ extension DataZone {
         /// The ID of the business glossary term.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -8665,6 +8844,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the business glossary term.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8702,6 +8882,7 @@ extension DataZone {
         /// The identifier of the group profile.
         public let groupIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, groupIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.groupIdentifier = groupIdentifier
@@ -8732,6 +8913,7 @@ extension DataZone {
         /// The identifier of the group profile.
         public let status: GroupProfileStatus?
 
+        @inlinable
         public init(domainId: String? = nil, groupName: String? = nil, id: String? = nil, status: GroupProfileStatus? = nil) {
             self.domainId = domainId
             self.groupName = groupName
@@ -8751,6 +8933,7 @@ extension DataZone {
         /// the ID of the Amazon DataZone domain the data portal of which you want to get.
         public let domainIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String) {
             self.domainIdentifier = domainIdentifier
         }
@@ -8774,6 +8957,7 @@ extension DataZone {
         /// The ID of the user profile.
         public let userProfileId: String
 
+        @inlinable
         public init(authCodeUrl: String? = nil, userProfileId: String) {
             self.authCodeUrl = authCodeUrl
             self.userProfileId = userProfileId
@@ -8793,6 +8977,7 @@ extension DataZone {
         /// The ID of the data lineage node that you want to get. Both, a lineage node identifier generated by Amazon DataZone and a sourceIdentifier of the lineage node are supported. If sourceIdentifier is greater than 1800 characters, you can use lineage node identifier generated by Amazon DataZone to get the node details.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, eventTimestamp: Date? = nil, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.eventTimestamp = eventTimestamp
@@ -8848,6 +9033,7 @@ extension DataZone {
         /// The upstream nodes of the specified data lineage node.
         public let upstreamNodes: [LineageNodeReference]?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, downstreamNodes: [LineageNodeReference]? = nil, eventTimestamp: Date? = nil, formsOutput: [FormOutput]? = nil, id: String, name: String? = nil, sourceIdentifier: String? = nil, typeName: String, typeRevision: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, upstreamNodes: [LineageNodeReference]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8893,6 +9079,7 @@ extension DataZone {
         /// The revision of the listing.
         public let listingRevision: String?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, listingRevision: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -8941,6 +9128,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the listing.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, item: ListingItem? = nil, listingRevision: String, name: String? = nil, status: ListingStatus? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -8976,6 +9164,7 @@ extension DataZone {
         /// The identifier of the metadata generation run.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -9014,6 +9203,7 @@ extension DataZone {
         /// The type of metadata generation run.
         public let type: MetadataGenerationRunType?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, type: MetadataGenerationRunType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9043,6 +9233,7 @@ extension DataZone {
         /// The ID of the project.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -9087,6 +9278,7 @@ extension DataZone {
         /// The status of the project.
         public let projectStatus: ProjectStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9122,6 +9314,7 @@ extension DataZone {
         /// The ID of the subscription grant.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -9166,6 +9359,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
 
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -9181,6 +9375,7 @@ extension DataZone {
         }
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -9216,6 +9411,7 @@ extension DataZone {
         /// The ID of the subscription.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -9260,6 +9456,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, domainId: String, id: String, retainPermissions: Bool? = nil, status: SubscriptionStatus, subscribedListing: SubscribedListing, subscribedPrincipal: SubscribedPrincipal, subscriptionRequestId: String? = nil, updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9295,6 +9492,7 @@ extension DataZone {
         /// The identifier of the subscription request the details of which to get.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -9341,6 +9539,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription request.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9380,6 +9579,7 @@ extension DataZone {
         /// The ID of the subscription target.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -9435,6 +9635,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription target.
         public let updatedBy: String?
 
+        @inlinable
         public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
@@ -9484,6 +9685,7 @@ extension DataZone {
         /// The ID of the data point that you want to get.
         public let identifier: String
 
+        @inlinable
         public init(domainIdentifier: String, entityIdentifier: String, entityType: TimeSeriesEntityType, formName: String, identifier: String) {
             self.domainIdentifier = domainIdentifier
             self.entityIdentifier = entityIdentifier
@@ -9525,6 +9727,7 @@ extension DataZone {
         /// The name of the time series form that houses the data point that you want to get.
         public let formName: String?
 
+        @inlinable
         public init(domainId: String? = nil, entityId: String? = nil, entityType: TimeSeriesEntityType? = nil, form: TimeSeriesDataPointFormOutput? = nil, formName: String? = nil) {
             self.domainId = domainId
             self.entityId = entityId
@@ -9550,6 +9753,7 @@ extension DataZone {
         /// The identifier of the user for which you want to get the user profile.
         public let userIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, type: UserProfileType? = nil, userIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.type = type
@@ -9583,6 +9787,7 @@ extension DataZone {
         /// The type of the user profile.
         public let type: UserProfileType?
 
+        @inlinable
         public init(details: UserProfileDetails? = nil, domainId: String? = nil, id: String? = nil, status: UserProfileStatus? = nil, type: UserProfileType? = nil) {
             self.details = details
             self.domainId = domainId
@@ -9622,6 +9827,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the business glossary.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9675,6 +9881,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the business glossary term.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -9714,6 +9921,7 @@ extension DataZone {
         /// The relational filter configurations included in the configuration details of the Amazon Web Services Glue data source.
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
+        @inlinable
         public init(autoImportDataQualityResult: Bool? = nil, dataAccessRole: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.autoImportDataQualityResult = autoImportDataQualityResult
             self.dataAccessRole = dataAccessRole
@@ -9739,6 +9947,7 @@ extension DataZone {
         /// The relational filter configurations included in the configuration details of the Amazon Web Services Glue data source.
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
+        @inlinable
         public init(accountId: String? = nil, autoImportDataQualityResult: Bool? = nil, dataAccessRole: String? = nil, region: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.accountId = accountId
             self.autoImportDataQualityResult = autoImportDataQualityResult
@@ -9760,6 +9969,7 @@ extension DataZone {
         /// The details for the self granting status for a Glue data source.
         public let selfGrantStatusDetails: [SelfGrantStatusDetail]
 
+        @inlinable
         public init(selfGrantStatusDetails: [SelfGrantStatusDetail]) {
             self.selfGrantStatusDetails = selfGrantStatusDetails
         }
@@ -9775,6 +9985,7 @@ extension DataZone {
         /// The value that might be greater than an expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -9792,6 +10003,7 @@ extension DataZone {
         /// The value that might be greater than or equal to an expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -9807,6 +10019,7 @@ extension DataZone {
         /// The identifier of the group in Amazon DataZone.
         public let groupId: String
 
+        @inlinable
         public init(groupId: String) {
             self.groupId = groupId
         }
@@ -9826,6 +10039,7 @@ extension DataZone {
         /// The status of a group profile.
         public let status: GroupProfileStatus?
 
+        @inlinable
         public init(domainId: String? = nil, groupName: String? = nil, id: String? = nil, status: GroupProfileStatus? = nil) {
             self.domainId = domainId
             self.groupName = groupName
@@ -9845,6 +10059,7 @@ extension DataZone {
         /// The ARN of an IAM user profile in Amazon DataZone.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -9860,6 +10075,7 @@ extension DataZone {
         /// The revision of the import.
         public let revision: String
 
+        @inlinable
         public init(name: String, revision: String) {
             self.name = name
             self.revision = revision
@@ -9877,6 +10093,7 @@ extension DataZone {
         /// The values that might be in the expression.
         public let values: [String]
 
+        @inlinable
         public init(columnName: String, values: [String]) {
             self.columnName = columnName
             self.values = values
@@ -9892,6 +10109,7 @@ extension DataZone {
         /// The name of the column.
         public let columnName: String
 
+        @inlinable
         public init(columnName: String) {
             self.columnName = columnName
         }
@@ -9905,6 +10123,7 @@ extension DataZone {
         /// The name of the column.
         public let columnName: String
 
+        @inlinable
         public init(columnName: String) {
             self.columnName = columnName
         }
@@ -9920,6 +10139,7 @@ extension DataZone {
         /// The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using AWS Lake Formation hybrid access mode.
         public let locationRegistrationRole: String?
 
+        @inlinable
         public init(locationRegistrationExcludeS3Locations: [String]? = nil, locationRegistrationRole: String? = nil) {
             self.locationRegistrationExcludeS3Locations = locationRegistrationExcludeS3Locations
             self.locationRegistrationRole = locationRegistrationRole
@@ -9947,6 +10167,7 @@ extension DataZone {
         /// The value that might be less than the expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -9964,6 +10185,7 @@ extension DataZone {
         /// The value that might be less than or equal to an expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -9981,6 +10203,7 @@ extension DataZone {
         /// The value that might be like the expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -9998,6 +10221,7 @@ extension DataZone {
         /// The ID of the data lineage node.
         public let id: String?
 
+        @inlinable
         public init(eventTimestamp: Date? = nil, id: String? = nil) {
             self.eventTimestamp = eventTimestamp
             self.id = id
@@ -10035,6 +10259,7 @@ extension DataZone {
         /// The user who updated the data lineage node.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, eventTimestamp: Date? = nil, id: String, name: String? = nil, sourceIdentifier: String? = nil, typeName: String, typeRevision: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -10086,6 +10311,7 @@ extension DataZone {
         /// The user who updated the data lineage node type.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, formsOutput: [String: FormEntryOutput], name: String? = nil, revision: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -10123,6 +10349,7 @@ extension DataZone {
         /// The status of the asset filter.
         public let status: FilterStatus?
 
+        @inlinable
         public init(assetIdentifier: String, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: FilterStatus? = nil) {
             self.assetIdentifier = assetIdentifier
             self.domainIdentifier = domainIdentifier
@@ -10159,6 +10386,7 @@ extension DataZone {
         /// When the number of asset filters is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of asset filters, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetFilters to list the next set of asset filters.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [AssetFilterSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10180,6 +10408,7 @@ extension DataZone {
         /// When the number of revisions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of revisions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetRevisions to list the next set of revisions.
         public let nextToken: String?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -10214,6 +10443,7 @@ extension DataZone {
         /// When the number of revisions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of revisions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAssetRevisions to list the next set of revisions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [AssetRevision]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10235,6 +10465,7 @@ extension DataZone {
         /// When the number of data product revisions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data product revisions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataProductRevisions to list the next set of data product revisions.
         public let nextToken: String?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -10269,6 +10500,7 @@ extension DataZone {
         /// When the number of data product revisions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data product revisions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataProductRevisions to list the next set of data product revisions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DataProductRevision], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10292,6 +10524,7 @@ extension DataZone {
         /// The status of the data source run.
         public let status: DataAssetActivityStatus?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: DataAssetActivityStatus? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -10328,6 +10561,7 @@ extension DataZone {
         /// When the number of activities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of activities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataSourceRunActivities to list the next set of activities.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DataSourceRunActivity], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10351,6 +10585,7 @@ extension DataZone {
         /// The status of the data source.
         public let status: DataSourceRunStatus?
 
+        @inlinable
         public init(dataSourceIdentifier: String, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: DataSourceRunStatus? = nil) {
             self.dataSourceIdentifier = dataSourceIdentifier
             self.domainIdentifier = domainIdentifier
@@ -10387,6 +10622,7 @@ extension DataZone {
         /// When the number of runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataSourceRuns to list the next set of runs.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DataSourceRunSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10416,6 +10652,7 @@ extension DataZone {
         /// The type of the data source.
         public let type: String?
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String, status: DataSourceStatus? = nil, type: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -10461,6 +10698,7 @@ extension DataZone {
         /// When the number of data sources is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data sources, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDataSources to list the next set of data sources.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DataSourceSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10482,6 +10720,7 @@ extension DataZone {
         /// The ID of the parent domain unit.
         public let parentDomainUnitIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, parentDomainUnitIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
@@ -10518,6 +10757,7 @@ extension DataZone {
         /// When the number of domain units is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of domain units, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDomainUnitsForParent to list the next set of domain units.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DomainUnitSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10537,6 +10777,7 @@ extension DataZone {
         /// The status of the data source.
         public let status: DomainStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: DomainStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -10567,6 +10808,7 @@ extension DataZone {
         /// When the number of domains is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of domains, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListDomains to list the next set of domains.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [DomainSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10590,6 +10832,7 @@ extension DataZone {
         /// When the number of entities is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of entities, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEntityOwners to list the next set of entities.
         public let nextToken: String?
 
+        @inlinable
         public init(domainIdentifier: String, entityIdentifier: String, entityType: DataZoneEntityType, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.entityIdentifier = entityIdentifier
@@ -10625,6 +10868,7 @@ extension DataZone {
         /// The owners of the entity.
         public let owners: [OwnerPropertiesOutput]
 
+        @inlinable
         public init(nextToken: String? = nil, owners: [OwnerPropertiesOutput]) {
             self.nextToken = nextToken
             self.owners = owners
@@ -10646,6 +10890,7 @@ extension DataZone {
         /// When the number of environment actions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of environment actions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentActions to list the next set of environment actions.
         public let nextToken: String?
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -10680,6 +10925,7 @@ extension DataZone {
         /// When the number of environment actions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of environment actions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentActions to list the next set of environment actions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EnvironmentActionSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10699,6 +10945,7 @@ extension DataZone {
         /// When the number of blueprint configurations is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of configurations, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentBlueprintConfigurations to list the next set of configurations.
         public let nextToken: String?
 
+        @inlinable
         public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
@@ -10730,6 +10977,7 @@ extension DataZone {
         /// When the number of blueprint configurations is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of configurations, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentBlueprintConfigurations to list the next set of configurations.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EnvironmentBlueprintConfigurationItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10753,6 +11001,7 @@ extension DataZone {
         /// When the number of blueprints in the environment is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of blueprints in the environment, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentBlueprintsto list the next set of blueprints.
         public let nextToken: String?
 
+        @inlinable
         public init(domainIdentifier: String, managed: Bool? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.managed = managed
@@ -10791,6 +11040,7 @@ extension DataZone {
         /// When the number of blueprints in the environment is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of blueprints in the environment, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentBlueprintsto list the next set of blueprints.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EnvironmentBlueprintSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10819,6 +11069,7 @@ extension DataZone {
         /// The identifier of the Amazon DataZone project.
         public let projectIdentifier: String?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, domainIdentifier: String, environmentBlueprintIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -10867,6 +11118,7 @@ extension DataZone {
         /// When the number of environment profiles is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of environment profiles, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironmentProfiles to list the next set of environment profiles.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EnvironmentProfileSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10902,6 +11154,7 @@ extension DataZone {
         /// The status of the environments that you want to list.
         public let status: EnvironmentStatus?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, domainIdentifier: String, environmentBlueprintIdentifier: String? = nil, environmentProfileIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, projectIdentifier: String, provider: String? = nil, status: EnvironmentStatus? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -10954,6 +11207,7 @@ extension DataZone {
         /// When the number of environments is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of environments, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironments to list the next set of environments.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [EnvironmentSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -10983,6 +11237,7 @@ extension DataZone {
         /// The order by which you want data lineage node history to be sorted.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(direction: EdgeDirection? = nil, domainIdentifier: String, eventTimestampGTE: Date? = nil, eventTimestampLTE: Date? = nil, identifier: String, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrder? = nil) {
             self.direction = direction
             self.domainIdentifier = domainIdentifier
@@ -11026,6 +11281,7 @@ extension DataZone {
         /// The nodes returned by the ListLineageNodeHistory action.
         public let nodes: [LineageNodeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, nodes: [LineageNodeSummary]? = nil) {
             self.nextToken = nextToken
             self.nodes = nodes
@@ -11049,6 +11305,7 @@ extension DataZone {
         /// The type of the metadata generation runs.
         public let type: MetadataGenerationRunType?
 
+        @inlinable
         public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: MetadataGenerationRunStatus? = nil, type: MetadataGenerationRunType? = nil) {
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
@@ -11084,6 +11341,7 @@ extension DataZone {
         /// When the number of metadata generation runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of metadata generation runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [MetadataGenerationRunItem]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11113,6 +11371,7 @@ extension DataZone {
         /// The type of notifications.
         public let type: NotificationType
 
+        @inlinable
         public init(afterTimestamp: Date? = nil, beforeTimestamp: Date? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, subjects: [String]? = nil, taskStatus: TaskStatus? = nil, type: NotificationType) {
             self.afterTimestamp = afterTimestamp
             self.beforeTimestamp = beforeTimestamp
@@ -11154,6 +11413,7 @@ extension DataZone {
         /// The results of the ListNotifications action.
         public let notifications: [NotificationOutput]?
 
+        @inlinable
         public init(nextToken: String? = nil, notifications: [NotificationOutput]? = nil) {
             self.nextToken = nextToken
             self.notifications = notifications
@@ -11179,6 +11439,7 @@ extension DataZone {
         /// The type of policy that you want to list.
         public let policyType: ManagedPolicyType
 
+        @inlinable
         public init(domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, maxResults: Int? = nil, nextToken: String? = nil, policyType: ManagedPolicyType) {
             self.domainIdentifier = domainIdentifier
             self.entityIdentifier = entityIdentifier
@@ -11216,6 +11477,7 @@ extension DataZone {
         /// When the number of grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListPolicyGrants to list the next set of grants.
         public let nextToken: String?
 
+        @inlinable
         public init(grantList: [PolicyGrantMember], nextToken: String? = nil) {
             self.grantList = grantList
             self.nextToken = nextToken
@@ -11241,6 +11503,7 @@ extension DataZone {
         /// The sort order of the project memberships.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, projectIdentifier: String, sortBy: SortFieldProject? = nil, sortOrder: SortOrder? = nil) {
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
@@ -11279,6 +11542,7 @@ extension DataZone {
         /// When the number of memberships is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of memberships, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjectMemberships to list the next set of memberships.
         public let nextToken: String?
 
+        @inlinable
         public init(members: [ProjectMember], nextToken: String? = nil) {
             self.members = members
             self.nextToken = nextToken
@@ -11304,6 +11568,7 @@ extension DataZone {
         /// The identifier of the Amazon DataZone user.
         public let userIdentifier: String?
 
+        @inlinable
         public init(domainIdentifier: String, groupIdentifier: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, userIdentifier: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.groupIdentifier = groupIdentifier
@@ -11344,6 +11609,7 @@ extension DataZone {
         /// When the number of projects is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of projects, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjects to list the next set of projects.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [ProjectSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11377,6 +11643,7 @@ extension DataZone {
         /// The identifier of the subscription target.
         public let subscriptionTargetId: String?
 
+        @inlinable
         public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentId = environmentId
@@ -11427,6 +11694,7 @@ extension DataZone {
         /// When the number of subscription grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SubscriptionGrantSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11458,6 +11726,7 @@ extension DataZone {
         /// The identifier of the subscribed listing.
         public let subscribedListingId: String?
 
+        @inlinable
         public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
@@ -11504,6 +11773,7 @@ extension DataZone {
         /// When the number of subscription requests is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription requests, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SubscriptionRequestSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11529,6 +11799,7 @@ extension DataZone {
         /// Specifies the sort order for the results of this action.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(domainIdentifier: String, environmentIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentIdentifier = environmentIdentifier
@@ -11567,6 +11838,7 @@ extension DataZone {
         /// When the number of subscription targets is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription targets, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionTargets to list the next set of subscription targets.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SubscriptionTargetSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11600,6 +11872,7 @@ extension DataZone {
         /// The identifier of the subscription request for the subscriptions that you want to list.
         public let subscriptionRequestIdentifier: String?
 
+        @inlinable
         public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
@@ -11649,6 +11922,7 @@ extension DataZone {
         /// When the number of subscriptions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscriptions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptions to list the next set of subscriptions.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [SubscriptionSummary], nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11664,6 +11938,7 @@ extension DataZone {
         /// The ARN of the resource whose tags you want to list.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -11681,6 +11956,7 @@ extension DataZone {
         /// The tags of the specified resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -11708,6 +11984,7 @@ extension DataZone {
         /// The timestamp at which the data points that you want to list started.
         public let startedAt: Date?
 
+        @inlinable
         public init(domainIdentifier: String, endedAt: Date? = nil, entityIdentifier: String, entityType: TimeSeriesEntityType, formName: String, maxResults: Int? = nil, nextToken: String? = nil, startedAt: Date? = nil) {
             self.domainIdentifier = domainIdentifier
             self.endedAt = endedAt
@@ -11752,6 +12029,7 @@ extension DataZone {
         /// When the number of data points is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data points, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListTimeSeriesDataPoints to list the next set of data points.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [TimeSeriesDataPointSummaryFormOutput]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -11769,6 +12047,7 @@ extension DataZone {
         /// The details of a revision of an asset published in a Amazon DataZone catalog.
         public let revision: String
 
+        @inlinable
         public init(id: String, revision: String) {
             self.id = id
             self.revision = revision
@@ -11786,6 +12065,7 @@ extension DataZone {
         /// The details of a revision to be made to an asset published in a Amazon DataZone catalog.
         public let revision: String
 
+        @inlinable
         public init(identifier: String, revision: String) {
             self.identifier = identifier
             self.revision = revision
@@ -11811,6 +12091,7 @@ extension DataZone {
         /// The revision of the data product listing.
         public let listingRevision: String?
 
+        @inlinable
         public init(glossaryTerms: [DetailedGlossaryTerm]? = nil, listingId: String? = nil, listingRevision: String? = nil) {
             self.glossaryTerms = glossaryTerms
             self.listingId = listingId
@@ -11832,6 +12113,7 @@ extension DataZone {
         /// The revision of the data product listing.
         public let listingRevision: String?
 
+        @inlinable
         public init(glossaryTerms: [DetailedGlossaryTerm]? = nil, listingId: String? = nil, listingRevision: String? = nil) {
             self.glossaryTerms = glossaryTerms
             self.listingId = listingId
@@ -11863,6 +12145,7 @@ extension DataZone {
         /// The type of the metadata generation run.
         public let type: MetadataGenerationRunType?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, type: MetadataGenerationRunType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -11894,6 +12177,7 @@ extension DataZone {
         /// The type of the asset for which metadata was generated.
         public let type: MetadataGenerationTargetType
 
+        @inlinable
         public init(identifier: String, revision: String? = nil, type: MetadataGenerationTargetType) {
             self.identifier = identifier
             self.revision = revision
@@ -11918,6 +12202,7 @@ extension DataZone {
         /// The value that might not be equal to the expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -11935,6 +12220,7 @@ extension DataZone {
         /// The value that might not be in the expression.
         public let values: [String]
 
+        @inlinable
         public init(columnName: String, values: [String]) {
             self.columnName = columnName
             self.values = values
@@ -11952,6 +12238,7 @@ extension DataZone {
         /// The value that might not be like the expression.
         public let value: String
 
+        @inlinable
         public init(columnName: String, value: String) {
             self.columnName = columnName
             self.value = value
@@ -11987,6 +12274,7 @@ extension DataZone {
         /// The type of the notification.
         public let type: NotificationType
 
+        @inlinable
         public init(actionLink: String, creationTimestamp: Date, domainIdentifier: String, identifier: String, lastUpdatedTimestamp: Date, message: String, metadata: [String: String]? = nil, status: TaskStatus? = nil, title: String, topic: Topic, type: NotificationType) {
             self.actionLink = actionLink
             self.creationTimestamp = creationTimestamp
@@ -12024,6 +12312,7 @@ extension DataZone {
         /// The type of the resource mentioned in a notification.
         public let type: NotificationResourceType
 
+        @inlinable
         public init(id: String, name: String? = nil, type: NotificationResourceType) {
             self.id = id
             self.name = name
@@ -12041,6 +12330,7 @@ extension DataZone {
         /// Specifies whether the policy is inherited by child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -12054,6 +12344,7 @@ extension DataZone {
         /// Specifies whether the policy is inherited by child domain units.
         public let includeChildDomainUnits: Bool?
 
+        @inlinable
         public init(includeChildDomainUnits: Bool? = nil) {
             self.includeChildDomainUnits = includeChildDomainUnits
         }
@@ -12067,6 +12358,7 @@ extension DataZone {
         /// The ID of the domain unit owners group.
         public let groupIdentifier: String
 
+        @inlinable
         public init(groupIdentifier: String) {
             self.groupIdentifier = groupIdentifier
         }
@@ -12084,6 +12376,7 @@ extension DataZone {
         /// The ID of the domain unit owners group.
         public let groupId: String?
 
+        @inlinable
         public init(groupId: String? = nil) {
             self.groupId = groupId
         }
@@ -12097,6 +12390,7 @@ extension DataZone {
         /// The ID of the owner user.
         public let userIdentifier: String
 
+        @inlinable
         public init(userIdentifier: String) {
             self.userIdentifier = userIdentifier
         }
@@ -12114,6 +12408,7 @@ extension DataZone {
         /// The ID of the owner user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -12133,6 +12428,7 @@ extension DataZone {
         /// The principal of the policy grant member.
         public let principal: PolicyGrantPrincipal?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, detail: PolicyGrantDetail? = nil, principal: PolicyGrantPrincipal? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -12156,6 +12452,7 @@ extension DataZone {
         /// The data lineage event that you want to post. Only open-lineage run event are supported as events.
         public let event: AWSHTTPBody
 
+        @inlinable
         public init(clientToken: String? = PostLineageEventInput.idempotencyToken(), domainIdentifier: String, event: AWSHTTPBody) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -12197,6 +12494,7 @@ extension DataZone {
         /// The forms that contain the data points that you want to post.
         public let forms: [TimeSeriesDataPointFormInput]
 
+        @inlinable
         public init(clientToken: String? = PostTimeSeriesDataPointsInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: TimeSeriesEntityType, forms: [TimeSeriesDataPointFormInput]) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -12242,6 +12540,7 @@ extension DataZone {
         /// The forms that contain the data points that you have posted.
         public let forms: [TimeSeriesDataPointFormOutput]?
 
+        @inlinable
         public init(domainId: String? = nil, entityId: String? = nil, entityType: TimeSeriesEntityType? = nil, forms: [TimeSeriesDataPointFormOutput]? = nil) {
             self.domainId = domainId
             self.entityId = entityId
@@ -12261,6 +12560,7 @@ extension DataZone {
         /// The business name generation mechanism.
         public let businessNameGeneration: BusinessNameGenerationConfiguration?
 
+        @inlinable
         public init(businessNameGeneration: BusinessNameGenerationConfiguration? = nil) {
             self.businessNameGeneration = businessNameGeneration
         }
@@ -12276,6 +12576,7 @@ extension DataZone {
         /// The message of the project deletion error.
         public let message: String?
 
+        @inlinable
         public init(code: String? = nil, message: String? = nil) {
             self.code = code
             self.message = message
@@ -12293,6 +12594,7 @@ extension DataZone {
         /// The membership details of a project member.
         public let memberDetails: MemberDetails
 
+        @inlinable
         public init(designation: UserDesignation, memberDetails: MemberDetails) {
             self.designation = designation
             self.memberDetails = memberDetails
@@ -12312,6 +12614,7 @@ extension DataZone {
         /// The project ID of the project policy grant principal.
         public let projectIdentifier: String?
 
+        @inlinable
         public init(projectDesignation: ProjectDesignation, projectGrantFilter: ProjectGrantFilter? = nil, projectIdentifier: String? = nil) {
             self.projectDesignation = projectDesignation
             self.projectGrantFilter = projectGrantFilter
@@ -12352,6 +12655,7 @@ extension DataZone {
         /// The timestamp of when the project was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, id: String, name: String, projectStatus: ProjectStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -12395,6 +12699,7 @@ extension DataZone {
         /// The regional parameters in the environment blueprint.
         public let regionalParameters: [String: [String: String]]?
 
+        @inlinable
         public init(domainIdentifier: String, enabledRegions: [String], environmentBlueprintIdentifier: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil) {
             self.domainIdentifier = domainIdentifier
             self.enabledRegions = enabledRegions
@@ -12466,6 +12771,7 @@ extension DataZone {
         /// The timestamp of when the environment blueprint was updated.
         public let updatedAt: Date?
 
+        @inlinable
         public init(createdAt: Date? = nil, domainId: String, enabledRegions: [String]? = nil, environmentBlueprintId: String, manageAccessRoleArn: String? = nil, provisioningConfigurations: [ProvisioningConfiguration]? = nil, provisioningRoleArn: String? = nil, regionalParameters: [String: [String: String]]? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.domainId = domainId
@@ -12495,6 +12801,7 @@ extension DataZone {
         /// Specifies whether automatic business name generation is to be enabled or not as part of the recommendation configuration.
         public let enableBusinessNameGeneration: Bool?
 
+        @inlinable
         public init(enableBusinessNameGeneration: Bool? = nil) {
             self.enableBusinessNameGeneration = enableBusinessNameGeneration
         }
@@ -12508,6 +12815,7 @@ extension DataZone {
         /// The name of an Amazon Redshift cluster.
         public let clusterName: String
 
+        @inlinable
         public init(clusterName: String) {
             self.clusterName = clusterName
         }
@@ -12521,6 +12829,7 @@ extension DataZone {
         /// The ARN of a secret manager for an Amazon Redshift cluster.
         public let secretManagerArn: String
 
+        @inlinable
         public init(secretManagerArn: String) {
             self.secretManagerArn = secretManagerArn
         }
@@ -12538,6 +12847,7 @@ extension DataZone {
         /// The relational filger configurations included in the configuration details of the Amazon Redshift data source.
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
+        @inlinable
         public init(dataAccessRole: String? = nil, redshiftCredentialConfiguration: RedshiftCredentialConfiguration, redshiftStorage: RedshiftStorage, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.dataAccessRole = dataAccessRole
             self.redshiftCredentialConfiguration = redshiftCredentialConfiguration
@@ -12565,6 +12875,7 @@ extension DataZone {
         /// The relational filger configurations included in the configuration details of the Amazon Redshift data source.
         public let relationalFilterConfigurations: [RelationalFilterConfiguration]
 
+        @inlinable
         public init(accountId: String? = nil, dataAccessRole: String? = nil, redshiftCredentialConfiguration: RedshiftCredentialConfiguration, redshiftStorage: RedshiftStorage, region: String? = nil, relationalFilterConfigurations: [RelationalFilterConfiguration]) {
             self.accountId = accountId
             self.dataAccessRole = dataAccessRole
@@ -12588,6 +12899,7 @@ extension DataZone {
         /// The details for the self granting status for an Amazon Redshift data source.
         public let selfGrantStatusDetails: [SelfGrantStatusDetail]
 
+        @inlinable
         public init(selfGrantStatusDetails: [SelfGrantStatusDetail]) {
             self.selfGrantStatusDetails = selfGrantStatusDetails
         }
@@ -12601,6 +12913,7 @@ extension DataZone {
         /// The name of the Amazon Redshift Serverless workgroup.
         public let workgroupName: String
 
+        @inlinable
         public init(workgroupName: String) {
             self.workgroupName = workgroupName
         }
@@ -12616,6 +12929,7 @@ extension DataZone {
         /// Specifies the target (for example, a column name) where a prediction can be rejected.
         public let predictionTarget: String?
 
+        @inlinable
         public init(predictionChoices: [Int]? = nil, predictionTarget: String? = nil) {
             self.predictionChoices = predictionChoices
             self.predictionTarget = predictionTarget
@@ -12641,6 +12955,7 @@ extension DataZone {
         /// The revision that is to be made to the asset.
         public let revision: String?
 
+        @inlinable
         public init(clientToken: String? = RejectPredictionsInput.idempotencyToken(), domainIdentifier: String, identifier: String, rejectChoices: [RejectChoice]? = nil, rejectRule: RejectRule? = nil, revision: String? = nil) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -12686,6 +13001,7 @@ extension DataZone {
         /// The ID of the Amazon DataZone domain.
         public let domainId: String
 
+        @inlinable
         public init(assetId: String, assetRevision: String, domainId: String) {
             self.assetId = assetId
             self.assetRevision = assetRevision
@@ -12705,6 +13021,7 @@ extension DataZone {
         /// The confidence score that specifies the condition at which a prediction can be rejected.
         public let threshold: Float?
 
+        @inlinable
         public init(rule: RejectRuleBehavior? = nil, threshold: Float? = nil) {
             self.rule = rule
             self.threshold = threshold
@@ -12724,6 +13041,7 @@ extension DataZone {
         /// The identifier of the subscription request that was rejected.
         public let identifier: String
 
+        @inlinable
         public init(decisionComment: String? = nil, domainIdentifier: String, identifier: String) {
             self.decisionComment = decisionComment
             self.domainIdentifier = domainIdentifier
@@ -12776,6 +13094,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription request.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -12815,6 +13134,7 @@ extension DataZone {
         /// The schema name specified in the relational filter configuration for the data source.
         public let schemaName: String?
 
+        @inlinable
         public init(databaseName: String, filterExpressions: [FilterExpression]? = nil, schemaName: String? = nil) {
             self.databaseName = databaseName
             self.filterExpressions = filterExpressions
@@ -12840,6 +13160,7 @@ extension DataZone {
         /// The owner that you want to remove from an entity.
         public let owner: OwnerProperties
 
+        @inlinable
         public init(clientToken: String? = RemoveEntityOwnerInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: DataZoneEntityType, owner: OwnerProperties) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -12890,6 +13211,7 @@ extension DataZone {
         /// The principal from which you want to remove a policy grant.
         public let principal: PolicyGrantPrincipal
 
+        @inlinable
         public init(clientToken: String? = RemovePolicyGrantInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: TargetEntityType, policyType: ManagedPolicyType, principal: PolicyGrantPrincipal) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -12939,6 +13261,7 @@ extension DataZone {
         /// The value of a provisioned resource of this Amazon DataZone environment.
         public let value: String
 
+        @inlinable
         public init(name: String? = nil, provider: String? = nil, type: String, value: String) {
             self.name = name
             self.provider = provider
@@ -12962,6 +13285,7 @@ extension DataZone {
         /// Specifies whether permissions are retained when the subscription is revoked.
         public let retainPermissions: Bool?
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, retainPermissions: Bool? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -13010,6 +13334,7 @@ extension DataZone {
         /// The Amazon DataZone user who revoked the subscription.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, domainId: String, id: String, retainPermissions: Bool? = nil, status: SubscriptionStatus, subscribedListing: SubscribedListing, subscribedPrincipal: SubscribedPrincipal, subscriptionRequestId: String? = nil, updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -13045,6 +13370,7 @@ extension DataZone {
         /// Specifies whether the row filter is sensitive.
         public let sensitive: Bool?
 
+        @inlinable
         public init(rowFilter: RowFilter, sensitive: Bool? = nil) {
             self.rowFilter = rowFilter
             self.sensitive = sensitive
@@ -13068,6 +13394,7 @@ extension DataZone {
         /// The updated statistic for the data source run.
         public let updated: Int?
 
+        @inlinable
         public init(added: Int? = nil, failed: Int? = nil, skipped: Int? = nil, unchanged: Int? = nil, updated: Int? = nil) {
             self.added = added
             self.failed = failed
@@ -13091,6 +13418,7 @@ extension DataZone {
         /// The timezone of the data source run.
         public let timezone: Timezone?
 
+        @inlinable
         public init(schedule: String? = nil, timezone: Timezone? = nil) {
             self.schedule = schedule
             self.timezone = timezone
@@ -13120,6 +13448,7 @@ extension DataZone {
         /// Specifies the text for which to search.
         public let searchText: String?
 
+        @inlinable
         public init(domainIdentifier: String, groupType: GroupSearchType, maxResults: Int? = nil, nextToken: String? = nil, searchText: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.groupType = groupType
@@ -13161,6 +13490,7 @@ extension DataZone {
         /// When the number of results is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of results, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to SearchGroupProfiles to list the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [GroupProfileSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -13176,6 +13506,7 @@ extension DataZone {
         /// The search attribute.
         public let attribute: String
 
+        @inlinable
         public init(attribute: String) {
             self.attribute = attribute
         }
@@ -13212,6 +13543,7 @@ extension DataZone {
         /// Specifies the way in which the search results are to be sorted.
         public let sort: SearchSort?
 
+        @inlinable
         public init(additionalAttributes: [SearchOutputAdditionalAttribute]? = nil, domainIdentifier: String, filters: FilterClause? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningProjectIdentifier: String? = nil, searchIn: [SearchInItem]? = nil, searchScope: InventorySearchScope, searchText: String? = nil, sort: SearchSort? = nil) {
             self.additionalAttributes = additionalAttributes
             self.domainIdentifier = domainIdentifier
@@ -13289,6 +13621,7 @@ extension DataZone {
         /// Specifies the way for sorting the search results.
         public let sort: SearchSort?
 
+        @inlinable
         public init(additionalAttributes: [SearchOutputAdditionalAttribute]? = nil, domainIdentifier: String, filters: FilterClause? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchIn: [SearchInItem]? = nil, searchText: String? = nil, sort: SearchSort? = nil) {
             self.additionalAttributes = additionalAttributes
             self.domainIdentifier = domainIdentifier
@@ -13347,6 +13680,7 @@ extension DataZone {
         /// Total number of search results.
         public let totalMatchCount: Int?
 
+        @inlinable
         public init(items: [SearchResultItem]? = nil, nextToken: String? = nil, totalMatchCount: Int? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -13368,6 +13702,7 @@ extension DataZone {
         /// Total number of search results.
         public let totalMatchCount: Int?
 
+        @inlinable
         public init(items: [SearchInventoryResultItem]? = nil, nextToken: String? = nil, totalMatchCount: Int? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -13387,6 +13722,7 @@ extension DataZone {
         /// The order detail of the wya to sort search results.
         public let order: SortOrder?
 
+        @inlinable
         public init(attribute: String, order: SortOrder? = nil) {
             self.attribute = attribute
             self.order = order
@@ -13423,6 +13759,7 @@ extension DataZone {
         /// The specifies the way to sort the SearchTypes results.
         public let sort: SearchSort?
 
+        @inlinable
         public init(domainIdentifier: String, filters: FilterClause? = nil, managed: Bool, maxResults: Int? = nil, nextToken: String? = nil, searchIn: [SearchInItem]? = nil, searchScope: TypesSearchScope, searchText: String? = nil, sort: SearchSort? = nil) {
             self.domainIdentifier = domainIdentifier
             self.filters = filters
@@ -13486,6 +13823,7 @@ extension DataZone {
         /// Total number of search results.
         public let totalMatchCount: Int?
 
+        @inlinable
         public init(items: [SearchTypesResultItem]? = nil, nextToken: String? = nil, totalMatchCount: Int? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -13511,6 +13849,7 @@ extension DataZone {
         /// Specifies the user type for the SearchUserProfiles action.
         public let userType: UserSearchType
 
+        @inlinable
         public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, searchText: String? = nil, userType: UserSearchType) {
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
@@ -13552,6 +13891,7 @@ extension DataZone {
         /// When the number of results is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of results, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to SearchUserProfiles to list the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(items: [UserProfileSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
@@ -13573,6 +13913,7 @@ extension DataZone {
         /// The self granting status of the data source.
         public let status: SelfGrantStatus
 
+        @inlinable
         public init(databaseName: String, failureCause: String? = nil, schemaName: String? = nil, status: SelfGrantStatus) {
             self.databaseName = databaseName
             self.failureCause = failureCause
@@ -13594,6 +13935,7 @@ extension DataZone {
         /// The single sign-on user assignment in Amazon DataZone.
         public let userAssignment: UserAssignment?
 
+        @inlinable
         public init(type: AuthType? = nil, userAssignment: UserAssignment? = nil) {
             self.type = type
             self.userAssignment = userAssignment
@@ -13613,6 +13955,7 @@ extension DataZone {
         /// The username included in the single sign-on details of the user profile.
         public let username: String?
 
+        @inlinable
         public init(firstName: String? = nil, lastName: String? = nil, username: String? = nil) {
             self.firstName = firstName
             self.lastName = lastName
@@ -13634,6 +13977,7 @@ extension DataZone {
         /// The identifier of the Amazon DataZone domain in which to start a data source run.
         public let domainIdentifier: String
 
+        @inlinable
         public init(clientToken: String? = StartDataSourceRunInput.idempotencyToken(), dataSourceIdentifier: String, domainIdentifier: String) {
             self.clientToken = clientToken
             self.dataSourceIdentifier = dataSourceIdentifier
@@ -13690,6 +14034,7 @@ extension DataZone {
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
+        @inlinable
         public init(createdAt: Date, dataSourceConfigurationSnapshot: String? = nil, dataSourceId: String, domainId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, projectId: String, runStatisticsForAssets: RunStatisticsForAssets? = nil, startedAt: Date? = nil, status: DataSourceRunStatus, stoppedAt: Date? = nil, type: DataSourceRunType, updatedAt: Date) {
             self.createdAt = createdAt
             self.dataSourceConfigurationSnapshot = dataSourceConfigurationSnapshot
@@ -13735,6 +14080,7 @@ extension DataZone {
         /// The type of the metadata generation run.
         public let type: MetadataGenerationRunType
 
+        @inlinable
         public init(clientToken: String? = StartMetadataGenerationRunInput.idempotencyToken(), domainIdentifier: String, owningProjectIdentifier: String, target: MetadataGenerationRunTarget, type: MetadataGenerationRunType) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
@@ -13786,6 +14132,7 @@ extension DataZone {
         /// The type of the metadata generation run.
         public let type: MetadataGenerationRunType?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String? = nil, status: MetadataGenerationRunStatus? = nil, type: MetadataGenerationRunType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -13825,6 +14172,7 @@ extension DataZone {
         /// The target name of the asset for which the subscription grant is created.
         public let targetName: String?
 
+        @inlinable
         public init(assetId: String, assetRevision: String, assetScope: AssetScope? = nil, failureCause: FailureCause? = nil, failureTimestamp: Date? = nil, grantedTimestamp: Date? = nil, status: SubscriptionGrantStatus, targetName: String? = nil) {
             self.assetId = assetId
             self.assetRevision = assetRevision
@@ -13862,6 +14210,7 @@ extension DataZone {
         /// The glossary terms attached to the published asset for which the subscription grant is created.
         public let glossaryTerms: [DetailedGlossaryTerm]?
 
+        @inlinable
         public init(assetScope: AssetScope? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil) {
             self.assetScope = assetScope
             self.entityId = entityId
@@ -13897,6 +14246,7 @@ extension DataZone {
         /// The revision of the published asset for which the subscription grant is created.
         public let revision: String?
 
+        @inlinable
         public init(description: String, id: String, item: SubscribedListingItem, name: String, ownerProjectId: String, ownerProjectName: String? = nil, revision: String? = nil) {
             self.description = description
             self.id = id
@@ -13922,6 +14272,7 @@ extension DataZone {
         /// The identifier of the published asset for which the subscription grant is to be created.
         public let identifier: String
 
+        @inlinable
         public init(identifier: String) {
             self.identifier = identifier
         }
@@ -13949,6 +14300,7 @@ extension DataZone {
         /// The name of the data product listing.
         public let name: String?
 
+        @inlinable
         public init(assetListings: [AssetInDataProductListingItem]? = nil, description: String? = nil, entityId: String? = nil, entityRevision: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, name: String? = nil) {
             self.assetListings = assetListings
             self.description = description
@@ -13974,6 +14326,7 @@ extension DataZone {
         /// The name of the project that has the subscription grant.
         public let name: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil) {
             self.id = id
             self.name = name
@@ -13989,6 +14342,7 @@ extension DataZone {
         /// The identifier of the project that is to be given a subscription grant.
         public let identifier: String?
 
+        @inlinable
         public init(identifier: String? = nil) {
             self.identifier = identifier
         }
@@ -14026,6 +14380,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant.
         public let updatedBy: String?
 
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -14041,6 +14396,7 @@ extension DataZone {
         }
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -14096,6 +14452,7 @@ extension DataZone {
         /// The identifier of the Amazon DataZone user who updated the subscription request.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -14151,6 +14508,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, domainId: String, id: String, retainPermissions: Bool? = nil, status: SubscriptionStatus, subscribedListing: SubscribedListing, subscribedPrincipal: SubscribedPrincipal, subscriptionRequestId: String? = nil, updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -14186,6 +14544,7 @@ extension DataZone {
         /// The form name included in the subscription target configuration.
         public let formName: String
 
+        @inlinable
         public init(content: String, formName: String) {
             self.content = content
             self.formName = formName
@@ -14235,6 +14594,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription target.
         public let updatedBy: String?
 
+        @inlinable
         public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
@@ -14278,6 +14638,7 @@ extension DataZone {
         /// Specifies the tags for the TagResource action.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -14315,6 +14676,7 @@ extension DataZone {
         /// The isA property of the term relations.
         public let isA: [String]?
 
+        @inlinable
         public init(classifies: [String]? = nil, isA: [String]? = nil) {
             self.classifies = classifies
             self.isA = isA
@@ -14351,6 +14713,7 @@ extension DataZone {
         /// The revision type of the time series data points form.
         public let typeRevision: String?
 
+        @inlinable
         public init(content: String? = nil, formName: String, timestamp: Date, typeIdentifier: String, typeRevision: String? = nil) {
             self.content = content
             self.formName = formName
@@ -14392,6 +14755,7 @@ extension DataZone {
         /// The revision type of the time series data points form.
         public let typeRevision: String?
 
+        @inlinable
         public init(content: String? = nil, formName: String, id: String? = nil, timestamp: Date, typeIdentifier: String, typeRevision: String? = nil) {
             self.content = content
             self.formName = formName
@@ -14425,6 +14789,7 @@ extension DataZone {
         /// The type revision of the time series data points summary form.
         public let typeRevision: String?
 
+        @inlinable
         public init(contentSummary: String? = nil, formName: String, id: String? = nil, timestamp: Date, typeIdentifier: String, typeRevision: String? = nil) {
             self.contentSummary = contentSummary
             self.formName = formName
@@ -14451,6 +14816,7 @@ extension DataZone {
         /// The subject of the resource mentioned in a notification.
         public let subject: String
 
+        @inlinable
         public init(resource: NotificationResource, role: NotificationRole, subject: String) {
             self.resource = resource
             self.role = role
@@ -14474,6 +14840,7 @@ extension DataZone {
         /// Specifies the tag keys for the UntagResource action.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -14515,6 +14882,7 @@ extension DataZone {
         /// The name of the asset filter.
         public let name: String?
 
+        @inlinable
         public init(assetIdentifier: String, configuration: AssetFilterConfiguration? = nil, description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil) {
             self.assetIdentifier = assetIdentifier
             self.configuration = configuration
@@ -14573,6 +14941,7 @@ extension DataZone {
         /// The status of the asset filter.
         public let status: FilterStatus?
 
+        @inlinable
         public init(assetId: String, configuration: AssetFilterConfiguration, createdAt: Date? = nil, description: String? = nil, domainId: String, effectiveColumnNames: [String]? = nil, effectiveRowFilter: String? = nil, errorMessage: String? = nil, id: String, name: String, status: FilterStatus? = nil) {
             self.assetId = assetId
             self.configuration = configuration
@@ -14626,6 +14995,7 @@ extension DataZone {
         /// The schedule to be updated as part of the UpdateDataSource action.
         public let schedule: ScheduleConfiguration?
 
+        @inlinable
         public init(assetFormsInput: [FormInput]? = nil, configuration: DataSourceConfigurationInput? = nil, description: String? = nil, domainIdentifier: String, enableSetting: EnableSetting? = nil, identifier: String, name: String? = nil, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil) {
             self.assetFormsInput = assetFormsInput
             self.configuration = configuration
@@ -14731,6 +15101,7 @@ extension DataZone {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
+        @inlinable
         public init(assetFormsOutput: [FormOutput]? = nil, configuration: DataSourceConfigurationOutput? = nil, createdAt: Date? = nil, description: String? = nil, domainId: String, enableSetting: EnableSetting? = nil, environmentId: String, errorMessage: DataSourceErrorMessage? = nil, id: String, lastRunAt: Date? = nil, lastRunErrorMessage: DataSourceErrorMessage? = nil, lastRunStatus: DataSourceRunStatus? = nil, name: String, projectId: String, publishOnImport: Bool? = nil, recommendation: RecommendationConfiguration? = nil, retainPermissionsOnRevokeFailure: Bool? = nil, schedule: ScheduleConfiguration? = nil, selfGrantStatus: SelfGrantStatusOutput? = nil, status: DataSourceStatus? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.assetFormsOutput = assetFormsOutput
             self.configuration = configuration
@@ -14796,6 +15167,7 @@ extension DataZone {
         /// The single sign-on option to be updated as part of the UpdateDomain action.
         public let singleSignOn: SingleSignOn?
 
+        @inlinable
         public init(clientToken: String? = UpdateDomainInput.idempotencyToken(), description: String? = nil, domainExecutionRole: String? = nil, identifier: String, name: String? = nil, singleSignOn: SingleSignOn? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -14845,6 +15217,7 @@ extension DataZone {
         /// The single sign-on option of the Amazon DataZone domain.
         public let singleSignOn: SingleSignOn?
 
+        @inlinable
         public init(description: String? = nil, domainExecutionRole: String? = nil, id: String, lastUpdatedAt: Date? = nil, name: String? = nil, rootDomainUnitId: String? = nil, singleSignOn: SingleSignOn? = nil) {
             self.description = description
             self.domainExecutionRole = domainExecutionRole
@@ -14876,6 +15249,7 @@ extension DataZone {
         /// The name of the domain unit that you want to update.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -14931,6 +15305,7 @@ extension DataZone {
         /// The ID of the parent domain unit.
         public let parentDomainUnitId: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String, id: String, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, name: String, owners: [DomainUnitOwnerProperties], parentDomainUnitId: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -14972,6 +15347,7 @@ extension DataZone {
         /// The parameters of the environment action.
         public let parameters: ActionParameters?
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, environmentIdentifier: String, identifier: String, name: String? = nil, parameters: ActionParameters? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -15018,6 +15394,7 @@ extension DataZone {
         /// The parameters of the environment action.
         public let parameters: ActionParameters
 
+        @inlinable
         public init(description: String? = nil, domainId: String, environmentId: String, id: String, name: String, parameters: ActionParameters) {
             self.description = description
             self.domainId = domainId
@@ -15049,6 +15426,7 @@ extension DataZone {
         /// The name to be updated as part of the UpdateEnvironment action.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -15128,6 +15506,7 @@ extension DataZone {
         /// The user parameters to be updated as part of the UpdateEnvironment action.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -15193,6 +15572,7 @@ extension DataZone {
         /// The user parameters to be updated as part of the UpdateEnvironmentProfile action.
         public let userParameters: [EnvironmentParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil, userParameters: [EnvironmentParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -15260,6 +15640,7 @@ extension DataZone {
         /// The user parameters to be updated as part of the UpdateEnvironmentProfile action.
         public let userParameters: [CustomParameter]?
 
+        @inlinable
         public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentBlueprintId: String, id: String, name: String, projectId: String? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
@@ -15305,6 +15686,7 @@ extension DataZone {
         /// The status to be updated as part of the UpdateGlossary action.
         public let status: GlossaryStatus?
 
+        @inlinable
         public init(clientToken: String? = UpdateGlossaryInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, identifier: String, name: String? = nil, status: GlossaryStatus? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -15358,6 +15740,7 @@ extension DataZone {
         /// The status to be updated as part of the UpdateGlossary action.
         public let status: GlossaryStatus?
 
+        @inlinable
         public init(description: String? = nil, domainId: String, id: String, name: String, owningProjectId: String, status: GlossaryStatus? = nil) {
             self.description = description
             self.domainId = domainId
@@ -15395,6 +15778,7 @@ extension DataZone {
         /// The term relations to be updated as part of the UpdateGlossaryTerm action.
         public let termRelations: TermRelations?
 
+        @inlinable
         public init(domainIdentifier: String, glossaryIdentifier: String? = nil, identifier: String, longDescription: String? = nil, name: String? = nil, shortDescription: String? = nil, status: GlossaryTermStatus? = nil, termRelations: TermRelations? = nil) {
             self.domainIdentifier = domainIdentifier
             self.glossaryIdentifier = glossaryIdentifier
@@ -15458,6 +15842,7 @@ extension DataZone {
         /// The term relations to be updated as part of the UpdateGlossaryTerm action.
         public let termRelations: TermRelations?
 
+        @inlinable
         public init(domainId: String, glossaryId: String, id: String, longDescription: String? = nil, name: String, shortDescription: String? = nil, status: GlossaryTermStatus, termRelations: TermRelations? = nil) {
             self.domainId = domainId
             self.glossaryId = glossaryId
@@ -15489,6 +15874,7 @@ extension DataZone {
         /// The status of the group profile that is updated.
         public let status: GroupProfileStatus
 
+        @inlinable
         public init(domainIdentifier: String, groupIdentifier: String, status: GroupProfileStatus) {
             self.domainIdentifier = domainIdentifier
             self.groupIdentifier = groupIdentifier
@@ -15523,6 +15909,7 @@ extension DataZone {
         /// The status of the group profile that is updated.
         public let status: GroupProfileStatus?
 
+        @inlinable
         public init(domainId: String? = nil, groupName: String? = nil, id: String? = nil, status: GroupProfileStatus? = nil) {
             self.domainId = domainId
             self.groupName = groupName
@@ -15550,6 +15937,7 @@ extension DataZone {
         /// The name to be updated as part of the UpdateProject action.
         public let name: String?
 
+        @inlinable
         public init(description: String? = nil, domainIdentifier: String, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
@@ -15613,6 +16001,7 @@ extension DataZone {
         /// The status of the project.
         public let projectStatus: ProjectStatus?
 
+        @inlinable
         public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectStatus: ProjectStatus? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -15656,6 +16045,7 @@ extension DataZone {
         /// The target name to be updated as part of the UpdateSubscriptionGrantStatus action.
         public let targetName: String?
 
+        @inlinable
         public init(assetIdentifier: String, domainIdentifier: String, failureCause: FailureCause? = nil, identifier: String, status: SubscriptionGrantStatus, targetName: String? = nil) {
             self.assetIdentifier = assetIdentifier
             self.domainIdentifier = domainIdentifier
@@ -15713,6 +16103,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription grant status.
         public let updatedBy: String?
 
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -15728,6 +16119,7 @@ extension DataZone {
         }
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
+        @inlinable
         public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
@@ -15765,6 +16157,7 @@ extension DataZone {
         /// The reason for the UpdateSubscriptionRequest action.
         public let requestReason: String
 
+        @inlinable
         public init(domainIdentifier: String, identifier: String, requestReason: String) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
@@ -15817,6 +16210,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription request.
         public let updatedBy: String?
 
+        @inlinable
         public init(createdAt: Date, createdBy: String, decisionComment: String? = nil, domainId: String, id: String, requestReason: String, reviewerId: String? = nil, status: SubscriptionRequestStatus, subscribedListings: [SubscribedListing], subscribedPrincipals: [SubscribedPrincipal], updatedAt: Date, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -15868,6 +16262,7 @@ extension DataZone {
         /// The configuration to be updated as part of the UpdateSubscriptionTarget action.
         public let subscriptionTargetConfig: [SubscriptionTargetForm]?
 
+        @inlinable
         public init(applicableAssetTypes: [String]? = nil, authorizedPrincipals: [String]? = nil, domainIdentifier: String, environmentIdentifier: String, identifier: String, manageAccessRole: String? = nil, name: String? = nil, provider: String? = nil, subscriptionTargetConfig: [SubscriptionTargetForm]? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
@@ -15957,6 +16352,7 @@ extension DataZone {
         /// The Amazon DataZone user who updated the subscription target.
         public let updatedBy: String?
 
+        @inlinable
         public init(applicableAssetTypes: [String], authorizedPrincipals: [String], createdAt: Date, createdBy: String, domainId: String, environmentId: String, id: String, manageAccessRole: String, name: String, projectId: String, provider: String, subscriptionTargetConfig: [SubscriptionTargetForm], type: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.applicableAssetTypes = applicableAssetTypes
             self.authorizedPrincipals = authorizedPrincipals
@@ -16004,6 +16400,7 @@ extension DataZone {
         /// The identifier of the user whose user profile is to be updated.
         public let userIdentifier: String
 
+        @inlinable
         public init(domainIdentifier: String, status: UserProfileStatus, type: UserProfileType? = nil, userIdentifier: String) {
             self.domainIdentifier = domainIdentifier
             self.status = status
@@ -16042,6 +16439,7 @@ extension DataZone {
         /// The type of the user profile.
         public let type: UserProfileType?
 
+        @inlinable
         public init(details: UserProfileDetails? = nil, domainId: String? = nil, id: String? = nil, status: UserProfileStatus? = nil, type: UserProfileType? = nil) {
             self.details = details
             self.domainId = domainId
@@ -16063,6 +16461,7 @@ extension DataZone {
         /// The identifier of the Amazon DataZone user.
         public let userId: String
 
+        @inlinable
         public init(userId: String) {
             self.userId = userId
         }
@@ -16084,6 +16483,7 @@ extension DataZone {
         /// The type of the user profile.
         public let type: UserProfileType?
 
+        @inlinable
         public init(details: UserProfileDetails? = nil, domainId: String? = nil, id: String? = nil, status: UserProfileStatus? = nil, type: UserProfileType? = nil) {
             self.details = details
             self.domainId = domainId
@@ -16105,6 +16505,7 @@ extension DataZone {
         /// The console link specified as part of the environment action.
         public let awsConsoleLink: AwsConsoleLinkParameters?
 
+        @inlinable
         public init(awsConsoleLink: AwsConsoleLinkParameters? = nil) {
             self.awsConsoleLink = awsConsoleLink
         }
@@ -16118,6 +16519,7 @@ extension DataZone {
         /// Specifies a grant filter containing all domain units.
         public let allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter?
 
+        @inlinable
         public init(allDomainUnitsGrantFilter: AllDomainUnitsGrantFilter? = nil) {
             self.allDomainUnitsGrantFilter = allDomainUnitsGrantFilter
         }
@@ -16131,6 +16533,7 @@ extension DataZone {
         /// The listing for which a subscription is granted.
         public let listing: ListingRevision?
 
+        @inlinable
         public init(listing: ListingRevision? = nil) {
             self.listing = listing
         }
@@ -16144,6 +16547,7 @@ extension DataZone {
         /// The listing for which a subscription is to be granted.
         public let listing: ListingRevisionInput?
 
+        @inlinable
         public init(listing: ListingRevisionInput? = nil) {
             self.listing = listing
         }
@@ -16161,6 +16565,7 @@ extension DataZone {
         /// The ID Of the group of the group principal.
         public let groupIdentifier: String?
 
+        @inlinable
         public init(groupIdentifier: String? = nil) {
             self.groupIdentifier = groupIdentifier
         }
@@ -16178,6 +16583,7 @@ extension DataZone {
         /// Indicates the smithy model of the API.
         public let smithy: String?
 
+        @inlinable
         public init(smithy: String? = nil) {
             self.smithy = smithy
         }
@@ -16196,6 +16602,7 @@ extension DataZone {
         /// The domain unit filter of the project grant filter.
         public let domainUnitFilter: DomainUnitFilterForProject?
 
+        @inlinable
         public init(domainUnitFilter: DomainUnitFilterForProject? = nil) {
             self.domainUnitFilter = domainUnitFilter
         }
@@ -16213,6 +16620,7 @@ extension DataZone {
         /// The Lake Formation configuration of the Data Lake blueprint.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
 
+        @inlinable
         public init(lakeFormationConfiguration: LakeFormationConfiguration? = nil) {
             self.lakeFormationConfiguration = lakeFormationConfiguration
         }
@@ -16230,6 +16638,7 @@ extension DataZone {
         /// The cloud formation properties included as part of the provisioning properties of an environment blueprint.
         public let cloudFormation: CloudFormationProperties?
 
+        @inlinable
         public init(cloudFormation: CloudFormationProperties? = nil) {
             self.cloudFormation = cloudFormation
         }
@@ -16243,6 +16652,7 @@ extension DataZone {
         /// The project that has the subscription grant.
         public let project: SubscribedProject?
 
+        @inlinable
         public init(project: SubscribedProject? = nil) {
             self.project = project
         }
@@ -16256,6 +16666,7 @@ extension DataZone {
         /// The project that is to be given a subscription grant.
         public let project: SubscribedProjectInput?
 
+        @inlinable
         public init(project: SubscribedProjectInput? = nil) {
             self.project = project
         }

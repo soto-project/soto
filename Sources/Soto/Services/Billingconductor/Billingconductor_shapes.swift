@@ -107,6 +107,7 @@ extension Billingconductor {
         /// The Billing Group Arn that the linked account is associated to.
         public let billingGroupArn: String?
 
+        @inlinable
         public init(accountEmail: String? = nil, accountId: String? = nil, accountName: String? = nil, billingGroupArn: String? = nil) {
             self.accountEmail = accountEmail
             self.accountId = accountId
@@ -129,6 +130,7 @@ extension Billingconductor {
         /// The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
         public let linkedAccountIds: [String]
 
+        @inlinable
         public init(autoAssociate: Bool? = nil, linkedAccountIds: [String]) {
             self.autoAssociate = autoAssociate
             self.linkedAccountIds = linkedAccountIds
@@ -154,6 +156,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs.
         public let arn: String
 
+        @inlinable
         public init(accountIds: [String], arn: String) {
             self.accountIds = accountIds
             self.arn = arn
@@ -178,6 +181,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the billing group that associates the array of account IDs.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -193,6 +197,7 @@ extension Billingconductor {
         ///  The PricingRuleArns that are associated with the Pricing Plan.
         public let pricingRuleArns: [String]
 
+        @inlinable
         public init(arn: String, pricingRuleArns: [String]) {
             self.arn = arn
             self.pricingRuleArns = pricingRuleArns
@@ -217,6 +222,7 @@ extension Billingconductor {
         ///  The PricingPlanArn that the PricingRuleArns are associated with.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -232,6 +238,7 @@ extension Billingconductor {
         /// A static error code that's used to classify the type of failure.
         public let reason: AssociateResourceErrorReason?
 
+        @inlinable
         public init(message: String? = nil, reason: AssociateResourceErrorReason? = nil) {
             self.message = message
             self.reason = reason
@@ -249,6 +256,7 @@ extension Billingconductor {
         /// An AssociateResourceError that will populate if the resource association fails.
         public let error: AssociateResourceError?
 
+        @inlinable
         public init(arn: String? = nil, error: AssociateResourceError? = nil) {
             self.arn = arn
             self.error = error
@@ -266,6 +274,7 @@ extension Billingconductor {
         /// The value in a key-value pair that describes the margin summary.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -284,6 +293,7 @@ extension Billingconductor {
         ///  A percentage custom line item ARN to associate the resources to.
         public let targetArn: String
 
+        @inlinable
         public init(billingPeriodRange: CustomLineItemBillingPeriodRange? = nil, resourceArns: [String], targetArn: String) {
             self.billingPeriodRange = billingPeriodRange
             self.resourceArns = resourceArns
@@ -313,6 +323,7 @@ extension Billingconductor {
         ///  A list of AssociateResourceResponseElement for each resource that's been associated to a percentage custom line item successfully.
         public let successfullyAssociatedResources: [AssociateResourceResponseElement]?
 
+        @inlinable
         public init(failedAssociatedResources: [AssociateResourceResponseElement]? = nil, successfullyAssociatedResources: [AssociateResourceResponseElement]? = nil) {
             self.failedAssociatedResources = failedAssociatedResources
             self.successfullyAssociatedResources = successfullyAssociatedResources
@@ -331,6 +342,7 @@ extension Billingconductor {
         ///  A percentage custom line item ARN to disassociate the resources from.
         public let targetArn: String
 
+        @inlinable
         public init(billingPeriodRange: CustomLineItemBillingPeriodRange? = nil, resourceArns: [String], targetArn: String) {
             self.billingPeriodRange = billingPeriodRange
             self.resourceArns = resourceArns
@@ -360,6 +372,7 @@ extension Billingconductor {
         ///  A list of DisassociateResourceResponseElement for each resource that's been disassociated from a percentage custom line item successfully.
         public let successfullyDisassociatedResources: [DisassociateResourceResponseElement]?
 
+        @inlinable
         public init(failedDisassociatedResources: [DisassociateResourceResponseElement]? = nil, successfullyDisassociatedResources: [DisassociateResourceResponseElement]? = nil) {
             self.failedDisassociatedResources = failedDisassociatedResources
             self.successfullyDisassociatedResources = successfullyDisassociatedResources
@@ -385,6 +398,7 @@ extension Billingconductor {
         /// The hypothetical Amazon Web Services charges based on the associated pricing plan of a billing group.
         public let proformaCost: String?
 
+        @inlinable
         public init(arn: String? = nil, awsCost: String? = nil, currency: String? = nil, margin: String? = nil, marginPercentage: String? = nil, proformaCost: String? = nil) {
             self.arn = arn
             self.awsCost = awsCost
@@ -420,6 +434,7 @@ extension Billingconductor {
         /// The hypothetical Amazon Web Services charges based on the associated pricing plan of a billing group.
         public let proformaCost: String?
 
+        @inlinable
         public init(arn: String? = nil, attributes: [Attribute]? = nil, awsCost: String? = nil, currency: String? = nil, margin: String? = nil, marginPercentage: String? = nil, proformaCost: String? = nil) {
             self.arn = arn
             self.attributes = attributes
@@ -465,6 +480,7 @@ extension Billingconductor {
         /// The reason why the billing group is in its current status.
         public let statusReason: String?
 
+        @inlinable
         public init(accountGrouping: ListBillingGroupAccountGrouping? = nil, arn: String? = nil, computationPreference: ComputationPreference? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
             self.accountGrouping = accountGrouping
             self.arn = arn
@@ -500,6 +516,7 @@ extension Billingconductor {
         /// The inclusive start billing period that defines a billing period range for the margin summary.
         public let inclusiveStartBillingPeriod: String
 
+        @inlinable
         public init(exclusiveEndBillingPeriod: String, inclusiveStartBillingPeriod: String) {
             self.exclusiveEndBillingPeriod = exclusiveEndBillingPeriod
             self.inclusiveStartBillingPeriod = inclusiveStartBillingPeriod
@@ -520,6 +537,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the pricing plan that's used to compute the Amazon Web Services charges for a billing group.
         public let pricingPlanArn: String
 
+        @inlinable
         public init(pricingPlanArn: String) {
             self.pricingPlanArn = pricingPlanArn
         }
@@ -549,6 +567,7 @@ extension Billingconductor {
         ///  A map that contains tag keys and tag values that are attached to a billing group. This feature isn't available during the beta.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountGrouping: AccountGrouping, clientToken: String? = CreateBillingGroupInput.idempotencyToken(), computationPreference: ComputationPreference, description: String? = nil, name: String, primaryAccountId: String? = nil, tags: [String: String]? = nil) {
             self.accountGrouping = accountGrouping
             self.clientToken = clientToken
@@ -605,6 +624,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the created billing group.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -632,6 +652,7 @@ extension Billingconductor {
         ///  A map that contains tag keys and tag values that are attached to a custom line item.
         public let tags: [String: String]?
 
+        @inlinable
         public init(accountId: String? = nil, billingGroupArn: String, billingPeriodRange: CustomLineItemBillingPeriodRange? = nil, chargeDetails: CustomLineItemChargeDetails, clientToken: String? = CreateCustomLineItemInput.idempotencyToken(), description: String, name: String, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.billingGroupArn = billingGroupArn
@@ -693,6 +714,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the created custom line item.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -706,6 +728,7 @@ extension Billingconductor {
         ///  Activate or deactivate Amazon Web Services Free Tier.
         public let activated: Bool
 
+        @inlinable
         public init(activated: Bool) {
             self.activated = activated
         }
@@ -727,6 +750,7 @@ extension Billingconductor {
         ///  A map that contains tag keys and tag values that are attached to a pricing plan.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreatePricingPlanInput.idempotencyToken(), description: String? = nil, name: String, pricingRuleArns: [String]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -778,6 +802,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the created pricing plan.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -813,6 +838,7 @@ extension Billingconductor {
         ///  Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
         public let usageType: String?
 
+        @inlinable
         public init(billingEntity: String? = nil, clientToken: String? = CreatePricingRuleInput.idempotencyToken(), description: String? = nil, modifierPercentage: Double? = nil, name: String, operation: String? = nil, scope: PricingRuleScope, service: String? = nil, tags: [String: String]? = nil, tiering: CreateTieringInput? = nil, type: PricingRuleType, usageType: String? = nil) {
             self.billingEntity = billingEntity
             self.clientToken = clientToken
@@ -892,6 +918,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the created pricing rule.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -905,6 +932,7 @@ extension Billingconductor {
         ///  The possible Amazon Web Services Free Tier configurations.
         public let freeTier: CreateFreeTierConfig
 
+        @inlinable
         public init(freeTier: CreateFreeTierConfig) {
             self.freeTier = freeTier
         }
@@ -920,6 +948,7 @@ extension Billingconductor {
         /// The inclusive start billing period that defines a billing period range where a custom line is applied.
         public let inclusiveStartBillingPeriod: String
 
+        @inlinable
         public init(exclusiveEndBillingPeriod: String? = nil, inclusiveStartBillingPeriod: String) {
             self.exclusiveEndBillingPeriod = exclusiveEndBillingPeriod
             self.inclusiveStartBillingPeriod = inclusiveStartBillingPeriod
@@ -946,6 +975,7 @@ extension Billingconductor {
         /// The type of the custom line item that indicates whether the charge is a fee or credit.
         public let type: CustomLineItemType
 
+        @inlinable
         public init(flat: CustomLineItemFlatChargeDetails? = nil, lineItemFilters: [LineItemFilter]? = nil, percentage: CustomLineItemPercentageChargeDetails? = nil, type: CustomLineItemType) {
             self.flat = flat
             self.lineItemFilters = lineItemFilters
@@ -974,6 +1004,7 @@ extension Billingconductor {
         /// The custom line item's fixed charge value in USD.
         public let chargeValue: Double
 
+        @inlinable
         public init(chargeValue: Double) {
             self.chargeValue = chargeValue
         }
@@ -1012,6 +1043,7 @@ extension Billingconductor {
         /// The product code that's associated with the custom line item.
         public let productCode: String?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -1047,6 +1079,7 @@ extension Billingconductor {
         /// The custom line item's percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
         public let percentageValue: Double
 
+        @inlinable
         public init(associatedValues: [String]? = nil, percentageValue: Double) {
             self.associatedValues = associatedValues
             self.percentageValue = percentageValue
@@ -1096,6 +1129,7 @@ extension Billingconductor {
         ///  The inclusive start time.
         public let startTime: Int64?
 
+        @inlinable
         public init(accountId: String? = nil, arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, endBillingPeriod: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil, startBillingPeriod: String? = nil, startTime: Int64? = nil) {
             self.accountId = accountId
             self.arn = arn
@@ -1135,6 +1169,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the billing group that you're deleting.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1152,6 +1187,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the deleted billing group.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1166,6 +1202,7 @@ extension Billingconductor {
         public let arn: String
         public let billingPeriodRange: CustomLineItemBillingPeriodRange?
 
+        @inlinable
         public init(arn: String, billingPeriodRange: CustomLineItemBillingPeriodRange? = nil) {
             self.arn = arn
             self.billingPeriodRange = billingPeriodRange
@@ -1186,6 +1223,7 @@ extension Billingconductor {
         /// The ARN of the deleted custom line item.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1199,6 +1237,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the pricing plan that you're deleting.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1216,6 +1255,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the deleted pricing plan.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1229,6 +1269,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the pricing rule that you are deleting.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1246,6 +1287,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the deleted pricing rule.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1261,6 +1303,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the billing group that the array of account IDs will disassociate from.
         public let arn: String
 
+        @inlinable
         public init(accountIds: [String], arn: String) {
             self.accountIds = accountIds
             self.arn = arn
@@ -1285,6 +1328,7 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the billing group that the array of account IDs is disassociated from.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1300,6 +1344,7 @@ extension Billingconductor {
         ///  A list containing the Amazon Resource Name (ARN) of the pricing rules that will be disassociated.
         public let pricingRuleArns: [String]
 
+        @inlinable
         public init(arn: String, pricingRuleArns: [String]) {
             self.arn = arn
             self.pricingRuleArns = pricingRuleArns
@@ -1324,6 +1369,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the pricing plan that the pricing rules successfully disassociated from.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1339,6 +1385,7 @@ extension Billingconductor {
         ///  An AssociateResourceError that's shown if the resource disassociation fails.
         public let error: AssociateResourceError?
 
+        @inlinable
         public init(arn: String? = nil, error: AssociateResourceError? = nil) {
             self.arn = arn
             self.error = error
@@ -1354,6 +1401,7 @@ extension Billingconductor {
         ///  Activate or deactivate Amazon Web Services Free Tier application.
         public let activated: Bool
 
+        @inlinable
         public init(activated: Bool) {
             self.activated = activated
         }
@@ -1375,6 +1423,7 @@ extension Billingconductor {
         /// The pagination token used on subsequent calls to get reports.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, billingPeriodRange: BillingPeriodRange? = nil, groupBy: [GroupByAttributeName]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.billingPeriodRange = billingPeriodRange
@@ -1405,6 +1454,7 @@ extension Billingconductor {
         /// The pagination token used on subsequent calls to get reports.
         public let nextToken: String?
 
+        @inlinable
         public init(billingGroupCostReportResults: [BillingGroupCostReportResultElement]? = nil, nextToken: String? = nil) {
             self.billingGroupCostReportResults = billingGroupCostReportResults
             self.nextToken = nextToken
@@ -1424,6 +1474,7 @@ extension Billingconductor {
         /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plan discounts.
         public let values: [LineItemFilterValue]
 
+        @inlinable
         public init(attribute: LineItemFilterAttributeName, matchOption: MatchOption, values: [LineItemFilterValue]) {
             self.attribute = attribute
             self.matchOption = matchOption
@@ -1450,6 +1501,7 @@ extension Billingconductor {
         ///  MONITORED: linked accounts that are associated to billing groups.  UNMONITORED: linked accounts that are not associated to billing groups.  Billing Group Arn: linked accounts that are associated to the provided Billing Group Arn.
         public let association: String?
 
+        @inlinable
         public init(accountId: String? = nil, accountIds: [String]? = nil, association: String? = nil) {
             self.accountId = accountId
             self.accountIds = accountIds
@@ -1481,6 +1533,7 @@ extension Billingconductor {
         ///  The pagination token that's used on subsequent calls to retrieve accounts.
         public let nextToken: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, filters: ListAccountAssociationsFilter? = nil, nextToken: String? = nil) {
             self.billingPeriod = billingPeriod
             self.filters = filters
@@ -1505,6 +1558,7 @@ extension Billingconductor {
         ///  The pagination token that's used on subsequent calls to get accounts.
         public let nextToken: String?
 
+        @inlinable
         public init(linkedAccounts: [AccountAssociationsListElement]? = nil, nextToken: String? = nil) {
             self.linkedAccounts = linkedAccounts
             self.nextToken = nextToken
@@ -1521,6 +1575,7 @@ extension Billingconductor {
         /// Amazon Web Services accounts that join your consolidated billing family.
         public let autoAssociate: Bool?
 
+        @inlinable
         public init(autoAssociate: Bool? = nil) {
             self.autoAssociate = autoAssociate
         }
@@ -1534,6 +1589,7 @@ extension Billingconductor {
         /// The list of Amazon Resource Names (ARNs) used to filter billing groups to retrieve reports.
         public let billingGroupArns: [String]?
 
+        @inlinable
         public init(billingGroupArns: [String]? = nil) {
             self.billingGroupArns = billingGroupArns
         }
@@ -1561,6 +1617,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent calls to get reports.
         public let nextToken: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, filters: ListBillingGroupCostReportsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingPeriod = billingPeriod
             self.filters = filters
@@ -1589,6 +1646,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent calls to get reports.
         public let nextToken: String?
 
+        @inlinable
         public init(billingGroupCostReports: [BillingGroupCostReportElement]? = nil, nextToken: String? = nil) {
             self.billingGroupCostReports = billingGroupCostReports
             self.nextToken = nextToken
@@ -1611,6 +1669,7 @@ extension Billingconductor {
         ///  A list of billing groups to retrieve their current status for a specific time range
         public let statuses: [BillingGroupStatus]?
 
+        @inlinable
         public init(arns: [String]? = nil, autoAssociate: Bool? = nil, pricingPlan: String? = nil, statuses: [BillingGroupStatus]? = nil) {
             self.arns = arns
             self.autoAssociate = autoAssociate
@@ -1647,6 +1706,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent calls to get billing groups.
         public let nextToken: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, filters: ListBillingGroupsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingPeriod = billingPeriod
             self.filters = filters
@@ -1675,6 +1735,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent calls to get billing groups.
         public let nextToken: String?
 
+        @inlinable
         public init(billingGroups: [BillingGroupListElement]? = nil, nextToken: String? = nil) {
             self.billingGroups = billingGroups
             self.nextToken = nextToken
@@ -1696,6 +1757,7 @@ extension Billingconductor {
         ///  The type of the custom line item that indicates whether the charge is a fee or credit.
         public let type: CustomLineItemType
 
+        @inlinable
         public init(flat: ListCustomLineItemFlatChargeDetails? = nil, lineItemFilters: [LineItemFilter]? = nil, percentage: ListCustomLineItemPercentageChargeDetails? = nil, type: CustomLineItemType) {
             self.flat = flat
             self.lineItemFilters = lineItemFilters
@@ -1715,6 +1777,7 @@ extension Billingconductor {
         ///  The custom line item's fixed charge value in USD.
         public let chargeValue: Double
 
+        @inlinable
         public init(chargeValue: Double) {
             self.chargeValue = chargeValue
         }
@@ -1728,6 +1791,7 @@ extension Billingconductor {
         ///  The custom line item's percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
         public let percentageValue: Double
 
+        @inlinable
         public init(percentageValue: Double) {
             self.percentageValue = percentageValue
         }
@@ -1743,6 +1807,7 @@ extension Billingconductor {
         /// The inclusive start billing period that defines a billing period range where  a custom line item version is applied.
         public let startBillingPeriod: String?
 
+        @inlinable
         public init(endBillingPeriod: String? = nil, startBillingPeriod: String? = nil) {
             self.endBillingPeriod = endBillingPeriod
             self.startBillingPeriod = startBillingPeriod
@@ -1763,6 +1828,7 @@ extension Billingconductor {
         /// The billing period range in which the custom line item version is applied.
         public let billingPeriodRange: ListCustomLineItemVersionsBillingPeriodRangeFilter?
 
+        @inlinable
         public init(billingPeriodRange: ListCustomLineItemVersionsBillingPeriodRangeFilter? = nil) {
             self.billingPeriodRange = billingPeriodRange
         }
@@ -1786,6 +1852,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent calls to retrieve custom line item versions.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, filters: ListCustomLineItemVersionsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.filters = filters
@@ -1814,6 +1881,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent calls to retrieve custom line item versions.
         public let nextToken: String?
 
+        @inlinable
         public init(customLineItemVersions: [CustomLineItemVersionListElement]? = nil, nextToken: String? = nil) {
             self.customLineItemVersions = customLineItemVersions
             self.nextToken = nextToken
@@ -1835,6 +1903,7 @@ extension Billingconductor {
         /// A list of custom line items to retrieve information.
         public let names: [String]?
 
+        @inlinable
         public init(accountIds: [String]? = nil, arns: [String]? = nil, billingGroups: [String]? = nil, names: [String]? = nil) {
             self.accountIds = accountIds
             self.arns = arns
@@ -1885,6 +1954,7 @@ extension Billingconductor {
         ///  The pagination token that's used on subsequent calls to get custom line items (FFLIs).
         public let nextToken: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, filters: ListCustomLineItemsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingPeriod = billingPeriod
             self.filters = filters
@@ -1913,6 +1983,7 @@ extension Billingconductor {
         ///  The pagination token that's used on subsequent calls to get custom line items (FFLIs).
         public let nextToken: String?
 
+        @inlinable
         public init(customLineItems: [CustomLineItemListElement]? = nil, nextToken: String? = nil) {
             self.customLineItems = customLineItems
             self.nextToken = nextToken
@@ -1934,6 +2005,7 @@ extension Billingconductor {
         ///  The pricing rule Amazon Resource Name (ARN) for which associations will be listed.
         public let pricingRuleArn: String
 
+        @inlinable
         public init(billingPeriod: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pricingRuleArn: String) {
             self.billingPeriod = billingPeriod
             self.maxResults = maxResults
@@ -1966,6 +2038,7 @@ extension Billingconductor {
         ///  The pricing rule Amazon Resource Name (ARN) for which associations will be listed.
         public let pricingRuleArn: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, nextToken: String? = nil, pricingPlanArns: [String]? = nil, pricingRuleArn: String? = nil) {
             self.billingPeriod = billingPeriod
             self.nextToken = nextToken
@@ -1985,6 +2058,7 @@ extension Billingconductor {
         /// A list of pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public let arns: [String]?
 
+        @inlinable
         public init(arns: [String]? = nil) {
             self.arns = arns
         }
@@ -2012,6 +2086,7 @@ extension Billingconductor {
         /// The pagination token that's used on subsequent call to get pricing plans.
         public let nextToken: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, filters: ListPricingPlansFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingPeriod = billingPeriod
             self.filters = filters
@@ -2042,6 +2117,7 @@ extension Billingconductor {
         /// A list of PricingPlanListElement retrieved.
         public let pricingPlans: [PricingPlanListElement]?
 
+        @inlinable
         public init(billingPeriod: String? = nil, nextToken: String? = nil, pricingPlans: [PricingPlanListElement]? = nil) {
             self.billingPeriod = billingPeriod
             self.nextToken = nextToken
@@ -2065,6 +2141,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) of the pricing plan for which associations are to be listed.
         public let pricingPlanArn: String
 
+        @inlinable
         public init(billingPeriod: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pricingPlanArn: String) {
             self.billingPeriod = billingPeriod
             self.maxResults = maxResults
@@ -2097,6 +2174,7 @@ extension Billingconductor {
         ///  A list containing pricing rules that are associated with the requested pricing plan.
         public let pricingRuleArns: [String]?
 
+        @inlinable
         public init(billingPeriod: String? = nil, nextToken: String? = nil, pricingPlanArn: String? = nil, pricingRuleArns: [String]? = nil) {
             self.billingPeriod = billingPeriod
             self.nextToken = nextToken
@@ -2116,6 +2194,7 @@ extension Billingconductor {
         /// A list containing the pricing rule Amazon Resource Names (ARNs) to include in the API response.
         public let arns: [String]?
 
+        @inlinable
         public init(arns: [String]? = nil) {
             self.arns = arns
         }
@@ -2143,6 +2222,7 @@ extension Billingconductor {
         ///  The pagination token that's used on subsequent call to get pricing rules.
         public let nextToken: String?
 
+        @inlinable
         public init(billingPeriod: String? = nil, filters: ListPricingRulesFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.billingPeriod = billingPeriod
             self.filters = filters
@@ -2173,6 +2253,7 @@ extension Billingconductor {
         ///  A list containing the described pricing rules.
         public let pricingRules: [PricingRuleListElement]?
 
+        @inlinable
         public init(billingPeriod: String? = nil, nextToken: String? = nil, pricingRules: [PricingRuleListElement]? = nil) {
             self.billingPeriod = billingPeriod
             self.nextToken = nextToken
@@ -2190,6 +2271,7 @@ extension Billingconductor {
         ///  The type of relationship between the custom line item and the associated resource.
         public let relationship: CustomLineItemRelationship?
 
+        @inlinable
         public init(relationship: CustomLineItemRelationship? = nil) {
             self.relationship = relationship
         }
@@ -2211,6 +2293,7 @@ extension Billingconductor {
         ///  (Optional) The pagination token that's returned by a previous request.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String, billingPeriod: String? = nil, filters: ListResourcesAssociatedToCustomLineItemFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.billingPeriod = billingPeriod
@@ -2243,6 +2326,7 @@ extension Billingconductor {
         ///  The pagination token to be used in subsequent requests to retrieve additional results.
         public let nextToken: String?
 
+        @inlinable
         public init(arn: String? = nil, associatedResources: [ListResourcesAssociatedToCustomLineItemResponseElement]? = nil, nextToken: String? = nil) {
             self.arn = arn
             self.associatedResources = associatedResources
@@ -2264,6 +2348,7 @@ extension Billingconductor {
         ///  The type of relationship between the custom line item and the associated resource.
         public let relationship: CustomLineItemRelationship?
 
+        @inlinable
         public init(arn: String? = nil, endBillingPeriod: String? = nil, relationship: CustomLineItemRelationship? = nil) {
             self.arn = arn
             self.endBillingPeriod = endBillingPeriod
@@ -2281,6 +2366,7 @@ extension Billingconductor {
         ///  The Amazon Resource Name (ARN) that identifies the resource to list the tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2303,6 +2389,7 @@ extension Billingconductor {
         ///  The tags for the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -2326,6 +2413,7 @@ extension Billingconductor {
         /// The pricing rules count that's currently associated with this pricing plan list element.
         public let size: Int64?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, size: Int64? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2375,6 +2463,7 @@ extension Billingconductor {
         ///  Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
         public let usageType: String?
 
+        @inlinable
         public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, operation: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: Tiering? = nil, type: PricingRuleType? = nil, usageType: String? = nil) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
@@ -2416,6 +2505,7 @@ extension Billingconductor {
         ///  The tags to add to the resource as a list of key-value pairs.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2453,6 +2543,7 @@ extension Billingconductor {
         ///  The possible Amazon Web Services Free Tier configurations.
         public let freeTier: FreeTierConfig
 
+        @inlinable
         public init(freeTier: FreeTierConfig) {
             self.freeTier = freeTier
         }
@@ -2468,6 +2559,7 @@ extension Billingconductor {
         ///  The tags to delete from the resource as a list of key-value pairs.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2503,6 +2595,7 @@ extension Billingconductor {
         /// Amazon Web Services accounts that join your consolidated billing family.
         public let autoAssociate: Bool?
 
+        @inlinable
         public init(autoAssociate: Bool? = nil) {
             self.autoAssociate = autoAssociate
         }
@@ -2527,6 +2620,7 @@ extension Billingconductor {
         /// The status of the billing group. Only one of the valid values can be used.
         public let status: BillingGroupStatus?
 
+        @inlinable
         public init(accountGrouping: UpdateBillingGroupAccountGrouping? = nil, arn: String, computationPreference: ComputationPreference? = nil, description: String? = nil, name: String? = nil, status: BillingGroupStatus? = nil) {
             self.accountGrouping = accountGrouping
             self.arn = arn
@@ -2578,6 +2672,7 @@ extension Billingconductor {
         ///  The reason why the billing group is in its current status.
         public let statusReason: String?
 
+        @inlinable
         public init(accountGrouping: UpdateBillingGroupAccountGrouping? = nil, arn: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, pricingPlanArn: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
             self.accountGrouping = accountGrouping
             self.arn = arn
@@ -2613,6 +2708,7 @@ extension Billingconductor {
         ///  An UpdateCustomLineItemPercentageChargeDetails that describes the new charge details of a percentage custom line item.
         public let percentage: UpdateCustomLineItemPercentageChargeDetails?
 
+        @inlinable
         public init(flat: UpdateCustomLineItemFlatChargeDetails? = nil, lineItemFilters: [LineItemFilter]? = nil, percentage: UpdateCustomLineItemPercentageChargeDetails? = nil) {
             self.flat = flat
             self.lineItemFilters = lineItemFilters
@@ -2639,6 +2735,7 @@ extension Billingconductor {
         ///  The custom line item's new fixed charge value in USD.
         public let chargeValue: Double
 
+        @inlinable
         public init(chargeValue: Double) {
             self.chargeValue = chargeValue
         }
@@ -2664,6 +2761,7 @@ extension Billingconductor {
         ///  The new name for the custom line item.
         public let name: String?
 
+        @inlinable
         public init(arn: String, billingPeriodRange: CustomLineItemBillingPeriodRange? = nil, chargeDetails: UpdateCustomLineItemChargeDetails? = nil, description: String? = nil, name: String? = nil) {
             self.arn = arn
             self.billingPeriodRange = billingPeriodRange
@@ -2708,6 +2806,7 @@ extension Billingconductor {
         ///  The name of the successfully updated custom line item.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil) {
             self.arn = arn
             self.associationSize = associationSize
@@ -2733,6 +2832,7 @@ extension Billingconductor {
         ///  The custom line item's new percentage value. This will be multiplied against the combined value of its associated resources to determine its charge value.
         public let percentageValue: Double
 
+        @inlinable
         public init(percentageValue: Double) {
             self.percentageValue = percentageValue
         }
@@ -2751,6 +2851,7 @@ extension Billingconductor {
         ///  Activate or deactivate application of Amazon Web Services Free Tier.
         public let activated: Bool
 
+        @inlinable
         public init(activated: Bool) {
             self.activated = activated
         }
@@ -2768,6 +2869,7 @@ extension Billingconductor {
         /// The name of the pricing plan. The name must be unique to each pricing plan.
         public let name: String?
 
+        @inlinable
         public init(arn: String, description: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2801,6 +2903,7 @@ extension Billingconductor {
         ///  The pricing rules count that's currently associated with this pricing plan list.
         public let size: Int64?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, size: Int64? = nil) {
             self.arn = arn
             self.description = description
@@ -2832,6 +2935,7 @@ extension Billingconductor {
         ///  The new pricing rule type.
         public let type: PricingRuleType?
 
+        @inlinable
         public init(arn: String, description: String? = nil, modifierPercentage: Double? = nil, name: String? = nil, tiering: UpdateTieringInput? = nil, type: PricingRuleType? = nil) {
             self.arn = arn
             self.description = description
@@ -2888,6 +2992,7 @@ extension Billingconductor {
         /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
         public let usageType: String?
 
+        @inlinable
         public init(arn: String? = nil, associatedPricingPlanCount: Int64? = nil, billingEntity: String? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, modifierPercentage: Double? = nil, name: String? = nil, operation: String? = nil, scope: PricingRuleScope? = nil, service: String? = nil, tiering: UpdateTieringInput? = nil, type: PricingRuleType? = nil, usageType: String? = nil) {
             self.arn = arn
             self.associatedPricingPlanCount = associatedPricingPlanCount
@@ -2925,6 +3030,7 @@ extension Billingconductor {
         ///  The possible Amazon Web Services Free Tier configurations.
         public let freeTier: UpdateFreeTierConfig
 
+        @inlinable
         public init(freeTier: UpdateFreeTierConfig) {
             self.freeTier = freeTier
         }

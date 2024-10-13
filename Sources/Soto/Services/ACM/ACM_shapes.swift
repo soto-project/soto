@@ -178,6 +178,7 @@ extension ACM {
         /// The key-value pair that defines the tag. The tag value is optional.
         public let tags: [Tag]
 
+        @inlinable
         public init(certificateArn: String, tags: [Tag]) {
             self.certificateArn = certificateArn
             self.tags = tags
@@ -254,6 +255,7 @@ extension ACM {
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Certificate Manager User Guide.
         public let type: CertificateType?
 
+        @inlinable
         public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -317,6 +319,7 @@ extension ACM {
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
 
+        @inlinable
         public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
         }
@@ -364,6 +367,7 @@ extension ACM {
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Certificate Manager User Guide.
         public let type: CertificateType?
 
+        @inlinable
         public init(certificateArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
             self.createdAt = createdAt
@@ -411,6 +415,7 @@ extension ACM {
         /// String that contains the ARN of the ACM certificate to be deleted. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -430,6 +435,7 @@ extension ACM {
         /// The Amazon Resource Name (ARN) of the ACM certificate. The ARN must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -449,6 +455,7 @@ extension ACM {
         /// Metadata about an ACM certificate.
         public let certificate: CertificateDetail?
 
+        @inlinable
         public init(certificate: CertificateDetail? = nil) {
             self.certificate = certificate
         }
@@ -472,6 +479,7 @@ extension ACM {
         /// The validation status of the domain name. This can be one of the following values:    PENDING_VALIDATION     SUCCESS     FAILED
         public let validationStatus: DomainStatus?
 
+        @inlinable
         public init(domainName: String, resourceRecord: ResourceRecord? = nil, validationDomain: String? = nil, validationEmails: [String]? = nil, validationMethod: ValidationMethod? = nil, validationStatus: DomainStatus? = nil) {
             self.domainName = domainName
             self.resourceRecord = resourceRecord
@@ -497,6 +505,7 @@ extension ACM {
         /// The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com, you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:   admin@example.com   administrator@example.com   hostmaster@example.com   postmaster@example.com   webmaster@example.com
         public let validationDomain: String
 
+        @inlinable
         public init(domainName: String, validationDomain: String) {
             self.domainName = domainName
             self.validationDomain = validationDomain
@@ -521,6 +530,7 @@ extension ACM {
         /// Specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
         public let daysBeforeExpiry: Int?
 
+        @inlinable
         public init(daysBeforeExpiry: Int? = nil) {
             self.daysBeforeExpiry = daysBeforeExpiry
         }
@@ -540,6 +550,7 @@ extension ACM {
         /// Passphrase to associate with the encrypted exported private key.   When creating your passphrase, you can use any ASCII character except #, $, or %.  If you want to later decrypt the private key, you must have the passphrase. You can use the following OpenSSL command to decrypt a private key. After entering the command, you are prompted for the passphrase.  openssl rsa -in encrypted_key.pem -out decrypted_key.pem
         public let passphrase: AWSBase64Data
 
+        @inlinable
         public init(certificateArn: String, passphrase: AWSBase64Data) {
             self.certificateArn = certificateArn
             self.passphrase = passphrase
@@ -567,6 +578,7 @@ extension ACM {
         /// The encrypted private key associated with the public key in the certificate. The key is output in PKCS #8 format and is base64 PEM-encoded.
         public let privateKey: String?
 
+        @inlinable
         public init(certificate: String? = nil, certificateChain: String? = nil, privateKey: String? = nil) {
             self.certificate = certificate
             self.certificateChain = certificateChain
@@ -586,6 +598,7 @@ extension ACM {
         /// An object identifier (OID) for the extension value. OIDs are strings of numbers separated by periods. The following OIDs are defined in RFC 3280 and RFC 5280.     1.3.6.1.5.5.7.3.1 (TLS_WEB_SERVER_AUTHENTICATION)     1.3.6.1.5.5.7.3.2 (TLS_WEB_CLIENT_AUTHENTICATION)     1.3.6.1.5.5.7.3.3 (CODE_SIGNING)     1.3.6.1.5.5.7.3.4 (EMAIL_PROTECTION)     1.3.6.1.5.5.7.3.8 (TIME_STAMPING)     1.3.6.1.5.5.7.3.9 (OCSP_SIGNING)     1.3.6.1.5.5.7.3.5 (IPSEC_END_SYSTEM)     1.3.6.1.5.5.7.3.6 (IPSEC_TUNNEL)     1.3.6.1.5.5.7.3.7 (IPSEC_USER)
         public let oid: String?
 
+        @inlinable
         public init(name: ExtendedKeyUsageName? = nil, oid: String? = nil) {
             self.name = name
             self.oid = oid
@@ -605,6 +618,7 @@ extension ACM {
         /// Specify one or more KeyUsage extension values.
         public let keyUsage: [KeyUsageName]?
 
+        @inlinable
         public init(extendedKeyUsage: [ExtendedKeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil, keyUsage: [KeyUsageName]? = nil) {
             self.extendedKeyUsage = extendedKeyUsage
             self.keyTypes = keyTypes
@@ -622,6 +636,7 @@ extension ACM {
         /// Expiration events configuration options associated with the Amazon Web Services account.
         public let expiryEvents: ExpiryEventsConfiguration?
 
+        @inlinable
         public init(expiryEvents: ExpiryEventsConfiguration? = nil) {
             self.expiryEvents = expiryEvents
         }
@@ -635,6 +650,7 @@ extension ACM {
         /// String that contains a certificate ARN in the following format:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -656,6 +672,7 @@ extension ACM {
         /// Certificates forming the requested certificate's chain of trust. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs.
         public let certificateChain: String?
 
+        @inlinable
         public init(certificate: String? = nil, certificateChain: String? = nil) {
             self.certificate = certificate
             self.certificateChain = certificateChain
@@ -679,6 +696,7 @@ extension ACM {
         /// One or more resource tags to associate with the imported certificate.  Note: You cannot apply tags when reimporting a certificate.
         public let tags: [Tag]?
 
+        @inlinable
         public init(certificate: AWSBase64Data, certificateArn: String? = nil, certificateChain: AWSBase64Data? = nil, privateKey: AWSBase64Data, tags: [Tag]? = nil) {
             self.certificate = certificate
             self.certificateArn = certificateArn
@@ -717,6 +735,7 @@ extension ACM {
         /// The Amazon Resource Name (ARN) of the imported certificate.
         public let certificateArn: String?
 
+        @inlinable
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
         }
@@ -730,6 +749,7 @@ extension ACM {
         /// A string value that contains a Key Usage extension name.
         public let name: KeyUsageName?
 
+        @inlinable
         public init(name: KeyUsageName? = nil) {
             self.name = name
         }
@@ -753,6 +773,7 @@ extension ACM {
         /// Specifies the order of sorted results. If you specify SortOrder, you must also specify SortBy.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(certificateStatuses: [CertificateStatus]? = nil, includes: Filters? = nil, maxItems: Int? = nil, nextToken: String? = nil, sortBy: SortBy? = nil, sortOrder: SortOrder? = nil) {
             self.certificateStatuses = certificateStatuses
             self.includes = includes
@@ -786,6 +807,7 @@ extension ACM {
         /// When the list is truncated, this value is present and contains the value to use for the NextToken parameter in a subsequent pagination request.
         public let nextToken: String?
 
+        @inlinable
         public init(certificateSummaryList: [CertificateSummary]? = nil, nextToken: String? = nil) {
             self.certificateSummaryList = certificateSummaryList
             self.nextToken = nextToken
@@ -801,6 +823,7 @@ extension ACM {
         /// String that contains the ARN of the ACM certificate for which you want to list the tags. This must have the following form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -820,6 +843,7 @@ extension ACM {
         /// The key-value pairs that define the applied tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -835,6 +859,7 @@ extension ACM {
         /// Customer-chosen string used to distinguish between calls to PutAccountConfiguration. Idempotency tokens time out after one hour. If you call PutAccountConfiguration multiple times with the same unexpired idempotency token, ACM treats it as the same request and returns the original result. If you change the idempotency token for each call, ACM treats each call as a new request.
         public let idempotencyToken: String
 
+        @inlinable
         public init(expiryEvents: ExpiryEventsConfiguration? = nil, idempotencyToken: String) {
             self.expiryEvents = expiryEvents
             self.idempotencyToken = idempotencyToken
@@ -859,6 +884,7 @@ extension ACM {
         /// The key-value pair that defines the tag to remove.
         public let tags: [Tag]
 
+        @inlinable
         public init(certificateArn: String, tags: [Tag]) {
             self.certificateArn = certificateArn
             self.tags = tags
@@ -885,6 +911,7 @@ extension ACM {
         /// String that contains the ARN of the ACM certificate to be renewed. This must be of the form:  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more information about ARNs, see Amazon Resource Names (ARNs).
         public let certificateArn: String
 
+        @inlinable
         public init(certificateArn: String) {
             self.certificateArn = certificateArn
         }
@@ -910,6 +937,7 @@ extension ACM {
         /// The time at which the renewal summary was last updated.
         public let updatedAt: Date
 
+        @inlinable
         public init(domainValidationOptions: [DomainValidation], renewalStatus: RenewalStatus, renewalStatusReason: FailureReason? = nil, updatedAt: Date) {
             self.domainValidationOptions = domainValidationOptions
             self.renewalStatus = renewalStatus
@@ -945,6 +973,7 @@ extension ACM {
         /// The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation.
         public let validationMethod: ValidationMethod?
 
+        @inlinable
         public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil, validationMethod: ValidationMethod? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.domainName = domainName
@@ -1003,6 +1032,7 @@ extension ACM {
         /// String that contains the ARN of the issued certificate. This must be of the form:  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String?
 
+        @inlinable
         public init(certificateArn: String? = nil) {
             self.certificateArn = certificateArn
         }
@@ -1020,6 +1050,7 @@ extension ACM {
         /// The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:   admin@subdomain.example.com   administrator@subdomain.example.com   hostmaster@subdomain.example.com   postmaster@subdomain.example.com   webmaster@subdomain.example.com
         public let validationDomain: String
 
+        @inlinable
         public init(certificateArn: String, domain: String, validationDomain: String) {
             self.certificateArn = certificateArn
             self.domain = domain
@@ -1053,6 +1084,7 @@ extension ACM {
         /// The value of the CNAME record to add to your DNS database. This is supplied by ACM.
         public let value: String
 
+        @inlinable
         public init(name: String, type: RecordType, value: String) {
             self.name = name
             self.type = type
@@ -1072,6 +1104,7 @@ extension ACM {
         /// The value of the tag.
         public let value: String?
 
+        @inlinable
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
@@ -1097,6 +1130,7 @@ extension ACM {
         /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
         public let options: CertificateOptions
 
+        @inlinable
         public init(certificateArn: String, options: CertificateOptions) {
             self.certificateArn = certificateArn
             self.options = options

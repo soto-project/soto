@@ -203,6 +203,7 @@ extension Backup {
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the sample CloudFormation template to enable Windows VSS in the Backup User Guide. Valid values: EC2.
         public let resourceType: String?
 
+        @inlinable
         public init(backupOptions: [String: String]? = nil, resourceType: String? = nil) {
             self.backupOptions = backupOptions
             self.resourceType = resourceType
@@ -274,6 +275,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, initiationDate: Date? = nil, isParent: Bool? = nil, messageCategory: String? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
@@ -349,6 +351,7 @@ extension Backup {
         /// This value is job count for jobs  with the specified state.
         public let state: BackupJobStatus?
 
+        @inlinable
         public init(accountId: String? = nil, count: Int? = nil, endTime: Date? = nil, messageCategory: String? = nil, region: String? = nil, resourceType: String? = nil, startTime: Date? = nil, state: BackupJobStatus? = nil) {
             self.accountId = accountId
             self.count = count
@@ -380,6 +383,7 @@ extension Backup {
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRule]
 
+        @inlinable
         public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRule]) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
@@ -401,6 +405,7 @@ extension Backup {
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRuleInput]
 
+        @inlinable
         public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRuleInput]) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
@@ -429,6 +434,7 @@ extension Backup {
         /// The optional display name of a backup plan template.
         public let backupPlanTemplateName: String?
 
+        @inlinable
         public init(backupPlanTemplateId: String? = nil, backupPlanTemplateName: String? = nil) {
             self.backupPlanTemplateId = backupPlanTemplateId
             self.backupPlanTemplateName = backupPlanTemplateName
@@ -460,6 +466,7 @@ extension Backup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, deletionDate: Date? = nil, lastExecutionDate: Date? = nil, versionId: String? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
@@ -509,6 +516,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let targetBackupVaultName: String
 
+        @inlinable
         public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
@@ -560,6 +568,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let targetBackupVaultName: String
 
+        @inlinable
         public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
@@ -606,6 +615,7 @@ extension Backup {
         /// The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let selectionName: String
 
+        @inlinable
         public init(conditions: Conditions? = nil, iamRoleArn: String, listOfTags: [Condition]? = nil, notResources: [String]? = nil, resources: [String]? = nil, selectionName: String) {
             self.conditions = conditions
             self.iamRoleArn = iamRoleArn
@@ -643,6 +653,7 @@ extension Backup {
         /// The display name of a resource selection document.
         public let selectionName: String?
 
+        @inlinable
         public init(backupPlanId: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, iamRoleArn: String? = nil, selectionId: String? = nil, selectionName: String? = nil) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -688,6 +699,7 @@ extension Backup {
         /// The type of vault in which the described recovery point is stored.
         public let vaultType: VaultType?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -725,6 +737,7 @@ extension Backup {
         /// A timestamp that specifies when to transition a recovery point to cold storage.
         public let moveToColdStorageAt: Date?
 
+        @inlinable
         public init(deleteAt: Date? = nil, moveToColdStorageAt: Date? = nil) {
             self.deleteAt = deleteAt
             self.moveToColdStorageAt = moveToColdStorageAt
@@ -744,6 +757,7 @@ extension Backup {
         /// The integer amount, in days, after which to remove legal hold.
         public let retainRecordInDays: Int64?
 
+        @inlinable
         public init(cancelDescription: String, legalHoldId: String, retainRecordInDays: Int64? = nil) {
             self.cancelDescription = cancelDescription
             self.legalHoldId = legalHoldId
@@ -773,6 +787,7 @@ extension Backup {
         /// The value in a key-value pair. For example, in the tag Department: Accounting, Accounting is the value.
         public let conditionValue: String
 
+        @inlinable
         public init(conditionKey: String, conditionType: ConditionType, conditionValue: String) {
             self.conditionKey = conditionKey
             self.conditionType = conditionType
@@ -792,6 +807,7 @@ extension Backup {
         /// The value in a key-value pair. For example, in the tag Department: Accounting, Accounting is the value.
         public let conditionValue: String?
 
+        @inlinable
         public init(conditionKey: String? = nil, conditionValue: String? = nil) {
             self.conditionKey = conditionKey
             self.conditionValue = conditionValue
@@ -813,6 +829,7 @@ extension Backup {
         /// Filters the values of your tagged resources for non-matching tag values with the use of a wildcard character (*) anywhere in the string.
         public let stringNotLike: [ConditionParameter]?
 
+        @inlinable
         public init(stringEquals: [ConditionParameter]? = nil, stringLike: [ConditionParameter]? = nil, stringNotEquals: [ConditionParameter]? = nil, stringNotLike: [ConditionParameter]? = nil) {
             self.stringEquals = stringEquals
             self.stringLike = stringLike
@@ -834,6 +851,7 @@ extension Backup {
         /// The value of parameter, for example, hourly.
         public let parameterValue: String?
 
+        @inlinable
         public init(parameterName: String? = nil, parameterValue: String? = nil) {
             self.parameterName = parameterName
             self.parameterValue = parameterValue
@@ -853,6 +871,7 @@ extension Backup {
         /// The tag key-value pair applied to those Amazon Web Services resources that you want to trigger an evaluation for a rule. A maximum of one key-value pair can be provided. The tag value is optional, but it cannot be an empty string if you are creating or editing a  framework from the console (though the value can be an empty string when included  in a CloudFormation template). The structure to assign a tag is: [{"Key":"string","Value":"string"}].
         public let tags: [String: String]?
 
+        @inlinable
         public init(complianceResourceIds: [String]? = nil, complianceResourceTypes: [String]? = nil, tags: [String: String]? = nil) {
             self.complianceResourceIds = complianceResourceIds
             self.complianceResourceTypes = complianceResourceTypes
@@ -876,6 +895,7 @@ extension Backup {
         public let destinationBackupVaultArn: String
         public let lifecycle: Lifecycle?
 
+        @inlinable
         public init(destinationBackupVaultArn: String, lifecycle: Lifecycle? = nil) {
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.lifecycle = lifecycle
@@ -932,6 +952,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to copy a resource.
         public let statusMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, childJobsInState: [CopyJobState: Int64]? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationRecoveryPointArn: String? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, messageCategory: String? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
@@ -1001,6 +1022,7 @@ extension Backup {
         /// This value is job count for jobs  with the specified state.
         public let state: CopyJobStatus?
 
+        @inlinable
         public init(accountId: String? = nil, count: Int? = nil, endTime: Date? = nil, messageCategory: String? = nil, region: String? = nil, resourceType: String? = nil, startTime: Date? = nil, state: CopyJobStatus? = nil) {
             self.accountId = accountId
             self.count = count
@@ -1032,6 +1054,7 @@ extension Backup {
         /// Identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
 
+        @inlinable
         public init(backupPlan: BackupPlanInput, backupPlanTags: [String: String]? = nil, creatorRequestId: String? = nil) {
             self.backupPlan = backupPlan
             self.backupPlanTags = backupPlanTags
@@ -1061,6 +1084,7 @@ extension Backup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. They cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, versionId: String? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
@@ -1086,6 +1110,7 @@ extension Backup {
         /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
 
+        @inlinable
         public init(backupPlanId: String, backupSelection: BackupSelection, creatorRequestId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
@@ -1118,6 +1143,7 @@ extension Backup {
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
 
+        @inlinable
         public init(backupPlanId: String? = nil, creationDate: Date? = nil, selectionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -1141,6 +1167,7 @@ extension Backup {
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
 
+        @inlinable
         public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil) {
             self.backupVaultName = backupVaultName
             self.backupVaultTags = backupVaultTags
@@ -1176,6 +1203,7 @@ extension Backup {
         /// The date and time a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1201,6 +1229,7 @@ extension Backup {
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateFrameworkInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
 
+        @inlinable
         public init(frameworkControls: [FrameworkControl], frameworkDescription: String? = nil, frameworkName: String, frameworkTags: [String: String]? = nil, idempotencyToken: String? = CreateFrameworkInput.idempotencyToken()) {
             self.frameworkControls = frameworkControls
             self.frameworkDescription = frameworkDescription
@@ -1235,6 +1264,7 @@ extension Backup {
         /// The unique name of the framework. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
         public let frameworkName: String?
 
+        @inlinable
         public init(frameworkArn: String? = nil, frameworkName: String? = nil) {
             self.frameworkArn = frameworkArn
             self.frameworkName = frameworkName
@@ -1258,6 +1288,7 @@ extension Backup {
         /// The title of the legal hold.
         public let title: String
 
+        @inlinable
         public init(description: String, idempotencyToken: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, tags: [String: String]? = nil, title: String) {
             self.description = description
             self.idempotencyToken = idempotencyToken
@@ -1291,6 +1322,7 @@ extension Backup {
         /// The title of the legal hold.
         public let title: String?
 
+        @inlinable
         public init(creationDate: Date? = nil, description: String? = nil, legalHoldArn: String? = nil, legalHoldId: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, status: LegalHoldStatus? = nil, title: String? = nil) {
             self.creationDate = creationDate
             self.description = description
@@ -1324,6 +1356,7 @@ extension Backup {
         /// This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.
         public let minRetentionDays: Int64
 
+        @inlinable
         public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = nil, maxRetentionDays: Int64, minRetentionDays: Int64) {
             self.backupVaultName = backupVaultName
             self.backupVaultTags = backupVaultTags
@@ -1364,6 +1397,7 @@ extension Backup {
         /// The current state of the vault.
         public let vaultState: VaultState?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, vaultState: VaultState? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -1393,6 +1427,7 @@ extension Backup {
         /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting
 
+        @inlinable
         public init(idempotencyToken: String? = CreateReportPlanInput.idempotencyToken(), reportDeliveryChannel: ReportDeliveryChannel, reportPlanDescription: String? = nil, reportPlanName: String, reportPlanTags: [String: String]? = nil, reportSetting: ReportSetting) {
             self.idempotencyToken = idempotencyToken
             self.reportDeliveryChannel = reportDeliveryChannel
@@ -1428,6 +1463,7 @@ extension Backup {
         /// The unique name of the report plan.
         public let reportPlanName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, reportPlanArn: String? = nil, reportPlanName: String? = nil) {
             self.creationTime = creationTime
             self.reportPlanArn = reportPlanArn
@@ -1449,6 +1485,7 @@ extension Backup {
         /// The tags to assign to the restore testing plan.
         public let tags: [String: String]?
 
+        @inlinable
         public init(creatorRequestId: String? = nil, restoreTestingPlan: RestoreTestingPlanForCreate, tags: [String: String]? = nil) {
             self.creatorRequestId = creatorRequestId
             self.restoreTestingPlan = restoreTestingPlan
@@ -1470,6 +1507,7 @@ extension Backup {
         /// This unique string is the name of the restore testing plan. The name cannot be changed after creation. The name consists of only  alphanumeric characters and underscores. Maximum length is 50.
         public let restoreTestingPlanName: String
 
+        @inlinable
         public init(creationTime: Date, restoreTestingPlanArn: String, restoreTestingPlanName: String) {
             self.creationTime = creationTime
             self.restoreTestingPlanArn = restoreTestingPlanArn
@@ -1491,6 +1529,7 @@ extension Backup {
         /// This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following:    ProtectedResourceArns     ProtectedResourceConditions    Each protected resource type can have one single value. A restore testing selection can include a wildcard value ("*") for ProtectedResourceArns along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific protected resource ARNs in ProtectedResourceArns.
         public let restoreTestingSelection: RestoreTestingSelectionForCreate
 
+        @inlinable
         public init(creatorRequestId: String? = nil, restoreTestingPlanName: String, restoreTestingSelection: RestoreTestingSelectionForCreate) {
             self.creatorRequestId = creatorRequestId
             self.restoreTestingPlanName = restoreTestingPlanName
@@ -1521,6 +1560,7 @@ extension Backup {
         /// The name of the restore testing selection for the related restore testing plan.
         public let restoreTestingSelectionName: String
 
+        @inlinable
         public init(creationTime: Date, restoreTestingPlanArn: String, restoreTestingPlanName: String, restoreTestingSelectionName: String) {
             self.creationTime = creationTime
             self.restoreTestingPlanArn = restoreTestingPlanArn
@@ -1542,6 +1582,7 @@ extension Backup {
         /// This value is the end date, inclusive. The date and time are in Unix format and Coordinated  Universal Time (UTC), and it is accurate to milliseconds  (milliseconds are optional).
         public let toDate: Date
 
+        @inlinable
         public init(fromDate: Date, toDate: Date) {
             self.fromDate = fromDate
             self.toDate = toDate
@@ -1557,6 +1598,7 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
 
+        @inlinable
         public init(backupPlanId: String) {
             self.backupPlanId = backupPlanId
         }
@@ -1580,6 +1622,7 @@ extension Backup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, deletionDate: Date? = nil, versionId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -1601,6 +1644,7 @@ extension Backup {
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String
 
+        @inlinable
         public init(backupPlanId: String, selectionId: String) {
             self.backupPlanId = backupPlanId
             self.selectionId = selectionId
@@ -1620,6 +1664,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1641,6 +1686,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1658,6 +1704,7 @@ extension Backup {
         /// The name of the backup vault from which to delete Backup Vault Lock.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1679,6 +1726,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -1700,6 +1748,7 @@ extension Backup {
         /// The unique name of a framework.
         public let frameworkName: String
 
+        @inlinable
         public init(frameworkName: String) {
             self.frameworkName = frameworkName
         }
@@ -1725,6 +1774,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -1748,6 +1798,7 @@ extension Backup {
         /// The unique name of a report plan.
         public let reportPlanName: String
 
+        @inlinable
         public init(reportPlanName: String) {
             self.reportPlanName = reportPlanName
         }
@@ -1771,6 +1822,7 @@ extension Backup {
         /// Required unique name of the restore testing plan you wish  to delete.
         public let restoreTestingPlanName: String
 
+        @inlinable
         public init(restoreTestingPlanName: String) {
             self.restoreTestingPlanName = restoreTestingPlanName
         }
@@ -1790,6 +1842,7 @@ extension Backup {
         /// Required unique name of the restore testing selection you  wish to delete.
         public let restoreTestingSelectionName: String
 
+        @inlinable
         public init(restoreTestingPlanName: String, restoreTestingSelectionName: String) {
             self.restoreTestingPlanName = restoreTestingPlanName
             self.restoreTestingSelectionName = restoreTestingSelectionName
@@ -1809,6 +1862,7 @@ extension Backup {
         /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
 
+        @inlinable
         public init(backupJobId: String) {
             self.backupJobId = backupJobId
         }
@@ -1878,6 +1932,7 @@ extension Backup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, childJobsInState: [BackupJobState: Int64]? = nil, completionDate: Date? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, expectedCompletionDate: Date? = nil, iamRoleArn: String? = nil, initiationDate: Date? = nil, isParent: Bool? = nil, messageCategory: String? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, startBy: Date? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
@@ -1945,6 +2000,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultAccountId: String? = nil, backupVaultName: String) {
             self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
@@ -1986,6 +2042,7 @@ extension Backup {
         /// The type of vault described.
         public let vaultType: VaultType?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2021,6 +2078,7 @@ extension Backup {
         /// Uniquely identifies a copy job.
         public let copyJobId: String
 
+        @inlinable
         public init(copyJobId: String) {
             self.copyJobId = copyJobId
         }
@@ -2038,6 +2096,7 @@ extension Backup {
         /// Contains detailed information about a copy job.
         public let copyJob: CopyJob?
 
+        @inlinable
         public init(copyJob: CopyJob? = nil) {
             self.copyJob = copyJob
         }
@@ -2051,6 +2110,7 @@ extension Backup {
         /// The unique name of a framework.
         public let frameworkName: String
 
+        @inlinable
         public init(frameworkName: String) {
             self.frameworkName = frameworkName
         }
@@ -2088,6 +2148,7 @@ extension Backup {
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to DescribeFrameworkOutput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, deploymentStatus: String? = nil, frameworkArn: String? = nil, frameworkControls: [FrameworkControl]? = nil, frameworkDescription: String? = nil, frameworkName: String? = nil, frameworkStatus: String? = nil, idempotencyToken: String? = nil) {
             self.creationTime = creationTime
             self.deploymentStatus = deploymentStatus
@@ -2121,6 +2182,7 @@ extension Backup {
         /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastUpdateTime: Date?
 
+        @inlinable
         public init(globalSettings: [String: String]? = nil, lastUpdateTime: Date? = nil) {
             self.globalSettings = globalSettings
             self.lastUpdateTime = lastUpdateTime
@@ -2136,6 +2198,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2169,6 +2232,7 @@ extension Backup {
         /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon EBS volume or an Amazon RDS database.
         public let resourceType: String?
 
+        @inlinable
         public init(lastBackupTime: Date? = nil, lastBackupVaultArn: String? = nil, lastRecoveryPointArn: String? = nil, latestRestoreExecutionTimeMinutes: Int64? = nil, latestRestoreJobCreationDate: Date? = nil, latestRestoreRecoveryPointCreationDate: Date? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.lastBackupVaultArn = lastBackupVaultArn
@@ -2202,6 +2266,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultAccountId: String? = nil, backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
@@ -2274,6 +2339,7 @@ extension Backup {
         /// The type of vault in which the described recovery point is stored.
         public let vaultType: VaultType?
 
+        @inlinable
         public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -2339,6 +2405,7 @@ extension Backup {
         /// The services along with the opt-in preferences in the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 
+        @inlinable
         public init(resourceTypeManagementPreference: [String: Bool]? = nil, resourceTypeOptInPreference: [String: Bool]? = nil) {
             self.resourceTypeManagementPreference = resourceTypeManagementPreference
             self.resourceTypeOptInPreference = resourceTypeOptInPreference
@@ -2354,6 +2421,7 @@ extension Backup {
         /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
         public let reportJobId: String
 
+        @inlinable
         public init(reportJobId: String) {
             self.reportJobId = reportJobId
         }
@@ -2371,6 +2439,7 @@ extension Backup {
         /// The information about a report job, including its completion and creation times, report destination, unique report job ID, Amazon Resource Name (ARN), report template, status, and status message.
         public let reportJob: ReportJob?
 
+        @inlinable
         public init(reportJob: ReportJob? = nil) {
             self.reportJob = reportJob
         }
@@ -2384,6 +2453,7 @@ extension Backup {
         /// The unique name of a report plan.
         public let reportPlanName: String
 
+        @inlinable
         public init(reportPlanName: String) {
             self.reportPlanName = reportPlanName
         }
@@ -2407,6 +2477,7 @@ extension Backup {
         /// Returns details about the report plan that is specified by its name. These details include the report plan's Amazon Resource Name (ARN), description, settings, delivery channel, deployment status, creation time, and last attempted and successful run times.
         public let reportPlan: ReportPlan?
 
+        @inlinable
         public init(reportPlan: ReportPlan? = nil) {
             self.reportPlan = reportPlan
         }
@@ -2420,6 +2491,7 @@ extension Backup {
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String
 
+        @inlinable
         public init(restoreJobId: String) {
             self.restoreJobId = restoreJobId
         }
@@ -2473,6 +2545,7 @@ extension Backup {
         /// The status message.
         public let validationStatusMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: Date? = nil, createdBy: RestoreJobCreator? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, deletionStatus: RestoreDeletionStatus? = nil, deletionStatusMessage: String? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, recoveryPointCreationDate: Date? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil, validationStatus: RestoreValidationStatus? = nil, validationStatusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
@@ -2524,6 +2597,7 @@ extension Backup {
         /// The Amazon Resource Name (ARN) that uniquely identifies the child  (nested) recovery point; for example,  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -2549,6 +2623,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies an Backup recovery point.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -2572,6 +2647,7 @@ extension Backup {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
 
+        @inlinable
         public init(backupPlanId: String) {
             self.backupPlanId = backupPlanId
         }
@@ -2589,6 +2665,7 @@ extension Backup {
         /// The body of a backup plan template in JSON format.  This is a signed JSON document that cannot be modified before being passed to GetBackupPlanFromJSON.
         public let backupPlanTemplateJson: String?
 
+        @inlinable
         public init(backupPlanTemplateJson: String? = nil) {
             self.backupPlanTemplateJson = backupPlanTemplateJson
         }
@@ -2612,6 +2689,7 @@ extension Backup {
         /// The number of controls contained by the framework.
         public let numberOfControls: Int?
 
+        @inlinable
         public init(creationTime: Date? = nil, deploymentStatus: String? = nil, frameworkArn: String? = nil, frameworkDescription: String? = nil, frameworkName: String? = nil, numberOfControls: Int? = nil) {
             self.creationTime = creationTime
             self.deploymentStatus = deploymentStatus
@@ -2639,6 +2717,7 @@ extension Backup {
         /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see  ControlScope.
         public let controlScope: ControlScope?
 
+        @inlinable
         public init(controlInputParameters: [ControlInputParameter]? = nil, controlName: String, controlScope: ControlScope? = nil) {
             self.controlInputParameters = controlInputParameters
             self.controlName = controlName
@@ -2660,6 +2739,7 @@ extension Backup {
         /// A customer-supplied backup plan document in JSON format.
         public let backupPlanTemplateJson: String
 
+        @inlinable
         public init(backupPlanTemplateJson: String) {
             self.backupPlanTemplateJson = backupPlanTemplateJson
         }
@@ -2673,6 +2753,7 @@ extension Backup {
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlan?
 
+        @inlinable
         public init(backupPlan: BackupPlan? = nil) {
             self.backupPlan = backupPlan
         }
@@ -2686,6 +2767,7 @@ extension Backup {
         /// Uniquely identifies a stored backup plan template.
         public let backupPlanTemplateId: String
 
+        @inlinable
         public init(backupPlanTemplateId: String) {
             self.backupPlanTemplateId = backupPlanTemplateId
         }
@@ -2703,6 +2785,7 @@ extension Backup {
         /// Returns the body of a backup plan based on the target template, including the name, rules, and backup vault of the plan.
         public let backupPlanDocument: BackupPlan?
 
+        @inlinable
         public init(backupPlanDocument: BackupPlan? = nil) {
             self.backupPlanDocument = backupPlanDocument
         }
@@ -2718,6 +2801,7 @@ extension Backup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(backupPlanId: String, versionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.versionId = versionId
@@ -2753,6 +2837,7 @@ extension Backup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlan: BackupPlan? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, deletionDate: Date? = nil, lastExecutionDate: Date? = nil, versionId: String? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlan = backupPlan
@@ -2784,6 +2869,7 @@ extension Backup {
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String
 
+        @inlinable
         public init(backupPlanId: String, selectionId: String) {
             self.backupPlanId = backupPlanId
             self.selectionId = selectionId
@@ -2811,6 +2897,7 @@ extension Backup {
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
 
+        @inlinable
         public init(backupPlanId: String? = nil, backupSelection: BackupSelection? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, selectionId: String? = nil) {
             self.backupPlanId = backupPlanId
             self.backupSelection = backupSelection
@@ -2832,6 +2919,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -2857,6 +2945,7 @@ extension Backup {
         /// The backup vault access policy document in JSON format.
         public let policy: String?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, policy: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2874,6 +2963,7 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let backupVaultName: String
 
+        @inlinable
         public init(backupVaultName: String) {
             self.backupVaultName = backupVaultName
         }
@@ -2901,6 +2991,7 @@ extension Backup {
         /// An ARN that uniquely identifies an Amazon Simple Notification Service (Amazon SNS) topic; for example, arn:aws:sns:us-west-2:111122223333:MyTopic.
         public let snsTopicArn: String?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, backupVaultEvents: [BackupVaultEvent]? = nil, backupVaultName: String? = nil, snsTopicArn: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultEvents = backupVaultEvents
@@ -2920,6 +3011,7 @@ extension Backup {
         /// The ID of the legal hold.
         public let legalHoldId: String
 
+        @inlinable
         public init(legalHoldId: String) {
             self.legalHoldId = legalHoldId
         }
@@ -2955,6 +3047,7 @@ extension Backup {
         /// The title of the legal hold.
         public let title: String?
 
+        @inlinable
         public init(cancelDescription: String? = nil, cancellationDate: Date? = nil, creationDate: Date? = nil, description: String? = nil, legalHoldArn: String? = nil, legalHoldId: String? = nil, recoveryPointSelection: RecoveryPointSelection? = nil, retainRecordUntil: Date? = nil, status: LegalHoldStatus? = nil, title: String? = nil) {
             self.cancelDescription = cancelDescription
             self.cancellationDate = cancellationDate
@@ -2990,6 +3083,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultAccountId: String? = nil, backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
@@ -3022,6 +3116,7 @@ extension Backup {
         /// The set of metadata key-value pairs that describe the original configuration of the backed-up resource. These values vary depending on the service that is being restored.
         public let restoreMetadata: [String: String]?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, recoveryPointArn: String? = nil, resourceType: String? = nil, restoreMetadata: [String: String]? = nil) {
             self.backupVaultArn = backupVaultArn
             self.recoveryPointArn = recoveryPointArn
@@ -3041,6 +3136,7 @@ extension Backup {
         /// This is a unique identifier of a restore job within Backup.
         public let restoreJobId: String
 
+        @inlinable
         public init(restoreJobId: String) {
             self.restoreJobId = restoreJobId
         }
@@ -3060,6 +3156,7 @@ extension Backup {
         /// This is a unique identifier of a restore job within Backup.
         public let restoreJobId: String?
 
+        @inlinable
         public init(metadata: [String: String]? = nil, restoreJobId: String? = nil) {
             self.metadata = metadata
             self.restoreJobId = restoreJobId
@@ -3079,6 +3176,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery  point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultAccountId: String? = nil, backupVaultName: String, recoveryPointArn: String) {
             self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
@@ -3100,6 +3198,7 @@ extension Backup {
         /// This is a string map of the metadata inferred from the request.
         public let inferredMetadata: [String: String]
 
+        @inlinable
         public init(inferredMetadata: [String: String]) {
             self.inferredMetadata = inferredMetadata
         }
@@ -3113,6 +3212,7 @@ extension Backup {
         /// Required unique name of the restore testing plan.
         public let restoreTestingPlanName: String
 
+        @inlinable
         public init(restoreTestingPlanName: String) {
             self.restoreTestingPlanName = restoreTestingPlanName
         }
@@ -3130,6 +3230,7 @@ extension Backup {
         /// Specifies the body of a restore testing plan. Includes  RestoreTestingPlanName.
         public let restoreTestingPlan: RestoreTestingPlanForGet
 
+        @inlinable
         public init(restoreTestingPlan: RestoreTestingPlanForGet) {
             self.restoreTestingPlan = restoreTestingPlan
         }
@@ -3145,6 +3246,7 @@ extension Backup {
         /// Required unique name of the restore testing selection.
         public let restoreTestingSelectionName: String
 
+        @inlinable
         public init(restoreTestingPlanName: String, restoreTestingSelectionName: String) {
             self.restoreTestingPlanName = restoreTestingPlanName
             self.restoreTestingSelectionName = restoreTestingSelectionName
@@ -3164,6 +3266,7 @@ extension Backup {
         /// Unique name of the restore testing selection.
         public let restoreTestingSelection: RestoreTestingSelectionForGet
 
+        @inlinable
         public init(restoreTestingSelection: RestoreTestingSelectionForGet) {
             self.restoreTestingSelection = restoreTestingSelection
         }
@@ -3177,6 +3280,7 @@ extension Backup {
         /// Contains a string with the supported Amazon Web Services resource types:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let resourceTypes: [String]?
 
+        @inlinable
         public init(resourceTypes: [String]? = nil) {
             self.resourceTypes = resourceTypes
         }
@@ -3192,6 +3296,7 @@ extension Backup {
         /// The value of the key. Length Constraints: Maximum length of 256. Pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3219,6 +3324,7 @@ extension Backup {
         /// The title of a legal hold.
         public let title: String?
 
+        @inlinable
         public init(cancellationDate: Date? = nil, creationDate: Date? = nil, description: String? = nil, legalHoldArn: String? = nil, legalHoldId: String? = nil, status: LegalHoldStatus? = nil, title: String? = nil) {
             self.cancellationDate = cancellationDate
             self.creationDate = creationDate
@@ -3248,6 +3354,7 @@ extension Backup {
         /// If the value is true, your backup plan transitions supported resources to  archive (cold) storage tier in accordance with your lifecycle settings.
         public let optInToArchiveForSupportedResources: Bool?
 
+        @inlinable
         public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil, optInToArchiveForSupportedResources: Bool? = nil) {
             self.deleteAfterDays = deleteAfterDays
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
@@ -3277,6 +3384,7 @@ extension Backup {
         /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states.  AGGREGATE_ALL aggregates job counts for all states and returns the sum.  Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues, run two GET requests, and subtract the second, smaller number: GET /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&State=COMPLETED GET /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&MessageCategory=SUCCESS&State=COMPLETED
         public let state: BackupJobStatus?
 
+        @inlinable
         public init(accountId: String? = nil, aggregationPeriod: AggregationPeriod? = nil, maxResults: Int? = nil, messageCategory: String? = nil, nextToken: String? = nil, resourceType: String? = nil, state: BackupJobStatus? = nil) {
             self.accountId = accountId
             self.aggregationPeriod = aggregationPeriod
@@ -3317,6 +3425,7 @@ extension Backup {
         /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregationPeriod: String? = nil, backupJobSummaries: [BackupJobSummary]? = nil, nextToken: String? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.backupJobSummaries = backupJobSummaries
@@ -3358,6 +3467,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is  made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byMessageCategory: String? = nil, byParentJobId: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byBackupVaultName = byBackupVaultName
@@ -3409,6 +3519,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is   made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupJobs: [BackupJob]? = nil, nextToken: String? = nil) {
             self.backupJobs = backupJobs
             self.nextToken = nextToken
@@ -3426,6 +3537,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3452,6 +3564,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupPlanTemplatesList: [BackupPlanTemplatesListMember]? = nil, nextToken: String? = nil) {
             self.backupPlanTemplatesList = backupPlanTemplatesList
             self.nextToken = nextToken
@@ -3471,6 +3584,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupPlanId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
@@ -3499,6 +3613,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupPlanVersionsList: [BackupPlansListMember]? = nil, nextToken: String? = nil) {
             self.backupPlanVersionsList = backupPlanVersionsList
             self.nextToken = nextToken
@@ -3518,6 +3633,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(includeDeleted: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.includeDeleted = includeDeleted
             self.maxResults = maxResults
@@ -3546,6 +3662,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupPlansList: [BackupPlansListMember]? = nil, nextToken: String? = nil) {
             self.backupPlansList = backupPlansList
             self.nextToken = nextToken
@@ -3565,6 +3682,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupPlanId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupPlanId = backupPlanId
             self.maxResults = maxResults
@@ -3593,6 +3711,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupSelectionsList: [BackupSelectionsListMember]? = nil, nextToken: String? = nil) {
             self.backupSelectionsList = backupSelectionsList
             self.nextToken = nextToken
@@ -3614,6 +3733,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(byShared: Bool? = nil, byVaultType: VaultType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byShared = byShared
             self.byVaultType = byVaultType
@@ -3644,6 +3764,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupVaultList: [BackupVaultListMember]? = nil, nextToken: String? = nil) {
             self.backupVaultList = backupVaultList
             self.nextToken = nextToken
@@ -3671,6 +3792,7 @@ extension Backup {
         /// This parameter returns the job count for jobs  with the specified state. The the value ANY returns count of all states.  AGGREGATE_ALL aggregates job counts  for all states and returns the sum.
         public let state: CopyJobStatus?
 
+        @inlinable
         public init(accountId: String? = nil, aggregationPeriod: AggregationPeriod? = nil, maxResults: Int? = nil, messageCategory: String? = nil, nextToken: String? = nil, resourceType: String? = nil, state: CopyJobStatus? = nil) {
             self.accountId = accountId
             self.aggregationPeriod = aggregationPeriod
@@ -3711,6 +3833,7 @@ extension Backup {
         /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(aggregationPeriod: String? = nil, copyJobSummaries: [CopyJobSummary]? = nil, nextToken: String? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.copyJobSummaries = copyJobSummaries
@@ -3752,6 +3875,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byMessageCategory: String? = nil, byParentJobId: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCompleteAfter = byCompleteAfter
@@ -3802,6 +3926,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(copyJobs: [CopyJob]? = nil, nextToken: String? = nil) {
             self.copyJobs = copyJobs
             self.nextToken = nextToken
@@ -3819,6 +3944,7 @@ extension Backup {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3845,6 +3971,7 @@ extension Backup {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(frameworks: [Framework]? = nil, nextToken: String? = nil) {
             self.frameworks = frameworks
             self.nextToken = nextToken
@@ -3862,6 +3989,7 @@ extension Backup {
         /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3888,6 +4016,7 @@ extension Backup {
         /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(legalHolds: [LegalHold]? = nil, nextToken: String? = nil) {
             self.legalHolds = legalHolds
             self.nextToken = nextToken
@@ -3909,6 +4038,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupVaultAccountId: String? = nil, backupVaultName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
@@ -3941,6 +4071,7 @@ extension Backup {
         /// These are the results returned for the request ListProtectedResourcesByBackupVault.
         public let results: [ProtectedResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [ProtectedResource]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -3958,6 +4089,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3984,6 +4116,7 @@ extension Backup {
         /// An array of resources successfully backed up by Backup including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
         public let results: [ProtectedResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [ProtectedResource]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -4017,6 +4150,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(backupVaultAccountId: String? = nil, backupVaultName: String, byBackupPlanId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byParentRecoveryPointArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.backupVaultAccountId = backupVaultAccountId
             self.backupVaultName = backupVaultName
@@ -4062,6 +4196,7 @@ extension Backup {
         /// An array of objects that contain detailed information about recovery points saved in a backup vault.
         public let recoveryPoints: [RecoveryPointByBackupVault]?
 
+        @inlinable
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByBackupVault]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
@@ -4081,6 +4216,7 @@ extension Backup {
         /// The next item following a partial list of returned resources. For example, if a request is made to return MaxResults number of resources, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(legalHoldId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.legalHoldId = legalHoldId
             self.maxResults = maxResults
@@ -4109,6 +4245,7 @@ extension Backup {
         /// The recovery points.
         public let recoveryPoints: [RecoveryPointMember]?
 
+        @inlinable
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointMember]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
@@ -4130,6 +4267,7 @@ extension Backup {
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String
 
+        @inlinable
         public init(managedByAWSBackupOnly: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.managedByAWSBackupOnly = managedByAWSBackupOnly
             self.maxResults = maxResults
@@ -4160,6 +4298,7 @@ extension Backup {
         /// An array of objects that contain detailed information about recovery points of the specified resource type.  Only Amazon EFS and Amazon EC2 recovery points return BackupVaultName.
         public let recoveryPoints: [RecoveryPointByResource]?
 
+        @inlinable
         public init(nextToken: String? = nil, recoveryPoints: [RecoveryPointByResource]? = nil) {
             self.nextToken = nextToken
             self.recoveryPoints = recoveryPoints
@@ -4185,6 +4324,7 @@ extension Backup {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(byCreationAfter: Date? = nil, byCreationBefore: Date? = nil, byReportPlanName: String? = nil, byStatus: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byCreationAfter = byCreationAfter
             self.byCreationBefore = byCreationBefore
@@ -4222,6 +4362,7 @@ extension Backup {
         /// Details about your report jobs in JSON format.
         public let reportJobs: [ReportJob]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportJobs: [ReportJob]? = nil) {
             self.nextToken = nextToken
             self.reportJobs = reportJobs
@@ -4239,6 +4380,7 @@ extension Backup {
         /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4265,6 +4407,7 @@ extension Backup {
         /// The report plans with detailed information for each plan. This information includes the Amazon Resource Name (ARN), report plan name, description, settings, delivery channel, deployment status, creation time, and last times the report plan attempted to and successfully ran.
         public let reportPlans: [ReportPlan]?
 
+        @inlinable
         public init(nextToken: String? = nil, reportPlans: [ReportPlan]? = nil) {
             self.nextToken = nextToken
             self.reportPlans = reportPlans
@@ -4290,6 +4433,7 @@ extension Backup {
         /// This parameter returns the job count for jobs  with the specified state. The the value ANY returns count of all states.  AGGREGATE_ALL aggregates job counts  for all states and returns the sum.
         public let state: RestoreJobState?
 
+        @inlinable
         public init(accountId: String? = nil, aggregationPeriod: AggregationPeriod? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil, state: RestoreJobState? = nil) {
             self.accountId = accountId
             self.aggregationPeriod = aggregationPeriod
@@ -4328,6 +4472,7 @@ extension Backup {
         /// This return contains a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
         public let restoreJobSummaries: [RestoreJobSummary]?
 
+        @inlinable
         public init(aggregationPeriod: String? = nil, nextToken: String? = nil, restoreJobSummaries: [RestoreJobSummary]? = nil) {
             self.aggregationPeriod = aggregationPeriod
             self.nextToken = nextToken
@@ -4355,6 +4500,7 @@ extension Backup {
         /// Returns only restore jobs that match the specified resource  Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(byRecoveryPointCreationDateAfter: Date? = nil, byRecoveryPointCreationDateBefore: Date? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.byRecoveryPointCreationDateAfter = byRecoveryPointCreationDateAfter
             self.byRecoveryPointCreationDateBefore = byRecoveryPointCreationDateBefore
@@ -4389,6 +4535,7 @@ extension Backup {
         /// An array of objects that contain detailed information about  jobs to restore saved resources.>
         public let restoreJobs: [RestoreJobsListMember]?
 
+        @inlinable
         public init(nextToken: String? = nil, restoreJobs: [RestoreJobsListMember]? = nil) {
             self.nextToken = nextToken
             self.restoreJobs = restoreJobs
@@ -4422,6 +4569,7 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
+        @inlinable
         public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceType: String? = nil, byRestoreTestingPlanArn: String? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCompleteAfter = byCompleteAfter
@@ -4466,6 +4614,7 @@ extension Backup {
         /// An array of objects that contain detailed information about jobs to restore saved resources.
         public let restoreJobs: [RestoreJobsListMember]?
 
+        @inlinable
         public init(nextToken: String? = nil, restoreJobs: [RestoreJobsListMember]? = nil) {
             self.nextToken = nextToken
             self.restoreJobs = restoreJobs
@@ -4483,6 +4632,7 @@ extension Backup {
         /// The next item following a partial list of returned items.  For example, if a request is made to return MaxResults  number of items, NextToken allows you to return more items  in your list starting at the location pointed to by the nexttoken.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4509,6 +4659,7 @@ extension Backup {
         /// This is a returned list of restore testing plans.
         public let restoreTestingPlans: [RestoreTestingPlanForList]
 
+        @inlinable
         public init(nextToken: String? = nil, restoreTestingPlans: [RestoreTestingPlanForList]) {
             self.nextToken = nextToken
             self.restoreTestingPlans = restoreTestingPlans
@@ -4528,6 +4679,7 @@ extension Backup {
         /// Returns restore testing selections by the specified restore testing  plan name.
         public let restoreTestingPlanName: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, restoreTestingPlanName: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4556,6 +4708,7 @@ extension Backup {
         /// The returned restore testing selections associated with the  restore testing plan.
         public let restoreTestingSelections: [RestoreTestingSelectionForList]
 
+        @inlinable
         public init(nextToken: String? = nil, restoreTestingSelections: [RestoreTestingSelectionForList]) {
             self.nextToken = nextToken
             self.restoreTestingSelections = restoreTestingSelections
@@ -4575,6 +4728,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the type of resource. Valid targets for ListTags are recovery points, backup plans, and backup vaults.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4603,6 +4757,7 @@ extension Backup {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [String: String]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -4628,6 +4783,7 @@ extension Backup {
         /// The type of Amazon Web Services resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
 
+        @inlinable
         public init(lastBackupTime: Date? = nil, lastBackupVaultArn: String? = nil, lastRecoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
             self.lastBackupTime = lastBackupTime
             self.lastBackupVaultArn = lastBackupVaultArn
@@ -4653,6 +4809,7 @@ extension Backup {
         /// Filters the values of your tagged resources for only  those resources that you tagged  that do not have the same value.  Also called "negated matching."
         public let stringNotEquals: [KeyValue]?
 
+        @inlinable
         public init(stringEquals: [KeyValue]? = nil, stringNotEquals: [KeyValue]? = nil) {
             self.stringEquals = stringEquals
             self.stringNotEquals = stringNotEquals
@@ -4670,6 +4827,7 @@ extension Backup {
         /// The backup vault access policy document in JSON format.
         public let policy: String?
 
+        @inlinable
         public init(backupVaultName: String, policy: String? = nil) {
             self.backupVaultName = backupVaultName
             self.policy = policy
@@ -4701,6 +4859,7 @@ extension Backup {
         /// The Backup Vault Lock configuration that specifies the minimum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to retain certain data for at least seven years (2555 days). This parameter is required when a vault lock is created through CloudFormation; otherwise, this parameter is optional. If this parameter is not specified, Vault Lock will not enforce a minimum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails that backup or copy job, and you should either modify your lifecycle settings or use a different vault. The shortest minimum retention period you can specify is 1 day. Recovery points already saved in the vault prior to Vault Lock are not affected.
         public let minRetentionDays: Int64?
 
+        @inlinable
         public init(backupVaultName: String, changeableForDays: Int64? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil) {
             self.backupVaultName = backupVaultName
             self.changeableForDays = changeableForDays
@@ -4736,6 +4895,7 @@ extension Backup {
         /// The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
         public let snsTopicArn: String
 
+        @inlinable
         public init(backupVaultEvents: [BackupVaultEvent], backupVaultName: String, snsTopicArn: String) {
             self.backupVaultEvents = backupVaultEvents
             self.backupVaultName = backupVaultName
@@ -4768,6 +4928,7 @@ extension Backup {
         /// This is an optional message string you can input to  describe the validation status for the restore test validation.
         public let validationStatusMessage: String?
 
+        @inlinable
         public init(restoreJobId: String, validationStatus: RestoreValidationStatus, validationStatusMessage: String? = nil) {
             self.restoreJobId = restoreJobId
             self.validationStatus = validationStatus
@@ -4836,6 +4997,7 @@ extension Backup {
         /// The type of vault in which the described recovery point is stored.
         public let vaultType: VaultType?
 
+        @inlinable
         public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -4913,6 +5075,7 @@ extension Backup {
         /// The type of vault in which the described recovery point is  stored.
         public let vaultType: VaultType?
 
+        @inlinable
         public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceName: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
@@ -4952,6 +5115,7 @@ extension Backup {
         /// Uniquely identifies a rule used to schedule the backup of a selection of resources.
         public let backupRuleId: String?
 
+        @inlinable
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanVersion: String? = nil, backupRuleId: String? = nil) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -4977,6 +5141,7 @@ extension Backup {
         /// The Amazon Web Services resource type that is saved as  a recovery point.
         public let resourceType: String?
 
+        @inlinable
         public init(backupVaultName: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.backupVaultName = backupVaultName
             self.recoveryPointArn = recoveryPointArn
@@ -4999,6 +5164,7 @@ extension Backup {
         /// These are the names of the vaults in which the selected  recovery points are contained.
         public let vaultNames: [String]?
 
+        @inlinable
         public init(dateRange: DateRange? = nil, resourceIdentifiers: [String]? = nil, vaultNames: [String]? = nil) {
             self.dateRange = dateRange
             self.resourceIdentifiers = resourceIdentifiers
@@ -5020,6 +5186,7 @@ extension Backup {
         /// The prefix for where Backup Audit Manager delivers your reports to Amazon S3. The prefix is this part of the following path: s3://your-bucket-name/prefix/Backup/us-west-2/year/month/day/report-name. If not specified, there is no prefix.
         public let s3KeyPrefix: String?
 
+        @inlinable
         public init(formats: [String]? = nil, s3BucketName: String, s3KeyPrefix: String? = nil) {
             self.formats = formats
             self.s3BucketName = s3BucketName
@@ -5039,6 +5206,7 @@ extension Backup {
         /// The object key that uniquely identifies your reports in your S3 bucket.
         public let s3Keys: [String]?
 
+        @inlinable
         public init(s3BucketName: String? = nil, s3Keys: [String]? = nil) {
             self.s3BucketName = s3BucketName
             self.s3Keys = s3Keys
@@ -5068,6 +5236,7 @@ extension Backup {
         /// A message explaining the status of the report job.
         public let statusMessage: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date? = nil, reportDestination: ReportDestination? = nil, reportJobId: String? = nil, reportPlanArn: String? = nil, reportTemplate: String? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -5111,6 +5280,7 @@ extension Backup {
         /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting?
 
+        @inlinable
         public init(creationTime: Date? = nil, deploymentStatus: String? = nil, lastAttemptedExecutionTime: Date? = nil, lastSuccessfulExecutionTime: Date? = nil, reportDeliveryChannel: ReportDeliveryChannel? = nil, reportPlanArn: String? = nil, reportPlanDescription: String? = nil, reportPlanName: String? = nil, reportSetting: ReportSetting? = nil) {
             self.creationTime = creationTime
             self.deploymentStatus = deploymentStatus
@@ -5150,6 +5320,7 @@ extension Backup {
         /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
         public let reportTemplate: String
 
+        @inlinable
         public init(accounts: [String]? = nil, frameworkArns: [String]? = nil, numberOfFrameworks: Int? = nil, organizationUnits: [String]? = nil, regions: [String]? = nil, reportTemplate: String) {
             self.accounts = accounts
             self.frameworkArns = frameworkArns
@@ -5173,6 +5344,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies  a restore testing plan.
         public let restoreTestingPlanArn: String?
 
+        @inlinable
         public init(restoreTestingPlanArn: String? = nil) {
             self.restoreTestingPlanArn = restoreTestingPlanArn
         }
@@ -5198,6 +5370,7 @@ extension Backup {
         /// This value is job count for jobs  with the specified state.
         public let state: RestoreJobState?
 
+        @inlinable
         public init(accountId: String? = nil, count: Int? = nil, endTime: Date? = nil, region: String? = nil, resourceType: String? = nil, startTime: Date? = nil, state: RestoreJobState? = nil) {
             self.accountId = accountId
             self.count = count
@@ -5259,6 +5432,7 @@ extension Backup {
         /// This describes the status of validation run on the  indicated restore job.
         public let validationStatusMessage: String?
 
+        @inlinable
         public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, completionDate: Date? = nil, createdBy: RestoreJobCreator? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, deletionStatus: RestoreDeletionStatus? = nil, deletionStatusMessage: String? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, recoveryPointCreationDate: Date? = nil, resourceType: String? = nil, restoreJobId: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil, validationStatus: RestoreValidationStatus? = nil, validationStatusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
@@ -5316,6 +5490,7 @@ extension Backup {
         /// Defaults to 24 hours. A value in hours after a  restore test is scheduled before a job will be canceled if it  doesn't start successfully. This value is optional. If this value  is included, this parameter has a maximum value of 168 hours  (one week).
         public let startWindowHours: Int?
 
+        @inlinable
         public init(recoveryPointSelection: RestoreTestingRecoveryPointSelection, restoreTestingPlanName: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startWindowHours: Int? = nil) {
             self.recoveryPointSelection = recoveryPointSelection
             self.restoreTestingPlanName = restoreTestingPlanName
@@ -5355,6 +5530,7 @@ extension Backup {
         /// Defaults to 24 hours. A value in hours after a  restore test is scheduled before a job will be canceled if it  doesn't start successfully. This value is optional. If this value  is included, this parameter has a maximum value of 168 hours  (one week).
         public let startWindowHours: Int?
 
+        @inlinable
         public init(creationTime: Date, creatorRequestId: String? = nil, lastExecutionTime: Date? = nil, lastUpdateTime: Date? = nil, recoveryPointSelection: RestoreTestingRecoveryPointSelection, restoreTestingPlanArn: String, restoreTestingPlanName: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startWindowHours: Int? = nil) {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -5400,6 +5576,7 @@ extension Backup {
         /// Defaults to 24 hours. A value in hours after a restore test is scheduled before  a job will be canceled if it doesn't start successfully. This  value is optional. If this value is included, this parameter  has a maximum value of 168 hours (one week).
         public let startWindowHours: Int?
 
+        @inlinable
         public init(creationTime: Date, lastExecutionTime: Date? = nil, lastUpdateTime: Date? = nil, restoreTestingPlanArn: String, restoreTestingPlanName: String, scheduleExpression: String, scheduleExpressionTimezone: String? = nil, startWindowHours: Int? = nil) {
             self.creationTime = creationTime
             self.lastExecutionTime = lastExecutionTime
@@ -5433,6 +5610,7 @@ extension Backup {
         /// Defaults to 24 hours. A value in hours after a restore test is scheduled before a  job will be canceled if it doesn't start successfully. This value  is optional. If this value is included, this parameter has a  maximum value of 168 hours (one week).
         public let startWindowHours: Int?
 
+        @inlinable
         public init(recoveryPointSelection: RestoreTestingRecoveryPointSelection? = nil, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowHours: Int? = nil) {
             self.recoveryPointSelection = recoveryPointSelection
             self.scheduleExpression = scheduleExpression
@@ -5460,6 +5638,7 @@ extension Backup {
         /// Accepted values are integers from 1 to 365.
         public let selectionWindowDays: Int?
 
+        @inlinable
         public init(algorithm: RestoreTestingRecoveryPointSelectionAlgorithm? = nil, excludeVaults: [String]? = nil, includeVaults: [String]? = nil, recoveryPointTypes: [RestoreTestingRecoveryPointType]? = nil, selectionWindowDays: Int? = nil) {
             self.algorithm = algorithm
             self.excludeVaults = excludeVaults
@@ -5493,6 +5672,7 @@ extension Backup {
         /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public let validationWindowHours: Int?
 
+        @inlinable
         public init(iamRoleArn: String, protectedResourceArns: [String]? = nil, protectedResourceConditions: ProtectedResourceConditions? = nil, protectedResourceType: String, restoreMetadataOverrides: [String: String]? = nil, restoreTestingSelectionName: String, validationWindowHours: Int? = nil) {
             self.iamRoleArn = iamRoleArn
             self.protectedResourceArns = protectedResourceArns
@@ -5536,6 +5716,7 @@ extension Backup {
         /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public let validationWindowHours: Int?
 
+        @inlinable
         public init(creationTime: Date, creatorRequestId: String? = nil, iamRoleArn: String, protectedResourceArns: [String]? = nil, protectedResourceConditions: ProtectedResourceConditions? = nil, protectedResourceType: String, restoreMetadataOverrides: [String: String]? = nil, restoreTestingPlanName: String, restoreTestingSelectionName: String, validationWindowHours: Int? = nil) {
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -5577,6 +5758,7 @@ extension Backup {
         /// This value represents the time, in hours, data is retained after  a restore test so that optional validation can be completed. Accepted value is an integer between  0 and 168 (the hourly equivalent of seven days).
         public let validationWindowHours: Int?
 
+        @inlinable
         public init(creationTime: Date, iamRoleArn: String, protectedResourceType: String, restoreTestingPlanName: String, restoreTestingSelectionName: String, validationWindowHours: Int? = nil) {
             self.creationTime = creationTime
             self.iamRoleArn = iamRoleArn
@@ -5608,6 +5790,7 @@ extension Backup {
         /// This value represents the time, in hours, data is retained after  a restore test so that optional validation can be completed. Accepted value is an integer between  0 and 168 (the hourly equivalent of seven days).
         public let validationWindowHours: Int?
 
+        @inlinable
         public init(iamRoleArn: String? = nil, protectedResourceArns: [String]? = nil, protectedResourceConditions: ProtectedResourceConditions? = nil, restoreMetadataOverrides: [String: String]? = nil, validationWindowHours: Int? = nil) {
             self.iamRoleArn = iamRoleArn
             self.protectedResourceArns = protectedResourceArns
@@ -5645,6 +5828,7 @@ extension Backup {
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.  If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
         public let startWindowMinutes: Int64?
 
+        @inlinable
         public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
             self.backupOptions = backupOptions
             self.backupVaultName = backupVaultName
@@ -5688,6 +5872,7 @@ extension Backup {
         ///  Note: This field is only returned for Amazon EFS and Advanced DynamoDB  resources.  An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
 
+        @inlinable
         public init(backupJobId: String? = nil, creationDate: Date? = nil, isParent: Bool? = nil, recoveryPointArn: String? = nil) {
             self.backupJobId = backupJobId
             self.creationDate = creationDate
@@ -5716,6 +5901,7 @@ extension Backup {
         /// The name of a logical source container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let sourceBackupVaultName: String
 
+        @inlinable
         public init(destinationBackupVaultArn: String, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String, sourceBackupVaultName: String) {
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.iamRoleArn = iamRoleArn
@@ -5747,6 +5933,7 @@ extension Backup {
         /// This is a returned boolean value indicating this is a parent (composite)  copy job.
         public let isParent: Bool?
 
+        @inlinable
         public init(copyJobId: String? = nil, creationDate: Date? = nil, isParent: Bool? = nil) {
             self.copyJobId = copyJobId
             self.creationDate = creationDate
@@ -5766,6 +5953,7 @@ extension Backup {
         /// The unique name of a report plan.
         public let reportPlanName: String
 
+        @inlinable
         public init(idempotencyToken: String? = StartReportJobInput.idempotencyToken(), reportPlanName: String) {
             self.idempotencyToken = idempotencyToken
             self.reportPlanName = reportPlanName
@@ -5793,6 +5981,7 @@ extension Backup {
         /// The identifier of the report job. A unique, randomly generated, Unicode, UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
         public let reportJobId: String?
 
+        @inlinable
         public init(reportJobId: String? = nil) {
             self.reportJobId = reportJobId
         }
@@ -5816,6 +6005,7 @@ extension Backup {
         /// Starts a job to restore a recovery point for one of the following resources:    Aurora - Amazon Aurora    DocumentDB - Amazon DocumentDB    CloudFormation - CloudFormation    DynamoDB - Amazon DynamoDB    EBS - Amazon Elastic Block Store    EC2 - Amazon Elastic Compute Cloud    EFS - Amazon Elastic File System    FSx - Amazon FSx    Neptune - Amazon Neptune    RDS - Amazon Relational Database Service    Redshift - Amazon Redshift    Storage Gateway - Storage Gateway    S3 - Amazon Simple Storage Service    Timestream - Amazon Timestream    VirtualMachine - Virtual machines
         public let resourceType: String?
 
+        @inlinable
         public init(copySourceTagsToRestoredResource: Bool? = nil, iamRoleArn: String? = nil, idempotencyToken: String? = nil, metadata: [String: String], recoveryPointArn: String, resourceType: String? = nil) {
             self.copySourceTagsToRestoredResource = copySourceTagsToRestoredResource
             self.iamRoleArn = iamRoleArn
@@ -5843,6 +6033,7 @@ extension Backup {
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
 
+        @inlinable
         public init(restoreJobId: String? = nil) {
             self.restoreJobId = restoreJobId
         }
@@ -5856,6 +6047,7 @@ extension Backup {
         /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
 
+        @inlinable
         public init(backupJobId: String) {
             self.backupJobId = backupJobId
         }
@@ -5875,6 +6067,7 @@ extension Backup {
         /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -5898,6 +6091,7 @@ extension Backup {
         /// The keys to identify which key-value tags to remove from a resource.
         public let tagKeyList: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeyList: [String]) {
             self.resourceArn = resourceArn
             self.tagKeyList = tagKeyList
@@ -5921,6 +6115,7 @@ extension Backup {
         /// The ID of the backup plan.
         public let backupPlanId: String
 
+        @inlinable
         public init(backupPlan: BackupPlanInput, backupPlanId: String) {
             self.backupPlan = backupPlan
             self.backupPlanId = backupPlanId
@@ -5954,6 +6149,7 @@ extension Backup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
 
+        @inlinable
         public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, versionId: String? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
@@ -5981,6 +6177,7 @@ extension Backup {
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateFrameworkInput. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
 
+        @inlinable
         public init(frameworkControls: [FrameworkControl]? = nil, frameworkDescription: String? = nil, frameworkName: String, idempotencyToken: String? = UpdateFrameworkInput.idempotencyToken()) {
             self.frameworkControls = frameworkControls
             self.frameworkDescription = frameworkDescription
@@ -6023,6 +6220,7 @@ extension Backup {
         /// The unique name of a framework. This name is between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
         public let frameworkName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, frameworkArn: String? = nil, frameworkName: String? = nil) {
             self.creationTime = creationTime
             self.frameworkArn = frameworkArn
@@ -6040,6 +6238,7 @@ extension Backup {
         /// A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2.
         public let globalSettings: [String: String]?
 
+        @inlinable
         public init(globalSettings: [String: String]? = nil) {
             self.globalSettings = globalSettings
         }
@@ -6057,6 +6256,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
 
+        @inlinable
         public init(backupVaultName: String, lifecycle: Lifecycle? = nil, recoveryPointArn: String) {
             self.backupVaultName = backupVaultName
             self.lifecycle = lifecycle
@@ -6090,6 +6290,7 @@ extension Backup {
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
 
+        @inlinable
         public init(backupVaultArn: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, lifecycle: Lifecycle? = nil, recoveryPointArn: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.calculatedLifecycle = calculatedLifecycle
@@ -6111,6 +6312,7 @@ extension Backup {
         /// Updates the list of services along with the opt-in preferences for the Region. If resource assignments are only based on tags, then service opt-in settings are applied.  If a resource type is explicitly assigned to a backup plan, such as Amazon S3,  Amazon EC2, or Amazon RDS, it will be included in the  backup even if the opt-in is not enabled for that particular service.  If both a resource type and tags are specified in a resource assignment,  the resource type specified in the backup plan takes priority over the  tag condition. Service opt-in settings are disregarded in this situation.
         public let resourceTypeOptInPreference: [String: Bool]?
 
+        @inlinable
         public init(resourceTypeManagementPreference: [String: Bool]? = nil, resourceTypeOptInPreference: [String: Bool]? = nil) {
             self.resourceTypeManagementPreference = resourceTypeManagementPreference
             self.resourceTypeOptInPreference = resourceTypeOptInPreference
@@ -6143,6 +6345,7 @@ extension Backup {
         /// The report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting?
 
+        @inlinable
         public init(idempotencyToken: String? = UpdateReportPlanInput.idempotencyToken(), reportDeliveryChannel: ReportDeliveryChannel? = nil, reportPlanDescription: String? = nil, reportPlanName: String, reportSetting: ReportSetting? = nil) {
             self.idempotencyToken = idempotencyToken
             self.reportDeliveryChannel = reportDeliveryChannel
@@ -6185,6 +6388,7 @@ extension Backup {
         /// The unique name of the report plan.
         public let reportPlanName: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, reportPlanArn: String? = nil, reportPlanName: String? = nil) {
             self.creationTime = creationTime
             self.reportPlanArn = reportPlanArn
@@ -6204,6 +6408,7 @@ extension Backup {
         /// The name of the restore testing plan name.
         public let restoreTestingPlanName: String
 
+        @inlinable
         public init(restoreTestingPlan: RestoreTestingPlanForUpdate, restoreTestingPlanName: String) {
             self.restoreTestingPlan = restoreTestingPlan
             self.restoreTestingPlanName = restoreTestingPlanName
@@ -6231,6 +6436,7 @@ extension Backup {
         /// The time the update completed for the restore  testing plan.
         public let updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, restoreTestingPlanArn: String, restoreTestingPlanName: String, updateTime: Date) {
             self.creationTime = creationTime
             self.restoreTestingPlanArn = restoreTestingPlanArn
@@ -6254,6 +6460,7 @@ extension Backup {
         /// The required restore testing selection name of the restore  testing selection you wish to update.
         public let restoreTestingSelectionName: String
 
+        @inlinable
         public init(restoreTestingPlanName: String, restoreTestingSelection: RestoreTestingSelectionForUpdate, restoreTestingSelectionName: String) {
             self.restoreTestingPlanName = restoreTestingPlanName
             self.restoreTestingSelection = restoreTestingSelection
@@ -6285,6 +6492,7 @@ extension Backup {
         /// The time the update completed for the restore  testing selection.
         public let updateTime: Date
 
+        @inlinable
         public init(creationTime: Date, restoreTestingPlanArn: String, restoreTestingPlanName: String, restoreTestingSelectionName: String, updateTime: Date) {
             self.creationTime = creationTime
             self.restoreTestingPlanArn = restoreTestingPlanArn

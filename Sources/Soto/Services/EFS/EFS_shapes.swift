@@ -141,6 +141,7 @@ extension EFS {
         /// The tags associated with the access point, presented as an array of Tag objects.
         public let tags: [Tag]?
 
+        @inlinable
         public init(accessPointArn: String? = nil, accessPointId: String? = nil, clientToken: String? = nil, fileSystemId: String? = nil, lifeCycleState: LifeCycleState? = nil, name: String? = nil, ownerId: String? = nil, posixUser: PosixUser? = nil, rootDirectory: RootDirectory? = nil, tags: [Tag]? = nil) {
             self.accessPointArn = accessPointArn
             self.accessPointId = accessPointId
@@ -172,6 +173,7 @@ extension EFS {
         /// Describes the status of the file system's backup policy.     ENABLED – EFS is automatically backing up the file system.     ENABLING – EFS is turning on automatic backups for the file system.     DISABLED – Automatic back ups are turned off for the file system.     DISABLING – EFS is turning off automatic backups for the file system.
         public let status: Status
 
+        @inlinable
         public init(status: Status) {
             self.status = status
         }
@@ -185,6 +187,7 @@ extension EFS {
         /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off.
         public let backupPolicy: BackupPolicy?
 
+        @inlinable
         public init(backupPolicy: BackupPolicy? = nil) {
             self.backupPolicy = backupPolicy
         }
@@ -206,6 +209,7 @@ extension EFS {
         /// Creates tags associated with the access point. Each tag is a key-value pair, each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(clientToken: String = CreateAccessPointRequest.idempotencyToken(), fileSystemId: String, posixUser: PosixUser? = nil, rootDirectory: RootDirectory? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.fileSystemId = fileSystemId
@@ -256,6 +260,7 @@ extension EFS {
         /// Specifies the throughput mode for the file system. The mode can be bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps. After you create the file system, you can decrease your file system's Provisioned throughput or change between the throughput modes, with certain time restrictions. For more information, see Specifying throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
         public let throughputMode: ThroughputMode?
 
+        @inlinable
         public init(availabilityZoneName: String? = nil, backup: Bool? = nil, creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
             self.availabilityZoneName = availabilityZoneName
             self.backup = backup
@@ -306,6 +311,7 @@ extension EFS {
         /// The ID of the subnet to add the mount target in. For One Zone  file systems, use the subnet that is associated with the file system's Availability Zone.
         public let subnetId: String
 
+        @inlinable
         public init(fileSystemId: String, ipAddress: String? = nil, securityGroups: [String]? = nil, subnetId: String) {
             self.fileSystemId = fileSystemId
             self.ipAddress = ipAddress
@@ -344,6 +350,7 @@ extension EFS {
         /// Specifies the Amazon EFS file system that you want to replicate. This file system cannot already be  a source or destination file system in another replication configuration.
         public let sourceFileSystemId: String
 
+        @inlinable
         public init(destinations: [DestinationToCreate], sourceFileSystemId: String) {
             self.destinations = destinations
             self.sourceFileSystemId = sourceFileSystemId
@@ -375,6 +382,7 @@ extension EFS {
         /// An array of Tag objects to add. Each Tag object is a key-value pair.
         public let tags: [Tag]
 
+        @inlinable
         public init(fileSystemId: String, tags: [Tag]) {
             self.fileSystemId = fileSystemId
             self.tags = tags
@@ -408,6 +416,7 @@ extension EFS {
         /// Specifies the POSIX permissions to apply to the RootDirectory, in the format of an octal number representing the file's mode bits.
         public let permissions: String
 
+        @inlinable
         public init(ownerGid: Int64, ownerUid: Int64, permissions: String) {
             self.ownerGid = ownerGid
             self.ownerUid = ownerUid
@@ -435,6 +444,7 @@ extension EFS {
         /// The ID of the access point that you want to delete.
         public let accessPointId: String
 
+        @inlinable
         public init(accessPointId: String) {
             self.accessPointId = accessPointId
         }
@@ -457,6 +467,7 @@ extension EFS {
         /// Specifies the EFS file system for which to delete the FileSystemPolicy.
         public let fileSystemId: String
 
+        @inlinable
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -479,6 +490,7 @@ extension EFS {
         /// The ID of the file system you want to delete.
         public let fileSystemId: String
 
+        @inlinable
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -501,6 +513,7 @@ extension EFS {
         /// The ID of the mount target to delete (String).
         public let mountTargetId: String
 
+        @inlinable
         public init(mountTargetId: String) {
             self.mountTargetId = mountTargetId
         }
@@ -524,6 +537,7 @@ extension EFS {
         /// The ID of the source file system in the replication configuration.
         public let sourceFileSystemId: String
 
+        @inlinable
         public init(sourceFileSystemId: String) {
             self.sourceFileSystemId = sourceFileSystemId
         }
@@ -548,6 +562,7 @@ extension EFS {
         /// A list of tag keys to delete.
         public let tagKeys: [String]
 
+        @inlinable
         public init(fileSystemId: String, tagKeys: [String]) {
             self.fileSystemId = fileSystemId
             self.tagKeys = tagKeys
@@ -587,6 +602,7 @@ extension EFS {
         ///  NextToken is present if the response is paginated. You can use  NextMarker in the subsequent request to fetch the next page of access point descriptions.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPointId: String? = nil, fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.accessPointId = accessPointId
             self.fileSystemId = fileSystemId
@@ -623,6 +639,7 @@ extension EFS {
         /// Present if there are more access points than returned in the response.  You can use the NextMarker in the subsequent request to fetch the additional descriptions.
         public let nextToken: String?
 
+        @inlinable
         public init(accessPoints: [AccessPointDescription]? = nil, nextToken: String? = nil) {
             self.accessPoints = accessPoints
             self.nextToken = nextToken
@@ -640,6 +657,7 @@ extension EFS {
         /// (Optional) You can use NextToken in a subsequent request to fetch the next page of  Amazon Web Services account preferences if the response payload was paginated.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -664,6 +682,7 @@ extension EFS {
         /// Describes the resource ID preference setting for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
         public let resourceIdPreference: ResourceIdPreference?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceIdPreference: ResourceIdPreference? = nil) {
             self.nextToken = nextToken
             self.resourceIdPreference = resourceIdPreference
@@ -679,6 +698,7 @@ extension EFS {
         /// Specifies which EFS file system for which to retrieve the BackupPolicy.
         public let fileSystemId: String
 
+        @inlinable
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -701,6 +721,7 @@ extension EFS {
         /// Specifies which EFS file system to retrieve the FileSystemPolicy for.
         public let fileSystemId: String
 
+        @inlinable
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -729,6 +750,7 @@ extension EFS {
         /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This number is automatically set to 100. The response is paginated at 100 per page if you have more than 100 file systems.
         public let maxItems: Int?
 
+        @inlinable
         public init(creationToken: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.creationToken = creationToken
             self.fileSystemId = fileSystemId
@@ -768,6 +790,7 @@ extension EFS {
         /// Present if there are more file systems than returned in the response (String). You can use the NextMarker in the subsequent request to fetch the descriptions.
         public let nextMarker: String?
 
+        @inlinable
         public init(fileSystems: [FileSystemDescription]? = nil, marker: String? = nil, nextMarker: String? = nil) {
             self.fileSystems = fileSystems
             self.marker = marker
@@ -785,6 +808,7 @@ extension EFS {
         /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
         public let fileSystemId: String
 
+        @inlinable
         public init(fileSystemId: String) {
             self.fileSystemId = fileSystemId
         }
@@ -807,6 +831,7 @@ extension EFS {
         /// The ID of the mount target whose security groups you want to retrieve.
         public let mountTargetId: String
 
+        @inlinable
         public init(mountTargetId: String) {
             self.mountTargetId = mountTargetId
         }
@@ -830,6 +855,7 @@ extension EFS {
         /// An array of security groups.
         public let securityGroups: [String]
 
+        @inlinable
         public init(securityGroups: [String]) {
             self.securityGroups = securityGroups
         }
@@ -851,6 +877,7 @@ extension EFS {
         /// (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included. Accepts either a mount target ID or ARN as input.
         public let mountTargetId: String?
 
+        @inlinable
         public init(accessPointId: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int? = nil, mountTargetId: String? = nil) {
             self.accessPointId = accessPointId
             self.fileSystemId = fileSystemId
@@ -894,6 +921,7 @@ extension EFS {
         /// If a value is present, there are more mount targets to return. In a subsequent request, you can provide Marker in your request with this value to retrieve the next set of mount targets.
         public let nextMarker: String?
 
+        @inlinable
         public init(marker: String? = nil, mountTargets: [MountTargetDescription]? = nil, nextMarker: String? = nil) {
             self.marker = marker
             self.mountTargets = mountTargets
@@ -915,6 +943,7 @@ extension EFS {
         ///  NextToken is present if the response is paginated. You can use NextToken in a subsequent request to fetch the next page of output.
         public let nextToken: String?
 
+        @inlinable
         public init(fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.fileSystemId = fileSystemId
             self.maxResults = maxResults
@@ -947,6 +976,7 @@ extension EFS {
         /// The collection of replication configurations that is returned.
         public let replications: [ReplicationConfigurationDescription]?
 
+        @inlinable
         public init(nextToken: String? = nil, replications: [ReplicationConfigurationDescription]? = nil) {
             self.nextToken = nextToken
             self.replications = replications
@@ -966,6 +996,7 @@ extension EFS {
         /// (Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 100, and other values are ignored. The response is paginated at 100 per page if you have more than 100 tags.
         public let maxItems: Int?
 
+        @inlinable
         public init(fileSystemId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.fileSystemId = fileSystemId
             self.marker = marker
@@ -1000,6 +1031,7 @@ extension EFS {
         /// Returns tags associated with the file system as an array of Tag objects.
         public let tags: [Tag]
 
+        @inlinable
         public init(marker: String? = nil, nextMarker: String? = nil, tags: [Tag]) {
             self.marker = marker
             self.nextMarker = nextMarker
@@ -1023,6 +1055,7 @@ extension EFS {
         /// Describes the status of the destination EFS file system.   The Paused state occurs as a result of opting out of the source or destination Region after the replication configuration was created. To resume replication for the file system, you need to again opt in to the Amazon Web Services Region. For more information, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference Guide.   The Error state occurs when either the source or the destination file system (or both) is in a failed state and is unrecoverable. For more information, see Monitoring replication status in the Amazon EFS User Guide. You must delete the replication configuration, and then restore the most recent backup of the failed file system (either the source or the destination) to a new file system.
         public let status: ReplicationStatus
 
+        @inlinable
         public init(fileSystemId: String, lastReplicatedTimestamp: Date? = nil, region: String, status: ReplicationStatus) {
             self.fileSystemId = fileSystemId
             self.lastReplicatedTimestamp = lastReplicatedTimestamp
@@ -1048,6 +1081,7 @@ extension EFS {
         /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system.
         public let region: String?
 
+        @inlinable
         public init(availabilityZoneName: String? = nil, fileSystemId: String? = nil, kmsKeyId: String? = nil, region: String? = nil) {
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
@@ -1114,6 +1148,7 @@ extension EFS {
         /// Displays the file system's throughput mode. For more information, see  Throughput modes  in the Amazon EFS User Guide.
         public let throughputMode: ThroughputMode?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, fileSystemProtection: FileSystemProtectionDescription? = nil, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
@@ -1163,6 +1198,7 @@ extension EFS {
         /// The JSON formatted FileSystemPolicy for the EFS file system.
         public let policy: String?
 
+        @inlinable
         public init(fileSystemId: String? = nil, policy: String? = nil) {
             self.fileSystemId = fileSystemId
             self.policy = policy
@@ -1178,6 +1214,7 @@ extension EFS {
         /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
         public let replicationOverwriteProtection: ReplicationOverwriteProtection?
 
+        @inlinable
         public init(replicationOverwriteProtection: ReplicationOverwriteProtection? = nil) {
             self.replicationOverwriteProtection = replicationOverwriteProtection
         }
@@ -1199,6 +1236,7 @@ extension EFS {
         /// The latest known metered size (in bytes) of data stored in the Standard storage class.
         public let valueInStandard: Int64?
 
+        @inlinable
         public init(timestamp: Date? = nil, value: Int64, valueInArchive: Int64? = nil, valueInIA: Int64? = nil, valueInStandard: Int64? = nil) {
             self.timestamp = timestamp
             self.value = value
@@ -1220,6 +1258,7 @@ extension EFS {
         /// An array of lifecycle management policies. EFS supports a maximum of one policy per file system.
         public let lifecyclePolicies: [LifecyclePolicy]?
 
+        @inlinable
         public init(lifecyclePolicies: [LifecyclePolicy]? = nil) {
             self.lifecyclePolicies = lifecyclePolicies
         }
@@ -1237,6 +1276,7 @@ extension EFS {
         /// Whether to move files back to primary (Standard) storage after they are accessed in IA or Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules?
 
+        @inlinable
         public init(transitionToArchive: TransitionToArchiveRules? = nil, transitionToIA: TransitionToIARules? = nil, transitionToPrimaryStorageClass: TransitionToPrimaryStorageClassRules? = nil) {
             self.transitionToArchive = transitionToArchive
             self.transitionToIA = transitionToIA
@@ -1258,6 +1298,7 @@ extension EFS {
         /// Specifies the EFS resource you want to retrieve tags for. You can retrieve tags for EFS file systems and access points using this API endpoint.
         public let resourceId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1290,6 +1331,7 @@ extension EFS {
         /// An array of the tags for the specified EFS resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -1307,6 +1349,7 @@ extension EFS {
         /// An array of up to five VPC security group IDs.
         public let securityGroups: [String]?
 
+        @inlinable
         public init(mountTargetId: String, securityGroups: [String]? = nil) {
             self.mountTargetId = mountTargetId
             self.securityGroups = securityGroups
@@ -1358,6 +1401,7 @@ extension EFS {
         /// The virtual private cloud (VPC) ID that the mount target is configured in.
         public let vpcId: String?
 
+        @inlinable
         public init(availabilityZoneId: String? = nil, availabilityZoneName: String? = nil, fileSystemId: String, ipAddress: String? = nil, lifeCycleState: LifeCycleState, mountTargetId: String, networkInterfaceId: String? = nil, ownerId: String? = nil, subnetId: String, vpcId: String? = nil) {
             self.availabilityZoneId = availabilityZoneId
             self.availabilityZoneName = availabilityZoneName
@@ -1393,6 +1437,7 @@ extension EFS {
         /// The POSIX user ID used for all file system operations using this access point.
         public let uid: Int64
 
+        @inlinable
         public init(gid: Int64, secondaryGids: [Int64]? = nil, uid: Int64) {
             self.gid = gid
             self.secondaryGids = secondaryGids
@@ -1422,6 +1467,7 @@ extension EFS {
         /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
         public let resourceIdType: ResourceIdType
 
+        @inlinable
         public init(resourceIdType: ResourceIdType) {
             self.resourceIdType = resourceIdType
         }
@@ -1434,6 +1480,7 @@ extension EFS {
     public struct PutAccountPreferencesResponse: AWSDecodableShape {
         public let resourceIdPreference: ResourceIdPreference?
 
+        @inlinable
         public init(resourceIdPreference: ResourceIdPreference? = nil) {
             self.resourceIdPreference = resourceIdPreference
         }
@@ -1449,6 +1496,7 @@ extension EFS {
         /// Specifies which EFS file system to update the backup policy for.
         public let fileSystemId: String
 
+        @inlinable
         public init(backupPolicy: BackupPolicy, fileSystemId: String) {
             self.backupPolicy = backupPolicy
             self.fileSystemId = fileSystemId
@@ -1479,6 +1527,7 @@ extension EFS {
         /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies.
         public let policy: String
 
+        @inlinable
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, fileSystemId: String, policy: String) {
             self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.fileSystemId = fileSystemId
@@ -1514,6 +1563,7 @@ extension EFS {
         /// and the General Purpose Performance mode.       TransitionToPrimaryStorageClass – Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each storage transition. See the example requests in the following section for more information.
         public let lifecyclePolicies: [LifecyclePolicy]
 
+        @inlinable
         public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {
             self.fileSystemId = fileSystemId
             self.lifecyclePolicies = lifecyclePolicies
@@ -1551,6 +1601,7 @@ extension EFS {
         /// The Amazon Web Services Region in which the source EFS file system is located.
         public let sourceFileSystemRegion: String
 
+        @inlinable
         public init(creationTime: Date, destinations: [Destination], originalSourceFileSystemArn: String, sourceFileSystemArn: String, sourceFileSystemId: String, sourceFileSystemRegion: String) {
             self.creationTime = creationTime
             self.destinations = destinations
@@ -1576,6 +1627,7 @@ extension EFS {
         /// Identifies the Amazon EFS resources to which the ID preference setting applies, FILE_SYSTEM and MOUNT_TARGET.
         public let resources: [Resource]?
 
+        @inlinable
         public init(resourceIdType: ResourceIdType? = nil, resources: [Resource]? = nil) {
             self.resourceIdType = resourceIdType
             self.resources = resources
@@ -1593,6 +1645,7 @@ extension EFS {
         /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide the CreationInfo.
         public let path: String?
 
+        @inlinable
         public init(creationInfo: CreationInfo? = nil, path: String? = nil) {
             self.creationInfo = creationInfo
             self.path = path
@@ -1617,6 +1670,7 @@ extension EFS {
         /// The value of the tag key.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1642,6 +1696,7 @@ extension EFS {
         /// An array of Tag objects to add. Each Tag object is a key-value pair.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceId: String, tags: [Tag]) {
             self.resourceId = resourceId
             self.tags = tags
@@ -1673,6 +1728,7 @@ extension EFS {
         /// The keys of the key-value tag pairs that you want to remove from the specified EFS resource.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceId: String, tagKeys: [String]) {
             self.resourceId = resourceId
             self.tagKeys = tagKeys
@@ -1706,6 +1762,7 @@ extension EFS {
         /// The status of the file system's replication overwrite protection.    ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.     DISABLED – The file system can be used as the destination file system in a replication configuration. The file system is read-only and can only be modified by EFS replication.    REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.   If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
         public let replicationOverwriteProtection: ReplicationOverwriteProtection?
 
+        @inlinable
         public init(fileSystemId: String, replicationOverwriteProtection: ReplicationOverwriteProtection? = nil) {
             self.fileSystemId = fileSystemId
             self.replicationOverwriteProtection = replicationOverwriteProtection
@@ -1736,6 +1793,7 @@ extension EFS {
         /// (Optional) Updates the file system's throughput mode. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned,  you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?
 
+        @inlinable
         public init(fileSystemId: String, provisionedThroughputInMibps: Double? = nil, throughputMode: ThroughputMode? = nil) {
             self.fileSystemId = fileSystemId
             self.provisionedThroughputInMibps = provisionedThroughputInMibps

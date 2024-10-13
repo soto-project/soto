@@ -77,6 +77,7 @@ extension SNS {
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
 
+        @inlinable
         public init(actionName: [String], awsAccountId: [String], label: String, topicArn: String) {
             self.actionName = actionName
             self.awsAccountId = awsAccountId
@@ -102,6 +103,7 @@ extension SNS {
         /// Specifies whether the error happened due to the caller of the batch API action.
         public let senderFault: Bool
 
+        @inlinable
         public init(code: String, id: String, message: String? = nil, senderFault: Bool) {
             self.code = code
             self.id = id
@@ -121,6 +123,7 @@ extension SNS {
         /// The phone number for which you want to check the opt out status.
         public let phoneNumber: String
 
+        @inlinable
         public init(phoneNumber: String) {
             self.phoneNumber = phoneNumber
         }
@@ -134,6 +137,7 @@ extension SNS {
         /// Indicates whether the phone number is opted out:    true – The phone number is opted out, meaning you cannot publish SMS messages to it.    false – The phone number is opted in, meaning you can publish SMS messages to it.
         public let isOptedOut: Bool?
 
+        @inlinable
         public init(isOptedOut: Bool? = nil) {
             self.isOptedOut = isOptedOut
         }
@@ -151,6 +155,7 @@ extension SNS {
         /// The ARN of the topic for which you wish to confirm a subscription.
         public let topicArn: String
 
+        @inlinable
         public init(authenticateOnUnsubscribe: String? = nil, token: String, topicArn: String) {
             self.authenticateOnUnsubscribe = authenticateOnUnsubscribe
             self.token = token
@@ -168,6 +173,7 @@ extension SNS {
         /// The ARN of the created subscription.
         public let subscriptionArn: String?
 
+        @inlinable
         public init(subscriptionArn: String? = nil) {
             self.subscriptionArn = subscriptionArn
         }
@@ -181,6 +187,7 @@ extension SNS {
         /// EndpointArn returned from CreateEndpoint action.
         public let endpointArn: String?
 
+        @inlinable
         public init(endpointArn: String? = nil) {
             self.endpointArn = endpointArn
         }
@@ -199,6 +206,7 @@ extension SNS {
         /// The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).
         public let platform: String
 
+        @inlinable
         public init(attributes: [String: String], name: String, platform: String) {
             self.attributes = attributes
             self.name = name
@@ -216,6 +224,7 @@ extension SNS {
         ///  PlatformApplicationArn is returned.
         public let platformApplicationArn: String?
 
+        @inlinable
         public init(platformApplicationArn: String? = nil) {
             self.platformApplicationArn = platformApplicationArn
         }
@@ -236,6 +245,7 @@ extension SNS {
         /// Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM (Firebase Cloud Messaging) or ADM, the device token equivalent is called the registration ID.
         public let token: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, customUserData: String? = nil, platformApplicationArn: String, token: String) {
             self.attributes = attributes
             self.customUserData = customUserData
@@ -257,6 +267,7 @@ extension SNS {
         /// The destination phone number to verify. On verification, Amazon SNS adds this phone number to the list of verified phone numbers that you can send SMS messages to.
         public let phoneNumber: String
 
+        @inlinable
         public init(languageCode: LanguageCodeString? = nil, phoneNumber: String) {
             self.languageCode = languageCode
             self.phoneNumber = phoneNumber
@@ -289,6 +300,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, dataProtectionPolicy: String? = nil, name: String, tags: [Tag]? = nil) {
             self.attributes = attributes
             self.dataProtectionPolicy = dataProtectionPolicy
@@ -314,6 +326,7 @@ extension SNS {
         /// The Amazon Resource Name (ARN) assigned to the created topic.
         public let topicArn: String?
 
+        @inlinable
         public init(topicArn: String? = nil) {
             self.topicArn = topicArn
         }
@@ -327,6 +340,7 @@ extension SNS {
         ///  EndpointArn of endpoint to delete.
         public let endpointArn: String
 
+        @inlinable
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -340,6 +354,7 @@ extension SNS {
         ///  PlatformApplicationArn of platform application object to delete.
         public let platformApplicationArn: String
 
+        @inlinable
         public init(platformApplicationArn: String) {
             self.platformApplicationArn = platformApplicationArn
         }
@@ -353,6 +368,7 @@ extension SNS {
         /// The destination phone number to delete.
         public let phoneNumber: String
 
+        @inlinable
         public init(phoneNumber: String) {
             self.phoneNumber = phoneNumber
         }
@@ -375,6 +391,7 @@ extension SNS {
         /// The ARN of the topic you want to delete.
         public let topicArn: String
 
+        @inlinable
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -391,6 +408,7 @@ extension SNS {
         /// The EndpointArn for mobile app and device.
         public let endpointArn: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, endpointArn: String? = nil) {
             self.attributes = attributes
             self.endpointArn = endpointArn
@@ -406,6 +424,7 @@ extension SNS {
         /// The ARN of the topic whose DataProtectionPolicy you want to get. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -419,6 +438,7 @@ extension SNS {
         /// Retrieves the DataProtectionPolicy in JSON string format.
         public let dataProtectionPolicy: String?
 
+        @inlinable
         public init(dataProtectionPolicy: String? = nil) {
             self.dataProtectionPolicy = dataProtectionPolicy
         }
@@ -432,6 +452,7 @@ extension SNS {
         ///  EndpointArn for GetEndpointAttributes input.
         public let endpointArn: String
 
+        @inlinable
         public init(endpointArn: String) {
             self.endpointArn = endpointArn
         }
@@ -446,6 +467,7 @@ extension SNS {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var attributes: [String: String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -459,6 +481,7 @@ extension SNS {
         ///  PlatformApplicationArn for GetPlatformApplicationAttributesInput.
         public let platformApplicationArn: String
 
+        @inlinable
         public init(platformApplicationArn: String) {
             self.platformApplicationArn = platformApplicationArn
         }
@@ -473,6 +496,7 @@ extension SNS {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var attributes: [String: String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -487,6 +511,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var attributes: [String]?
 
+        @inlinable
         public init(attributes: [String]? = nil) {
             self.attributes = attributes
         }
@@ -501,6 +526,7 @@ extension SNS {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var attributes: [String: String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -518,6 +544,7 @@ extension SNS {
         /// Indicates whether the calling Amazon Web Services account is in the SMS sandbox.
         public let isInSandbox: Bool
 
+        @inlinable
         public init(isInSandbox: Bool) {
             self.isInSandbox = isInSandbox
         }
@@ -531,6 +558,7 @@ extension SNS {
         /// The ARN of the subscription whose properties you want to get.
         public let subscriptionArn: String
 
+        @inlinable
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -545,6 +573,7 @@ extension SNS {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var attributes: [String: String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -558,6 +587,7 @@ extension SNS {
         /// The ARN of the topic whose properties you want to get.
         public let topicArn: String
 
+        @inlinable
         public init(topicArn: String) {
             self.topicArn = topicArn
         }
@@ -572,6 +602,7 @@ extension SNS {
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var attributes: [String: String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -587,6 +618,7 @@ extension SNS {
         ///  PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
         public let platformApplicationArn: String
 
+        @inlinable
         public init(nextToken: String? = nil, platformApplicationArn: String) {
             self.nextToken = nextToken
             self.platformApplicationArn = platformApplicationArn
@@ -605,6 +637,7 @@ extension SNS {
         ///  NextToken string is returned when calling ListEndpointsByPlatformApplication action if additional records are available after the first page results.
         public let nextToken: String?
 
+        @inlinable
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
             self.endpoints = endpoints
             self.nextToken = nextToken
@@ -622,6 +655,7 @@ extension SNS {
         /// Token that the previous ListOriginationNumbers request returns.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -645,6 +679,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<PhoneNumberInformation>>
         public var phoneNumbers: [PhoneNumberInformation]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumbers: [PhoneNumberInformation]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -660,6 +695,7 @@ extension SNS {
         /// A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -676,6 +712,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var phoneNumbers: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumbers: [String]? = nil) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -691,6 +728,7 @@ extension SNS {
         ///  NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -707,6 +745,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<PlatformApplication>>
         public var platformApplications: [PlatformApplication]?
 
+        @inlinable
         public init(nextToken: String? = nil, platformApplications: [PlatformApplication]? = nil) {
             self.nextToken = nextToken
             self.platformApplications = platformApplications
@@ -724,6 +763,7 @@ extension SNS {
         /// Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -747,6 +787,7 @@ extension SNS {
         @CustomCoding<StandardArrayCoder<SMSSandboxPhoneNumber>>
         public var phoneNumbers: [SMSSandboxPhoneNumber]
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumbers: [SMSSandboxPhoneNumber]) {
             self.nextToken = nextToken
             self.phoneNumbers = phoneNumbers
@@ -764,6 +805,7 @@ extension SNS {
         /// The ARN of the topic for which you wish to find subscriptions.
         public let topicArn: String
 
+        @inlinable
         public init(nextToken: String? = nil, topicArn: String) {
             self.nextToken = nextToken
             self.topicArn = topicArn
@@ -782,6 +824,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<Subscription>>
         public var subscriptions: [Subscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -797,6 +840,7 @@ extension SNS {
         /// Token returned by the previous ListSubscriptions request.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -813,6 +857,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<Subscription>>
         public var subscriptions: [Subscription]?
 
+        @inlinable
         public init(nextToken: String? = nil, subscriptions: [Subscription]? = nil) {
             self.nextToken = nextToken
             self.subscriptions = subscriptions
@@ -828,6 +873,7 @@ extension SNS {
         /// The ARN of the topic for which to list tags.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -847,6 +893,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -860,6 +907,7 @@ extension SNS {
         /// Token returned by the previous ListTopics request.
         public let nextToken: String?
 
+        @inlinable
         public init(nextToken: String? = nil) {
             self.nextToken = nextToken
         }
@@ -876,6 +924,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<Topic>>
         public var topics: [Topic]?
 
+        @inlinable
         public init(nextToken: String? = nil, topics: [Topic]? = nil) {
             self.nextToken = nextToken
             self.topics = topics
@@ -895,6 +944,7 @@ extension SNS {
         /// Strings are Unicode with UTF8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
 
+        @inlinable
         public init(binaryValue: AWSBase64Data? = nil, dataType: String, stringValue: String? = nil) {
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -912,6 +962,7 @@ extension SNS {
         /// The phone number to opt in. Use E.164 format.
         public let phoneNumber: String
 
+        @inlinable
         public init(phoneNumber: String) {
             self.phoneNumber = phoneNumber
         }
@@ -940,6 +991,7 @@ extension SNS {
         /// The status of the phone number.
         public let status: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, iso2CountryCode: String? = nil, numberCapabilities: [NumberCapability]? = nil, phoneNumber: String? = nil, routeType: RouteType? = nil, status: String? = nil) {
             self.createdAt = createdAt
             self.iso2CountryCode = iso2CountryCode
@@ -966,6 +1018,7 @@ extension SNS {
         /// PlatformApplicationArn for platform application object.
         public let platformApplicationArn: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, platformApplicationArn: String? = nil) {
             self.attributes = attributes
             self.platformApplicationArn = platformApplicationArn
@@ -984,6 +1037,7 @@ extension SNS {
         /// The Amazon resource name (ARN) of the topic you want to batch publish to.
         public let topicArn: String
 
+        @inlinable
         public init(publishBatchRequestEntries: [PublishBatchRequestEntry], topicArn: String) {
             self.publishBatchRequestEntries = publishBatchRequestEntries
             self.topicArn = topicArn
@@ -1018,6 +1072,7 @@ extension SNS {
         /// The subject of the batch message.
         public let subject: String?
 
+        @inlinable
         public init(id: String, message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, messageStructure: String? = nil, subject: String? = nil) {
             self.id = id
             self.message = message
@@ -1047,6 +1102,7 @@ extension SNS {
         @OptionalCustomCoding<StandardArrayCoder<PublishBatchResultEntry>>
         public var successful: [PublishBatchResultEntry]?
 
+        @inlinable
         public init(failed: [BatchResultErrorEntry]? = nil, successful: [PublishBatchResultEntry]? = nil) {
             self.failed = failed
             self.successful = successful
@@ -1066,6 +1122,7 @@ extension SNS {
         /// This parameter applies only to FIFO (first-in-first-out) topics. The large, non-consecutive number that Amazon SNS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for a particular MessageGroupId.
         public let sequenceNumber: String?
 
+        @inlinable
         public init(id: String? = nil, messageId: String? = nil, sequenceNumber: String? = nil) {
             self.id = id
             self.messageId = messageId
@@ -1106,6 +1163,7 @@ extension SNS {
         /// The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
         public let topicArn: String?
 
+        @inlinable
         public init(message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, messageStructure: String? = nil, phoneNumber: String? = nil, subject: String? = nil, targetArn: String? = nil, topicArn: String? = nil) {
             self.message = message
             self.messageAttributes = messageAttributes
@@ -1137,6 +1195,7 @@ extension SNS {
         /// This response element applies only to FIFO (first-in-first-out) topics.  The sequence number is a large, non-consecutive number that Amazon SNS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for each MessageGroupId.
         public let sequenceNumber: String?
 
+        @inlinable
         public init(messageId: String? = nil, sequenceNumber: String? = nil) {
             self.messageId = messageId
             self.sequenceNumber = sequenceNumber
@@ -1154,6 +1213,7 @@ extension SNS {
         /// The ARN of the topic whose DataProtectionPolicy you want to add or update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
 
+        @inlinable
         public init(dataProtectionPolicy: String, resourceArn: String) {
             self.dataProtectionPolicy = dataProtectionPolicy
             self.resourceArn = resourceArn
@@ -1171,6 +1231,7 @@ extension SNS {
         /// The ARN of the topic whose access control policy you wish to modify.
         public let topicArn: String
 
+        @inlinable
         public init(label: String, topicArn: String) {
             self.label = label
             self.topicArn = topicArn
@@ -1188,6 +1249,7 @@ extension SNS {
         /// The destination phone number's verification status.
         public let status: SMSSandboxPhoneNumberVerificationStatus?
 
+        @inlinable
         public init(phoneNumber: String? = nil, status: SMSSandboxPhoneNumberVerificationStatus? = nil) {
             self.phoneNumber = phoneNumber
             self.status = status
@@ -1206,6 +1268,7 @@ extension SNS {
         /// EndpointArn used for SetEndpointAttributes action.
         public let endpointArn: String
 
+        @inlinable
         public init(attributes: [String: String], endpointArn: String) {
             self.attributes = attributes
             self.endpointArn = endpointArn
@@ -1224,6 +1287,7 @@ extension SNS {
         ///  PlatformApplicationArn for SetPlatformApplicationAttributes action.
         public let platformApplicationArn: String
 
+        @inlinable
         public init(attributes: [String: String], platformApplicationArn: String) {
             self.attributes = attributes
             self.platformApplicationArn = platformApplicationArn
@@ -1240,6 +1304,7 @@ extension SNS {
         @CustomCoding<StandardDictionaryCoder<String, String>>
         public var attributes: [String: String]
 
+        @inlinable
         public init(attributes: [String: String]) {
             self.attributes = attributes
         }
@@ -1261,6 +1326,7 @@ extension SNS {
         /// The ARN of the subscription to modify.
         public let subscriptionArn: String
 
+        @inlinable
         public init(attributeName: String, attributeValue: String? = nil, subscriptionArn: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1282,6 +1348,7 @@ extension SNS {
         /// The ARN of the topic to modify.
         public let topicArn: String
 
+        @inlinable
         public init(attributeName: String, attributeValue: String? = nil, topicArn: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -1308,6 +1375,7 @@ extension SNS {
         /// The ARN of the topic you want to subscribe to.
         public let topicArn: String
 
+        @inlinable
         public init(attributes: [String: String]? = nil, endpoint: String? = nil, protocol: String, returnSubscriptionArn: Bool? = nil, topicArn: String) {
             self.attributes = attributes
             self.endpoint = endpoint
@@ -1329,6 +1397,7 @@ extension SNS {
         /// The ARN of the subscription if it is confirmed, or the string "pending confirmation" if the subscription requires confirmation. However, if the API request parameter ReturnSubscriptionArn is true, then the value is always the subscription ARN, even if the subscription requires confirmation.
         public let subscriptionArn: String?
 
+        @inlinable
         public init(subscriptionArn: String? = nil) {
             self.subscriptionArn = subscriptionArn
         }
@@ -1350,6 +1419,7 @@ extension SNS {
         /// The ARN of the subscription's topic.
         public let topicArn: String?
 
+        @inlinable
         public init(endpoint: String? = nil, owner: String? = nil, protocol: String? = nil, subscriptionArn: String? = nil, topicArn: String? = nil) {
             self.endpoint = endpoint
             self.owner = owner
@@ -1373,6 +1443,7 @@ extension SNS {
         /// The optional value portion of the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1397,6 +1468,7 @@ extension SNS {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1424,6 +1496,7 @@ extension SNS {
         /// The topic's ARN.
         public let topicArn: String?
 
+        @inlinable
         public init(topicArn: String? = nil) {
             self.topicArn = topicArn
         }
@@ -1437,6 +1510,7 @@ extension SNS {
         /// The ARN of the subscription to be deleted.
         public let subscriptionArn: String
 
+        @inlinable
         public init(subscriptionArn: String) {
             self.subscriptionArn = subscriptionArn
         }
@@ -1453,6 +1527,7 @@ extension SNS {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1483,6 +1558,7 @@ extension SNS {
         /// The destination phone number to verify.
         public let phoneNumber: String
 
+        @inlinable
         public init(oneTimePassword: String, phoneNumber: String) {
             self.oneTimePassword = oneTimePassword
             self.phoneNumber = phoneNumber

@@ -63,6 +63,7 @@ extension Repostspace {
         /// The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't provide a key, your data is encrypted by default with a key that AWS owns and manages for you.
         public let userKMSKey: String?
 
+        @inlinable
         public init(description: String? = nil, name: String, roleArn: String? = nil, subdomain: String, tags: [String: String]? = nil, tier: TierLevel, userKMSKey: String? = nil) {
             self.description = description
             self.name = name
@@ -106,6 +107,7 @@ extension Repostspace {
         /// The unique ID of the private re:Post.
         public let spaceId: String
 
+        @inlinable
         public init(spaceId: String) {
             self.spaceId = spaceId
         }
@@ -119,6 +121,7 @@ extension Repostspace {
         /// The unique ID of the private re:Post.
         public let spaceId: String
 
+        @inlinable
         public init(spaceId: String) {
             self.spaceId = spaceId
         }
@@ -138,6 +141,7 @@ extension Repostspace {
         /// The ID of the private re:Post to remove the admin from.
         public let spaceId: String
 
+        @inlinable
         public init(adminId: String, spaceId: String) {
             self.adminId = adminId
             self.spaceId = spaceId
@@ -157,6 +161,7 @@ extension Repostspace {
         /// The ID of the private re:Post.
         public let spaceId: String
 
+        @inlinable
         public init(spaceId: String) {
             self.spaceId = spaceId
         }
@@ -212,6 +217,7 @@ extension Repostspace {
         /// The approval status of the custom subdomain.
         public let vanityDomainStatus: VanityDomainStatus
 
+        @inlinable
         public init(arn: String, clientId: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, customerRoleArn: String? = nil, deleteDateTime: Date? = nil, description: String? = nil, groupAdmins: [String]? = nil, name: String, randomDomain: String, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userAdmins: [String]? = nil, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
             self.arn = arn
             self.clientId = clientId
@@ -265,6 +271,7 @@ extension Repostspace {
         /// The token for the next set of private re:Posts to return. You receive this token from a previous ListSpaces operation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -291,6 +298,7 @@ extension Repostspace {
         /// An array of structures that contain some information about the private re:Posts in the account.
         public let spaces: [SpaceData]
 
+        @inlinable
         public init(nextToken: String? = nil, spaces: [SpaceData]) {
             self.nextToken = nextToken
             self.spaces = spaces
@@ -306,6 +314,7 @@ extension Repostspace {
         /// The ARN of the resource that the tags are associated with.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -328,6 +337,7 @@ extension Repostspace {
         /// The list of tags that are associated with the resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -343,6 +353,7 @@ extension Repostspace {
         /// The ID of the private re:Post.
         public let spaceId: String
 
+        @inlinable
         public init(adminId: String, spaceId: String) {
             self.adminId = adminId
             self.spaceId = spaceId
@@ -368,6 +379,7 @@ extension Repostspace {
         /// The title of the invite.
         public let title: String
 
+        @inlinable
         public init(accessorIds: [String], body: String, spaceId: String, title: String) {
             self.accessorIds = accessorIds
             self.body = body
@@ -433,6 +445,7 @@ extension Repostspace {
         /// This approval status of the custom subdomain.
         public let vanityDomainStatus: VanityDomainStatus
 
+        @inlinable
         public init(arn: String, configurationStatus: ConfigurationStatus, contentSize: Int64? = nil, createDateTime: Date, deleteDateTime: Date? = nil, description: String? = nil, name: String, randomDomain: String, spaceId: String, status: String, storageLimit: Int64, tier: TierLevel, userCount: Int? = nil, userKMSKey: String? = nil, vanityDomain: String, vanityDomainStatus: VanityDomainStatus) {
             self.arn = arn
             self.configurationStatus = configurationStatus
@@ -478,6 +491,7 @@ extension Repostspace {
         /// The list of tag keys and values that must be associated with the resource. You can associate tag keys only, tags (key and values) only, or a combination of tag keys and tags.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -517,6 +531,7 @@ extension Repostspace {
         /// The key values of the tag.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -558,6 +573,7 @@ extension Repostspace {
         /// The pricing tier of this private re:Post.
         public let tier: TierLevel?
 
+        @inlinable
         public init(description: String? = nil, roleArn: String? = nil, spaceId: String, tier: TierLevel? = nil) {
             self.description = description
             self.roleArn = roleArn

@@ -149,6 +149,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the order.
         public let orderArn: String
 
+        @inlinable
         public init(orderArn: String) {
             self.orderArn = orderArn
         }
@@ -166,6 +167,7 @@ extension PrivateNetworks {
         /// Information about the order.
         public let order: Order
 
+        @inlinable
         public init(order: Order) {
             self.order = order
         }
@@ -181,6 +183,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the device identifier.
         public let deviceIdentifierArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, deviceIdentifierArn: String) {
             self.clientToken = clientToken
             self.deviceIdentifierArn = deviceIdentifierArn
@@ -204,6 +207,7 @@ extension PrivateNetworks {
         ///  The tags on the device identifier.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deviceIdentifier: DeviceIdentifier, tags: [String: String]? = nil) {
             self.deviceIdentifier = deviceIdentifier
             self.tags = tags
@@ -225,6 +229,7 @@ extension PrivateNetworks {
         /// The shipping address of the network site.
         public let shippingAddress: Address
 
+        @inlinable
         public init(clientToken: String? = nil, commitmentConfiguration: CommitmentConfiguration? = nil, networkSiteArn: String, shippingAddress: Address) {
             self.clientToken = clientToken
             self.commitmentConfiguration = commitmentConfiguration
@@ -251,6 +256,7 @@ extension PrivateNetworks {
         /// Information about the network site.
         public let networkSite: NetworkSite?
 
+        @inlinable
         public init(networkSite: NetworkSite? = nil) {
             self.networkSite = networkSite
         }
@@ -284,6 +290,7 @@ extension PrivateNetworks {
         /// The third line of the street address.
         public let street3: String?
 
+        @inlinable
         public init(city: String, company: String? = nil, country: String, emailAddress: String? = nil, name: String, phoneNumber: String? = nil, postalCode: String, stateOrProvince: String, street1: String, street2: String? = nil, street3: String? = nil) {
             self.city = city
             self.company = company
@@ -344,6 +351,7 @@ extension PrivateNetworks {
         /// The duration of the commitment period for the radio unit. You can choose a 60-day, 1-year, or 3-year period.
         public let commitmentLength: CommitmentLength
 
+        @inlinable
         public init(automaticRenewal: Bool, commitmentLength: CommitmentLength) {
             self.automaticRenewal = automaticRenewal
             self.commitmentLength = commitmentLength
@@ -365,6 +373,7 @@ extension PrivateNetworks {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startAt: Date?
 
+        @inlinable
         public init(commitmentConfiguration: CommitmentConfiguration, expiresOn: Date? = nil, startAt: Date? = nil) {
             self.commitmentConfiguration = commitmentConfiguration
             self.expiresOn = expiresOn
@@ -392,6 +401,7 @@ extension PrivateNetworks {
         /// The position of the network resource.
         public let position: Position?
 
+        @inlinable
         public init(accessPointArn: String, cpiSecretKey: String? = nil, cpiUserId: String? = nil, cpiUsername: String? = nil, cpiUserPassword: String? = nil, position: Position? = nil) {
             self.accessPointArn = accessPointArn
             self.cpiSecretKey = cpiSecretKey
@@ -419,6 +429,7 @@ extension PrivateNetworks {
         /// Information about the network resource.
         public let accessPoint: NetworkResource
 
+        @inlinable
         public init(accessPoint: NetworkResource) {
             self.accessPoint = accessPoint
         }
@@ -438,6 +449,7 @@ extension PrivateNetworks {
         ///  The tags to apply to the network.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, networkName: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -477,6 +489,7 @@ extension PrivateNetworks {
         ///  The network tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(network: Network, tags: [String: String]? = nil) {
             self.network = network
             self.tags = tags
@@ -506,6 +519,7 @@ extension PrivateNetworks {
         ///  The tags to apply to the network site.
         public let tags: [String: String]?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = nil, description: String? = nil, networkArn: String, networkSiteName: String, pendingPlan: SitePlan? = nil, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -554,6 +568,7 @@ extension PrivateNetworks {
         ///  The network site tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(networkSite: NetworkSite? = nil, tags: [String: String]? = nil) {
             self.networkSite = networkSite
             self.tags = tags
@@ -571,6 +586,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the device identifier.
         public let deviceIdentifierArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, deviceIdentifierArn: String) {
             self.clientToken = clientToken
             self.deviceIdentifierArn = deviceIdentifierArn
@@ -592,6 +608,7 @@ extension PrivateNetworks {
         /// Information about the device identifier.
         public let deviceIdentifier: DeviceIdentifier
 
+        @inlinable
         public init(deviceIdentifier: DeviceIdentifier) {
             self.deviceIdentifier = deviceIdentifier
         }
@@ -607,6 +624,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the network.
         public let networkArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, networkArn: String) {
             self.clientToken = clientToken
             self.networkArn = networkArn
@@ -632,6 +650,7 @@ extension PrivateNetworks {
         /// Information about the network.
         public let network: Network
 
+        @inlinable
         public init(network: Network) {
             self.network = network
         }
@@ -647,6 +666,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the network site.
         public let networkSiteArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, networkSiteArn: String) {
             self.clientToken = clientToken
             self.networkSiteArn = networkSiteArn
@@ -672,6 +692,7 @@ extension PrivateNetworks {
         /// Information about the network site.
         public let networkSite: NetworkSite?
 
+        @inlinable
         public init(networkSite: NetworkSite? = nil) {
             self.networkSite = networkSite
         }
@@ -702,6 +723,7 @@ extension PrivateNetworks {
         /// The vendor of the device identifier.
         public let vendor: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, deviceIdentifierArn: String? = nil, iccid: String? = nil, imsi: String? = nil, networkArn: String? = nil, orderArn: String? = nil, status: DeviceIdentifierStatus? = nil, trafficGroupArn: String? = nil, vendor: String? = nil) {
             self.createdAt = createdAt
             self.deviceIdentifierArn = deviceIdentifierArn
@@ -731,6 +753,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the device identifier.
         public let deviceIdentifierArn: String
 
+        @inlinable
         public init(deviceIdentifierArn: String) {
             self.deviceIdentifierArn = deviceIdentifierArn
         }
@@ -754,6 +777,7 @@ extension PrivateNetworks {
         ///  The device identifier tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(deviceIdentifier: DeviceIdentifier? = nil, tags: [String: String]? = nil) {
             self.deviceIdentifier = deviceIdentifier
             self.tags = tags
@@ -769,6 +793,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the network.
         public let networkArn: String
 
+        @inlinable
         public init(networkArn: String) {
             self.networkArn = networkArn
         }
@@ -790,6 +815,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the network resource.
         public let networkResourceArn: String
 
+        @inlinable
         public init(networkResourceArn: String) {
             self.networkResourceArn = networkResourceArn
         }
@@ -813,6 +839,7 @@ extension PrivateNetworks {
         ///  The network resource tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(networkResource: NetworkResource, tags: [String: String]? = nil) {
             self.networkResource = networkResource
             self.tags = tags
@@ -830,6 +857,7 @@ extension PrivateNetworks {
         ///  The network tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(network: Network, tags: [String: String]? = nil) {
             self.network = network
             self.tags = tags
@@ -845,6 +873,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the network site.
         public let networkSiteArn: String
 
+        @inlinable
         public init(networkSiteArn: String) {
             self.networkSiteArn = networkSiteArn
         }
@@ -868,6 +897,7 @@ extension PrivateNetworks {
         ///  The network site tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(networkSite: NetworkSite? = nil, tags: [String: String]? = nil) {
             self.networkSite = networkSite
             self.tags = tags
@@ -883,6 +913,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the order.
         public let orderArn: String
 
+        @inlinable
         public init(orderArn: String) {
             self.orderArn = orderArn
         }
@@ -906,6 +937,7 @@ extension PrivateNetworks {
         ///  The order tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(order: Order, tags: [String: String]? = nil) {
             self.order = order
             self.tags = tags
@@ -927,6 +959,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let startToken: String?
 
+        @inlinable
         public init(filters: [DeviceIdentifierFilterKeys: [String]]? = nil, maxResults: Int? = nil, networkArn: String, startToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -952,6 +985,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(deviceIdentifiers: [DeviceIdentifier]? = nil, nextToken: String? = nil) {
             self.deviceIdentifiers = deviceIdentifiers
             self.nextToken = nextToken
@@ -973,6 +1007,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let startToken: String?
 
+        @inlinable
         public init(filters: [NetworkResourceFilterKeys: [String]]? = nil, maxResults: Int? = nil, networkArn: String, startToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -998,6 +1033,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkResources: [NetworkResource]? = nil, nextToken: String? = nil) {
             self.networkResources = networkResources
             self.nextToken = nextToken
@@ -1019,6 +1055,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let startToken: String?
 
+        @inlinable
         public init(filters: [NetworkSiteFilterKeys: [String]]? = nil, maxResults: Int? = nil, networkArn: String, startToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1044,6 +1081,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(networkSites: [NetworkSite]? = nil, nextToken: String? = nil) {
             self.networkSites = networkSites
             self.nextToken = nextToken
@@ -1063,6 +1101,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let startToken: String?
 
+        @inlinable
         public init(filters: [NetworkFilterKeys: [String]]? = nil, maxResults: Int? = nil, startToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1082,6 +1121,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let nextToken: String?
 
+        @inlinable
         public init(networks: [Network]? = nil, nextToken: String? = nil) {
             self.networks = networks
             self.nextToken = nextToken
@@ -1103,6 +1143,7 @@ extension PrivateNetworks {
         /// The token for the next page of results.
         public let startToken: String?
 
+        @inlinable
         public init(filters: [OrderFilterKeys: [String]]? = nil, maxResults: Int? = nil, networkArn: String, startToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
@@ -1128,6 +1169,7 @@ extension PrivateNetworks {
         /// Information about the orders.
         public let orders: [Order]?
 
+        @inlinable
         public init(nextToken: String? = nil, orders: [Order]? = nil) {
             self.nextToken = nextToken
             self.orders = orders
@@ -1143,6 +1185,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1164,6 +1207,7 @@ extension PrivateNetworks {
         /// The resource tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1179,6 +1223,7 @@ extension PrivateNetworks {
         /// The value of the pair.
         public let value: String?
 
+        @inlinable
         public init(name: String, value: String? = nil) {
             self.name = name
             self.value = value
@@ -1205,6 +1250,7 @@ extension PrivateNetworks {
         /// The status reason of the network.
         public let statusReason: String?
 
+        @inlinable
         public init(createdAt: Date? = nil, description: String? = nil, networkArn: String, networkName: String, status: NetworkStatus, statusReason: String? = nil) {
             self.createdAt = createdAt
             self.description = description
@@ -1261,6 +1307,7 @@ extension PrivateNetworks {
         /// The vendor of the network resource.
         public let vendor: String?
 
+        @inlinable
         public init(attributes: [NameValuePair]? = nil, commitmentInformation: CommitmentInformation? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthStatus? = nil, model: String? = nil, networkArn: String? = nil, networkResourceArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, position: Position? = nil, returnInformation: ReturnInformation? = nil, serialNumber: String? = nil, status: NetworkResourceStatus? = nil, statusReason: String? = nil, type: NetworkResourceType? = nil, vendor: String? = nil) {
             self.attributes = attributes
             self.commitmentInformation = commitmentInformation
@@ -1310,6 +1357,7 @@ extension PrivateNetworks {
         /// The type in the network resource definition.
         public let type: NetworkResourceDefinitionType
 
+        @inlinable
         public init(count: Int, options: [NameValuePair]? = nil, type: NetworkResourceDefinitionType) {
             self.count = count
             self.options = options
@@ -1348,6 +1396,7 @@ extension PrivateNetworks {
         /// The status reason of the network site.
         public let statusReason: String?
 
+        @inlinable
         public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, createdAt: Date? = nil, currentPlan: SitePlan? = nil, description: String? = nil, networkArn: String, networkSiteArn: String, networkSiteName: String, pendingPlan: SitePlan? = nil, status: NetworkSiteStatus, statusReason: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -1396,6 +1445,7 @@ extension PrivateNetworks {
         /// The tracking information of the order.
         public let trackingInformation: [TrackingInformation]?
 
+        @inlinable
         public init(acknowledgmentStatus: AcknowledgmentStatus? = nil, createdAt: Date? = nil, networkArn: String? = nil, networkSiteArn: String? = nil, orderArn: String? = nil, orderedResources: [OrderedResourceDefinition]? = nil, shippingAddress: Address? = nil, trackingInformation: [TrackingInformation]? = nil) {
             self.acknowledgmentStatus = acknowledgmentStatus
             self.createdAt = createdAt
@@ -1427,6 +1477,7 @@ extension PrivateNetworks {
         /// The type of network resource in the order.
         public let type: NetworkResourceDefinitionType
 
+        @inlinable
         public init(commitmentConfiguration: CommitmentConfiguration? = nil, count: Int, type: NetworkResourceDefinitionType) {
             self.commitmentConfiguration = commitmentConfiguration
             self.count = count
@@ -1444,6 +1495,7 @@ extension PrivateNetworks {
         /// Information about the health of the service.
         public let status: String?
 
+        @inlinable
         public init(status: String? = nil) {
             self.status = status
         }
@@ -1465,6 +1517,7 @@ extension PrivateNetworks {
         /// The longitude of the position.
         public let longitude: Double?
 
+        @inlinable
         public init(elevation: Double? = nil, elevationReference: ElevationReference? = nil, elevationUnit: ElevationUnit? = nil, latitude: Double? = nil, longitude: Double? = nil) {
             self.elevation = elevation
             self.elevationReference = elevationReference
@@ -1492,6 +1545,7 @@ extension PrivateNetworks {
         /// The URL of the shipping label. The shipping label is available for download only if the status of the network resource is PENDING_RETURN. For more information, see Return a radio unit.
         public let shippingLabel: String?
 
+        @inlinable
         public init(replacementOrderArn: String? = nil, returnReason: String? = nil, shippingAddress: Address? = nil, shippingLabel: String? = nil) {
             self.replacementOrderArn = replacementOrderArn
             self.returnReason = returnReason
@@ -1513,6 +1567,7 @@ extension PrivateNetworks {
         /// The resource definitions of the plan.
         public let resourceDefinitions: [NetworkResourceDefinition]?
 
+        @inlinable
         public init(options: [NameValuePair]? = nil, resourceDefinitions: [NetworkResourceDefinition]? = nil) {
             self.options = options
             self.resourceDefinitions = resourceDefinitions
@@ -1536,6 +1591,7 @@ extension PrivateNetworks {
         /// The update type.    REPLACE - Submits a request to replace a defective radio unit. We provide a shipping label that you can use for the return process and we ship a replacement radio unit to you.    RETURN - Submits a request to return a radio unit that you no longer need. We provide a shipping label that you can use for the return process.    COMMITMENT - Submits a request to change or renew the commitment period. If you choose this value, then you must set  commitmentConfiguration .
         public let updateType: UpdateType
 
+        @inlinable
         public init(commitmentConfiguration: CommitmentConfiguration? = nil, networkResourceArn: String, returnReason: String? = nil, shippingAddress: Address? = nil, updateType: UpdateType) {
             self.commitmentConfiguration = commitmentConfiguration
             self.networkResourceArn = networkResourceArn
@@ -1562,6 +1618,7 @@ extension PrivateNetworks {
         /// The network resource.
         public let networkResource: NetworkResource?
 
+        @inlinable
         public init(networkResource: NetworkResource? = nil) {
             self.networkResource = networkResource
         }
@@ -1577,6 +1634,7 @@ extension PrivateNetworks {
         /// The tags to add to the resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1615,6 +1673,7 @@ extension PrivateNetworks {
         /// The tracking number of the shipment.
         public let trackingNumber: String?
 
+        @inlinable
         public init(trackingNumber: String? = nil) {
             self.trackingNumber = trackingNumber
         }
@@ -1630,6 +1689,7 @@ extension PrivateNetworks {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -1668,6 +1728,7 @@ extension PrivateNetworks {
         /// The pending plan.
         public let pendingPlan: SitePlan
 
+        @inlinable
         public init(clientToken: String? = nil, networkSiteArn: String, pendingPlan: SitePlan) {
             self.clientToken = clientToken
             self.networkSiteArn = networkSiteArn
@@ -1695,6 +1756,7 @@ extension PrivateNetworks {
         /// The Amazon Resource Name (ARN) of the network site.
         public let networkSiteArn: String
 
+        @inlinable
         public init(clientToken: String? = nil, description: String? = nil, networkSiteArn: String) {
             self.clientToken = clientToken
             self.description = description
@@ -1721,6 +1783,7 @@ extension PrivateNetworks {
         ///  The network site tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(networkSite: NetworkSite? = nil, tags: [String: String]? = nil) {
             self.networkSite = networkSite
             self.tags = tags

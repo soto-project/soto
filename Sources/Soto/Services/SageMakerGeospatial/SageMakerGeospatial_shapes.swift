@@ -580,6 +580,7 @@ extension SageMakerGeospatial {
         /// Link to the asset object.
         public let href: String?
 
+        @inlinable
         public init(href: String? = nil) {
             self.href = href
         }
@@ -595,6 +596,7 @@ extension SageMakerGeospatial {
         /// One or many of the supported predefined indices to compute.  Allowed values: NDVI, EVI2, MSAVI,  NDWI, NDMI, NDSI, and WDRVI.
         public let predefinedIndices: [String]?
 
+        @inlinable
         public init(customIndices: CustomIndicesInput? = nil, predefinedIndices: [String]? = nil) {
             self.customIndices = customIndices
             self.predefinedIndices = predefinedIndices
@@ -623,6 +625,7 @@ extension SageMakerGeospatial {
         /// TargetBands to be returned in the output of CloudRemoval operation.
         public let targetBands: [String]?
 
+        @inlinable
         public init(algorithmName: AlgorithmNameCloudRemoval? = nil, interpolationValue: String? = nil, targetBands: [String]? = nil) {
             self.algorithmName = algorithmName
             self.interpolationValue = interpolationValue
@@ -644,6 +647,7 @@ extension SageMakerGeospatial {
         /// A list of BandMath indices to compute.
         public let operations: [Operation]?
 
+        @inlinable
         public init(operations: [Operation]? = nil) {
             self.operations = operations
         }
@@ -661,6 +665,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the Earth Observation job being deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -686,6 +691,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the Vector Enrichment job being deleted.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -713,6 +719,7 @@ extension SageMakerGeospatial {
         /// The type of error in an Earth Observation job.
         public let type: EarthObservationJobErrorType?
 
+        @inlinable
         public init(message: String? = nil, type: EarthObservationJobErrorType? = nil) {
             self.message = message
             self.type = type
@@ -730,6 +737,7 @@ extension SageMakerGeospatial {
         /// Upper bound for EoCloudCover.
         public let upperBound: Float
 
+        @inlinable
         public init(lowerBound: Float, upperBound: Float) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
@@ -753,6 +761,7 @@ extension SageMakerGeospatial {
         /// An object containing information about the output file.
         public let outputConfig: OutputConfigInput
 
+        @inlinable
         public init(arn: String, clientToken: String? = ExportEarthObservationJobInput.idempotencyToken(), executionRoleArn: String, exportSourceImages: Bool? = nil, outputConfig: OutputConfigInput) {
             self.arn = arn
             self.clientToken = clientToken
@@ -792,6 +801,7 @@ extension SageMakerGeospatial {
         /// An object containing information about the output file.
         public let outputConfig: OutputConfigInput
 
+        @inlinable
         public init(arn: String, creationTime: Date, executionRoleArn: String, exportSourceImages: Bool? = nil, exportStatus: EarthObservationJobExportStatus, outputConfig: OutputConfigInput) {
             self.arn = arn
             self.creationTime = creationTime
@@ -817,6 +827,7 @@ extension SageMakerGeospatial {
         /// The structure for returning the export error details  while exporting the source images of an Earth Observation job.
         public let exportSourceImages: ExportErrorDetailsOutput?
 
+        @inlinable
         public init(exportResults: ExportErrorDetailsOutput? = nil, exportSourceImages: ExportErrorDetailsOutput? = nil) {
             self.exportResults = exportResults
             self.exportSourceImages = exportSourceImages
@@ -834,6 +845,7 @@ extension SageMakerGeospatial {
         /// The type of error in an export EarthObservationJob operation.
         public let type: ExportErrorType?
 
+        @inlinable
         public init(message: String? = nil, type: ExportErrorType? = nil) {
             self.message = message
             self.type = type
@@ -851,6 +863,7 @@ extension SageMakerGeospatial {
         /// The URL to the Amazon S3 data input.
         public let s3Uri: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -877,6 +890,7 @@ extension SageMakerGeospatial {
         /// Output location information for exporting Vector Enrichment Job results.
         public let outputConfig: ExportVectorEnrichmentJobOutputConfig
 
+        @inlinable
         public init(arn: String, clientToken: String? = ExportVectorEnrichmentJobInput.idempotencyToken(), executionRoleArn: String, outputConfig: ExportVectorEnrichmentJobOutputConfig) {
             self.arn = arn
             self.clientToken = clientToken
@@ -912,6 +926,7 @@ extension SageMakerGeospatial {
         /// Output location information for exporting Vector Enrichment Job results.
         public let outputConfig: ExportVectorEnrichmentJobOutputConfig
 
+        @inlinable
         public init(arn: String, creationTime: Date, executionRoleArn: String, exportStatus: VectorEnrichmentJobExportStatus, outputConfig: ExportVectorEnrichmentJobOutputConfig) {
             self.arn = arn
             self.creationTime = creationTime
@@ -933,6 +948,7 @@ extension SageMakerGeospatial {
         /// The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects.
         public let s3Data: VectorEnrichmentJobS3Data
 
+        @inlinable
         public init(s3Data: VectorEnrichmentJobS3Data) {
             self.s3Data = s3Data
         }
@@ -956,6 +972,7 @@ extension SageMakerGeospatial {
         /// The type of the filter being used.
         public let type: String
 
+        @inlinable
         public init(maximum: Float? = nil, minimum: Float? = nil, name: String, type: String) {
             self.maximum = maximum
             self.minimum = minimum
@@ -977,6 +994,7 @@ extension SageMakerGeospatial {
         /// The target bands for geomosaic.
         public let targetBands: [String]?
 
+        @inlinable
         public init(algorithmName: AlgorithmNameGeoMosaic? = nil, targetBands: [String]? = nil) {
             self.algorithmName = algorithmName
             self.targetBands = targetBands
@@ -998,6 +1016,7 @@ extension SageMakerGeospatial {
         /// GeoJson Geometry types like Polygon and MultiPolygon.
         public let type: String
 
+        @inlinable
         public init(coordinates: [[[Double]]], type: String) {
             self.coordinates = coordinates
             self.type = type
@@ -1013,6 +1032,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the Earth Observation job.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1060,6 +1080,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, creationTime: Date, durationInSeconds: Int, errorDetails: EarthObservationJobErrorDetails? = nil, executionRoleArn: String? = nil, exportErrorDetails: ExportErrorDetails? = nil, exportStatus: EarthObservationJobExportStatus? = nil, inputConfig: InputConfigOutput, jobConfig: JobConfigInput, kmsKeyId: String? = nil, name: String, outputBands: [OutputBand]? = nil, status: EarthObservationJobStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1099,6 +1120,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the raster data collection.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1134,6 +1156,7 @@ extension SageMakerGeospatial {
         /// The raster data collection type.
         public let type: DataCollectionType
 
+        @inlinable
         public init(arn: String, description: String, descriptionPageUrl: String, imageSourceBands: [String], name: String, supportedFilters: [Filter], tags: [String: String]? = nil, type: DataCollectionType) {
             self.arn = arn
             self.description = description
@@ -1183,6 +1206,7 @@ extension SageMakerGeospatial {
         /// The z coordinate of the tile input.
         public let z: Int
 
+        @inlinable
         public init(arn: String, executionRoleArn: String? = nil, imageAssets: [String], imageMask: Bool? = nil, outputDataType: OutputType? = nil, outputFormat: String? = nil, propertyFilters: String? = nil, target: TargetOptions, timeRangeFilter: String? = nil, x: Int, y: Int, z: Int) {
             self.arn = arn
             self.executionRoleArn = executionRoleArn
@@ -1231,6 +1255,7 @@ extension SageMakerGeospatial {
         /// The output binary file.
         public let binaryFile: AWSHTTPBody
 
+        @inlinable
         public init(binaryFile: AWSHTTPBody) {
             self.binaryFile = binaryFile
         }
@@ -1247,6 +1272,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -1294,6 +1320,7 @@ extension SageMakerGeospatial {
         /// The type of the Vector Enrichment job being initiated.
         public let type: VectorEnrichmentJobType
 
+        @inlinable
         public init(arn: String, creationTime: Date, durationInSeconds: Int, errorDetails: VectorEnrichmentJobErrorDetails? = nil, executionRoleArn: String, exportErrorDetails: VectorEnrichmentJobExportErrorDetails? = nil, exportStatus: VectorEnrichmentJobExportStatus? = nil, inputConfig: VectorEnrichmentJobInputConfig, jobConfig: VectorEnrichmentJobConfig, kmsKeyId: String? = nil, name: String, status: VectorEnrichmentJobStatus, tags: [String: String]? = nil, type: VectorEnrichmentJobType) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1335,6 +1362,7 @@ extension SageMakerGeospatial {
         /// The structure representing the RasterDataCollection Query consisting of  the Area of Interest, RasterDataCollectionArn,TimeRange and Property Filters.
         public let rasterDataCollectionQuery: RasterDataCollectionQueryInput?
 
+        @inlinable
         public init(previousEarthObservationJobArn: String? = nil, rasterDataCollectionQuery: RasterDataCollectionQueryInput? = nil) {
             self.previousEarthObservationJobArn = previousEarthObservationJobArn
             self.rasterDataCollectionQuery = rasterDataCollectionQuery
@@ -1357,6 +1385,7 @@ extension SageMakerGeospatial {
         /// The structure representing the RasterDataCollection Query consisting of the Area of Interest,  RasterDataCollectionArn, RasterDataCollectionName, TimeRange, and Property Filters.
         public let rasterDataCollectionQuery: RasterDataCollectionQueryOutput?
 
+        @inlinable
         public init(previousEarthObservationJobArn: String? = nil, rasterDataCollectionQuery: RasterDataCollectionQueryOutput? = nil) {
             self.previousEarthObservationJobArn = previousEarthObservationJobArn
             self.rasterDataCollectionQuery = rasterDataCollectionQuery
@@ -1380,6 +1409,7 @@ extension SageMakerGeospatial {
         /// This field contains additional properties of the item.
         public let properties: Properties?
 
+        @inlinable
         public init(assets: [String: AssetValue]? = nil, dateTime: Date, geometry: Geometry, id: String, properties: Properties? = nil) {
             self.assets = assets
             self.dateTime = dateTime
@@ -1407,6 +1437,7 @@ extension SageMakerGeospatial {
         /// The maximum value for Land Cloud Cover property filter.  This will filter items having Land Cloud Cover less than or equal to this value.
         public let upperBound: Float
 
+        @inlinable
         public init(lowerBound: Float, upperBound: Float) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
@@ -1430,6 +1461,7 @@ extension SageMakerGeospatial {
         /// A filter that retrieves only jobs with a specific status.
         public let statusEquals: EarthObservationJobStatus?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil, statusEquals: EarthObservationJobStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1457,6 +1489,7 @@ extension SageMakerGeospatial {
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(earthObservationJobSummaries: [ListEarthObservationJobOutputConfig], nextToken: String? = nil) {
             self.earthObservationJobSummaries = earthObservationJobSummaries
             self.nextToken = nextToken
@@ -1484,6 +1517,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, creationTime: Date, durationInSeconds: Int, name: String, operationType: String, status: EarthObservationJobStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1511,6 +1545,7 @@ extension SageMakerGeospatial {
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1536,6 +1571,7 @@ extension SageMakerGeospatial {
         /// Contains summary information about the raster data collection.
         public let rasterDataCollectionSummaries: [RasterDataCollectionMetadata]
 
+        @inlinable
         public init(nextToken: String? = nil, rasterDataCollectionSummaries: [RasterDataCollectionMetadata]) {
             self.nextToken = nextToken
             self.rasterDataCollectionSummaries = rasterDataCollectionSummaries
@@ -1551,6 +1587,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the resource you want to tag.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1573,6 +1610,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1594,6 +1632,7 @@ extension SageMakerGeospatial {
         /// A filter that retrieves only jobs with a specific status.
         public let statusEquals: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: String? = nil, sortOrder: SortOrder? = nil, statusEquals: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1621,6 +1660,7 @@ extension SageMakerGeospatial {
         /// Contains summary information about the Vector Enrichment jobs.
         public let vectorEnrichmentJobSummaries: [ListVectorEnrichmentJobOutputConfig]
 
+        @inlinable
         public init(nextToken: String? = nil, vectorEnrichmentJobSummaries: [ListVectorEnrichmentJobOutputConfig]) {
             self.nextToken = nextToken
             self.vectorEnrichmentJobSummaries = vectorEnrichmentJobSummaries
@@ -1648,6 +1688,7 @@ extension SageMakerGeospatial {
         /// The type of the list of Vector Enrichment jobs.
         public let type: VectorEnrichmentJobType
 
+        @inlinable
         public init(arn: String, creationTime: Date, durationInSeconds: Int, name: String, status: VectorEnrichmentJobStatus, tags: [String: String]? = nil, type: VectorEnrichmentJobType) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1679,6 +1720,7 @@ extension SageMakerGeospatial {
         /// The name of the Y-attribute
         public let yAttributeName: String
 
+        @inlinable
         public init(idAttributeName: String, timestampAttributeName: String, xAttributeName: String, yAttributeName: String) {
             self.idAttributeName = idAttributeName
             self.timestampAttributeName = timestampAttributeName
@@ -1698,6 +1740,7 @@ extension SageMakerGeospatial {
         /// The coordinates of the multipolygon geometry.
         public let coordinates: [[[[Double]]]]
 
+        @inlinable
         public init(coordinates: [[[[Double]]]]) {
             self.coordinates = coordinates
         }
@@ -1721,6 +1764,7 @@ extension SageMakerGeospatial {
         /// The type of the operation.
         public let outputType: OutputType?
 
+        @inlinable
         public init(equation: String, name: String, outputType: OutputType? = nil) {
             self.equation = equation
             self.name = name
@@ -1740,6 +1784,7 @@ extension SageMakerGeospatial {
         /// The datatype of the output band.
         public let outputDataType: OutputType
 
+        @inlinable
         public init(bandName: String, outputDataType: OutputType) {
             self.bandName = bandName
             self.outputDataType = outputDataType
@@ -1755,6 +1800,7 @@ extension SageMakerGeospatial {
         /// Path to Amazon S3 storage location for the output configuration file.
         public let s3Data: ExportS3DataInput
 
+        @inlinable
         public init(s3Data: ExportS3DataInput) {
             self.s3Data = s3Data
         }
@@ -1772,6 +1818,7 @@ extension SageMakerGeospatial {
         /// User Defined Resolution for the output  of Resampling operation defined by value and unit.
         public let userDefined: UserDefined
 
+        @inlinable
         public init(userDefined: UserDefined) {
             self.userDefined = userDefined
         }
@@ -1787,6 +1834,7 @@ extension SageMakerGeospatial {
         /// The structure representing User Output Resolution for a Stacking operation defined as a value and unit.
         public let userDefined: UserDefined?
 
+        @inlinable
         public init(predefined: PredefinedResolution? = nil, userDefined: UserDefined? = nil) {
             self.predefined = predefined
             self.userDefined = userDefined
@@ -1804,6 +1852,7 @@ extension SageMakerGeospatial {
         /// The value of the platform.
         public let value: String
 
+        @inlinable
         public init(comparisonOperator: ComparisonOperator? = nil, value: String) {
             self.comparisonOperator = comparisonOperator
             self.value = value
@@ -1819,6 +1868,7 @@ extension SageMakerGeospatial {
         /// Coordinates representing a Polygon based on the GeoJson spec.
         public let coordinates: [[[Double]]]
 
+        @inlinable
         public init(coordinates: [[[Double]]]) {
             self.coordinates = coordinates
         }
@@ -1849,6 +1899,7 @@ extension SageMakerGeospatial {
         /// The sun elevation angle. The angle from the tangent of the scene center point to the sun. Measured from the horizon in degrees (-90-90). Negative values indicate the sun is below the horizon, e.g. sun elevation of -10° means the data was captured during nautical twilight.
         public let viewSunElevation: Float?
 
+        @inlinable
         public init(eoCloudCover: Float? = nil, landsatCloudCoverLand: Float? = nil, platform: String? = nil, viewOffNadir: Float? = nil, viewSunAzimuth: Float? = nil, viewSunElevation: Float? = nil) {
             self.eoCloudCover = eoCloudCover
             self.landsatCloudCoverLand = landsatCloudCoverLand
@@ -1872,6 +1923,7 @@ extension SageMakerGeospatial {
         /// Represents a single property to match with when searching a raster data collection.
         public let property: Property
 
+        @inlinable
         public init(property: Property) {
             self.property = property
         }
@@ -1887,6 +1939,7 @@ extension SageMakerGeospatial {
         /// A list of Property Filters.
         public let properties: [PropertyFilter]?
 
+        @inlinable
         public init(logicalOperator: LogicalOperator? = nil, properties: [PropertyFilter]? = nil) {
             self.logicalOperator = logicalOperator
             self.properties = properties
@@ -1914,6 +1967,7 @@ extension SageMakerGeospatial {
         /// The type of raster data collection.
         public let type: DataCollectionType
 
+        @inlinable
         public init(arn: String, description: String, descriptionPageUrl: String? = nil, name: String, supportedFilters: [Filter], tags: [String: String]? = nil, type: DataCollectionType) {
             self.arn = arn
             self.description = description
@@ -1945,6 +1999,7 @@ extension SageMakerGeospatial {
         /// The TimeRange Filter used in the RasterDataCollection Query.
         public let timeRangeFilter: TimeRangeFilterInput
 
+        @inlinable
         public init(areaOfInterest: AreaOfInterest? = nil, propertyFilters: PropertyFilters? = nil, rasterDataCollectionArn: String, timeRangeFilter: TimeRangeFilterInput) {
             self.areaOfInterest = areaOfInterest
             self.propertyFilters = propertyFilters
@@ -1977,6 +2032,7 @@ extension SageMakerGeospatial {
         /// The TimeRange filter used in the search.
         public let timeRangeFilter: TimeRangeFilterOutput
 
+        @inlinable
         public init(areaOfInterest: AreaOfInterest? = nil, propertyFilters: PropertyFilters? = nil, rasterDataCollectionArn: String, rasterDataCollectionName: String, timeRangeFilter: TimeRangeFilterOutput) {
             self.areaOfInterest = areaOfInterest
             self.propertyFilters = propertyFilters
@@ -2004,6 +2060,7 @@ extension SageMakerGeospatial {
         /// The TimeRange Filter used in the search query.
         public let timeRangeFilter: TimeRangeFilterInput
 
+        @inlinable
         public init(areaOfInterest: AreaOfInterest? = nil, bandFilter: [String]? = nil, propertyFilters: PropertyFilters? = nil, timeRangeFilter: TimeRangeFilterInput) {
             self.areaOfInterest = areaOfInterest
             self.bandFilter = bandFilter
@@ -2032,6 +2089,7 @@ extension SageMakerGeospatial {
         /// Bands used in the operation. If no target bands are specified, it uses all bands available in the input.
         public let targetBands: [String]?
 
+        @inlinable
         public init(algorithmName: AlgorithmNameResampling? = nil, outputResolution: OutputResolutionResamplingInput, targetBands: [String]? = nil) {
             self.algorithmName = algorithmName
             self.outputResolution = outputResolution
@@ -2055,6 +2113,7 @@ extension SageMakerGeospatial {
         /// The field name for the data that describes y-axis coordinate, eg. latitude of a point.
         public let yAttributeName: String
 
+        @inlinable
         public init(xAttributeName: String, yAttributeName: String) {
             self.xAttributeName = xAttributeName
             self.yAttributeName = yAttributeName
@@ -2074,6 +2133,7 @@ extension SageMakerGeospatial {
         /// RasterDataCollectionQuery consisting of AreaOfInterest(AOI), PropertyFilters and  TimeRangeFilterInput used in SearchRasterDataCollection.
         public let rasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput
 
+        @inlinable
         public init(arn: String, nextToken: String? = nil, rasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput) {
             self.arn = arn
             self.nextToken = nextToken
@@ -2101,6 +2161,7 @@ extension SageMakerGeospatial {
         /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(approximateResultCount: Int, items: [ItemSource]? = nil, nextToken: String? = nil) {
             self.approximateResultCount = approximateResultCount
             self.items = items
@@ -2120,6 +2181,7 @@ extension SageMakerGeospatial {
         /// A list of bands to be stacked in the specified order. When the parameter is not provided, all the available bands in the data collection are stacked in the alphabetical order of their asset names.
         public let targetBands: [String]?
 
+        @inlinable
         public init(outputResolution: OutputResolutionStackInput? = nil, targetBands: [String]? = nil) {
             self.outputResolution = outputResolution
             self.targetBands = targetBands
@@ -2151,6 +2213,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = StartEarthObservationJobInput.idempotencyToken(), executionRoleArn: String, inputConfig: InputConfigInput, jobConfig: JobConfigInput, kmsKeyId: String? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.executionRoleArn = executionRoleArn
@@ -2203,6 +2266,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, creationTime: Date, durationInSeconds: Int, executionRoleArn: String, inputConfig: InputConfigOutput? = nil, jobConfig: JobConfigInput, kmsKeyId: String? = nil, name: String, status: EarthObservationJobStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2246,6 +2310,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = StartVectorEnrichmentJobInput.idempotencyToken(), executionRoleArn: String, inputConfig: VectorEnrichmentJobInputConfig, jobConfig: VectorEnrichmentJobConfig, kmsKeyId: String? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.executionRoleArn = executionRoleArn
@@ -2299,6 +2364,7 @@ extension SageMakerGeospatial {
         /// The type of the Vector Enrichment job.
         public let type: VectorEnrichmentJobType
 
+        @inlinable
         public init(arn: String, creationTime: Date, durationInSeconds: Int, executionRoleArn: String, inputConfig: VectorEnrichmentJobInputConfig, jobConfig: VectorEnrichmentJobConfig, kmsKeyId: String? = nil, name: String, status: VectorEnrichmentJobStatus, tags: [String: String]? = nil, type: VectorEnrichmentJobType) {
             self.arn = arn
             self.creationTime = creationTime
@@ -2332,6 +2398,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the Earth Observation job being stopped.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2353,6 +2420,7 @@ extension SageMakerGeospatial {
         /// The Amazon Resource Name (ARN) of the Vector Enrichment job.
         public let arn: String
 
+        @inlinable
         public init(arn: String) {
             self.arn = arn
         }
@@ -2376,6 +2444,7 @@ extension SageMakerGeospatial {
         /// Each tag consists of a key and a value.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2410,6 +2479,7 @@ extension SageMakerGeospatial {
         /// The list of target band names for the temporal statistic to calculate.
         public let targetBands: [String]?
 
+        @inlinable
         public init(groupBy: GroupBy? = nil, statistics: [TemporalStatistics], targetBands: [String]? = nil) {
             self.groupBy = groupBy
             self.statistics = statistics
@@ -2434,6 +2504,7 @@ extension SageMakerGeospatial {
         /// The start time for the time-range filter.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -2451,6 +2522,7 @@ extension SageMakerGeospatial {
         /// The starting time for the time range filter.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, startTime: Date) {
             self.endTime = endTime
             self.startTime = startTime
@@ -2468,6 +2540,7 @@ extension SageMakerGeospatial {
         /// Keys of the tags you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2500,6 +2573,7 @@ extension SageMakerGeospatial {
         /// The value for output resolution of the result.
         public let value: Float
 
+        @inlinable
         public init(unit: Unit, value: Float) {
             self.unit = unit
             self.value = value
@@ -2517,6 +2591,7 @@ extension SageMakerGeospatial {
         /// The type of error generated during the Vector Enrichment job.
         public let errorType: VectorEnrichmentJobErrorType?
 
+        @inlinable
         public init(errorMessage: String? = nil, errorType: VectorEnrichmentJobErrorType? = nil) {
             self.errorMessage = errorMessage
             self.errorType = errorType
@@ -2534,6 +2609,7 @@ extension SageMakerGeospatial {
         /// The output error details for an Export operation on a Vector Enrichment job.
         public let type: VectorEnrichmentJobExportErrorType?
 
+        @inlinable
         public init(message: String? = nil, type: VectorEnrichmentJobExportErrorType? = nil) {
             self.message = message
             self.type = type
@@ -2551,6 +2627,7 @@ extension SageMakerGeospatial {
         /// The input structure that defines the data source file type.
         public let documentType: VectorEnrichmentJobDocumentType
 
+        @inlinable
         public init(dataSourceConfig: VectorEnrichmentJobDataSourceConfigInput, documentType: VectorEnrichmentJobDocumentType) {
             self.dataSourceConfig = dataSourceConfig
             self.documentType = documentType
@@ -2572,6 +2649,7 @@ extension SageMakerGeospatial {
         /// The URL to the Amazon S3 data for the Vector Enrichment job.
         public let s3Uri: String
 
+        @inlinable
         public init(kmsKeyId: String? = nil, s3Uri: String) {
             self.kmsKeyId = kmsKeyId
             self.s3Uri = s3Uri
@@ -2594,6 +2672,7 @@ extension SageMakerGeospatial {
         /// The maximum value for ViewOffNadir property filter.  This filters items having ViewOffNadir lesser than or equal to this value.
         public let upperBound: Float
 
+        @inlinable
         public init(lowerBound: Float, upperBound: Float) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
@@ -2611,6 +2690,7 @@ extension SageMakerGeospatial {
         /// The maximum value for ViewSunAzimuth property filter.  This filters items having ViewSunAzimuth lesser than or equal to this value.
         public let upperBound: Float
 
+        @inlinable
         public init(lowerBound: Float, upperBound: Float) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
@@ -2628,6 +2708,7 @@ extension SageMakerGeospatial {
         /// The upper bound to view the sun elevation.
         public let upperBound: Float
 
+        @inlinable
         public init(lowerBound: Float, upperBound: Float) {
             self.lowerBound = lowerBound
             self.upperBound = upperBound
@@ -2652,6 +2733,7 @@ extension SageMakerGeospatial {
         /// Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
         public let zoneS3PathKmsKeyId: String?
 
+        @inlinable
         public init(statistics: [ZonalStatistics], targetBands: [String]? = nil, zoneS3Path: String, zoneS3PathKmsKeyId: String? = nil) {
             self.statistics = statistics
             self.targetBands = targetBands
@@ -2678,6 +2760,7 @@ extension SageMakerGeospatial {
         /// A GeoJSON object representing the geographic extent in the coordinate space.
         public let areaOfInterestGeometry: AreaOfInterestGeometry?
 
+        @inlinable
         public init(areaOfInterestGeometry: AreaOfInterestGeometry? = nil) {
             self.areaOfInterestGeometry = areaOfInterestGeometry
         }
@@ -2695,6 +2778,7 @@ extension SageMakerGeospatial {
         /// The input structure for the Amazon S3 data that represents the Amazon S3 location of the input data objects.
         public let s3Data: VectorEnrichmentJobS3Data?
 
+        @inlinable
         public init(s3Data: VectorEnrichmentJobS3Data? = nil) {
             self.s3Data = s3Data
         }

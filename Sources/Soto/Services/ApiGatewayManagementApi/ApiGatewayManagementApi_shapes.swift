@@ -31,6 +31,7 @@ extension ApiGatewayManagementApi {
     public struct DeleteConnectionRequest: AWSEncodableShape {
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -47,6 +48,7 @@ extension ApiGatewayManagementApi {
     public struct GetConnectionRequest: AWSEncodableShape {
         public let connectionId: String
 
+        @inlinable
         public init(connectionId: String) {
             self.connectionId = connectionId
         }
@@ -69,6 +71,7 @@ extension ApiGatewayManagementApi {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastActiveAt: Date?
 
+        @inlinable
         public init(connectedAt: Date? = nil, identity: Identity? = nil, lastActiveAt: Date? = nil) {
             self.connectedAt = connectedAt
             self.identity = identity
@@ -88,6 +91,7 @@ extension ApiGatewayManagementApi {
         /// The User Agent of the API caller.
         public let userAgent: String?
 
+        @inlinable
         public init(sourceIp: String? = nil, userAgent: String? = nil) {
             self.sourceIp = sourceIp
             self.userAgent = userAgent
@@ -105,6 +109,7 @@ extension ApiGatewayManagementApi {
         /// The data to be sent to the client specified by its connection id.
         public let data: AWSHTTPBody?
 
+        @inlinable
         public init(connectionId: String, data: AWSHTTPBody? = nil) {
             self.connectionId = connectionId
             self.data = data

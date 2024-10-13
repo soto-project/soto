@@ -273,6 +273,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String
 
+        @inlinable
         public init(applicationConfigurationId: String? = nil, description: String? = nil, inputParameters: [String: StepInput], name: String, stepTargets: [String]? = nil, tags: [String: String]? = nil, templateId: String) {
             self.applicationConfigurationId = applicationConfigurationId
             self.description = description
@@ -336,6 +337,7 @@ extension MigrationHubOrchestrator {
         /// The inputs for creating a migration workflow.
         public let workflowInputs: [String: StepInput]?
 
+        @inlinable
         public init(adsApplicationConfigurationId: String? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: MigrationWorkflowStatusEnum? = nil, stepTargets: [String]? = nil, tags: [String: String]? = nil, templateId: String? = nil, workflowInputs: [String: StepInput]? = nil) {
             self.adsApplicationConfigurationId = adsApplicationConfigurationId
             self.arn = arn
@@ -377,6 +379,7 @@ extension MigrationHubOrchestrator {
         /// The source of the migration workflow template.
         public let templateSource: TemplateSource
 
+        @inlinable
         public init(clientToken: String? = CreateTemplateRequest.idempotencyToken(), tags: [String: String]? = nil, templateDescription: String? = nil, templateName: String, templateSource: TemplateSource) {
             self.clientToken = clientToken
             self.tags = tags
@@ -415,6 +418,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow template.
         public let templateId: String?
 
+        @inlinable
         public init(tags: [String: String]? = nil, templateArn: String? = nil, templateId: String? = nil) {
             self.tags = tags
             self.templateArn = templateArn
@@ -440,6 +444,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow that will contain the step group.
         public let workflowId: String
 
+        @inlinable
         public init(description: String? = nil, name: String, next: [String]? = nil, previous: [String]? = nil, workflowId: String) {
             self.description = description
             self.name = name
@@ -492,6 +497,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow that contains the step group.
         public let workflowId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, next: [String]? = nil, previous: [String]? = nil, tools: [Tool]? = nil, workflowId: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -537,6 +543,7 @@ extension MigrationHubOrchestrator {
         /// The custom script to run tests on source or target environments.
         public let workflowStepAutomationConfiguration: WorkflowStepAutomationConfiguration?
 
+        @inlinable
         public init(description: String? = nil, name: String, next: [String]? = nil, outputs: [WorkflowStepOutput]? = nil, previous: [String]? = nil, stepActionType: StepActionType, stepGroupId: String, stepTarget: [String]? = nil, workflowId: String, workflowStepAutomationConfiguration: WorkflowStepAutomationConfiguration? = nil) {
             self.description = description
             self.name = name
@@ -601,6 +608,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, stepGroupId: String? = nil, workflowId: String? = nil) {
             self.id = id
             self.name = name
@@ -620,6 +628,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow you want to delete.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -647,6 +656,7 @@ extension MigrationHubOrchestrator {
         /// The status of the migration workflow.
         public let status: MigrationWorkflowStatusEnum?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, status: MigrationWorkflowStatusEnum? = nil) {
             self.arn = arn
             self.id = id
@@ -664,6 +674,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the request to delete a migration workflow template.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -693,6 +704,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(id: String, workflowId: String) {
             self.id = id
             self.workflowId = workflowId
@@ -729,6 +741,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(id: String, stepGroupId: String, workflowId: String) {
             self.id = id
             self.stepGroupId = stepGroupId
@@ -766,6 +779,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -827,6 +841,7 @@ extension MigrationHubOrchestrator {
         /// The inputs required for creating the migration workflow.
         public let workflowInputs: [String: StepInput]?
 
+        @inlinable
         public init(adsApplicationConfigurationId: String? = nil, adsApplicationName: String? = nil, arn: String? = nil, completedSteps: Int? = nil, creationTime: Date? = nil, description: String? = nil, endTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, lastStartTime: Date? = nil, lastStopTime: Date? = nil, name: String? = nil, status: MigrationWorkflowStatusEnum? = nil, statusMessage: String? = nil, tags: [String: String]? = nil, templateId: String? = nil, tools: [Tool]? = nil, totalSteps: Int? = nil, workflowBucket: String? = nil, workflowInputs: [String: StepInput]? = nil) {
             self.adsApplicationConfigurationId = adsApplicationConfigurationId
             self.adsApplicationName = adsApplicationName
@@ -878,6 +893,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -923,6 +939,7 @@ extension MigrationHubOrchestrator {
         /// List of AWS services utilized in a migration workflow.
         public let tools: [Tool]?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, id: String? = nil, inputs: [TemplateInput]? = nil, name: String? = nil, owner: String? = nil, status: TemplateStatus? = nil, statusMessage: String? = nil, tags: [String: String]? = nil, templateArn: String? = nil, templateClass: String? = nil, tools: [Tool]? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -960,6 +977,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String
 
+        @inlinable
         public init(id: String, templateId: String) {
             self.id = id
             self.templateId = templateId
@@ -1006,6 +1024,7 @@ extension MigrationHubOrchestrator {
         /// List of AWS services utilized in a migration workflow.
         public let tools: [Tool]?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, next: [String]? = nil, previous: [String]? = nil, status: StepGroupStatus? = nil, templateId: String? = nil, tools: [Tool]? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1041,6 +1060,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String
 
+        @inlinable
         public init(id: String, stepGroupId: String, templateId: String) {
             self.id = id
             self.stepGroupId = stepGroupId
@@ -1094,6 +1114,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String?
 
+        @inlinable
         public init(creationTime: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, next: [String]? = nil, outputs: [StepOutput]? = nil, previous: [String]? = nil, stepActionType: StepActionType? = nil, stepAutomationConfiguration: StepAutomationConfiguration? = nil, stepGroupId: String? = nil, templateId: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1129,6 +1150,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(id: String, workflowId: String) {
             self.id = id
             self.workflowId = workflowId
@@ -1179,6 +1201,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, endTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, next: [String]? = nil, owner: Owner? = nil, previous: [String]? = nil, status: StepGroupStatus? = nil, tools: [Tool]? = nil, workflowId: String? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1218,6 +1241,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(id: String, stepGroupId: String, workflowId: String) {
             self.id = id
             self.stepGroupId = stepGroupId
@@ -1291,6 +1315,7 @@ extension MigrationHubOrchestrator {
         /// The custom script to run tests on source or target environments.
         public let workflowStepAutomationConfiguration: WorkflowStepAutomationConfiguration?
 
+        @inlinable
         public init(creationTime: Date? = nil, description: String? = nil, endTime: Date? = nil, lastStartTime: Date? = nil, name: String? = nil, next: [String]? = nil, noOfSrvCompleted: Int? = nil, noOfSrvFailed: Int? = nil, outputs: [WorkflowStepOutput]? = nil, owner: Owner? = nil, previous: [String]? = nil, scriptOutputLocation: String? = nil, status: StepStatus? = nil, statusMessage: String? = nil, stepActionType: StepActionType? = nil, stepGroupId: String? = nil, stepId: String? = nil, stepTarget: [String]? = nil, totalNoOfSrv: Int? = nil, workflowId: String? = nil, workflowStepAutomationConfiguration: WorkflowStepAutomationConfiguration? = nil) {
             self.creationTime = creationTime
             self.description = description
@@ -1348,6 +1373,7 @@ extension MigrationHubOrchestrator {
         /// The pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.name = name
@@ -1381,6 +1407,7 @@ extension MigrationHubOrchestrator {
         /// The summary of the template.
         public let templateSummary: [TemplateSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templateSummary: [TemplateSummary]) {
             self.nextToken = nextToken
             self.templateSummary = templateSummary
@@ -1406,6 +1433,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String?
 
+        @inlinable
         public init(adsApplicationConfigurationName: String? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: MigrationWorkflowStatusEnum? = nil, templateId: String? = nil) {
             self.adsApplicationConfigurationName = adsApplicationConfigurationName
             self.maxResults = maxResults
@@ -1448,6 +1476,7 @@ extension MigrationHubOrchestrator {
         /// The pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(migrationWorkflowSummary: [MigrationWorkflowSummary], nextToken: String? = nil) {
             self.migrationWorkflowSummary = migrationWorkflowSummary
             self.nextToken = nextToken
@@ -1465,6 +1494,7 @@ extension MigrationHubOrchestrator {
         /// The pagination token.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1493,6 +1523,7 @@ extension MigrationHubOrchestrator {
         /// Migration Hub Orchestrator plugins.
         public let plugins: [PluginSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, plugins: [PluginSummary]? = nil) {
             self.nextToken = nextToken
             self.plugins = plugins
@@ -1508,6 +1539,7 @@ extension MigrationHubOrchestrator {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -1529,6 +1561,7 @@ extension MigrationHubOrchestrator {
         /// The tags added to a resource.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -1546,6 +1579,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, templateId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1579,6 +1613,7 @@ extension MigrationHubOrchestrator {
         /// The summary of the step group in the template.
         public let templateStepGroupSummary: [TemplateStepGroupSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, templateStepGroupSummary: [TemplateStepGroupSummary]) {
             self.nextToken = nextToken
             self.templateStepGroupSummary = templateStepGroupSummary
@@ -1600,6 +1635,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stepGroupId: String, templateId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1638,6 +1674,7 @@ extension MigrationHubOrchestrator {
         /// The list of summaries of steps in a template.
         public let templateStepSummaryList: [TemplateStepSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, templateStepSummaryList: [TemplateStepSummary]? = nil) {
             self.nextToken = nextToken
             self.templateStepSummaryList = templateStepSummaryList
@@ -1657,6 +1694,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, workflowId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1690,6 +1728,7 @@ extension MigrationHubOrchestrator {
         /// The summary of step groups in a migration workflow.
         public let workflowStepGroupsSummary: [WorkflowStepGroupSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, workflowStepGroupsSummary: [WorkflowStepGroupSummary]) {
             self.nextToken = nextToken
             self.workflowStepGroupsSummary = workflowStepGroupsSummary
@@ -1711,6 +1750,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, stepGroupId: String, workflowId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1749,6 +1789,7 @@ extension MigrationHubOrchestrator {
         /// The summary of steps in a migration workflow.
         public let workflowStepsSummary: [WorkflowStepSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, workflowStepsSummary: [WorkflowStepSummary]) {
             self.nextToken = nextToken
             self.workflowStepsSummary = workflowStepsSummary
@@ -1782,6 +1823,7 @@ extension MigrationHubOrchestrator {
         /// All the steps in a migration workflow.
         public let totalSteps: Int?
 
+        @inlinable
         public init(adsApplicationConfigurationName: String? = nil, completedSteps: Int? = nil, creationTime: Date? = nil, endTime: Date? = nil, id: String? = nil, name: String? = nil, status: MigrationWorkflowStatusEnum? = nil, statusMessage: String? = nil, templateId: String? = nil, totalSteps: Int? = nil) {
             self.adsApplicationConfigurationName = adsApplicationConfigurationName
             self.completedSteps = completedSteps
@@ -1815,6 +1857,7 @@ extension MigrationHubOrchestrator {
         /// Command for Windows.
         public let windows: String?
 
+        @inlinable
         public init(linux: String? = nil, windows: String? = nil) {
             self.linux = linux
             self.windows = windows
@@ -1832,6 +1875,7 @@ extension MigrationHubOrchestrator {
         /// The script location for Windows.
         public let windows: String?
 
+        @inlinable
         public init(linux: String? = nil, windows: String? = nil) {
             self.linux = linux
             self.windows = windows
@@ -1862,6 +1906,7 @@ extension MigrationHubOrchestrator {
         /// The version of the plugin.
         public let version: String?
 
+        @inlinable
         public init(hostname: String? = nil, ipAddress: String? = nil, pluginId: String? = nil, registeredTime: String? = nil, status: PluginHealth? = nil, version: String? = nil) {
             self.hostname = hostname
             self.ipAddress = ipAddress
@@ -1889,6 +1934,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(id: String, stepGroupId: String, workflowId: String) {
             self.id = id
             self.stepGroupId = stepGroupId
@@ -1928,6 +1974,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(id: String? = nil, status: StepStatus? = nil, stepGroupId: String? = nil, workflowId: String? = nil) {
             self.id = id
             self.status = status
@@ -1947,6 +1994,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -1978,6 +2026,7 @@ extension MigrationHubOrchestrator {
         /// The status message of the migration workflow.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastStartTime: Date? = nil, status: MigrationWorkflowStatusEnum? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2007,6 +2056,7 @@ extension MigrationHubOrchestrator {
         /// The servers on which to run the script.
         public let targetType: TargetType?
 
+        @inlinable
         public init(command: PlatformCommand? = nil, runEnvironment: RunEnvironment? = nil, scriptLocationS3Bucket: String? = nil, scriptLocationS3Key: PlatformScriptKey? = nil, targetType: TargetType? = nil) {
             self.command = command
             self.runEnvironment = runEnvironment
@@ -2032,6 +2082,7 @@ extension MigrationHubOrchestrator {
         /// Determine if an output is required from a step.
         public let required: Bool?
 
+        @inlinable
         public init(dataType: DataType? = nil, name: String? = nil, required: Bool? = nil) {
             self.dataType = dataType
             self.name = name
@@ -2049,6 +2100,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -2080,6 +2132,7 @@ extension MigrationHubOrchestrator {
         /// The status message of the migration workflow.
         public let statusMessage: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastStopTime: Date? = nil, status: MigrationWorkflowStatusEnum? = nil, statusMessage: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2103,6 +2156,7 @@ extension MigrationHubOrchestrator {
         /// A collection of labels, in the form of key:value pairs, that apply to this resource.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -2142,6 +2196,7 @@ extension MigrationHubOrchestrator {
         /// Determine if an input is required from the template.
         public let required: Bool?
 
+        @inlinable
         public init(dataType: DataType? = nil, inputName: String? = nil, required: Bool? = nil) {
             self.dataType = dataType
             self.inputName = inputName
@@ -2165,6 +2220,7 @@ extension MigrationHubOrchestrator {
         /// The previous step group.
         public let previous: [String]?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, next: [String]? = nil, previous: [String]? = nil) {
             self.id = id
             self.name = name
@@ -2200,6 +2256,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the template.
         public let templateId: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, next: [String]? = nil, owner: Owner? = nil, previous: [String]? = nil, stepActionType: StepActionType? = nil, stepGroupId: String? = nil, targetType: TargetType? = nil, templateId: String? = nil) {
             self.id = id
             self.name = name
@@ -2235,6 +2292,7 @@ extension MigrationHubOrchestrator {
         /// The name of the template.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.description = description
@@ -2256,6 +2314,7 @@ extension MigrationHubOrchestrator {
         /// The URL of an AWS service.
         public let url: String?
 
+        @inlinable
         public init(name: String? = nil, url: String? = nil) {
             self.name = name
             self.url = url
@@ -2273,6 +2332,7 @@ extension MigrationHubOrchestrator {
         /// One or more tag keys. Specify only the tag keys, not the tag values.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -2314,6 +2374,7 @@ extension MigrationHubOrchestrator {
         /// The servers on which a step will be run.
         public let stepTargets: [String]?
 
+        @inlinable
         public init(description: String? = nil, id: String, inputParameters: [String: StepInput]? = nil, name: String? = nil, stepTargets: [String]? = nil) {
             self.description = description
             self.id = id
@@ -2381,6 +2442,7 @@ extension MigrationHubOrchestrator {
         /// The inputs required to update a migration workflow.
         public let workflowInputs: [String: StepInput]?
 
+        @inlinable
         public init(adsApplicationConfigurationId: String? = nil, arn: String? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: MigrationWorkflowStatusEnum? = nil, stepTargets: [String]? = nil, tags: [String: String]? = nil, templateId: String? = nil, workflowInputs: [String: StepInput]? = nil) {
             self.adsApplicationConfigurationId = adsApplicationConfigurationId
             self.arn = arn
@@ -2422,6 +2484,7 @@ extension MigrationHubOrchestrator {
         /// The name of the migration workflow template to update.
         public let templateName: String?
 
+        @inlinable
         public init(clientToken: String? = UpdateTemplateRequest.idempotencyToken(), id: String, templateDescription: String? = nil, templateName: String? = nil) {
             self.clientToken = clientToken
             self.id = id
@@ -2462,6 +2525,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow template being updated.
         public let templateId: String?
 
+        @inlinable
         public init(tags: [String: String]? = nil, templateArn: String? = nil, templateId: String? = nil) {
             self.tags = tags
             self.templateArn = templateArn
@@ -2489,6 +2553,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String
 
+        @inlinable
         public init(description: String? = nil, id: String, name: String? = nil, next: [String]? = nil, previous: [String]? = nil, workflowId: String) {
             self.description = description
             self.id = id
@@ -2555,6 +2620,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, next: [String]? = nil, previous: [String]? = nil, tools: [Tool]? = nil, workflowId: String? = nil) {
             self.description = description
             self.id = id
@@ -2604,6 +2670,7 @@ extension MigrationHubOrchestrator {
         /// The custom script to run tests on the source and target environments.
         public let workflowStepAutomationConfiguration: WorkflowStepAutomationConfiguration?
 
+        @inlinable
         public init(description: String? = nil, id: String, name: String? = nil, next: [String]? = nil, outputs: [WorkflowStepOutput]? = nil, previous: [String]? = nil, status: StepStatus? = nil, stepActionType: StepActionType? = nil, stepGroupId: String, stepTarget: [String]? = nil, workflowId: String, workflowStepAutomationConfiguration: WorkflowStepAutomationConfiguration? = nil) {
             self.description = description
             self.id = id
@@ -2691,6 +2758,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the migration workflow.
         public let workflowId: String?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, stepGroupId: String? = nil, workflowId: String? = nil) {
             self.id = id
             self.name = name
@@ -2718,6 +2786,7 @@ extension MigrationHubOrchestrator {
         /// The servers on which to run the script.
         public let targetType: TargetType?
 
+        @inlinable
         public init(command: PlatformCommand? = nil, runEnvironment: RunEnvironment? = nil, scriptLocationS3Bucket: String? = nil, scriptLocationS3Key: PlatformScriptKey? = nil, targetType: TargetType? = nil) {
             self.command = command
             self.runEnvironment = runEnvironment
@@ -2755,6 +2824,7 @@ extension MigrationHubOrchestrator {
         /// The status of the step group.
         public let status: StepGroupStatus?
 
+        @inlinable
         public init(id: String? = nil, name: String? = nil, next: [String]? = nil, owner: Owner? = nil, previous: [String]? = nil, status: StepGroupStatus? = nil) {
             self.id = id
             self.name = name
@@ -2784,6 +2854,7 @@ extension MigrationHubOrchestrator {
         /// The value of the output.
         public let value: WorkflowStepOutputUnion?
 
+        @inlinable
         public init(dataType: DataType? = nil, name: String? = nil, required: Bool? = nil, value: WorkflowStepOutputUnion? = nil) {
             self.dataType = dataType
             self.name = name
@@ -2834,6 +2905,7 @@ extension MigrationHubOrchestrator {
         /// The total number of servers that have been migrated.
         public let totalNoOfSrv: Int?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, next: [String]? = nil, noOfSrvCompleted: Int? = nil, noOfSrvFailed: Int? = nil, owner: Owner? = nil, previous: [String]? = nil, scriptLocation: String? = nil, status: StepStatus? = nil, statusMessage: String? = nil, stepActionType: StepActionType? = nil, stepId: String? = nil, totalNoOfSrv: Int? = nil) {
             self.description = description
             self.name = name
@@ -2871,6 +2943,7 @@ extension MigrationHubOrchestrator {
         /// The ID of the workflow from the source migration workflow template.
         public let workflowId: String?
 
+        @inlinable
         public init(workflowId: String? = nil) {
             self.workflowId = workflowId
         }

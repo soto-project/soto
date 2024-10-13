@@ -155,6 +155,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(attributes: [String: String], name: String, next: String? = nil) {
             self.attributes = attributes
             self.name = name
@@ -191,6 +192,7 @@ extension IoTAnalytics {
         /// The ID of the message that caused the error. See the value corresponding to the messageId key in the message object.
         public let messageId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, messageId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -210,6 +212,7 @@ extension IoTAnalytics {
         /// The list of messages to be sent. Each message has the format: { "messageId": "string", "payload": "string"}. The field names of message payloads (data) that you send to IoT Analytics:   Must contain only alphanumeric characters and undescores (_). No other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".    Cannot be more than 255 characters.   Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)   For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in message payloads.
         public let messages: [Message]
 
+        @inlinable
         public init(channelName: String, messages: [Message]) {
             self.channelName = channelName
             self.messages = messages
@@ -234,6 +237,7 @@ extension IoTAnalytics {
         /// A list of any errors encountered when sending the messages to the channel.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
 
+        @inlinable
         public init(batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]? = nil) {
             self.batchPutMessageErrorEntries = batchPutMessageErrorEntries
         }
@@ -249,6 +253,7 @@ extension IoTAnalytics {
         /// The ID of the reprocessing task (returned by StartPipelineReprocessing).
         public let reprocessingId: String
 
+        @inlinable
         public init(pipelineName: String, reprocessingId: String) {
             self.pipelineName = pipelineName
             self.reprocessingId = reprocessingId
@@ -292,6 +297,7 @@ extension IoTAnalytics {
         /// Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You can't change this storage option after the channel is created.
         public let storage: ChannelStorage?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: ChannelStatus? = nil, storage: ChannelStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -323,6 +329,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(channelName: String, name: String, next: String? = nil) {
             self.channelName = channelName
             self.name = name
@@ -350,6 +357,7 @@ extension IoTAnalytics {
         /// Specifies one or more keys that identify the Amazon Simple Storage Service (Amazon S3) objects that save your channel messages. You must use the full path for the key. Example path: channel/mychannel/__dt=2020-02-29 00:00:00/1582940490000_1582940520000_123456789012_mychannel_0_2118.0.json.gz
         public let s3Paths: [String]?
 
+        @inlinable
         public init(s3Paths: [String]? = nil) {
             self.s3Paths = s3Paths
         }
@@ -373,6 +381,7 @@ extension IoTAnalytics {
         /// The estimated size of the channel.
         public let size: EstimatedResourceSize?
 
+        @inlinable
         public init(size: EstimatedResourceSize? = nil) {
             self.size = size
         }
@@ -388,6 +397,7 @@ extension IoTAnalytics {
         /// Used to store channel data in an S3 bucket managed by IoT Analytics. You can't change the choice of S3 storage after the data store is created.
         public let serviceManagedS3: ServiceManagedChannelS3Storage?
 
+        @inlinable
         public init(customerManagedS3: CustomerManagedChannelS3Storage? = nil, serviceManagedS3: ServiceManagedChannelS3Storage? = nil) {
             self.customerManagedS3 = customerManagedS3
             self.serviceManagedS3 = serviceManagedS3
@@ -409,6 +419,7 @@ extension IoTAnalytics {
         /// Used to store channel data in an S3 bucket managed by IoT Analytics.
         public let serviceManagedS3: ServiceManagedChannelS3StorageSummary?
 
+        @inlinable
         public init(customerManagedS3: CustomerManagedChannelS3StorageSummary? = nil, serviceManagedS3: ServiceManagedChannelS3StorageSummary? = nil) {
             self.customerManagedS3 = customerManagedS3
             self.serviceManagedS3 = serviceManagedS3
@@ -434,6 +445,7 @@ extension IoTAnalytics {
         /// The status of the channel.
         public let status: ChannelStatus?
 
+        @inlinable
         public init(channelName: String? = nil, channelStorage: ChannelStorageSummary? = nil, creationTime: Date? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: ChannelStatus? = nil) {
             self.channelName = channelName
             self.channelStorage = channelStorage
@@ -459,6 +471,7 @@ extension IoTAnalytics {
         /// The type of data. For more information about the supported data types, see Common data types in the Glue Developer Guide.
         public let type: String
 
+        @inlinable
         public init(name: String, type: String) {
             self.name = name
             self.type = type
@@ -489,6 +502,7 @@ extension IoTAnalytics {
         /// The values of variables used in the context of the execution of the containerized application (basically, parameters passed to the application). Each variable must have a name and a value given by one of stringValue, datasetContentVersionValue, or outputFileUriValue.
         public let variables: [Variable]?
 
+        @inlinable
         public init(executionRoleArn: String, image: String, resourceConfiguration: ResourceConfiguration, variables: [Variable]? = nil) {
             self.executionRoleArn = executionRoleArn
             self.image = image
@@ -525,6 +539,7 @@ extension IoTAnalytics {
         /// Metadata which can be used to manage the channel.
         public let tags: [Tag]?
 
+        @inlinable
         public init(channelName: String, channelStorage: ChannelStorage? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
             self.channelName = channelName
             self.channelStorage = channelStorage
@@ -561,6 +576,7 @@ extension IoTAnalytics {
         /// How long, in days, message data is kept for the channel.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(channelArn: String? = nil, channelName: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.channelArn = channelArn
             self.channelName = channelName
@@ -580,6 +596,7 @@ extension IoTAnalytics {
         /// The version ID of the dataset content. To specify versionId for a dataset content, the dataset must use a DeltaTimer filter.
         public let versionId: String?
 
+        @inlinable
         public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
             self.versionId = versionId
@@ -609,6 +626,7 @@ extension IoTAnalytics {
         /// The version ID of the dataset contents that are being created.
         public let versionId: String?
 
+        @inlinable
         public init(versionId: String? = nil) {
             self.versionId = versionId
         }
@@ -636,6 +654,7 @@ extension IoTAnalytics {
         /// Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of IoT Analytics datasets in the IoT Analytics User Guide.
         public let versioningConfiguration: VersioningConfiguration?
 
+        @inlinable
         public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, lateDataRules: [LateDataRule]? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.contentDeliveryRules = contentDeliveryRules
@@ -698,6 +717,7 @@ extension IoTAnalytics {
         /// How long, in days, dataset contents are kept for the dataset.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(datasetArn: String? = nil, datasetName: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.datasetArn = datasetArn
             self.datasetName = datasetName
@@ -725,6 +745,7 @@ extension IoTAnalytics {
         /// Metadata which can be used to manage the data store.
         public let tags: [Tag]?
 
+        @inlinable
         public init(datastoreName: String, datastorePartitions: DatastorePartitions? = nil, datastoreStorage: DatastoreStorage? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, retentionPeriod: RetentionPeriod? = nil, tags: [Tag]? = nil) {
             self.datastoreName = datastoreName
             self.datastorePartitions = datastorePartitions
@@ -767,6 +788,7 @@ extension IoTAnalytics {
         /// How long, in days, message data is kept for the data store.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(datastoreArn: String? = nil, datastoreName: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.datastoreArn = datastoreArn
             self.datastoreName = datastoreName
@@ -788,6 +810,7 @@ extension IoTAnalytics {
         /// Metadata which can be used to manage the pipeline.
         public let tags: [Tag]?
 
+        @inlinable
         public init(pipelineActivities: [PipelineActivity], pipelineName: String, tags: [Tag]? = nil) {
             self.pipelineActivities = pipelineActivities
             self.pipelineName = pipelineName
@@ -823,6 +846,7 @@ extension IoTAnalytics {
         /// The name of the pipeline.
         public let pipelineName: String?
 
+        @inlinable
         public init(pipelineArn: String? = nil, pipelineName: String? = nil) {
             self.pipelineArn = pipelineArn
             self.pipelineName = pipelineName
@@ -842,6 +866,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String
 
+        @inlinable
         public init(bucket: String, keyPrefix: String? = nil, roleArn: String) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -874,6 +899,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String?
 
+        @inlinable
         public init(bucket: String? = nil, keyPrefix: String? = nil, roleArn: String? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -895,6 +921,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String
 
+        @inlinable
         public init(bucket: String, keyPrefix: String? = nil, roleArn: String) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -927,6 +954,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants IoT Analytics permission to interact with your Amazon S3 resources.
         public let roleArn: String?
 
+        @inlinable
         public init(bucket: String? = nil, keyPrefix: String? = nil, roleArn: String? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -964,6 +992,7 @@ extension IoTAnalytics {
         /// Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see  Keeping Multiple Versions of IoT Analytics datasets in the IoT Analytics User Guide.
         public let versioningConfiguration: VersioningConfiguration?
 
+        @inlinable
         public init(actions: [DatasetAction]? = nil, arn: String? = nil, contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, lateDataRules: [LateDataRule]? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.arn = arn
@@ -1001,6 +1030,7 @@ extension IoTAnalytics {
         /// An SqlQueryDatasetAction object that uses an SQL query to automatically create dataset contents.
         public let queryAction: SqlQueryDatasetAction?
 
+        @inlinable
         public init(actionName: String? = nil, containerAction: ContainerDatasetAction? = nil, queryAction: SqlQueryDatasetAction? = nil) {
             self.actionName = actionName
             self.containerAction = containerAction
@@ -1028,6 +1058,7 @@ extension IoTAnalytics {
         /// The type of action by which the dataset's contents are automatically created.
         public let actionType: DatasetActionType?
 
+        @inlinable
         public init(actionName: String? = nil, actionType: DatasetActionType? = nil) {
             self.actionName = actionName
             self.actionType = actionType
@@ -1045,6 +1076,7 @@ extension IoTAnalytics {
         /// Configuration information for delivery of dataset contents to Amazon S3.
         public let s3DestinationConfiguration: S3DestinationConfiguration?
 
+        @inlinable
         public init(iotEventsDestinationConfiguration: IotEventsDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil) {
             self.iotEventsDestinationConfiguration = iotEventsDestinationConfiguration
             self.s3DestinationConfiguration = s3DestinationConfiguration
@@ -1067,6 +1099,7 @@ extension IoTAnalytics {
         /// The name of the dataset content delivery rules entry.
         public let entryName: String?
 
+        @inlinable
         public init(destination: DatasetContentDeliveryDestination, entryName: String? = nil) {
             self.destination = destination
             self.entryName = entryName
@@ -1088,6 +1121,7 @@ extension IoTAnalytics {
         /// The state of the dataset contents. Can be one of READY, CREATING, SUCCEEDED, or FAILED.
         public let state: DatasetContentState?
 
+        @inlinable
         public init(reason: String? = nil, state: DatasetContentState? = nil) {
             self.reason = reason
             self.state = state
@@ -1111,6 +1145,7 @@ extension IoTAnalytics {
         /// The version of the dataset contents.
         public let version: String?
 
+        @inlinable
         public init(completionTime: Date? = nil, creationTime: Date? = nil, scheduleTime: Date? = nil, status: DatasetContentStatus? = nil, version: String? = nil) {
             self.completionTime = completionTime
             self.creationTime = creationTime
@@ -1132,6 +1167,7 @@ extension IoTAnalytics {
         /// The name of the dataset whose latest contents are used as input to the notebook or application.
         public let datasetName: String
 
+        @inlinable
         public init(datasetName: String) {
             self.datasetName = datasetName
         }
@@ -1153,6 +1189,7 @@ extension IoTAnalytics {
         /// The name of the dataset item.
         public let entryName: String?
 
+        @inlinable
         public init(dataURI: String? = nil, entryName: String? = nil) {
             self.dataURI = dataURI
             self.entryName = entryName
@@ -1178,6 +1215,7 @@ extension IoTAnalytics {
         /// A list of triggers. A trigger causes dataset content to be populated at a specified time interval or when another dataset is populated. The list of triggers can be empty or contain up to five DataSetTrigger objects
         public let triggers: [DatasetTrigger]?
 
+        @inlinable
         public init(actions: [DatasetActionSummary]? = nil, creationTime: Date? = nil, datasetName: String? = nil, lastUpdateTime: Date? = nil, status: DatasetStatus? = nil, triggers: [DatasetTrigger]? = nil) {
             self.actions = actions
             self.creationTime = creationTime
@@ -1203,6 +1241,7 @@ extension IoTAnalytics {
         /// The Schedule when the trigger is initiated.
         public let schedule: Schedule?
 
+        @inlinable
         public init(dataset: TriggeringDataset? = nil, schedule: Schedule? = nil) {
             self.dataset = dataset
             self.schedule = schedule
@@ -1240,6 +1279,7 @@ extension IoTAnalytics {
         /// Where data in a data store is stored.. You can choose serviceManagedS3 storage, customerManagedS3 storage, or iotSiteWiseMultiLayerStorage storage. The default is serviceManagedS3. You can't change the choice of Amazon S3 storage after your data store is created.
         public let storage: DatastoreStorage?
 
+        @inlinable
         public init(arn: String? = nil, creationTime: Date? = nil, datastorePartitions: DatastorePartitions? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, retentionPeriod: RetentionPeriod? = nil, status: DatastoreStatus? = nil, storage: DatastoreStorage? = nil) {
             self.arn = arn
             self.creationTime = creationTime
@@ -1273,6 +1313,7 @@ extension IoTAnalytics {
         /// The name of the datastore activity.
         public let name: String
 
+        @inlinable
         public init(datastoreName: String, name: String) {
             self.datastoreName = datastoreName
             self.name = name
@@ -1296,6 +1337,7 @@ extension IoTAnalytics {
         ///  Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage.
         public let customerManagedS3Storage: IotSiteWiseCustomerManagedDatastoreS3Storage
 
+        @inlinable
         public init(customerManagedS3Storage: IotSiteWiseCustomerManagedDatastoreS3Storage) {
             self.customerManagedS3Storage = customerManagedS3Storage
         }
@@ -1313,6 +1355,7 @@ extension IoTAnalytics {
         /// Used to store data used by IoT SiteWise in an Amazon S3 bucket that you manage.
         public let customerManagedS3Storage: IotSiteWiseCustomerManagedDatastoreS3StorageSummary?
 
+        @inlinable
         public init(customerManagedS3Storage: IotSiteWiseCustomerManagedDatastoreS3StorageSummary? = nil) {
             self.customerManagedS3Storage = customerManagedS3Storage
         }
@@ -1328,6 +1371,7 @@ extension IoTAnalytics {
         ///  A partition dimension defined by a timestamp attribute.
         public let timestampPartition: TimestampPartition?
 
+        @inlinable
         public init(attributePartition: Partition? = nil, timestampPartition: TimestampPartition? = nil) {
             self.attributePartition = attributePartition
             self.timestampPartition = timestampPartition
@@ -1348,6 +1392,7 @@ extension IoTAnalytics {
         ///  A list of partition dimensions in a data store.
         public let partitions: [DatastorePartition]?
 
+        @inlinable
         public init(partitions: [DatastorePartition]? = nil) {
             self.partitions = partitions
         }
@@ -1368,6 +1413,7 @@ extension IoTAnalytics {
         /// The estimated size of the data store.
         public let size: EstimatedResourceSize?
 
+        @inlinable
         public init(size: EstimatedResourceSize? = nil) {
             self.size = size
         }
@@ -1385,6 +1431,7 @@ extension IoTAnalytics {
         /// Used to store data in an Amazon S3 bucket managed by IoT Analytics.
         public let serviceManagedS3: ServiceManagedDatastoreS3StorageSummary?
 
+        @inlinable
         public init(customerManagedS3: CustomerManagedDatastoreS3StorageSummary? = nil, iotSiteWiseMultiLayerStorage: DatastoreIotSiteWiseMultiLayerStorageSummary? = nil, serviceManagedS3: ServiceManagedDatastoreS3StorageSummary? = nil) {
             self.customerManagedS3 = customerManagedS3
             self.iotSiteWiseMultiLayerStorage = iotSiteWiseMultiLayerStorage
@@ -1416,6 +1463,7 @@ extension IoTAnalytics {
         /// The status of the data store.
         public let status: DatastoreStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, datastoreName: String? = nil, datastorePartitions: DatastorePartitions? = nil, datastoreStorage: DatastoreStorageSummary? = nil, fileFormatType: FileFormatType? = nil, lastMessageArrivalTime: Date? = nil, lastUpdateTime: Date? = nil, status: DatastoreStatus? = nil) {
             self.creationTime = creationTime
             self.datastoreName = datastoreName
@@ -1443,6 +1491,7 @@ extension IoTAnalytics {
         /// The name of the channel to delete.
         public let channelName: String
 
+        @inlinable
         public init(channelName: String) {
             self.channelName = channelName
         }
@@ -1468,6 +1517,7 @@ extension IoTAnalytics {
         /// The version of the dataset whose content is deleted. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is the default.
         public let versionId: String?
 
+        @inlinable
         public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
             self.versionId = versionId
@@ -1495,6 +1545,7 @@ extension IoTAnalytics {
         /// The name of the dataset to delete.
         public let datasetName: String
 
+        @inlinable
         public init(datasetName: String) {
             self.datasetName = datasetName
         }
@@ -1518,6 +1569,7 @@ extension IoTAnalytics {
         /// The name of the data store to delete.
         public let datastoreName: String
 
+        @inlinable
         public init(datastoreName: String) {
             self.datastoreName = datastoreName
         }
@@ -1541,6 +1593,7 @@ extension IoTAnalytics {
         /// The name of the pipeline to delete.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -1566,6 +1619,7 @@ extension IoTAnalytics {
         /// An expression by which the time of the message data might be determined. This can be the name of a timestamp field or a SQL expression that is used to derive the time the message data was generated.
         public let timeExpression: String
 
+        @inlinable
         public init(offsetSeconds: Int, timeExpression: String) {
             self.offsetSeconds = offsetSeconds
             self.timeExpression = timeExpression
@@ -1581,6 +1635,7 @@ extension IoTAnalytics {
         /// A time interval. You can use timeoutInMinutes so that IoT Analytics can batch up late data notifications that have been generated since the last execution. IoT Analytics sends one batch of notifications to Amazon CloudWatch Events at one time. For more information about how to write a timestamp expression, see Date and Time Functions and Operators, in the Presto 0.172 Documentation.
         public let timeoutInMinutes: Int
 
+        @inlinable
         public init(timeoutInMinutes: Int) {
             self.timeoutInMinutes = timeoutInMinutes
         }
@@ -1601,6 +1656,7 @@ extension IoTAnalytics {
         /// If true, additional statistical information about the channel is included in the response. This feature can't be used with a channel whose S3 storage is customer-managed.
         public let includeStatistics: Bool?
 
+        @inlinable
         public init(channelName: String, includeStatistics: Bool? = nil) {
             self.channelName = channelName
             self.includeStatistics = includeStatistics
@@ -1628,6 +1684,7 @@ extension IoTAnalytics {
         /// Statistics about the channel. Included if the includeStatistics parameter is set to true in the request.
         public let statistics: ChannelStatistics?
 
+        @inlinable
         public init(channel: Channel? = nil, statistics: ChannelStatistics? = nil) {
             self.channel = channel
             self.statistics = statistics
@@ -1643,6 +1700,7 @@ extension IoTAnalytics {
         /// The name of the dataset whose information is retrieved.
         public let datasetName: String
 
+        @inlinable
         public init(datasetName: String) {
             self.datasetName = datasetName
         }
@@ -1666,6 +1724,7 @@ extension IoTAnalytics {
         /// An object that contains information about the dataset.
         public let dataset: Dataset?
 
+        @inlinable
         public init(dataset: Dataset? = nil) {
             self.dataset = dataset
         }
@@ -1681,6 +1740,7 @@ extension IoTAnalytics {
         /// If true, additional statistical information about the data store is included in the response. This feature can't be used with a data store whose S3 storage is customer-managed.
         public let includeStatistics: Bool?
 
+        @inlinable
         public init(datastoreName: String, includeStatistics: Bool? = nil) {
             self.datastoreName = datastoreName
             self.includeStatistics = includeStatistics
@@ -1708,6 +1768,7 @@ extension IoTAnalytics {
         /// Additional statistical information about the data store. Included if the includeStatistics parameter is set to true in the request.
         public let statistics: DatastoreStatistics?
 
+        @inlinable
         public init(datastore: Datastore? = nil, statistics: DatastoreStatistics? = nil) {
             self.datastore = datastore
             self.statistics = statistics
@@ -1727,6 +1788,7 @@ extension IoTAnalytics {
         /// The current settings of the IoT Analytics logging options.
         public let loggingOptions: LoggingOptions?
 
+        @inlinable
         public init(loggingOptions: LoggingOptions? = nil) {
             self.loggingOptions = loggingOptions
         }
@@ -1740,6 +1802,7 @@ extension IoTAnalytics {
         /// The name of the pipeline whose information is retrieved.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineName: String) {
             self.pipelineName = pipelineName
         }
@@ -1763,6 +1826,7 @@ extension IoTAnalytics {
         /// A Pipeline object that contains information about the pipeline.
         public let pipeline: Pipeline?
 
+        @inlinable
         public init(pipeline: Pipeline? = nil) {
             self.pipeline = pipeline
         }
@@ -1784,6 +1848,7 @@ extension IoTAnalytics {
         /// The name of the IoT device whose registry information is added to the message.
         public let thingName: String
 
+        @inlinable
         public init(attribute: String, name: String, next: String? = nil, roleArn: String, thingName: String) {
             self.attribute = attribute
             self.name = name
@@ -1826,6 +1891,7 @@ extension IoTAnalytics {
         /// The name of the IoT device whose shadow information is added to the message.
         public let thingName: String
 
+        @inlinable
         public init(attribute: String, name: String, next: String? = nil, roleArn: String, thingName: String) {
             self.attribute = attribute
             self.name = name
@@ -1862,6 +1928,7 @@ extension IoTAnalytics {
         /// The estimated size of the resource, in bytes.
         public let estimatedSizeInBytes: Double?
 
+        @inlinable
         public init(estimatedOn: Date? = nil, estimatedSizeInBytes: Double? = nil) {
             self.estimatedOn = estimatedOn
             self.estimatedSizeInBytes = estimatedSizeInBytes
@@ -1879,6 +1946,7 @@ extension IoTAnalytics {
         /// Contains the configuration information of the Parquet format.
         public let parquetConfiguration: ParquetConfiguration?
 
+        @inlinable
         public init(jsonConfiguration: JsonConfiguration? = nil, parquetConfiguration: ParquetConfiguration? = nil) {
             self.jsonConfiguration = jsonConfiguration
             self.parquetConfiguration = parquetConfiguration
@@ -1902,6 +1970,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(filter: String, name: String, next: String? = nil) {
             self.filter = filter
             self.name = name
@@ -1930,6 +1999,7 @@ extension IoTAnalytics {
         /// The version of the dataset whose contents are retrieved. You can also use the strings "$LATEST" or "$LATEST_SUCCEEDED" to retrieve the contents of the latest or latest successfully completed dataset. If not specified, "$LATEST_SUCCEEDED" is the default.
         public let versionId: String?
 
+        @inlinable
         public init(datasetName: String, versionId: String? = nil) {
             self.datasetName = datasetName
             self.versionId = versionId
@@ -1961,6 +2031,7 @@ extension IoTAnalytics {
         /// The time when the request was made.
         public let timestamp: Date?
 
+        @inlinable
         public init(entries: [DatasetEntry]? = nil, status: DatasetContentStatus? = nil, timestamp: Date? = nil) {
             self.entries = entries
             self.status = status
@@ -1980,6 +2051,7 @@ extension IoTAnalytics {
         /// The name of the table in your Glue Data Catalog that is used to perform the ETL operations. An Glue Data Catalog table contains partitioned data and descriptions of data sources and targets.
         public let tableName: String
 
+        @inlinable
         public init(databaseName: String, tableName: String) {
             self.databaseName = databaseName
             self.tableName = tableName
@@ -2006,6 +2078,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants IoT Analytics permission to deliver dataset contents to an IoT Events input.
         public let roleArn: String
 
+        @inlinable
         public init(inputName: String, roleArn: String) {
             self.inputName = inputName
             self.roleArn = roleArn
@@ -2031,6 +2104,7 @@ extension IoTAnalytics {
         ///  (Optional) The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
         public let keyPrefix: String?
 
+        @inlinable
         public init(bucket: String, keyPrefix: String? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -2057,6 +2131,7 @@ extension IoTAnalytics {
         ///  (Optional) The prefix used to create the keys of the data store data objects. Each object in an Amazon S3 bucket has a key that is its unique identifier in the bucket. Each object in a bucket has exactly one key. The prefix must end with a forward slash (/).
         public let keyPrefix: String?
 
+        @inlinable
         public init(bucket: String? = nil, keyPrefix: String? = nil) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
@@ -2082,6 +2157,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(batchSize: Int, lambdaName: String, name: String, next: String? = nil) {
             self.batchSize = batchSize
             self.lambdaName = lambdaName
@@ -2115,6 +2191,7 @@ extension IoTAnalytics {
         /// The name of the late data rule.
         public let ruleName: String?
 
+        @inlinable
         public init(ruleConfiguration: LateDataRuleConfiguration, ruleName: String? = nil) {
             self.ruleConfiguration = ruleConfiguration
             self.ruleName = ruleName
@@ -2137,6 +2214,7 @@ extension IoTAnalytics {
         /// The information needed to configure a delta time session window.
         public let deltaTimeSessionWindowConfiguration: DeltaTimeSessionWindowConfiguration?
 
+        @inlinable
         public init(deltaTimeSessionWindowConfiguration: DeltaTimeSessionWindowConfiguration? = nil) {
             self.deltaTimeSessionWindowConfiguration = deltaTimeSessionWindowConfiguration
         }
@@ -2156,6 +2234,7 @@ extension IoTAnalytics {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2182,6 +2261,7 @@ extension IoTAnalytics {
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(channelSummaries: [ChannelSummary]? = nil, nextToken: String? = nil) {
             self.channelSummaries = channelSummaries
             self.nextToken = nextToken
@@ -2205,6 +2285,7 @@ extension IoTAnalytics {
         /// A filter to limit results to those dataset contents whose creation is scheduled on or after the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)
         public let scheduledOnOrAfter: Date?
 
+        @inlinable
         public init(datasetName: String, maxResults: Int? = nil, nextToken: String? = nil, scheduledBefore: Date? = nil, scheduledOnOrAfter: Date? = nil) {
             self.datasetName = datasetName
             self.maxResults = maxResults
@@ -2240,6 +2321,7 @@ extension IoTAnalytics {
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetContentSummaries: [DatasetContentSummary]? = nil, nextToken: String? = nil) {
             self.datasetContentSummaries = datasetContentSummaries
             self.nextToken = nextToken
@@ -2257,6 +2339,7 @@ extension IoTAnalytics {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2283,6 +2366,7 @@ extension IoTAnalytics {
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(datasetSummaries: [DatasetSummary]? = nil, nextToken: String? = nil) {
             self.datasetSummaries = datasetSummaries
             self.nextToken = nextToken
@@ -2300,6 +2384,7 @@ extension IoTAnalytics {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2326,6 +2411,7 @@ extension IoTAnalytics {
         /// The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
+        @inlinable
         public init(datastoreSummaries: [DatastoreSummary]? = nil, nextToken: String? = nil) {
             self.datastoreSummaries = datastoreSummaries
             self.nextToken = nextToken
@@ -2343,6 +2429,7 @@ extension IoTAnalytics {
         /// The token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -2369,6 +2456,7 @@ extension IoTAnalytics {
         /// A list of PipelineSummary objects.
         public let pipelineSummaries: [PipelineSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, pipelineSummaries: [PipelineSummary]? = nil) {
             self.nextToken = nextToken
             self.pipelineSummaries = pipelineSummaries
@@ -2384,6 +2472,7 @@ extension IoTAnalytics {
         /// The ARN of the resource whose tags you want to list.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -2406,6 +2495,7 @@ extension IoTAnalytics {
         /// The tags (metadata) that you have assigned to the resource.
         public let tags: [Tag]?
 
+        @inlinable
         public init(tags: [Tag]? = nil) {
             self.tags = tags
         }
@@ -2423,6 +2513,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants permission to IoT Analytics to perform logging.
         public let roleArn: String
 
+        @inlinable
         public init(enabled: Bool, level: LoggingLevel, roleArn: String) {
             self.enabled = enabled
             self.level = level
@@ -2451,6 +2542,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(attribute: String, math: String, name: String, next: String? = nil) {
             self.attribute = attribute
             self.math = math
@@ -2483,6 +2575,7 @@ extension IoTAnalytics {
         /// The payload of the message. This can be a JSON string or a base64-encoded string representing binary data, in which case you must decode it by means of a pipeline activity.
         public let payload: AWSBase64Data
 
+        @inlinable
         public init(messageId: String, payload: AWSBase64Data) {
             self.messageId = messageId
             self.payload = payload
@@ -2504,6 +2597,7 @@ extension IoTAnalytics {
         /// The URI of the location where dataset contents are stored, usually the URI of a file in an S3 bucket.
         public let fileName: String
 
+        @inlinable
         public init(fileName: String) {
             self.fileName = fileName
         }
@@ -2521,6 +2615,7 @@ extension IoTAnalytics {
         /// Information needed to define a schema.
         public let schemaDefinition: SchemaDefinition?
 
+        @inlinable
         public init(schemaDefinition: SchemaDefinition? = nil) {
             self.schemaDefinition = schemaDefinition
         }
@@ -2538,6 +2633,7 @@ extension IoTAnalytics {
         ///  The name of the attribute that defines a partition dimension.
         public let attributeName: String
 
+        @inlinable
         public init(attributeName: String) {
             self.attributeName = attributeName
         }
@@ -2567,6 +2663,7 @@ extension IoTAnalytics {
         /// A summary of information about the pipeline reprocessing.
         public let reprocessingSummaries: [ReprocessingSummary]?
 
+        @inlinable
         public init(activities: [PipelineActivity]? = nil, arn: String? = nil, creationTime: Date? = nil, lastUpdateTime: Date? = nil, name: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
             self.activities = activities
             self.arn = arn
@@ -2608,6 +2705,7 @@ extension IoTAnalytics {
         /// Used to create a new message using only the specified attributes from the original message.
         public let selectAttributes: SelectAttributesActivity?
 
+        @inlinable
         public init(addAttributes: AddAttributesActivity? = nil, channel: ChannelActivity? = nil, datastore: DatastoreActivity? = nil, deviceRegistryEnrich: DeviceRegistryEnrichActivity? = nil, deviceShadowEnrich: DeviceShadowEnrichActivity? = nil, filter: FilterActivity? = nil, lambda: LambdaActivity? = nil, math: MathActivity? = nil, removeAttributes: RemoveAttributesActivity? = nil, selectAttributes: SelectAttributesActivity? = nil) {
             self.addAttributes = addAttributes
             self.channel = channel
@@ -2658,6 +2756,7 @@ extension IoTAnalytics {
         /// A summary of information about the pipeline reprocessing.
         public let reprocessingSummaries: [ReprocessingSummary]?
 
+        @inlinable
         public init(creationTime: Date? = nil, lastUpdateTime: Date? = nil, pipelineName: String? = nil, reprocessingSummaries: [ReprocessingSummary]? = nil) {
             self.creationTime = creationTime
             self.lastUpdateTime = lastUpdateTime
@@ -2677,6 +2776,7 @@ extension IoTAnalytics {
         /// The new values of the IoT Analytics logging options.
         public let loggingOptions: LoggingOptions
 
+        @inlinable
         public init(loggingOptions: LoggingOptions) {
             self.loggingOptions = loggingOptions
         }
@@ -2694,6 +2794,7 @@ extension IoTAnalytics {
         /// Used to limit data to that which has arrived since the last execution of the action.
         public let deltaTime: DeltaTime?
 
+        @inlinable
         public init(deltaTime: DeltaTime? = nil) {
             self.deltaTime = deltaTime
         }
@@ -2711,6 +2812,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(attributes: [String], name: String, next: String? = nil) {
             self.attributes = attributes
             self.name = name
@@ -2745,6 +2847,7 @@ extension IoTAnalytics {
         /// The status of the pipeline reprocessing.
         public let status: ReprocessingStatus?
 
+        @inlinable
         public init(creationTime: Date? = nil, id: String? = nil, status: ReprocessingStatus? = nil) {
             self.creationTime = creationTime
             self.id = id
@@ -2764,6 +2867,7 @@ extension IoTAnalytics {
         /// The size, in GB, of the persistent storage available to the resource instance used to execute the containerAction (min: 1, max: 50).
         public let volumeSizeInGB: Int
 
+        @inlinable
         public init(computeType: ComputeType, volumeSizeInGB: Int) {
             self.computeType = computeType
             self.volumeSizeInGB = volumeSizeInGB
@@ -2786,6 +2890,7 @@ extension IoTAnalytics {
         /// If true, message data is kept indefinitely.
         public let unlimited: Bool?
 
+        @inlinable
         public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
@@ -2807,6 +2912,7 @@ extension IoTAnalytics {
         /// The pipeline activity that is run. This must not be a channel activity or a data store activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a Lambda activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
         public let pipelineActivity: PipelineActivity
 
+        @inlinable
         public init(payloads: [AWSBase64Data], pipelineActivity: PipelineActivity) {
             self.payloads = payloads
             self.pipelineActivity = pipelineActivity
@@ -2830,6 +2936,7 @@ extension IoTAnalytics {
         /// The enriched or transformed sample message payloads as base64-encoded strings. (The results of running the pipeline activity on each input sample message payload, encoded in base64.)
         public let payloads: [AWSBase64Data]?
 
+        @inlinable
         public init(logResult: String? = nil, payloads: [AWSBase64Data]? = nil) {
             self.logResult = logResult
             self.payloads = payloads
@@ -2851,6 +2958,7 @@ extension IoTAnalytics {
         /// The ARN of the role that grants IoT Analytics permission to interact with your Amazon S3 and Glue resources.
         public let roleArn: String
 
+        @inlinable
         public init(bucket: String, glueConfiguration: GlueConfiguration? = nil, key: String, roleArn: String) {
             self.bucket = bucket
             self.glueConfiguration = glueConfiguration
@@ -2888,6 +2996,7 @@ extension IoTAnalytics {
         /// The start of the time window from which sample messages are retrieved.
         public let startTime: Date?
 
+        @inlinable
         public init(channelName: String, endTime: Date? = nil, maxMessages: Int? = nil, startTime: Date? = nil) {
             self.channelName = channelName
             self.endTime = endTime
@@ -2919,6 +3028,7 @@ extension IoTAnalytics {
         /// The list of message samples. Each sample message is returned as a base64-encoded string.
         public let payloads: [AWSBase64Data]?
 
+        @inlinable
         public init(payloads: [AWSBase64Data]? = nil) {
             self.payloads = payloads
         }
@@ -2932,6 +3042,7 @@ extension IoTAnalytics {
         /// The expression that defines when to trigger an update. For more information, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.
         public let expression: String?
 
+        @inlinable
         public init(expression: String? = nil) {
             self.expression = expression
         }
@@ -2945,6 +3056,7 @@ extension IoTAnalytics {
         /// Specifies one or more columns that store your data. Each schema can have up to 100 columns. Each column can have up to 100 nested types.
         public let columns: [Column]?
 
+        @inlinable
         public init(columns: [Column]? = nil) {
             self.columns = columns
         }
@@ -2968,6 +3080,7 @@ extension IoTAnalytics {
         /// The next activity in the pipeline.
         public let next: String?
 
+        @inlinable
         public init(attributes: [String], name: String, next: String? = nil) {
             self.attributes = attributes
             self.name = name
@@ -3016,6 +3129,7 @@ extension IoTAnalytics {
         /// A SQL query string.
         public let sqlQuery: String
 
+        @inlinable
         public init(filters: [QueryFilter]? = nil, sqlQuery: String) {
             self.filters = filters
             self.sqlQuery = sqlQuery
@@ -3041,6 +3155,7 @@ extension IoTAnalytics {
         /// The start time (inclusive) of raw message data that is reprocessed. If you specify a value for the startTime parameter, you must not use the channelMessages object.
         public let startTime: Date?
 
+        @inlinable
         public init(channelMessages: ChannelMessages? = nil, endTime: Date? = nil, pipelineName: String, startTime: Date? = nil) {
             self.channelMessages = channelMessages
             self.endTime = endTime
@@ -3075,6 +3190,7 @@ extension IoTAnalytics {
         /// The ID of the pipeline reprocessing activity that was started.
         public let reprocessingId: String?
 
+        @inlinable
         public init(reprocessingId: String? = nil) {
             self.reprocessingId = reprocessingId
         }
@@ -3090,6 +3206,7 @@ extension IoTAnalytics {
         /// The tag's value.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -3114,6 +3231,7 @@ extension IoTAnalytics {
         /// The new or modified tags for the resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -3151,6 +3269,7 @@ extension IoTAnalytics {
         ///  The timestamp format of a partition defined by a timestamp. The default format is seconds since epoch (January 1, 1970 at midnight UTC time).
         public let timestampFormat: String?
 
+        @inlinable
         public init(attributeName: String, timestampFormat: String? = nil) {
             self.attributeName = attributeName
             self.timestampFormat = timestampFormat
@@ -3175,6 +3294,7 @@ extension IoTAnalytics {
         /// The name of the dataset whose content generation triggers the new dataset content generation.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -3196,6 +3316,7 @@ extension IoTAnalytics {
         /// The keys of those tags which you want to remove.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -3234,6 +3355,7 @@ extension IoTAnalytics {
         /// How long, in days, message data is kept for the channel. The retention period can't be updated if the channel's Amazon S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(channelName: String, channelStorage: ChannelStorage? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.channelName = channelName
             self.channelStorage = channelStorage
@@ -3278,6 +3400,7 @@ extension IoTAnalytics {
         /// Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of IoT Analytics datasets in the IoT Analytics User Guide.
         public let versioningConfiguration: VersioningConfiguration?
 
+        @inlinable
         public init(actions: [DatasetAction], contentDeliveryRules: [DatasetContentDeliveryRule]? = nil, datasetName: String, lateDataRules: [LateDataRule]? = nil, retentionPeriod: RetentionPeriod? = nil, triggers: [DatasetTrigger]? = nil, versioningConfiguration: VersioningConfiguration? = nil) {
             self.actions = actions
             self.contentDeliveryRules = contentDeliveryRules
@@ -3346,6 +3469,7 @@ extension IoTAnalytics {
         /// How long, in days, message data is kept for the data store. The retention period can't be updated if the data store's Amazon S3 storage is customer-managed.
         public let retentionPeriod: RetentionPeriod?
 
+        @inlinable
         public init(datastoreName: String, datastoreStorage: DatastoreStorage? = nil, fileFormatConfiguration: FileFormatConfiguration? = nil, retentionPeriod: RetentionPeriod? = nil) {
             self.datastoreName = datastoreName
             self.datastoreStorage = datastoreStorage
@@ -3384,6 +3508,7 @@ extension IoTAnalytics {
         /// The name of the pipeline to update.
         public let pipelineName: String
 
+        @inlinable
         public init(pipelineActivities: [PipelineActivity], pipelineName: String) {
             self.pipelineActivities = pipelineActivities
             self.pipelineName = pipelineName
@@ -3424,6 +3549,7 @@ extension IoTAnalytics {
         /// The value of the variable as a string.
         public let stringValue: String?
 
+        @inlinable
         public init(datasetContentVersionValue: DatasetContentVersionValue? = nil, doubleValue: Double? = nil, name: String, outputFileUriValue: OutputFileUriValue? = nil, stringValue: String? = nil) {
             self.datasetContentVersionValue = datasetContentVersionValue
             self.doubleValue = doubleValue
@@ -3455,6 +3581,7 @@ extension IoTAnalytics {
         /// If true, unlimited versions of dataset contents are kept.
         public let unlimited: Bool?
 
+        @inlinable
         public init(maxVersions: Int? = nil, unlimited: Bool? = nil) {
             self.maxVersions = maxVersions
             self.unlimited = unlimited

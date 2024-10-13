@@ -83,6 +83,7 @@ extension Keyspaces {
         /// Auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down  when it falls below the target. A double between 20 and 90.
         public let targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration?
 
+        @inlinable
         public init(targetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration? = nil) {
             self.targetTrackingScalingPolicyConfiguration = targetTrackingScalingPolicyConfiguration
         }
@@ -102,6 +103,7 @@ extension Keyspaces {
         /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You  define the target value as a percentage between 20 and 90.
         public let scalingPolicy: AutoScalingPolicy?
 
+        @inlinable
         public init(autoScalingDisabled: Bool? = nil, maximumUnits: Int64? = nil, minimumUnits: Int64? = nil, scalingPolicy: AutoScalingPolicy? = nil) {
             self.autoScalingDisabled = autoScalingDisabled
             self.maximumUnits = maximumUnits
@@ -128,6 +130,7 @@ extension Keyspaces {
         /// The auto scaling settings for the table's write capacity.
         public let writeCapacityAutoScaling: AutoScalingSettings?
 
+        @inlinable
         public init(readCapacityAutoScaling: AutoScalingSettings? = nil, writeCapacityAutoScaling: AutoScalingSettings? = nil) {
             self.readCapacityAutoScaling = readCapacityAutoScaling
             self.writeCapacityAutoScaling = writeCapacityAutoScaling
@@ -152,6 +155,7 @@ extension Keyspaces {
         /// The throughput capacity specified for write operations defined in write capacity units (WCUs).
         public let writeCapacityUnits: Int64?
 
+        @inlinable
         public init(readCapacityUnits: Int64? = nil, throughputMode: ThroughputMode, writeCapacityUnits: Int64? = nil) {
             self.readCapacityUnits = readCapacityUnits
             self.throughputMode = throughputMode
@@ -180,6 +184,7 @@ extension Keyspaces {
         /// The throughput capacity specified for write operations defined in write capacity units (WCUs).
         public let writeCapacityUnits: Int64?
 
+        @inlinable
         public init(lastUpdateToPayPerRequestTimestamp: Date? = nil, readCapacityUnits: Int64? = nil, throughputMode: ThroughputMode, writeCapacityUnits: Int64? = nil) {
             self.lastUpdateToPayPerRequestTimestamp = lastUpdateToPayPerRequestTimestamp
             self.readCapacityUnits = readCapacityUnits
@@ -199,6 +204,7 @@ extension Keyspaces {
         /// Shows how to enable client-side timestamps settings for the specified table.
         public let status: ClientSideTimestampsStatus
 
+        @inlinable
         public init(status: ClientSideTimestampsStatus) {
             self.status = status
         }
@@ -214,6 +220,7 @@ extension Keyspaces {
         /// Sets the ascendant (ASC) or descendant (DESC) order modifier.
         public let orderBy: SortOrder
 
+        @inlinable
         public init(name: String, orderBy: SortOrder) {
             self.name = name
             self.orderBy = orderBy
@@ -231,6 +238,7 @@ extension Keyspaces {
         /// The data type of the column. For a list of available data types, see Data types in the Amazon Keyspaces Developer Guide.
         public let type: String
 
+        @inlinable
         public init(name: String, type: String) {
             self.name = name
             self.type = type
@@ -246,6 +254,7 @@ extension Keyspaces {
         /// An optional description of the table.
         public let message: String
 
+        @inlinable
         public init(message: String) {
             self.message = message
         }
@@ -263,6 +272,7 @@ extension Keyspaces {
         /// A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide.
         public let tags: [Tag]?
 
+        @inlinable
         public init(keyspaceName: String, replicationSpecification: ReplicationSpecification? = nil, tags: [Tag]? = nil) {
             self.keyspaceName = keyspaceName
             self.replicationSpecification = replicationSpecification
@@ -292,6 +302,7 @@ extension Keyspaces {
         /// The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -329,6 +340,7 @@ extension Keyspaces {
         /// Enables Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
         public let ttl: TimeToLive?
 
+        @inlinable
         public init(autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, schemaDefinition: SchemaDefinition, tableName: String, tags: [Tag]? = nil, ttl: TimeToLive? = nil) {
             self.autoScalingSpecification = autoScalingSpecification
             self.capacitySpecification = capacitySpecification
@@ -390,6 +402,7 @@ extension Keyspaces {
         /// The unique identifier of the table in the format of an Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -403,6 +416,7 @@ extension Keyspaces {
         /// The name of the keyspace to be deleted.
         public let keyspaceName: String
 
+        @inlinable
         public init(keyspaceName: String) {
             self.keyspaceName = keyspaceName
         }
@@ -428,6 +442,7 @@ extension Keyspaces {
         /// The name of the table to be deleted.
         public let tableName: String
 
+        @inlinable
         public init(keyspaceName: String, tableName: String) {
             self.keyspaceName = keyspaceName
             self.tableName = tableName
@@ -458,6 +473,7 @@ extension Keyspaces {
         /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys):    type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned, and managed by you.  This option  requires the kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The default is type:AWS_OWNED_KMS_KEY.  For more information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
         public let type: EncryptionType
 
+        @inlinable
         public init(kmsKeyIdentifier: String? = nil, type: EncryptionType) {
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.type = type
@@ -478,6 +494,7 @@ extension Keyspaces {
         /// The name of the keyspace.
         public let keyspaceName: String
 
+        @inlinable
         public init(keyspaceName: String) {
             self.keyspaceName = keyspaceName
         }
@@ -503,6 +520,7 @@ extension Keyspaces {
         /// Returns the ARN of the keyspace.
         public let resourceArn: String
 
+        @inlinable
         public init(keyspaceName: String, replicationRegions: [String]? = nil, replicationStrategy: Rs, resourceArn: String) {
             self.keyspaceName = keyspaceName
             self.replicationRegions = replicationRegions
@@ -524,6 +542,7 @@ extension Keyspaces {
         /// The name of the table.
         public let tableName: String
 
+        @inlinable
         public init(keyspaceName: String, tableName: String) {
             self.keyspaceName = keyspaceName
             self.tableName = tableName
@@ -556,6 +575,7 @@ extension Keyspaces {
         /// The name of the table.
         public let tableName: String
 
+        @inlinable
         public init(autoScalingSpecification: AutoScalingSpecification? = nil, keyspaceName: String, replicaSpecifications: [ReplicaAutoScalingSpecification]? = nil, resourceArn: String, tableName: String) {
             self.autoScalingSpecification = autoScalingSpecification
             self.keyspaceName = keyspaceName
@@ -579,6 +599,7 @@ extension Keyspaces {
         /// The name of the table.
         public let tableName: String
 
+        @inlinable
         public init(keyspaceName: String, tableName: String) {
             self.keyspaceName = keyspaceName
             self.tableName = tableName
@@ -629,6 +650,7 @@ extension Keyspaces {
         /// The custom Time to Live settings of the specified table.
         public let ttl: TimeToLive?
 
+        @inlinable
         public init(capacitySpecification: CapacitySpecificationSummary? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, creationTimestamp: Date? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecoverySummary? = nil, replicaSpecifications: [ReplicaSpecificationSummary]? = nil, resourceArn: String, schemaDefinition: SchemaDefinition? = nil, status: TableStatus? = nil, tableName: String, ttl: TimeToLive? = nil) {
             self.capacitySpecification = capacitySpecification
             self.clientSideTimestamps = clientSideTimestamps
@@ -674,6 +696,7 @@ extension Keyspaces {
         /// The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
         public let resourceArn: String
 
+        @inlinable
         public init(keyspaceName: String, replicationRegions: [String]? = nil, replicationStrategy: Rs, resourceArn: String) {
             self.keyspaceName = keyspaceName
             self.replicationRegions = replicationRegions
@@ -695,6 +718,7 @@ extension Keyspaces {
         /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -719,6 +743,7 @@ extension Keyspaces {
         /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
+        @inlinable
         public init(keyspaces: [KeyspaceSummary], nextToken: String? = nil) {
             self.keyspaces = keyspaces
             self.nextToken = nextToken
@@ -738,6 +763,7 @@ extension Keyspaces {
         /// The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
         public let nextToken: String?
 
+        @inlinable
         public init(keyspaceName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.keyspaceName = keyspaceName
             self.maxResults = maxResults
@@ -767,6 +793,7 @@ extension Keyspaces {
         /// A list of tables.
         public let tables: [TableSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, tables: [TableSummary]? = nil) {
             self.nextToken = nextToken
             self.tables = tables
@@ -786,6 +813,7 @@ extension Keyspaces {
         /// The Amazon Resource Name (ARN) of the Amazon Keyspaces resource.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -815,6 +843,7 @@ extension Keyspaces {
         /// A list of tags.
         public let tags: [Tag]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [Tag]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -830,6 +859,7 @@ extension Keyspaces {
         /// The name(s) of the partition key column(s).
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -843,6 +873,7 @@ extension Keyspaces {
         /// The options are:    status=ENABLED     status=DISABLED
         public let status: PointInTimeRecoveryStatus
 
+        @inlinable
         public init(status: PointInTimeRecoveryStatus) {
             self.status = status
         }
@@ -858,6 +889,7 @@ extension Keyspaces {
         /// Shows if point-in-time recovery is enabled or disabled for the specified table.
         public let status: PointInTimeRecoveryStatus
 
+        @inlinable
         public init(earliestRestorableTimestamp: Date? = nil, status: PointInTimeRecoveryStatus) {
             self.earliestRestorableTimestamp = earliestRestorableTimestamp
             self.status = status
@@ -875,6 +907,7 @@ extension Keyspaces {
         /// The Amazon Web Services Region.
         public let region: String?
 
+        @inlinable
         public init(autoScalingSpecification: AutoScalingSpecification? = nil, region: String? = nil) {
             self.autoScalingSpecification = autoScalingSpecification
             self.region = region
@@ -894,6 +927,7 @@ extension Keyspaces {
         /// The Amazon Web Services Region.
         public let region: String
 
+        @inlinable
         public init(readCapacityAutoScaling: AutoScalingSettings? = nil, readCapacityUnits: Int64? = nil, region: String) {
             self.readCapacityAutoScaling = readCapacityAutoScaling
             self.readCapacityUnits = readCapacityUnits
@@ -921,6 +955,7 @@ extension Keyspaces {
         /// The status of the multi-Region table in the specified Amazon Web Services Region.
         public let status: TableStatus?
 
+        @inlinable
         public init(capacitySpecification: CapacitySpecificationSummary? = nil, region: String? = nil, status: TableStatus? = nil) {
             self.capacitySpecification = capacitySpecification
             self.region = region
@@ -940,6 +975,7 @@ extension Keyspaces {
         ///  The replicationStrategy of a keyspace, the required value is SINGLE_REGION or  MULTI_REGION.
         public let replicationStrategy: Rs
 
+        @inlinable
         public init(regionList: [String]? = nil, replicationStrategy: Rs) {
             self.regionList = regionList
             self.replicationStrategy = replicationStrategy
@@ -984,6 +1020,7 @@ extension Keyspaces {
         /// The name of the target table.
         public let targetTableName: String
 
+        @inlinable
         public init(autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecificationOverride: CapacitySpecification? = nil, encryptionSpecificationOverride: EncryptionSpecification? = nil, pointInTimeRecoveryOverride: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, restoreTimestamp: Date? = nil, sourceKeyspaceName: String, sourceTableName: String, tagsOverride: [Tag]? = nil, targetKeyspaceName: String, targetTableName: String) {
             self.autoScalingSpecification = autoScalingSpecification
             self.capacitySpecificationOverride = capacitySpecificationOverride
@@ -1044,6 +1081,7 @@ extension Keyspaces {
         /// The Amazon Resource Name (ARN) of the restored table.
         public let restoredTableARN: String
 
+        @inlinable
         public init(restoredTableARN: String) {
             self.restoredTableARN = restoredTableARN
         }
@@ -1063,6 +1101,7 @@ extension Keyspaces {
         /// The columns that have been defined as STATIC. Static columns store values that are shared by all rows in the same partition.
         public let staticColumns: [StaticColumn]?
 
+        @inlinable
         public init(allColumns: [ColumnDefinition], clusteringKeys: [ClusteringKey]? = nil, partitionKeys: [PartitionKey], staticColumns: [StaticColumn]? = nil) {
             self.allColumns = allColumns
             self.clusteringKeys = clusteringKeys
@@ -1087,6 +1126,7 @@ extension Keyspaces {
         /// The name of the static column.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -1104,6 +1144,7 @@ extension Keyspaces {
         /// The name of the table.
         public let tableName: String
 
+        @inlinable
         public init(keyspaceName: String, resourceArn: String, tableName: String) {
             self.keyspaceName = keyspaceName
             self.resourceArn = resourceArn
@@ -1123,6 +1164,7 @@ extension Keyspaces {
         /// The value of the tag. Tag values are case-sensitive and can be null.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -1147,6 +1189,7 @@ extension Keyspaces {
         /// The tags to be assigned to the Amazon Keyspaces resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1183,6 +1226,7 @@ extension Keyspaces {
         /// Specifies the target value for the target tracking auto scaling policy. Amazon Keyspaces auto scaling scales up capacity automatically when traffic exceeds this target utilization  rate, and then back down when it falls below the target. This ensures that the ratio of consumed capacity to provisioned capacity stays at or near this value. You define targetValue as a percentage. A double between 20 and 90.
         public let targetValue: Double
 
+        @inlinable
         public init(disableScaleIn: Bool? = nil, scaleInCooldown: Int? = nil, scaleOutCooldown: Int? = nil, targetValue: Double) {
             self.disableScaleIn = disableScaleIn
             self.scaleInCooldown = scaleInCooldown
@@ -1202,6 +1246,7 @@ extension Keyspaces {
         /// Shows how to enable custom Time to Live (TTL) settings for the specified table.
         public let status: TimeToLiveStatus
 
+        @inlinable
         public init(status: TimeToLiveStatus) {
             self.status = status
         }
@@ -1217,6 +1262,7 @@ extension Keyspaces {
         /// A list of existing tags to be removed from the Amazon Keyspaces resource.
         public let tags: [Tag]
 
+        @inlinable
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -1267,6 +1313,7 @@ extension Keyspaces {
         /// Modifies Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
         public let ttl: TimeToLive?
 
+        @inlinable
         public init(addColumns: [ColumnDefinition]? = nil, autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, tableName: String, ttl: TimeToLive? = nil) {
             self.addColumns = addColumns
             self.autoScalingSpecification = autoScalingSpecification
@@ -1319,6 +1366,7 @@ extension Keyspaces {
         /// The Amazon Resource Name (ARN) of the modified table.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }

@@ -1406,6 +1406,7 @@ extension Connect {
         /// The action type.
         public let actionType: ActionType
 
+        @inlinable
         public init(actionType: ActionType) {
             self.actionType = actionType
         }
@@ -1423,6 +1424,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(evaluationFormId: String, evaluationFormVersion: Int = 0, instanceId: String) {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
@@ -1458,6 +1460,7 @@ extension Connect {
         /// A version of the evaluation form.
         public let evaluationFormVersion: Int
 
+        @inlinable
         public init(evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int) {
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
@@ -1475,6 +1478,7 @@ extension Connect {
         /// Information about traffic distributions.
         public let distributions: [Distribution]
 
+        @inlinable
         public init(distributions: [Distribution]) {
             self.distributions = distributions
         }
@@ -1505,6 +1509,7 @@ extension Connect {
         /// The epoch timestamp when the contact state started.
         public let stateStartTimestamp: Date?
 
+        @inlinable
         public init(agentContactState: ContactState? = nil, channel: Channel? = nil, connectedToAgentTimestamp: Date? = nil, contactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, queue: QueueReference? = nil, stateStartTimestamp: Date? = nil) {
             self.agentContactState = agentContactState
             self.channel = channel
@@ -1530,6 +1535,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the group.
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -1551,6 +1557,7 @@ extension Connect {
         /// The identifiers for level 5 hierarchy groups.
         public let l5Ids: [String]?
 
+        @inlinable
         public init(l1Ids: [String]? = nil, l2Ids: [String]? = nil, l3Ids: [String]? = nil, l4Ids: [String]? = nil, l5Ids: [String]? = nil) {
             self.l1Ids = l1Ids
             self.l2Ids = l2Ids
@@ -1589,6 +1596,7 @@ extension Connect {
         /// The identifier of the agent who accepted the contact.
         public let id: String?
 
+        @inlinable
         public init(agentPauseDurationInSeconds: Int? = nil, capabilities: ParticipantCapabilities? = nil, connectedToAgentTimestamp: Date? = nil, deviceInfo: DeviceInfo? = nil, hierarchyGroups: HierarchyGroups? = nil, id: String? = nil) {
             self.agentPauseDurationInSeconds = agentPauseDurationInSeconds
             self.capabilities = capabilities
@@ -1612,6 +1620,7 @@ extension Connect {
         /// Information about the audio quality of the Agent
         public let audio: AudioQualityMetricsInfo?
 
+        @inlinable
         public init(audio: AudioQualityMetricsInfo? = nil) {
             self.audio = audio
         }
@@ -1643,6 +1652,7 @@ extension Connect {
         /// The type of agent status.
         public let type: AgentStatusType?
 
+        @inlinable
         public init(agentStatusARN: String? = nil, agentStatusId: String? = nil, description: String? = nil, displayOrder: Int? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, state: AgentStatusState? = nil, tags: [String: String]? = nil, type: AgentStatusType? = nil) {
             self.agentStatusARN = agentStatusARN
             self.agentStatusId = agentStatusId
@@ -1678,6 +1688,7 @@ extension Connect {
         /// The start timestamp of the agent's status.
         public let statusStartTimestamp: Date?
 
+        @inlinable
         public init(statusArn: String? = nil, statusName: String? = nil, statusStartTimestamp: Date? = nil) {
             self.statusArn = statusArn
             self.statusName = statusName
@@ -1699,6 +1710,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [AgentStatusSearchCriteria]? = nil, orConditions: [AgentStatusSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -1716,6 +1728,7 @@ extension Connect {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:    The top level list specifies conditions that need to be applied with OR operator.   The inner list specifies conditions that need to be applied with AND operator.
         public let attributeFilter: ControlPlaneAttributeFilter?
 
+        @inlinable
         public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
             self.attributeFilter = attributeFilter
         }
@@ -1739,6 +1752,7 @@ extension Connect {
         /// The type of the agent status.
         public let type: AgentStatusType?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, type: AgentStatusType? = nil) {
             self.arn = arn
             self.id = id
@@ -1762,6 +1776,7 @@ extension Connect {
         /// An object to specify a list of agents, by user ID.
         public let agentIds: [String]?
 
+        @inlinable
         public init(agentIds: [String]? = nil) {
             self.agentIds = agentIds
         }
@@ -1783,6 +1798,7 @@ extension Connect {
         /// Information about the customer's video sharing capabilities.
         public let customer: ParticipantCapabilities?
 
+        @inlinable
         public init(agent: ParticipantCapabilities? = nil, customer: ParticipantCapabilities? = nil) {
             self.agent = agent
             self.customer = customer
@@ -1804,6 +1820,7 @@ extension Connect {
         /// The identifier of the target account.
         public let targetAccountId: String?
 
+        @inlinable
         public init(dataSetId: String? = nil, resourceShareArn: String? = nil, resourceShareId: String? = nil, targetAccountId: String? = nil) {
             self.dataSetId = dataSetId
             self.resourceShareArn = resourceShareArn
@@ -1825,6 +1842,7 @@ extension Connect {
         /// The flag to indicate if answer machine detection analysis needs to be performed for a voice call. If set to true, TrafficType must be set as CAMPAIGN.
         public let enableAnswerMachineDetection: Bool?
 
+        @inlinable
         public init(awaitAnswerMachinePrompt: Bool? = nil, enableAnswerMachineDetection: Bool? = nil) {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
@@ -1842,6 +1860,7 @@ extension Connect {
         /// Namespace of the application that you want to give access to.
         public let namespace: String?
 
+        @inlinable
         public init(applicationPermissions: [String]? = nil, namespace: String? = nil) {
             self.applicationPermissions = applicationPermissions
             self.namespace = namespace
@@ -1876,6 +1895,7 @@ extension Connect {
         /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
         public let targetAccountId: String?
 
+        @inlinable
         public init(dataSetId: String, instanceId: String, targetAccountId: String? = nil) {
             self.dataSetId = dataSetId
             self.instanceId = instanceId
@@ -1913,6 +1933,7 @@ extension Connect {
         /// The identifier of the target account.
         public let targetAccountId: String?
 
+        @inlinable
         public init(dataSetId: String? = nil, resourceShareArn: String? = nil, resourceShareId: String? = nil, targetAccountId: String? = nil) {
             self.dataSetId = dataSetId
             self.resourceShareArn = resourceShareArn
@@ -1934,6 +1955,7 @@ extension Connect {
         /// The domain to add to your allow list.
         public let origin: String
 
+        @inlinable
         public init(instanceId: String, origin: String) {
             self.instanceId = instanceId
             self.origin = origin
@@ -1964,6 +1986,7 @@ extension Connect {
         /// The Amazon Lex V2 bot to associate with the instance.
         public let lexV2Bot: LexV2Bot?
 
+        @inlinable
         public init(instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
             self.instanceId = instanceId
             self.lexBot = lexBot
@@ -2000,6 +2023,7 @@ extension Connect {
         /// The identifier of the custom vocabulary. If this is empty, the default is set to none.
         public let vocabularyId: String?
 
+        @inlinable
         public init(instanceId: String, languageCode: VocabularyLanguageCode, vocabularyId: String? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
@@ -2040,6 +2064,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: FlowAssociationResourceType
 
+        @inlinable
         public init(flowId: String, instanceId: String, resourceId: String, resourceType: FlowAssociationResourceType) {
             self.flowId = flowId
             self.instanceId = instanceId
@@ -2080,6 +2105,7 @@ extension Connect {
         /// A valid storage type.
         public let storageConfig: InstanceStorageConfig
 
+        @inlinable
         public init(instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
             self.instanceId = instanceId
             self.resourceType = resourceType
@@ -2110,6 +2136,7 @@ extension Connect {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String?
 
+        @inlinable
         public init(associationId: String? = nil) {
             self.associationId = associationId
         }
@@ -2125,6 +2152,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(functionArn: String, instanceId: String) {
             self.functionArn = functionArn
             self.instanceId = instanceId
@@ -2155,6 +2183,7 @@ extension Connect {
         /// The Amazon Lex bot to associate with the instance.
         public let lexBot: LexBot
 
+        @inlinable
         public init(instanceId: String, lexBot: LexBot) {
             self.instanceId = instanceId
             self.lexBot = lexBot
@@ -2186,6 +2215,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
 
+        @inlinable
         public init(contactFlowId: String, instanceId: String, phoneNumberId: String) {
             self.contactFlowId = contactFlowId
             self.instanceId = instanceId
@@ -2220,6 +2250,7 @@ extension Connect {
         /// The quick connects to associate with this queue.
         public let quickConnectIds: [String]
 
+        @inlinable
         public init(instanceId: String, queueId: String, quickConnectIds: [String]) {
             self.instanceId = instanceId
             self.queueId = queueId
@@ -2254,6 +2285,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, queueConfigs: [RoutingProfileQueueConfig], routingProfileId: String) {
             self.instanceId = instanceId
             self.queueConfigs = queueConfigs
@@ -2289,6 +2321,7 @@ extension Connect {
         /// A valid security key in PEM format as a String.
         public let key: String
 
+        @inlinable
         public init(instanceId: String, key: String) {
             self.instanceId = instanceId
             self.key = key
@@ -2317,6 +2350,7 @@ extension Connect {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String?
 
+        @inlinable
         public init(associationId: String? = nil) {
             self.associationId = associationId
         }
@@ -2336,6 +2370,7 @@ extension Connect {
         /// The identifier of the user account. This can be the ID or the ARN of the user.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, trafficDistributionGroupId: String, userId: String) {
             self.instanceId = instanceId
             self.trafficDistributionGroupId = trafficDistributionGroupId
@@ -2374,6 +2409,7 @@ extension Connect {
         /// The proficiencies to associate with the user.
         public let userProficiencies: [UserProficiency]
 
+        @inlinable
         public init(instanceId: String, userId: String, userProficiencies: [UserProficiency]) {
             self.instanceId = instanceId
             self.userId = userId
@@ -2423,6 +2459,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associatedResourceArn: String? = nil, createdBy: CreatedByInfo? = nil, creationTime: String, fileArn: String, fileId: String, fileName: String, fileSizeInBytes: Int64, fileStatus: FileStatusType, fileUseCaseType: FileUseCaseType? = nil, tags: [String: String]? = nil) {
             self.associatedResourceArn = associatedResourceArn
             self.createdBy = createdBy
@@ -2458,6 +2495,7 @@ extension Connect {
         /// The unique identifier of the attached file resource.
         public let fileId: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil, fileId: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -2479,6 +2517,7 @@ extension Connect {
         /// The location path of the attachment reference.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, status: ReferenceStatus? = nil, value: String? = nil) {
             self.name = name
             self.status = status
@@ -2498,6 +2537,7 @@ extension Connect {
         /// The join token used by the Amazon Chime SDK attendee.
         public let joinToken: String?
 
+        @inlinable
         public init(attendeeId: String? = nil, joinToken: String? = nil) {
             self.attendeeId = attendeeId
             self.joinToken = joinToken
@@ -2515,6 +2555,7 @@ extension Connect {
         /// The value of the attribute.
         public let value: String?
 
+        @inlinable
         public init(attributeType: InstanceAttributeType? = nil, value: String? = nil) {
             self.attributeType = attributeType
             self.value = value
@@ -2531,6 +2572,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a tag condition.
         public let tagConditions: [TagCondition]?
 
+        @inlinable
         public init(hierarchyGroupCondition: HierarchyGroupCondition? = nil, tagConditions: [TagCondition]? = nil) {
             self.hierarchyGroupCondition = hierarchyGroupCondition
             self.tagConditions = tagConditions
@@ -2554,6 +2596,7 @@ extension Connect {
         /// The value of predefined attribute.
         public let value: String?
 
+        @inlinable
         public init(comparisonOperator: String? = nil, matchCriteria: MatchCriteria? = nil, name: String? = nil, proficiencyLevel: Float? = nil, value: String? = nil) {
             self.comparisonOperator = comparisonOperator
             self.matchCriteria = matchCriteria
@@ -2587,6 +2630,7 @@ extension Connect {
         /// Makes echo reduction available to clients who connect to the meeting.
         public let echoReduction: MeetingFeatureStatus?
 
+        @inlinable
         public init(echoReduction: MeetingFeatureStatus? = nil) {
             self.echoReduction = echoReduction
         }
@@ -2602,6 +2646,7 @@ extension Connect {
         /// Number measuring the estimated quality of the media connection.
         public let qualityScore: Float?
 
+        @inlinable
         public init(potentialQualityIssues: [String]? = nil, qualityScore: Float? = nil) {
             self.potentialQualityIssues = potentialQualityIssues
             self.qualityScore = qualityScore
@@ -2639,6 +2684,7 @@ extension Connect {
         /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see Configure the session duration in the Amazon Connect Administrator Guide.
         public let periodicSessionDuration: Int?
 
+        @inlinable
         public init(allowedIps: [String]? = nil, arn: String? = nil, blockedIps: [String]? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, isDefault: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, maxSessionDuration: Int? = nil, name: String? = nil, periodicSessionDuration: Int? = nil) {
             self.allowedIps = allowedIps
             self.arn = arn
@@ -2684,6 +2730,7 @@ extension Connect {
         /// The name of the authentication profile summary.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, isDefault: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -2711,6 +2758,7 @@ extension Connect {
         /// The type of phone number.
         public let phoneNumberType: PhoneNumberType?
 
+        @inlinable
         public init(phoneNumber: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberType: PhoneNumberType? = nil) {
             self.phoneNumber = phoneNumber
             self.phoneNumberCountryCode = phoneNumberCountryCode
@@ -2732,6 +2780,7 @@ extension Connect {
         /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
         public let targetAccountId: String?
 
+        @inlinable
         public init(dataSetIds: [String], instanceId: String, targetAccountId: String? = nil) {
             self.dataSetIds = dataSetIds
             self.instanceId = instanceId
@@ -2767,6 +2816,7 @@ extension Connect {
         /// A list of errors for datasets that aren't successfully associated with the target account.
         public let errors: [ErrorResult]?
 
+        @inlinable
         public init(created: [AnalyticsDataAssociationResult]? = nil, errors: [ErrorResult]? = nil) {
             self.created = created
             self.errors = errors
@@ -2786,6 +2836,7 @@ extension Connect {
         /// The identifier of the target account.  Use to disassociate a dataset from a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
         public let targetAccountId: String?
 
+        @inlinable
         public init(dataSetIds: [String], instanceId: String, targetAccountId: String? = nil) {
             self.dataSetIds = dataSetIds
             self.instanceId = instanceId
@@ -2821,6 +2872,7 @@ extension Connect {
         /// A list of errors for any datasets not successfully removed.
         public let errors: [ErrorResult]?
 
+        @inlinable
         public init(deleted: [String]? = nil, errors: [ErrorResult]? = nil) {
             self.deleted = deleted
             self.errors = errors
@@ -2840,6 +2892,7 @@ extension Connect {
         /// The unique identifier of the Connect instance.
         public let instanceId: String
 
+        @inlinable
         public init(associatedResourceArn: String, fileIds: [String], instanceId: String) {
             self.associatedResourceArn = associatedResourceArn
             self.fileIds = fileIds
@@ -2875,6 +2928,7 @@ extension Connect {
         /// List of attached files that were successfully retrieved.
         public let files: [AttachedFile]?
 
+        @inlinable
         public init(errors: [AttachedFileError]? = nil, files: [AttachedFile]? = nil) {
             self.errors = errors
             self.files = files
@@ -2894,6 +2948,7 @@ extension Connect {
         /// The type of resource association.
         public let resourceType: ListFlowAssociationResourceType?
 
+        @inlinable
         public init(instanceId: String, resourceIds: [String], resourceType: ListFlowAssociationResourceType? = nil) {
             self.instanceId = instanceId
             self.resourceIds = resourceIds
@@ -2925,6 +2980,7 @@ extension Connect {
         /// Information about flow associations.
         public let flowAssociationSummaryList: [FlowAssociationSummary]?
 
+        @inlinable
         public init(flowAssociationSummaryList: [FlowAssociationSummary]? = nil) {
             self.flowAssociationSummaryList = flowAssociationSummaryList
         }
@@ -2942,6 +2998,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(clientToken: String? = BatchPutContactRequest.idempotencyToken(), contactDataRequestList: [ContactDataRequest], instanceId: String) {
             self.clientToken = clientToken
             self.contactDataRequestList = contactDataRequestList
@@ -2979,6 +3036,7 @@ extension Connect {
         /// List of requests for which contact was successfully created.
         public let successfulRequestList: [SuccessfulRequest]?
 
+        @inlinable
         public init(failedRequestList: [FailedRequest]? = nil, successfulRequestList: [SuccessfulRequest]? = nil) {
             self.failedRequestList = failedRequestList
             self.successfulRequestList = successfulRequestList
@@ -2994,6 +3052,7 @@ extension Connect {
         /// A unique identifier for a campaign.
         public let campaignId: String?
 
+        @inlinable
         public init(campaignId: String? = nil) {
             self.campaignId = campaignId
         }
@@ -3016,6 +3075,7 @@ extension Connect {
         /// Type of chat integration event.
         public let type: ChatEventType
 
+        @inlinable
         public init(content: String? = nil, contentType: String? = nil, type: ChatEventType) {
             self.content = content
             self.contentType = contentType
@@ -3042,6 +3102,7 @@ extension Connect {
         /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
         public let contentType: String
 
+        @inlinable
         public init(content: String, contentType: String) {
             self.content = content
             self.contentType = contentType
@@ -3064,6 +3125,7 @@ extension Connect {
         /// A list of participant timers. You can specify any unique combination of role and timer type. Duplicate entries error out the request with a 400.
         public let participantTimerConfigList: [ParticipantTimerConfiguration]
 
+        @inlinable
         public init(participantTimerConfigList: [ParticipantTimerConfiguration]) {
             self.participantTimerConfigList = participantTimerConfigList
         }
@@ -3085,6 +3147,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the standard Amazon SNS topic. The Amazon Resource Name (ARN) of the streaming endpoint that is used to publish real-time message streaming for chat conversations.
         public let streamingEndpointArn: String
 
+        @inlinable
         public init(streamingEndpointArn: String) {
             self.streamingEndpointArn = streamingEndpointArn
         }
@@ -3113,6 +3176,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
         public let targetArn: String?
 
+        @inlinable
         public init(clientToken: String? = ClaimPhoneNumberRequest.idempotencyToken(), instanceId: String? = nil, phoneNumber: String, phoneNumberDescription: String? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
             self.clientToken = clientToken
             self.instanceId = instanceId
@@ -3155,6 +3219,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String?
 
+        @inlinable
         public init(phoneNumberArn: String? = nil, phoneNumberId: String? = nil) {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
@@ -3190,6 +3255,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public let targetArn: String?
 
+        @inlinable
         public init(instanceId: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberDescription: String? = nil, phoneNumberId: String? = nil, phoneNumberStatus: PhoneNumberStatus? = nil, phoneNumberType: PhoneNumberType? = nil, sourcePhoneNumberArn: String? = nil, tags: [String: String]? = nil, targetArn: String? = nil) {
             self.instanceId = instanceId
             self.phoneNumber = phoneNumber
@@ -3223,6 +3289,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a tag condition.
         public let tagConditions: [TagCondition]?
 
+        @inlinable
         public init(tagConditions: [TagCondition]? = nil) {
             self.tagConditions = tagConditions
         }
@@ -3240,6 +3307,7 @@ extension Connect {
         /// The unique identifier of the Amazon Connect instance.
         public let instanceId: String
 
+        @inlinable
         public init(associatedResourceArn: String, fileId: String, instanceId: String) {
             self.associatedResourceArn = associatedResourceArn
             self.fileId = fileId
@@ -3274,6 +3342,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name and  value.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(numberCondition: NumberCondition? = nil, stringCondition: StringCondition? = nil) {
             self.numberCondition = numberCondition
             self.stringCondition = stringCondition
@@ -3291,6 +3360,7 @@ extension Connect {
         /// A meeting created using the Amazon Chime SDK.
         public let meeting: Meeting?
 
+        @inlinable
         public init(attendee: Attendee? = nil, meeting: Meeting? = nil) {
             self.attendee = attendee
             self.meeting = meeting
@@ -3367,6 +3437,7 @@ extension Connect {
         /// Information about Amazon Connect Wisdom.
         public let wisdomInfo: WisdomInfo?
 
+        @inlinable
         public init(agentInfo: AgentInfo? = nil, answeringMachineDetectionStatus: AnsweringMachineDetectionStatus? = nil, arn: String? = nil, campaign: Campaign? = nil, channel: Channel? = nil, connectedToSystemTimestamp: Date? = nil, customer: Customer? = nil, customerVoiceActivity: CustomerVoiceActivity? = nil, description: String? = nil, disconnectDetails: DisconnectDetails? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastPausedTimestamp: Date? = nil, lastResumedTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, qualityMetrics: QualityMetrics? = nil, queueInfo: QueueInfo? = nil, queuePriority: Int64? = nil, queueTimeAdjustmentSeconds: Int? = nil, relatedContactId: String? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, tags: [String: String]? = nil, totalPauseCount: Int? = nil, totalPauseDurationInSeconds: Int? = nil, wisdomInfo: WisdomInfo? = nil) {
             self.agentInfo = agentInfo
             self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
@@ -3442,6 +3513,7 @@ extension Connect {
         /// Search criteria based on transcript analyzed by Amazon Connect Contact Lens.
         public let transcript: Transcript?
 
+        @inlinable
         public init(transcript: Transcript? = nil) {
             self.transcript = transcript
         }
@@ -3469,6 +3541,7 @@ extension Connect {
         /// Endpoint associated with the Amazon Connect instance from which outbound contact will be initiated for the campaign.
         public let systemEndpoint: Endpoint?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, campaign: Campaign? = nil, customerEndpoint: Endpoint? = nil, queueId: String? = nil, requestIdentifier: String? = nil, systemEndpoint: Endpoint? = nil) {
             self.attributes = attributes
             self.campaign = campaign
@@ -3504,6 +3577,7 @@ extension Connect {
         /// A list of up to 9 contact states.
         public let contactStates: [ContactState]?
 
+        @inlinable
         public init(contactStates: [ContactState]? = nil) {
             self.contactStates = contactStates
         }
@@ -3537,6 +3611,7 @@ extension Connect {
         /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Amazon Connect Administrator Guide.
         public let type: ContactFlowType?
 
+        @inlinable
         public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowState? = nil, status: ContactFlowStatus? = nil, tags: [String: String]? = nil, type: ContactFlowType? = nil) {
             self.arn = arn
             self.content = content
@@ -3580,6 +3655,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowModuleState? = nil, status: ContactFlowModuleStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.content = content
@@ -3610,6 +3686,7 @@ extension Connect {
         public let orConditions: [ContactFlowModuleSearchCriteria]?
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [ContactFlowModuleSearchCriteria]? = nil, orConditions: [ContactFlowModuleSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -3626,6 +3703,7 @@ extension Connect {
     public struct ContactFlowModuleSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -3645,6 +3723,7 @@ extension Connect {
         /// The type of flow module.
         public let state: ContactFlowModuleState?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowModuleState? = nil) {
             self.arn = arn
             self.id = id
@@ -3673,6 +3752,7 @@ extension Connect {
         /// The type of flow.
         public let typeCondition: ContactFlowType?
 
+        @inlinable
         public init(andConditions: [ContactFlowSearchCriteria]? = nil, orConditions: [ContactFlowSearchCriteria]? = nil, stateCondition: ContactFlowState? = nil, statusCondition: ContactFlowStatus? = nil, stringCondition: StringCondition? = nil, typeCondition: ContactFlowType? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -3695,6 +3775,7 @@ extension Connect {
     public struct ContactFlowSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -3718,6 +3799,7 @@ extension Connect {
         /// The name of the flow.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, contactFlowState: ContactFlowState? = nil, contactFlowStatus: ContactFlowStatus? = nil, contactFlowType: ContactFlowType? = nil, id: String? = nil, name: String? = nil) {
             self.arn = arn
             self.contactFlowState = contactFlowState
@@ -3761,6 +3843,7 @@ extension Connect {
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public let scheduledTimestamp: Date?
 
+        @inlinable
         public init(agentInfo: ContactSearchSummaryAgentInfo? = nil, arn: String? = nil, channel: Channel? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, previousContactId: String? = nil, queueInfo: ContactSearchSummaryQueueInfo? = nil, scheduledTimestamp: Date? = nil) {
             self.agentInfo = agentInfo
             self.arn = arn
@@ -3796,6 +3879,7 @@ extension Connect {
         /// The identifier of the agent who accepted the contact.
         public let id: String?
 
+        @inlinable
         public init(connectedToAgentTimestamp: Date? = nil, id: String? = nil) {
             self.connectedToAgentTimestamp = connectedToAgentTimestamp
             self.id = id
@@ -3813,6 +3897,7 @@ extension Connect {
         /// The unique identifier for the queue.
         public let id: String?
 
+        @inlinable
         public init(enqueueTimestamp: Date? = nil, id: String? = nil) {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
@@ -3831,6 +3916,7 @@ extension Connect {
         public let orConditions: [CommonAttributeAndCondition]?
         public let tagCondition: TagCondition?
 
+        @inlinable
         public init(andCondition: CommonAttributeAndCondition? = nil, orConditions: [CommonAttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
             self.andCondition = andCondition
             self.orConditions = orConditions
@@ -3852,6 +3938,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a tag condition.
         public let tagCondition: TagCondition?
 
+        @inlinable
         public init(andConditions: [TagCondition]? = nil, orConditions: [[TagCondition]]? = nil, tagCondition: TagCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -3873,6 +3960,7 @@ extension Connect {
         public let orConditions: [AttributeAndCondition]?
         public let tagCondition: TagCondition?
 
+        @inlinable
         public init(andCondition: AttributeAndCondition? = nil, hierarchyGroupCondition: HierarchyGroupCondition? = nil, orConditions: [AttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
             self.andCondition = andCondition
             self.hierarchyGroupCondition = hierarchyGroupCondition
@@ -3902,6 +3990,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String, state: AgentStatusState, tags: [String: String]? = nil) {
             self.description = description
             self.displayOrder = displayOrder
@@ -3956,6 +4045,7 @@ extension Connect {
         /// The identifier of the agent status.
         public let agentStatusId: String?
 
+        @inlinable
         public init(agentStatusARN: String? = nil, agentStatusId: String? = nil) {
             self.agentStatusARN = agentStatusARN
             self.agentStatusId = agentStatusId
@@ -3973,6 +4063,7 @@ extension Connect {
         /// A unique identifier of a template.
         public let templateId: String
 
+        @inlinable
         public init(fields: [FieldValue], templateId: String) {
             self.fields = fields
             self.templateId = templateId
@@ -4006,6 +4097,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateContactFlowModuleRequest.idempotencyToken(), content: String, description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.content = content
@@ -4062,6 +4154,7 @@ extension Connect {
         /// The identifier of the flow module.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -4089,6 +4182,7 @@ extension Connect {
         /// The type of the flow. For descriptions of the available types, see Choose a flow type in the Amazon Connect Administrator Guide.
         public let type: ContactFlowType
 
+        @inlinable
         public init(content: String, description: String? = nil, instanceId: String, name: String, status: ContactFlowStatus? = nil, tags: [String: String]? = nil, type: ContactFlowType) {
             self.content = content
             self.description = description
@@ -4141,6 +4235,7 @@ extension Connect {
         /// The identifier of the flow.
         public let contactFlowId: String?
 
+        @inlinable
         public init(contactFlowArn: String? = nil, contactFlowId: String? = nil) {
             self.contactFlowArn = contactFlowArn
             self.contactFlowId = contactFlowId
@@ -4166,6 +4261,7 @@ extension Connect {
         /// A title of the evaluation form.
         public let title: String
 
+        @inlinable
         public init(clientToken: String? = CreateEvaluationFormRequest.idempotencyToken(), description: String? = nil, instanceId: String, items: [EvaluationFormItem], scoringStrategy: EvaluationFormScoringStrategy? = nil, title: String) {
             self.clientToken = clientToken
             self.description = description
@@ -4215,6 +4311,7 @@ extension Connect {
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
 
+        @inlinable
         public init(evaluationFormArn: String, evaluationFormId: String) {
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
@@ -4240,6 +4337,7 @@ extension Connect {
         /// The time zone of the hours of operation.
         public let timeZone: String
 
+        @inlinable
         public init(config: [HoursOfOperationConfig], description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil, timeZone: String) {
             self.config = config
             self.description = description
@@ -4296,6 +4394,7 @@ extension Connect {
         /// The identifier for the hours of operation.
         public let hoursOfOperationId: String?
 
+        @inlinable
         public init(hoursOfOperationArn: String? = nil, hoursOfOperationId: String? = nil) {
             self.hoursOfOperationArn = hoursOfOperationArn
             self.hoursOfOperationId = hoursOfOperationId
@@ -4323,6 +4422,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, directoryId: String? = nil, identityManagementType: DirectoryType, inboundCallsEnabled: Bool, instanceAlias: String? = nil, outboundCallsEnabled: Bool, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.directoryId = directoryId
@@ -4368,6 +4468,7 @@ extension Connect {
         /// The identifier for the instance.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -4395,6 +4496,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(instanceId: String, integrationArn: String, integrationType: IntegrationType, sourceApplicationName: String? = nil, sourceApplicationUrl: String? = nil, sourceType: SourceType? = nil, tags: [String: String]? = nil) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
@@ -4451,6 +4553,7 @@ extension Connect {
         /// The identifier for the integration association.
         public let integrationAssociationId: String?
 
+        @inlinable
         public init(integrationAssociationArn: String? = nil, integrationAssociationId: String? = nil) {
             self.integrationAssociationArn = integrationAssociationArn
             self.integrationAssociationId = integrationAssociationId
@@ -4472,6 +4575,7 @@ extension Connect {
         /// Information identifying the participant.  The only Valid value for ParticipantRole is CUSTOM_BOT.   DisplayName is Required.
         public let participantDetails: ParticipantDetailsToAdd
 
+        @inlinable
         public init(clientToken: String? = CreateParticipantRequest.idempotencyToken(), contactId: String, instanceId: String, participantDetails: ParticipantDetailsToAdd) {
             self.clientToken = clientToken
             self.contactId = contactId
@@ -4502,6 +4606,7 @@ extension Connect {
         /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
         public let participantId: String?
 
+        @inlinable
         public init(participantCredentials: ParticipantTokenCredentials? = nil, participantId: String? = nil) {
             self.participantCredentials = participantCredentials
             self.participantId = participantId
@@ -4525,6 +4630,7 @@ extension Connect {
         /// The contactId from which a persistent chat session must be started.
         public let sourceContactId: String
 
+        @inlinable
         public init(clientToken: String? = nil, initialContactId: String, instanceId: String, rehydrationType: RehydrationType, sourceContactId: String) {
             self.clientToken = clientToken
             self.initialContactId = initialContactId
@@ -4564,6 +4670,7 @@ extension Connect {
         /// The contactId from which a persistent chat session is started. This field is populated only for persistent chat.
         public let continuedFromContactId: String?
 
+        @inlinable
         public init(continuedFromContactId: String? = nil) {
             self.continuedFromContactId = continuedFromContactId
         }
@@ -4581,6 +4688,7 @@ extension Connect {
         ///  The values of the predefined attribute.
         public let values: PredefinedAttributeValues
 
+        @inlinable
         public init(instanceId: String, name: String, values: PredefinedAttributeValues) {
             self.instanceId = instanceId
             self.name = name
@@ -4622,6 +4730,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String, s3Uri: String, tags: [String: String]? = nil) {
             self.description = description
             self.instanceId = instanceId
@@ -4674,6 +4783,7 @@ extension Connect {
         /// A unique identifier for the prompt.
         public let promptId: String?
 
+        @inlinable
         public init(promptARN: String? = nil, promptId: String? = nil) {
             self.promptARN = promptARN
             self.promptId = promptId
@@ -4703,6 +4813,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, hoursOfOperationId: String, instanceId: String, maxContacts: Int? = nil, name: String, outboundCallerConfig: OutboundCallerConfig? = nil, quickConnectIds: [String]? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.hoursOfOperationId = hoursOfOperationId
@@ -4765,6 +4876,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String?
 
+        @inlinable
         public init(queueArn: String? = nil, queueId: String? = nil) {
             self.queueArn = queueArn
             self.queueId = queueId
@@ -4788,6 +4900,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String, quickConnectConfig: QuickConnectConfig, tags: [String: String]? = nil) {
             self.description = description
             self.instanceId = instanceId
@@ -4838,6 +4951,7 @@ extension Connect {
         /// The identifier for the quick connect.
         public let quickConnectId: String?
 
+        @inlinable
         public init(quickConnectARN: String? = nil, quickConnectId: String? = nil) {
             self.quickConnectARN = quickConnectARN
             self.quickConnectId = quickConnectId
@@ -4867,6 +4981,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentAvailabilityTimer: AgentAvailabilityTimer? = nil, defaultOutboundQueueId: String, description: String, instanceId: String, mediaConcurrencies: [MediaConcurrency], name: String, queueConfigs: [RoutingProfileQueueConfig]? = nil, tags: [String: String]? = nil) {
             self.agentAvailabilityTimer = agentAvailabilityTimer
             self.defaultOutboundQueueId = defaultOutboundQueueId
@@ -4933,6 +5048,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String?
 
+        @inlinable
         public init(routingProfileArn: String? = nil, routingProfileId: String? = nil) {
             self.routingProfileArn = routingProfileArn
             self.routingProfileId = routingProfileId
@@ -4960,6 +5076,7 @@ extension Connect {
         /// The event source to trigger the rule.
         public let triggerEventSource: RuleTriggerEventSource
 
+        @inlinable
         public init(actions: [RuleAction], clientToken: String? = CreateRuleRequest.idempotencyToken(), function: String, instanceId: String, name: String, publishStatus: RulePublishStatus, triggerEventSource: RuleTriggerEventSource) {
             self.actions = actions
             self.clientToken = clientToken
@@ -5011,6 +5128,7 @@ extension Connect {
         /// A unique identifier for the rule.
         public let ruleId: String
 
+        @inlinable
         public init(ruleArn: String, ruleId: String) {
             self.ruleArn = ruleArn
             self.ruleId = ruleId
@@ -5044,6 +5162,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, applications: [Application]? = nil, description: String? = nil, hierarchyRestrictedResources: [String]? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
@@ -5132,6 +5251,7 @@ extension Connect {
         /// The identifier for the security profle.
         public let securityProfileId: String?
 
+        @inlinable
         public init(securityProfileArn: String? = nil, securityProfileId: String? = nil) {
             self.securityProfileArn = securityProfileArn
             self.securityProfileId = securityProfileId
@@ -5165,6 +5285,7 @@ extension Connect {
         /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
         public let status: TaskTemplateStatus?
 
+        @inlinable
         public init(clientToken: String? = CreateTaskTemplateRequest.idempotencyToken(), constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField], instanceId: String, name: String, status: TaskTemplateStatus? = nil) {
             self.clientToken = clientToken
             self.constraints = constraints
@@ -5225,6 +5346,7 @@ extension Connect {
         /// The identifier of the task template resource.
         public let id: String
 
+        @inlinable
         public init(arn: String, id: String) {
             self.arn = arn
             self.id = id
@@ -5248,6 +5370,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = CreateTrafficDistributionGroupRequest.idempotencyToken(), description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
@@ -5294,6 +5417,7 @@ extension Connect {
         /// The ARN must be provided if the call is from the replicated Region.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -5315,6 +5439,7 @@ extension Connect {
         /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
         public let useCaseType: UseCaseType
 
+        @inlinable
         public init(instanceId: String, integrationAssociationId: String, tags: [String: String]? = nil, useCaseType: UseCaseType) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
@@ -5358,6 +5483,7 @@ extension Connect {
         /// The identifier of the use case.
         public let useCaseId: String?
 
+        @inlinable
         public init(useCaseArn: String? = nil, useCaseId: String? = nil) {
             self.useCaseArn = useCaseArn
             self.useCaseId = useCaseId
@@ -5379,6 +5505,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(instanceId: String, name: String, parentGroupId: String? = nil, tags: [String: String]? = nil) {
             self.instanceId = instanceId
             self.name = name
@@ -5421,6 +5548,7 @@ extension Connect {
         /// The identifier of the hierarchy group.
         public let hierarchyGroupId: String?
 
+        @inlinable
         public init(hierarchyGroupArn: String? = nil, hierarchyGroupId: String? = nil) {
             self.hierarchyGroupArn = hierarchyGroupArn
             self.hierarchyGroupId = hierarchyGroupId
@@ -5454,6 +5582,7 @@ extension Connect {
         /// The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.\@]+. Username can include @ only if used in an email format. For example:   Correct: testuser   Correct: testuser@example.com   Incorrect: testuser@example
         public let username: String
 
+        @inlinable
         public init(directoryUserId: String? = nil, hierarchyGroupId: String? = nil, identityInfo: UserIdentityInfo? = nil, instanceId: String, password: String? = nil, phoneConfig: UserPhoneConfig, routingProfileId: String, securityProfileIds: [String], tags: [String: String]? = nil, username: String) {
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
@@ -5521,6 +5650,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String?
 
+        @inlinable
         public init(userArn: String? = nil, userId: String? = nil) {
             self.userArn = userArn
             self.userId = userId
@@ -5548,6 +5678,7 @@ extension Connect {
         /// The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = nil, content: ViewInputContent, description: String? = nil, instanceId: String, name: String, status: ViewStatus, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.content = content
@@ -5607,6 +5738,7 @@ extension Connect {
         /// A view resource object. Contains metadata and content necessary to render the view.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -5626,6 +5758,7 @@ extension Connect {
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
 
+        @inlinable
         public init(instanceId: String, versionDescription: String? = nil, viewContentSha256: String? = nil, viewId: String) {
             self.instanceId = instanceId
             self.versionDescription = versionDescription
@@ -5667,6 +5800,7 @@ extension Connect {
         /// All view data is contained within the View object.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -5691,6 +5825,7 @@ extension Connect {
         /// A unique name of the custom vocabulary.
         public let vocabularyName: String
 
+        @inlinable
         public init(clientToken: String? = CreateVocabularyRequest.idempotencyToken(), content: String, instanceId: String, languageCode: VocabularyLanguageCode, tags: [String: String]? = nil, vocabularyName: String) {
             self.clientToken = clientToken
             self.content = content
@@ -5747,6 +5882,7 @@ extension Connect {
         /// The identifier of the custom vocabulary.
         public let vocabularyId: String
 
+        @inlinable
         public init(state: VocabularyState, vocabularyArn: String, vocabularyId: String) {
             self.state = state
             self.vocabularyArn = vocabularyArn
@@ -5770,6 +5906,7 @@ extension Connect {
         /// Renews the expiration timer for a generated token.
         public let refreshTokenExpiration: Date?
 
+        @inlinable
         public init(accessToken: String? = nil, accessTokenExpiration: Date? = nil, refreshToken: String? = nil, refreshTokenExpiration: Date? = nil) {
             self.accessToken = accessToken
             self.accessTokenExpiration = accessTokenExpiration
@@ -5789,6 +5926,7 @@ extension Connect {
         /// Specifies the other channels that can be routed to an agent handling their current channel.
         public let behaviorType: BehaviorType
 
+        @inlinable
         public init(behaviorType: BehaviorType) {
             self.behaviorType = behaviorType
         }
@@ -5804,6 +5942,7 @@ extension Connect {
         /// The unit for the metric.
         public let unit: Unit?
 
+        @inlinable
         public init(name: CurrentMetricName? = nil, unit: Unit? = nil) {
             self.name = name
             self.unit = unit
@@ -5821,6 +5960,7 @@ extension Connect {
         /// The value of the metric.
         public let value: Double?
 
+        @inlinable
         public init(metric: CurrentMetric? = nil, value: Double? = nil) {
             self.metric = metric
             self.value = value
@@ -5838,6 +5978,7 @@ extension Connect {
         /// The dimensions for the metrics.
         public let dimensions: Dimensions?
 
+        @inlinable
         public init(collections: [CurrentMetricData]? = nil, dimensions: Dimensions? = nil) {
             self.collections = collections
             self.dimensions = dimensions
@@ -5854,6 +5995,7 @@ extension Connect {
         /// The way to sort.
         public let sortOrder: SortOrder?
 
+        @inlinable
         public init(sortByMetric: CurrentMetricName? = nil, sortOrder: SortOrder? = nil) {
             self.sortByMetric = sortByMetric
             self.sortOrder = sortOrder
@@ -5870,6 +6012,7 @@ extension Connect {
         /// Information regarding Customer’s device.
         public let deviceInfo: DeviceInfo?
 
+        @inlinable
         public init(capabilities: ParticipantCapabilities? = nil, deviceInfo: DeviceInfo? = nil) {
             self.capabilities = capabilities
             self.deviceInfo = deviceInfo
@@ -5885,6 +6028,7 @@ extension Connect {
         /// Information about the audio quality of the Customer
         public let audio: AudioQualityMetricsInfo?
 
+        @inlinable
         public init(audio: AudioQualityMetricsInfo? = nil) {
             self.audio = audio
         }
@@ -5900,6 +6044,7 @@ extension Connect {
         /// Timestamp that measures the beginning of the customer greeting from an outbound voice call.
         public let greetingStartTimestamp: Date?
 
+        @inlinable
         public init(greetingEndTimestamp: Date? = nil, greetingStartTimestamp: Date? = nil) {
             self.greetingEndTimestamp = greetingEndTimestamp
             self.greetingStartTimestamp = greetingStartTimestamp
@@ -5917,6 +6062,7 @@ extension Connect {
         /// A valid date.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -5936,6 +6082,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(evaluationFormId: String, evaluationFormVersion: Int = 0, instanceId: String) {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
@@ -5971,6 +6118,7 @@ extension Connect {
         /// The version of the deactivated evaluation form resource.
         public let evaluationFormVersion: Int
 
+        @inlinable
         public init(evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int) {
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
@@ -5995,6 +6143,7 @@ extension Connect {
         /// A unique name of the custom vocabulary.
         public let vocabularyName: String
 
+        @inlinable
         public init(instanceId: String, languageCode: VocabularyLanguageCode, vocabularyId: String, vocabularyName: String) {
             self.instanceId = instanceId
             self.languageCode = languageCode
@@ -6018,6 +6167,7 @@ extension Connect {
         /// The unique identifier of the Connect instance.
         public let instanceId: String
 
+        @inlinable
         public init(associatedResourceArn: String, fileId: String, instanceId: String) {
             self.associatedResourceArn = associatedResourceArn
             self.fileId = fileId
@@ -6052,6 +6202,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(evaluationId: String, instanceId: String) {
             self.evaluationId = evaluationId
             self.instanceId = instanceId
@@ -6080,6 +6231,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowModuleId: String, instanceId: String) {
             self.contactFlowModuleId = contactFlowModuleId
             self.instanceId = instanceId
@@ -6112,6 +6264,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowId: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.instanceId = instanceId
@@ -6145,6 +6298,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(evaluationFormId: String, evaluationFormVersion: Int? = nil, instanceId: String) {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
@@ -6176,6 +6330,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(hoursOfOperationId: String, instanceId: String) {
             self.hoursOfOperationId = hoursOfOperationId
             self.instanceId = instanceId
@@ -6200,6 +6355,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -6224,6 +6380,7 @@ extension Connect {
         /// The identifier for the integration association.
         public let integrationAssociationId: String
 
+        @inlinable
         public init(instanceId: String, integrationAssociationId: String) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
@@ -6252,6 +6409,7 @@ extension Connect {
         ///  The name of the predefined attribute.
         public let name: String
 
+        @inlinable
         public init(instanceId: String, name: String) {
             self.instanceId = instanceId
             self.name = name
@@ -6280,6 +6438,7 @@ extension Connect {
         /// A unique identifier for the prompt.
         public let promptId: String
 
+        @inlinable
         public init(instanceId: String, promptId: String) {
             self.instanceId = instanceId
             self.promptId = promptId
@@ -6308,6 +6467,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(instanceId: String, queueId: String) {
             self.instanceId = instanceId
             self.queueId = queueId
@@ -6334,6 +6494,7 @@ extension Connect {
         /// The identifier for the quick connect.
         public let quickConnectId: String
 
+        @inlinable
         public init(instanceId: String, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectId = quickConnectId
@@ -6360,6 +6521,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, routingProfileId: String) {
             self.instanceId = instanceId
             self.routingProfileId = routingProfileId
@@ -6386,6 +6548,7 @@ extension Connect {
         /// A unique identifier for the rule.
         public let ruleId: String
 
+        @inlinable
         public init(instanceId: String, ruleId: String) {
             self.instanceId = instanceId
             self.ruleId = ruleId
@@ -6414,6 +6577,7 @@ extension Connect {
         /// The identifier for the security profle.
         public let securityProfileId: String
 
+        @inlinable
         public init(instanceId: String, securityProfileId: String) {
             self.instanceId = instanceId
             self.securityProfileId = securityProfileId
@@ -6440,6 +6604,7 @@ extension Connect {
         /// A unique identifier for the task template.
         public let taskTemplateId: String
 
+        @inlinable
         public init(instanceId: String, taskTemplateId: String) {
             self.instanceId = instanceId
             self.taskTemplateId = taskTemplateId
@@ -6472,6 +6637,7 @@ extension Connect {
         /// The ARN must be provided if the call is from the replicated Region.
         public let trafficDistributionGroupId: String
 
+        @inlinable
         public init(trafficDistributionGroupId: String) {
             self.trafficDistributionGroupId = trafficDistributionGroupId
         }
@@ -6501,6 +6667,7 @@ extension Connect {
         /// The identifier for the use case.
         public let useCaseId: String
 
+        @inlinable
         public init(instanceId: String, integrationAssociationId: String, useCaseId: String) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
@@ -6533,6 +6700,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(hierarchyGroupId: String, instanceId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
@@ -6559,6 +6727,7 @@ extension Connect {
         /// The identifier of the user.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, userId: String) {
             self.instanceId = instanceId
             self.userId = userId
@@ -6585,6 +6754,7 @@ extension Connect {
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
 
+        @inlinable
         public init(instanceId: String, viewId: String) {
             self.instanceId = instanceId
             self.viewId = viewId
@@ -6621,6 +6791,7 @@ extension Connect {
         /// The version number of the view.
         public let viewVersion: Int
 
+        @inlinable
         public init(instanceId: String, viewId: String, viewVersion: Int) {
             self.instanceId = instanceId
             self.viewId = viewId
@@ -6657,6 +6828,7 @@ extension Connect {
         /// The identifier of the custom vocabulary.
         public let vocabularyId: String
 
+        @inlinable
         public init(instanceId: String, vocabularyId: String) {
             self.instanceId = instanceId
             self.vocabularyId = vocabularyId
@@ -6687,6 +6859,7 @@ extension Connect {
         /// The identifier of the custom vocabulary.
         public let vocabularyId: String
 
+        @inlinable
         public init(state: VocabularyState, vocabularyArn: String, vocabularyId: String) {
             self.state = state
             self.vocabularyArn = vocabularyArn
@@ -6706,6 +6879,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(agentStatusId: String, instanceId: String) {
             self.agentStatusId = agentStatusId
             self.instanceId = instanceId
@@ -6730,6 +6904,7 @@ extension Connect {
         /// The agent status.
         public let agentStatus: AgentStatus?
 
+        @inlinable
         public init(agentStatus: AgentStatus? = nil) {
             self.agentStatus = agentStatus
         }
@@ -6745,6 +6920,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(authenticationProfileId: String, instanceId: String) {
             self.authenticationProfileId = authenticationProfileId
             self.instanceId = instanceId
@@ -6771,6 +6947,7 @@ extension Connect {
         /// The authentication profile object being described.
         public let authenticationProfile: AuthenticationProfile?
 
+        @inlinable
         public init(authenticationProfile: AuthenticationProfile? = nil) {
             self.authenticationProfile = authenticationProfile
         }
@@ -6786,6 +6963,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(evaluationId: String, instanceId: String) {
             self.evaluationId = evaluationId
             self.instanceId = instanceId
@@ -6814,6 +6992,7 @@ extension Connect {
         /// Information about the evaluation form.
         public let evaluationForm: EvaluationFormContent
 
+        @inlinable
         public init(evaluation: Evaluation, evaluationForm: EvaluationFormContent) {
             self.evaluation = evaluation
             self.evaluationForm = evaluationForm
@@ -6831,6 +7010,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowModuleId: String, instanceId: String) {
             self.contactFlowModuleId = contactFlowModuleId
             self.instanceId = instanceId
@@ -6857,6 +7037,7 @@ extension Connect {
         /// Information about the flow module.
         public let contactFlowModule: ContactFlowModule?
 
+        @inlinable
         public init(contactFlowModule: ContactFlowModule? = nil) {
             self.contactFlowModule = contactFlowModule
         }
@@ -6872,6 +7053,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowId: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.instanceId = instanceId
@@ -6897,6 +7079,7 @@ extension Connect {
         /// Information about the flow.
         public let contactFlow: ContactFlow?
 
+        @inlinable
         public init(contactFlow: ContactFlow? = nil) {
             self.contactFlow = contactFlow
         }
@@ -6912,6 +7095,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactId: String, instanceId: String) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -6938,6 +7122,7 @@ extension Connect {
         /// Information about the contact.
         public let contact: Contact?
 
+        @inlinable
         public init(contact: Contact? = nil) {
             self.contact = contact
         }
@@ -6955,6 +7140,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(evaluationFormId: String, evaluationFormVersion: Int? = nil, instanceId: String) {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
@@ -6984,6 +7170,7 @@ extension Connect {
         /// Information about the evaluation form.
         public let evaluationForm: EvaluationForm
 
+        @inlinable
         public init(evaluationForm: EvaluationForm) {
             self.evaluationForm = evaluationForm
         }
@@ -6999,6 +7186,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(hoursOfOperationId: String, instanceId: String) {
             self.hoursOfOperationId = hoursOfOperationId
             self.instanceId = instanceId
@@ -7023,6 +7211,7 @@ extension Connect {
         /// The hours of operation.
         public let hoursOfOperation: HoursOfOperation?
 
+        @inlinable
         public init(hoursOfOperation: HoursOfOperation? = nil) {
             self.hoursOfOperation = hoursOfOperation
         }
@@ -7038,6 +7227,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(attributeType: InstanceAttributeType, instanceId: String) {
             self.attributeType = attributeType
             self.instanceId = instanceId
@@ -7062,6 +7252,7 @@ extension Connect {
         /// The type of attribute.
         public let attribute: Attribute?
 
+        @inlinable
         public init(attribute: Attribute? = nil) {
             self.attribute = attribute
         }
@@ -7075,6 +7266,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -7099,6 +7291,7 @@ extension Connect {
         /// Status information about the replication process. This field is included only when you are using the ReplicateInstance API to replicate an Amazon Connect instance across Amazon Web Services Regions. For information about replicating Amazon Connect instances, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
         public let replicationConfiguration: ReplicationConfiguration?
 
+        @inlinable
         public init(instance: Instance? = nil, replicationConfiguration: ReplicationConfiguration? = nil) {
             self.instance = instance
             self.replicationConfiguration = replicationConfiguration
@@ -7118,6 +7311,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
 
+        @inlinable
         public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType) {
             self.associationId = associationId
             self.instanceId = instanceId
@@ -7146,6 +7340,7 @@ extension Connect {
         /// A valid storage type.
         public let storageConfig: InstanceStorageConfig?
 
+        @inlinable
         public init(storageConfig: InstanceStorageConfig? = nil) {
             self.storageConfig = storageConfig
         }
@@ -7159,6 +7354,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
 
+        @inlinable
         public init(phoneNumberId: String) {
             self.phoneNumberId = phoneNumberId
         }
@@ -7176,6 +7372,7 @@ extension Connect {
         /// Information about a phone number that's been claimed to your Amazon Connect instance or traffic distribution group.
         public let claimedPhoneNumberSummary: ClaimedPhoneNumberSummary?
 
+        @inlinable
         public init(claimedPhoneNumberSummary: ClaimedPhoneNumberSummary? = nil) {
             self.claimedPhoneNumberSummary = claimedPhoneNumberSummary
         }
@@ -7191,6 +7388,7 @@ extension Connect {
         /// The name of the predefined attribute.
         public let name: String
 
+        @inlinable
         public init(instanceId: String, name: String) {
             self.instanceId = instanceId
             self.name = name
@@ -7217,6 +7415,7 @@ extension Connect {
         /// Information about the predefined attribute.
         public let predefinedAttribute: PredefinedAttribute?
 
+        @inlinable
         public init(predefinedAttribute: PredefinedAttribute? = nil) {
             self.predefinedAttribute = predefinedAttribute
         }
@@ -7232,6 +7431,7 @@ extension Connect {
         /// A unique identifier for the prompt.
         public let promptId: String
 
+        @inlinable
         public init(instanceId: String, promptId: String) {
             self.instanceId = instanceId
             self.promptId = promptId
@@ -7258,6 +7458,7 @@ extension Connect {
         /// Information about the prompt.
         public let prompt: Prompt?
 
+        @inlinable
         public init(prompt: Prompt? = nil) {
             self.prompt = prompt
         }
@@ -7273,6 +7474,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(instanceId: String, queueId: String) {
             self.instanceId = instanceId
             self.queueId = queueId
@@ -7297,6 +7499,7 @@ extension Connect {
         /// The name of the queue.
         public let queue: Queue?
 
+        @inlinable
         public init(queue: Queue? = nil) {
             self.queue = queue
         }
@@ -7312,6 +7515,7 @@ extension Connect {
         /// The identifier for the quick connect.
         public let quickConnectId: String
 
+        @inlinable
         public init(instanceId: String, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectId = quickConnectId
@@ -7336,6 +7540,7 @@ extension Connect {
         /// Information about the quick connect.
         public let quickConnect: QuickConnect?
 
+        @inlinable
         public init(quickConnect: QuickConnect? = nil) {
             self.quickConnect = quickConnect
         }
@@ -7351,6 +7556,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, routingProfileId: String) {
             self.instanceId = instanceId
             self.routingProfileId = routingProfileId
@@ -7375,6 +7581,7 @@ extension Connect {
         /// The routing profile.
         public let routingProfile: RoutingProfile?
 
+        @inlinable
         public init(routingProfile: RoutingProfile? = nil) {
             self.routingProfile = routingProfile
         }
@@ -7390,6 +7597,7 @@ extension Connect {
         /// A unique identifier for the rule.
         public let ruleId: String
 
+        @inlinable
         public init(instanceId: String, ruleId: String) {
             self.instanceId = instanceId
             self.ruleId = ruleId
@@ -7416,6 +7624,7 @@ extension Connect {
         /// Information about the rule.
         public let rule: Rule
 
+        @inlinable
         public init(rule: Rule) {
             self.rule = rule
         }
@@ -7431,6 +7640,7 @@ extension Connect {
         /// The identifier for the security profle.
         public let securityProfileId: String
 
+        @inlinable
         public init(instanceId: String, securityProfileId: String) {
             self.instanceId = instanceId
             self.securityProfileId = securityProfileId
@@ -7455,6 +7665,7 @@ extension Connect {
         /// The security profile.
         public let securityProfile: SecurityProfile?
 
+        @inlinable
         public init(securityProfile: SecurityProfile? = nil) {
             self.securityProfile = securityProfile
         }
@@ -7470,6 +7681,7 @@ extension Connect {
         /// The ARN must be provided if the call is from the replicated Region.
         public let trafficDistributionGroupId: String
 
+        @inlinable
         public init(trafficDistributionGroupId: String) {
             self.trafficDistributionGroupId = trafficDistributionGroupId
         }
@@ -7491,6 +7703,7 @@ extension Connect {
         /// Information about the traffic distribution group.
         public let trafficDistributionGroup: TrafficDistributionGroup?
 
+        @inlinable
         public init(trafficDistributionGroup: TrafficDistributionGroup? = nil) {
             self.trafficDistributionGroup = trafficDistributionGroup
         }
@@ -7506,6 +7719,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(hierarchyGroupId: String, instanceId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
@@ -7530,6 +7744,7 @@ extension Connect {
         /// Information about the hierarchy group.
         public let hierarchyGroup: HierarchyGroup?
 
+        @inlinable
         public init(hierarchyGroup: HierarchyGroup? = nil) {
             self.hierarchyGroup = hierarchyGroup
         }
@@ -7543,6 +7758,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -7565,6 +7781,7 @@ extension Connect {
         /// Information about the hierarchy structure.
         public let hierarchyStructure: HierarchyStructure?
 
+        @inlinable
         public init(hierarchyStructure: HierarchyStructure? = nil) {
             self.hierarchyStructure = hierarchyStructure
         }
@@ -7580,6 +7797,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, userId: String) {
             self.instanceId = instanceId
             self.userId = userId
@@ -7604,6 +7822,7 @@ extension Connect {
         /// Information about the user account and configuration settings.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -7619,6 +7838,7 @@ extension Connect {
         /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views.
         public let viewId: String
 
+        @inlinable
         public init(instanceId: String, viewId: String) {
             self.instanceId = instanceId
             self.viewId = viewId
@@ -7647,6 +7867,7 @@ extension Connect {
         /// All view data is contained within the View object.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -7662,6 +7883,7 @@ extension Connect {
         /// The identifier of the custom vocabulary.
         public let vocabularyId: String
 
+        @inlinable
         public init(instanceId: String, vocabularyId: String) {
             self.instanceId = instanceId
             self.vocabularyId = vocabularyId
@@ -7688,6 +7910,7 @@ extension Connect {
         /// A list of specific words that you want Contact Lens for Amazon Connect to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
         public let vocabulary: Vocabulary
 
+        @inlinable
         public init(vocabulary: Vocabulary) {
             self.vocabulary = vocabulary
         }
@@ -7705,6 +7928,7 @@ extension Connect {
         /// Version of the platform that the participant used for the call.
         public let platformVersion: String?
 
+        @inlinable
         public init(operatingSystem: String? = nil, platformName: String? = nil, platformVersion: String? = nil) {
             self.operatingSystem = operatingSystem
             self.platformName = platformName
@@ -7727,6 +7951,7 @@ extension Connect {
         /// The expression of a step in a routing criteria.
         public let routingStepExpression: String?
 
+        @inlinable
         public init(channel: Channel? = nil, queue: QueueReference? = nil, routingProfile: RoutingProfileReference? = nil, routingStepExpression: String? = nil) {
             self.channel = channel
             self.queue = queue
@@ -7750,6 +7975,7 @@ extension Connect {
         /// The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
         public let targetAccountId: String?
 
+        @inlinable
         public init(dataSetId: String, instanceId: String, targetAccountId: String? = nil) {
             self.dataSetId = dataSetId
             self.instanceId = instanceId
@@ -7783,6 +8009,7 @@ extension Connect {
         /// The domain URL of the integrated application.
         public let origin: String
 
+        @inlinable
         public init(instanceId: String, origin: String) {
             self.instanceId = instanceId
             self.origin = origin
@@ -7811,6 +8038,7 @@ extension Connect {
         /// The Amazon Lex V2 bot to disassociate from the instance.
         public let lexV2Bot: LexV2Bot?
 
+        @inlinable
         public init(instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
             self.instanceId = instanceId
             self.lexBot = lexBot
@@ -7846,6 +8074,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: FlowAssociationResourceType
 
+        @inlinable
         public init(instanceId: String, resourceId: String, resourceType: FlowAssociationResourceType) {
             self.instanceId = instanceId
             self.resourceId = resourceId
@@ -7880,6 +8109,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
 
+        @inlinable
         public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType) {
             self.associationId = associationId
             self.instanceId = instanceId
@@ -7910,6 +8140,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
         public let instanceId: String
 
+        @inlinable
         public init(functionArn: String, instanceId: String) {
             self.functionArn = functionArn
             self.instanceId = instanceId
@@ -7940,6 +8171,7 @@ extension Connect {
         /// The Amazon Web Services Region in which the Amazon Lex bot has been created.
         public let lexRegion: String
 
+        @inlinable
         public init(botName: String, instanceId: String, lexRegion: String) {
             self.botName = botName
             self.instanceId = instanceId
@@ -7970,6 +8202,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
 
+        @inlinable
         public init(instanceId: String, phoneNumberId: String) {
             self.instanceId = instanceId
             self.phoneNumberId = phoneNumberId
@@ -7998,6 +8231,7 @@ extension Connect {
         /// The quick connects to disassociate from the queue.
         public let quickConnectIds: [String]
 
+        @inlinable
         public init(instanceId: String, queueId: String, quickConnectIds: [String]) {
             self.instanceId = instanceId
             self.queueId = queueId
@@ -8032,6 +8266,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, queueReferences: [RoutingProfileQueueReference], routingProfileId: String) {
             self.instanceId = instanceId
             self.queueReferences = queueReferences
@@ -8062,6 +8297,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(associationId: String, instanceId: String) {
             self.associationId = associationId
             self.instanceId = instanceId
@@ -8094,6 +8330,7 @@ extension Connect {
         /// The identifier for the user. This can be the ID or the ARN of the user.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, trafficDistributionGroupId: String, userId: String) {
             self.instanceId = instanceId
             self.trafficDistributionGroupId = trafficDistributionGroupId
@@ -8129,6 +8366,7 @@ extension Connect {
         /// The proficiencies to disassociate from the user.
         public let userProficiencies: [UserProficiencyDisassociate]
 
+        @inlinable
         public init(instanceId: String, userId: String, userProficiencies: [UserProficiencyDisassociate]) {
             self.instanceId = instanceId
             self.userId = userId
@@ -8160,6 +8398,7 @@ extension Connect {
         /// Indicates the potential disconnection issues for a call. This field is not populated if the service does not detect potential issues.
         public let potentialDisconnectIssue: String?
 
+        @inlinable
         public init(potentialDisconnectIssue: String? = nil) {
             self.potentialDisconnectIssue = potentialDisconnectIssue
         }
@@ -8173,6 +8412,7 @@ extension Connect {
         /// A code that indicates how the contact was terminated.
         public let code: String?
 
+        @inlinable
         public init(code: String? = nil) {
             self.code = code
         }
@@ -8190,6 +8430,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(contactId: String, instanceId: String, userId: String) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -8226,6 +8467,7 @@ extension Connect {
         /// The Amazon Web Services Region where the traffic is distributed.
         public let region: String
 
+        @inlinable
         public init(percentage: Int, region: String) {
             self.percentage = percentage
             self.region = region
@@ -8251,6 +8493,7 @@ extension Connect {
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiry: String?
 
+        @inlinable
         public init(url: String? = nil, urlExpiry: String? = nil) {
             self.url = url
             self.urlExpiry = urlExpiry
@@ -8268,6 +8511,7 @@ extension Connect {
         /// A valid email address.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -8289,6 +8533,7 @@ extension Connect {
         /// The full ARN of the encryption key.   Be sure to provide the full ARN of the encryption key, not just the ID. Amazon Connect supports only KMS keys with the default key spec of  SYMMETRIC_DEFAULT .
         public let keyId: String
 
+        @inlinable
         public init(encryptionType: EncryptionType, keyId: String) {
             self.encryptionType = encryptionType
             self.keyId = keyId
@@ -8315,6 +8560,7 @@ extension Connect {
         /// Type of the endpoint.
         public let type: EndpointType?
 
+        @inlinable
         public init(address: String? = nil, type: EndpointType? = nil) {
             self.address = address
             self.type = type
@@ -8336,6 +8582,7 @@ extension Connect {
         /// The corresponding error message for the error code.
         public let errorMessage: String?
 
+        @inlinable
         public init(errorCode: String? = nil, errorMessage: String? = nil) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -8369,6 +8616,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(answers: [String: EvaluationAnswerOutput], createdTime: Date, evaluationArn: String, evaluationId: String, lastModifiedTime: Date, metadata: EvaluationMetadata, notes: [String: EvaluationNote], scores: [String: EvaluationScore]? = nil, status: EvaluationStatus, tags: [String: String]? = nil) {
             self.answers = answers
             self.createdTime = createdTime
@@ -8400,6 +8648,7 @@ extension Connect {
         /// The value for an answer in a contact evaluation.
         public let value: EvaluationAnswerData?
 
+        @inlinable
         public init(value: EvaluationAnswerData? = nil) {
             self.value = value
         }
@@ -8419,6 +8668,7 @@ extension Connect {
         /// The value for an answer in a contact evaluation.
         public let value: EvaluationAnswerData?
 
+        @inlinable
         public init(systemSuggestedValue: EvaluationAnswerData? = nil, value: EvaluationAnswerData? = nil) {
             self.systemSuggestedValue = systemSuggestedValue
             self.value = value
@@ -8460,6 +8710,7 @@ extension Connect {
         /// A title of the evaluation form.
         public let title: String
 
+        @inlinable
         public init(createdBy: String, createdTime: Date, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], lastModifiedBy: String, lastModifiedTime: Date, locked: Bool, scoringStrategy: EvaluationFormScoringStrategy? = nil, status: EvaluationFormVersionStatus, tags: [String: String]? = nil, title: String) {
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -8511,6 +8762,7 @@ extension Connect {
         /// A title of the evaluation form.
         public let title: String
 
+        @inlinable
         public init(description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], scoringStrategy: EvaluationFormScoringStrategy? = nil, title: String) {
             self.description = description
             self.evaluationFormArn = evaluationFormArn
@@ -8542,6 +8794,7 @@ extension Connect {
         /// The score assigned to answer values within the range option.
         public let score: Int?
 
+        @inlinable
         public init(automaticFail: Bool? = nil, maxValue: Int, minValue: Int, score: Int? = nil) {
             self.automaticFail = automaticFail
             self.maxValue = maxValue
@@ -8572,6 +8825,7 @@ extension Connect {
         /// The scoring options of the numeric question.
         public let options: [EvaluationFormNumericQuestionOption]?
 
+        @inlinable
         public init(automation: EvaluationFormNumericQuestionAutomation? = nil, maxValue: Int, minValue: Int, options: [EvaluationFormNumericQuestionOption]? = nil) {
             self.automation = automation
             self.maxValue = maxValue
@@ -8611,6 +8865,7 @@ extension Connect {
         /// The scoring weight of the section.
         public let weight: Double?
 
+        @inlinable
         public init(instructions: String? = nil, notApplicableEnabled: Bool? = nil, questionType: EvaluationFormQuestionType, questionTypeProperties: EvaluationFormQuestionTypeProperties? = nil, refId: String, title: String, weight: Double? = nil) {
             self.instructions = instructions
             self.notApplicableEnabled = notApplicableEnabled
@@ -8648,6 +8903,7 @@ extension Connect {
         /// The scoring status of the evaluation form.
         public let status: EvaluationFormScoringStatus
 
+        @inlinable
         public init(mode: EvaluationFormScoringMode, status: EvaluationFormScoringStatus) {
             self.mode = mode
             self.status = status
@@ -8671,6 +8927,7 @@ extension Connect {
         /// The scoring weight of the section.
         public let weight: Double?
 
+        @inlinable
         public init(instructions: String? = nil, items: [EvaluationFormItem], refId: String, title: String, weight: Double? = nil) {
             self.instructions = instructions
             self.items = items
@@ -8708,6 +8965,7 @@ extension Connect {
         /// The automation options of the single select question.
         public let options: [EvaluationFormSingleSelectQuestionAutomationOption]
 
+        @inlinable
         public init(defaultOptionRefId: String? = nil, options: [EvaluationFormSingleSelectQuestionAutomationOption]) {
             self.defaultOptionRefId = defaultOptionRefId
             self.options = options
@@ -8739,6 +8997,7 @@ extension Connect {
         /// The title of the answer option.
         public let text: String
 
+        @inlinable
         public init(automaticFail: Bool? = nil, refId: String, score: Int? = nil, text: String) {
             self.automaticFail = automaticFail
             self.refId = refId
@@ -8770,6 +9029,7 @@ extension Connect {
         /// The answer options of the single select question.
         public let options: [EvaluationFormSingleSelectQuestionOption]
 
+        @inlinable
         public init(automation: EvaluationFormSingleSelectQuestionAutomation? = nil, displayAs: EvaluationFormSingleSelectQuestionDisplayMode? = nil, options: [EvaluationFormSingleSelectQuestionOption]) {
             self.automation = automation
             self.displayAs = displayAs
@@ -8816,6 +9076,7 @@ extension Connect {
         /// A title of the evaluation form.
         public let title: String
 
+        @inlinable
         public init(activeVersion: Int? = nil, createdBy: String, createdTime: Date, evaluationFormArn: String, evaluationFormId: String, lastActivatedBy: String? = nil, lastActivatedTime: Date? = nil, lastModifiedBy: String, lastModifiedTime: Date, latestVersion: Int, title: String) {
             self.activeVersion = activeVersion
             self.createdBy = createdBy
@@ -8865,6 +9126,7 @@ extension Connect {
         /// The status of the evaluation form.
         public let status: EvaluationFormVersionStatus
 
+        @inlinable
         public init(createdBy: String, createdTime: Date, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, lastModifiedBy: String, lastModifiedTime: Date, locked: Bool, status: EvaluationFormVersionStatus) {
             self.createdBy = createdBy
             self.createdTime = createdTime
@@ -8900,6 +9162,7 @@ extension Connect {
         /// The overall score of the contact evaluation.
         public let score: EvaluationScore?
 
+        @inlinable
         public init(contactAgentId: String? = nil, contactId: String, evaluatorArn: String, score: EvaluationScore? = nil) {
             self.contactAgentId = contactAgentId
             self.contactId = contactId
@@ -8919,6 +9182,7 @@ extension Connect {
         /// The note for an item (section or question) in a contact evaluation.  Even though a note in an evaluation can have up to 3072 chars, there is also a limit on the total number of chars for all the notes in the evaluation combined. Assuming there are N questions in the evaluation being submitted, then the max char limit for all notes combined is N x 1024.
         public let value: String?
 
+        @inlinable
         public init(value: String? = nil) {
             self.value = value
         }
@@ -8940,6 +9204,7 @@ extension Connect {
         /// The score percentage for an item in a contact evaluation.
         public let percentage: Double?
 
+        @inlinable
         public init(automaticFail: Bool? = nil, notApplicable: Bool? = nil, percentage: Double? = nil) {
             self.automaticFail = automaticFail
             self.notApplicable = notApplicable
@@ -8973,6 +9238,7 @@ extension Connect {
         /// The status of the contact evaluation.
         public let status: EvaluationStatus
 
+        @inlinable
         public init(createdTime: Date, evaluationArn: String, evaluationFormId: String, evaluationFormTitle: String, evaluationId: String, evaluatorArn: String, lastModifiedTime: Date, score: EvaluationScore? = nil, status: EvaluationStatus) {
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
@@ -9002,6 +9268,7 @@ extension Connect {
         /// The name.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -9022,6 +9289,7 @@ extension Connect {
         /// The timestamp indicating when the routing step expires.
         public let expiryTimestamp: Date?
 
+        @inlinable
         public init(durationInSeconds: Int? = nil, expiryTimestamp: Date? = nil) {
             self.durationInSeconds = durationInSeconds
             self.expiryTimestamp = expiryTimestamp
@@ -9041,6 +9309,7 @@ extension Connect {
         /// List of routing expressions which will be OR-ed together.
         public let orExpression: [Expression]?
 
+        @inlinable
         public init(andExpression: [Expression]? = nil, attributeCondition: AttributeCondition? = nil, orExpression: [Expression]? = nil) {
             self.andExpression = andExpression
             self.attributeCondition = attributeCondition
@@ -9072,6 +9341,7 @@ extension Connect {
         /// Request identifier provided in the API call in the ContactDataRequest to create a contact.
         public let requestIdentifier: String?
 
+        @inlinable
         public init(failureReasonCode: FailureReasonCode? = nil, failureReasonMessage: String? = nil, requestIdentifier: String? = nil) {
             self.failureReasonCode = failureReasonCode
             self.failureReasonMessage = failureReasonMessage
@@ -9091,6 +9361,7 @@ extension Connect {
         /// Union of potential field value types.
         public let value: FieldValueUnion
 
+        @inlinable
         public init(id: String, value: FieldValueUnion) {
             self.id = id
             self.value = value
@@ -9118,6 +9389,7 @@ extension Connect {
         /// String value type.
         public let stringValue: String?
 
+        @inlinable
         public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, emptyValue: EmptyFieldValue? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
@@ -9143,6 +9415,7 @@ extension Connect {
         /// The identifiers to use for filtering data. For example, if you have a filter key of QUEUE, you would add queue IDs or ARNs in FilterValues.
         public let filterValues: [String]?
 
+        @inlinable
         public init(filterKey: String? = nil, filterValues: [String]? = nil) {
             self.filterKey = filterKey
             self.filterValues = filterValues
@@ -9175,6 +9448,7 @@ extension Connect {
         /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
         public let routingStepExpressions: [String]?
 
+        @inlinable
         public init(channels: [Channel]? = nil, queues: [String]? = nil, routingProfiles: [String]? = nil, routingStepExpressions: [String]? = nil) {
             self.channels = channels
             self.queues = queues
@@ -9211,6 +9485,7 @@ extension Connect {
         /// The type of resource association.
         public let resourceType: ListFlowAssociationResourceType?
 
+        @inlinable
         public init(flowId: String? = nil, resourceId: String? = nil, resourceType: ListFlowAssociationResourceType? = nil) {
             self.flowId = flowId
             self.resourceId = resourceId
@@ -9234,6 +9509,7 @@ extension Connect {
         /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
         public let urlExpiryInSeconds: Int?
 
+        @inlinable
         public init(associatedResourceArn: String, fileId: String, instanceId: String, urlExpiryInSeconds: Int? = nil) {
             self.associatedResourceArn = associatedResourceArn
             self.fileId = fileId
@@ -9286,6 +9562,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(associatedResourceArn: String? = nil, createdBy: CreatedByInfo? = nil, creationTime: String? = nil, downloadUrlMetadata: DownloadUrlMetadata? = nil, fileArn: String? = nil, fileId: String? = nil, fileName: String? = nil, fileSizeInBytes: Int64, fileStatus: FileStatusType? = nil, fileUseCaseType: FileUseCaseType? = nil, tags: [String: String]? = nil) {
             self.associatedResourceArn = associatedResourceArn
             self.createdBy = createdBy
@@ -9321,6 +9598,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
+        @inlinable
         public init(initialContactId: String, instanceId: String) {
             self.initialContactId = initialContactId
             self.instanceId = instanceId
@@ -9347,6 +9625,7 @@ extension Connect {
         /// Information about the attributes.
         public let attributes: [String: String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil) {
             self.attributes = attributes
         }
@@ -9373,6 +9652,7 @@ extension Connect {
         /// The way to sort the resulting response based on metrics. You can enter one sort criteria. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics. Note the following:   Sorting on SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
         public let sortCriteria: [CurrentMetricSortCriteria]?
 
+        @inlinable
         public init(currentMetrics: [CurrentMetric], filters: Filters, groupings: [Grouping]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [CurrentMetricSortCriteria]? = nil) {
             self.currentMetrics = currentMetrics
             self.filters = filters
@@ -9425,6 +9705,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, dataSnapshotTime: Date? = nil, metricResults: [CurrentMetricResult]? = nil, nextToken: String? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.dataSnapshotTime = dataSnapshotTime
@@ -9451,6 +9732,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(filters: UserDataFilters, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.instanceId = instanceId
@@ -9490,6 +9772,7 @@ extension Connect {
         /// A list of the user data that is returned.
         public let userDataList: [UserData]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, userDataList: [UserData]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -9507,6 +9790,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(instanceId: String) {
             self.instanceId = instanceId
         }
@@ -9535,6 +9819,7 @@ extension Connect {
         /// The identifier for the user. This can be the ID or the ARN of the user.
         public let userId: String?
 
+        @inlinable
         public init(credentials: Credentials? = nil, signInUrl: String? = nil, userArn: String? = nil, userId: String? = nil) {
             self.credentials = credentials
             self.signInUrl = signInUrl
@@ -9558,6 +9843,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: FlowAssociationResourceType
 
+        @inlinable
         public init(instanceId: String, resourceId: String, resourceType: FlowAssociationResourceType) {
             self.instanceId = instanceId
             self.resourceId = resourceId
@@ -9588,6 +9874,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: FlowAssociationResourceType?
 
+        @inlinable
         public init(flowId: String? = nil, resourceId: String? = nil, resourceType: FlowAssociationResourceType? = nil) {
             self.flowId = flowId
             self.resourceId = resourceId
@@ -9620,6 +9907,7 @@ extension Connect {
         /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, filters: Filters, groupings: [Grouping]? = nil, historicalMetrics: [HistoricalMetric], instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.endTime = endTime
             self.filters = filters
@@ -9670,6 +9958,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
         public let nextToken: String?
 
+        @inlinable
         public init(metricResults: [HistoricalMetricResult]? = nil, nextToken: String? = nil) {
             self.metricResults = metricResults
             self.nextToken = nextToken
@@ -9702,6 +9991,7 @@ extension Connect {
         /// The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The start and end time depends on the IntervalPeriod selected. By default the time range between start and end time is 35 days. Historical metrics are available for 3 months.
         public let startTime: Date
 
+        @inlinable
         public init(endTime: Date, filters: [FilterV2], groupings: [String]? = nil, interval: IntervalDetails? = nil, maxResults: Int? = nil, metrics: [MetricV2], nextToken: String? = nil, resourceArn: String, startTime: Date) {
             self.endTime = endTime
             self.filters = filters
@@ -9749,6 +10039,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(metricResults: [MetricResultV2]? = nil, nextToken: String? = nil) {
             self.metricResults = metricResults
             self.nextToken = nextToken
@@ -9766,6 +10057,7 @@ extension Connect {
         /// A unique identifier for the prompt.
         public let promptId: String
 
+        @inlinable
         public init(instanceId: String, promptId: String) {
             self.instanceId = instanceId
             self.promptId = promptId
@@ -9796,6 +10088,7 @@ extension Connect {
         /// A generated URL to the prompt that can be given to an unauthorized user so they can access the prompt in S3.
         public let promptPresignedUrl: String?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, promptPresignedUrl: String? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -9817,6 +10110,7 @@ extension Connect {
         /// A unique identifier for the task template.
         public let taskTemplateId: String
 
+        @inlinable
         public init(instanceId: String, snapshotVersion: String? = nil, taskTemplateId: String) {
             self.instanceId = instanceId
             self.snapshotVersion = snapshotVersion
@@ -9871,6 +10165,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, createdTime: Date? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField]? = nil, id: String, instanceId: String? = nil, lastModifiedTime: Date? = nil, name: String, status: TaskTemplateStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.constraints = constraints
@@ -9910,6 +10205,7 @@ extension Connect {
         /// The ARN must be provided if the call is from the replicated Region.
         public let id: String
 
+        @inlinable
         public init(id: String) {
             self.id = id
         }
@@ -9941,6 +10237,7 @@ extension Connect {
         /// The distribution of traffic between the instance and its replicas.
         public let telephonyConfig: TelephonyConfig?
 
+        @inlinable
         public init(agentConfig: AgentConfig? = nil, arn: String? = nil, id: String? = nil, signInConfig: SignInConfig? = nil, telephonyConfig: TelephonyConfig? = nil) {
             self.agentConfig = agentConfig
             self.arn = arn
@@ -9976,6 +10273,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, hierarchyPath: HierarchyPath? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, levelId: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.hierarchyPath = hierarchyPath
@@ -10005,6 +10303,7 @@ extension Connect {
         /// The value in the hierarchy group condition.
         public let value: String?
 
+        @inlinable
         public init(hierarchyGroupMatchType: HierarchyGroupMatchType? = nil, value: String? = nil) {
             self.hierarchyGroupMatchType = hierarchyGroupMatchType
             self.value = value
@@ -10028,6 +10327,7 @@ extension Connect {
         /// The name of the hierarchy group.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -10051,6 +10351,7 @@ extension Connect {
         /// The unique identifier for the hierarchy group.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -10074,6 +10375,7 @@ extension Connect {
         /// The group at level five of the agent hierarchy.
         public let level5: AgentHierarchyGroup?
 
+        @inlinable
         public init(level1: AgentHierarchyGroup? = nil, level2: AgentHierarchyGroup? = nil, level3: AgentHierarchyGroup? = nil, level4: AgentHierarchyGroup? = nil, level5: AgentHierarchyGroup? = nil) {
             self.level1 = level1
             self.level2 = level2
@@ -10103,6 +10405,7 @@ extension Connect {
         /// The name of the hierarchy level.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -10124,6 +10427,7 @@ extension Connect {
         /// The name of the user hierarchy level. Must not be more than 50 characters.
         public let name: String
 
+        @inlinable
         public init(name: String) {
             self.name = name
         }
@@ -10145,6 +10449,7 @@ extension Connect {
         /// Information about level two.
         public let levelTwo: HierarchyGroupSummary?
 
+        @inlinable
         public init(levelFive: HierarchyGroupSummary? = nil, levelFour: HierarchyGroupSummary? = nil, levelOne: HierarchyGroupSummary? = nil, levelThree: HierarchyGroupSummary? = nil, levelTwo: HierarchyGroupSummary? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
@@ -10174,6 +10479,7 @@ extension Connect {
         /// Information about level two.
         public let levelTwo: HierarchyGroupSummaryReference?
 
+        @inlinable
         public init(levelFive: HierarchyGroupSummaryReference? = nil, levelFour: HierarchyGroupSummaryReference? = nil, levelOne: HierarchyGroupSummaryReference? = nil, levelThree: HierarchyGroupSummaryReference? = nil, levelTwo: HierarchyGroupSummaryReference? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
@@ -10203,6 +10509,7 @@ extension Connect {
         /// Information about level two.
         public let levelTwo: HierarchyLevel?
 
+        @inlinable
         public init(levelFive: HierarchyLevel? = nil, levelFour: HierarchyLevel? = nil, levelOne: HierarchyLevel? = nil, levelThree: HierarchyLevel? = nil, levelTwo: HierarchyLevel? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
@@ -10232,6 +10539,7 @@ extension Connect {
         /// The update for level two.
         public let levelTwo: HierarchyLevelUpdate?
 
+        @inlinable
         public init(levelFive: HierarchyLevelUpdate? = nil, levelFour: HierarchyLevelUpdate? = nil, levelOne: HierarchyLevelUpdate? = nil, levelThree: HierarchyLevelUpdate? = nil, levelTwo: HierarchyLevelUpdate? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
@@ -10259,6 +10567,7 @@ extension Connect {
         /// The unit for the metric.
         public let unit: Unit?
 
+        @inlinable
         public init(name: HistoricalMetricName? = nil, statistic: Statistic? = nil, threshold: Threshold? = nil, unit: Unit? = nil) {
             self.name = name
             self.statistic = statistic
@@ -10280,6 +10589,7 @@ extension Connect {
         /// The value of the metric.
         public let value: Double?
 
+        @inlinable
         public init(metric: HistoricalMetric? = nil, value: Double? = nil) {
             self.metric = metric
             self.value = value
@@ -10297,6 +10607,7 @@ extension Connect {
         /// The dimension for the metrics.
         public let dimensions: Dimensions?
 
+        @inlinable
         public init(collections: [HistoricalMetricData]? = nil, dimensions: Dimensions? = nil) {
             self.collections = collections
             self.dimensions = dimensions
@@ -10328,6 +10639,7 @@ extension Connect {
         /// The time zone for the hours of operation.
         public let timeZone: String?
 
+        @inlinable
         public init(config: [HoursOfOperationConfig]? = nil, description: String? = nil, hoursOfOperationArn: String? = nil, hoursOfOperationId: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, tags: [String: String]? = nil, timeZone: String? = nil) {
             self.config = config
             self.description = description
@@ -10361,6 +10673,7 @@ extension Connect {
         /// The start time that your contact center opens.
         public let startTime: HoursOfOperationTimeSlice
 
+        @inlinable
         public init(day: HoursOfOperationDays, endTime: HoursOfOperationTimeSlice, startTime: HoursOfOperationTimeSlice) {
             self.day = day
             self.endTime = endTime
@@ -10387,6 +10700,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, description, timezone, and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [HoursOfOperationSearchCriteria]? = nil, orConditions: [HoursOfOperationSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -10403,6 +10717,7 @@ extension Connect {
     public struct HoursOfOperationSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -10424,6 +10739,7 @@ extension Connect {
         /// The name of the hours of operation.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -10447,6 +10763,7 @@ extension Connect {
         /// The minutes.
         public let minutes: Int
 
+        @inlinable
         public init(hours: Int, minutes: Int) {
             self.hours = hours
             self.minutes = minutes
@@ -10477,6 +10794,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(clientToken: String? = ImportPhoneNumberRequest.idempotencyToken(), instanceId: String, phoneNumberDescription: String? = nil, sourcePhoneNumberArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.instanceId = instanceId
@@ -10516,6 +10834,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String?
 
+        @inlinable
         public init(phoneNumberArn: String? = nil, phoneNumberId: String? = nil) {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
@@ -10553,6 +10872,7 @@ extension Connect {
         /// The tags of an instance.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAccessUrl: String? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil, statusReason: InstanceStatusReason? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -10588,6 +10908,7 @@ extension Connect {
         /// The message.
         public let message: String?
 
+        @inlinable
         public init(message: String? = nil) {
             self.message = message
         }
@@ -10611,6 +10932,7 @@ extension Connect {
         /// A valid storage type.
         public let storageType: StorageType
 
+        @inlinable
         public init(associationId: String? = nil, kinesisFirehoseConfig: KinesisFirehoseConfig? = nil, kinesisStreamConfig: KinesisStreamConfig? = nil, kinesisVideoStreamConfig: KinesisVideoStreamConfig? = nil, s3Config: S3Config? = nil, storageType: StorageType) {
             self.associationId = associationId
             self.kinesisFirehoseConfig = kinesisFirehoseConfig
@@ -10659,6 +10981,7 @@ extension Connect {
         /// The service role of the instance.
         public let serviceRole: String?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, identityManagementType: DirectoryType? = nil, inboundCallsEnabled: Bool? = nil, instanceAccessUrl: String? = nil, instanceAlias: String? = nil, instanceStatus: InstanceStatus? = nil, outboundCallsEnabled: Bool? = nil, serviceRole: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -10704,6 +11027,7 @@ extension Connect {
         /// The name of the source.
         public let sourceType: SourceType?
 
+        @inlinable
         public init(instanceId: String? = nil, integrationArn: String? = nil, integrationAssociationArn: String? = nil, integrationAssociationId: String? = nil, integrationType: IntegrationType? = nil, sourceApplicationName: String? = nil, sourceApplicationUrl: String? = nil, sourceType: SourceType? = nil) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
@@ -10733,6 +11057,7 @@ extension Connect {
         /// The timezone applied to requested metrics.
         public let timeZone: String?
 
+        @inlinable
         public init(intervalPeriod: IntervalPeriod? = nil, timeZone: String? = nil) {
             self.intervalPeriod = intervalPeriod
             self.timeZone = timeZone
@@ -10748,6 +11073,7 @@ extension Connect {
         /// Identifier of the invisible field.
         public let id: TaskTemplateFieldIdentifier?
 
+        @inlinable
         public init(id: TaskTemplateFieldIdentifier? = nil) {
             self.id = id
         }
@@ -10765,6 +11091,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let firehoseArn: String
 
+        @inlinable
         public init(firehoseArn: String) {
             self.firehoseArn = firehoseArn
         }
@@ -10778,6 +11105,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the data stream.
         public let streamArn: String
 
+        @inlinable
         public init(streamArn: String) {
             self.streamArn = streamArn
         }
@@ -10795,6 +11123,7 @@ extension Connect {
         /// The number of hours data is retained in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data.
         public let retentionPeriodHours: Int
 
+        @inlinable
         public init(encryptionConfig: EncryptionConfig, prefix: String, retentionPeriodHours: Int) {
             self.encryptionConfig = encryptionConfig
             self.prefix = prefix
@@ -10822,6 +11151,7 @@ extension Connect {
         /// The name of the Amazon Lex bot.
         public let name: String
 
+        @inlinable
         public init(lexRegion: String, name: String) {
             self.lexRegion = lexRegion
             self.name = name
@@ -10843,6 +11173,7 @@ extension Connect {
         /// Configuration information of an Amazon Lex V2 bot.
         public let lexV2Bot: LexV2Bot?
 
+        @inlinable
         public init(lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
@@ -10858,6 +11189,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the Amazon Lex V2 bot.
         public let aliasArn: String?
 
+        @inlinable
         public init(aliasArn: String? = nil) {
             self.aliasArn = aliasArn
         }
@@ -10883,6 +11215,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentStatusTypes: [AgentStatusType]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.agentStatusTypes = agentStatusTypes
             self.instanceId = instanceId
@@ -10916,6 +11249,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentStatusSummaryList: [AgentStatusSummary]? = nil, nextToken: String? = nil) {
             self.agentStatusSummaryList = agentStatusSummaryList
             self.nextToken = nextToken
@@ -10938,6 +11272,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(dataSetId: String? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.dataSetId = dataSetId
             self.instanceId = instanceId
@@ -10972,6 +11307,7 @@ extension Connect {
         /// An array of successful results: DataSetId, TargetAccountId, ResourceShareId, ResourceShareArn. This is a paginated API, so nextToken is given if there are more results to be returned.
         public let results: [AnalyticsDataAssociationResult]?
 
+        @inlinable
         public init(nextToken: String? = nil, results: [AnalyticsDataAssociationResult]? = nil) {
             self.nextToken = nextToken
             self.results = results
@@ -10992,6 +11328,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11022,6 +11359,7 @@ extension Connect {
         /// The approved origins.
         public let origins: [String]?
 
+        @inlinable
         public init(nextToken: String? = nil, origins: [String]? = nil) {
             self.nextToken = nextToken
             self.origins = origins
@@ -11042,6 +11380,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11072,6 +11411,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(authenticationProfileSummaryList: [AuthenticationProfileSummary]? = nil, nextToken: String? = nil) {
             self.authenticationProfileSummaryList = authenticationProfileSummaryList
             self.nextToken = nextToken
@@ -11094,6 +11434,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, lexVersion: LexVersion, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.lexVersion = lexVersion
@@ -11126,6 +11467,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(lexBots: [LexBotConfig]? = nil, nextToken: String? = nil) {
             self.lexBots = lexBots
             self.nextToken = nextToken
@@ -11143,6 +11485,7 @@ extension Connect {
         /// The type of target list that will be used to filter the users.
         public let targetListType: TargetListType?
 
+        @inlinable
         public init(conditions: [Condition]? = nil, targetListType: TargetListType? = nil) {
             self.conditions = conditions
             self.targetListType = targetListType
@@ -11163,6 +11506,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.  This is not expected to be set because the value returned in the previous response is always null.
         public let nextToken: String?
 
+        @inlinable
         public init(contactId: String, instanceId: String, nextToken: String? = nil) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -11193,6 +11537,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.  This is always returned as null in the response.
         public let nextToken: String?
 
+        @inlinable
         public init(evaluationSummaryList: [EvaluationSummary], nextToken: String? = nil) {
             self.evaluationSummaryList = evaluationSummaryList
             self.nextToken = nextToken
@@ -11215,6 +11560,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactFlowModuleState: ContactFlowModuleState? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactFlowModuleState = contactFlowModuleState
             self.instanceId = instanceId
@@ -11247,6 +11593,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactFlowModulesSummaryList: [ContactFlowModuleSummary]? = nil, nextToken: String? = nil) {
             self.contactFlowModulesSummaryList = contactFlowModulesSummaryList
             self.nextToken = nextToken
@@ -11269,6 +11616,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactFlowTypes: [ContactFlowType]? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.contactFlowTypes = contactFlowTypes
             self.instanceId = instanceId
@@ -11302,6 +11650,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(contactFlowSummaryList: [ContactFlowSummary]? = nil, nextToken: String? = nil) {
             self.contactFlowSummaryList = contactFlowSummaryList
             self.nextToken = nextToken
@@ -11324,6 +11673,7 @@ extension Connect {
         /// The type of reference.
         public let referenceTypes: [ReferenceType]
 
+        @inlinable
         public init(contactId: String, instanceId: String, nextToken: String? = nil, referenceTypes: [ReferenceType]) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -11357,6 +11707,7 @@ extension Connect {
         /// Information about the flows.
         public let referenceSummaryList: [ReferenceSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, referenceSummaryList: [ReferenceSummary]? = nil) {
             self.nextToken = nextToken
             self.referenceSummaryList = referenceSummaryList
@@ -11380,6 +11731,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
@@ -11419,6 +11771,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(defaultVocabularyList: [DefaultVocabulary], nextToken: String? = nil) {
             self.defaultVocabularyList = defaultVocabularyList
             self.nextToken = nextToken
@@ -11441,6 +11794,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(evaluationFormId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.evaluationFormId = evaluationFormId
             self.instanceId = instanceId
@@ -11475,6 +11829,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(evaluationFormVersionSummaryList: [EvaluationFormVersionSummary], nextToken: String? = nil) {
             self.evaluationFormVersionSummaryList = evaluationFormVersionSummaryList
             self.nextToken = nextToken
@@ -11495,6 +11850,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11525,6 +11881,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(evaluationFormSummaryList: [EvaluationFormSummary], nextToken: String? = nil) {
             self.evaluationFormSummaryList = evaluationFormSummaryList
             self.nextToken = nextToken
@@ -11547,6 +11904,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: ListFlowAssociationResourceType?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: ListFlowAssociationResourceType? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11579,6 +11937,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(flowAssociationSummaryList: [FlowAssociationSummary]? = nil, nextToken: String? = nil) {
             self.flowAssociationSummaryList = flowAssociationSummaryList
             self.nextToken = nextToken
@@ -11599,6 +11958,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11629,6 +11989,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(hoursOfOperationSummaryList: [HoursOfOperationSummary]? = nil, nextToken: String? = nil) {
             self.hoursOfOperationSummaryList = hoursOfOperationSummaryList
             self.nextToken = nextToken
@@ -11649,6 +12010,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11679,6 +12041,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(attributes: [Attribute]? = nil, nextToken: String? = nil) {
             self.attributes = attributes
             self.nextToken = nextToken
@@ -11701,6 +12064,7 @@ extension Connect {
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceType: InstanceStorageResourceType) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11733,6 +12097,7 @@ extension Connect {
         /// A valid storage type.
         public let storageConfigs: [InstanceStorageConfig]?
 
+        @inlinable
         public init(nextToken: String? = nil, storageConfigs: [InstanceStorageConfig]? = nil) {
             self.nextToken = nextToken
             self.storageConfigs = storageConfigs
@@ -11751,6 +12116,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -11777,6 +12143,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceSummaryList: [InstanceSummary]? = nil, nextToken: String? = nil) {
             self.instanceSummaryList = instanceSummaryList
             self.nextToken = nextToken
@@ -11801,6 +12168,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, integrationArn: String? = nil, integrationType: IntegrationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.integrationArn = integrationArn
@@ -11835,6 +12203,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(integrationAssociationSummaryList: [IntegrationAssociationSummary]? = nil, nextToken: String? = nil) {
             self.integrationAssociationSummaryList = integrationAssociationSummaryList
             self.nextToken = nextToken
@@ -11855,6 +12224,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11885,6 +12255,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(lambdaFunctions: [String]? = nil, nextToken: String? = nil) {
             self.lambdaFunctions = lambdaFunctions
             self.nextToken = nextToken
@@ -11905,6 +12276,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11935,6 +12307,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(lexBots: [LexBot]? = nil, nextToken: String? = nil) {
             self.lexBots = lexBots
             self.nextToken = nextToken
@@ -11959,6 +12332,7 @@ extension Connect {
         /// The type of phone number.  We recommend using ListPhoneNumbersV2 to return phone number types. While ListPhoneNumbers returns number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID, it incorrectly lists them as TOLL_FREE or DID.
         public let phoneNumberTypes: [PhoneNumberType]?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberTypes: [PhoneNumberType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -11995,6 +12369,7 @@ extension Connect {
         /// Information about the phone numbers.
         public let phoneNumberSummaryList: [PhoneNumberSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, phoneNumberSummaryList: [PhoneNumberSummary]? = nil) {
             self.nextToken = nextToken
             self.phoneNumberSummaryList = phoneNumberSummaryList
@@ -12026,6 +12401,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through.
         public let targetArn: String?
 
+        @inlinable
         public init(instanceId: String? = nil, phoneNumber: String? = nil, phoneNumberArn: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberDescription: String? = nil, phoneNumberId: String? = nil, phoneNumberType: PhoneNumberType? = nil, sourcePhoneNumberArn: String? = nil, targetArn: String? = nil) {
             self.instanceId = instanceId
             self.phoneNumber = phoneNumber
@@ -12068,6 +12444,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
         public let targetArn: String?
 
+        @inlinable
         public init(instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCodes: [PhoneNumberCountryCode]? = nil, phoneNumberPrefix: String? = nil, phoneNumberTypes: [PhoneNumberType]? = nil, targetArn: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12107,6 +12484,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(listPhoneNumbersSummaryList: [ListPhoneNumbersSummary]? = nil, nextToken: String? = nil) {
             self.listPhoneNumbersSummaryList = listPhoneNumbersSummaryList
             self.nextToken = nextToken
@@ -12126,6 +12504,7 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12156,6 +12535,7 @@ extension Connect {
         /// Summary of the predefined attributes.
         public let predefinedAttributeSummaryList: [PredefinedAttributeSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, predefinedAttributeSummaryList: [PredefinedAttributeSummary]? = nil) {
             self.nextToken = nextToken
             self.predefinedAttributeSummaryList = predefinedAttributeSummaryList
@@ -12175,6 +12555,7 @@ extension Connect {
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12205,6 +12586,7 @@ extension Connect {
         /// Information about the prompts.
         public let promptSummaryList: [PromptSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, promptSummaryList: [PromptSummary]? = nil) {
             self.nextToken = nextToken
             self.promptSummaryList = promptSummaryList
@@ -12227,6 +12609,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueId: String) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12263,6 +12646,7 @@ extension Connect {
         /// Information about the quick connects.
         public let quickConnectSummaryList: [QuickConnectSummary]?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil, quickConnectSummaryList: [QuickConnectSummary]? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -12289,6 +12673,7 @@ extension Connect {
         /// The type of queue.
         public let queueTypes: [QueueType]?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, queueTypes: [QueueType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12322,6 +12707,7 @@ extension Connect {
         /// Information about the queues.
         public let queueSummaryList: [QueueSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, queueSummaryList: [QueueSummary]? = nil) {
             self.nextToken = nextToken
             self.queueSummaryList = queueSummaryList
@@ -12344,6 +12730,7 @@ extension Connect {
         /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public let quickConnectTypes: [QuickConnectType]?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, quickConnectTypes: [QuickConnectType]? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12377,6 +12764,7 @@ extension Connect {
         /// Information about the quick connects.
         public let quickConnectSummaryList: [QuickConnectSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, quickConnectSummaryList: [QuickConnectSummary]? = nil) {
             self.nextToken = nextToken
             self.quickConnectSummaryList = quickConnectSummaryList
@@ -12403,6 +12791,7 @@ extension Connect {
         /// Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of supported segment types.
         public let segmentTypes: [RealTimeContactAnalysisSegmentType]
 
+        @inlinable
         public init(contactId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, outputType: RealTimeContactAnalysisOutputType, segmentTypes: [RealTimeContactAnalysisSegmentType]) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -12453,6 +12842,7 @@ extension Connect {
         /// Status of real-time contact analysis.
         public let status: RealTimeContactAnalysisStatus
 
+        @inlinable
         public init(channel: RealTimeContactAnalysisSupportedChannel, nextToken: String? = nil, segments: [RealtimeContactAnalysisSegment], status: RealTimeContactAnalysisStatus) {
             self.channel = channel
             self.nextToken = nextToken
@@ -12479,6 +12869,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, routingProfileId: String) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12515,6 +12906,7 @@ extension Connect {
         /// Information about the routing profiles.
         public let routingProfileQueueConfigSummaryList: [RoutingProfileQueueConfigSummary]?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil, routingProfileQueueConfigSummaryList: [RoutingProfileQueueConfigSummary]? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -12539,6 +12931,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12569,6 +12962,7 @@ extension Connect {
         /// Information about the routing profiles.
         public let routingProfileSummaryList: [RoutingProfileSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, routingProfileSummaryList: [RoutingProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.routingProfileSummaryList = routingProfileSummaryList
@@ -12593,6 +12987,7 @@ extension Connect {
         /// The publish status of the rule.
         public let publishStatus: RulePublishStatus?
 
+        @inlinable
         public init(eventSourceName: EventSourceName? = nil, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, publishStatus: RulePublishStatus? = nil) {
             self.eventSourceName = eventSourceName
             self.instanceId = instanceId
@@ -12627,6 +13022,7 @@ extension Connect {
         /// Summary information about a rule.
         public let ruleSummaryList: [RuleSummary]
 
+        @inlinable
         public init(nextToken: String? = nil, ruleSummaryList: [RuleSummary]) {
             self.nextToken = nextToken
             self.ruleSummaryList = ruleSummaryList
@@ -12647,6 +13043,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12677,6 +13074,7 @@ extension Connect {
         /// The security keys.
         public let securityKeys: [SecurityKey]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityKeys: [SecurityKey]? = nil) {
             self.nextToken = nextToken
             self.securityKeys = securityKeys
@@ -12699,6 +13097,7 @@ extension Connect {
         /// The identifier for the security profle.
         public let securityProfileId: String
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, securityProfileId: String) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12735,6 +13134,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(applications: [Application]? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil) {
             self.applications = applications
             self.lastModifiedRegion = lastModifiedRegion
@@ -12761,6 +13161,7 @@ extension Connect {
         /// The identifier for the security profle.
         public let securityProfileId: String
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, securityProfileId: String) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12797,6 +13198,7 @@ extension Connect {
         /// The permissions granted to the security profile. For a complete list of valid permissions, see List of security profile permissions.
         public let permissions: [String]?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil, permissions: [String]? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -12821,6 +13223,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12851,6 +13254,7 @@ extension Connect {
         /// Information about the security profiles.
         public let securityProfileSummaryList: [SecurityProfileSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, securityProfileSummaryList: [SecurityProfileSummary]? = nil) {
             self.nextToken = nextToken
             self.securityProfileSummaryList = securityProfileSummaryList
@@ -12866,6 +13270,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see Find your Amazon Connect instance ID/ARN.
         public let resourceArn: String
 
+        @inlinable
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
         }
@@ -12883,6 +13288,7 @@ extension Connect {
         /// Information about the tags.
         public let tags: [String: String]?
 
+        @inlinable
         public init(tags: [String: String]? = nil) {
             self.tags = tags
         }
@@ -12907,6 +13313,7 @@ extension Connect {
         /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
         public let status: TaskTemplateStatus?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: TaskTemplateStatus? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -12943,6 +13350,7 @@ extension Connect {
         /// Provides details about a list of task templates belonging to an instance.
         public let taskTemplates: [TaskTemplateMetadata]?
 
+        @inlinable
         public init(nextToken: String? = nil, taskTemplates: [TaskTemplateMetadata]? = nil) {
             self.nextToken = nextToken
             self.taskTemplates = taskTemplates
@@ -12965,6 +13373,7 @@ extension Connect {
         /// The ARN must be provided if the call is from the replicated Region.
         public let trafficDistributionGroupId: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, trafficDistributionGroupId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -12994,6 +13403,7 @@ extension Connect {
         /// A list of traffic distribution group users.
         public let trafficDistributionGroupUserSummaryList: [TrafficDistributionGroupUserSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficDistributionGroupUserSummaryList: [TrafficDistributionGroupUserSummary]? = nil) {
             self.nextToken = nextToken
             self.trafficDistributionGroupUserSummaryList = trafficDistributionGroupUserSummaryList
@@ -13014,6 +13424,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -13045,6 +13456,7 @@ extension Connect {
         /// A list of traffic distribution groups.
         public let trafficDistributionGroupSummaryList: [TrafficDistributionGroupSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, trafficDistributionGroupSummaryList: [TrafficDistributionGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.trafficDistributionGroupSummaryList = trafficDistributionGroupSummaryList
@@ -13067,6 +13479,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, integrationAssociationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.integrationAssociationId = integrationAssociationId
@@ -13101,6 +13514,7 @@ extension Connect {
         /// The use cases.
         public let useCaseSummaryList: [UseCase]?
 
+        @inlinable
         public init(nextToken: String? = nil, useCaseSummaryList: [UseCase]? = nil) {
             self.nextToken = nextToken
             self.useCaseSummaryList = useCaseSummaryList
@@ -13121,6 +13535,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -13151,6 +13566,7 @@ extension Connect {
         /// Information about the hierarchy groups.
         public let userHierarchyGroupSummaryList: [HierarchyGroupSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, userHierarchyGroupSummaryList: [HierarchyGroupSummary]? = nil) {
             self.nextToken = nextToken
             self.userHierarchyGroupSummaryList = userHierarchyGroupSummaryList
@@ -13172,6 +13588,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, userId: String) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -13208,6 +13625,7 @@ extension Connect {
         /// Information about the user proficiencies.
         public let userProficiencyList: [UserProficiency]?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil, userProficiencyList: [UserProficiency]? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -13232,6 +13650,7 @@ extension Connect {
         /// response in the next request to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -13262,6 +13681,7 @@ extension Connect {
         /// Information about the users.
         public let userSummaryList: [UserSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, userSummaryList: [UserSummary]? = nil) {
             self.nextToken = nextToken
             self.userSummaryList = userSummaryList
@@ -13283,6 +13703,7 @@ extension Connect {
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, viewId: String) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -13322,6 +13743,7 @@ extension Connect {
         /// A list of view version summaries.
         public let viewVersionSummaryList: [ViewVersionSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, viewVersionSummaryList: [ViewVersionSummary]? = nil) {
             self.nextToken = nextToken
             self.viewVersionSummaryList = viewVersionSummaryList
@@ -13343,6 +13765,7 @@ extension Connect {
         /// The type of the view.
         public let type: ViewType?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, type: ViewType? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -13379,6 +13802,7 @@ extension Connect {
         /// A list of view summaries.
         public let viewsSummaryList: [ViewSummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, viewsSummaryList: [ViewSummary]? = nil) {
             self.nextToken = nextToken
             self.viewsSummaryList = viewsSummaryList
@@ -13394,6 +13818,7 @@ extension Connect {
         /// An object to define agentIds.
         public let agentsCriteria: AgentsCriteria?
 
+        @inlinable
         public init(agentsCriteria: AgentsCriteria? = nil) {
             self.agentsCriteria = agentsCriteria
         }
@@ -13415,6 +13840,7 @@ extension Connect {
         /// Defines the cross-channel routing behavior for each channel that is enabled for this Routing Profile. For example, this allows you to offer an agent a different contact from another channel when they are currently working with a contact from a Voice channel.
         public let crossChannelBehavior: CrossChannelBehavior?
 
+        @inlinable
         public init(channel: Channel, concurrency: Int, crossChannelBehavior: CrossChannelBehavior? = nil) {
             self.channel = channel
             self.concurrency = concurrency
@@ -13445,6 +13871,7 @@ extension Connect {
         /// The turn control URL.
         public let turnControlUrl: String?
 
+        @inlinable
         public init(audioFallbackUrl: String? = nil, audioHostUrl: String? = nil, eventIngestionUrl: String? = nil, signalingUrl: String? = nil, turnControlUrl: String? = nil) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
@@ -13472,6 +13899,7 @@ extension Connect {
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
 
+        @inlinable
         public init(mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingId: String? = nil) {
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
@@ -13491,6 +13919,7 @@ extension Connect {
         /// The configuration settings for the audio features available to a meeting.
         public let audio: AudioFeatures?
 
+        @inlinable
         public init(audio: AudioFeatures? = nil) {
             self.audio = audio
         }
@@ -13506,6 +13935,7 @@ extension Connect {
         /// The corresponding value of the metric returned in the response.
         public let value: Double?
 
+        @inlinable
         public init(metric: MetricV2? = nil, value: Double? = nil) {
             self.metric = metric
             self.value = value
@@ -13525,6 +13955,7 @@ extension Connect {
         /// The flag to use to filter on requested metric filter values or to not filter on requested metric filter values. By default the negate is false, which indicates to filter on the requested metric filter.
         public let negate: Bool?
 
+        @inlinable
         public init(metricFilterKey: String? = nil, metricFilterValues: [String]? = nil, negate: Bool? = nil) {
             self.metricFilterKey = metricFilterKey
             self.metricFilterValues = metricFilterValues
@@ -13551,6 +13982,7 @@ extension Connect {
         /// The timestamp, in UNIX Epoch time format. Start time is based on the interval period selected.
         public let startTime: Date?
 
+        @inlinable
         public init(endTime: Date? = nil, interval: IntervalPeriod? = nil, startTime: Date? = nil) {
             self.endTime = endTime
             self.interval = interval
@@ -13572,6 +14004,7 @@ extension Connect {
         /// The interval period with the start and end time for the metrics.
         public let metricInterval: MetricInterval?
 
+        @inlinable
         public init(collections: [MetricDataV2]? = nil, dimensions: [String: String]? = nil, metricInterval: MetricInterval? = nil) {
             self.collections = collections
             self.dimensions = dimensions
@@ -13593,6 +14026,7 @@ extension Connect {
         /// Contains information about the threshold for service level metrics.
         public let threshold: [ThresholdV2]?
 
+        @inlinable
         public init(metricFilters: [MetricFilterV2]? = nil, name: String? = nil, threshold: [ThresholdV2]? = nil) {
             self.metricFilters = metricFilters
             self.name = name
@@ -13629,6 +14063,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(allowedMonitorCapabilities: [MonitorCapability]? = nil, clientToken: String? = MonitorContactRequest.idempotencyToken(), contactId: String, instanceId: String, userId: String) {
             self.allowedMonitorCapabilities = allowedMonitorCapabilities
             self.clientToken = clientToken
@@ -13663,6 +14098,7 @@ extension Connect {
         /// The identifier of the contact.
         public let contactId: String?
 
+        @inlinable
         public init(contactArn: String? = nil, contactId: String? = nil) {
             self.contactArn = contactArn
             self.contactId = contactId
@@ -13682,6 +14118,7 @@ extension Connect {
         ///  The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response.  Content types must always contain  text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json],  [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response].
         public let supportedMessagingContentTypes: [String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, participantDetails: ParticipantDetails? = nil, streamingConfiguration: ChatStreamingConfiguration? = nil, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.participantDetails = participantDetails
@@ -13717,6 +14154,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
         public let userTags: [String: String]?
 
+        @inlinable
         public init(userIds: [String]? = nil, userTags: [String: String]? = nil) {
             self.userIds = userIds
             self.userTags = userTags
@@ -13738,6 +14176,7 @@ extension Connect {
         /// The minValue to be used while evaluating the number condition.
         public let minValue: Int?
 
+        @inlinable
         public init(comparisonType: NumberComparisonType? = nil, fieldName: String? = nil, maxValue: Int? = nil, minValue: Int? = nil) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
@@ -13759,6 +14198,7 @@ extension Connect {
         /// A valid number.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -13774,6 +14214,7 @@ extension Connect {
         /// The property label of the automation.
         public let label: NumericQuestionPropertyAutomationLabel
 
+        @inlinable
         public init(label: NumericQuestionPropertyAutomationLabel) {
             self.label = label
         }
@@ -13791,6 +14232,7 @@ extension Connect {
         /// The outbound whisper flow to be used during an outbound call.
         public let outboundFlowId: String?
 
+        @inlinable
         public init(outboundCallerIdName: String? = nil, outboundCallerIdNumberId: String? = nil, outboundFlowId: String? = nil) {
             self.outboundCallerIdName = outboundCallerIdName
             self.outboundCallerIdNumberId = outboundCallerIdNumberId
@@ -13814,6 +14256,7 @@ extension Connect {
         /// The configuration having the video sharing capabilities for participants over the call.
         public let video: VideoCapability?
 
+        @inlinable
         public init(video: VideoCapability? = nil) {
             self.video = video
         }
@@ -13827,6 +14270,7 @@ extension Connect {
         /// Display name of the participant.
         public let displayName: String
 
+        @inlinable
         public init(displayName: String) {
             self.displayName = displayName
         }
@@ -13847,6 +14291,7 @@ extension Connect {
         /// The role of the participant being added.
         public let participantRole: ParticipantRole?
 
+        @inlinable
         public init(displayName: String? = nil, participantRole: ParticipantRole? = nil) {
             self.displayName = displayName
             self.participantRole = participantRole
@@ -13871,6 +14316,7 @@ extension Connect {
         /// The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set.
         public let timerValue: ParticipantTimerValue
 
+        @inlinable
         public init(participantRole: TimerEligibleParticipantRoles, timerType: ParticipantTimerType, timerValue: ParticipantTimerValue) {
             self.participantRole = participantRole
             self.timerType = timerType
@@ -13894,6 +14340,7 @@ extension Connect {
         /// The token used by the chat participant to call CreateParticipantConnection. The participant token is valid for the lifetime of a chat participant.
         public let participantToken: String?
 
+        @inlinable
         public init(expiry: String? = nil, participantToken: String? = nil) {
             self.expiry = expiry
             self.participantToken = participantToken
@@ -13913,6 +14360,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowId: String? = nil, contactId: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.contactId = contactId
@@ -13944,6 +14392,7 @@ extension Connect {
         /// The contactId from which a persistent chat session must be started.
         public let sourceContactId: String?
 
+        @inlinable
         public init(rehydrationType: RehydrationType? = nil, sourceContactId: String? = nil) {
             self.rehydrationType = rehydrationType
             self.sourceContactId = sourceContactId
@@ -13964,6 +14413,7 @@ extension Connect {
         /// The phone number in E.164 format.
         public let phoneNumber: String
 
+        @inlinable
         public init(phoneNumber: String) {
             self.phoneNumber = phoneNumber
         }
@@ -13983,6 +14433,7 @@ extension Connect {
         /// The status.
         public let status: PhoneNumberWorkflowStatus?
 
+        @inlinable
         public init(message: String? = nil, status: PhoneNumberWorkflowStatus? = nil) {
             self.message = message
             self.status = status
@@ -14006,6 +14457,7 @@ extension Connect {
         /// The type of phone number.
         public let phoneNumberType: PhoneNumberType?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, phoneNumber: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode? = nil, phoneNumberType: PhoneNumberType? = nil) {
             self.arn = arn
             self.id = id
@@ -14033,6 +14485,7 @@ extension Connect {
         /// The values of the predefined attribute.
         public let values: PredefinedAttributeValues?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, values: PredefinedAttributeValues? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -14055,6 +14508,7 @@ extension Connect {
         public let orConditions: [PredefinedAttributeSearchCriteria]?
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [PredefinedAttributeSearchCriteria]? = nil, orConditions: [PredefinedAttributeSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -14076,6 +14530,7 @@ extension Connect {
         /// The name of the predefined attribute.
         public let name: String?
 
+        @inlinable
         public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -14105,6 +14560,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, promptARN: String? = nil, promptId: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.lastModifiedRegion = lastModifiedRegion
@@ -14134,6 +14590,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, description, and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [PromptSearchCriteria]? = nil, orConditions: [PromptSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -14150,6 +14607,7 @@ extension Connect {
     public struct PromptSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -14171,6 +14629,7 @@ extension Connect {
         /// The name of the prompt.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -14196,6 +14655,7 @@ extension Connect {
         /// The identifier of the user.
         public let userId: String
 
+        @inlinable
         public init(agentStatusId: String, instanceId: String, userId: String) {
             self.agentStatusId = agentStatusId
             self.instanceId = instanceId
@@ -14230,6 +14690,7 @@ extension Connect {
         /// Information about the quality of Customer media connection.
         public let customer: CustomerQualityMetrics?
 
+        @inlinable
         public init(agent: AgentQualityMetrics? = nil, customer: CustomerQualityMetrics? = nil) {
             self.agent = agent
             self.customer = customer
@@ -14265,6 +14726,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, hoursOfOperationId: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, maxContacts: Int? = nil, name: String? = nil, outboundCallerConfig: OutboundCallerConfig? = nil, queueArn: String? = nil, queueId: String? = nil, status: QueueStatus? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.hoursOfOperationId = hoursOfOperationId
@@ -14300,6 +14762,7 @@ extension Connect {
         /// The unique identifier for the queue.
         public let id: String?
 
+        @inlinable
         public init(enqueueTimestamp: Date? = nil, id: String? = nil) {
             self.enqueueTimestamp = enqueueTimestamp
             self.id = id
@@ -14317,6 +14780,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(contactFlowId: String, queueId: String) {
             self.contactFlowId = contactFlowId
             self.queueId = queueId
@@ -14338,6 +14802,7 @@ extension Connect {
         /// The identifier of the queue.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -14359,6 +14824,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, description, and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [QueueSearchCriteria]? = nil, orConditions: [QueueSearchCriteria]? = nil, queueTypeCondition: SearchableQueueType? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -14377,6 +14843,7 @@ extension Connect {
     public struct QueueSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -14400,6 +14867,7 @@ extension Connect {
         /// The type of queue.
         public let queueType: QueueType?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, queueType: QueueType? = nil) {
             self.arn = arn
             self.id = id
@@ -14437,6 +14905,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, quickConnectARN: String? = nil, quickConnectConfig: QuickConnectConfig? = nil, quickConnectId: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.lastModifiedRegion = lastModifiedRegion
@@ -14470,6 +14939,7 @@ extension Connect {
         /// The user configuration. This is required only if QuickConnectType is USER.
         public let userConfig: UserQuickConnectConfig?
 
+        @inlinable
         public init(phoneConfig: PhoneNumberQuickConnectConfig? = nil, queueConfig: QueueQuickConnectConfig? = nil, quickConnectType: QuickConnectType, userConfig: UserQuickConnectConfig? = nil) {
             self.phoneConfig = phoneConfig
             self.queueConfig = queueConfig
@@ -14499,6 +14969,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, description, and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [QuickConnectSearchCriteria]? = nil, orConditions: [QuickConnectSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -14515,6 +14986,7 @@ extension Connect {
     public struct QuickConnectSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -14538,6 +15010,7 @@ extension Connect {
         /// The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
         public let quickConnectType: QuickConnectType?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, quickConnectType: QuickConnectType? = nil) {
             self.arn = arn
             self.id = id
@@ -14561,6 +15034,7 @@ extension Connect {
         /// Identifier of the read-only field.
         public let id: TaskTemplateFieldIdentifier?
 
+        @inlinable
         public init(id: TaskTemplateFieldIdentifier? = nil) {
             self.id = id
         }
@@ -14584,6 +15058,7 @@ extension Connect {
         /// Status of the attachment.
         public let status: ArtifactStatus?
 
+        @inlinable
         public init(attachmentId: String, attachmentName: String, contentType: String? = nil, status: ArtifactStatus? = nil) {
             self.attachmentId = attachmentId
             self.attachmentName = attachmentName
@@ -14603,6 +15078,7 @@ extension Connect {
         /// List of PointOfInterest - objects describing a single match of a rule.
         public let pointsOfInterest: [RealTimeContactAnalysisPointOfInterest]
 
+        @inlinable
         public init(pointsOfInterest: [RealTimeContactAnalysisPointOfInterest]) {
             self.pointsOfInterest = pointsOfInterest
         }
@@ -14618,6 +15094,7 @@ extension Connect {
         /// The end of the character interval.
         public let endOffsetChar: Int
 
+        @inlinable
         public init(beginOffsetChar: Int, endOffsetChar: Int) {
             self.beginOffsetChar = beginOffsetChar
             self.endOffsetChar = endOffsetChar
@@ -14633,6 +15110,7 @@ extension Connect {
         /// List of the transcript items (segments) that are associated with a given issue.
         public let transcriptItems: [RealTimeContactAnalysisTranscriptItemWithContent]
 
+        @inlinable
         public init(transcriptItems: [RealTimeContactAnalysisTranscriptItemWithContent]) {
             self.transcriptItems = transcriptItems
         }
@@ -14646,6 +15124,7 @@ extension Connect {
         /// List of the transcript items (segments) that are associated with a given point of interest.
         public let transcriptItems: [RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]?
 
+        @inlinable
         public init(transcriptItems: [RealTimeContactAnalysisTranscriptItemWithCharacterOffsets]? = nil) {
             self.transcriptItems = transcriptItems
         }
@@ -14669,6 +15148,7 @@ extension Connect {
         /// Field describing the time of the event. It can have different representations of time.
         public let time: RealTimeContactAnalysisTimeData
 
+        @inlinable
         public init(attachments: [RealTimeContactAnalysisAttachment], displayName: String? = nil, id: String, participantId: String, participantRole: ParticipantRole, time: RealTimeContactAnalysisTimeData) {
             self.attachments = attachments
             self.displayName = displayName
@@ -14692,6 +15172,7 @@ extension Connect {
         /// Map between the name of the matched rule and RealTimeContactAnalysisCategoryDetails.
         public let matchedDetails: [String: RealTimeContactAnalysisCategoryDetails]
 
+        @inlinable
         public init(matchedDetails: [String: RealTimeContactAnalysisCategoryDetails]) {
             self.matchedDetails = matchedDetails
         }
@@ -14715,6 +15196,7 @@ extension Connect {
         /// Field describing the time of the event. It can have different representations of time.
         public let time: RealTimeContactAnalysisTimeData
 
+        @inlinable
         public init(displayName: String? = nil, eventType: String, id: String, participantId: String? = nil, participantRole: ParticipantRole? = nil, time: RealTimeContactAnalysisTimeData) {
             self.displayName = displayName
             self.eventType = eventType
@@ -14738,6 +15220,7 @@ extension Connect {
         /// List of the issues detected.
         public let issuesDetected: [RealTimeContactAnalysisIssueDetected]
 
+        @inlinable
         public init(issuesDetected: [RealTimeContactAnalysisIssueDetected]) {
             self.issuesDetected = issuesDetected
         }
@@ -14755,6 +15238,7 @@ extension Connect {
         /// Whether the summary was successfully COMPLETED or FAILED to be generated.
         public let status: RealTimeContactAnalysisPostContactSummaryStatus
 
+        @inlinable
         public init(content: String? = nil, failureCode: RealTimeContactAnalysisPostContactSummaryFailureCode? = nil, status: RealTimeContactAnalysisPostContactSummaryStatus) {
             self.content = content
             self.failureCode = failureCode
@@ -14788,6 +15272,7 @@ extension Connect {
         /// Field describing the time of the event. It can have different representations of time.
         public let time: RealTimeContactAnalysisTimeData
 
+        @inlinable
         public init(content: String, contentType: String? = nil, displayName: String? = nil, id: String, participantId: String, participantRole: ParticipantRole, redaction: RealTimeContactAnalysisTranscriptItemRedaction? = nil, sentiment: RealTimeContactAnalysisSentimentLabel? = nil, time: RealTimeContactAnalysisTimeData) {
             self.content = content
             self.contentType = contentType
@@ -14817,6 +15302,7 @@ extension Connect {
         /// List of character intervals each describing a part of the text that was redacted. For OutputType.Raw, part of the original text that contains data that can be redacted. For  OutputType.Redacted, part of the string with redaction tag.
         public let characterOffsets: [RealTimeContactAnalysisCharacterInterval]?
 
+        @inlinable
         public init(characterOffsets: [RealTimeContactAnalysisCharacterInterval]? = nil) {
             self.characterOffsets = characterOffsets
         }
@@ -14832,6 +15318,7 @@ extension Connect {
         /// Transcript identifier. Matches the identifier from one of the TranscriptSegments.
         public let id: String
 
+        @inlinable
         public init(characterOffsets: RealTimeContactAnalysisCharacterInterval? = nil, id: String) {
             self.characterOffsets = characterOffsets
             self.id = id
@@ -14850,6 +15337,7 @@ extension Connect {
         /// Transcript identifier. Matches the identifier from one of the TranscriptSegments.
         public let id: String
 
+        @inlinable
         public init(characterOffsets: RealTimeContactAnalysisCharacterInterval? = nil, content: String? = nil, id: String) {
             self.characterOffsets = characterOffsets
             self.content = content
@@ -14869,6 +15357,7 @@ extension Connect {
         /// A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).
         public let value: String
 
+        @inlinable
         public init(type: ReferenceType, value: String) {
             self.type = type
             self.value = value
@@ -14890,6 +15379,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String
 
+        @inlinable
         public init(clientToken: String? = ReleasePhoneNumberRequest.idempotencyToken(), phoneNumberId: String) {
             self.clientToken = clientToken
             self.phoneNumberId = phoneNumberId
@@ -14919,6 +15409,7 @@ extension Connect {
         /// The Amazon Web Services Region where to replicate the Amazon Connect instance.
         public let replicaRegion: String
 
+        @inlinable
         public init(clientToken: String? = ReplicateInstanceRequest.idempotencyToken(), instanceId: String, replicaAlias: String, replicaRegion: String) {
             self.clientToken = clientToken
             self.instanceId = instanceId
@@ -14961,6 +15452,7 @@ extension Connect {
         /// The identifier of the replicated instance. You can find the instanceId in the ARN of the instance. The replicated instance has the same identifier as the instance it was replicated from.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -14980,6 +15472,7 @@ extension Connect {
         /// The Amazon Web Services Region where the source Amazon Connect instance was created. This is the Region where the ReplicateInstance API was called to start the replication process.
         public let sourceRegion: String?
 
+        @inlinable
         public init(globalSignInEndpoint: String? = nil, replicationStatusSummaryList: [ReplicationStatusSummary]? = nil, sourceRegion: String? = nil) {
             self.globalSignInEndpoint = globalSignInEndpoint
             self.replicationStatusSummaryList = replicationStatusSummaryList
@@ -15001,6 +15494,7 @@ extension Connect {
         /// A description of the replication status. Use this information to resolve any issues that are preventing the successful replication of your Amazon Connect instance to another Region.
         public let replicationStatusReason: String?
 
+        @inlinable
         public init(region: String? = nil, replicationStatus: InstanceReplicationStatus? = nil, replicationStatusReason: String? = nil) {
             self.region = region
             self.replicationStatus = replicationStatus
@@ -15018,6 +15512,7 @@ extension Connect {
         /// The unique identifier for the field.
         public let id: TaskTemplateFieldIdentifier?
 
+        @inlinable
         public init(id: TaskTemplateFieldIdentifier? = nil) {
             self.id = id
         }
@@ -15035,6 +15530,7 @@ extension Connect {
         /// The search criteria to be used to return tags.
         public let tagSearchCondition: TagSearchCondition?
 
+        @inlinable
         public init(tagSearchCondition: TagSearchCondition? = nil) {
             self.tagSearchCondition = tagSearchCondition
         }
@@ -15056,6 +15552,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactId: String, initialContactId: String, instanceId: String) {
             self.contactId = contactId
             self.initialContactId = initialContactId
@@ -15090,6 +15587,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowId: String? = nil, contactId: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.contactId = contactId
@@ -15123,6 +15621,7 @@ extension Connect {
         /// List of routing steps. When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public let steps: [Step]?
 
+        @inlinable
         public init(activationTimestamp: Date? = nil, index: Int? = nil, steps: [Step]? = nil) {
             self.activationTimestamp = activationTimestamp
             self.index = index
@@ -15140,6 +15639,7 @@ extension Connect {
         /// When Amazon Connect does not find an available agent meeting the requirements in a step for  a given step duration, the routing criteria will move on to the next step sequentially until a  join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public let steps: [RoutingCriteriaInputStep]?
 
+        @inlinable
         public init(steps: [RoutingCriteriaInputStep]? = nil) {
             self.steps = steps
         }
@@ -15161,6 +15661,7 @@ extension Connect {
         /// A tagged union to specify expression for a routing step.
         public let expression: Expression?
 
+        @inlinable
         public init(expiry: RoutingCriteriaInputStepExpiry? = nil, expression: Expression? = nil) {
             self.expiry = expiry
             self.expression = expression
@@ -15180,6 +15681,7 @@ extension Connect {
         /// The number of seconds that the contact will be routed only to agents matching this routing  step, if expiry was configured for this routing step.
         public let durationInSeconds: Int?
 
+        @inlinable
         public init(durationInSeconds: Int? = nil) {
             self.durationInSeconds = durationInSeconds
         }
@@ -15221,6 +15723,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(agentAvailabilityTimer: AgentAvailabilityTimer? = nil, associatedQueueIds: [String]? = nil, defaultOutboundQueueId: String? = nil, description: String? = nil, instanceId: String? = nil, isDefault: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, mediaConcurrencies: [MediaConcurrency]? = nil, name: String? = nil, numberOfAssociatedQueues: Int64? = nil, numberOfAssociatedUsers: Int64? = nil, routingProfileArn: String? = nil, routingProfileId: String? = nil, tags: [String: String]? = nil) {
             self.agentAvailabilityTimer = agentAvailabilityTimer
             self.associatedQueueIds = associatedQueueIds
@@ -15266,6 +15769,7 @@ extension Connect {
         /// Contains information about a queue resource.
         public let queueReference: RoutingProfileQueueReference
 
+        @inlinable
         public init(delay: Int, priority: Int, queueReference: RoutingProfileQueueReference) {
             self.delay = delay
             self.priority = priority
@@ -15300,6 +15804,7 @@ extension Connect {
         /// The name of the queue.
         public let queueName: String
 
+        @inlinable
         public init(channel: Channel, delay: Int, priority: Int, queueArn: String, queueId: String, queueName: String) {
             self.channel = channel
             self.delay = delay
@@ -15325,6 +15830,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(channel: Channel, queueId: String) {
             self.channel = channel
             self.queueId = queueId
@@ -15342,6 +15848,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -15361,6 +15868,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are associatedQueueIds, name, description, and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [RoutingProfileSearchCriteria]? = nil, orConditions: [RoutingProfileSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -15377,6 +15885,7 @@ extension Connect {
     public struct RoutingProfileSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -15398,6 +15907,7 @@ extension Connect {
         /// The name of the routing profile.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -15439,6 +15949,7 @@ extension Connect {
         /// The event source to trigger the rule.
         public let triggerEventSource: RuleTriggerEventSource
 
+        @inlinable
         public init(actions: [RuleAction], createdTime: Date, function: String, lastUpdatedBy: String, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleId: String, tags: [String: String]? = nil, triggerEventSource: RuleTriggerEventSource) {
             self.actions = actions
             self.createdTime = createdTime
@@ -15488,6 +15999,7 @@ extension Connect {
         /// Information about the update case action. Supported only for TriggerEventSource values: OnCaseCreate | OnCaseUpdate.
         public let updateCaseAction: UpdateCaseActionDefinition?
 
+        @inlinable
         public init(actionType: ActionType, assignContactCategoryAction: AssignContactCategoryActionDefinition? = nil, createCaseAction: CreateCaseActionDefinition? = nil, endAssociatedTasksAction: EndAssociatedTasksActionDefinition? = nil, eventBridgeAction: EventBridgeActionDefinition? = nil, sendNotificationAction: SendNotificationActionDefinition? = nil, submitAutoEvaluationAction: SubmitAutoEvaluationActionDefinition? = nil, taskAction: TaskActionDefinition? = nil, updateCaseAction: UpdateCaseActionDefinition? = nil) {
             self.actionType = actionType
             self.assignContactCategoryAction = assignContactCategoryAction
@@ -15540,6 +16052,7 @@ extension Connect {
         /// A unique identifier for the rule.
         public let ruleId: String
 
+        @inlinable
         public init(actionSummaries: [ActionSummary], createdTime: Date, eventSourceName: EventSourceName, lastUpdatedTime: Date, name: String, publishStatus: RulePublishStatus, ruleArn: String, ruleId: String) {
             self.actionSummaries = actionSummaries
             self.createdTime = createdTime
@@ -15569,6 +16082,7 @@ extension Connect {
         /// The identifier for the integration association.
         public let integrationAssociationId: String?
 
+        @inlinable
         public init(eventSourceName: EventSourceName, integrationAssociationId: String? = nil) {
             self.eventSourceName = eventSourceName
             self.integrationAssociationId = integrationAssociationId
@@ -15593,6 +16107,7 @@ extension Connect {
         /// The Amazon S3 encryption configuration.
         public let encryptionConfig: EncryptionConfig?
 
+        @inlinable
         public init(bucketName: String, bucketPrefix: String, encryptionConfig: EncryptionConfig? = nil) {
             self.bucketName = bucketName
             self.bucketPrefix = bucketPrefix
@@ -15626,6 +16141,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: AgentStatusSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: AgentStatusSearchCriteria? = nil, searchFilter: AgentStatusSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -15660,6 +16176,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(agentStatuses: [AgentStatus]? = nil, approximateTotalCount: Int64? = nil, nextToken: String? = nil) {
             self.agentStatuses = agentStatuses
             self.approximateTotalCount = approximateTotalCount
@@ -15690,6 +16207,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
         public let targetArn: String?
 
+        @inlinable
         public init(instanceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberCountryCode: PhoneNumberCountryCode, phoneNumberPrefix: String? = nil, phoneNumberType: PhoneNumberType, targetArn: String? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -15727,6 +16245,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(availableNumbersList: [AvailableNumberSummary]? = nil, nextToken: String? = nil) {
             self.availableNumbersList = availableNumbersList
             self.nextToken = nextToken
@@ -15750,6 +16269,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: ContactFlowModuleSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: ContactFlowModuleSearchCriteria? = nil, searchFilter: ContactFlowModuleSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -15784,6 +16304,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, contactFlowModules: [ContactFlowModule]? = nil, nextToken: String? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.contactFlowModules = contactFlowModules
@@ -15809,6 +16330,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: ContactFlowSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: ContactFlowSearchCriteria? = nil, searchFilter: ContactFlowSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -15843,6 +16365,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, contactFlows: [ContactFlow]? = nil, nextToken: String? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.contactFlows = contactFlows
@@ -15870,6 +16393,7 @@ extension Connect {
         /// Time range that you want to search results.
         public let timeRange: SearchContactsTimeRange
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: SearchCriteria? = nil, sort: Sort? = nil, timeRange: SearchContactsTimeRange) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -15907,6 +16431,7 @@ extension Connect {
         /// The total number of contacts which matched your search query.
         public let totalCount: Int64?
 
+        @inlinable
         public init(contacts: [ContactSearchSummary], nextToken: String? = nil, totalCount: Int64? = nil) {
             self.contacts = contacts
             self.nextToken = nextToken
@@ -15928,6 +16453,7 @@ extension Connect {
         /// The type of timestamp to search.
         public let type: SearchContactsTimeRangeType
 
+        @inlinable
         public init(endTime: Date, startTime: Date, type: SearchContactsTimeRangeType) {
             self.endTime = endTime
             self.startTime = startTime
@@ -15957,6 +16483,7 @@ extension Connect {
         /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see Search by custom contact attributes in the Amazon Connect Administrator Guide.  To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissionsActions defined by Amazon Connect.
         public let searchableContactAttributes: SearchableContactAttributes?
 
+        @inlinable
         public init(agentHierarchyGroups: AgentHierarchyGroups? = nil, agentIds: [String]? = nil, channels: [Channel]? = nil, contactAnalysis: ContactAnalysis? = nil, initiationMethods: [ContactInitiationMethod]? = nil, queueIds: [String]? = nil, searchableContactAttributes: SearchableContactAttributes? = nil) {
             self.agentHierarchyGroups = agentHierarchyGroups
             self.agentIds = agentIds
@@ -16003,6 +16530,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: HoursOfOperationSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: HoursOfOperationSearchCriteria? = nil, searchFilter: HoursOfOperationSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16037,6 +16565,7 @@ extension Connect {
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, hoursOfOperations: [HoursOfOperation]? = nil, nextToken: String? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.hoursOfOperations = hoursOfOperations
@@ -16060,6 +16589,7 @@ extension Connect {
         /// The search criteria to be used to return predefined attributes.
         public let searchCriteria: PredefinedAttributeSearchCriteria?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: PredefinedAttributeSearchCriteria? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16092,6 +16622,7 @@ extension Connect {
         /// Predefined attributes matched by the search criteria.
         public let predefinedAttributes: [PredefinedAttribute]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, predefinedAttributes: [PredefinedAttribute]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16118,6 +16649,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: PromptSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: PromptSearchCriteria? = nil, searchFilter: PromptSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16152,6 +16684,7 @@ extension Connect {
         /// Information about the prompts.
         public let prompts: [Prompt]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, prompts: [Prompt]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16178,6 +16711,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: QueueSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: QueueSearchCriteria? = nil, searchFilter: QueueSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16212,6 +16746,7 @@ extension Connect {
         /// Information about the queues.
         public let queues: [Queue]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, queues: [Queue]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16238,6 +16773,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: QuickConnectSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: QuickConnectSearchCriteria? = nil, searchFilter: QuickConnectSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16272,6 +16808,7 @@ extension Connect {
         /// Information about the quick connects.
         public let quickConnects: [QuickConnect]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, quickConnects: [QuickConnect]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16297,6 +16834,7 @@ extension Connect {
         /// The search criteria to be used to return tags.
         public let searchCriteria: ResourceTagsSearchCriteria?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceTypes: [String]? = nil, searchCriteria: ResourceTagsSearchCriteria? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16331,6 +16869,7 @@ extension Connect {
         /// A list of tags used in the Amazon Connect instance.
         public let tags: [TagSet]?
 
+        @inlinable
         public init(nextToken: String? = nil, tags: [TagSet]? = nil) {
             self.nextToken = nextToken
             self.tags = tags
@@ -16355,6 +16894,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: RoutingProfileSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: RoutingProfileSearchCriteria? = nil, searchFilter: RoutingProfileSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16389,6 +16929,7 @@ extension Connect {
         /// Information about the routing profiles.
         public let routingProfiles: [RoutingProfile]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, routingProfiles: [RoutingProfile]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16415,6 +16956,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: SecurityProfilesSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: SecurityProfileSearchCriteria? = nil, searchFilter: SecurityProfilesSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16449,6 +16991,7 @@ extension Connect {
         /// Information about the security profiles.
         public let securityProfiles: [SecurityProfileSearchSummary]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, securityProfiles: [SecurityProfileSearchSummary]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16474,6 +17017,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: UserHierarchyGroupSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: UserHierarchyGroupSearchCriteria? = nil, searchFilter: UserHierarchyGroupSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16508,6 +17052,7 @@ extension Connect {
         /// Information about the userHierarchyGroups.
         public let userHierarchyGroups: [HierarchyGroup]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, userHierarchyGroups: [HierarchyGroup]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16533,6 +17078,7 @@ extension Connect {
         /// Filters to be applied to search results.
         public let searchFilter: UserSearchFilter?
 
+        @inlinable
         public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: UserSearchCriteria? = nil, searchFilter: UserSearchFilter? = nil) {
             self.instanceId = instanceId
             self.maxResults = maxResults
@@ -16567,6 +17113,7 @@ extension Connect {
         /// Information about the users.
         public let users: [UserSearchSummary]?
 
+        @inlinable
         public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, users: [UserSearchSummary]? = nil) {
             self.approximateTotalCount = approximateTotalCount
             self.nextToken = nextToken
@@ -16596,6 +17143,7 @@ extension Connect {
         /// The current state of the custom vocabulary.
         public let state: VocabularyState?
 
+        @inlinable
         public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nameStartsWith: String? = nil, nextToken: String? = nil, state: VocabularyState? = nil) {
             self.instanceId = instanceId
             self.languageCode = languageCode
@@ -16644,6 +17192,7 @@ extension Connect {
         /// The list of the available custom vocabularies.
         public let vocabularySummaryList: [VocabularySummary]?
 
+        @inlinable
         public init(nextToken: String? = nil, vocabularySummaryList: [VocabularySummary]? = nil) {
             self.nextToken = nextToken
             self.vocabularySummaryList = vocabularySummaryList
@@ -16661,6 +17210,7 @@ extension Connect {
         /// The match type combining search criteria using multiple searchable contact attributes.
         public let matchType: SearchContactsMatchType?
 
+        @inlinable
         public init(criteria: [SearchableContactAttributesCriteria], matchType: SearchContactsMatchType? = nil) {
             self.criteria = criteria
             self.matchType = matchType
@@ -16685,6 +17235,7 @@ extension Connect {
         /// The list of values to search for within a user-defined contact attribute.
         public let values: [String]
 
+        @inlinable
         public init(key: String, values: [String]) {
             self.key = key
             self.values = values
@@ -16712,6 +17263,7 @@ extension Connect {
         /// The key of the security key.
         public let key: String?
 
+        @inlinable
         public init(associationId: String? = nil, creationTime: Date? = nil, key: String? = nil) {
             self.associationId = associationId
             self.creationTime = creationTime
@@ -16751,6 +17303,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, arn: String? = nil, description: String? = nil, hierarchyRestrictedResources: [String]? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
@@ -16789,6 +17342,7 @@ extension Connect {
         public let orConditions: [SecurityProfileSearchCriteria]?
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [SecurityProfileSearchCriteria]? = nil, orConditions: [SecurityProfileSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -16816,6 +17370,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -16847,6 +17402,7 @@ extension Connect {
         /// The name of the security profile.
         public let name: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
             self.arn = arn
             self.id = id
@@ -16867,6 +17423,7 @@ extension Connect {
     public struct SecurityProfilesSearchFilter: AWSEncodableShape {
         public let tagFilter: ControlPlaneTagFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil) {
             self.tagFilter = tagFilter
         }
@@ -16880,6 +17437,7 @@ extension Connect {
         /// The value of a segment attribute.
         public let valueString: String?
 
+        @inlinable
         public init(valueString: String? = nil) {
             self.valueString = valueString
         }
@@ -16906,6 +17464,7 @@ extension Connect {
         /// Classification of a channel. This is used in part to uniquely identify chat.  Valid value: ["connect:sms"]
         public let subtype: String?
 
+        @inlinable
         public init(destinationId: String, event: ChatEvent, newSessionDetails: NewSessionDetails? = nil, sourceId: String, subtype: String? = nil) {
             self.destinationId = destinationId
             self.event = event
@@ -16940,6 +17499,7 @@ extension Connect {
         /// Whether handling the integration event resulted in creating a new chat or acting on existing chat.
         public let newChatCreated: Bool?
 
+        @inlinable
         public init(initialContactId: String? = nil, newChatCreated: Bool? = nil) {
             self.initialContactId = initialContactId
             self.newChatCreated = newChatCreated
@@ -16967,6 +17527,7 @@ extension Connect {
         /// in the Amazon Connect Administrators Guide.
         public let subject: String?
 
+        @inlinable
         public init(content: String, contentType: NotificationContentType, deliveryMethod: NotificationDeliveryType, recipient: NotificationRecipientType, subject: String? = nil) {
             self.content = content
             self.contentType = contentType
@@ -16995,6 +17556,7 @@ extension Connect {
         /// Information about traffic distributions.
         public let distributions: [SignInDistribution]
 
+        @inlinable
         public init(distributions: [SignInDistribution]) {
             self.distributions = distributions
         }
@@ -17016,6 +17578,7 @@ extension Connect {
         /// The Amazon Web Services Region of the sign in distribution.
         public let region: String
 
+        @inlinable
         public init(enabled: Bool, region: String) {
             self.enabled = enabled
             self.region = region
@@ -17041,6 +17604,7 @@ extension Connect {
         /// The identifier of the answer option.
         public let optionRefId: String
 
+        @inlinable
         public init(category: String, condition: SingleSelectQuestionRuleCategoryAutomationCondition, optionRefId: String) {
             self.category = category
             self.condition = condition
@@ -17067,6 +17631,7 @@ extension Connect {
         /// An ascending or descending sort.
         public let order: SortOrder
 
+        @inlinable
         public init(fieldName: SortableFieldName, order: SortOrder) {
             self.fieldName = fieldName
             self.order = order
@@ -17098,6 +17663,7 @@ extension Connect {
         /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
         public let urlExpiryInSeconds: Int?
 
+        @inlinable
         public init(associatedResourceArn: String, clientToken: String? = StartAttachedFileUploadRequest.idempotencyToken(), createdBy: CreatedByInfo? = nil, fileName: String, fileSizeInBytes: Int64, fileUseCaseType: FileUseCaseType, instanceId: String, tags: [String: String]? = nil, urlExpiryInSeconds: Int? = nil) {
             self.associatedResourceArn = associatedResourceArn
             self.clientToken = clientToken
@@ -17169,6 +17735,7 @@ extension Connect {
         /// Information to be used while uploading the attached file.
         public let uploadUrlMetadata: UploadUrlMetadata?
 
+        @inlinable
         public init(createdBy: CreatedByInfo? = nil, creationTime: String? = nil, fileArn: String? = nil, fileId: String? = nil, fileStatus: FileStatusType? = nil, uploadUrlMetadata: UploadUrlMetadata? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -17212,6 +17779,7 @@ extension Connect {
         /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response.  Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response].   The type application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow block.
         public let supportedMessagingContentTypes: [String]?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.chatDurationInMinutes = chatDurationInMinutes
@@ -17279,6 +17847,7 @@ extension Connect {
         /// The token used by the chat participant to call CreateParticipantConnection. The participant token is valid for the lifetime of a chat participant.
         public let participantToken: String?
 
+        @inlinable
         public init(contactId: String? = nil, continuedFromContactId: String? = nil, participantId: String? = nil, participantToken: String? = nil) {
             self.contactId = contactId
             self.continuedFromContactId = continuedFromContactId
@@ -17304,6 +17873,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(clientToken: String? = StartContactEvaluationRequest.idempotencyToken(), contactId: String, evaluationFormId: String, instanceId: String) {
             self.clientToken = clientToken
             self.contactId = contactId
@@ -17343,6 +17913,7 @@ extension Connect {
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
 
+        @inlinable
         public init(evaluationArn: String, evaluationId: String) {
             self.evaluationArn = evaluationArn
             self.evaluationId = evaluationId
@@ -17364,6 +17935,7 @@ extension Connect {
         /// The person being recorded.
         public let voiceRecordingConfiguration: VoiceRecordingConfiguration
 
+        @inlinable
         public init(contactId: String, initialContactId: String, instanceId: String, voiceRecordingConfiguration: VoiceRecordingConfiguration) {
             self.contactId = contactId
             self.initialContactId = initialContactId
@@ -17402,6 +17974,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(chatStreamingConfiguration: ChatStreamingConfiguration, clientToken: String = StartContactStreamingRequest.idempotencyToken(), contactId: String, instanceId: String) {
             self.chatStreamingConfiguration = chatStreamingConfiguration
             self.clientToken = clientToken
@@ -17430,6 +18003,7 @@ extension Connect {
         /// The identifier of the streaming configuration enabled.
         public let streamingId: String
 
+        @inlinable
         public init(streamingId: String) {
             self.streamingId = streamingId
         }
@@ -17469,6 +18043,7 @@ extension Connect {
         /// Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
         public let trafficType: TrafficType?
 
+        @inlinable
         public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, attributes: [String: String]? = nil, campaignId: String? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, destinationPhoneNumber: String, instanceId: String, name: String? = nil, queueId: String? = nil, references: [String: Reference]? = nil, relatedContactId: String? = nil, sourcePhoneNumber: String? = nil, trafficType: TrafficType? = nil) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
@@ -17533,6 +18108,7 @@ extension Connect {
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
 
+        @inlinable
         public init(contactId: String? = nil) {
             self.contactId = contactId
         }
@@ -17568,6 +18144,7 @@ extension Connect {
         /// A unique identifier for the task template. For more information about task templates, see Create task templates in the Amazon Connect Administrator Guide.
         public let taskTemplateId: String?
 
+        @inlinable
         public init(attributes: [String: String]? = nil, clientToken: String? = StartTaskContactRequest.idempotencyToken(), contactFlowId: String? = nil, description: String? = nil, instanceId: String, name: String, previousContactId: String? = nil, quickConnectId: String? = nil, references: [String: Reference]? = nil, relatedContactId: String? = nil, scheduledTime: Date? = nil, taskTemplateId: String? = nil) {
             self.attributes = attributes
             self.clientToken = clientToken
@@ -17628,6 +18205,7 @@ extension Connect {
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
 
+        @inlinable
         public init(contactId: String? = nil) {
             self.contactId = contactId
         }
@@ -17656,6 +18234,7 @@ extension Connect {
         /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
         public let relatedContactId: String?
 
+        @inlinable
         public init(allowedCapabilities: AllowedCapabilities? = nil, attributes: [String: String]? = nil, clientToken: String? = StartWebRTCContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, instanceId: String, participantDetails: ParticipantDetails, references: [String: Reference]? = nil, relatedContactId: String? = nil) {
             self.allowedCapabilities = allowedCapabilities
             self.attributes = attributes
@@ -17712,6 +18291,7 @@ extension Connect {
         /// The token used by the contact participant to call the CreateParticipantConnection API. The participant token is valid for the lifetime of a contact participant.
         public let participantToken: String?
 
+        @inlinable
         public init(connectionData: ConnectionData? = nil, contactId: String? = nil, participantId: String? = nil, participantToken: String? = nil) {
             self.connectionData = connectionData
             self.contactId = contactId
@@ -17735,6 +18315,7 @@ extension Connect {
         /// Represents status of the Routing step.
         public let status: RoutingCriteriaStepStatus?
 
+        @inlinable
         public init(expiry: Expiry? = nil, expression: Expression? = nil, status: RoutingCriteriaStepStatus? = nil) {
             self.expiry = expiry
             self.expression = expression
@@ -17756,6 +18337,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactId: String, initialContactId: String, instanceId: String) {
             self.contactId = contactId
             self.initialContactId = initialContactId
@@ -17790,6 +18372,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactId: String, disconnectReason: DisconnectReason? = nil, instanceId: String) {
             self.contactId = contactId
             self.disconnectReason = disconnectReason
@@ -17822,6 +18405,7 @@ extension Connect {
         /// The identifier of the streaming configuration enabled.
         public let streamingId: String
 
+        @inlinable
         public init(contactId: String, instanceId: String, streamingId: String) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -17856,6 +18440,7 @@ extension Connect {
         /// The value of the string.
         public let value: String?
 
+        @inlinable
         public init(comparisonType: StringComparisonType? = nil, fieldName: String? = nil, value: String? = nil) {
             self.comparisonType = comparisonType
             self.fieldName = fieldName
@@ -17875,6 +18460,7 @@ extension Connect {
         /// A valid string.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -17890,6 +18476,7 @@ extension Connect {
         /// The identifier of the auto-evaluation enabled form.
         public let evaluationFormId: String
 
+        @inlinable
         public init(evaluationFormId: String) {
             self.evaluationFormId = evaluationFormId
         }
@@ -17914,6 +18501,7 @@ extension Connect {
         /// A map of question identifiers to note value.
         public let notes: [String: EvaluationNote]?
 
+        @inlinable
         public init(answers: [String: EvaluationAnswerInput]? = nil, evaluationId: String, instanceId: String, notes: [String: EvaluationNote]? = nil) {
             self.answers = answers
             self.evaluationId = evaluationId
@@ -17961,6 +18549,7 @@ extension Connect {
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
 
+        @inlinable
         public init(evaluationArn: String, evaluationId: String) {
             self.evaluationArn = evaluationArn
             self.evaluationId = evaluationId
@@ -17978,6 +18567,7 @@ extension Connect {
         /// Request identifier provided in the API call in the ContactDataRequest to create a contact.
         public let requestIdentifier: String?
 
+        @inlinable
         public init(contactId: String? = nil, requestIdentifier: String? = nil) {
             self.contactId = contactId
             self.requestIdentifier = requestIdentifier
@@ -17997,6 +18587,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactId: String, initialContactId: String, instanceId: String) {
             self.contactId = contactId
             self.initialContactId = initialContactId
@@ -18029,6 +18620,7 @@ extension Connect {
         /// The tag value in the tag condition.
         public let tagValue: String?
 
+        @inlinable
         public init(tagKey: String? = nil, tagValue: String? = nil) {
             self.tagKey = tagKey
             self.tagValue = tagValue
@@ -18048,6 +18640,7 @@ extension Connect {
         /// The tags to be assigned to the contact resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.  Authorization is not supported by this tag.
         public let tags: [String: String]
 
+        @inlinable
         public init(contactId: String, instanceId: String, tags: [String: String]) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -18086,6 +18679,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]
 
+        @inlinable
         public init(resourceArn: String, tags: [String: String]) {
             self.resourceArn = resourceArn
             self.tags = tags
@@ -18124,6 +18718,7 @@ extension Connect {
         /// The type of comparison to be made when evaluating the tag value in tag search condition.
         public let tagValueComparisonType: StringComparisonType?
 
+        @inlinable
         public init(tagKey: String? = nil, tagKeyComparisonType: StringComparisonType? = nil, tagValue: String? = nil, tagValueComparisonType: StringComparisonType? = nil) {
             self.tagKey = tagKey
             self.tagKeyComparisonType = tagKeyComparisonType
@@ -18150,6 +18745,7 @@ extension Connect {
         /// The tag value in the tagSet.
         public let value: String?
 
+        @inlinable
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
@@ -18175,6 +18771,7 @@ extension Connect {
         /// Information about the reference when the referenceType is URL. Otherwise, null. (Supports variable injection in the Value field.)
         public let references: [String: Reference]?
 
+        @inlinable
         public init(contactFlowId: String, description: String? = nil, name: String, references: [String: Reference]? = nil) {
             self.contactFlowId = contactFlowId
             self.description = description
@@ -18210,6 +18807,7 @@ extension Connect {
         /// Lists the fields that are required to be filled by agents.
         public let requiredFields: [RequiredFieldInfo]?
 
+        @inlinable
         public init(invisibleFields: [InvisibleFieldInfo]? = nil, readOnlyFields: [ReadOnlyFieldInfo]? = nil, requiredFields: [RequiredFieldInfo]? = nil) {
             self.invisibleFields = invisibleFields
             self.readOnlyFields = readOnlyFields
@@ -18241,6 +18839,7 @@ extension Connect {
         /// Identifier of a field.
         public let id: TaskTemplateFieldIdentifier?
 
+        @inlinable
         public init(defaultValue: String? = nil, id: TaskTemplateFieldIdentifier? = nil) {
             self.defaultValue = defaultValue
             self.id = id
@@ -18261,6 +18860,7 @@ extension Connect {
         /// Default value for the field.
         public let defaultFieldValues: [TaskTemplateDefaultFieldValue]?
 
+        @inlinable
         public init(defaultFieldValues: [TaskTemplateDefaultFieldValue]? = nil) {
             self.defaultFieldValues = defaultFieldValues
         }
@@ -18286,6 +18886,7 @@ extension Connect {
         /// Indicates the type of field.
         public let type: TaskTemplateFieldType?
 
+        @inlinable
         public init(description: String? = nil, id: TaskTemplateFieldIdentifier, singleSelectOptions: [String]? = nil, type: TaskTemplateFieldType? = nil) {
             self.description = description
             self.id = id
@@ -18315,6 +18916,7 @@ extension Connect {
         /// The name of the task template field.
         public let name: String?
 
+        @inlinable
         public init(name: String? = nil) {
             self.name = name
         }
@@ -18347,6 +18949,7 @@ extension Connect {
         /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
         public let status: TaskTemplateStatus?
 
+        @inlinable
         public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: TaskTemplateStatus? = nil) {
             self.arn = arn
             self.createdTime = createdTime
@@ -18372,6 +18975,7 @@ extension Connect {
         /// Information about traffic distributions.
         public let distributions: [Distribution]
 
+        @inlinable
         public init(distributions: [Distribution]) {
             self.distributions = distributions
         }
@@ -18393,6 +18997,7 @@ extension Connect {
         /// The threshold value to compare.
         public let thresholdValue: Double?
 
+        @inlinable
         public init(comparison: Comparison? = nil, thresholdValue: Double? = nil) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
@@ -18410,6 +19015,7 @@ extension Connect {
         /// The threshold value to compare.
         public let thresholdValue: Double?
 
+        @inlinable
         public init(comparison: String? = nil, thresholdValue: Double? = nil) {
             self.comparison = comparison
             self.thresholdValue = thresholdValue
@@ -18448,6 +19054,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, instanceArn: String? = nil, isDefault: Bool? = nil, name: String? = nil, status: TrafficDistributionGroupStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
@@ -18487,6 +19094,7 @@ extension Connect {
         /// The status of the traffic distribution group.     CREATION_IN_PROGRESS means the previous CreateTrafficDistributionGroup operation is still in progress and has not yet completed.    ACTIVE means the previous CreateTrafficDistributionGroup operation has succeeded.    CREATION_FAILED indicates that the previous CreateTrafficDistributionGroup operation has failed.    PENDING_DELETION means the previous DeleteTrafficDistributionGroup operation is still in progress and has not yet completed.    DELETION_FAILED means the previous DeleteTrafficDistributionGroup operation has failed.    UPDATE_IN_PROGRESS means the previous UpdateTrafficDistributionGroup operation is still in progress and has not yet completed.
         public let status: TrafficDistributionGroupStatus?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, instanceArn: String? = nil, isDefault: Bool? = nil, name: String? = nil, status: TrafficDistributionGroupStatus? = nil) {
             self.arn = arn
             self.id = id
@@ -18510,6 +19118,7 @@ extension Connect {
         /// The identifier for the user. This can be the ID or the ARN of the user.
         public let userId: String?
 
+        @inlinable
         public init(userId: String? = nil) {
             self.userId = userId
         }
@@ -18525,6 +19134,7 @@ extension Connect {
         /// The match type combining search criteria using multiple transcript criteria.
         public let matchType: SearchContactsMatchType?
 
+        @inlinable
         public init(criteria: [TranscriptCriteria], matchType: SearchContactsMatchType? = nil) {
             self.criteria = criteria
             self.matchType = matchType
@@ -18551,6 +19161,7 @@ extension Connect {
         /// The words or phrases used to search within a transcript.
         public let searchText: [String]
 
+        @inlinable
         public init(matchType: SearchContactsMatchType, participantRole: ParticipantRole, searchText: [String]) {
             self.matchType = matchType
             self.participantRole = participantRole
@@ -18585,6 +19196,7 @@ extension Connect {
         /// The identifier for the user. This can be the ID or the ARN of the user.
         public let userId: String?
 
+        @inlinable
         public init(clientToken: String? = TransferContactRequest.idempotencyToken(), contactFlowId: String, contactId: String, instanceId: String, queueId: String? = nil, userId: String? = nil) {
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
@@ -18621,6 +19233,7 @@ extension Connect {
         /// The identifier of the contact in this instance of Amazon Connect.
         public let contactId: String?
 
+        @inlinable
         public init(contactArn: String? = nil, contactId: String? = nil) {
             self.contactArn = contactArn
             self.contactId = contactId
@@ -18640,6 +19253,7 @@ extension Connect {
         /// A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed.
         public let tagKeys: [String]
 
+        @inlinable
         public init(contactId: String, instanceId: String, tagKeys: [String]) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -18681,6 +19295,7 @@ extension Connect {
         /// The tag keys.
         public let tagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, tagKeys: [String]) {
             self.resourceArn = resourceArn
             self.tagKeys = tagKeys
@@ -18722,6 +19337,7 @@ extension Connect {
         /// The state of the agent status.
         public let state: AgentStatusState?
 
+        @inlinable
         public init(agentStatusId: String, description: String? = nil, displayOrder: Int? = nil, instanceId: String, name: String? = nil, resetOrderNumber: Bool? = nil, state: AgentStatusState? = nil) {
             self.agentStatusId = agentStatusId
             self.description = description
@@ -18779,6 +19395,7 @@ extension Connect {
         /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see Configure session timeouts in the Amazon Connect Administrator Guide.
         public let periodicSessionDuration: Int?
 
+        @inlinable
         public init(allowedIps: [String]? = nil, authenticationProfileId: String, blockedIps: [String]? = nil, description: String? = nil, instanceId: String, name: String? = nil, periodicSessionDuration: Int? = nil) {
             self.allowedIps = allowedIps
             self.authenticationProfileId = authenticationProfileId
@@ -18837,6 +19454,7 @@ extension Connect {
         /// An array of objects with Field ID and Value data.
         public let fields: [FieldValue]
 
+        @inlinable
         public init(fields: [FieldValue]) {
             self.fields = fields
         }
@@ -18860,6 +19478,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(attributes: [String: String], initialContactId: String, instanceId: String) {
             self.attributes = attributes
             self.initialContactId = initialContactId
@@ -18899,6 +19518,7 @@ extension Connect {
         /// A map of question identifiers to note value.
         public let notes: [String: EvaluationNote]?
 
+        @inlinable
         public init(answers: [String: EvaluationAnswerInput]? = nil, evaluationId: String, instanceId: String, notes: [String: EvaluationNote]? = nil) {
             self.answers = answers
             self.evaluationId = evaluationId
@@ -18946,6 +19566,7 @@ extension Connect {
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
 
+        @inlinable
         public init(evaluationArn: String, evaluationId: String) {
             self.evaluationArn = evaluationArn
             self.evaluationId = evaluationId
@@ -18965,6 +19586,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowId: String, content: String, instanceId: String) {
             self.contactFlowId = contactFlowId
             self.content = content
@@ -19006,6 +19628,7 @@ extension Connect {
         /// The name of the flow.
         public let name: String?
 
+        @inlinable
         public init(contactFlowId: String, contactFlowState: ContactFlowState? = nil, description: String? = nil, instanceId: String, name: String? = nil) {
             self.contactFlowId = contactFlowId
             self.contactFlowState = contactFlowState
@@ -19050,6 +19673,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(contactFlowModuleId: String, content: String, instanceId: String) {
             self.contactFlowModuleId = contactFlowModuleId
             self.content = content
@@ -19094,6 +19718,7 @@ extension Connect {
         /// The state of flow module.
         public let state: ContactFlowModuleState?
 
+        @inlinable
         public init(contactFlowModuleId: String, description: String? = nil, instanceId: String, name: String? = nil, state: ContactFlowModuleState? = nil) {
             self.contactFlowModuleId = contactFlowModuleId
             self.description = description
@@ -19145,6 +19770,7 @@ extension Connect {
         /// The name of the flow.
         public let name: String?
 
+        @inlinable
         public init(contactFlowId: String, description: String? = nil, instanceId: String, name: String? = nil) {
             self.contactFlowId = contactFlowId
             self.description = description
@@ -19190,6 +19816,7 @@ extension Connect {
         /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
         public let references: [String: Reference]?
 
+        @inlinable
         public init(contactId: String, description: String? = nil, instanceId: String, name: String? = nil, references: [String: Reference]? = nil) {
             self.contactId = contactId
             self.description = description
@@ -19245,6 +19872,7 @@ extension Connect {
         /// Updates the routing criteria on the contact. These properties can be used to change how a  contact is routed within the queue.
         public let routingCriteria: RoutingCriteriaInput?
 
+        @inlinable
         public init(contactId: String, instanceId: String, queuePriority: Int64? = nil, queueTimeAdjustmentSeconds: Int? = nil, routingCriteria: RoutingCriteriaInput? = nil) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -19292,6 +19920,7 @@ extension Connect {
         /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
         public let scheduledTime: Date
 
+        @inlinable
         public init(contactId: String, instanceId: String, scheduledTime: Date) {
             self.contactId = contactId
             self.instanceId = instanceId
@@ -19336,6 +19965,7 @@ extension Connect {
         /// A title of the evaluation form.
         public let title: String
 
+        @inlinable
         public init(clientToken: String? = UpdateEvaluationFormRequest.idempotencyToken(), createNewVersion: Bool? = nil, description: String? = nil, evaluationFormId: String, evaluationFormVersion: Int = 0, instanceId: String, items: [EvaluationFormItem], scoringStrategy: EvaluationFormScoringStrategy? = nil, title: String) {
             self.clientToken = clientToken
             self.createNewVersion = createNewVersion
@@ -19398,6 +20028,7 @@ extension Connect {
         /// The version of the updated evaluation form resource.
         public let evaluationFormVersion: Int
 
+        @inlinable
         public init(evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int) {
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
@@ -19425,6 +20056,7 @@ extension Connect {
         /// The time zone of the hours of operation.
         public let timeZone: String?
 
+        @inlinable
         public init(config: [HoursOfOperationConfig]? = nil, description: String? = nil, hoursOfOperationId: String, instanceId: String, name: String? = nil, timeZone: String? = nil) {
             self.config = config
             self.description = description
@@ -19473,6 +20105,7 @@ extension Connect {
         /// The value for the attribute. Maximum character limit is 100.
         public let value: String
 
+        @inlinable
         public init(attributeType: InstanceAttributeType, instanceId: String, value: String) {
             self.attributeType = attributeType
             self.instanceId = instanceId
@@ -19508,6 +20141,7 @@ extension Connect {
         public let resourceType: InstanceStorageResourceType
         public let storageConfig: InstanceStorageConfig
 
+        @inlinable
         public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
             self.associationId = associationId
             self.instanceId = instanceId
@@ -19545,6 +20179,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(channelConfiguration: UpdateParticipantRoleConfigChannelInfo, contactId: String, instanceId: String) {
             self.channelConfiguration = channelConfiguration
             self.contactId = contactId
@@ -19584,6 +20219,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) or resource ID of the phone number.
         public let phoneNumberId: String
 
+        @inlinable
         public init(clientToken: String? = UpdatePhoneNumberMetadataRequest.idempotencyToken(), phoneNumberDescription: String? = nil, phoneNumberId: String) {
             self.clientToken = clientToken
             self.phoneNumberDescription = phoneNumberDescription
@@ -19620,6 +20256,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
         public let targetArn: String?
 
+        @inlinable
         public init(clientToken: String? = UpdatePhoneNumberRequest.idempotencyToken(), instanceId: String? = nil, phoneNumberId: String, targetArn: String? = nil) {
             self.clientToken = clientToken
             self.instanceId = instanceId
@@ -19655,6 +20292,7 @@ extension Connect {
         /// A unique identifier for the phone number.
         public let phoneNumberId: String?
 
+        @inlinable
         public init(phoneNumberArn: String? = nil, phoneNumberId: String? = nil) {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
@@ -19674,6 +20312,7 @@ extension Connect {
         /// The values of the predefined attribute.
         public let values: PredefinedAttributeValues?
 
+        @inlinable
         public init(instanceId: String, name: String, values: PredefinedAttributeValues? = nil) {
             self.instanceId = instanceId
             self.name = name
@@ -19714,6 +20353,7 @@ extension Connect {
         /// GetPromptFile API instead of providing S3 URIs.
         public let s3Uri: String?
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String? = nil, promptId: String, s3Uri: String? = nil) {
             self.description = description
             self.instanceId = instanceId
@@ -19759,6 +20399,7 @@ extension Connect {
         /// A unique identifier for the prompt.
         public let promptId: String?
 
+        @inlinable
         public init(promptARN: String? = nil, promptId: String? = nil) {
             self.promptARN = promptARN
             self.promptId = promptId
@@ -19778,6 +20419,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(hoursOfOperationId: String, instanceId: String, queueId: String) {
             self.hoursOfOperationId = hoursOfOperationId
             self.instanceId = instanceId
@@ -19810,6 +20452,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(instanceId: String, maxContacts: Int? = nil, queueId: String) {
             self.instanceId = instanceId
             self.maxContacts = maxContacts
@@ -19845,6 +20488,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String? = nil, queueId: String) {
             self.description = description
             self.instanceId = instanceId
@@ -19884,6 +20528,7 @@ extension Connect {
         /// The identifier for the queue.
         public let queueId: String
 
+        @inlinable
         public init(instanceId: String, outboundCallerConfig: OutboundCallerConfig, queueId: String) {
             self.instanceId = instanceId
             self.outboundCallerConfig = outboundCallerConfig
@@ -19917,6 +20562,7 @@ extension Connect {
         /// The status of the queue.
         public let status: QueueStatus
 
+        @inlinable
         public init(instanceId: String, queueId: String, status: QueueStatus) {
             self.instanceId = instanceId
             self.queueId = queueId
@@ -19949,6 +20595,7 @@ extension Connect {
         /// The identifier for the quick connect.
         public let quickConnectId: String
 
+        @inlinable
         public init(instanceId: String, quickConnectConfig: QuickConnectConfig, quickConnectId: String) {
             self.instanceId = instanceId
             self.quickConnectConfig = quickConnectConfig
@@ -19984,6 +20631,7 @@ extension Connect {
         /// The identifier for the quick connect.
         public let quickConnectId: String
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String? = nil, quickConnectId: String) {
             self.description = description
             self.instanceId = instanceId
@@ -20022,6 +20670,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(agentAvailabilityTimer: AgentAvailabilityTimer, instanceId: String, routingProfileId: String) {
             self.agentAvailabilityTimer = agentAvailabilityTimer
             self.instanceId = instanceId
@@ -20054,6 +20703,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, mediaConcurrencies: [MediaConcurrency], routingProfileId: String) {
             self.instanceId = instanceId
             self.mediaConcurrencies = mediaConcurrencies
@@ -20089,6 +20739,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(defaultOutboundQueueId: String, instanceId: String, routingProfileId: String) {
             self.defaultOutboundQueueId = defaultOutboundQueueId
             self.instanceId = instanceId
@@ -20123,6 +20774,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String? = nil, routingProfileId: String) {
             self.description = description
             self.instanceId = instanceId
@@ -20162,6 +20814,7 @@ extension Connect {
         /// The identifier of the routing profile.
         public let routingProfileId: String
 
+        @inlinable
         public init(instanceId: String, queueConfigs: [RoutingProfileQueueConfig], routingProfileId: String) {
             self.instanceId = instanceId
             self.queueConfigs = queueConfigs
@@ -20205,6 +20858,7 @@ extension Connect {
         /// A unique identifier for the rule.
         public let ruleId: String
 
+        @inlinable
         public init(actions: [RuleAction], function: String, instanceId: String, name: String, publishStatus: RulePublishStatus, ruleId: String) {
             self.actions = actions
             self.function = function
@@ -20266,6 +20920,7 @@ extension Connect {
         /// The list of resources that a security profile applies tag restrictions to in Amazon Connect.
         public let tagRestrictedResources: [String]?
 
+        @inlinable
         public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, applications: [Application]? = nil, description: String? = nil, hierarchyRestrictedResources: [String]? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String, tagRestrictedResources: [String]? = nil) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
@@ -20355,6 +21010,7 @@ extension Connect {
         /// A unique identifier for the task template.
         public let taskTemplateId: String
 
+        @inlinable
         public init(constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField]? = nil, instanceId: String, name: String? = nil, status: TaskTemplateStatus? = nil, taskTemplateId: String) {
             self.constraints = constraints
             self.contactFlowId = contactFlowId
@@ -20437,6 +21093,7 @@ extension Connect {
         /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
         public let status: TaskTemplateStatus?
 
+        @inlinable
         public init(arn: String? = nil, constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, createdTime: Date? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField]? = nil, id: String? = nil, instanceId: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: TaskTemplateStatus? = nil) {
             self.arn = arn
             self.constraints = constraints
@@ -20480,6 +21137,7 @@ extension Connect {
         /// The distribution of traffic between the instance and its replica(s).
         public let telephonyConfig: TelephonyConfig?
 
+        @inlinable
         public init(agentConfig: AgentConfig? = nil, id: String, signInConfig: SignInConfig? = nil, telephonyConfig: TelephonyConfig? = nil) {
             self.agentConfig = agentConfig
             self.id = id
@@ -20522,6 +21180,7 @@ extension Connect {
         /// The name of the hierarchy group. Must not be more than 100 characters.
         public let name: String
 
+        @inlinable
         public init(hierarchyGroupId: String, instanceId: String, name: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
@@ -20554,6 +21213,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(hierarchyGroupId: String? = nil, instanceId: String, userId: String) {
             self.hierarchyGroupId = hierarchyGroupId
             self.instanceId = instanceId
@@ -20584,6 +21244,7 @@ extension Connect {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
+        @inlinable
         public init(hierarchyStructure: HierarchyStructureUpdate, instanceId: String) {
             self.hierarchyStructure = hierarchyStructure
             self.instanceId = instanceId
@@ -20614,6 +21275,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(identityInfo: UserIdentityInfo, instanceId: String, userId: String) {
             self.identityInfo = identityInfo
             self.instanceId = instanceId
@@ -20647,6 +21309,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, phoneConfig: UserPhoneConfig, userId: String) {
             self.instanceId = instanceId
             self.phoneConfig = phoneConfig
@@ -20680,6 +21343,7 @@ extension Connect {
         /// The proficiencies to be updated for the user. Proficiencies must first be associated to the user. You can do this using AssociateUserProficiencies API.
         public let userProficiencies: [UserProficiency]
 
+        @inlinable
         public init(instanceId: String, userId: String, userProficiencies: [UserProficiency]) {
             self.instanceId = instanceId
             self.userId = userId
@@ -20715,6 +21379,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, routingProfileId: String, userId: String) {
             self.instanceId = instanceId
             self.routingProfileId = routingProfileId
@@ -20747,6 +21412,7 @@ extension Connect {
         /// The identifier of the user account.
         public let userId: String
 
+        @inlinable
         public init(instanceId: String, securityProfileIds: [String], userId: String) {
             self.instanceId = instanceId
             self.securityProfileIds = securityProfileIds
@@ -20783,6 +21449,7 @@ extension Connect {
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
 
+        @inlinable
         public init(content: ViewInputContent, instanceId: String, status: ViewStatus, viewId: String) {
             self.content = content
             self.instanceId = instanceId
@@ -20819,6 +21486,7 @@ extension Connect {
         /// A view resource object. Contains metadata and content necessary to render the view.
         public let view: View?
 
+        @inlinable
         public init(view: View? = nil) {
             self.view = view
         }
@@ -20838,6 +21506,7 @@ extension Connect {
         /// The identifier of the view. Both ViewArn and ViewId can be used.
         public let viewId: String
 
+        @inlinable
         public init(description: String? = nil, instanceId: String, name: String? = nil, viewId: String) {
             self.description = description
             self.instanceId = instanceId
@@ -20887,6 +21556,7 @@ extension Connect {
         /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
         public let urlExpiry: String?
 
+        @inlinable
         public init(headersToInclude: [String: String]? = nil, url: String? = nil, urlExpiry: String? = nil) {
             self.headersToInclude = headersToInclude
             self.url = url
@@ -20906,6 +21576,7 @@ extension Connect {
         /// A valid URL.
         public let value: String?
 
+        @inlinable
         public init(name: String? = nil, value: String? = nil) {
             self.name = name
             self.value = value
@@ -20925,6 +21596,7 @@ extension Connect {
         /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
         public let useCaseType: UseCaseType?
 
+        @inlinable
         public init(useCaseArn: String? = nil, useCaseId: String? = nil, useCaseType: UseCaseType? = nil) {
             self.useCaseArn = useCaseArn
             self.useCaseId = useCaseId
@@ -20964,6 +21636,7 @@ extension Connect {
         /// The user name assigned to the user account.
         public let username: String?
 
+        @inlinable
         public init(arn: String? = nil, directoryUserId: String? = nil, hierarchyGroupId: String? = nil, id: String? = nil, identityInfo: UserIdentityInfo? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, phoneConfig: UserPhoneConfig? = nil, routingProfileId: String? = nil, securityProfileIds: [String]? = nil, tags: [String: String]? = nil, username: String? = nil) {
             self.arn = arn
             self.directoryUserId = directoryUserId
@@ -21015,6 +21688,7 @@ extension Connect {
         /// Information about the user for the data that is returned. It contains the resourceId and ARN of the user.
         public let user: UserReference?
 
+        @inlinable
         public init(activeSlotsByChannel: [Channel: Int]? = nil, availableSlotsByChannel: [Channel: Int]? = nil, contacts: [AgentContactReference]? = nil, hierarchyPath: HierarchyPathReference? = nil, maxSlotsByChannel: [Channel: Int]? = nil, nextStatus: String? = nil, routingProfile: RoutingProfileReference? = nil, status: AgentStatusReference? = nil, user: UserReference? = nil) {
             self.activeSlotsByChannel = activeSlotsByChannel
             self.availableSlotsByChannel = availableSlotsByChannel
@@ -21052,6 +21726,7 @@ extension Connect {
         /// A UserHierarchyGroup ID or ARN.
         public let userHierarchyGroups: [String]?
 
+        @inlinable
         public init(agents: [String]? = nil, contactFilter: ContactFilter? = nil, queues: [String]? = nil, routingProfiles: [String]? = nil, userHierarchyGroups: [String]? = nil) {
             self.agents = agents
             self.contactFilter = contactFilter
@@ -21089,6 +21764,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   parentId, levelId, and resourceID.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [UserHierarchyGroupSearchCriteria]? = nil, orConditions: [UserHierarchyGroupSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.orConditions = orConditions
@@ -21106,6 +21782,7 @@ extension Connect {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:   The top level list specifies conditions that need to be applied with OR operator.   The inner list specifies conditions that need to be applied with AND operator.
         public let attributeFilter: ControlPlaneAttributeFilter?
 
+        @inlinable
         public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
             self.attributeFilter = attributeFilter
         }
@@ -21127,6 +21804,7 @@ extension Connect {
         /// The user's secondary email address. If you provide a secondary email, the user receives email notifications - other than password reset notifications - to this email address instead of to their primary email address. Pattern: (?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}
         public let secondaryEmail: String?
 
+        @inlinable
         public init(email: String? = nil, firstName: String? = nil, lastName: String? = nil, mobile: String? = nil, secondaryEmail: String? = nil) {
             self.email = email
             self.firstName = firstName
@@ -21158,6 +21836,7 @@ extension Connect {
         /// The user's last name.
         public let lastName: String?
 
+        @inlinable
         public init(firstName: String? = nil, lastName: String? = nil) {
             self.firstName = firstName
             self.lastName = lastName
@@ -21179,6 +21858,7 @@ extension Connect {
         /// The phone type.
         public let phoneType: PhoneType
 
+        @inlinable
         public init(afterContactWorkTimeLimit: Int? = nil, autoAccept: Bool? = nil, deskPhoneNumber: String? = nil, phoneType: PhoneType) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
             self.autoAccept = autoAccept
@@ -21207,6 +21887,7 @@ extension Connect {
         /// The level of the proficiency. The valid values are 1, 2, 3, 4 and 5.
         public let level: Float
 
+        @inlinable
         public init(attributeName: String, attributeValue: String, level: Float) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -21235,6 +21916,7 @@ extension Connect {
         /// The value of user's proficiency.
         public let attributeValue: String
 
+        @inlinable
         public init(attributeName: String, attributeValue: String) {
             self.attributeName = attributeName
             self.attributeValue = attributeValue
@@ -21259,6 +21941,7 @@ extension Connect {
         /// The identifier of the user.
         public let userId: String
 
+        @inlinable
         public init(contactFlowId: String, userId: String) {
             self.contactFlowId = contactFlowId
             self.userId = userId
@@ -21280,6 +21963,7 @@ extension Connect {
         /// The unique identifier for the user.
         public let id: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil) {
             self.arn = arn
             self.id = id
@@ -21303,6 +21987,7 @@ extension Connect {
         /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are Username, FirstName, LastName, RoutingProfileId, SecurityProfileId, ResourceId.
         public let stringCondition: StringCondition?
 
+        @inlinable
         public init(andConditions: [UserSearchCriteria]? = nil, hierarchyGroupCondition: HierarchyGroupCondition? = nil, listCondition: ListCondition? = nil, orConditions: [UserSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
             self.andConditions = andConditions
             self.hierarchyGroupCondition = hierarchyGroupCondition
@@ -21325,6 +22010,7 @@ extension Connect {
         /// An object that can be used to specify Tag conditions or Hierarchy Group conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:   The top level list specifies conditions that need to be applied with OR operator.   The inner list specifies conditions that need to be applied with AND operator.    Only one field can be populated. This object can’t be used along with TagFilter. Request can either contain TagFilter or UserAttributeFilter if SearchFilter is specified, combination of both is not supported and such request will throw AccessDeniedException.
         public let userAttributeFilter: ControlPlaneUserAttributeFilter?
 
+        @inlinable
         public init(tagFilter: ControlPlaneTagFilter? = nil, userAttributeFilter: ControlPlaneUserAttributeFilter? = nil) {
             self.tagFilter = tagFilter
             self.userAttributeFilter = userAttributeFilter
@@ -21357,6 +22043,7 @@ extension Connect {
         /// The name of the user.
         public let username: String?
 
+        @inlinable
         public init(arn: String? = nil, directoryUserId: String? = nil, hierarchyGroupId: String? = nil, id: String? = nil, identityInfo: UserIdentityInfoLite? = nil, phoneConfig: UserPhoneConfig? = nil, routingProfileId: String? = nil, securityProfileIds: [String]? = nil, tags: [String: String]? = nil, username: String? = nil) {
             self.arn = arn
             self.directoryUserId = directoryUserId
@@ -21396,6 +22083,7 @@ extension Connect {
         /// The Amazon Connect user name of the user account.
         public let username: String?
 
+        @inlinable
         public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, username: String? = nil) {
             self.arn = arn
             self.id = id
@@ -21441,6 +22129,7 @@ extension Connect {
         /// Indicates the checksum value of the latest published view content.
         public let viewContentSha256: String?
 
+        @inlinable
         public init(arn: String? = nil, content: ViewContent? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: ViewStatus? = nil, tags: [String: String]? = nil, type: ViewType? = nil, version: Int? = nil, versionDescription: String? = nil, viewContentSha256: String? = nil) {
             self.arn = arn
             self.content = content
@@ -21482,6 +22171,7 @@ extension Connect {
         /// The view template representing the structure of the view.
         public let template: String?
 
+        @inlinable
         public init(actions: [String]? = nil, inputSchema: String? = nil, template: String? = nil) {
             self.actions = actions
             self.inputSchema = inputSchema
@@ -21501,6 +22191,7 @@ extension Connect {
         /// The view template representing the structure of the view.
         public let template: String?
 
+        @inlinable
         public init(actions: [String]? = nil, template: String? = nil) {
             self.actions = actions
             self.template = template
@@ -21534,6 +22225,7 @@ extension Connect {
         /// The type of the view.
         public let type: ViewType?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, status: ViewStatus? = nil, type: ViewType? = nil) {
             self.arn = arn
             self.description = description
@@ -21569,6 +22261,7 @@ extension Connect {
         /// The description of the view version.
         public let versionDescription: String?
 
+        @inlinable
         public init(arn: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, type: ViewType? = nil, version: Int? = nil, versionDescription: String? = nil) {
             self.arn = arn
             self.description = description
@@ -21611,6 +22304,7 @@ extension Connect {
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
+        @inlinable
         public init(arn: String, content: String? = nil, failureReason: String? = nil, id: String, languageCode: VocabularyLanguageCode, lastModifiedTime: Date, name: String, state: VocabularyState, tags: [String: String]? = nil) {
             self.arn = arn
             self.content = content
@@ -21653,6 +22347,7 @@ extension Connect {
         /// The current state of the custom vocabulary.
         public let state: VocabularyState
 
+        @inlinable
         public init(arn: String, failureReason: String? = nil, id: String, languageCode: VocabularyLanguageCode, lastModifiedTime: Date, name: String, state: VocabularyState) {
             self.arn = arn
             self.failureReason = failureReason
@@ -21678,6 +22373,7 @@ extension Connect {
         /// Identifies which track is being recorded.
         public let voiceRecordingTrack: VoiceRecordingTrack?
 
+        @inlinable
         public init(voiceRecordingTrack: VoiceRecordingTrack? = nil) {
             self.voiceRecordingTrack = voiceRecordingTrack
         }
@@ -21691,6 +22387,7 @@ extension Connect {
         /// The Amazon Resource Name (ARN) of the Wisdom session.
         public let sessionArn: String?
 
+        @inlinable
         public init(sessionArn: String? = nil) {
             self.sessionArn = sessionArn
         }
@@ -21704,6 +22401,7 @@ extension Connect {
         /// The property value of the automation.
         public let propertyValue: NumericQuestionPropertyValueAutomation?
 
+        @inlinable
         public init(propertyValue: NumericQuestionPropertyValueAutomation? = nil) {
             self.propertyValue = propertyValue
         }
@@ -21717,6 +22415,7 @@ extension Connect {
         /// The automation option based on a rule category for the single select question.
         public let ruleCategory: SingleSelectQuestionRuleCategoryAutomation?
 
+        @inlinable
         public init(ruleCategory: SingleSelectQuestionRuleCategoryAutomation? = nil) {
             self.ruleCategory = ruleCategory
         }
@@ -21734,6 +22433,7 @@ extension Connect {
         /// Predefined attribute values of type string list.
         public let stringList: [String]?
 
+        @inlinable
         public init(stringList: [String]? = nil) {
             self.stringList = stringList
         }
@@ -21757,6 +22457,7 @@ extension Connect {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var absoluteTime: Date?
 
+        @inlinable
         public init(absoluteTime: Date? = nil) {
             self.absoluteTime = absoluteTime
         }
@@ -21770,6 +22471,7 @@ extension Connect {
         /// Configuration information for the chat participant role.
         public let chat: ChatParticipantRoleConfig?
 
+        @inlinable
         public init(chat: ChatParticipantRoleConfig? = nil) {
             self.chat = chat
         }

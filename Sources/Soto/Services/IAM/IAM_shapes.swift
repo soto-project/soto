@@ -213,6 +213,7 @@ extension IAM {
         /// The number of accounts with authenticated principals (root user, IAM users, and IAM roles) that attempted to access the service in the tracking period.
         public let totalAuthenticatedEntities: Int?
 
+        @inlinable
         public init(entityPath: String? = nil, lastAuthenticatedTime: Date? = nil, region: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil) {
             self.entityPath = entityPath
             self.lastAuthenticatedTime = lastAuthenticatedTime
@@ -244,6 +245,7 @@ extension IAM {
         /// The name of the IAM user that the access key is associated with.
         public let userName: String
 
+        @inlinable
         public init(accessKeyId: String, createDate: Date? = nil, secretAccessKey: String, status: StatusType, userName: String) {
             self.accessKeyId = accessKeyId
             self.createDate = createDate
@@ -269,6 +271,7 @@ extension IAM {
         /// The name of the Amazon Web Services service with which this access key was most recently used. The value of this field is "N/A" in the following situations:   The user does not have an access key.   An access key exists but has not been used since IAM started tracking this information.   There is no sign-in data associated with the user.
         public let serviceName: String
 
+        @inlinable
         public init(lastUsedDate: Date? = nil, region: String, serviceName: String) {
             self.lastUsedDate = lastUsedDate
             self.region = region
@@ -292,6 +295,7 @@ extension IAM {
         /// The name of the IAM user that the key is associated with.
         public let userName: String?
 
+        @inlinable
         public init(accessKeyId: String? = nil, createDate: Date? = nil, status: StatusType? = nil, userName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.createDate = createDate
@@ -313,6 +317,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation.
         public let openIDConnectProviderArn: String
 
+        @inlinable
         public init(clientID: String, openIDConnectProviderArn: String) {
             self.clientID = clientID
             self.openIDConnectProviderArn = openIDConnectProviderArn
@@ -337,6 +342,7 @@ extension IAM {
         /// The name of the role to add. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(instanceProfileName: String, roleName: String) {
             self.instanceProfileName = instanceProfileName
             self.roleName = roleName
@@ -363,6 +369,7 @@ extension IAM {
         /// The name of the user to add. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(groupName: String, userName: String) {
             self.groupName = groupName
             self.userName = userName
@@ -389,6 +396,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
+        @inlinable
         public init(groupName: String, policyArn: String) {
             self.groupName = groupName
             self.policyArn = policyArn
@@ -414,6 +422,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(policyArn: String, roleName: String) {
             self.policyArn = policyArn
             self.roleName = roleName
@@ -439,6 +448,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM user to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(policyArn: String, userName: String) {
             self.policyArn = policyArn
             self.userName = userName
@@ -464,6 +474,7 @@ extension IAM {
         ///  The permissions boundary usage type that indicates what type of IAM resource is used as the permissions boundary for an entity. This data type can only have a value of Policy.
         public let permissionsBoundaryType: PermissionsBoundaryAttachmentType?
 
+        @inlinable
         public init(permissionsBoundaryArn: String? = nil, permissionsBoundaryType: PermissionsBoundaryAttachmentType? = nil) {
             self.permissionsBoundaryArn = permissionsBoundaryArn
             self.permissionsBoundaryType = permissionsBoundaryType
@@ -480,6 +491,7 @@ extension IAM {
         /// The friendly name of the attached policy.
         public let policyName: String?
 
+        @inlinable
         public init(policyArn: String? = nil, policyName: String? = nil) {
             self.policyArn = policyArn
             self.policyName = policyName
@@ -497,6 +509,7 @@ extension IAM {
         /// The IAM user's current password.
         public let oldPassword: String
 
+        @inlinable
         public init(newPassword: String, oldPassword: String) {
             self.newPassword = newPassword
             self.oldPassword = oldPassword
@@ -526,6 +539,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var contextKeyValues: [String]?
 
+        @inlinable
         public init(contextKeyName: String? = nil, contextKeyType: ContextKeyTypeEnum? = nil, contextKeyValues: [String]? = nil) {
             self.contextKeyName = contextKeyName
             self.contextKeyType = contextKeyType
@@ -548,6 +562,7 @@ extension IAM {
         /// The name of the IAM user that the new key will belong to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(userName: String? = nil) {
             self.userName = userName
         }
@@ -567,6 +582,7 @@ extension IAM {
         /// A structure with details about the access key.
         public let accessKey: AccessKey
 
+        @inlinable
         public init(accessKey: AccessKey) {
             self.accessKey = accessKey
         }
@@ -580,6 +596,7 @@ extension IAM {
         /// The account alias to create. This parameter allows (through its regex pattern) a string of characters consisting of  lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have  two dashes in a row.
         public let accountAlias: String
 
+        @inlinable
         public init(accountAlias: String) {
             self.accountAlias = accountAlias
         }
@@ -601,6 +618,7 @@ extension IAM {
         ///  The path to the group. For more information about paths, see IAM identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let path: String?
 
+        @inlinable
         public init(groupName: String, path: String? = nil) {
             self.groupName = groupName
             self.path = path
@@ -625,6 +643,7 @@ extension IAM {
         /// A structure containing details about the new group.
         public let group: Group
 
+        @inlinable
         public init(group: Group) {
             self.group = group
         }
@@ -643,6 +662,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(instanceProfileName: String, path: String? = nil, tags: [Tag]? = nil) {
             self.instanceProfileName = instanceProfileName
             self.path = path
@@ -673,6 +693,7 @@ extension IAM {
         /// A structure containing details about the new instance profile.
         public let instanceProfile: InstanceProfile
 
+        @inlinable
         public init(instanceProfile: InstanceProfile) {
             self.instanceProfile = instanceProfile
         }
@@ -690,6 +711,7 @@ extension IAM {
         /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(password: String, passwordResetRequired: Bool? = nil, userName: String) {
             self.password = password
             self.passwordResetRequired = passwordResetRequired
@@ -716,6 +738,7 @@ extension IAM {
         /// A structure containing the user name and password create date.
         public let loginProfile: LoginProfile
 
+        @inlinable
         public init(loginProfile: LoginProfile) {
             self.loginProfile = loginProfile
         }
@@ -738,6 +761,7 @@ extension IAM {
         /// The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com. The URL should not contain a port number.  You cannot register the same provider multiple times in a single Amazon Web Services account. If you try to submit a URL that has already been used for an OpenID Connect provider in the Amazon Web Services account, you will get an error.
         public let url: String
 
+        @inlinable
         public init(clientIDList: [String]? = nil, tags: [Tag]? = nil, thumbprintList: [String]? = nil, url: String) {
             self.clientIDList = clientIDList
             self.tags = tags
@@ -777,6 +801,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(openIDConnectProviderArn: String? = nil, tags: [Tag]? = nil) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
             self.tags = tags
@@ -801,6 +826,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(description: String? = nil, path: String? = nil, policyDocument: String, policyName: String, tags: [Tag]? = nil) {
             self.description = description
             self.path = path
@@ -839,6 +865,7 @@ extension IAM {
         /// A structure containing details about the new policy.
         public let policy: Policy?
 
+        @inlinable
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
@@ -856,6 +883,7 @@ extension IAM {
         /// Specifies whether to set this version as the policy's default version. When this parameter is true, the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
         public let setAsDefault: Bool?
 
+        @inlinable
         public init(policyArn: String, policyDocument: String, setAsDefault: Bool? = nil) {
             self.policyArn = policyArn
             self.policyDocument = policyDocument
@@ -881,6 +909,7 @@ extension IAM {
         /// A structure containing details about the new policy version.
         public let policyVersion: PolicyVersion?
 
+        @inlinable
         public init(policyVersion: PolicyVersion? = nil) {
             self.policyVersion = policyVersion
         }
@@ -907,6 +936,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(assumeRolePolicyDocument: String, description: String? = nil, maxSessionDuration: Int? = nil, path: String? = nil, permissionsBoundary: String? = nil, roleName: String, tags: [Tag]? = nil) {
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.description = description
@@ -954,6 +984,7 @@ extension IAM {
         /// A structure containing details about the new role.
         public let role: Role
 
+        @inlinable
         public init(role: Role) {
             self.role = role
         }
@@ -972,6 +1003,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(name: String, samlMetadataDocument: String, tags: [Tag]? = nil) {
             self.name = name
             self.samlMetadataDocument = samlMetadataDocument
@@ -1004,6 +1036,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(samlProviderArn: String? = nil, tags: [Tag]? = nil) {
             self.samlProviderArn = samlProviderArn
             self.tags = tags
@@ -1023,6 +1056,7 @@ extension IAM {
         /// The description of the role.
         public let description: String?
 
+        @inlinable
         public init(awsServiceName: String, customSuffix: String? = nil, description: String? = nil) {
             self.awsServiceName = awsServiceName
             self.customSuffix = customSuffix
@@ -1051,6 +1085,7 @@ extension IAM {
         /// A Role object that contains details about the newly created role.
         public let role: Role?
 
+        @inlinable
         public init(role: Role? = nil) {
             self.role = role
         }
@@ -1066,6 +1101,7 @@ extension IAM {
         /// The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(serviceName: String, userName: String) {
             self.serviceName = serviceName
             self.userName = userName
@@ -1087,6 +1123,7 @@ extension IAM {
         /// A structure that contains information about the newly created service-specific credential.  This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you must reset the password with ResetServiceSpecificCredential.
         public let serviceSpecificCredential: ServiceSpecificCredential?
 
+        @inlinable
         public init(serviceSpecificCredential: ServiceSpecificCredential? = nil) {
             self.serviceSpecificCredential = serviceSpecificCredential
         }
@@ -1107,6 +1144,7 @@ extension IAM {
         /// The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
         public let userName: String
 
+        @inlinable
         public init(path: String? = nil, permissionsBoundary: String? = nil, tags: [Tag]? = nil, userName: String) {
             self.path = path
             self.permissionsBoundary = permissionsBoundary
@@ -1141,6 +1179,7 @@ extension IAM {
         /// A structure with details about the new IAM user.
         public let user: User?
 
+        @inlinable
         public init(user: User? = nil) {
             self.user = user
         }
@@ -1159,6 +1198,7 @@ extension IAM {
         /// The name of the virtual MFA device, which must be unique. Use with path to uniquely identify a virtual MFA device. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let virtualMFADeviceName: String
 
+        @inlinable
         public init(path: String? = nil, tags: [Tag]? = nil, virtualMFADeviceName: String) {
             self.path = path
             self.tags = tags
@@ -1188,6 +1228,7 @@ extension IAM {
         /// A structure containing details about the new virtual MFA device.
         public let virtualMFADevice: VirtualMFADevice
 
+        @inlinable
         public init(virtualMFADevice: VirtualMFADevice) {
             self.virtualMFADevice = virtualMFADevice
         }
@@ -1203,6 +1244,7 @@ extension IAM {
         /// The name of the user whose MFA device you want to deactivate. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(serialNumber: String, userName: String) {
             self.serialNumber = serialNumber
             self.userName = userName
@@ -1229,6 +1271,7 @@ extension IAM {
         /// The name of the user whose access key pair you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(accessKeyId: String, userName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.userName = userName
@@ -1253,6 +1296,7 @@ extension IAM {
         /// The name of the account alias to delete. This parameter allows (through its regex pattern) a string of characters consisting of  lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have  two dashes in a row.
         public let accountAlias: String
 
+        @inlinable
         public init(accountAlias: String) {
             self.accountAlias = accountAlias
         }
@@ -1274,6 +1318,7 @@ extension IAM {
         /// The name identifying the policy document to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String
 
+        @inlinable
         public init(groupName: String, policyName: String) {
             self.groupName = groupName
             self.policyName = policyName
@@ -1298,6 +1343,7 @@ extension IAM {
         /// The name of the IAM group to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let groupName: String
 
+        @inlinable
         public init(groupName: String) {
             self.groupName = groupName
         }
@@ -1317,6 +1363,7 @@ extension IAM {
         /// The name of the instance profile to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let instanceProfileName: String
 
+        @inlinable
         public init(instanceProfileName: String) {
             self.instanceProfileName = instanceProfileName
         }
@@ -1336,6 +1383,7 @@ extension IAM {
         /// The name of the user whose password you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(userName: String) {
             self.userName = userName
         }
@@ -1355,6 +1403,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders operation.
         public let openIDConnectProviderArn: String
 
+        @inlinable
         public init(openIDConnectProviderArn: String) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
@@ -1373,6 +1422,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
+        @inlinable
         public init(policyArn: String) {
             self.policyArn = policyArn
         }
@@ -1393,6 +1443,7 @@ extension IAM {
         /// The policy version to delete. This parameter allows (through its regex pattern) a string of characters that  consists of the lowercase letter 'v' followed by one or two digits, and optionally  followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
         public let versionId: String
 
+        @inlinable
         public init(policyArn: String, versionId: String) {
             self.policyArn = policyArn
             self.versionId = versionId
@@ -1414,6 +1465,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary.
         public let roleName: String
 
+        @inlinable
         public init(roleName: String) {
             self.roleName = roleName
         }
@@ -1435,6 +1487,7 @@ extension IAM {
         /// The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(policyName: String, roleName: String) {
             self.policyName = policyName
             self.roleName = roleName
@@ -1459,6 +1512,7 @@ extension IAM {
         /// The name of the role to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(roleName: String) {
             self.roleName = roleName
         }
@@ -1478,6 +1532,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the SAML provider to delete.
         public let samlProviderArn: String
 
+        @inlinable
         public init(samlProviderArn: String) {
             self.samlProviderArn = samlProviderArn
         }
@@ -1498,6 +1553,7 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(sshPublicKeyId: String, userName: String) {
             self.sshPublicKeyId = sshPublicKeyId
             self.userName = userName
@@ -1522,6 +1578,7 @@ extension IAM {
         /// The name of the server certificate you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
 
+        @inlinable
         public init(serverCertificateName: String) {
             self.serverCertificateName = serverCertificateName
         }
@@ -1541,6 +1598,7 @@ extension IAM {
         /// The name of the service-linked role to be deleted.
         public let roleName: String
 
+        @inlinable
         public init(roleName: String) {
             self.roleName = roleName
         }
@@ -1560,6 +1618,7 @@ extension IAM {
         /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role///.
         public let deletionTaskId: String
 
+        @inlinable
         public init(deletionTaskId: String) {
             self.deletionTaskId = deletionTaskId
         }
@@ -1575,6 +1634,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(serviceSpecificCredentialId: String, userName: String? = nil) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
@@ -1601,6 +1661,7 @@ extension IAM {
         /// The name of the user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(certificateId: String, userName: String? = nil) {
             self.certificateId = certificateId
             self.userName = userName
@@ -1625,6 +1686,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary.
         public let userName: String
 
+        @inlinable
         public init(userName: String) {
             self.userName = userName
         }
@@ -1646,6 +1708,7 @@ extension IAM {
         /// The name (friendly name, not ARN) identifying the user that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(policyName: String, userName: String) {
             self.policyName = policyName
             self.userName = userName
@@ -1670,6 +1733,7 @@ extension IAM {
         /// The name of the user to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(userName: String) {
             self.userName = userName
         }
@@ -1689,6 +1753,7 @@ extension IAM {
         /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting  of upper and lowercase alphanumeric characters with no spaces. You can also include any of the  following characters: =,.@:/-
         public let serialNumber: String
 
+        @inlinable
         public init(serialNumber: String) {
             self.serialNumber = serialNumber
         }
@@ -1711,6 +1776,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<RoleUsageType>>
         public var roleUsageList: [RoleUsageType]?
 
+        @inlinable
         public init(reason: String? = nil, roleUsageList: [RoleUsageType]? = nil) {
             self.reason = reason
             self.roleUsageList = roleUsageList
@@ -1728,6 +1794,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
+        @inlinable
         public init(groupName: String, policyArn: String) {
             self.groupName = groupName
             self.policyArn = policyArn
@@ -1753,6 +1820,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(policyArn: String, roleName: String) {
             self.policyArn = policyArn
             self.roleName = roleName
@@ -1778,6 +1846,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM user to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(policyArn: String, userName: String) {
             self.policyArn = policyArn
             self.userName = userName
@@ -1807,6 +1876,7 @@ extension IAM {
         /// The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(authenticationCode1: String, authenticationCode2: String, serialNumber: String, userName: String) {
             self.authenticationCode1 = authenticationCode1
             self.authenticationCode2 = authenticationCode2
@@ -1843,6 +1913,7 @@ extension IAM {
         /// The date and time, in ISO 8601 date-time format, when the authenticated entity last attempted to access Amazon Web Services. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAuthenticated: Date?
 
+        @inlinable
         public init(entityInfo: EntityInfo, lastAuthenticated: Date? = nil) {
             self.entityInfo = entityInfo
             self.lastAuthenticated = lastAuthenticated
@@ -1865,6 +1936,7 @@ extension IAM {
         /// The type of entity (user or role).
         public let type: PolicyOwnerEntityType
 
+        @inlinable
         public init(arn: String, id: String, name: String, path: String? = nil, type: PolicyOwnerEntityType) {
             self.arn = arn
             self.id = id
@@ -1888,6 +1960,7 @@ extension IAM {
         /// Detailed information about the reason that the operation failed.
         public let message: String
 
+        @inlinable
         public init(code: String, message: String) {
             self.code = code
             self.message = message
@@ -1923,6 +1996,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<ResourceSpecificResult>>
         public var resourceSpecificResults: [ResourceSpecificResult]?
 
+        @inlinable
         public init(evalActionName: String, evalDecision: PolicyEvaluationDecisionType, evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceName: String? = nil, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil, organizationsDecisionDetail: OrganizationsDecisionDetail? = nil, permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail? = nil, resourceSpecificResults: [ResourceSpecificResult]? = nil) {
             self.evalActionName = evalActionName
             self.evalDecision = evalDecision
@@ -1954,6 +2028,7 @@ extension IAM {
         /// Information about the state of the credential report.
         public let state: ReportStateType?
 
+        @inlinable
         public init(description: String? = nil, state: ReportStateType? = nil) {
             self.description = description
             self.state = state
@@ -1971,6 +2046,7 @@ extension IAM {
         /// The identifier of the Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an Amazon Web Services service.
         public let organizationsPolicyId: String?
 
+        @inlinable
         public init(entityPath: String, organizationsPolicyId: String? = nil) {
             self.entityPath = entityPath
             self.organizationsPolicyId = organizationsPolicyId
@@ -1993,6 +2069,7 @@ extension IAM {
         /// The job identifier that you can use in the GetOrganizationsAccessReport operation.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2008,6 +2085,7 @@ extension IAM {
         /// The level of detail that you want to generate. You can specify whether you want to generate information about the last attempt to access services or actions. If you specify service-level granularity, this operation generates only service data. If you specify action-level granularity, it generates service and action data. If you don't include this optional parameter, the operation generates service data.
         public let granularity: AccessAdvisorUsageGranularityType?
 
+        @inlinable
         public init(arn: String, granularity: AccessAdvisorUsageGranularityType? = nil) {
             self.arn = arn
             self.granularity = granularity
@@ -2028,6 +2106,7 @@ extension IAM {
         /// The JobId that you can use in the GetServiceLastAccessedDetails or GetServiceLastAccessedDetailsWithEntities operations. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
         public let jobId: String?
 
+        @inlinable
         public init(jobId: String? = nil) {
             self.jobId = jobId
         }
@@ -2041,6 +2120,7 @@ extension IAM {
         /// The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can  consist of any upper or lowercased letter or digit.
         public let accessKeyId: String
 
+        @inlinable
         public init(accessKeyId: String) {
             self.accessKeyId = accessKeyId
         }
@@ -2062,6 +2142,7 @@ extension IAM {
         /// The name of the IAM user that owns this access key.
         public let userName: String?
 
+        @inlinable
         public init(accessKeyLastUsed: AccessKeyLastUsed? = nil, userName: String? = nil) {
             self.accessKeyLastUsed = accessKeyLastUsed
             self.userName = userName
@@ -2082,6 +2163,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(filter: [EntityType]? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.filter = filter
             self.marker = marker
@@ -2121,6 +2203,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<UserDetail>>
         public var userDetailList: [UserDetail]?
 
+        @inlinable
         public init(groupDetailList: [GroupDetail]? = nil, isTruncated: Bool? = nil, marker: String? = nil, policies: [ManagedPolicyDetail]? = nil, roleDetailList: [RoleDetail]? = nil, userDetailList: [UserDetail]? = nil) {
             self.groupDetailList = groupDetailList
             self.isTruncated = isTruncated
@@ -2144,6 +2227,7 @@ extension IAM {
         /// A structure that contains details about the account's password policy.
         public let passwordPolicy: PasswordPolicy
 
+        @inlinable
         public init(passwordPolicy: PasswordPolicy) {
             self.passwordPolicy = passwordPolicy
         }
@@ -2158,6 +2242,7 @@ extension IAM {
         @OptionalCustomCoding<StandardDictionaryCoder<SummaryKeyType, Int>>
         public var summaryMap: [SummaryKeyType: Int]?
 
+        @inlinable
         public init(summaryMap: [SummaryKeyType: Int]? = nil) {
             self.summaryMap = summaryMap
         }
@@ -2172,6 +2257,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyInputList: [String]
 
+        @inlinable
         public init(policyInputList: [String]) {
             self.policyInputList = policyInputList
         }
@@ -2194,6 +2280,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var contextKeyNames: [String]?
 
+        @inlinable
         public init(contextKeyNames: [String]? = nil) {
             self.contextKeyNames = contextKeyNames
         }
@@ -2210,6 +2297,7 @@ extension IAM {
         /// The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policySourceArn: String
 
+        @inlinable
         public init(policyInputList: [String]? = nil, policySourceArn: String) {
             self.policyInputList = policyInputList
             self.policySourceArn = policySourceArn
@@ -2239,6 +2327,7 @@ extension IAM {
         /// The format (MIME type) of the credential report.
         public let reportFormat: ReportFormatType?
 
+        @inlinable
         public init(content: AWSBase64Data? = nil, generatedTime: Date? = nil, reportFormat: ReportFormatType? = nil) {
             self.content = content
             self.generatedTime = generatedTime
@@ -2258,6 +2347,7 @@ extension IAM {
         /// The name of the policy document to get. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String
 
+        @inlinable
         public init(groupName: String, policyName: String) {
             self.groupName = groupName
             self.policyName = policyName
@@ -2286,6 +2376,7 @@ extension IAM {
         /// The name of the policy.
         public let policyName: String
 
+        @inlinable
         public init(groupName: String, policyDocument: String, policyName: String) {
             self.groupName = groupName
             self.policyDocument = policyDocument
@@ -2307,6 +2398,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(groupName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.groupName = groupName
             self.marker = marker
@@ -2342,6 +2434,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<User>>
         public var users: [User]
 
+        @inlinable
         public init(group: Group, isTruncated: Bool? = nil, marker: String? = nil, users: [User]) {
             self.group = group
             self.isTruncated = isTruncated
@@ -2361,6 +2454,7 @@ extension IAM {
         /// The name of the instance profile to get information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let instanceProfileName: String
 
+        @inlinable
         public init(instanceProfileName: String) {
             self.instanceProfileName = instanceProfileName
         }
@@ -2380,6 +2474,7 @@ extension IAM {
         /// A structure containing details about the instance profile.
         public let instanceProfile: InstanceProfile
 
+        @inlinable
         public init(instanceProfile: InstanceProfile) {
             self.instanceProfile = instanceProfile
         }
@@ -2393,6 +2488,7 @@ extension IAM {
         /// The name of the user whose login profile you want to retrieve. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(userName: String) {
             self.userName = userName
         }
@@ -2412,6 +2508,7 @@ extension IAM {
         /// A structure containing the user name and the profile creation date for the user.
         public let loginProfile: LoginProfile
 
+        @inlinable
         public init(loginProfile: LoginProfile) {
             self.loginProfile = loginProfile
         }
@@ -2427,6 +2524,7 @@ extension IAM {
         /// The friendly name identifying the user.
         public let userName: String?
 
+        @inlinable
         public init(serialNumber: String, userName: String? = nil) {
             self.serialNumber = serialNumber
             self.userName = userName
@@ -2458,6 +2556,7 @@ extension IAM {
         /// The friendly name identifying the user.
         public let userName: String?
 
+        @inlinable
         public init(certifications: [String: String]? = nil, enableDate: Date? = nil, serialNumber: String, userName: String? = nil) {
             self.certifications = certifications
             self.enableDate = enableDate
@@ -2477,6 +2576,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let openIDConnectProviderArn: String
 
+        @inlinable
         public init(openIDConnectProviderArn: String) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
         }
@@ -2506,6 +2606,7 @@ extension IAM {
         /// The URL that the IAM OIDC provider resource object is associated with. For more information, see CreateOpenIDConnectProvider.
         public let url: String?
 
+        @inlinable
         public init(clientIDList: [String]? = nil, createDate: Date? = nil, tags: [Tag]? = nil, thumbprintList: [String]? = nil, url: String? = nil) {
             self.clientIDList = clientIDList
             self.createDate = createDate
@@ -2533,6 +2634,7 @@ extension IAM {
         /// The key that is used to sort the results. If you choose the namespace key, the results are returned in alphabetical order. If you choose the time key, the results are sorted numerically by the date and time.
         public let sortKey: SortKeyType?
 
+        @inlinable
         public init(jobId: String, marker: String? = nil, maxItems: Int? = nil, sortKey: SortKeyType? = nil) {
             self.jobId = jobId
             self.marker = marker
@@ -2578,6 +2680,7 @@ extension IAM {
         /// The number of services that account principals are allowed but did not attempt to access.
         public let numberOfServicesNotAccessed: Int?
 
+        @inlinable
         public init(accessDetails: [AccessDetail]? = nil, errorDetails: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: Date? = nil, jobCreationDate: Date, jobStatus: JobStatusType, marker: String? = nil, numberOfServicesAccessible: Int? = nil, numberOfServicesNotAccessed: Int? = nil) {
             self.accessDetails = accessDetails
             self.errorDetails = errorDetails
@@ -2607,6 +2710,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
+        @inlinable
         public init(policyArn: String) {
             self.policyArn = policyArn
         }
@@ -2625,6 +2729,7 @@ extension IAM {
         /// A structure containing details about the policy.
         public let policy: Policy?
 
+        @inlinable
         public init(policy: Policy? = nil) {
             self.policy = policy
         }
@@ -2640,6 +2745,7 @@ extension IAM {
         /// Identifies the policy version to retrieve. This parameter allows (through its regex pattern) a string of characters that  consists of the lowercase letter 'v' followed by one or two digits, and optionally  followed by a period '.' and a string of letters and digits.
         public let versionId: String
 
+        @inlinable
         public init(policyArn: String, versionId: String) {
             self.policyArn = policyArn
             self.versionId = versionId
@@ -2661,6 +2767,7 @@ extension IAM {
         /// A structure containing details about the policy version.
         public let policyVersion: PolicyVersion?
 
+        @inlinable
         public init(policyVersion: PolicyVersion? = nil) {
             self.policyVersion = policyVersion
         }
@@ -2676,6 +2783,7 @@ extension IAM {
         /// The name of the role associated with the policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(policyName: String, roleName: String) {
             self.policyName = policyName
             self.roleName = roleName
@@ -2704,6 +2812,7 @@ extension IAM {
         /// The role the policy is associated with.
         public let roleName: String
 
+        @inlinable
         public init(policyDocument: String, policyName: String, roleName: String) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -2721,6 +2830,7 @@ extension IAM {
         /// The name of the IAM role to get information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(roleName: String) {
             self.roleName = roleName
         }
@@ -2740,6 +2850,7 @@ extension IAM {
         /// A structure containing details about the IAM role.
         public let role: Role
 
+        @inlinable
         public init(role: Role) {
             self.role = role
         }
@@ -2753,6 +2864,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let samlProviderArn: String
 
+        @inlinable
         public init(samlProviderArn: String) {
             self.samlProviderArn = samlProviderArn
         }
@@ -2778,6 +2890,7 @@ extension IAM {
         /// The expiration date and time for the SAML provider.
         public let validUntil: Date?
 
+        @inlinable
         public init(createDate: Date? = nil, samlMetadataDocument: String? = nil, tags: [Tag]? = nil, validUntil: Date? = nil) {
             self.createDate = createDate
             self.samlMetadataDocument = samlMetadataDocument
@@ -2801,6 +2914,7 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(encoding: EncodingType, sshPublicKeyId: String, userName: String) {
             self.encoding = encoding
             self.sshPublicKeyId = sshPublicKeyId
@@ -2827,6 +2941,7 @@ extension IAM {
         /// A structure containing details about the SSH public key.
         public let sshPublicKey: SSHPublicKey?
 
+        @inlinable
         public init(sshPublicKey: SSHPublicKey? = nil) {
             self.sshPublicKey = sshPublicKey
         }
@@ -2840,6 +2955,7 @@ extension IAM {
         /// The name of the server certificate you want to retrieve information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
 
+        @inlinable
         public init(serverCertificateName: String) {
             self.serverCertificateName = serverCertificateName
         }
@@ -2859,6 +2975,7 @@ extension IAM {
         /// A structure containing details about the server certificate.
         public let serverCertificate: ServerCertificate
 
+        @inlinable
         public init(serverCertificate: ServerCertificate) {
             self.serverCertificate = serverCertificate
         }
@@ -2876,6 +2993,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(jobId: String, marker: String? = nil, maxItems: Int? = nil) {
             self.jobId = jobId
             self.marker = marker
@@ -2918,6 +3036,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<ServiceLastAccessed>>
         public var servicesLastAccessed: [ServiceLastAccessed]
 
+        @inlinable
         public init(error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: Date, jobCreationDate: Date, jobStatus: JobStatusType, jobType: AccessAdvisorUsageGranularityType? = nil, marker: String? = nil, servicesLastAccessed: [ServiceLastAccessed]) {
             self.error = error
             self.isTruncated = isTruncated
@@ -2951,6 +3070,7 @@ extension IAM {
         /// The service namespace for an Amazon Web Services service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
 
+        @inlinable
         public init(jobId: String, marker: String? = nil, maxItems: Int? = nil, serviceNamespace: String) {
             self.jobId = jobId
             self.marker = marker
@@ -2996,6 +3116,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(entityDetailsList: [EntityDetails], error: ErrorDetails? = nil, isTruncated: Bool? = nil, jobCompletionDate: Date, jobCreationDate: Date, jobStatus: JobStatusType, marker: String? = nil) {
             self.entityDetailsList = entityDetailsList
             self.error = error
@@ -3021,6 +3142,7 @@ extension IAM {
         /// The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role///.
         public let deletionTaskId: String
 
+        @inlinable
         public init(deletionTaskId: String) {
             self.deletionTaskId = deletionTaskId
         }
@@ -3041,6 +3163,7 @@ extension IAM {
         /// The status of the deletion.
         public let status: DeletionTaskStatusType
 
+        @inlinable
         public init(reason: DeletionTaskFailureReasonType? = nil, status: DeletionTaskStatusType) {
             self.reason = reason
             self.status = status
@@ -3058,6 +3181,7 @@ extension IAM {
         /// The name of the user who the policy is associated with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(policyName: String, userName: String) {
             self.policyName = policyName
             self.userName = userName
@@ -3086,6 +3210,7 @@ extension IAM {
         /// The user the policy is associated with.
         public let userName: String
 
+        @inlinable
         public init(policyDocument: String, policyName: String, userName: String) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -3103,6 +3228,7 @@ extension IAM {
         /// The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(userName: String? = nil) {
             self.userName = userName
         }
@@ -3122,6 +3248,7 @@ extension IAM {
         /// A structure containing details about the IAM user.  Due to a service issue, password last used data does not include password use from May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects last sign-in dates shown in the IAM console and password last used dates in the IAM credential report, and returned by this operation. If users signed in during the affected time, the password last used date that is returned is the date the user last signed in before May 3, 2018. For users that signed in after May 23, 2018 14:08 PDT, the returned password last used date is accurate. You can use password last used information to identify unused credentials for deletion. For example, you might delete users who did not sign in to Amazon Web Services in the last 90 days. In cases like this, we recommend that you adjust your evaluation window to include dates after May 23, 2018. Alternatively, if your users use access keys to access Amazon Web Services programmatically you can refer to access key last used information because it is accurate for all dates.
         public let user: User
 
+        @inlinable
         public init(user: User) {
             self.user = user
         }
@@ -3143,6 +3270,7 @@ extension IAM {
         /// The path to the group. For more information about paths, see IAM identifiers in the IAM User Guide.
         public let path: String
 
+        @inlinable
         public init(arn: String, createDate: Date, groupId: String, groupName: String, path: String) {
             self.arn = arn
             self.createDate = createDate
@@ -3177,6 +3305,7 @@ extension IAM {
         /// The path to the group. For more information about paths, see IAM identifiers in the IAM User Guide.
         public let path: String?
 
+        @inlinable
         public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: Date? = nil, groupId: String? = nil, groupName: String? = nil, groupPolicyList: [PolicyDetail]? = nil, path: String? = nil) {
             self.arn = arn
             self.attachedManagedPolicies = attachedManagedPolicies
@@ -3216,6 +3345,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(arn: String, createDate: Date, instanceProfileId: String, instanceProfileName: String, path: String, roles: [Role], tags: [Tag]? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -3245,6 +3375,7 @@ extension IAM {
         /// The name of the user. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3278,6 +3409,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(accessKeyMetadata: [AccessKeyMetadata], isTruncated: Bool? = nil, marker: String? = nil) {
             self.accessKeyMetadata = accessKeyMetadata
             self.isTruncated = isTruncated
@@ -3297,6 +3429,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3325,6 +3458,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(accountAliases: [String], isTruncated: Bool? = nil, marker: String? = nil) {
             self.accountAliases = accountAliases
             self.isTruncated = isTruncated
@@ -3348,6 +3482,7 @@ extension IAM {
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
+        @inlinable
         public init(groupName: String, marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.groupName = groupName
             self.marker = marker
@@ -3386,6 +3521,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(attachedPolicies: [AttachedPolicy]? = nil, isTruncated: Bool? = nil, marker: String? = nil) {
             self.attachedPolicies = attachedPolicies
             self.isTruncated = isTruncated
@@ -3409,6 +3545,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3447,6 +3584,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(attachedPolicies: [AttachedPolicy]? = nil, isTruncated: Bool? = nil, marker: String? = nil) {
             self.attachedPolicies = attachedPolicies
             self.isTruncated = isTruncated
@@ -3470,6 +3608,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the user to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3508,6 +3647,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(attachedPolicies: [AttachedPolicy]? = nil, isTruncated: Bool? = nil, marker: String? = nil) {
             self.attachedPolicies = attachedPolicies
             self.isTruncated = isTruncated
@@ -3535,6 +3675,7 @@ extension IAM {
         /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
         public let policyUsageFilter: PolicyUsageType?
 
+        @inlinable
         public init(entityFilter: EntityType? = nil, marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil, policyArn: String, policyUsageFilter: PolicyUsageType? = nil) {
             self.entityFilter = entityFilter
             self.marker = marker
@@ -3582,6 +3723,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<PolicyUser>>
         public var policyUsers: [PolicyUser]?
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyGroups: [PolicyGroup]? = nil, policyRoles: [PolicyRole]? = nil, policyUsers: [PolicyUser]? = nil) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -3607,6 +3749,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(groupName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.groupName = groupName
             self.marker = marker
@@ -3640,6 +3783,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyNames: [String]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -3661,6 +3805,7 @@ extension IAM {
         /// The name of the user to list groups for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3694,6 +3839,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(groups: [Group], isTruncated: Bool? = nil, marker: String? = nil) {
             self.groups = groups
             self.isTruncated = isTruncated
@@ -3715,6 +3861,7 @@ extension IAM {
         ///  The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3748,6 +3895,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(groups: [Group], isTruncated: Bool? = nil, marker: String? = nil) {
             self.groups = groups
             self.isTruncated = isTruncated
@@ -3769,6 +3917,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(instanceProfileName: String, marker: String? = nil, maxItems: Int? = nil) {
             self.instanceProfileName = instanceProfileName
             self.marker = marker
@@ -3802,6 +3951,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -3823,6 +3973,7 @@ extension IAM {
         /// The name of the role to list instance profiles for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3856,6 +4007,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(instanceProfiles: [InstanceProfile], isTruncated: Bool? = nil, marker: String? = nil) {
             self.instanceProfiles = instanceProfiles
             self.isTruncated = isTruncated
@@ -3877,6 +4029,7 @@ extension IAM {
         ///  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3910,6 +4063,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(instanceProfiles: [InstanceProfile], isTruncated: Bool? = nil, marker: String? = nil) {
             self.instanceProfiles = instanceProfiles
             self.isTruncated = isTruncated
@@ -3931,6 +4085,7 @@ extension IAM {
         /// The unique identifier for the IAM virtual MFA device whose tags you want to see. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serialNumber: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, serialNumber: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -3964,6 +4119,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -3985,6 +4141,7 @@ extension IAM {
         /// The name of the user whose MFA devices you want to list. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4018,6 +4175,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<MFADevice>>
         public var mfaDevices: [MFADevice]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, mfaDevices: [MFADevice]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4039,6 +4197,7 @@ extension IAM {
         /// The ARN of the OpenID Connect (OIDC) identity provider whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let openIDConnectProviderArn: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, openIDConnectProviderArn: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4071,6 +4230,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4093,6 +4253,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<OpenIDConnectProviderListEntry>>
         public var openIDConnectProviderList: [OpenIDConnectProviderListEntry]?
 
+        @inlinable
         public init(openIDConnectProviderList: [OpenIDConnectProviderListEntry]? = nil) {
             self.openIDConnectProviderList = openIDConnectProviderList
         }
@@ -4109,6 +4270,7 @@ extension IAM {
         /// The namespace of the service that was accessed. To learn the service namespace of a service, see Actions, resources, and condition keys for Amazon Web Services services in the Service Authorization Reference. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String?
 
+        @inlinable
         public init(policies: [PolicyGrantingServiceAccess]? = nil, serviceNamespace: String? = nil) {
             self.policies = policies
             self.serviceNamespace = serviceNamespace
@@ -4129,6 +4291,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var serviceNamespaces: [String]
 
+        @inlinable
         public init(arn: String, marker: String? = nil, serviceNamespaces: [String]) {
             self.arn = arn
             self.marker = marker
@@ -4166,6 +4329,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<ListPoliciesGrantingServiceAccessEntry>>
         public var policiesGrantingServiceAccess: [ListPoliciesGrantingServiceAccessEntry]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, policiesGrantingServiceAccess: [ListPoliciesGrantingServiceAccessEntry]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4193,6 +4357,7 @@ extension IAM {
         /// The scope to use for filtering the results. To list only Amazon Web Services managed policies, set Scope to AWS. To list only the customer managed policies in your Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
         public let scope: PolicyScopeType?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, onlyAttached: Bool? = nil, pathPrefix: String? = nil, policyUsageFilter: PolicyUsageType? = nil, scope: PolicyScopeType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4232,6 +4397,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Policy>>
         public var policies: [Policy]?
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, policies: [Policy]? = nil) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4253,6 +4419,7 @@ extension IAM {
         /// The ARN of the IAM customer managed policy whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyArn: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, policyArn: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4285,6 +4452,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4306,6 +4474,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, policyArn: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4338,6 +4507,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<PolicyVersion>>
         public var versions: [PolicyVersion]?
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, versions: [PolicyVersion]? = nil) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4359,6 +4529,7 @@ extension IAM {
         /// The name of the role to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4392,6 +4563,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyNames: [String]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4413,6 +4585,7 @@ extension IAM {
         /// The name of the IAM role for which you want to see the list of tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, roleName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4446,6 +4619,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4467,6 +4641,7 @@ extension IAM {
         ///  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all roles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all roles. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4500,6 +4675,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Role>>
         public var roles: [Role]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, roles: [Role]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4521,6 +4697,7 @@ extension IAM {
         /// The ARN of the Security Assertion Markup Language (SAML) identity provider whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let samlProviderArn: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, samlProviderArn: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4553,6 +4730,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4575,6 +4753,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<SAMLProviderListEntry>>
         public var samlProviderList: [SAMLProviderListEntry]?
 
+        @inlinable
         public init(samlProviderList: [SAMLProviderListEntry]? = nil) {
             self.samlProviderList = samlProviderList
         }
@@ -4592,6 +4771,7 @@ extension IAM {
         /// The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the Amazon Web Services access key used to sign the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4625,6 +4805,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<SSHPublicKeyMetadata>>
         public var sshPublicKeys: [SSHPublicKeyMetadata]?
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, sshPublicKeys: [SSHPublicKeyMetadata]? = nil) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4646,6 +4827,7 @@ extension IAM {
         /// The name of the IAM server certificate whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, serverCertificateName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4679,6 +4861,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4700,6 +4883,7 @@ extension IAM {
         ///  The path prefix for filtering the results. For example: /company/servercerts would get all server certificates for which the path starts with /company/servercerts. This parameter is optional. If it is not included, it defaults to a slash (/), listing all server certificates. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4733,6 +4917,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<ServerCertificateMetadata>>
         public var serverCertificateMetadataList: [ServerCertificateMetadata]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, serverCertificateMetadataList: [ServerCertificateMetadata]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4752,6 +4937,7 @@ extension IAM {
         /// The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(serviceName: String? = nil, userName: String? = nil) {
             self.serviceName = serviceName
             self.userName = userName
@@ -4774,6 +4960,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<ServiceSpecificCredentialMetadata>>
         public var serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]?
 
+        @inlinable
         public init(serviceSpecificCredentials: [ServiceSpecificCredentialMetadata]? = nil) {
             self.serviceSpecificCredentials = serviceSpecificCredentials
         }
@@ -4791,6 +4978,7 @@ extension IAM {
         /// The name of the IAM user whose signing certificates you want to examine. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4824,6 +5012,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(certificates: [SigningCertificate], isTruncated: Bool? = nil, marker: String? = nil) {
             self.certificates = certificates
             self.isTruncated = isTruncated
@@ -4845,6 +5034,7 @@ extension IAM {
         /// The name of the user to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4878,6 +5068,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var policyNames: [String]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, policyNames: [String]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4899,6 +5090,7 @@ extension IAM {
         /// The name of the IAM user whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, userName: String) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4932,6 +5124,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, tags: [Tag]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -4953,6 +5146,7 @@ extension IAM {
         ///  The path prefix for filtering the results. For example: /division_abc/subdivision_xyz/, which would get all user names whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all user names. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
 
+        @inlinable
         public init(marker: String? = nil, maxItems: Int? = nil, pathPrefix: String? = nil) {
             self.marker = marker
             self.maxItems = maxItems
@@ -4986,6 +5180,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<User>>
         public var users: [User]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, users: [User]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -5007,6 +5202,7 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
 
+        @inlinable
         public init(assignmentStatus: AssignmentStatusType? = nil, marker: String? = nil, maxItems: Int? = nil) {
             self.assignmentStatus = assignmentStatus
             self.marker = marker
@@ -5037,6 +5233,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<VirtualMFADevice>>
         public var virtualMFADevices: [VirtualMFADevice]
 
+        @inlinable
         public init(isTruncated: Bool? = nil, marker: String? = nil, virtualMFADevices: [VirtualMFADevice]) {
             self.isTruncated = isTruncated
             self.marker = marker
@@ -5058,6 +5255,7 @@ extension IAM {
         /// The name of the user, which can be used for signing in to the Amazon Web Services Management Console.
         public let userName: String
 
+        @inlinable
         public init(createDate: Date, passwordResetRequired: Bool? = nil, userName: String) {
             self.createDate = createDate
             self.passwordResetRequired = passwordResetRequired
@@ -5079,6 +5277,7 @@ extension IAM {
         /// The user with whom the MFA device is associated.
         public let userName: String
 
+        @inlinable
         public init(enableDate: Date, serialNumber: String, userName: String) {
             self.enableDate = enableDate
             self.serialNumber = serialNumber
@@ -5118,6 +5317,7 @@ extension IAM {
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
         public let updateDate: Date?
 
+        @inlinable
         public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: Date? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, policyVersionList: [PolicyVersion]? = nil, updateDate: Date? = nil) {
             self.arn = arn
             self.attachmentCount = attachmentCount
@@ -5152,6 +5352,7 @@ extension IAM {
     public struct OpenIDConnectProviderListEntry: AWSDecodableShape {
         public let arn: String?
 
+        @inlinable
         public init(arn: String? = nil) {
             self.arn = arn
         }
@@ -5165,6 +5366,7 @@ extension IAM {
         /// Specifies whether the simulated operation is allowed by the Organizations service control policies that impact the simulated user's account.
         public let allowedByOrganizations: Bool?
 
+        @inlinable
         public init(allowedByOrganizations: Bool? = nil) {
             self.allowedByOrganizations = allowedByOrganizations
         }
@@ -5196,6 +5398,7 @@ extension IAM {
         /// Specifies whether IAM user passwords must contain at least one uppercase character (A to Z).
         public let requireUppercaseCharacters: Bool?
 
+        @inlinable
         public init(allowUsersToChangePassword: Bool? = nil, expirePasswords: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int? = nil, minimumPasswordLength: Int? = nil, passwordReusePrevention: Int? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
             self.allowUsersToChangePassword = allowUsersToChangePassword
             self.expirePasswords = expirePasswords
@@ -5227,6 +5430,7 @@ extension IAM {
         /// Specifies whether an action is allowed by a permissions boundary that is applied to an IAM entity (user or role). A value of true means that the permissions boundary does not deny the action. This means that the policy includes an Allow statement that matches the request. In this case, if an identity-based policy also allows the action, the request is allowed. A value of false means that either the requested action is not allowed (implicitly denied) or that the action is explicitly denied by the permissions boundary. In both of these cases, the action is not allowed, regardless of the identity-based policy.
         public let allowedByPermissionsBoundary: Bool?
 
+        @inlinable
         public init(allowedByPermissionsBoundary: Bool? = nil) {
             self.allowedByPermissionsBoundary = allowedByPermissionsBoundary
         }
@@ -5262,6 +5466,7 @@ extension IAM {
         /// The date and time, in ISO 8601 date-time format, when the policy was last updated. When a policy has only one version, this field contains the date and time when the policy was created. When a policy has more than one version, this field contains the date and time when the most recent policy version was created.
         public let updateDate: Date?
 
+        @inlinable
         public init(arn: String? = nil, attachmentCount: Int? = nil, createDate: Date? = nil, defaultVersionId: String? = nil, description: String? = nil, isAttachable: Bool? = nil, path: String? = nil, permissionsBoundaryUsageCount: Int? = nil, policyId: String? = nil, policyName: String? = nil, tags: [Tag]? = nil, updateDate: Date? = nil) {
             self.arn = arn
             self.attachmentCount = attachmentCount
@@ -5299,6 +5504,7 @@ extension IAM {
         /// The name of the policy.
         public let policyName: String?
 
+        @inlinable
         public init(policyDocument: String? = nil, policyName: String? = nil) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -5321,6 +5527,7 @@ extension IAM {
         /// The policy type. For more information about these policy types, see Managed policies and inline policies in the IAM User Guide.
         public let policyType: PolicyType
 
+        @inlinable
         public init(entityName: String? = nil, entityType: PolicyOwnerEntityType? = nil, policyArn: String? = nil, policyName: String, policyType: PolicyType) {
             self.entityName = entityName
             self.entityType = entityType
@@ -5344,6 +5551,7 @@ extension IAM {
         /// The name (friendly name, not ARN) identifying the group.
         public let groupName: String?
 
+        @inlinable
         public init(groupId: String? = nil, groupName: String? = nil) {
             self.groupId = groupId
             self.groupName = groupName
@@ -5361,6 +5569,7 @@ extension IAM {
         /// The name (friendly name, not ARN) identifying the role.
         public let roleName: String?
 
+        @inlinable
         public init(roleId: String? = nil, roleName: String? = nil) {
             self.roleId = roleId
             self.roleName = roleName
@@ -5378,6 +5587,7 @@ extension IAM {
         /// The name (friendly name, not ARN) identifying the user.
         public let userName: String?
 
+        @inlinable
         public init(userId: String? = nil, userName: String? = nil) {
             self.userId = userId
             self.userName = userName
@@ -5399,6 +5609,7 @@ extension IAM {
         /// The identifier for the policy version. Policy version identifiers always begin with v (always lowercase). When a policy is created, the first policy version is v1.
         public let versionId: String?
 
+        @inlinable
         public init(createDate: Date? = nil, document: String? = nil, isDefaultVersion: Bool? = nil, versionId: String? = nil) {
             self.createDate = createDate
             self.document = document
@@ -5420,6 +5631,7 @@ extension IAM {
         /// The line containing the specified position in the document.
         public let line: Int?
 
+        @inlinable
         public init(column: Int? = nil, line: Int? = nil) {
             self.column = column
             self.line = line
@@ -5439,6 +5651,7 @@ extension IAM {
         /// The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let policyName: String
 
+        @inlinable
         public init(groupName: String, policyDocument: String, policyName: String) {
             self.groupName = groupName
             self.policyDocument = policyDocument
@@ -5470,6 +5683,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM role for which you want to set the permissions boundary.
         public let roleName: String
 
+        @inlinable
         public init(permissionsBoundary: String, roleName: String) {
             self.permissionsBoundary = permissionsBoundary
             self.roleName = roleName
@@ -5497,6 +5711,7 @@ extension IAM {
         /// The name of the role to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(policyDocument: String, policyName: String, roleName: String) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -5528,6 +5743,7 @@ extension IAM {
         /// The name (friendly name, not ARN) of the IAM user for which you want to set the permissions boundary.
         public let userName: String
 
+        @inlinable
         public init(permissionsBoundary: String, userName: String) {
             self.permissionsBoundary = permissionsBoundary
             self.userName = userName
@@ -5555,6 +5771,7 @@ extension IAM {
         /// The name of the user to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(policyDocument: String, policyName: String, userName: String) {
             self.policyDocument = policyDocument
             self.policyName = policyName
@@ -5586,6 +5803,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let openIDConnectProviderArn: String
 
+        @inlinable
         public init(clientID: String, openIDConnectProviderArn: String) {
             self.clientID = clientID
             self.openIDConnectProviderArn = openIDConnectProviderArn
@@ -5610,6 +5828,7 @@ extension IAM {
         /// The name of the role to remove. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(instanceProfileName: String, roleName: String) {
             self.instanceProfileName = instanceProfileName
             self.roleName = roleName
@@ -5636,6 +5855,7 @@ extension IAM {
         /// The name of the user to remove. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(groupName: String, userName: String) {
             self.groupName = groupName
             self.userName = userName
@@ -5662,6 +5882,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(serviceSpecificCredentialId: String, userName: String? = nil) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.userName = userName
@@ -5686,6 +5907,7 @@ extension IAM {
         /// A structure with details about the updated service-specific credential, including the new password.  This is the only time that you can access the password. You cannot recover the password later, but you can reset it again.
         public let serviceSpecificCredential: ServiceSpecificCredential?
 
+        @inlinable
         public init(serviceSpecificCredential: ServiceSpecificCredential? = nil) {
             self.serviceSpecificCredential = serviceSpecificCredential
         }
@@ -5712,6 +5934,7 @@ extension IAM {
         /// Contains information about the effect that a permissions boundary has on a policy simulation when that boundary is applied to an IAM entity.
         public let permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail?
 
+        @inlinable
         public init(evalDecisionDetails: [String: PolicyEvaluationDecisionType]? = nil, evalResourceDecision: PolicyEvaluationDecisionType, evalResourceName: String, matchedStatements: [Statement]? = nil, missingContextValues: [String]? = nil, permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail? = nil) {
             self.evalDecisionDetails = evalDecisionDetails
             self.evalResourceDecision = evalResourceDecision
@@ -5741,6 +5964,7 @@ extension IAM {
         /// The name of the user whose MFA device you want to resynchronize. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(authenticationCode1: String, authenticationCode2: String, serialNumber: String, userName: String) {
             self.authenticationCode1 = authenticationCode1
             self.authenticationCode2 = authenticationCode2
@@ -5796,6 +6020,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: Date, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
@@ -5854,6 +6079,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: Date? = nil, instanceProfileList: [InstanceProfile]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String? = nil, roleLastUsed: RoleLastUsed? = nil, roleName: String? = nil, rolePolicyList: [PolicyDetail]? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
@@ -5891,6 +6117,7 @@ extension IAM {
         /// The name of the Amazon Web Services Region in which the role was last used.
         public let region: String?
 
+        @inlinable
         public init(lastUsedDate: Date? = nil, region: String? = nil) {
             self.lastUsedDate = lastUsedDate
             self.region = region
@@ -5909,6 +6136,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var resources: [String]?
 
+        @inlinable
         public init(region: String? = nil, resources: [String]? = nil) {
             self.region = region
             self.resources = resources
@@ -5928,6 +6156,7 @@ extension IAM {
         /// The expiration date and time for the SAML provider.
         public let validUntil: Date?
 
+        @inlinable
         public init(arn: String? = nil, createDate: Date? = nil, validUntil: Date? = nil) {
             self.arn = arn
             self.createDate = createDate
@@ -5955,6 +6184,7 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
 
+        @inlinable
         public init(fingerprint: String, sshPublicKeyBody: String, sshPublicKeyId: String, status: StatusType, uploadDate: Date? = nil, userName: String) {
             self.fingerprint = fingerprint
             self.sshPublicKeyBody = sshPublicKeyBody
@@ -5984,6 +6214,7 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
 
+        @inlinable
         public init(sshPublicKeyId: String, status: StatusType, uploadDate: Date, userName: String) {
             self.sshPublicKeyId = sshPublicKeyId
             self.status = status
@@ -6010,6 +6241,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(certificateBody: String, certificateChain: String? = nil, serverCertificateMetadata: ServerCertificateMetadata, tags: [Tag]? = nil) {
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -6039,6 +6271,7 @@ extension IAM {
         /// The date when the server certificate was uploaded.
         public let uploadDate: Date?
 
+        @inlinable
         public init(arn: String, expiration: Date? = nil, path: String, serverCertificateId: String, serverCertificateName: String, uploadDate: Date? = nil) {
             self.arn = arn
             self.expiration = expiration
@@ -6075,6 +6308,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<TrackedActionLastAccessed>>
         public var trackedActionsLastAccessed: [TrackedActionLastAccessed]?
 
+        @inlinable
         public init(lastAuthenticated: Date? = nil, lastAuthenticatedEntity: String? = nil, lastAuthenticatedRegion: String? = nil, serviceName: String, serviceNamespace: String, totalAuthenticatedEntities: Int? = nil, trackedActionsLastAccessed: [TrackedActionLastAccessed]? = nil) {
             self.lastAuthenticated = lastAuthenticated
             self.lastAuthenticatedEntity = lastAuthenticatedEntity
@@ -6112,6 +6346,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
 
+        @inlinable
         public init(createDate: Date, serviceName: String, servicePassword: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
             self.createDate = createDate
             self.serviceName = serviceName
@@ -6147,6 +6382,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential.
         public let userName: String
 
+        @inlinable
         public init(createDate: Date, serviceName: String, serviceSpecificCredentialId: String, serviceUserName: String, status: StatusType, userName: String) {
             self.createDate = createDate
             self.serviceName = serviceName
@@ -6172,6 +6408,7 @@ extension IAM {
         /// The version of the policy to set as the default (operative) version. For more information about managed policy versions, see Versioning for managed policies in the IAM User Guide.
         public let versionId: String
 
+        @inlinable
         public init(policyArn: String, versionId: String) {
             self.policyArn = policyArn
             self.versionId = versionId
@@ -6193,6 +6430,7 @@ extension IAM {
         /// The version of the global endpoint token. Version 1 tokens are valid only in Amazon Web Services Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and deactivating STS in an Amazon Web Services Region in the IAM User Guide.
         public let globalEndpointTokenVersion: GlobalEndpointTokenVersion
 
+        @inlinable
         public init(globalEndpointTokenVersion: GlobalEndpointTokenVersion) {
             self.globalEndpointTokenVersion = globalEndpointTokenVersion
         }
@@ -6214,6 +6452,7 @@ extension IAM {
         /// The name of the user the signing certificate is associated with.
         public let userName: String
 
+        @inlinable
         public init(certificateBody: String, certificateId: String, status: StatusType, uploadDate: Date? = nil, userName: String) {
             self.certificateBody = certificateBody
             self.certificateId = certificateId
@@ -6260,6 +6499,7 @@ extension IAM {
         /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)    Simulation of resource-based policies isn't supported for IAM roles.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
@@ -6336,6 +6576,7 @@ extension IAM {
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
 
+        @inlinable
         public init(evaluationResults: [EvaluationResult]? = nil, isTruncated: Bool? = nil, marker: String? = nil) {
             self.evaluationResults = evaluationResults
             self.isTruncated = isTruncated
@@ -6380,6 +6621,7 @@ extension IAM {
         /// A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)    Simulation of resource-based policies isn't supported for IAM roles.
         public let resourcePolicy: String?
 
+        @inlinable
         public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
@@ -6461,6 +6703,7 @@ extension IAM {
         /// The row and column of the beginning of the Statement in an IAM policy.
         public let startPosition: Position?
 
+        @inlinable
         public init(endPosition: Position? = nil, sourcePolicyId: String? = nil, sourcePolicyType: PolicySourceType? = nil, startPosition: Position? = nil) {
             self.endPosition = endPosition
             self.sourcePolicyId = sourcePolicyId
@@ -6482,6 +6725,7 @@ extension IAM {
         /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.  Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -6508,6 +6752,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(instanceProfileName: String, tags: [Tag]) {
             self.instanceProfileName = instanceProfileName
             self.tags = tags
@@ -6536,6 +6781,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(serialNumber: String, tags: [Tag]) {
             self.serialNumber = serialNumber
             self.tags = tags
@@ -6564,6 +6810,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(openIDConnectProviderArn: String, tags: [Tag]) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
             self.tags = tags
@@ -6591,6 +6838,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(policyArn: String, tags: [Tag]) {
             self.policyArn = policyArn
             self.tags = tags
@@ -6618,6 +6866,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(roleName: String, tags: [Tag]) {
             self.roleName = roleName
             self.tags = tags
@@ -6646,6 +6895,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(samlProviderArn: String, tags: [Tag]) {
             self.samlProviderArn = samlProviderArn
             self.tags = tags
@@ -6673,6 +6923,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]
 
+        @inlinable
         public init(serverCertificateName: String, tags: [Tag]) {
             self.serverCertificateName = serverCertificateName
             self.tags = tags
@@ -6701,6 +6952,7 @@ extension IAM {
         /// The name of the IAM user to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(tags: [Tag], userName: String) {
             self.tags = tags
             self.userName = userName
@@ -6731,6 +6983,7 @@ extension IAM {
         /// The date and time, in ISO 8601 date-time format, when an authenticated entity most recently attempted to access the tracked service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the tracking period.
         public let lastAccessedTime: Date?
 
+        @inlinable
         public init(actionName: String? = nil, lastAccessedEntity: String? = nil, lastAccessedRegion: String? = nil, lastAccessedTime: Date? = nil) {
             self.actionName = actionName
             self.lastAccessedEntity = lastAccessedEntity
@@ -6753,6 +7006,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(instanceProfileName: String, tagKeys: [String]) {
             self.instanceProfileName = instanceProfileName
             self.tagKeys = tagKeys
@@ -6783,6 +7037,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(serialNumber: String, tagKeys: [String]) {
             self.serialNumber = serialNumber
             self.tagKeys = tagKeys
@@ -6813,6 +7068,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(openIDConnectProviderArn: String, tagKeys: [String]) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
             self.tagKeys = tagKeys
@@ -6842,6 +7098,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(policyArn: String, tagKeys: [String]) {
             self.policyArn = policyArn
             self.tagKeys = tagKeys
@@ -6871,6 +7128,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(roleName: String, tagKeys: [String]) {
             self.roleName = roleName
             self.tagKeys = tagKeys
@@ -6901,6 +7159,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(samlProviderArn: String, tagKeys: [String]) {
             self.samlProviderArn = samlProviderArn
             self.tagKeys = tagKeys
@@ -6930,6 +7189,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var tagKeys: [String]
 
+        @inlinable
         public init(serverCertificateName: String, tagKeys: [String]) {
             self.serverCertificateName = serverCertificateName
             self.tagKeys = tagKeys
@@ -6960,6 +7220,7 @@ extension IAM {
         /// The name of the IAM user from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(tagKeys: [String], userName: String) {
             self.tagKeys = tagKeys
             self.userName = userName
@@ -6991,6 +7252,7 @@ extension IAM {
         /// The name of the user whose key you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(accessKeyId: String, status: StatusType, userName: String? = nil) {
             self.accessKeyId = accessKeyId
             self.status = status
@@ -7033,6 +7295,7 @@ extension IAM {
         /// Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
         public let requireUppercaseCharacters: Bool?
 
+        @inlinable
         public init(allowUsersToChangePassword: Bool? = nil, hardExpiry: Bool? = nil, maxPasswordAge: Int? = nil, minimumPasswordLength: Int? = nil, passwordReusePrevention: Int? = nil, requireLowercaseCharacters: Bool? = nil, requireNumbers: Bool? = nil, requireSymbols: Bool? = nil, requireUppercaseCharacters: Bool? = nil) {
             self.allowUsersToChangePassword = allowUsersToChangePassword
             self.hardExpiry = hardExpiry
@@ -7073,6 +7336,7 @@ extension IAM {
         /// The name of the role to update with the new policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let roleName: String
 
+        @inlinable
         public init(policyDocument: String, roleName: String) {
             self.policyDocument = policyDocument
             self.roleName = roleName
@@ -7101,6 +7365,7 @@ extension IAM {
         /// New path for the IAM group. Only include this if changing the group's path. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let newPath: String?
 
+        @inlinable
         public init(groupName: String, newGroupName: String? = nil, newPath: String? = nil) {
             self.groupName = groupName
             self.newGroupName = newGroupName
@@ -7134,6 +7399,7 @@ extension IAM {
         /// The name of the user whose password you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(password: String? = nil, passwordResetRequired: Bool? = nil, userName: String) {
             self.password = password
             self.passwordResetRequired = passwordResetRequired
@@ -7163,6 +7429,7 @@ extension IAM {
         @CustomCoding<StandardArrayCoder<String>>
         public var thumbprintList: [String]
 
+        @inlinable
         public init(openIDConnectProviderArn: String, thumbprintList: [String]) {
             self.openIDConnectProviderArn = openIDConnectProviderArn
             self.thumbprintList = thumbprintList
@@ -7189,6 +7456,7 @@ extension IAM {
         /// The name of the role that you want to modify.
         public let roleName: String
 
+        @inlinable
         public init(description: String, roleName: String) {
             self.description = description
             self.roleName = roleName
@@ -7212,6 +7480,7 @@ extension IAM {
         /// A structure that contains details about the modified role.
         public let role: Role?
 
+        @inlinable
         public init(role: Role? = nil) {
             self.role = role
         }
@@ -7229,6 +7498,7 @@ extension IAM {
         /// The name of the role that you want to modify.
         public let roleName: String
 
+        @inlinable
         public init(description: String? = nil, maxSessionDuration: Int? = nil, roleName: String) {
             self.description = description
             self.maxSessionDuration = maxSessionDuration
@@ -7262,6 +7532,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let samlProviderArn: String
 
+        @inlinable
         public init(samlMetadataDocument: String, samlProviderArn: String) {
             self.samlMetadataDocument = samlMetadataDocument
             self.samlProviderArn = samlProviderArn
@@ -7284,6 +7555,7 @@ extension IAM {
         /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
         public let samlProviderArn: String?
 
+        @inlinable
         public init(samlProviderArn: String? = nil) {
             self.samlProviderArn = samlProviderArn
         }
@@ -7301,6 +7573,7 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(sshPublicKeyId: String, status: StatusType, userName: String) {
             self.sshPublicKeyId = sshPublicKeyId
             self.status = status
@@ -7331,6 +7604,7 @@ extension IAM {
         /// The name of the server certificate that you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let serverCertificateName: String
 
+        @inlinable
         public init(newPath: String? = nil, newServerCertificateName: String? = nil, serverCertificateName: String) {
             self.newPath = newPath
             self.newServerCertificateName = newServerCertificateName
@@ -7364,6 +7638,7 @@ extension IAM {
         /// The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(serviceSpecificCredentialId: String, status: StatusType, userName: String? = nil) {
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.status = status
@@ -7394,6 +7669,7 @@ extension IAM {
         /// The name of the IAM user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(certificateId: String, status: StatusType, userName: String? = nil) {
             self.certificateId = certificateId
             self.status = status
@@ -7424,6 +7700,7 @@ extension IAM {
         /// Name of the user to update. If you're changing the name of the user, this is the original user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(newPath: String? = nil, newUserName: String? = nil, userName: String) {
             self.newPath = newPath
             self.newUserName = newUserName
@@ -7455,6 +7732,7 @@ extension IAM {
         /// The name of the IAM user to associate the SSH public key with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
+        @inlinable
         public init(sshPublicKeyBody: String, userName: String) {
             self.sshPublicKeyBody = sshPublicKeyBody
             self.userName = userName
@@ -7479,6 +7757,7 @@ extension IAM {
         /// Contains information about the SSH public key.
         public let sshPublicKey: SSHPublicKey?
 
+        @inlinable
         public init(sshPublicKey: SSHPublicKey? = nil) {
             self.sshPublicKey = sshPublicKey
         }
@@ -7503,6 +7782,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(certificateBody: String, certificateChain: String? = nil, path: String? = nil, privateKey: String, serverCertificateName: String, tags: [Tag]? = nil) {
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -7551,6 +7831,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
+        @inlinable
         public init(serverCertificateMetadata: ServerCertificateMetadata? = nil, tags: [Tag]? = nil) {
             self.serverCertificateMetadata = serverCertificateMetadata
             self.tags = tags
@@ -7568,6 +7849,7 @@ extension IAM {
         /// The name of the user the signing certificate is for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String?
 
+        @inlinable
         public init(certificateBody: String, userName: String? = nil) {
             self.certificateBody = certificateBody
             self.userName = userName
@@ -7592,6 +7874,7 @@ extension IAM {
         /// Information about the certificate.
         public let certificate: SigningCertificate
 
+        @inlinable
         public init(certificate: SigningCertificate) {
             self.certificate = certificate
         }
@@ -7620,6 +7903,7 @@ extension IAM {
         /// The friendly name identifying the user.
         public let userName: String
 
+        @inlinable
         public init(arn: String, createDate: Date, passwordLastUsed: Date? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String, userName: String) {
             self.arn = arn
             self.createDate = createDate
@@ -7668,6 +7952,7 @@ extension IAM {
         @OptionalCustomCoding<StandardArrayCoder<PolicyDetail>>
         public var userPolicyList: [PolicyDetail]?
 
+        @inlinable
         public init(arn: String? = nil, attachedManagedPolicies: [AttachedPolicy]? = nil, createDate: Date? = nil, groupList: [String]? = nil, path: String? = nil, permissionsBoundary: AttachedPermissionsBoundary? = nil, tags: [Tag]? = nil, userId: String? = nil, userName: String? = nil, userPolicyList: [PolicyDetail]? = nil) {
             self.arn = arn
             self.attachedManagedPolicies = attachedManagedPolicies
@@ -7710,6 +7995,7 @@ extension IAM {
         /// The IAM user associated with this virtual MFA device.
         public let user: User?
 
+        @inlinable
         public init(base32StringSeed: AWSBase64Data? = nil, enableDate: Date? = nil, qrCodePNG: AWSBase64Data? = nil, serialNumber: String, tags: [Tag]? = nil, user: User? = nil) {
             self.base32StringSeed = base32StringSeed
             self.enableDate = enableDate

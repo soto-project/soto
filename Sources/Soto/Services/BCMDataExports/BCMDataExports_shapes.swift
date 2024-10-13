@@ -88,6 +88,7 @@ extension BCMDataExports {
         /// The kind of data a column stores.
         public let type: String?
 
+        @inlinable
         public init(description: String? = nil, name: String? = nil, type: String? = nil) {
             self.description = description
             self.name = name
@@ -107,6 +108,7 @@ extension BCMDataExports {
         /// An optional list of tags to associate with the specified export. Each tag consists of a key and a value, and each key must be unique for the resource.
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(export: Export, resourceTags: [ResourceTag]? = nil) {
             self.export = export
             self.resourceTags = resourceTags
@@ -130,6 +132,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) for this export.
         public let exportArn: String?
 
+        @inlinable
         public init(exportArn: String? = nil) {
             self.exportArn = exportArn
         }
@@ -145,6 +148,7 @@ extension BCMDataExports {
         /// The table configuration.
         public let tableConfigurations: [String: [String: String]]?
 
+        @inlinable
         public init(queryStatement: String, tableConfigurations: [String: [String: String]]? = nil) {
             self.queryStatement = queryStatement
             self.tableConfigurations = tableConfigurations
@@ -170,6 +174,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) for this export.
         public let exportArn: String
 
+        @inlinable
         public init(exportArn: String) {
             self.exportArn = exportArn
         }
@@ -189,6 +194,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) for this export.
         public let exportArn: String?
 
+        @inlinable
         public init(exportArn: String? = nil) {
             self.exportArn = exportArn
         }
@@ -202,6 +208,7 @@ extension BCMDataExports {
         /// An object that describes the destination of the data exports file.
         public let s3Destination: S3Destination
 
+        @inlinable
         public init(s3Destination: S3Destination) {
             self.s3Destination = s3Destination
         }
@@ -221,6 +228,7 @@ extension BCMDataExports {
         /// The status of this specific execution.
         public let executionStatus: ExecutionStatus
 
+        @inlinable
         public init(executionId: String, executionStatus: ExecutionStatus) {
             self.executionId = executionId
             self.executionStatus = executionStatus
@@ -244,6 +252,7 @@ extension BCMDataExports {
         /// The reason for the failed status.
         public let statusReason: ExecutionStatusReason?
 
+        @inlinable
         public init(completedAt: Date? = nil, createdAt: Date? = nil, lastUpdatedAt: Date? = nil, statusCode: ExecutionStatusCode? = nil, statusReason: ExecutionStatusReason? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
@@ -275,6 +284,7 @@ extension BCMDataExports {
         /// The cadence for Amazon Web Services to update the export in your S3 bucket.
         public let refreshCadence: RefreshCadence
 
+        @inlinable
         public init(dataQuery: DataQuery, description: String? = nil, destinationConfigurations: DestinationConfigurations, exportArn: String? = nil, name: String, refreshCadence: RefreshCadence) {
             self.dataQuery = dataQuery
             self.description = description
@@ -315,6 +325,7 @@ extension BCMDataExports {
         /// The status of this specific data export.
         public let exportStatus: ExportStatus
 
+        @inlinable
         public init(exportArn: String, exportName: String, exportStatus: ExportStatus) {
             self.exportArn = exportArn
             self.exportName = exportName
@@ -340,6 +351,7 @@ extension BCMDataExports {
         /// The description for the status code.
         public let statusReason: ExecutionStatusReason?
 
+        @inlinable
         public init(createdAt: Date? = nil, lastRefreshedAt: Date? = nil, lastUpdatedAt: Date? = nil, statusCode: ExportStatusCode? = nil, statusReason: ExecutionStatusReason? = nil) {
             self.createdAt = createdAt
             self.lastRefreshedAt = lastRefreshedAt
@@ -363,6 +375,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) of the Export object that generated this specific execution.
         public let exportArn: String
 
+        @inlinable
         public init(executionId: String, exportArn: String) {
             self.executionId = executionId
             self.exportArn = exportArn
@@ -390,6 +403,7 @@ extension BCMDataExports {
         /// The export data for this specific execution. This export data is a snapshot from when the execution was generated. The data could be different from the current export data if the export was updated since the execution was generated.
         public let export: Export?
 
+        @inlinable
         public init(executionId: String? = nil, executionStatus: ExecutionStatus? = nil, export: Export? = nil) {
             self.executionId = executionId
             self.executionStatus = executionStatus
@@ -407,6 +421,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) for this export.
         public let exportArn: String
 
+        @inlinable
         public init(exportArn: String) {
             self.exportArn = exportArn
         }
@@ -428,6 +443,7 @@ extension BCMDataExports {
         /// The status of this specific export.
         public let exportStatus: ExportStatus?
 
+        @inlinable
         public init(export: Export? = nil, exportStatus: ExportStatus? = nil) {
             self.export = export
             self.exportStatus = exportStatus
@@ -445,6 +461,7 @@ extension BCMDataExports {
         /// TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. Tables are not required to have any TableProperties. Each table property has a default value that it assumes if not specified.
         public let tableProperties: [String: String]?
 
+        @inlinable
         public init(tableName: String, tableProperties: [String: String]? = nil) {
             self.tableName = tableName
             self.tableProperties = tableProperties
@@ -477,6 +494,7 @@ extension BCMDataExports {
         /// TableProperties are additional configurations you can provide to change the data and schema of a table. Each table can have different TableProperties. Tables are not required to have any TableProperties. Each table property has a default value that it assumes if not specified.
         public let tableProperties: [String: String]?
 
+        @inlinable
         public init(description: String? = nil, schema: [Column]? = nil, tableName: String? = nil, tableProperties: [String: String]? = nil) {
             self.description = description
             self.schema = schema
@@ -500,6 +518,7 @@ extension BCMDataExports {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(exportArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.exportArn = exportArn
             self.maxResults = maxResults
@@ -528,6 +547,7 @@ extension BCMDataExports {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(executions: [ExecutionReference]? = nil, nextToken: String? = nil) {
             self.executions = executions
             self.nextToken = nextToken
@@ -545,6 +565,7 @@ extension BCMDataExports {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -568,6 +589,7 @@ extension BCMDataExports {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(exports: [ExportReference]? = nil, nextToken: String? = nil) {
             self.exports = exports
             self.nextToken = nextToken
@@ -585,6 +607,7 @@ extension BCMDataExports {
         /// The token to retrieve the next set of results.
         public let nextToken: String?
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -608,6 +631,7 @@ extension BCMDataExports {
         /// The list of tables.
         public let tables: [Table]?
 
+        @inlinable
         public init(nextToken: String? = nil, tables: [Table]? = nil) {
             self.nextToken = nextToken
             self.tables = tables
@@ -627,6 +651,7 @@ extension BCMDataExports {
         /// The unique identifier for the resource.
         public let resourceArn: String
 
+        @inlinable
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -655,6 +680,7 @@ extension BCMDataExports {
         /// An optional list of tags to associate with the specified export. Each tag consists of a key and a value, and each key must be unique for the resource.
         public let resourceTags: [ResourceTag]?
 
+        @inlinable
         public init(nextToken: String? = nil, resourceTags: [ResourceTag]? = nil) {
             self.nextToken = nextToken
             self.resourceTags = resourceTags
@@ -670,6 +696,7 @@ extension BCMDataExports {
         /// The frequency that data exports are updated. The export refreshes each time the source data updates, up to three times daily.
         public let frequency: FrequencyOption
 
+        @inlinable
         public init(frequency: FrequencyOption) {
             self.frequency = frequency
         }
@@ -685,6 +712,7 @@ extension BCMDataExports {
         /// The value that's associated with the tag.
         public let value: String
 
+        @inlinable
         public init(key: String, value: String) {
             self.key = key
             self.value = value
@@ -712,6 +740,7 @@ extension BCMDataExports {
         /// The S3 bucket Region.
         public let s3Region: String
 
+        @inlinable
         public init(s3Bucket: String, s3OutputConfigurations: S3OutputConfigurations, s3Prefix: String, s3Region: String) {
             self.s3Bucket = s3Bucket
             self.s3OutputConfigurations = s3OutputConfigurations
@@ -746,6 +775,7 @@ extension BCMDataExports {
         /// The rule to follow when generating a version of the data export file. You have the choice to overwrite the previous version or to be delivered in addition to the previous versions. Overwriting exports can save on Amazon S3 storage costs. Creating new export versions allows you to track the changes in cost and usage data over time.
         public let overwrite: OverwriteOption
 
+        @inlinable
         public init(compression: CompressionOption, format: FormatOption, outputType: S3OutputType, overwrite: OverwriteOption) {
             self.compression = compression
             self.format = format
@@ -769,6 +799,7 @@ extension BCMDataExports {
         /// The properties for the table.
         public let tableProperties: [TablePropertyDescription]?
 
+        @inlinable
         public init(description: String? = nil, tableName: String? = nil, tableProperties: [TablePropertyDescription]? = nil) {
             self.description = description
             self.tableName = tableName
@@ -792,6 +823,7 @@ extension BCMDataExports {
         /// The valid values for the table.
         public let validValues: [String]?
 
+        @inlinable
         public init(defaultValue: String? = nil, description: String? = nil, name: String? = nil, validValues: [String]? = nil) {
             self.defaultValue = defaultValue
             self.description = description
@@ -813,6 +845,7 @@ extension BCMDataExports {
         /// The tags to associate with the resource. Each tag consists of a key and a value, and each key must be unique for the resource.
         public let resourceTags: [ResourceTag]
 
+        @inlinable
         public init(resourceArn: String, resourceTags: [ResourceTag]) {
             self.resourceArn = resourceArn
             self.resourceTags = resourceTags
@@ -844,6 +877,7 @@ extension BCMDataExports {
         /// The tag keys that are associated with the resource ARN.
         public let resourceTagKeys: [String]
 
+        @inlinable
         public init(resourceArn: String, resourceTagKeys: [String]) {
             self.resourceArn = resourceArn
             self.resourceTagKeys = resourceTagKeys
@@ -876,6 +910,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) for this export.
         public let exportArn: String
 
+        @inlinable
         public init(export: Export, exportArn: String) {
             self.export = export
             self.exportArn = exportArn
@@ -898,6 +933,7 @@ extension BCMDataExports {
         /// The Amazon Resource Name (ARN) for this export.
         public let exportArn: String?
 
+        @inlinable
         public init(exportArn: String? = nil) {
             self.exportArn = exportArn
         }
