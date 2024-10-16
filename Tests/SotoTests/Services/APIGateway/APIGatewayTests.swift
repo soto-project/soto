@@ -30,12 +30,12 @@ class APIGatewayTests: XCTestCase {
     static var restApiId: String!
 
     override class func setUp() {
-        Self.client = AWSClient(
+        self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
             logger: TestEnvironment.logger
         )
-        Self.apiGateway = APIGateway(
+        self.apiGateway = APIGateway(
             client: APIGatewayTests.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")

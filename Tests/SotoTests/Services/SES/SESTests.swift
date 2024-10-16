@@ -28,16 +28,16 @@ class SESTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        Self.ses = SES(
-            client: Self.client,
+        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
+        self.ses = SES(
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     // Tests query protocol requests with no body

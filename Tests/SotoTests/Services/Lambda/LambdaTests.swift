@@ -103,17 +103,17 @@ class LambdaTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(
+        self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares
         )
-        Self.lambda = Lambda(
+        self.lambda = Lambda(
             client: LambdaTests.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         ).with(middleware: TestEnvironment.middlewares)
-        Self.iam = IAM(
-            client: Self.client,
+        self.iam = IAM(
+            client: self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         ).with(middleware: TestEnvironment.middlewares)
 

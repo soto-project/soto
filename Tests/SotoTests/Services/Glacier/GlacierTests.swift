@@ -22,8 +22,8 @@ class GlacierTests: XCTestCase {
     static var glacier: Glacier!
 
     override class func setUp() {
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        Self.glacier = Glacier(
+        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
+        self.glacier = Glacier(
             client: GlacierTests.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")

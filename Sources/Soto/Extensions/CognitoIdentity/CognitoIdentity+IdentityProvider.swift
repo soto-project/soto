@@ -41,7 +41,7 @@ public struct IdentityProviderFactory: Sendable {
         self.cb = cb
     }
 
-    internal func createProvider(context: Context) -> IdentityProvider {
+    func createProvider(context: Context) -> IdentityProvider {
         self.cb(context)
     }
 }

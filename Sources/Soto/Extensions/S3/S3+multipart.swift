@@ -402,11 +402,10 @@ extension S3 {
 
             // create array of upload part requests.
             let uploadPartRequests: [UploadPartCopyRequest] = (1...numParts).map { part in
-                let copyRange: String
-                if part != numParts {
-                    copyRange = "bytes=\((part - 1) * partSize)-\(part * partSize - 1)"
+                let copyRange = if part != numParts {
+                    "bytes=\((part - 1) * partSize)-\(part * partSize - 1)"
                 } else {
-                    copyRange = "bytes=\((part - 1) * partSize)-\((part - 1) * partSize + finalPartSize - 1)"
+                    "bytes=\((part - 1) * partSize)-\((part - 1) * partSize + finalPartSize - 1)"
                 }
                 return .init(bucket: input.bucket, copySource: input.copySource, copySourceRange: copyRange, copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm, copySourceSSECustomerKey: input.copySourceSSECustomerKey, copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5, expectedBucketOwner: input.expectedBucketOwner, expectedSourceBucketOwner: input.expectedSourceBucketOwner, key: input.key, partNumber: part, requestPayer: input.requestPayer, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, uploadId: uploadId)
             }
@@ -687,11 +686,10 @@ extension S3 {
                         results.append(element)
                     }
                 }
-                let body: AWSHTTPBody
-                if let progress = newProgress {
-                    body = .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), length: buffer.readableBytes)
+                let body: AWSHTTPBody = if let progress = newProgress {
+                    .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024).reportProgress(reportFn: progress), length: buffer.readableBytes)
                 } else {
-                    body = .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024), length: buffer.readableBytes)
+                    .init(asyncSequence: buffer.asyncSequence(chunkSize: 64 * 1024), length: buffer.readableBytes)
                 }
                 group.addTask {
                     // Multipart uploads part numbers start at 1 not 0
@@ -748,11 +746,12 @@ extension S3 {
     // from bucket, key and version id from a copySource string
     func getBucketKeyVersion(from copySource: String) -> (bucket: String, key: String, versionId: String?)? {
         let path: Substring
-        // drop first slash if it exists
-        if copySource.first == "/" {
-            path = copySource.dropFirst()
+            // drop first slash if it exists
+            = if copySource.first == "/"
+        {
+            copySource.dropFirst()
         } else {
-            path = Substring(copySource)
+            Substring(copySource)
         }
         // find first slash
         guard let slashIndex = path.firstIndex(of: "/") else { return nil }

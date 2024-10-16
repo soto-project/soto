@@ -216,7 +216,7 @@ private class _DynamoDBDecoder: Decoder {
         var attribute: DynamoDB.AttributeValue
         let decoder: _DynamoDBDecoder
 
-        internal init(attribute: DynamoDB.AttributeValue, decoder: _DynamoDBDecoder) {
+        init(attribute: DynamoDB.AttributeValue, decoder: _DynamoDBDecoder) {
             self.attribute = attribute
             self.decoder = decoder
             self.codingPath = decoder.codingPath

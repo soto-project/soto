@@ -34,20 +34,20 @@ class S3Tests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(
+        self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares
         )
-        Self.s3 = S3(
-            client: Self.client,
+        self.s3 = S3(
+            client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
-        Self.randomBytes = self.createRandomBuffer(size: 11 * 1024 * 1024)
+        self.randomBytes = self.createRandomBuffer(size: 11 * 1024 * 1024)
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     static func createRandomBuffer(size: Int) -> ByteBuffer {
@@ -124,11 +124,10 @@ class S3Tests: XCTestCase {
 
     func testPutGetObjectWithSpecialName() async throws {
         let name = TestEnvironment.generateResourceName()
-        let filename: String
-        if TestEnvironment.isUsingLocalstack {
-            filename = "test $filé+!@£$%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+        let filename = if TestEnvironment.isUsingLocalstack {
+            "test $filé+!@£$%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         } else {
-            filename = "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+            "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         }
         try await self.testPutGetObject(
             bucket: name,
