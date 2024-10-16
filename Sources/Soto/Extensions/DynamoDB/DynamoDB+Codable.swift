@@ -269,9 +269,9 @@ extension DynamoDB {
             var item = try DynamoDBEncoder().encode(self.updateItem)
             // extract key from input object
             var key: [String: AttributeValue] = [:]
-            self.key.forEach {
-                key[$0] = item[$0]!
-                item[$0] = nil
+            for element in self.key {
+                key[element] = item[element]!
+                item[element] = nil
             }
             // construct expression attribute name and value arrays from name attribute value map.
             // if names already provided along with a custom update expression then use the provided names
@@ -338,34 +338,5 @@ extension DynamoDB {
         public let lastEvaluatedKey: [String: AttributeValue]?
         /// The number of items evaluated, before any ScanFilter is applied. A high ScannedCount value with few, or no, Count results indicates an inefficient Scan operation. For more information, see Count and ScannedCount in the Amazon DynamoDB Developer Guide. If you did not use a filter in the request, then ScannedCount is the same as Count.
         public let scannedCount: Int?
-    }
-}
-
-extension DynamoDB.AttributeValue: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        switch (lhs, rhs) {
-        case (.b(let lhs), .b(let rhs)):
-            return lhs == rhs
-        case (.bool(let lhs), .bool(let rhs)):
-            return lhs == rhs
-        case (.bs(let lhs), .bs(let rhs)):
-            return lhs == rhs
-        case (.l(let lhs), .l(let rhs)):
-            return lhs == rhs
-        case (.m(let lhs), .m(let rhs)):
-            return lhs == rhs
-        case (.n(let lhs), .n(let rhs)):
-            return lhs == rhs
-        case (.ns(let lhs), .ns(let rhs)):
-            return lhs == rhs
-        case (.null(let lhs), .null(let rhs)):
-            return lhs == rhs
-        case (.s(let lhs), .s(let rhs)):
-            return lhs == rhs
-        case (.ss(let lhs), .ss(let rhs)):
-            return lhs == rhs
-        default:
-            return false
-        }
     }
 }

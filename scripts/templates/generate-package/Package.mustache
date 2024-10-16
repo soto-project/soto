@@ -39,12 +39,16 @@ let package = Package(
     targets: [
 {{#targets}}
 {{#hasExtension}}
-        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/", sources: ["Services/{{name}}", "Extensions/{{name}}"], swiftSettings: swiftSettings){{^last()}},{{/last()}}
+        .target(name: "_Soto{{name}}Service", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}", swiftSettings: swiftSettings){{^last()}},{{/last()}}
 {{/hasExtension}}
 {{^hasExtension}}
         .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}", swiftSettings: swiftSettings),
 {{/hasExtension}}
 {{/targets}}
+        // Service extensions
+{{#extensionTargets}}
+        .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}, {{/dependencies}}"_Soto{{name}}Service"], path: "./Sources/Soto/Extensions/{{name}}", swiftSettings: swiftSettings),
+{{/extensionTargets}}
 
         .testTarget(
             name: "SotoTests",
