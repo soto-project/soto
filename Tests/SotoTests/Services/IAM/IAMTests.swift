@@ -29,15 +29,15 @@ class IAMTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        Self.iam = IAM(
+        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
+        self.iam = IAM(
             client: IAMTests.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     /// create SNS topic with supplied name and run supplied closure

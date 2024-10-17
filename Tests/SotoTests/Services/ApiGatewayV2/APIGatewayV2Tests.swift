@@ -28,13 +28,13 @@ class APIGatewayV2Tests: XCTestCase {
 
     override class func setUp() {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        Self.client = AWSClient(
+        self.client = AWSClient(
             credentialProvider: TestEnvironment.credentialProvider,
             middleware: TestEnvironment.middlewares,
             logger: TestEnvironment.logger
         )
-        Self.apiGatewayV2 = ApiGatewayV2(
-            client: Self.client,
+        self.apiGatewayV2 = ApiGatewayV2(
+            client: self.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )

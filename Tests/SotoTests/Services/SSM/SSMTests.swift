@@ -28,8 +28,8 @@ class SSMTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
-        Self.ssm = SSM(
+        self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middleware: TestEnvironment.middlewares)
+        self.ssm = SSM(
             client: SSMTests.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
@@ -37,7 +37,7 @@ class SSMTests: XCTestCase {
     }
 
     override class func tearDown() {
-        XCTAssertNoThrow(try Self.client.syncShutdown())
+        XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
     /// put parameter, test it, delete it

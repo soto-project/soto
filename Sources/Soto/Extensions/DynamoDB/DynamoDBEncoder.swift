@@ -151,7 +151,7 @@ class _DynamoDBEncoder: Encoder {
         let container: _EncoderKeyedContainer
         let encoder: _DynamoDBEncoder
 
-        internal init(container: _EncoderKeyedContainer, encoder: _DynamoDBEncoder) {
+        init(container: _EncoderKeyedContainer, encoder: _DynamoDBEncoder) {
             self.container = container
             self.encoder = encoder
             self.codingPath = encoder.codingPath
@@ -274,7 +274,7 @@ class _DynamoDBEncoder: Encoder {
         let container: _EncoderUnkeyedContainer
         let encoder: _DynamoDBEncoder
 
-        internal init(container: _EncoderUnkeyedContainer, encoder: _DynamoDBEncoder) {
+        init(container: _EncoderUnkeyedContainer, encoder: _DynamoDBEncoder) {
             self.container = container
             self.encoder = encoder
             self.codingPath = encoder.codingPath

@@ -30,7 +30,7 @@ extension Task where Failure == Error {
     ///
     /// - Note: This function blocks the thread until the given operation is finished. The caller is responsible for managing multithreading.
     @available(*, noasync, message: "synchronous() can block indefinitely")
-    internal func syncAwait() throws -> Success {
+    func syncAwait() throws -> Success {
         let semaphore = DispatchSemaphore(value: 0)
         let resultBox = SendableBox<Result<Success, Failure>>()
 
@@ -56,7 +56,7 @@ extension Task where Failure == Never {
     ///
     /// - Note: This function blocks the thread until the given operation is finished. The caller is responsible for managing multithreading.
     @available(*, noasync, message: "synchronous() can block indefinitely")
-    internal func syncAwait() -> Success {
+    func syncAwait() -> Success {
         let semaphore = DispatchSemaphore(value: 0)
         let resultBox = SendableBox<Success>()
 
