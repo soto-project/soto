@@ -745,10 +745,8 @@ extension S3 {
 
     // from bucket, key and version id from a copySource string
     func getBucketKeyVersion(from copySource: String) -> (bucket: String, key: String, versionId: String?)? {
-        let path: Substring
-            // drop first slash if it exists
-            = if copySource.first == "/"
-        {
+        // drop first slash if it exists
+        let path = if copySource.first == "/" {
             copySource.dropFirst()
         } else {
             Substring(copySource)
