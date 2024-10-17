@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS SecurityHub service.
 ///
-/// Security Hub provides you with a comprehensive view of your security state in Amazon Web Services and helps  you assess your Amazon Web Services environment against security industry standards and best practices. Security Hub collects security data across Amazon Web Services accounts, Amazon Web Servicesservices, and  supported third-party products and helps you analyze your security trends and identify the highest priority security  issues. To help you manage the security state of your organization, Security Hub supports multiple security standards.  These include the Amazon Web Services Foundational Security Best Practices (FSBP) standard developed by Amazon Web Services,  and external compliance frameworks such as the Center for Internet Security (CIS), the Payment Card Industry Data  Security Standard (PCI DSS), and the National Institute of Standards and Technology (NIST). Each standard includes  several security controls, each of which represents a security best practice. Security Hub runs checks against  security controls and generates control findings to help you assess your compliance against security best practices. In addition to generating control findings, Security Hub also receives findings from other Amazon Web Servicesservices,  such as Amazon GuardDuty and Amazon Inspector, and  supported third-party products. This gives you a single pane of glass into a variety of security-related issues. You  can also send Security Hub findings to other Amazon Web Servicesservices and supported third-party products. Security Hub offers automation features that help you triage and remediate security issues. For example,  you can use automation rules to automatically update critical findings when a security check fails. You can also leverage the integration with  Amazon EventBridge  to trigger automatic responses to specific findings. This guide, the Security Hub API Reference, provides information about the Security Hub API. This includes supported resources, HTTP methods, parameters, and schemas. If you're new to Security Hub, you might find it helpful to also review the  Security Hub User Guide . The user guide explains key concepts and provides procedures that demonstrate how to use Security Hub features. It also provides information about topics such as integrating Security Hub with other Amazon Web Servicesservices. In addition to interacting with Security Hub  by making calls to the Security Hub API, you can use a current version of an Amazon Web Services command line tool or SDK. Amazon Web Services provides tools  and SDKs that consist of libraries and sample code for various languages and platforms, such as PowerShell, Java, Go, Python, C++, and .NET. These tools and SDKs provide convenient, programmatic access to Security Hub  and other Amazon Web Servicesservices . They also handle tasks such as signing requests,  managing errors, and retrying requests automatically. For information about installing and using the Amazon Web Services  tools and SDKs, see Tools to Build on Amazon Web Services. With the exception of operations that are related to central configuration, Security Hub API requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, call the same API operation in each Region in which you want to apply the change. When you use central configuration,
+/// Security Hub provides you with a comprehensive view of your security state in Amazon Web Services and helps  you assess your Amazon Web Services environment against security industry standards and best practices. Security Hub collects security data across Amazon Web Services accounts, Amazon Web Services services, and  supported third-party products and helps you analyze your security trends and identify the highest priority security  issues. To help you manage the security state of your organization, Security Hub supports multiple security standards.  These include the Amazon Web Services Foundational Security Best Practices (FSBP) standard developed by Amazon Web Services,  and external compliance frameworks such as the Center for Internet Security (CIS), the Payment Card Industry Data  Security Standard (PCI DSS), and the National Institute of Standards and Technology (NIST). Each standard includes  several security controls, each of which represents a security best practice. Security Hub runs checks against  security controls and generates control findings to help you assess your compliance against security best practices. In addition to generating control findings, Security Hub also receives findings from other Amazon Web Services services,  such as Amazon GuardDuty and Amazon Inspector, and  supported third-party products. This gives you a single pane of glass into a variety of security-related issues. You  can also send Security Hub findings to other Amazon Web Services services and supported third-party products. Security Hub offers automation features that help you triage and remediate security issues. For example,  you can use automation rules to automatically update critical findings when a security check fails. You can also leverage the integration with  Amazon EventBridge  to trigger automatic responses to specific findings. This guide, the Security Hub API Reference, provides information about the Security Hub API. This includes supported resources, HTTP methods, parameters, and schemas. If you're new to Security Hub, you might find it helpful to also review the  Security Hub User Guide . The user guide explains key concepts and provides procedures that demonstrate how to use Security Hub features. It also provides information about topics such as integrating Security Hub with other Amazon Web Services services. In addition to interacting with Security Hub  by making calls to the Security Hub API, you can use a current version of an Amazon Web Services command line tool or SDK. Amazon Web Services provides tools  and SDKs that consist of libraries and sample code for various languages and platforms, such as PowerShell, Java, Go, Python, C++, and .NET. These tools and SDKs provide convenient, programmatic access to Security Hub  and other Amazon Web Services services . They also handle tasks such as signing requests,  managing errors, and retrying requests automatically. For information about installing and using the Amazon Web Services  tools and SDKs, see Tools to Build on Amazon Web Services. With the exception of operations that are related to central configuration, Security Hub API requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, call the same API operation in each Region in which you want to apply the change. When you use central configuration,
 /// API requests for enabling Security Hub, standards, and controls are executed in the home Region and all linked Regions. For a list of
 /// central configuration operations, see the Central configuration
 /// terms and concepts section of the Security Hub User Guide. The following throttling limits apply to Security Hub API operations.    BatchEnableStandards - RateLimit of 1 request per second. BurstLimit of 1 request per second.    GetFindings - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.    BatchImportFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    BatchUpdateFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    UpdateStandardsControl - RateLimit of 1 request per second. BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
@@ -94,7 +94,7 @@ public struct SecurityHub: AWSService {
 
     // MARK: API Calls
 
-    /// Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @Sendable
     @inlinable
     public func acceptAdministratorInvitation(_ input: AcceptAdministratorInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAdministratorInvitationResponse {
@@ -107,7 +107,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
     /// Parameters:
     ///   - administratorId: The account ID of the Security Hub administrator account that sent the invitation.
@@ -421,7 +421,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateAutomationRules(input, logger: logger)
     }
 
-    /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
+    /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings don't affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
     @Sendable
     @inlinable
     public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFindingsResponse {
@@ -434,7 +434,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
+    /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings don't affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub User Guide.
     ///
     /// Parameters:
     ///   - confidence: The updated value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
@@ -629,7 +629,7 @@ public struct SecurityHub: AWSService {
         return try await self.createConfigurationPolicy(input, logger: logger)
     }
 
-    /// Used to enable finding aggregation. Must be called from the aggregation Region. For more details about cross-Region replication, see Configuring finding aggregation in the Security Hub User Guide.
+    ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the Security Hub User Guide.
     @Sendable
     @inlinable
     public func createFindingAggregator(_ input: CreateFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFindingAggregatorResponse {
@@ -642,11 +642,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Used to enable finding aggregation. Must be called from the aggregation Region. For more details about cross-Region replication, see Configuring finding aggregation in the Security Hub User Guide.
+    ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the Security Hub User Guide.
     ///
     /// Parameters:
     ///   - regionLinkingMode: Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
-    ///   - regions: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region.  An InvalidInputException error results if you populate this field while RegionLinkingMode is  NO_REGIONS.
+    ///   - regions: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do replicate and send findings to the home Region.  An InvalidInputException error results if you populate this field while RegionLinkingMode is  NO_REGIONS.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFindingAggregator(
@@ -696,7 +696,7 @@ public struct SecurityHub: AWSService {
         return try await self.createInsight(input, logger: logger)
     }
 
-    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations do not receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
+    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     @Sendable
     @inlinable
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembersResponse {
@@ -709,7 +709,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations do not receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
+    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     ///
     /// Parameters:
     ///   - accountDetails: The list of accounts to associate with the Security Hub administrator account. For each account, the list includes the account ID and optionally the email address.
@@ -725,7 +725,7 @@ public struct SecurityHub: AWSService {
         return try await self.createMembers(input, logger: logger)
     }
 
-    /// Declines invitations to become a member account. A prospective member account uses this operation to decline an invitation to become a member. This operation is only called by member accounts that aren't part of an organization. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     @Sendable
     @inlinable
     public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeclineInvitationsResponse {
@@ -738,7 +738,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Declines invitations to become a member account. A prospective member account uses this operation to decline an invitation to become a member. This operation is only called by member accounts that aren't part of an organization. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     ///
     /// Parameters:
     ///   - accountIds: The list of prospective member account IDs for which to decline an invitation.
@@ -812,7 +812,8 @@ public struct SecurityHub: AWSService {
         return try await self.deleteConfigurationPolicy(input, logger: logger)
     }
 
-    /// Deletes a finding aggregator. When you delete the finding aggregator, you stop finding aggregation. When you stop finding aggregation, findings that were already aggregated to the aggregation Region are still visible from the aggregation Region. New findings and finding updates are not aggregated.
+    ///  The aggregation Region is now called the home Region.  Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops
+    /// occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from  the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
     @Sendable
     @inlinable
     public func deleteFindingAggregator(_ input: DeleteFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFindingAggregatorResponse {
@@ -825,7 +826,8 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Deletes a finding aggregator. When you delete the finding aggregator, you stop finding aggregation. When you stop finding aggregation, findings that were already aggregated to the aggregation Region are still visible from the aggregation Region. New findings and finding updates are not aggregated.
+    ///  The aggregation Region is now called the home Region.  Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops
+    /// occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from  the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
     ///
     /// Parameters:
     ///   - findingAggregatorArn: The ARN of the finding aggregator to delete. To obtain the ARN, use ListFindingAggregators.
@@ -870,7 +872,7 @@ public struct SecurityHub: AWSService {
         return try await self.deleteInsight(input, logger: logger)
     }
 
-    /// Deletes invitations received by the Amazon Web Services account to become a member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more member accounts. This operation is only used to delete invitations that are sent to member accounts that aren't part of an organization. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     @Sendable
     @inlinable
     public func deleteInvitations(_ input: DeleteInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInvitationsResponse {
@@ -883,7 +885,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Deletes invitations received by the Amazon Web Services account to become a member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more member accounts. This operation is only used to delete invitations that are sent to member accounts that aren't part of an organization. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     ///
     /// Parameters:
     ///   - accountIds: The list of member account IDs that received the invitations you want to delete.
@@ -1018,7 +1020,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeOrganizationConfiguration(input, logger: logger)
     }
 
-    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
+    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     @Sendable
     @inlinable
     public func describeProducts(_ input: DescribeProductsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductsResponse {
@@ -1031,7 +1033,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
+    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
@@ -1362,7 +1364,7 @@ public struct SecurityHub: AWSService {
     ///
     /// Parameters:
     ///   - controlFindingGenerator: This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on.  If the value for this field is set to  SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check  applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings  for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
-    ///   - enableDefaultStandards: Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
+    ///   - enableDefaultStandards: Whether to enable the security standards that Security Hub has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
     ///   - tags: The tags to add to the hub resource when you enable Security Hub.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1499,7 +1501,8 @@ public struct SecurityHub: AWSService {
         return try await self.getEnabledStandards(input, logger: logger)
     }
 
-    /// Returns the current finding aggregation configuration.
+    ///  The aggregation Region is now called the home Region.  Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes
+    /// the home Region and any linked Regions.
     @Sendable
     @inlinable
     public func getFindingAggregator(_ input: GetFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingAggregatorResponse {
@@ -1512,7 +1515,8 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns the current finding aggregation configuration.
+    ///  The aggregation Region is now called the home Region.  Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes
+    /// the home Region and any linked Regions.
     ///
     /// Parameters:
     ///   - findingAggregatorArn: The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators.
@@ -1569,7 +1573,7 @@ public struct SecurityHub: AWSService {
         return try await self.getFindingHistory(input, logger: logger)
     }
 
-    /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
+    /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
     @Sendable
     @inlinable
     public func getFindings(_ input: GetFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsResponse {
@@ -1582,7 +1586,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
+    /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
     ///
     /// Parameters:
     ///   - filters: The finding attributes used to define a condition to filter the returned findings. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
@@ -1652,7 +1656,7 @@ public struct SecurityHub: AWSService {
     /// Lists and describes insights for the specified insight ARNs.
     ///
     /// Parameters:
-    ///   - insightArns: The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
+    ///   - insightArns: The ARNs of the insights to describe. If you don't provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
     ///   - maxResults: The maximum number of items to return in the response.
     ///   - nextToken: The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     ///   - logger: Logger use during operation
@@ -1671,7 +1675,7 @@ public struct SecurityHub: AWSService {
         return try await self.getInsights(input, logger: logger)
     }
 
-    /// Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     @Sendable
     @inlinable
     public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
@@ -1684,7 +1688,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1783,7 +1787,7 @@ public struct SecurityHub: AWSService {
         return try await self.getSecurityControlDefinition(input, logger: logger)
     }
 
-    /// Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that do not belong to an organization. Organization accounts do not receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated from the member account.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     @Sendable
     @inlinable
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteMembersResponse {
@@ -1796,7 +1800,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that do not belong to an organization. Organization accounts do not receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated from the member account.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     ///
     /// Parameters:
     ///   - accountIds: The list of account IDs of the Amazon Web Services accounts to invite to Security Hub as members.
@@ -1943,7 +1947,8 @@ public struct SecurityHub: AWSService {
         return try await self.listEnabledProductsForImport(input, logger: logger)
     }
 
-    /// If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
+    /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN)
+    /// of the finding aggregator. You can run this operation from any Amazon Web Services Region.
     @Sendable
     @inlinable
     public func listFindingAggregators(_ input: ListFindingAggregatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingAggregatorsResponse {
@@ -1956,7 +1961,8 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
+    /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN)
+    /// of the finding aggregator. You can run this operation from any Amazon Web Services Region.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return. This operation currently only returns a single result.
@@ -1975,7 +1981,7 @@ public struct SecurityHub: AWSService {
         return try await self.listFindingAggregators(input, logger: logger)
     }
 
-    /// Lists all Security Hub membership invitations that were sent to the current Amazon Web Services account. This operation is only used by accounts that are managed by invitation. Accounts that are managed using the integration with Organizations do not receive invitations.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     @Sendable
     @inlinable
     public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvitationsResponse {
@@ -1988,7 +1994,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Lists all Security Hub membership invitations that were sent to the current Amazon Web Services account. This operation is only used by accounts that are managed by invitation. Accounts that are managed using the integration with Organizations do not receive invitations.
+    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts.  For information, see Managing Security Hub administrator and member accounts with Organizations  in the Security Hub User Guide.  Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return in the response.
@@ -2377,7 +2383,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateConfigurationPolicy(input, logger: logger)
     }
 
-    /// Updates the finding aggregation configuration. Used to update the Region linking mode and the list of included or excluded Regions. You cannot use UpdateFindingAggregator to change the aggregation Region. You must run UpdateFindingAggregator from the current aggregation Region.
+    ///  The aggregation Region is now called the home Region.  Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list  of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region. You can invoke this operation from the current home Region only.
     @Sendable
     @inlinable
     public func updateFindingAggregator(_ input: UpdateFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFindingAggregatorResponse {
@@ -2390,12 +2396,12 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Updates the finding aggregation configuration. Used to update the Region linking mode and the list of included or excluded Regions. You cannot use UpdateFindingAggregator to change the aggregation Region. You must run UpdateFindingAggregator from the current aggregation Region.
+    ///  The aggregation Region is now called the home Region.  Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list  of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region. You can invoke this operation from the current home Region only.
     ///
     /// Parameters:
     ///   - findingAggregatorArn: The ARN of the finding aggregator. To obtain the ARN, use ListFindingAggregators.
     ///   - regionLinkingMode: Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
-    ///   - regions: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that do not aggregate findings to the aggregation Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do aggregate findings to the aggregation Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is  NO_REGIONS.
+    ///   - regions: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do replicate and send findings to the home Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is  NO_REGIONS.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFindingAggregator(
@@ -2922,7 +2928,7 @@ extension SecurityHub {
     /// Return PaginatorSequence for operation ``getInsights(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - insightArns: The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
+    ///   - insightArns: The ARNs of the insights to describe. If you don't provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
     ///   - maxResults: The maximum number of items to return in the response.
     ///   - logger: Logger used for logging
     @inlinable

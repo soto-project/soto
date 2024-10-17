@@ -203,6 +203,44 @@ public struct IoT: AWSService {
         return try await self.addThingToThingGroup(input, logger: logger)
     }
 
+    /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the AssociateSbomWithPackageVersion action.
+    @Sendable
+    @inlinable
+    public func associateSbomWithPackageVersion(_ input: AssociateSbomWithPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSbomWithPackageVersionResponse {
+        try await self.client.execute(
+            operation: "AssociateSbomWithPackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}/sbom", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the AssociateSbomWithPackageVersion action.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - packageName: The name of the new software package.
+    ///   - sbom: 
+    ///   - versionName: The name of the new package version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateSbomWithPackageVersion(
+        clientToken: String? = AssociateSbomWithPackageVersionRequest.idempotencyToken(),
+        packageName: String,
+        sbom: Sbom,
+        versionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateSbomWithPackageVersionResponse {
+        let input = AssociateSbomWithPackageVersionRequest(
+            clientToken: clientToken, 
+            packageName: packageName, 
+            sbom: sbom, 
+            versionName: versionName
+        )
+        return try await self.associateSbomWithPackageVersion(input, logger: logger)
+    }
+
     /// Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.   Requires permission to access the AssociateTargetsWithJob action.
     @Sendable
     @inlinable
@@ -715,7 +753,9 @@ public struct IoT: AWSService {
         return try await self.createAuthorizer(input, logger: logger)
     }
 
-    /// Creates a billing group. Requires permission to access the CreateBillingGroup action.
+    /// Creates a billing group. If this call is made multiple times using
+    /// 			the same billing group name and configuration, the call will succeed. If this call is made with
+    /// 			the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action.
     @Sendable
     @inlinable
     public func createBillingGroup(_ input: CreateBillingGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBillingGroupResponse {
@@ -728,7 +768,9 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Creates a billing group. Requires permission to access the CreateBillingGroup action.
+    /// Creates a billing group. If this call is made multiple times using
+    /// 			the same billing group name and configuration, the call will succeed. If this call is made with
+    /// 			the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the CreateBillingGroup action.
     ///
     /// Parameters:
     ///   - billingGroupName: The name you wish to give to the billing group.
@@ -921,7 +963,10 @@ public struct IoT: AWSService {
     /// Creates a domain configuration. Requires permission to access the CreateDomainConfiguration action.
     ///
     /// Parameters:
+    ///   - applicationProtocol: An enumerated string that speciﬁes the application-layer protocol.    SECURE_MQTT - MQTT over TLS.      MQTT_WSS - MQTT over WebSocket.      HTTPS - HTTP over TLS.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol.  For more information, see Device communication protocols.
+    ///   - authenticationType: An enumerated string that speciﬁes the authentication type.    CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.      CUSTOM_AUTH - Use custom authentication and authorization. For more information, see Custom authentication and authorization.      AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see X.509 client certificates.      AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see IAM users, groups, and roles.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see Device communication protocols.
     ///   - authorizerConfig: An object that specifies the authorization service for a domain.
+    ///   - clientCertificateConfig: An object that speciﬁes the client certificate conﬁguration for a domain.
     ///   - domainConfigurationName: The name of the domain configuration. This value must be unique to a region.
     ///   - domainName: The name of the domain.
     ///   - serverCertificateArns: The ARNs of the certificates that IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN.  This value is not required for Amazon Web Services-managed domains.
@@ -933,7 +978,10 @@ public struct IoT: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createDomainConfiguration(
+        applicationProtocol: ApplicationProtocol? = nil,
+        authenticationType: AuthenticationType? = nil,
         authorizerConfig: AuthorizerConfig? = nil,
+        clientCertificateConfig: ClientCertificateConfig? = nil,
         domainConfigurationName: String,
         domainName: String? = nil,
         serverCertificateArns: [String]? = nil,
@@ -945,7 +993,10 @@ public struct IoT: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDomainConfigurationResponse {
         let input = CreateDomainConfigurationRequest(
+            applicationProtocol: applicationProtocol, 
+            authenticationType: authenticationType, 
             authorizerConfig: authorizerConfig, 
+            clientCertificateConfig: clientCertificateConfig, 
             domainConfigurationName: domainConfigurationName, 
             domainName: domainName, 
             serverCertificateArns: serverCertificateArns, 
@@ -1386,28 +1437,34 @@ public struct IoT: AWSService {
     /// Creates a new version for an existing IoT software package. Requires permission to access the CreatePackageVersion and GetIndexingConfiguration actions.
     ///
     /// Parameters:
+    ///   - artifact: The various build components created during the build process such as libraries and configuration files that make up a software package version.
     ///   - attributes: Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
     ///   - description: A summary of the package version being created. This can be used to outline the package's contents or purpose.
     ///   - packageName: The name of the associated software package.
+    ///   - recipe: The inline job document associated with a software package version used for a quick job deployment.
     ///   - tags: Metadata that can be used to manage the package version.
     ///   - versionName: The name of the new package version.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPackageVersion(
+        artifact: PackageVersionArtifact? = nil,
         attributes: [String: String]? = nil,
         clientToken: String? = CreatePackageVersionRequest.idempotencyToken(),
         description: String? = nil,
         packageName: String,
+        recipe: String? = nil,
         tags: [String: String]? = nil,
         versionName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePackageVersionResponse {
         let input = CreatePackageVersionRequest(
+            artifact: artifact, 
             attributes: attributes, 
             clientToken: clientToken, 
             description: description, 
             packageName: packageName, 
+            recipe: recipe, 
             tags: tags, 
             versionName: versionName
         )
@@ -1598,7 +1655,7 @@ public struct IoT: AWSService {
         return try await self.createProvisioningTemplateVersion(input, logger: logger)
     }
 
-    /// Creates a role alias. Requires permission to access the CreateRoleAlias action.
+    /// Creates a role alias. Requires permission to access the CreateRoleAlias action.  The value of  credentialDurationSeconds must be less than or equal to the maximum session  duration of the IAM role that the role alias references. For more information, see   Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
     @Sendable
     @inlinable
     public func createRoleAlias(_ input: CreateRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRoleAliasResponse {
@@ -1611,7 +1668,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Creates a role alias. Requires permission to access the CreateRoleAlias action.
+    /// Creates a role alias. Requires permission to access the CreateRoleAlias action.  The value of  credentialDurationSeconds must be less than or equal to the maximum session  duration of the IAM role that the role alias references. For more information, see   Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
     ///
     /// Parameters:
     ///   - credentialDurationSeconds: How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
@@ -1858,7 +1915,10 @@ public struct IoT: AWSService {
         return try await self.createThingGroup(input, logger: logger)
     }
 
-    /// Creates a new thing type. Requires permission to access the CreateThingType action.
+    /// Creates a new thing type. If this call is made multiple times using
+    /// 			the same thing type name and configuration, the call will succeed. If this call is made with
+    /// 			the same thing type name but different configuration a ResourceAlreadyExistsException is thrown.
+    /// 		 Requires permission to access the CreateThingType action.
     @Sendable
     @inlinable
     public func createThingType(_ input: CreateThingTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateThingTypeResponse {
@@ -1871,7 +1931,10 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Creates a new thing type. Requires permission to access the CreateThingType action.
+    /// Creates a new thing type. If this call is made multiple times using
+    /// 			the same thing type name and configuration, the call will succeed. If this call is made with
+    /// 			the same thing type name but different configuration a ResourceAlreadyExistsException is thrown.
+    /// 		 Requires permission to access the CreateThingType action.
     ///
     /// Parameters:
     ///   - tags: Metadata which can be used to manage the thing type.
@@ -3607,14 +3670,17 @@ public struct IoT: AWSService {
     /// Describes a job. Requires permission to access the DescribeJob action.
     ///
     /// Parameters:
+    ///   - beforeSubstitution: A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeJob(
+        beforeSubstitution: Bool? = nil,
         jobId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeJobResponse {
         let input = DescribeJobRequest(
+            beforeSubstitution: beforeSubstitution, 
             jobId: jobId
         )
         return try await self.describeJob(input, logger: logger)
@@ -4201,6 +4267,41 @@ public struct IoT: AWSService {
         return try await self.disableTopicRule(input, logger: logger)
     }
 
+    /// Disassociates the selected software bill of materials (SBOM) from a specific software package version. Requires permission to access the DisassociateSbomWithPackageVersion action.
+    @Sendable
+    @inlinable
+    public func disassociateSbomFromPackageVersion(_ input: DisassociateSbomFromPackageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSbomFromPackageVersionResponse {
+        try await self.client.execute(
+            operation: "DisassociateSbomFromPackageVersion", 
+            path: "/packages/{packageName}/versions/{versionName}/sbom", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates the selected software bill of materials (SBOM) from a specific software package version. Requires permission to access the DisassociateSbomWithPackageVersion action.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - packageName: The name of the new software package.
+    ///   - versionName: The name of the new package version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateSbomFromPackageVersion(
+        clientToken: String? = DisassociateSbomFromPackageVersionRequest.idempotencyToken(),
+        packageName: String,
+        versionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateSbomFromPackageVersionResponse {
+        let input = DisassociateSbomFromPackageVersionRequest(
+            clientToken: clientToken, 
+            packageName: packageName, 
+            versionName: versionName
+        )
+        return try await self.disassociateSbomFromPackageVersion(input, logger: logger)
+    }
+
     /// Enables the rule. Requires permission to access the EnableTopicRule action.
     @Sendable
     @inlinable
@@ -4421,14 +4522,17 @@ public struct IoT: AWSService {
     /// Gets a job document. Requires permission to access the GetJobDocument action.
     ///
     /// Parameters:
+    ///   - beforeSubstitution: A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     ///   - jobId: The unique identifier you assigned to this job when it was created.
     ///   - logger: Logger use during operation
     @inlinable
     public func getJobDocument(
+        beforeSubstitution: Bool? = nil,
         jobId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetJobDocumentResponse {
         let input = GetJobDocumentRequest(
+            beforeSubstitution: beforeSubstitution, 
             jobId: jobId
         )
         return try await self.getJobDocument(input, logger: logger)
@@ -6333,6 +6437,47 @@ public struct IoT: AWSService {
             pageSize: pageSize
         )
         return try await self.listRoleAliases(input, logger: logger)
+    }
+
+    /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the ListSbomValidationResults action.
+    @Sendable
+    @inlinable
+    public func listSbomValidationResults(_ input: ListSbomValidationResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSbomValidationResultsResponse {
+        try await self.client.execute(
+            operation: "ListSbomValidationResults", 
+            path: "/packages/{packageName}/versions/{versionName}/sbom-validation-results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the ListSbomValidationResults action.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return at one time.
+    ///   - nextToken: A token that can be used to retrieve the next set of results, or null if there are no additional results.
+    ///   - packageName: The name of the new software package.
+    ///   - validationResult: The end result of the
+    ///   - versionName: The name of the new package version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSbomValidationResults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        packageName: String,
+        validationResult: SbomValidationResult? = nil,
+        versionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSbomValidationResultsResponse {
+        let input = ListSbomValidationResultsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            packageName: packageName, 
+            validationResult: validationResult, 
+            versionName: versionName
+        )
+        return try await self.listSbomValidationResults(input, logger: logger)
     }
 
     /// Lists all of your scheduled audits. Requires permission to access the ListScheduledAudits action.
@@ -8326,7 +8471,10 @@ public struct IoT: AWSService {
     /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the UpdateDomainConfiguration action.
     ///
     /// Parameters:
+    ///   - applicationProtocol: An enumerated string that speciﬁes the application-layer protocol.    SECURE_MQTT - MQTT over TLS.      MQTT_WSS - MQTT over WebSocket.      HTTPS - HTTP over TLS.      DEFAULT - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify application_layer protocol.  For more information, see Device communication protocols.
+    ///   - authenticationType: An enumerated string that speciﬁes the authentication type.    CUSTOM_AUTH_X509 - Use custom authentication and authorization with additional details from the X.509 client certificate.      CUSTOM_AUTH - Use custom authentication and authorization. For more information, see Custom authentication and authorization.      AWS_X509 - Use X.509 client certificates without custom authentication and authorization. For more information, see X.509 client certificates.      AWS_SIGV4 - Use Amazon Web Services Signature Version 4. For more information, see IAM users, groups, and roles.      DEFAULT  - Use a combination of port and Application Layer Protocol Negotiation (ALPN) to specify authentication type. For more information, see Device communication protocols.
     ///   - authorizerConfig: An object that specifies the authorization service for a domain.
+    ///   - clientCertificateConfig: An object that speciﬁes the client certificate conﬁguration for a domain.
     ///   - domainConfigurationName: The name of the domain configuration to be updated.
     ///   - domainConfigurationStatus: The status to which the domain configuration should be updated.
     ///   - removeAuthorizerConfig: Removes the authorization configuration from a domain.
@@ -8335,7 +8483,10 @@ public struct IoT: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomainConfiguration(
+        applicationProtocol: ApplicationProtocol? = nil,
+        authenticationType: AuthenticationType? = nil,
         authorizerConfig: AuthorizerConfig? = nil,
+        clientCertificateConfig: ClientCertificateConfig? = nil,
         domainConfigurationName: String,
         domainConfigurationStatus: DomainConfigurationStatus? = nil,
         removeAuthorizerConfig: Bool? = nil,
@@ -8344,7 +8495,10 @@ public struct IoT: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainConfigurationResponse {
         let input = UpdateDomainConfigurationRequest(
+            applicationProtocol: applicationProtocol, 
+            authenticationType: authenticationType, 
             authorizerConfig: authorizerConfig, 
+            clientCertificateConfig: clientCertificateConfig, 
             domainConfigurationName: domainConfigurationName, 
             domainConfigurationStatus: domainConfigurationStatus, 
             removeAuthorizerConfig: removeAuthorizerConfig, 
@@ -8690,28 +8844,34 @@ public struct IoT: AWSService {
     ///
     /// Parameters:
     ///   - action: The status that the package version should be assigned. For more information, see Package version lifecycle.
+    ///   - artifact: The various components that make up a software package version.
     ///   - attributes: Metadata that can be used to define a package version’s configuration. For example, the Amazon S3 file location, configuration options that are being sent to the device or fleet.   Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request.  Don't reuse this client token if a new idempotent request is required.
     ///   - description: The package version description.
     ///   - packageName: The name of the associated software package.
+    ///   - recipe: The inline job document associated with a software package version used for a quick job deployment.
     ///   - versionName: The name of the target package version.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePackageVersion(
         action: PackageVersionAction? = nil,
+        artifact: PackageVersionArtifact? = nil,
         attributes: [String: String]? = nil,
         clientToken: String? = UpdatePackageVersionRequest.idempotencyToken(),
         description: String? = nil,
         packageName: String,
+        recipe: String? = nil,
         versionName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePackageVersionResponse {
         let input = UpdatePackageVersionRequest(
             action: action, 
+            artifact: artifact, 
             attributes: attributes, 
             clientToken: clientToken, 
             description: description, 
             packageName: packageName, 
+            recipe: recipe, 
             versionName: versionName
         )
         return try await self.updatePackageVersion(input, logger: logger)
@@ -8764,7 +8924,7 @@ public struct IoT: AWSService {
         return try await self.updateProvisioningTemplate(input, logger: logger)
     }
 
-    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.
+    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.  The value of  credentialDurationSeconds must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see  Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
     @Sendable
     @inlinable
     public func updateRoleAlias(_ input: UpdateRoleAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRoleAliasResponse {
@@ -8777,7 +8937,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.
+    /// Updates a role alias. Requires permission to access the UpdateRoleAlias action.  The value of  credentialDurationSeconds must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see  Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identity and Access Management User Guide.
     ///
     /// Parameters:
     ///   - credentialDurationSeconds: The number of seconds the credential will be valid. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
@@ -10683,6 +10843,49 @@ extension IoT {
         return self.listRoleAliasesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSbomValidationResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSbomValidationResultsPaginator(
+        _ input: ListSbomValidationResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSbomValidationResultsRequest, ListSbomValidationResultsResponse> {
+        return .init(
+            input: input,
+            command: self.listSbomValidationResults,
+            inputKey: \ListSbomValidationResultsRequest.nextToken,
+            outputKey: \ListSbomValidationResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSbomValidationResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return at one time.
+    ///   - packageName: The name of the new software package.
+    ///   - validationResult: The end result of the
+    ///   - versionName: The name of the new package version.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSbomValidationResultsPaginator(
+        maxResults: Int? = nil,
+        packageName: String,
+        validationResult: SbomValidationResult? = nil,
+        versionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSbomValidationResultsRequest, ListSbomValidationResultsResponse> {
+        let input = ListSbomValidationResultsRequest(
+            maxResults: maxResults, 
+            packageName: packageName, 
+            validationResult: validationResult, 
+            versionName: versionName
+        )
+        return self.listSbomValidationResultsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listScheduledAudits(_:logger:)``.
     ///
     /// - Parameters:
@@ -11926,6 +12129,19 @@ extension IoT.ListRoleAliasesRequest: AWSPaginateToken {
             ascendingOrder: self.ascendingOrder,
             marker: token,
             pageSize: self.pageSize
+        )
+    }
+}
+
+extension IoT.ListSbomValidationResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoT.ListSbomValidationResultsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageName: self.packageName,
+            validationResult: self.validationResult,
+            versionName: self.versionName
         )
     }
 }

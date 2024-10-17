@@ -65,6 +65,7 @@ public struct Amp: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-08-01",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: AmpErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -76,6 +77,25 @@ public struct Amp: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-1": "aps.ap-northeast-1.api.aws",
+            "ap-northeast-2": "aps.ap-northeast-2.api.aws",
+            "ap-south-1": "aps.ap-south-1.api.aws",
+            "ap-southeast-1": "aps.ap-southeast-1.api.aws",
+            "ap-southeast-2": "aps.ap-southeast-2.api.aws",
+            "eu-central-1": "aps.eu-central-1.api.aws",
+            "eu-north-1": "aps.eu-north-1.api.aws",
+            "eu-west-1": "aps.eu-west-1.api.aws",
+            "eu-west-2": "aps.eu-west-2.api.aws",
+            "eu-west-3": "aps.eu-west-3.api.aws",
+            "sa-east-1": "aps.sa-east-1.api.aws",
+            "us-east-1": "aps.us-east-1.api.aws",
+            "us-east-2": "aps.us-east-2.api.aws",
+            "us-west-2": "aps.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

@@ -585,7 +585,7 @@ public struct Redshift: AWSService {
     ///   - masterUsername: The user name associated with the admin user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon (:) or a slash (/).   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
     ///   - masterUserPassword: The password associated with the admin user account for the cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is true. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
     ///   - multiAZ: If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
-    ///   - nodeType: The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+    ///   - nodeType: The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.large |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
     ///   - numberOfNodes: The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
     ///   - port: The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
@@ -1058,6 +1058,53 @@ public struct Redshift: AWSService {
             tags: tags
         )
         return try await self.createHsmConfiguration(input, logger: logger)
+    }
+
+    /// Creates a zero-ETL integration with Amazon Redshift.
+    @Sendable
+    @inlinable
+    public func createIntegration(_ input: CreateIntegrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
+        try await self.client.execute(
+            operation: "CreateIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a zero-ETL integration with Amazon Redshift.
+    ///
+    /// Parameters:
+    ///   - additionalEncryptionContext: An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
+    ///   - description: A description of the integration.
+    ///   - integrationName: The name of the integration.
+    ///   - kmsKeyId: An Key Management Service (KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, the default Amazon Web Services owned key is used.
+    ///   - sourceArn: The Amazon Resource Name (ARN) of the database to use as the source for replication.
+    ///   - tagList: A list of tags.
+    ///   - targetArn: The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIntegration(
+        additionalEncryptionContext: [String: String]? = nil,
+        description: String? = nil,
+        integrationName: String? = nil,
+        kmsKeyId: String? = nil,
+        sourceArn: String? = nil,
+        tagList: [Tag]? = nil,
+        targetArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> Integration {
+        let input = CreateIntegrationMessage(
+            additionalEncryptionContext: additionalEncryptionContext, 
+            description: description, 
+            integrationName: integrationName, 
+            kmsKeyId: kmsKeyId, 
+            sourceArn: sourceArn, 
+            tagList: tagList, 
+            targetArn: targetArn
+        )
+        return try await self.createIntegration(input, logger: logger)
     }
 
     /// Creates an Amazon Redshift application for use with IAM Identity Center.
@@ -1703,6 +1750,35 @@ public struct Redshift: AWSService {
             hsmConfigurationIdentifier: hsmConfigurationIdentifier
         )
         return try await self.deleteHsmConfiguration(input, logger: logger)
+    }
+
+    /// Deletes a zero-ETL integration with Amazon Redshift.
+    @Sendable
+    @inlinable
+    public func deleteIntegration(_ input: DeleteIntegrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
+        try await self.client.execute(
+            operation: "DeleteIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a zero-ETL integration with Amazon Redshift.
+    ///
+    /// Parameters:
+    ///   - integrationArn: The unique identifier of the integration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIntegration(
+        integrationArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> Integration {
+        let input = DeleteIntegrationMessage(
+            integrationArn: integrationArn
+        )
+        return try await self.deleteIntegration(input, logger: logger)
     }
 
     /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
@@ -2924,6 +3000,44 @@ public struct Redshift: AWSService {
         return try await self.describeInboundIntegrations(input, logger: logger)
     }
 
+    /// Describes one or more zero-ETL integrations with Amazon Redshift.
+    @Sendable
+    @inlinable
+    public func describeIntegrations(_ input: DescribeIntegrationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> IntegrationsMessage {
+        try await self.client.execute(
+            operation: "DescribeIntegrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more zero-ETL integrations with Amazon Redshift.
+    ///
+    /// Parameters:
+    ///   - filters: A filter that specifies one or more resources to return.
+    ///   - integrationArn: The unique identifier of the integration.
+    ///   - marker: An optional pagination token provided by a previous DescribeIntegrations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeIntegrations(
+        filters: [DescribeIntegrationsFilter]? = nil,
+        integrationArn: String? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> IntegrationsMessage {
+        let input = DescribeIntegrationsMessage(
+            filters: filters, 
+            integrationArn: integrationArn, 
+            marker: marker, 
+            maxRecords: maxRecords
+        )
+        return try await self.describeIntegrations(input, logger: logger)
+    }
+
     /// Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
     @Sendable
     @inlinable
@@ -3474,7 +3588,7 @@ public struct Redshift: AWSService {
     ///   - marker: A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
     ///   - maxRecords: The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
     ///   - resourceName: The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
-    ///   - resourceType: The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
+    ///   - resourceType: The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   Integration (zero-ETL integration)  To describe the tags associated with an integration, don't specify ResourceType,  instead specify the ResourceName of the integration.    For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
     ///   - tagKeys: A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
     ///   - tagValues: A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
     ///   - logger: Logger use during operation
@@ -3662,7 +3776,7 @@ public struct Redshift: AWSService {
     ///   - clusterIdentifier: The identifier of the cluster on which logging is to be started. Example: examplecluster
     ///   - logDestinationType: The log destination type. An enum with possible values of s3 and cloudwatch.
     ///   - logExports: The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
-    ///   - s3KeyPrefix: The prefix applied to the log file names. Constraints:   Cannot exceed 512 characters   Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or control characters. The hexadecimal codes for invalid characters are:    x00 to x20   x22   x27   x5c   x7f or larger
+    ///   - s3KeyPrefix: The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters:  underscore (_), period (.), colon (:), slash (/), equal (=), plus (+), backslash (\), hyphen (-), at symbol (@).
     ///   - logger: Logger use during operation
     @inlinable
     public func enableLogging(
@@ -4535,6 +4649,41 @@ public struct Redshift: AWSService {
         return try await self.modifyEventSubscription(input, logger: logger)
     }
 
+    /// Modifies a zero-ETL integration with Amazon Redshift.
+    @Sendable
+    @inlinable
+    public func modifyIntegration(_ input: ModifyIntegrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> Integration {
+        try await self.client.execute(
+            operation: "ModifyIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies a zero-ETL integration with Amazon Redshift.
+    ///
+    /// Parameters:
+    ///   - description: A new description for the integration.
+    ///   - integrationArn: The unique identifier of the integration to modify.
+    ///   - integrationName: A new name for the integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyIntegration(
+        description: String? = nil,
+        integrationArn: String? = nil,
+        integrationName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> Integration {
+        let input = ModifyIntegrationMessage(
+            description: description, 
+            integrationArn: integrationArn, 
+            integrationName: integrationName
+        )
+        return try await self.modifyIntegration(input, logger: logger)
+    }
+
     /// Changes an existing Amazon Redshift IAM Identity Center application.
     @Sendable
     @inlinable
@@ -4929,7 +5078,7 @@ public struct Redshift: AWSService {
         return try await self.resetClusterParameterGroup(input, logger: logger)
     }
 
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.large   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
     @Sendable
     @inlinable
     public func resizeCluster(_ input: ResizeClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ResizeClusterResult {
@@ -4942,7 +5091,7 @@ public struct Redshift: AWSService {
             logger: logger
         )
     }
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.large   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
     ///
     /// Parameters:
     ///   - classic: A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic.
@@ -6308,6 +6457,46 @@ extension Redshift {
         return self.describeInboundIntegrationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeIntegrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeIntegrationsPaginator(
+        _ input: DescribeIntegrationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeIntegrationsMessage, IntegrationsMessage> {
+        return .init(
+            input: input,
+            command: self.describeIntegrations,
+            inputKey: \DescribeIntegrationsMessage.marker,
+            outputKey: \IntegrationsMessage.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeIntegrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: A filter that specifies one or more resources to return.
+    ///   - integrationArn: The unique identifier of the integration.
+    ///   - maxRecords: The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.  Default: 100  Constraints: minimum 20, maximum 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeIntegrationsPaginator(
+        filters: [DescribeIntegrationsFilter]? = nil,
+        integrationArn: String? = nil,
+        maxRecords: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeIntegrationsMessage, IntegrationsMessage> {
+        let input = DescribeIntegrationsMessage(
+            filters: filters, 
+            integrationArn: integrationArn, 
+            maxRecords: maxRecords
+        )
+        return self.describeIntegrationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeNodeConfigurationOptions(_:logger:)``.
     ///
     /// - Parameters:
@@ -6755,7 +6944,7 @@ extension Redshift {
     /// - Parameters:
     ///   - maxRecords: The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
     ///   - resourceName: The Amazon Resource Name (ARN) for which you want to describe the tag or tags. For example, arn:aws:redshift:us-east-2:123456789:cluster:t1.
-    ///   - resourceType: The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
+    ///   - resourceType: The type of resource with which you want to view tags. Valid resource types are:    Cluster   CIDR/IP   EC2 security group   Snapshot   Cluster security group   Subnet group   HSM connection   HSM certificate   Parameter group   Snapshot copy grant   Integration (zero-ETL integration)  To describe the tags associated with an integration, don't specify ResourceType,  instead specify the ResourceName of the integration.    For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
     ///   - tagKeys: A tag key or keys for which you want to return all matching resources that are associated with the specified key or keys. For example, suppose that you have resources tagged with keys called owner and environment. If you specify both of these tag keys in the request, Amazon Redshift returns a response with all resources that have either or both of these tag keys associated with them.
     ///   - tagValues: A tag value or values for which you want to return all matching resources that are associated with the specified value or values. For example, suppose that you have resources tagged with values called admin and test. If you specify both of these tag values in the request, Amazon Redshift returns a response with all resources that have either or both of these tag values associated with them.
     ///   - logger: Logger used for logging
@@ -7214,6 +7403,18 @@ extension Redshift.DescribeInboundIntegrationsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             targetArn: self.targetArn
+        )
+    }
+}
+
+extension Redshift.DescribeIntegrationsMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeIntegrationsMessage {
+        return .init(
+            filters: self.filters,
+            integrationArn: self.integrationArn,
+            marker: token,
+            maxRecords: self.maxRecords
         )
     }
 }

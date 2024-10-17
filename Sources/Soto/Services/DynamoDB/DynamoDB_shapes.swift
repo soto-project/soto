@@ -6677,7 +6677,6 @@ extension DynamoDBErrorType: CustomStringConvertible {
     }
 }
 
-
 extension DynamoDB.AttributeValue: Equatable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {

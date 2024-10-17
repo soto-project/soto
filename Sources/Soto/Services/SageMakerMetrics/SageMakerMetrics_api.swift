@@ -79,7 +79,36 @@ public struct SageMakerMetrics: AWSService {
 
     // MARK: API Calls
 
-    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio and retrieved with the GetMetrics API.
+    /// Used to retrieve training metrics from SageMaker.
+    @Sendable
+    @inlinable
+    public func batchGetMetrics(_ input: BatchGetMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetMetricsResponse {
+        try await self.client.execute(
+            operation: "BatchGetMetrics", 
+            path: "/BatchGetMetrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Used to retrieve training metrics from SageMaker.
+    ///
+    /// Parameters:
+    ///   - metricQueries: Queries made to retrieve training metrics from SageMaker.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetMetrics(
+        metricQueries: [MetricQuery]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetMetricsResponse {
+        let input = BatchGetMetricsRequest(
+            metricQueries: metricQueries
+        )
+        return try await self.batchGetMetrics(input, logger: logger)
+    }
+
+    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
     @Sendable
     @inlinable
     public func batchPutMetrics(_ input: BatchPutMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutMetricsResponse {
@@ -92,11 +121,11 @@ public struct SageMakerMetrics: AWSService {
             logger: logger
         )
     }
-    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio and retrieved with the GetMetrics API.
+    /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
     ///
     /// Parameters:
     ///   - metricData: A list of raw metric values to put.
-    ///   - trialComponentName: The name of the Trial Component to associate with the metrics.
+    ///   - trialComponentName: The name of the Trial Component to associate with the metrics. The Trial Component name must be entirely lowercase.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchPutMetrics(

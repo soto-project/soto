@@ -257,7 +257,7 @@ public struct QBusiness: AWSService {
     ///   - conversationId: The identifier of the Amazon Q Business conversation.
     ///   - inputStream: The streaming input for the Chat API.
     ///   - parentMessageId: The identifier used to associate a user message with a AI generated response.
-    ///   - userGroups: The groups that a user associated with the chat input belongs to.
+    ///   - userGroups: The group names that a user associated with the chat input belongs to.
     ///   - userId: The identifier of the user attached to the chat input.
     ///   - logger: Logger use during operation
     @inlinable
@@ -309,7 +309,7 @@ public struct QBusiness: AWSService {
     ///   - clientToken: A token that you provide to identify a chat request.
     ///   - conversationId: The identifier of the Amazon Q Business conversation.
     ///   - parentMessageId: The identifier of the previous system message in a conversation.
-    ///   - userGroups: The groups that a user associated with the chat input belongs to.
+    ///   - userGroups: The group names that a user associated with the chat input belongs to.
     ///   - userId: The identifier of the user attached to the chat input.
     ///   - userMessage: A end user message in a conversation.
     ///   - logger: Logger use during operation
@@ -375,7 +375,7 @@ public struct QBusiness: AWSService {
     ///   - identityType: The authentication type being used by a Amazon Q Business application.
     ///   - personalizationConfiguration: Configuration information about chat response personalization. For more information, see Personalizing chat responses
     ///   - qAppsConfiguration: An option to allow end users to create and use Amazon Q Apps in the web experience.
-    ///   - roleArn:  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
+    ///   - roleArn:  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a service linked role (SLR) and use it as the application's role.
     ///   - tags: A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     ///   - logger: Logger use during operation
     @inlinable
@@ -673,6 +673,7 @@ public struct QBusiness: AWSService {
     ///   - applicationId: The identifier of the Amazon Q Business web experience.
     ///   - clientToken: A token you provide to identify a request to create an Amazon Q Business web experience.
     ///   - identityProviderConfiguration: Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    ///   - origins: Sets the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
     ///   - roleArn: The Amazon Resource Name (ARN) of the service role attached to your web experience.  You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
     ///   - samplePromptsControlMode: Determines whether sample prompts are enabled in the web experience for an end user.
     ///   - subtitle: A subtitle to personalize your Amazon Q Business web experience.
@@ -685,6 +686,7 @@ public struct QBusiness: AWSService {
         applicationId: String,
         clientToken: String? = CreateWebExperienceRequest.idempotencyToken(),
         identityProviderConfiguration: IdentityProviderConfiguration? = nil,
+        origins: [String]? = nil,
         roleArn: String? = nil,
         samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil,
         subtitle: String? = nil,
@@ -697,6 +699,7 @@ public struct QBusiness: AWSService {
             applicationId: applicationId, 
             clientToken: clientToken, 
             identityProviderConfiguration: identityProviderConfiguration, 
+            origins: origins, 
             roleArn: roleArn, 
             samplePromptsControlMode: samplePromptsControlMode, 
             subtitle: subtitle, 
@@ -2349,6 +2352,7 @@ public struct QBusiness: AWSService {
     /// Parameters:
     ///   - applicationId: The identifier of the Amazon Q Business application attached to the web experience.
     ///   - identityProviderConfiguration: Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
+    ///   - origins: Updates the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).    Any values except null submitted as part of this  update will replace all previous values.   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
     ///   - roleArn: The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
     ///   - samplePromptsControlMode: Determines whether sample prompts are enabled in the web experience for an end user.
     ///   - subtitle: The subtitle of the Amazon Q Business web experience.
@@ -2360,6 +2364,7 @@ public struct QBusiness: AWSService {
     public func updateWebExperience(
         applicationId: String,
         identityProviderConfiguration: IdentityProviderConfiguration? = nil,
+        origins: [String]? = nil,
         roleArn: String? = nil,
         samplePromptsControlMode: WebExperienceSamplePromptsControlMode? = nil,
         subtitle: String? = nil,
@@ -2371,6 +2376,7 @@ public struct QBusiness: AWSService {
         let input = UpdateWebExperienceRequest(
             applicationId: applicationId, 
             identityProviderConfiguration: identityProviderConfiguration, 
+            origins: origins, 
             roleArn: roleArn, 
             samplePromptsControlMode: samplePromptsControlMode, 
             subtitle: subtitle, 

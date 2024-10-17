@@ -222,6 +222,14 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransferTableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkflowStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case copy = "COPY"
         case custom = "CUSTOM"
@@ -297,6 +305,32 @@ extension Transfer {
             case messageSubject = "MessageSubject"
             case partnerProfileId = "PartnerProfileId"
             case signingAlgorithm = "SigningAlgorithm"
+        }
+    }
+
+    public struct ConnectorFileTransferResult: AWSDecodableShape {
+        /// For transfers that fail, this parameter contains a code indicating the reason. For example, RETRIEVE_FILE_NOT_FOUND
+        public let failureCode: String?
+        /// For transfers that fail, this parameter describes the reason for the failure.
+        public let failureMessage: String?
+        /// The filename and path to where the file was sent to or retrieved from.
+        public let filePath: String
+        /// The current status for the transfer.
+        public let statusCode: TransferTableStatus
+
+        @inlinable
+        public init(failureCode: String? = nil, failureMessage: String? = nil, filePath: String, statusCode: TransferTableStatus) {
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.filePath = filePath
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case filePath = "FilePath"
+            case statusCode = "StatusCode"
         }
     }
 
@@ -417,7 +451,7 @@ extension Transfer {
     public struct CreateAgreementRequest: AWSEncodableShape {
         /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String
-        /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
+        /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
         public let baseDirectory: String
         /// A name or short description to identify the agreement.
         public let description: String?
@@ -2875,6 +2909,63 @@ extension Transfer {
         }
     }
 
+    public struct ListFileTransferResultsRequest: AWSEncodableShape {
+        /// A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call.
+        public let connectorId: String
+        /// The maximum number of files to return in a single page. Note that currently you can specify a maximum of 10 file paths in a single StartFileTransfer operation. Thus, the maximum number of file transfer results that can be returned in a single page is 10.
+        public let maxResults: Int?
+        /// If there are more file details than returned in this call, use this value for a subsequent call to ListFileTransferResults to retrieve them.
+        public let nextToken: String?
+        /// A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call.
+        public let transferId: String
+
+        @inlinable
+        public init(connectorId: String, maxResults: Int? = nil, nextToken: String? = nil, transferId: String) {
+            self.connectorId = connectorId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transferId = transferId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, max: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, min: 19)
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "^c-([0-9a-f]{17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 6144)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.transferId, name: "transferId", parent: name, max: 512)
+            try self.validate(self.transferId, name: "transferId", parent: name, min: 1)
+            try self.validate(self.transferId, name: "transferId", parent: name, pattern: "^[0-9a-zA-Z./-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorId = "ConnectorId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transferId = "TransferId"
+        }
+    }
+
+    public struct ListFileTransferResultsResponse: AWSDecodableShape {
+        /// Returns the details for the files transferred in the transfer identified by the TransferId and ConnectorId specified.    FilePath: the filename and path to where the file was sent to or retrieved from.    StatusCode: current status for the transfer. The status returned is one of the following values:QUEUED, IN_PROGRESS, COMPLETED, or FAILED     FailureCode: for transfers that fail, this parameter contains a code indicating the reason. For example, RETRIEVE_FILE_NOT_FOUND     FailureMessage: for transfers that fail, this parameter describes the reason for the failure.
+        public let fileTransferResults: [ConnectorFileTransferResult]
+        /// Returns a token that you can use to call ListFileTransferResults again and receive additional results, if there are any (against the same TransferId.
+        public let nextToken: String?
+
+        @inlinable
+        public init(fileTransferResults: [ConnectorFileTransferResult], nextToken: String? = nil) {
+            self.fileTransferResults = fileTransferResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileTransferResults = "FileTransferResults"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListHostKeysRequest: AWSEncodableShape {
         /// The maximum number of host keys to return.
         public let maxResults: Int?
@@ -3875,7 +3966,7 @@ extension Transfer {
         public let remoteDirectoryPath: String?
         /// One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.
         public let retrieveFilePaths: [String]?
-        /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .  Replace  DOC-EXAMPLE-BUCKET with one of your actual buckets.
+        /// One or more source paths for the Amazon S3 storage. Each string represents a source file path for one outbound file transfer. For example,  amzn-s3-demo-bucket/myfile.txt .  Replace  amzn-s3-demo-bucket with one of your actual buckets.
         public let sendFilePaths: [String]?
 
         @inlinable
@@ -4286,7 +4377,7 @@ extension Transfer {
         public let accessRole: String?
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public let agreementId: String
-        /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /DOC-EXAMPLE-BUCKET/home/mydirectory .
+        /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
         public let baseDirectory: String?
         /// To replace the existing description, provide a short description for the agreement.
         public let description: String?
@@ -4577,7 +4668,7 @@ extension Transfer {
         public let certificate: String?
         /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public let endpointDetails: EndpointDetails?
-        /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
+        /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and  resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it.  After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
         public let endpointType: EndpointType?
         /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
@@ -4815,9 +4906,9 @@ extension Transfer {
     }
 
     public struct WorkflowDetails: AWSEncodableShape & AWSDecodableShape {
-        /// A trigger that starts a workflow if a file is only partially uploaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// A trigger that starts a workflow if a file is only partially uploaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects.   OnPartialUpload can contain a maximum of one WorkflowDetail object.
         public let onPartialUpload: [WorkflowDetail]?
-        /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+        /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'    OnUpload can contain a maximum of one WorkflowDetail object.
         public let onUpload: [WorkflowDetail]?
 
         @inlinable

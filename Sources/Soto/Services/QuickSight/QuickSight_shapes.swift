@@ -153,6 +153,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetBundleExportJobFolderPropertyToOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case name = "Name"
+        case parentFolderArn = "ParentFolderArn"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssetBundleExportJobRefreshSchedulePropertyToOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case startAfterDateTime = "StartAfterDateTime"
         public var description: String { return self.rawValue }
@@ -335,6 +341,12 @@ extension QuickSight {
     public enum ColumnTagName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case columnDescription = "COLUMN_DESCRIPTION"
         case columnGeographicRole = "COLUMN_GEOGRAPHIC_ROLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommitMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case manual = "MANUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -800,6 +812,13 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncludeFolderMembers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case oneLevel = "ONE_LEVEL"
+        case recurse = "RECURSE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IngestionErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
         case connectionFailure = "CONNECTION_FAILURE"
@@ -1140,6 +1159,12 @@ extension QuickSight {
     public enum ParameterValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiValued = "MULTI_VALUED"
         case singleValued = "SINGLE_VALUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PersonalizationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -3079,6 +3104,8 @@ extension QuickSight {
         public let dataSets: [AssetBundleExportJobDataSetOverrideProperties]?
         /// An optional list of structures that control how DataSource resources are parameterized in the returned CloudFormation template.
         public let dataSources: [AssetBundleExportJobDataSourceOverrideProperties]?
+        /// An optional list of structures that controls how Folder resources are parameterized in the returned CloudFormation template.
+        public let folders: [AssetBundleExportJobFolderOverrideProperties]?
         /// An optional list of structures that control how RefreshSchedule resources are parameterized in the returned CloudFormation template.
         public let refreshSchedules: [AssetBundleExportJobRefreshScheduleOverrideProperties]?
         /// An optional list of structures that control how resource IDs are parameterized in the returned CloudFormation template.
@@ -3089,11 +3116,12 @@ extension QuickSight {
         public let vpcConnections: [AssetBundleExportJobVPCConnectionOverrideProperties]?
 
         @inlinable
-        public init(analyses: [AssetBundleExportJobAnalysisOverrideProperties]? = nil, dashboards: [AssetBundleExportJobDashboardOverrideProperties]? = nil, dataSets: [AssetBundleExportJobDataSetOverrideProperties]? = nil, dataSources: [AssetBundleExportJobDataSourceOverrideProperties]? = nil, refreshSchedules: [AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil, resourceIdOverrideConfiguration: AssetBundleExportJobResourceIdOverrideConfiguration? = nil, themes: [AssetBundleExportJobThemeOverrideProperties]? = nil, vpcConnections: [AssetBundleExportJobVPCConnectionOverrideProperties]? = nil) {
+        public init(analyses: [AssetBundleExportJobAnalysisOverrideProperties]? = nil, dashboards: [AssetBundleExportJobDashboardOverrideProperties]? = nil, dataSets: [AssetBundleExportJobDataSetOverrideProperties]? = nil, dataSources: [AssetBundleExportJobDataSourceOverrideProperties]? = nil, folders: [AssetBundleExportJobFolderOverrideProperties]? = nil, refreshSchedules: [AssetBundleExportJobRefreshScheduleOverrideProperties]? = nil, resourceIdOverrideConfiguration: AssetBundleExportJobResourceIdOverrideConfiguration? = nil, themes: [AssetBundleExportJobThemeOverrideProperties]? = nil, vpcConnections: [AssetBundleExportJobVPCConnectionOverrideProperties]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.refreshSchedules = refreshSchedules
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
@@ -3121,6 +3149,11 @@ extension QuickSight {
             }
             try self.validate(self.dataSources, name: "dataSources", parent: name, max: 50)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
+            try self.folders?.forEach {
+                try $0.validate(name: "\(name).folders[]")
+            }
+            try self.validate(self.folders, name: "folders", parent: name, max: 50)
+            try self.validate(self.folders, name: "folders", parent: name, min: 1)
             try self.refreshSchedules?.forEach {
                 try $0.validate(name: "\(name).refreshSchedules[]")
             }
@@ -3143,6 +3176,7 @@ extension QuickSight {
             case dashboards = "Dashboards"
             case dataSets = "DataSets"
             case dataSources = "DataSources"
+            case folders = "Folders"
             case refreshSchedules = "RefreshSchedules"
             case resourceIdOverrideConfiguration = "ResourceIdOverrideConfiguration"
             case themes = "Themes"
@@ -3261,6 +3295,29 @@ extension QuickSight {
             case arn = "Arn"
             case message = "Message"
             case type = "Type"
+        }
+    }
+
+    public struct AssetBundleExportJobFolderOverrideProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the specific Folder resource whose override properties are configured in this structure.
+        public let arn: String
+        /// A list of Folder resource properties to generate variables for in the returned CloudFormation template.
+        public let properties: [AssetBundleExportJobFolderPropertyToOverride]
+
+        @inlinable
+        public init(arn: String, properties: [AssetBundleExportJobFolderPropertyToOverride]) {
+            self.arn = arn
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.properties, name: "properties", parent: name, max: 10)
+            try self.validate(self.properties, name: "properties", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case properties = "Properties"
         }
     }
 
@@ -3837,6 +3894,90 @@ extension QuickSight {
         }
     }
 
+    public struct AssetBundleImportJobFolderOverrideParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the folder that you want to apply overrides to.
+        public let folderId: String
+        /// A new name for the folder.
+        public let name: String?
+        /// A new parent folder arn. This change can only be applied if the import creates a brand new folder. Existing folders cannot be moved.
+        public let parentFolderArn: String?
+
+        @inlinable
+        public init(folderId: String, name: String? = nil, parentFolderArn: String? = nil) {
+            self.folderId = folderId
+            self.name = name
+            self.parentFolderArn = parentFolderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderId = "FolderId"
+            case name = "Name"
+            case parentFolderArn = "ParentFolderArn"
+        }
+    }
+
+    public struct AssetBundleImportJobFolderOverridePermissions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of folder IDs that you want to apply overrides to. You can use * to override all folders in this asset bundle.
+        public let folderIds: [String]
+        public let permissions: AssetBundleResourcePermissions?
+
+        @inlinable
+        public init(folderIds: [String], permissions: AssetBundleResourcePermissions? = nil) {
+            self.folderIds = folderIds
+            self.permissions = permissions
+        }
+
+        public func validate(name: String) throws {
+            try self.folderIds.forEach {
+                try validate($0, name: "folderIds[]", parent: name, pattern: "^\\*|[\\w\\-]{1,2048}$")
+            }
+            try self.validate(self.folderIds, name: "folderIds", parent: name, max: 50)
+            try self.validate(self.folderIds, name: "folderIds", parent: name, min: 1)
+            try self.permissions?.validate(name: "\(name).permissions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderIds = "FolderIds"
+            case permissions = "Permissions"
+        }
+    }
+
+    public struct AssetBundleImportJobFolderOverrideTags: AWSEncodableShape & AWSDecodableShape {
+        /// A list of folder IDs that you want to apply overrides to. You can use * to override all folders in this asset bundle.
+        public let folderIds: [String]
+        /// A list of tags for the folders that you want to apply overrides to.
+        public let tags: [Tag]
+
+        @inlinable
+        public init(folderIds: [String], tags: [Tag]) {
+            self.folderIds = folderIds
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.folderIds.forEach {
+                try validate($0, name: "folderIds[]", parent: name, pattern: "^\\*|[\\w\\-]{1,2048}$")
+            }
+            try self.validate(self.folderIds, name: "folderIds", parent: name, max: 50)
+            try self.validate(self.folderIds, name: "folderIds", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folderIds = "FolderIds"
+            case tags = "Tags"
+        }
+    }
+
     public struct AssetBundleImportJobOverrideParameters: AWSEncodableShape & AWSDecodableShape {
         /// A list of overrides for any Analysis resources that are present in the asset bundle that is imported.
         public let analyses: [AssetBundleImportJobAnalysisOverrideParameters]?
@@ -3846,6 +3987,8 @@ extension QuickSight {
         public let dataSets: [AssetBundleImportJobDataSetOverrideParameters]?
         ///  A list of overrides for any DataSource resources that are present in the asset bundle that is imported.
         public let dataSources: [AssetBundleImportJobDataSourceOverrideParameters]?
+        /// A list of overrides for any Folder resources that are present in the asset bundle that is imported.
+        public let folders: [AssetBundleImportJobFolderOverrideParameters]?
         /// A list of overrides for any RefreshSchedule resources that are present in the asset bundle that is imported.
         public let refreshSchedules: [AssetBundleImportJobRefreshScheduleOverrideParameters]?
         /// An optional structure that configures resource ID overrides to be applied within the import job.
@@ -3856,11 +3999,12 @@ extension QuickSight {
         public let vpcConnections: [AssetBundleImportJobVPCConnectionOverrideParameters]?
 
         @inlinable
-        public init(analyses: [AssetBundleImportJobAnalysisOverrideParameters]? = nil, dashboards: [AssetBundleImportJobDashboardOverrideParameters]? = nil, dataSets: [AssetBundleImportJobDataSetOverrideParameters]? = nil, dataSources: [AssetBundleImportJobDataSourceOverrideParameters]? = nil, refreshSchedules: [AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil, resourceIdOverrideConfiguration: AssetBundleImportJobResourceIdOverrideConfiguration? = nil, themes: [AssetBundleImportJobThemeOverrideParameters]? = nil, vpcConnections: [AssetBundleImportJobVPCConnectionOverrideParameters]? = nil) {
+        public init(analyses: [AssetBundleImportJobAnalysisOverrideParameters]? = nil, dashboards: [AssetBundleImportJobDashboardOverrideParameters]? = nil, dataSets: [AssetBundleImportJobDataSetOverrideParameters]? = nil, dataSources: [AssetBundleImportJobDataSourceOverrideParameters]? = nil, folders: [AssetBundleImportJobFolderOverrideParameters]? = nil, refreshSchedules: [AssetBundleImportJobRefreshScheduleOverrideParameters]? = nil, resourceIdOverrideConfiguration: AssetBundleImportJobResourceIdOverrideConfiguration? = nil, themes: [AssetBundleImportJobThemeOverrideParameters]? = nil, vpcConnections: [AssetBundleImportJobVPCConnectionOverrideParameters]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.refreshSchedules = refreshSchedules
             self.resourceIdOverrideConfiguration = resourceIdOverrideConfiguration
             self.themes = themes
@@ -3888,6 +4032,11 @@ extension QuickSight {
             }
             try self.validate(self.dataSources, name: "dataSources", parent: name, max: 50)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
+            try self.folders?.forEach {
+                try $0.validate(name: "\(name).folders[]")
+            }
+            try self.validate(self.folders, name: "folders", parent: name, max: 50)
+            try self.validate(self.folders, name: "folders", parent: name, min: 1)
             try self.validate(self.refreshSchedules, name: "refreshSchedules", parent: name, max: 50)
             try self.validate(self.refreshSchedules, name: "refreshSchedules", parent: name, min: 1)
             try self.themes?.forEach {
@@ -3907,6 +4056,7 @@ extension QuickSight {
             case dashboards = "Dashboards"
             case dataSets = "DataSets"
             case dataSources = "DataSources"
+            case folders = "Folders"
             case refreshSchedules = "RefreshSchedules"
             case resourceIdOverrideConfiguration = "ResourceIdOverrideConfiguration"
             case themes = "Themes"
@@ -3923,15 +4073,18 @@ extension QuickSight {
         public let dataSets: [AssetBundleImportJobDataSetOverridePermissions]?
         /// A list of permissions overrides for any DataSource resources that are present in the asset bundle that is imported.
         public let dataSources: [AssetBundleImportJobDataSourceOverridePermissions]?
+        /// A list of permissions for the folders that you want to apply overrides to.
+        public let folders: [AssetBundleImportJobFolderOverridePermissions]?
         /// A list of permissions overrides for any Theme resources that are present in the asset bundle that is imported.
         public let themes: [AssetBundleImportJobThemeOverridePermissions]?
 
         @inlinable
-        public init(analyses: [AssetBundleImportJobAnalysisOverridePermissions]? = nil, dashboards: [AssetBundleImportJobDashboardOverridePermissions]? = nil, dataSets: [AssetBundleImportJobDataSetOverridePermissions]? = nil, dataSources: [AssetBundleImportJobDataSourceOverridePermissions]? = nil, themes: [AssetBundleImportJobThemeOverridePermissions]? = nil) {
+        public init(analyses: [AssetBundleImportJobAnalysisOverridePermissions]? = nil, dashboards: [AssetBundleImportJobDashboardOverridePermissions]? = nil, dataSets: [AssetBundleImportJobDataSetOverridePermissions]? = nil, dataSources: [AssetBundleImportJobDataSourceOverridePermissions]? = nil, folders: [AssetBundleImportJobFolderOverridePermissions]? = nil, themes: [AssetBundleImportJobThemeOverridePermissions]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.themes = themes
         }
 
@@ -3956,6 +4109,11 @@ extension QuickSight {
             }
             try self.validate(self.dataSources, name: "dataSources", parent: name, max: 2)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
+            try self.folders?.forEach {
+                try $0.validate(name: "\(name).folders[]")
+            }
+            try self.validate(self.folders, name: "folders", parent: name, max: 2)
+            try self.validate(self.folders, name: "folders", parent: name, min: 1)
             try self.themes?.forEach {
                 try $0.validate(name: "\(name).themes[]")
             }
@@ -3968,6 +4126,7 @@ extension QuickSight {
             case dashboards = "Dashboards"
             case dataSets = "DataSets"
             case dataSources = "DataSources"
+            case folders = "Folders"
             case themes = "Themes"
         }
     }
@@ -3981,17 +4140,20 @@ extension QuickSight {
         public let dataSets: [AssetBundleImportJobDataSetOverrideTags]?
         /// A list of tag overrides for any DataSource resources that are present in the asset bundle that is imported.
         public let dataSources: [AssetBundleImportJobDataSourceOverrideTags]?
+        /// A list of tag overrides for any Folder resources that are present in the asset bundle that is imported.
+        public let folders: [AssetBundleImportJobFolderOverrideTags]?
         /// A list of tag overrides for any Theme resources that are present in the asset bundle that is imported.
         public let themes: [AssetBundleImportJobThemeOverrideTags]?
         /// A list of tag overrides for any VPCConnection resources that are present in the asset bundle that is imported.
         public let vpcConnections: [AssetBundleImportJobVPCConnectionOverrideTags]?
 
         @inlinable
-        public init(analyses: [AssetBundleImportJobAnalysisOverrideTags]? = nil, dashboards: [AssetBundleImportJobDashboardOverrideTags]? = nil, dataSets: [AssetBundleImportJobDataSetOverrideTags]? = nil, dataSources: [AssetBundleImportJobDataSourceOverrideTags]? = nil, themes: [AssetBundleImportJobThemeOverrideTags]? = nil, vpcConnections: [AssetBundleImportJobVPCConnectionOverrideTags]? = nil) {
+        public init(analyses: [AssetBundleImportJobAnalysisOverrideTags]? = nil, dashboards: [AssetBundleImportJobDashboardOverrideTags]? = nil, dataSets: [AssetBundleImportJobDataSetOverrideTags]? = nil, dataSources: [AssetBundleImportJobDataSourceOverrideTags]? = nil, folders: [AssetBundleImportJobFolderOverrideTags]? = nil, themes: [AssetBundleImportJobThemeOverrideTags]? = nil, vpcConnections: [AssetBundleImportJobVPCConnectionOverrideTags]? = nil) {
             self.analyses = analyses
             self.dashboards = dashboards
             self.dataSets = dataSets
             self.dataSources = dataSources
+            self.folders = folders
             self.themes = themes
             self.vpcConnections = vpcConnections
         }
@@ -4017,6 +4179,11 @@ extension QuickSight {
             }
             try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
+            try self.folders?.forEach {
+                try $0.validate(name: "\(name).folders[]")
+            }
+            try self.validate(self.folders, name: "folders", parent: name, max: 5)
+            try self.validate(self.folders, name: "folders", parent: name, min: 1)
             try self.themes?.forEach {
                 try $0.validate(name: "\(name).themes[]")
             }
@@ -4034,6 +4201,7 @@ extension QuickSight {
             case dashboards = "Dashboards"
             case dataSets = "DataSets"
             case dataSources = "DataSources"
+            case folders = "Folders"
             case themes = "Themes"
             case vpcConnections = "VPCConnections"
         }
@@ -12052,13 +12220,16 @@ extension QuickSight {
     }
 
     public struct DefaultDateTimePickerControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a DateTimePickerControl.
+        public let commitMode: CommitMode?
         /// The display options of a control.
         public let displayOptions: DateTimePickerControlDisplayOptions?
         /// The date time picker type of the DefaultDateTimePickerControlOptions. Choose one of the following options:    SINGLE_VALUED: The filter condition is a fixed date.    DATE_RANGE: The filter condition is a date time range.
         public let type: SheetControlDateTimePickerType?
 
         @inlinable
-        public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, type: SheetControlDateTimePickerType? = nil) {
+        public init(commitMode: CommitMode? = nil, displayOptions: DateTimePickerControlDisplayOptions? = nil, type: SheetControlDateTimePickerType? = nil) {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.type = type
         }
@@ -12068,6 +12239,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
             case type = "Type"
         }
@@ -12146,6 +12318,8 @@ extension QuickSight {
     }
 
     public struct DefaultFilterDropDownControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a FilterDropDownControl.
+        public let commitMode: CommitMode?
         /// The display options of a control.
         public let displayOptions: DropDownControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -12154,7 +12328,8 @@ extension QuickSight {
         public let type: SheetControlListType?
 
         @inlinable
-        public init(displayOptions: DropDownControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+        public init(commitMode: CommitMode? = nil, displayOptions: DropDownControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
@@ -12166,6 +12341,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
             case selectableValues = "SelectableValues"
             case type = "Type"
@@ -12304,11 +12480,14 @@ extension QuickSight {
     }
 
     public struct DefaultRelativeDateTimeControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a RelativeDateTimeControl.
+        public let commitMode: CommitMode?
         /// The display options of a control.
         public let displayOptions: RelativeDateTimeControlDisplayOptions?
 
         @inlinable
-        public init(displayOptions: RelativeDateTimeControlDisplayOptions? = nil) {
+        public init(commitMode: CommitMode? = nil, displayOptions: RelativeDateTimeControlDisplayOptions? = nil) {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
         }
 
@@ -12317,6 +12496,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
         }
     }
@@ -14531,6 +14711,10 @@ extension QuickSight {
         public let exportFormat: AssetBundleExportFormat?
         /// The include dependencies flag.
         public let includeAllDependencies: Bool?
+        /// A setting that determines whether folder members are included.
+        public let includeFolderMembers: IncludeFolderMembers?
+        /// The include folder memberships flag.
+        public let includeFolderMemberships: Bool?
         /// The include permissions flag.
         public let includePermissions: Bool?
         /// The include tags flag.
@@ -14549,7 +14733,7 @@ extension QuickSight {
         public let warnings: [AssetBundleExportJobWarning]?
 
         @inlinable
-        public init(arn: String? = nil, assetBundleExportJobId: String? = nil, awsAccountId: String? = nil, cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil, createdTime: Date? = nil, downloadUrl: String? = nil, errors: [AssetBundleExportJobError]? = nil, exportFormat: AssetBundleExportFormat? = nil, includeAllDependencies: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, jobStatus: AssetBundleExportJobStatus? = nil, requestId: String? = nil, resourceArns: [String]? = nil, status: Int? = nil, validationStrategy: AssetBundleExportJobValidationStrategy? = nil, warnings: [AssetBundleExportJobWarning]? = nil) {
+        public init(arn: String? = nil, assetBundleExportJobId: String? = nil, awsAccountId: String? = nil, cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil, createdTime: Date? = nil, downloadUrl: String? = nil, errors: [AssetBundleExportJobError]? = nil, exportFormat: AssetBundleExportFormat? = nil, includeAllDependencies: Bool? = nil, includeFolderMembers: IncludeFolderMembers? = nil, includeFolderMemberships: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, jobStatus: AssetBundleExportJobStatus? = nil, requestId: String? = nil, resourceArns: [String]? = nil, status: Int? = nil, validationStrategy: AssetBundleExportJobValidationStrategy? = nil, warnings: [AssetBundleExportJobWarning]? = nil) {
             self.arn = arn
             self.assetBundleExportJobId = assetBundleExportJobId
             self.awsAccountId = awsAccountId
@@ -14559,6 +14743,8 @@ extension QuickSight {
             self.errors = errors
             self.exportFormat = exportFormat
             self.includeAllDependencies = includeAllDependencies
+            self.includeFolderMembers = includeFolderMembers
+            self.includeFolderMemberships = includeFolderMemberships
             self.includePermissions = includePermissions
             self.includeTags = includeTags
             self.jobStatus = jobStatus
@@ -14581,6 +14767,8 @@ extension QuickSight {
             self.errors = try container.decodeIfPresent([AssetBundleExportJobError].self, forKey: .errors)
             self.exportFormat = try container.decodeIfPresent(AssetBundleExportFormat.self, forKey: .exportFormat)
             self.includeAllDependencies = try container.decodeIfPresent(Bool.self, forKey: .includeAllDependencies)
+            self.includeFolderMembers = try container.decodeIfPresent(IncludeFolderMembers.self, forKey: .includeFolderMembers)
+            self.includeFolderMemberships = try container.decodeIfPresent(Bool.self, forKey: .includeFolderMemberships)
             self.includePermissions = try container.decodeIfPresent(Bool.self, forKey: .includePermissions)
             self.includeTags = try container.decodeIfPresent(Bool.self, forKey: .includeTags)
             self.jobStatus = try container.decodeIfPresent(AssetBundleExportJobStatus.self, forKey: .jobStatus)
@@ -14601,6 +14789,8 @@ extension QuickSight {
             case errors = "Errors"
             case exportFormat = "ExportFormat"
             case includeAllDependencies = "IncludeAllDependencies"
+            case includeFolderMembers = "IncludeFolderMembers"
+            case includeFolderMemberships = "IncludeFolderMemberships"
             case includePermissions = "IncludePermissions"
             case includeTags = "IncludeTags"
             case jobStatus = "JobStatus"
@@ -16166,6 +16356,59 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "Namespace"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeQPersonalizationConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the personalization configuration that the user wants described.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(awsAccountId: String) {
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeQPersonalizationConfigurationResponse: AWSDecodableShape {
+        /// A value that indicates whether personalization is enabled or not.
+        public let personalizationMode: PersonalizationMode?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(personalizationMode: PersonalizationMode? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.personalizationMode = personalizationMode
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.personalizationMode = try container.decodeIfPresent(PersonalizationMode.self, forKey: .personalizationMode)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case personalizationMode = "PersonalizationMode"
             case requestId = "RequestId"
         }
     }
@@ -18263,6 +18506,8 @@ extension QuickSight {
     }
 
     public struct FilterDateTimePickerControl: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configurationof the Apply button on a DateTimePickerControl.
+        public let commitMode: CommitMode?
         /// The display options of a control.
         public let displayOptions: DateTimePickerControlDisplayOptions?
         /// The ID of the FilterDateTimePickerControl.
@@ -18275,7 +18520,8 @@ extension QuickSight {
         public let type: SheetControlDateTimePickerType?
 
         @inlinable
-        public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String, type: SheetControlDateTimePickerType? = nil) {
+        public init(commitMode: CommitMode? = nil, displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String, type: SheetControlDateTimePickerType? = nil) {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -18296,6 +18542,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case sourceFilterId = "SourceFilterId"
@@ -18307,6 +18554,8 @@ extension QuickSight {
     public struct FilterDropDownControl: AWSEncodableShape & AWSDecodableShape {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The visibility configuration of the Apply button on a FilterDropDownControl.
+        public let commitMode: CommitMode?
         /// The display options of the FilterDropDownControl.
         public let displayOptions: DropDownControlDisplayOptions?
         /// The ID of the FilterDropDownControl.
@@ -18321,8 +18570,9 @@ extension QuickSight {
         public let type: SheetControlListType?
 
         @inlinable
-        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: DropDownControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, commitMode: CommitMode? = nil, displayOptions: DropDownControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -18347,6 +18597,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case selectableValues = "SelectableValues"
@@ -18555,6 +18806,8 @@ extension QuickSight {
     }
 
     public struct FilterRelativeDateTimeControl: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a FilterRelativeDateTimeControl.
+        public let commitMode: CommitMode?
         /// The display options of a control.
         public let displayOptions: RelativeDateTimeControlDisplayOptions?
         /// The ID of the FilterTextAreaControl.
@@ -18565,7 +18818,8 @@ extension QuickSight {
         public let title: String
 
         @inlinable
-        public init(displayOptions: RelativeDateTimeControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+        public init(commitMode: CommitMode? = nil, displayOptions: RelativeDateTimeControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -18585,6 +18839,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case sourceFilterId = "SourceFilterId"
@@ -23278,6 +23533,78 @@ extension QuickSight {
         }
     }
 
+    public struct ListFoldersForResourceRequest: AWSEncodableShape {
+        /// The ID for the Amazon Web Services account that contains the resource.
+        public let awsAccountId: String
+        /// The maximum number of results to be returned per request.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) the resource whose folders you need to list.
+        public let resourceArn: String
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFoldersForResourceResponse: AWSDecodableShape {
+        /// A list that contains the Amazon Resource Names (ARNs) of all folders that the resource is a member of.
+        public let folders: [String]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(folders: [String]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.folders = folders
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.folders = try container.decodeIfPresent([String].self, forKey: .folders)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case folders = "Folders"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ListFoldersRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
@@ -26350,6 +26677,8 @@ extension QuickSight {
     public struct ParameterDropDownControl: AWSEncodableShape & AWSDecodableShape {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The visibility configuration of the Apply button on a ParameterDropDownControl.
+        public let commitMode: CommitMode?
         /// The display options of a control.
         public let displayOptions: DropDownControlDisplayOptions?
         /// The ID of the ParameterDropDownControl.
@@ -26364,8 +26693,9 @@ extension QuickSight {
         public let type: SheetControlListType?
 
         @inlinable
-        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: DropDownControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, commitMode: CommitMode? = nil, displayOptions: DropDownControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.commitMode = commitMode
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -26390,6 +26720,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case commitMode = "CommitMode"
             case displayOptions = "DisplayOptions"
             case parameterControlId = "ParameterControlId"
             case selectableValues = "SelectableValues"
@@ -31791,6 +32122,10 @@ extension QuickSight {
         public let exportFormat: AssetBundleExportFormat
         /// A Boolean that determines whether all dependencies of each resource ARN are recursively exported with the job. For example, say you provided a Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any theme, dataset, and data source resource that is a dependency of the dashboard is also exported.
         public let includeAllDependencies: Bool?
+        /// A setting that indicates whether you want to include folder assets. You can also use this setting to recusrsively include all subfolders of an exported folder.
+        public let includeFolderMembers: IncludeFolderMembers?
+        /// A Boolean that determines if the exported asset carries over information about the folders that the asset is a member of.
+        public let includeFolderMemberships: Bool?
         /// A Boolean that determines whether all permissions for each resource ARN are exported with the job. If you set IncludePermissions to TRUE, any permissions associated with each resource are exported.
         public let includePermissions: Bool?
         ///  A Boolean that determines whether all tags for each resource ARN are exported with the job. If you set IncludeTags to TRUE, any tags associated with each resource are exported.
@@ -31801,12 +32136,14 @@ extension QuickSight {
         public let validationStrategy: AssetBundleExportJobValidationStrategy?
 
         @inlinable
-        public init(assetBundleExportJobId: String, awsAccountId: String, cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil, exportFormat: AssetBundleExportFormat, includeAllDependencies: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, resourceArns: [String], validationStrategy: AssetBundleExportJobValidationStrategy? = nil) {
+        public init(assetBundleExportJobId: String, awsAccountId: String, cloudFormationOverridePropertyConfiguration: AssetBundleCloudFormationOverridePropertyConfiguration? = nil, exportFormat: AssetBundleExportFormat, includeAllDependencies: Bool? = nil, includeFolderMembers: IncludeFolderMembers? = nil, includeFolderMemberships: Bool? = nil, includePermissions: Bool? = nil, includeTags: Bool? = nil, resourceArns: [String], validationStrategy: AssetBundleExportJobValidationStrategy? = nil) {
             self.assetBundleExportJobId = assetBundleExportJobId
             self.awsAccountId = awsAccountId
             self.cloudFormationOverridePropertyConfiguration = cloudFormationOverridePropertyConfiguration
             self.exportFormat = exportFormat
             self.includeAllDependencies = includeAllDependencies
+            self.includeFolderMembers = includeFolderMembers
+            self.includeFolderMemberships = includeFolderMemberships
             self.includePermissions = includePermissions
             self.includeTags = includeTags
             self.resourceArns = resourceArns
@@ -31821,6 +32158,8 @@ extension QuickSight {
             try container.encodeIfPresent(self.cloudFormationOverridePropertyConfiguration, forKey: .cloudFormationOverridePropertyConfiguration)
             try container.encode(self.exportFormat, forKey: .exportFormat)
             try container.encodeIfPresent(self.includeAllDependencies, forKey: .includeAllDependencies)
+            try container.encodeIfPresent(self.includeFolderMembers, forKey: .includeFolderMembers)
+            try container.encodeIfPresent(self.includeFolderMemberships, forKey: .includeFolderMemberships)
             try container.encodeIfPresent(self.includePermissions, forKey: .includePermissions)
             try container.encodeIfPresent(self.includeTags, forKey: .includeTags)
             try container.encode(self.resourceArns, forKey: .resourceArns)
@@ -31844,6 +32183,8 @@ extension QuickSight {
             case cloudFormationOverridePropertyConfiguration = "CloudFormationOverridePropertyConfiguration"
             case exportFormat = "ExportFormat"
             case includeAllDependencies = "IncludeAllDependencies"
+            case includeFolderMembers = "IncludeFolderMembers"
+            case includeFolderMemberships = "IncludeFolderMemberships"
             case includePermissions = "IncludePermissions"
             case includeTags = "IncludeTags"
             case resourceArns = "ResourceArns"
@@ -34549,6 +34890,20 @@ extension QuickSight {
         }
     }
 
+    public struct TopicConfigOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Enables Amazon Q Business Insights for a Topic.
+        public let qBusinessInsightsEnabled: Bool?
+
+        @inlinable
+        public init(qBusinessInsightsEnabled: Bool? = nil) {
+            self.qBusinessInsightsEnabled = qBusinessInsightsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qBusinessInsightsEnabled = "QBusinessInsightsEnabled"
+        }
+    }
+
     public struct TopicConstantValue: AWSEncodableShape & AWSDecodableShape {
         /// The constant type of a TopicConstantValue.
         public let constantType: ConstantType?
@@ -34612,6 +34967,8 @@ extension QuickSight {
     }
 
     public struct TopicDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration options for a Topic.
+        public let configOptions: TopicConfigOptions?
         /// The data sets that the topic is associated with.
         public let dataSets: [DatasetMetadata]?
         /// The description of the topic.
@@ -34622,7 +34979,8 @@ extension QuickSight {
         public let userExperienceVersion: TopicUserExperienceVersion?
 
         @inlinable
-        public init(dataSets: [DatasetMetadata]? = nil, description: String? = nil, name: String? = nil, userExperienceVersion: TopicUserExperienceVersion? = nil) {
+        public init(configOptions: TopicConfigOptions? = nil, dataSets: [DatasetMetadata]? = nil, description: String? = nil, name: String? = nil, userExperienceVersion: TopicUserExperienceVersion? = nil) {
+            self.configOptions = configOptions
             self.dataSets = dataSets
             self.description = description
             self.name = name
@@ -34639,6 +34997,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configOptions = "ConfigOptions"
             case dataSets = "DataSets"
             case description = "Description"
             case name = "Name"
@@ -37778,6 +38137,65 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateQPersonalizationConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update.
+        public let awsAccountId: String
+        /// An option to allow Amazon QuickSight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
+        public let personalizationMode: PersonalizationMode
+
+        @inlinable
+        public init(awsAccountId: String, personalizationMode: PersonalizationMode) {
+            self.awsAccountId = awsAccountId
+            self.personalizationMode = personalizationMode
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.personalizationMode, forKey: .personalizationMode)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case personalizationMode = "PersonalizationMode"
+        }
+    }
+
+    public struct UpdateQPersonalizationConfigurationResponse: AWSDecodableShape {
+        /// The personalization mode that is used for the personalization configuration.
+        public let personalizationMode: PersonalizationMode?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(personalizationMode: PersonalizationMode? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.personalizationMode = personalizationMode
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.personalizationMode = try container.decodeIfPresent(PersonalizationMode.self, forKey: .personalizationMode)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case personalizationMode = "PersonalizationMode"
             case requestId = "RequestId"
         }
     }

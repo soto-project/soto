@@ -471,18 +471,20 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval,  EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest.  The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player.  ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
+        public let startTag: StartTag?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
         }
 
         public func validate(name: String) throws {
@@ -501,6 +503,7 @@ extension MediaPackageV2 {
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
+            case startTag = "StartTag"
         }
     }
 
@@ -512,18 +515,20 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval,  EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest.  The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player.  ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
+        public let startTag: StartTag?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
         }
 
         public func validate(name: String) throws {
@@ -542,6 +547,7 @@ extension MediaPackageV2 {
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
+            case startTag = "StartTag"
         }
     }
 
@@ -985,6 +991,8 @@ extension MediaPackageV2 {
     }
 
     public struct FilterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Optionally specify the clip start time for all of your manifest egress requests. When you include clip start time, note that you cannot use clip start time query parameters for this manifest's endpoint URL.
+        public let clipStartTime: Date?
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
         public let end: Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
@@ -995,7 +1003,8 @@ extension MediaPackageV2 {
         public let timeDelaySeconds: Int?
 
         @inlinable
-        public init(end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
+        public init(clipStartTime: Date? = nil, end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
+            self.clipStartTime = clipStartTime
             self.end = end
             self.manifestFilter = manifestFilter
             self.start = start
@@ -1003,6 +1012,7 @@ extension MediaPackageV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clipStartTime = "ClipStartTime"
             case end = "End"
             case manifestFilter = "ManifestFilter"
             case start = "Start"
@@ -1288,20 +1298,22 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval,  EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest.  The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player.  ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
+        public let startTag: StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
             self.url = url
         }
 
@@ -1312,6 +1324,7 @@ extension MediaPackageV2 {
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
+            case startTag = "StartTag"
             case url = "Url"
         }
     }
@@ -1324,20 +1337,22 @@ extension MediaPackageV2 {
         public let manifestName: String
         /// The total duration (in seconds) of the manifest's content.
         public let manifestWindowSeconds: Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval,  EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest.  The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player.  ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
+        public let startTag: StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, url: String) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
             self.url = url
         }
 
@@ -1348,6 +1363,7 @@ extension MediaPackageV2 {
             case manifestWindowSeconds = "ManifestWindowSeconds"
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
+            case startTag = "StartTag"
             case url = "Url"
         }
     }
@@ -2058,6 +2074,24 @@ extension MediaPackageV2 {
             case resourceId = "ResourceId"
             case roleArn = "RoleArn"
             case url = "Url"
+        }
+    }
+
+    public struct StartTag: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the value for PRECISE within your EXT-X-START tag. Leave blank, or choose false, to use the default value NO. Choose yes to use the value YES.
+        public let precise: Bool?
+        /// Specify the value for TIME-OFFSET within your EXT-X-START tag. Enter a signed floating point value which, if positive, must be less than the configured manifest duration minus three times the configured segment target duration. If negative, the absolute value must be larger than three times the configured segment target duration, and the absolute value must be smaller than the configured manifest duration.
+        public let timeOffset: Float
+
+        @inlinable
+        public init(precise: Bool? = nil, timeOffset: Float) {
+            self.precise = precise
+            self.timeOffset = timeOffset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case precise = "Precise"
+            case timeOffset = "TimeOffset"
         }
     }
 

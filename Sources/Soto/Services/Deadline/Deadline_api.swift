@@ -683,6 +683,7 @@ public struct Deadline: AWSService {
     ///   - parameters: The parameters for the job.
     ///   - priority: The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     ///   - queueId: The ID of the queue that the job is submitted to.
+    ///   - sourceJobId: The job ID for the source job.
     ///   - storageProfileId: The storage profile ID for the storage profile to connect to the job.
     ///   - targetTaskRunStatus: The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
     ///   - template: The job template to use for this job.
@@ -698,10 +699,11 @@ public struct Deadline: AWSService {
         parameters: [String: JobParameter]? = nil,
         priority: Int,
         queueId: String,
+        sourceJobId: String? = nil,
         storageProfileId: String? = nil,
         targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil,
-        template: String,
-        templateType: JobTemplateType,
+        template: String? = nil,
+        templateType: JobTemplateType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateJobResponse {
         let input = CreateJobRequest(
@@ -713,6 +715,7 @@ public struct Deadline: AWSService {
             parameters: parameters, 
             priority: priority, 
             queueId: queueId, 
+            sourceJobId: sourceJobId, 
             storageProfileId: storageProfileId, 
             targetTaskRunStatus: targetTaskRunStatus, 
             template: template, 
@@ -2405,6 +2408,48 @@ public struct Deadline: AWSService {
             queueId: queueId
         )
         return try await self.listJobMembers(input, logger: logger)
+    }
+
+    /// Lists parameter definitions of a job.
+    @Sendable
+    @inlinable
+    public func listJobParameterDefinitions(_ input: ListJobParameterDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobParameterDefinitionsResponse {
+        try await self.client.execute(
+            operation: "ListJobParameterDefinitions", 
+            path: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/parameter-definitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Lists parameter definitions of a job.
+    ///
+    /// Parameters:
+    ///   - farmId: The farm ID of the job to list.
+    ///   - jobId: The job ID to include on the list.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - nextToken: The token for the next set of results, or null to start from the beginning.
+    ///   - queueId: The queue ID to include on the list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listJobParameterDefinitions(
+        farmId: String,
+        jobId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListJobParameterDefinitionsResponse {
+        let input = ListJobParameterDefinitionsRequest(
+            farmId: farmId, 
+            jobId: jobId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            queueId: queueId
+        )
+        return try await self.listJobParameterDefinitions(input, logger: logger)
     }
 
     /// Lists jobs.
@@ -4496,6 +4541,49 @@ extension Deadline {
         return self.listJobMembersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listJobParameterDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobParameterDefinitionsPaginator(
+        _ input: ListJobParameterDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobParameterDefinitionsRequest, ListJobParameterDefinitionsResponse> {
+        return .init(
+            input: input,
+            command: self.listJobParameterDefinitions,
+            inputKey: \ListJobParameterDefinitionsRequest.nextToken,
+            outputKey: \ListJobParameterDefinitionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listJobParameterDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The farm ID of the job to list.
+    ///   - jobId: The job ID to include on the list.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - queueId: The queue ID to include on the list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobParameterDefinitionsPaginator(
+        farmId: String,
+        jobId: String,
+        maxResults: Int? = nil,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListJobParameterDefinitionsRequest, ListJobParameterDefinitionsResponse> {
+        let input = ListJobParameterDefinitionsRequest(
+            farmId: farmId, 
+            jobId: jobId, 
+            maxResults: maxResults, 
+            queueId: queueId
+        )
+        return self.listJobParameterDefinitionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -5329,6 +5417,19 @@ extension Deadline.ListFleetsRequest: AWSPaginateToken {
 extension Deadline.ListJobMembersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Deadline.ListJobMembersRequest {
+        return .init(
+            farmId: self.farmId,
+            jobId: self.jobId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            queueId: self.queueId
+        )
+    }
+}
+
+extension Deadline.ListJobParameterDefinitionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Deadline.ListJobParameterDefinitionsRequest {
         return .init(
             farmId: self.farmId,
             jobId: self.jobId,

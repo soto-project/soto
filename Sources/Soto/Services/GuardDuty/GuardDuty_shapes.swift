@@ -2981,6 +2981,8 @@ extension GuardDuty {
         public let definitionArn: String?
         /// The name of the task group that's associated with the task.
         public let group: String?
+        /// A capacity on which the task is running. For example, Fargate and EC2.
+        public let launchType: String?
         /// The Unix timestamp for the time when the task started.
         public let startedAt: Date?
         /// Contains the tag specified when a task is started.
@@ -2995,11 +2997,12 @@ extension GuardDuty {
         public let volumes: [Volume]?
 
         @inlinable
-        public init(arn: String? = nil, containers: [Container]? = nil, definitionArn: String? = nil, group: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskCreatedAt: Date? = nil, version: String? = nil, volumes: [Volume]? = nil) {
+        public init(arn: String? = nil, containers: [Container]? = nil, definitionArn: String? = nil, group: String? = nil, launchType: String? = nil, startedAt: Date? = nil, startedBy: String? = nil, tags: [Tag]? = nil, taskCreatedAt: Date? = nil, version: String? = nil, volumes: [Volume]? = nil) {
             self.arn = arn
             self.containers = containers
             self.definitionArn = definitionArn
             self.group = group
+            self.launchType = launchType
             self.startedAt = startedAt
             self.startedBy = startedBy
             self.tags = tags
@@ -3013,6 +3016,7 @@ extension GuardDuty {
             case containers = "containers"
             case definitionArn = "definitionArn"
             case group = "group"
+            case launchType = "launchType"
             case startedAt = "startedAt"
             case startedBy = "startedBy"
             case tags = "tags"
@@ -4529,7 +4533,7 @@ extension GuardDuty {
             case requestUri = "requestUri"
             case resource = "resource"
             case resourceName = "resourceName"
-            case sourceIps = "sourceIps"
+            case sourceIps = "sourceIPs"
             case statusCode = "statusCode"
             case subresource = "subresource"
             case userAgent = "userAgent"
@@ -5845,6 +5849,8 @@ extension GuardDuty {
         public let connectionDirection: String?
         /// The local IP information of the connection.
         public let localIpDetails: LocalIpDetails?
+        /// The EC2 instance's local elastic network interface utilized for the connection.
+        public let localNetworkInterface: String?
         /// The local port information of the connection.
         public let localPortDetails: LocalPortDetails?
         /// The network connection protocol.
@@ -5855,10 +5861,11 @@ extension GuardDuty {
         public let remotePortDetails: RemotePortDetails?
 
         @inlinable
-        public init(blocked: Bool? = nil, connectionDirection: String? = nil, localIpDetails: LocalIpDetails? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
+        public init(blocked: Bool? = nil, connectionDirection: String? = nil, localIpDetails: LocalIpDetails? = nil, localNetworkInterface: String? = nil, localPortDetails: LocalPortDetails? = nil, protocol: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, remotePortDetails: RemotePortDetails? = nil) {
             self.blocked = blocked
             self.connectionDirection = connectionDirection
             self.localIpDetails = localIpDetails
+            self.localNetworkInterface = localNetworkInterface
             self.localPortDetails = localPortDetails
             self.`protocol` = `protocol`
             self.remoteIpDetails = remoteIpDetails
@@ -5869,6 +5876,7 @@ extension GuardDuty {
             case blocked = "blocked"
             case connectionDirection = "connectionDirection"
             case localIpDetails = "localIpDetails"
+            case localNetworkInterface = "localNetworkInterface"
             case localPortDetails = "localPortDetails"
             case `protocol` = "protocol"
             case remoteIpDetails = "remoteIpDetails"

@@ -104,16 +104,19 @@ public struct IoTDeviceAdvisor: AWSService {
     /// Creates a Device Advisor test suite. Requires permission to access the CreateSuiteDefinition action.
     ///
     /// Parameters:
+    ///   - clientToken: The client token for the test suite definition creation.  This token is used for tracking test suite definition creation  using retries and obtaining its status. This parameter is optional.
     ///   - suiteDefinitionConfiguration: Creates a Device Advisor test suite with suite definition configuration.
     ///   - tags: The tags to be attached to the suite definition.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSuiteDefinition(
+        clientToken: String? = CreateSuiteDefinitionRequest.idempotencyToken(),
         suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSuiteDefinitionResponse {
         let input = CreateSuiteDefinitionRequest(
+            clientToken: clientToken, 
             suiteDefinitionConfiguration: suiteDefinitionConfiguration, 
             tags: tags
         )

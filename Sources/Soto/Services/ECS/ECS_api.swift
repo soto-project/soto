@@ -211,7 +211,7 @@ public struct ECS: AWSService {
     /// Runs and maintains your desired number of tasks from a specified task definition. If
     /// 			the number of tasks running in a service drops below the desiredCount,
     /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
-    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  In addition to maintaining the desired count of tasks in your service, you can
+    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
@@ -267,7 +267,7 @@ public struct ECS: AWSService {
     /// 			can specify only parameters that aren't controlled at the task set level. The only
     /// 			required parameter is the service name. You control your services using the CreateTaskSet. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For
     /// 			information about task placement and task placement strategies, see Amazon ECS
-    /// 				task placement in the Amazon Elastic Container Service Developer Guide  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    /// 				task placement in the Amazon Elastic Container Service Developer Guide
     @Sendable
     @inlinable
     public func createService(_ input: CreateServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceResponse {
@@ -283,7 +283,7 @@ public struct ECS: AWSService {
     /// Runs and maintains your desired number of tasks from a specified task definition. If
     /// 			the number of tasks running in a service drops below the desiredCount,
     /// 			Amazon ECS runs another copy of the task in the specified cluster. To update an existing
-    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  In addition to maintaining the desired count of tasks in your service, you can
+    /// 			service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can
     /// 			optionally run your service behind one or more load balancers. The load balancers
     /// 			distribute traffic across the tasks that are associated with the service. For more
     /// 			information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
@@ -339,7 +339,7 @@ public struct ECS: AWSService {
     /// 			can specify only parameters that aren't controlled at the task set level. The only
     /// 			required parameter is the service name. You control your services using the CreateTaskSet. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For
     /// 			information about task placement and task placement strategies, see Amazon ECS
-    /// 				task placement in the Amazon Elastic Container Service Developer Guide  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    /// 				task placement in the Amazon Elastic Container Service Developer Guide
     ///
     /// Parameters:
     ///   - capacityProviderStrategy: The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType
@@ -2059,10 +2059,10 @@ public struct ECS: AWSService {
         return try await self.registerTaskDefinition(input, logger: logger)
     }
 
-    /// Starts a new task using the specified task definition.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
+    /// Starts a new task using the specified task definition.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
     /// 			tasks using placement constraints and placement strategies. For more information, see
     /// 				Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or
-    /// 			place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.  You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
+    /// 			place tasks manually on specific container instances. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the
     /// 			distributed nature of the system supporting the API. This means that the result of an
     /// 			API command you run that affects your Amazon ECS resources might not be immediately visible
@@ -2088,10 +2088,10 @@ public struct ECS: AWSService {
             logger: logger
         )
     }
-    /// Starts a new task using the specified task definition.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
+    /// Starts a new task using the specified task definition.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places
     /// 			tasks using placement constraints and placement strategies. For more information, see
     /// 				Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. Alternatively, you can use StartTask to use your own scheduler or
-    /// 			place tasks manually on specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.  You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
+    /// 			place tasks manually on specific container instances. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API follows an eventual consistency model. This is because of the
     /// 			distributed nature of the system supporting the API. This means that the result of an
     /// 			API command you run that affects your Amazon ECS resources might not be immediately visible
@@ -2175,7 +2175,7 @@ public struct ECS: AWSService {
     }
 
     /// Starts a new task from the specified task definition on the specified container
-    /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.  Alternatively, you can useRunTask to place tasks for you. For more
+    /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  Alternatively, you can useRunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
     @Sendable
@@ -2191,7 +2191,7 @@ public struct ECS: AWSService {
         )
     }
     /// Starts a new task from the specified task definition on the specified container
-    /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.  Alternatively, you can useRunTask to place tasks for you. For more
+    /// 			instance or instances.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  Alternatively, you can useRunTask to place tasks for you. For more
     /// 			information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or
     /// 			updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
     ///

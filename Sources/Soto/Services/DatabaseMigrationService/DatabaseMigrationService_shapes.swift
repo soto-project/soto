@@ -249,6 +249,13 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum StartReplicationMigrationTypeValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case reloadTarget = "reload-target"
+        case resumeProcessing = "resume-processing"
+        case startReplication = "start-replication"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case reloadTarget = "reload-target"
         case resumeProcessing = "resume-processing"
@@ -697,7 +704,7 @@ extension DatabaseMigrationService {
         public let kmsKeyId: String?
         /// Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parameter is the only DCU parameter you are required to specify.
         public let maxCapacityUnits: Int?
-        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. You don't have to specify a value for the MinCapacityUnits parameter. If you don't set this value, DMS scans the current activity of available source tables to identify an optimum setting for this parameter. If there is no current source activity or DMS can't otherwise identify a more appropriate value, it sets this parameter to the minimum DCU value allowed, 1.
+        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. If you don't set this value, DMS sets this parameter to the  minimum DCU value allowed, 1. If there is no current source activity, DMS scales down your replication until it  reaches the value specified in MinCapacityUnits.
         public let minCapacityUnits: Int?
         /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public let multiAZ: Bool?
@@ -768,6 +775,66 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct CreateDataMigrationMessage: AWSEncodableShape {
+        /// A user-friendly name for the data migration. Data migration names have the following constraints:   Must begin with a letter, and can only contain ASCII letters, digits, and hyphens.    Can't end with a hyphen or contain two consecutive hyphens.   Length must be from 1 to 255 characters.
+        public let dataMigrationName: String?
+        /// Specifies if the data migration is full-load only, change data capture (CDC) only, or full-load and CDC.
+        public let dataMigrationType: MigrationTypeValue
+        /// Specifies whether to enable CloudWatch logs for the data migration.
+        public let enableCloudwatchLogs: Bool?
+        /// An identifier for the migration project.
+        public let migrationProjectIdentifier: String
+        /// The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+        public let numberOfJobs: Int?
+        /// An optional JSON string specifying what tables, views, and schemas to include or exclude from the migration.
+        public let selectionRules: String?
+        /// The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.
+        public let serviceAccessRoleArn: String
+        /// Specifies information about the source data provider.
+        public let sourceDataSettings: [SourceDataSetting]?
+        /// One or more tags to be assigned to the data migration.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(dataMigrationName: String? = nil, dataMigrationType: MigrationTypeValue, enableCloudwatchLogs: Bool? = nil, migrationProjectIdentifier: String, numberOfJobs: Int? = nil, selectionRules: String? = nil, serviceAccessRoleArn: String, sourceDataSettings: [SourceDataSetting]? = nil, tags: [Tag]? = nil) {
+            self.dataMigrationName = dataMigrationName
+            self.dataMigrationType = dataMigrationType
+            self.enableCloudwatchLogs = enableCloudwatchLogs
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.numberOfJobs = numberOfJobs
+            self.selectionRules = selectionRules
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sourceDataSettings = sourceDataSettings
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrationName = "DataMigrationName"
+            case dataMigrationType = "DataMigrationType"
+            case enableCloudwatchLogs = "EnableCloudwatchLogs"
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case numberOfJobs = "NumberOfJobs"
+            case selectionRules = "SelectionRules"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case sourceDataSettings = "SourceDataSettings"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDataMigrationResponse: AWSDecodableShape {
+        /// Information about the created data migration.
+        public let dataMigration: DataMigration?
+
+        @inlinable
+        public init(dataMigration: DataMigration? = nil) {
+            self.dataMigration = dataMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigration = "DataMigration"
+        }
+    }
+
     public struct CreateDataProviderMessage: AWSEncodableShape {
         /// A user-friendly name for the data provider.
         public let dataProviderName: String?
@@ -828,7 +895,7 @@ extension DatabaseMigrationService {
         public let endpointIdentifier: String
         /// The type of endpoint.  Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", and "babelfish".
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
         public let engineName: String
         /// The external table definition.
         public let externalTableDefinition: String?
@@ -1353,7 +1420,7 @@ extension DatabaseMigrationService {
     public struct CreateReplicationSubnetGroupMessage: AWSEncodableShape {
         /// The description for the subnet group.
         public let replicationSubnetGroupDescription: String
-        /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
+        /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
         public let replicationSubnetGroupIdentifier: String
         /// Two or more subnet IDs to be assigned to the subnet group.
         public let subnetIds: [String]
@@ -1463,6 +1530,149 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct DataMigration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that identifies this replication.
+        public let dataMigrationArn: String?
+        /// The UTC time when DMS created the data migration.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dataMigrationCreateTime: Date?
+        /// The UTC time when data migration ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dataMigrationEndTime: Date?
+        /// The user-friendly name for the data migration.
+        public let dataMigrationName: String?
+        /// Specifies CloudWatch settings and selection rules for the data migration.
+        public let dataMigrationSettings: DataMigrationSettings?
+        /// The UTC time when DMS started the data migration.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var dataMigrationStartTime: Date?
+        /// Provides information about the data migration's run, including start and stop time, latency, and data migration progress.
+        public let dataMigrationStatistics: DataMigrationStatistics?
+        /// The current status of the data migration.
+        public let dataMigrationStatus: String?
+        /// Specifies whether the data migration is full-load only, change data capture (CDC) only, or full-load and CDC.
+        public let dataMigrationType: MigrationTypeValue?
+        /// Information about the data migration's most recent error or failure.
+        public let lastFailureMessage: String?
+        /// The Amazon Resource Name (ARN) of the data migration's associated migration project.
+        public let migrationProjectArn: String?
+        /// The IP addresses of the endpoints for the data migration.
+        public let publicIpAddresses: [String]?
+        /// The IAM role that the data migration uses to access Amazon Web Services resources.
+        public let serviceAccessRoleArn: String?
+        /// Specifies information about the data migration's source data provider.
+        public let sourceDataSettings: [SourceDataSetting]?
+        /// The reason the data migration last stopped.
+        public let stopReason: String?
+
+        @inlinable
+        public init(dataMigrationArn: String? = nil, dataMigrationCreateTime: Date? = nil, dataMigrationEndTime: Date? = nil, dataMigrationName: String? = nil, dataMigrationSettings: DataMigrationSettings? = nil, dataMigrationStartTime: Date? = nil, dataMigrationStatistics: DataMigrationStatistics? = nil, dataMigrationStatus: String? = nil, dataMigrationType: MigrationTypeValue? = nil, lastFailureMessage: String? = nil, migrationProjectArn: String? = nil, publicIpAddresses: [String]? = nil, serviceAccessRoleArn: String? = nil, sourceDataSettings: [SourceDataSetting]? = nil, stopReason: String? = nil) {
+            self.dataMigrationArn = dataMigrationArn
+            self.dataMigrationCreateTime = dataMigrationCreateTime
+            self.dataMigrationEndTime = dataMigrationEndTime
+            self.dataMigrationName = dataMigrationName
+            self.dataMigrationSettings = dataMigrationSettings
+            self.dataMigrationStartTime = dataMigrationStartTime
+            self.dataMigrationStatistics = dataMigrationStatistics
+            self.dataMigrationStatus = dataMigrationStatus
+            self.dataMigrationType = dataMigrationType
+            self.lastFailureMessage = lastFailureMessage
+            self.migrationProjectArn = migrationProjectArn
+            self.publicIpAddresses = publicIpAddresses
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sourceDataSettings = sourceDataSettings
+            self.stopReason = stopReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrationArn = "DataMigrationArn"
+            case dataMigrationCreateTime = "DataMigrationCreateTime"
+            case dataMigrationEndTime = "DataMigrationEndTime"
+            case dataMigrationName = "DataMigrationName"
+            case dataMigrationSettings = "DataMigrationSettings"
+            case dataMigrationStartTime = "DataMigrationStartTime"
+            case dataMigrationStatistics = "DataMigrationStatistics"
+            case dataMigrationStatus = "DataMigrationStatus"
+            case dataMigrationType = "DataMigrationType"
+            case lastFailureMessage = "LastFailureMessage"
+            case migrationProjectArn = "MigrationProjectArn"
+            case publicIpAddresses = "PublicIpAddresses"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case sourceDataSettings = "SourceDataSettings"
+            case stopReason = "StopReason"
+        }
+    }
+
+    public struct DataMigrationSettings: AWSDecodableShape {
+        /// Whether to enable CloudWatch logging for the data migration.
+        public let cloudwatchLogsEnabled: Bool?
+        /// The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+        public let numberOfJobs: Int?
+        /// A JSON-formatted string that defines what objects to include and exclude from the migration.
+        public let selectionRules: String?
+
+        @inlinable
+        public init(cloudwatchLogsEnabled: Bool? = nil, numberOfJobs: Int? = nil, selectionRules: String? = nil) {
+            self.cloudwatchLogsEnabled = cloudwatchLogsEnabled
+            self.numberOfJobs = numberOfJobs
+            self.selectionRules = selectionRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudwatchLogsEnabled = "CloudwatchLogsEnabled"
+            case numberOfJobs = "NumberOfJobs"
+            case selectionRules = "SelectionRules"
+        }
+    }
+
+    public struct DataMigrationStatistics: AWSDecodableShape {
+        /// The current latency of the change data capture (CDC) operation.
+        public let cdcLatency: Int?
+        /// The elapsed duration of the data migration run.
+        public let elapsedTimeMillis: Int64?
+        /// The data migration's progress in the full-load migration phase.
+        public let fullLoadPercentage: Int?
+        /// The time when the migration started.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// The time when the migration stopped or failed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var stopTime: Date?
+        /// The number of tables that DMS failed to process.
+        public let tablesErrored: Int?
+        /// The number of tables loaded in the current data migration run.
+        public let tablesLoaded: Int?
+        /// The data migration's table loading progress.
+        public let tablesLoading: Int?
+        /// The number of tables that are waiting for processing.
+        public let tablesQueued: Int?
+
+        @inlinable
+        public init(cdcLatency: Int? = nil, elapsedTimeMillis: Int64? = nil, fullLoadPercentage: Int? = nil, startTime: Date? = nil, stopTime: Date? = nil, tablesErrored: Int? = nil, tablesLoaded: Int? = nil, tablesLoading: Int? = nil, tablesQueued: Int? = nil) {
+            self.cdcLatency = cdcLatency
+            self.elapsedTimeMillis = elapsedTimeMillis
+            self.fullLoadPercentage = fullLoadPercentage
+            self.startTime = startTime
+            self.stopTime = stopTime
+            self.tablesErrored = tablesErrored
+            self.tablesLoaded = tablesLoaded
+            self.tablesLoading = tablesLoading
+            self.tablesQueued = tablesQueued
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdcLatency = "CDCLatency"
+            case elapsedTimeMillis = "ElapsedTimeMillis"
+            case fullLoadPercentage = "FullLoadPercentage"
+            case startTime = "StartTime"
+            case stopTime = "StopTime"
+            case tablesErrored = "TablesErrored"
+            case tablesLoaded = "TablesLoaded"
+            case tablesLoading = "TablesLoading"
+            case tablesQueued = "TablesQueued"
         }
     }
 
@@ -1736,6 +1946,34 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case connection = "Connection"
+        }
+    }
+
+    public struct DeleteDataMigrationMessage: AWSEncodableShape {
+        /// The identifier (name or ARN) of the data migration to delete.
+        public let dataMigrationIdentifier: String
+
+        @inlinable
+        public init(dataMigrationIdentifier: String) {
+            self.dataMigrationIdentifier = dataMigrationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrationIdentifier = "DataMigrationIdentifier"
+        }
+    }
+
+    public struct DeleteDataMigrationResponse: AWSDecodableShape {
+        /// The deleted data migration.
+        public let dataMigration: DataMigration?
+
+        @inlinable
+        public init(dataMigration: DataMigration? = nil) {
+            self.dataMigration = dataMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigration = "DataMigration"
         }
     }
 
@@ -2224,6 +2462,58 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case conversionConfiguration = "ConversionConfiguration"
             case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        }
+    }
+
+    public struct DescribeDataMigrationsMessage: AWSEncodableShape {
+        /// Filters applied to the data migrations.
+        public let filters: [Filter]?
+        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+        public let maxRecords: Int?
+        /// An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
+        public let withoutSettings: Bool?
+        /// An option to set to avoid returning information about statistics. Use this to reduce overhead when statistics information is too large. To use this option, choose true; otherwise, choose false (the default).
+        public let withoutStatistics: Bool?
+
+        @inlinable
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, withoutSettings: Bool? = nil, withoutStatistics: Bool? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.withoutSettings = withoutSettings
+            self.withoutStatistics = withoutStatistics
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case withoutSettings = "WithoutSettings"
+            case withoutStatistics = "WithoutStatistics"
+        }
+    }
+
+    public struct DescribeDataMigrationsResponse: AWSDecodableShape {
+        /// Returns information about the data migrations used in the project.
+        public let dataMigrations: [DataMigration]?
+        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+
+        @inlinable
+        public init(dataMigrations: [DataMigration]? = nil, marker: String? = nil) {
+            self.dataMigrations = dataMigrations
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrations = "DataMigrations"
+            case marker = "Marker"
         }
     }
 
@@ -5098,6 +5388,62 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        }
+    }
+
+    public struct ModifyDataMigrationMessage: AWSEncodableShape {
+        /// The identifier (name or ARN) of the data migration to modify.
+        public let dataMigrationIdentifier: String
+        /// The new name for the data migration.
+        public let dataMigrationName: String?
+        /// The new migration type for the data migration.
+        public let dataMigrationType: MigrationTypeValue?
+        /// Whether to enable Cloudwatch logs for the data migration.
+        public let enableCloudwatchLogs: Bool?
+        /// The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+        public let numberOfJobs: Int?
+        /// A JSON-formatted string that defines what objects to include and exclude from the migration.
+        public let selectionRules: String?
+        /// The new service access role ARN for the data migration.
+        public let serviceAccessRoleArn: String?
+        /// The new information about the source data provider for the data migration.
+        public let sourceDataSettings: [SourceDataSetting]?
+
+        @inlinable
+        public init(dataMigrationIdentifier: String, dataMigrationName: String? = nil, dataMigrationType: MigrationTypeValue? = nil, enableCloudwatchLogs: Bool? = nil, numberOfJobs: Int? = nil, selectionRules: String? = nil, serviceAccessRoleArn: String? = nil, sourceDataSettings: [SourceDataSetting]? = nil) {
+            self.dataMigrationIdentifier = dataMigrationIdentifier
+            self.dataMigrationName = dataMigrationName
+            self.dataMigrationType = dataMigrationType
+            self.enableCloudwatchLogs = enableCloudwatchLogs
+            self.numberOfJobs = numberOfJobs
+            self.selectionRules = selectionRules
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.sourceDataSettings = sourceDataSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrationIdentifier = "DataMigrationIdentifier"
+            case dataMigrationName = "DataMigrationName"
+            case dataMigrationType = "DataMigrationType"
+            case enableCloudwatchLogs = "EnableCloudwatchLogs"
+            case numberOfJobs = "NumberOfJobs"
+            case selectionRules = "SelectionRules"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case sourceDataSettings = "SourceDataSettings"
+        }
+    }
+
+    public struct ModifyDataMigrationResponse: AWSDecodableShape {
+        /// Information about the modified data migration.
+        public let dataMigration: DataMigration?
+
+        @inlinable
+        public init(dataMigration: DataMigration? = nil) {
+            self.dataMigration = dataMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigration = "DataMigration"
         }
     }
 
@@ -8075,6 +8421,66 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct SourceDataSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The change data capture (CDC) start position for the source data provider.
+        public let cdcStartPosition: String?
+        /// The change data capture (CDC) start time for the source data provider.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var cdcStartTime: Date?
+        /// The change data capture (CDC) stop time for the source data provider.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var cdcStopTime: Date?
+        /// The name of the replication slot on the source data provider. This attribute is only  valid for a PostgreSQL or Aurora PostgreSQL source.
+        public let slotName: String?
+
+        @inlinable
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopTime: Date? = nil, slotName: String? = nil) {
+            self.cdcStartPosition = cdcStartPosition
+            self.cdcStartTime = cdcStartTime
+            self.cdcStopTime = cdcStopTime
+            self.slotName = slotName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cdcStartPosition = "CDCStartPosition"
+            case cdcStartTime = "CDCStartTime"
+            case cdcStopTime = "CDCStopTime"
+            case slotName = "SlotName"
+        }
+    }
+
+    public struct StartDataMigrationMessage: AWSEncodableShape {
+        /// The identifier (name or ARN) of the data migration to start.
+        public let dataMigrationIdentifier: String
+        /// Specifies the start type for the data migration. Valid values include  start-replication, reload-target, and resume-processing.
+        public let startType: StartReplicationMigrationTypeValue
+
+        @inlinable
+        public init(dataMigrationIdentifier: String, startType: StartReplicationMigrationTypeValue) {
+            self.dataMigrationIdentifier = dataMigrationIdentifier
+            self.startType = startType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrationIdentifier = "DataMigrationIdentifier"
+            case startType = "StartType"
+        }
+    }
+
+    public struct StartDataMigrationResponse: AWSDecodableShape {
+        /// The data migration that DMS started.
+        public let dataMigration: DataMigration?
+
+        @inlinable
+        public init(dataMigration: DataMigration? = nil) {
+            self.dataMigration = dataMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigration = "DataMigration"
+        }
+    }
+
     public struct StartExtensionPackAssociationMessage: AWSEncodableShape {
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
@@ -8492,6 +8898,34 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case replicationTask = "ReplicationTask"
+        }
+    }
+
+    public struct StopDataMigrationMessage: AWSEncodableShape {
+        /// The identifier (name or ARN) of the data migration to stop.
+        public let dataMigrationIdentifier: String
+
+        @inlinable
+        public init(dataMigrationIdentifier: String) {
+            self.dataMigrationIdentifier = dataMigrationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigrationIdentifier = "DataMigrationIdentifier"
+        }
+    }
+
+    public struct StopDataMigrationResponse: AWSDecodableShape {
+        /// The data migration that DMS stopped.
+        public let dataMigration: DataMigration?
+
+        @inlinable
+        public init(dataMigration: DataMigration? = nil) {
+            self.dataMigration = dataMigration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataMigration = "DataMigration"
         }
     }
 
@@ -8913,6 +9347,7 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedFault = "AccessDeniedFault"
         case collectorNotFoundFault = "CollectorNotFoundFault"
+        case failedDependencyFault = "FailedDependencyFault"
         case insufficientResourceCapacityFault = "InsufficientResourceCapacityFault"
         case invalidCertificateFault = "InvalidCertificateFault"
         case invalidOperationFault = "InvalidOperationFault"
@@ -8960,6 +9395,8 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     public static var accessDeniedFault: Self { .init(.accessDeniedFault) }
     /// The specified collector doesn't exist.
     public static var collectorNotFoundFault: Self { .init(.collectorNotFoundFault) }
+    /// A dependency threw an exception.
+    public static var failedDependencyFault: Self { .init(.failedDependencyFault) }
     /// There are not enough resources allocated to the database migration.
     public static var insufficientResourceCapacityFault: Self { .init(.insufficientResourceCapacityFault) }
     /// The certificate was not valid.

@@ -165,6 +165,24 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum FleetProxyRuleBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allowAll = "ALLOW_ALL"
+        case denyAll = "DENY_ALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetProxyRuleEffectType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetProxyRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domain = "DOMAIN"
+        case ip = "IP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetScalingMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fleetUtilizationRate = "FLEET_UTILIZATION_RATE"
         public var description: String { return self.rawValue }
@@ -371,6 +389,7 @@ extension CodeBuild {
         case filePath = "FILE_PATH"
         case headRef = "HEAD_REF"
         case releaseName = "RELEASE_NAME"
+        case repositoryName = "REPOSITORY_NAME"
         case tagName = "TAG_NAME"
         case workflowName = "WORKFLOW_NAME"
         public var description: String { return self.rawValue }
@@ -379,6 +398,7 @@ extension CodeBuild {
     public enum WebhookScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case githubGlobal = "GITHUB_GLOBAL"
         case githubOrganization = "GITHUB_ORGANIZATION"
+        case gitlabGroup = "GITLAB_GROUP"
         public var description: String { return self.rawValue }
     }
 
@@ -1285,6 +1305,8 @@ extension CodeBuild {
         public let name: String
         /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
+        /// The proxy configuration of the compute fleet.
+        public let proxyConfiguration: ProxyConfiguration?
         /// The scaling configuration of the compute fleet.
         public let scalingConfiguration: ScalingConfigurationInput?
         /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
@@ -1292,7 +1314,7 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, imageId: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(baseCapacity: Int, computeType: ComputeType, environmentType: EnvironmentType, fleetServiceRole: String? = nil, imageId: String? = nil, name: String, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.baseCapacity = baseCapacity
             self.computeType = computeType
             self.environmentType = environmentType
@@ -1300,6 +1322,7 @@ extension CodeBuild {
             self.imageId = imageId
             self.name = name
             self.overflowBehavior = overflowBehavior
+            self.proxyConfiguration = proxyConfiguration
             self.scalingConfiguration = scalingConfiguration
             self.tags = tags
             self.vpcConfig = vpcConfig
@@ -1312,6 +1335,7 @@ extension CodeBuild {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,127}$")
+            try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
             try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1328,6 +1352,7 @@ extension CodeBuild {
             case imageId = "imageId"
             case name = "name"
             case overflowBehavior = "overflowBehavior"
+            case proxyConfiguration = "proxyConfiguration"
             case scalingConfiguration = "scalingConfiguration"
             case tags = "tags"
             case vpcConfig = "vpcConfig"
@@ -2055,6 +2080,8 @@ extension CodeBuild {
         public let name: String?
         /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
+        /// The proxy configuration of the compute fleet.
+        public let proxyConfiguration: ProxyConfiguration?
         /// The scaling configuration of the compute fleet.
         public let scalingConfiguration: ScalingConfigurationOutput?
         /// The status of the compute fleet.
@@ -2064,7 +2091,7 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, imageId: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, baseCapacity: Int? = nil, computeType: ComputeType? = nil, created: Date? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, id: String? = nil, imageId: String? = nil, lastModified: Date? = nil, name: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationOutput? = nil, status: FleetStatus? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeType = computeType
@@ -2076,6 +2103,7 @@ extension CodeBuild {
             self.lastModified = lastModified
             self.name = name
             self.overflowBehavior = overflowBehavior
+            self.proxyConfiguration = proxyConfiguration
             self.scalingConfiguration = scalingConfiguration
             self.status = status
             self.tags = tags
@@ -2094,10 +2122,38 @@ extension CodeBuild {
             case lastModified = "lastModified"
             case name = "name"
             case overflowBehavior = "overflowBehavior"
+            case proxyConfiguration = "proxyConfiguration"
             case scalingConfiguration = "scalingConfiguration"
             case status = "status"
             case tags = "tags"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct FleetProxyRule: AWSEncodableShape & AWSDecodableShape {
+        /// The behavior of the proxy rule.
+        public let effect: FleetProxyRuleEffectType
+        /// The destination of the proxy rule.
+        public let entities: [String]
+        /// The type of proxy rule.
+        public let type: FleetProxyRuleType
+
+        @inlinable
+        public init(effect: FleetProxyRuleEffectType, entities: [String], type: FleetProxyRuleType) {
+            self.effect = effect
+            self.entities = entities
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entities, name: "entities", parent: name, max: 100)
+            try self.validate(self.entities, name: "entities", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effect = "effect"
+            case entities = "entities"
+            case type = "type"
         }
     }
 
@@ -3360,6 +3416,31 @@ extension CodeBuild {
         }
     }
 
+    public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The default behavior of outgoing traffic.
+        public let defaultBehavior: FleetProxyRuleBehavior?
+        /// An array of FleetProxyRule objects that represent the specified destination domains or IPs to allow or deny network access control to.
+        public let orderedProxyRules: [FleetProxyRule]?
+
+        @inlinable
+        public init(defaultBehavior: FleetProxyRuleBehavior? = nil, orderedProxyRules: [FleetProxyRule]? = nil) {
+            self.defaultBehavior = defaultBehavior
+            self.orderedProxyRules = orderedProxyRules
+        }
+
+        public func validate(name: String) throws {
+            try self.orderedProxyRules?.forEach {
+                try $0.validate(name: "\(name).orderedProxyRules[]")
+            }
+            try self.validate(self.orderedProxyRules, name: "orderedProxyRules", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultBehavior = "defaultBehavior"
+            case orderedProxyRules = "orderedProxyRules"
+        }
+    }
+
     public struct PutResourcePolicyInput: AWSEncodableShape {
         ///  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the CodeBuild User Guide.
         public let policy: String
@@ -3808,11 +3889,11 @@ extension CodeBuild {
     }
 
     public struct ScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The domain of the GitHub Enterprise organization. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE
+        /// The domain of the GitHub Enterprise organization or the GitLab Self Managed group. Note that this parameter is only required if your project's source type is GITHUB_ENTERPRISE or GITLAB_SELF_MANAGED.
         public let domain: String?
-        /// The name of either the enterprise or organization that will send webhook events to CodeBuild, depending on if the webhook is a global or organization webhook respectively.
+        /// The name of either the group, enterprise, or organization that will send webhook events to CodeBuild, depending on the type of webhook.
         public let name: String
-        /// The type of scope for a GitHub webhook.
+        /// The type of scope for a GitHub or GitLab webhook.
         public let scope: WebhookScopeType
 
         @inlinable
@@ -4423,6 +4504,8 @@ extension CodeBuild {
         public let imageId: String?
         /// The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
         public let overflowBehavior: FleetOverflowBehavior?
+        /// The proxy configuration of the compute fleet.
+        public let proxyConfiguration: ProxyConfiguration?
         /// The scaling configuration of the compute fleet.
         public let scalingConfiguration: ScalingConfigurationInput?
         /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
@@ -4430,7 +4513,7 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, imageId: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, baseCapacity: Int? = nil, computeType: ComputeType? = nil, environmentType: EnvironmentType? = nil, fleetServiceRole: String? = nil, imageId: String? = nil, overflowBehavior: FleetOverflowBehavior? = nil, proxyConfiguration: ProxyConfiguration? = nil, scalingConfiguration: ScalingConfigurationInput? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.baseCapacity = baseCapacity
             self.computeType = computeType
@@ -4438,6 +4521,7 @@ extension CodeBuild {
             self.fleetServiceRole = fleetServiceRole
             self.imageId = imageId
             self.overflowBehavior = overflowBehavior
+            self.proxyConfiguration = proxyConfiguration
             self.scalingConfiguration = scalingConfiguration
             self.tags = tags
             self.vpcConfig = vpcConfig
@@ -4448,6 +4532,7 @@ extension CodeBuild {
             try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
+            try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
             try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -4464,6 +4549,7 @@ extension CodeBuild {
             case fleetServiceRole = "fleetServiceRole"
             case imageId = "imageId"
             case overflowBehavior = "overflowBehavior"
+            case proxyConfiguration = "proxyConfiguration"
             case scalingConfiguration = "scalingConfiguration"
             case tags = "tags"
             case vpcConfig = "vpcConfig"

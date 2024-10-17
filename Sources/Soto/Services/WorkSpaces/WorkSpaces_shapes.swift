@@ -390,6 +390,7 @@ extension WorkSpaces {
     public enum WorkspaceImageErrorDetailCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case additionalDrivesAttached = "AdditionalDrivesAttached"
         case antiVirusInstalled = "AntiVirusInstalled"
+        case appxPackagesInstalled = "AppXPackagesInstalled"
         case autoLogonEnabled = "AutoLogonEnabled"
         case autoMountDisabled = "AutoMountDisabled"
         case azureDomainJoined = "AzureDomainJoined"
@@ -407,8 +408,10 @@ extension WorkSpaces {
         case pcoipAgentInstalled = "PCoIPAgentInstalled"
         case pendingReboot = "PendingReboot"
         case realtimeUniversalDisabled = "RealTimeUniversalDisabled"
+        case reservedStorageInUse = "ReservedStorageInUse"
         case sixtyFourBitOs = "Requires64BitOS"
         case uefiNotSupported = "UEFINotSupported"
+        case unknownError = "UnknownError"
         case vmwareToolsInstalled = "VMWareToolsInstalled"
         case windowsUpdatesEnabled = "WindowsUpdatesEnabled"
         case workspacesByolAccountDisabled = "WorkspacesBYOLAccountDisabled"
@@ -3731,7 +3734,7 @@ extension WorkSpaces {
     }
 
     public struct ImportWorkspaceImageRequest: AWSEncodableShape {
-        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time.   During the image import process, non-GPU WSP WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU WSP WorkSpaces with Windows 11 do not support Office installation.
+        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time.   During the image import process, non-GPU DCV (formerly WSP) WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU DCV (formerly WSP) WorkSpaces with Windows 11 do not support Office installation.
         public let applications: [Application]?
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
@@ -3739,7 +3742,7 @@ extension WorkSpaces {
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WorkSpaces Streaming Protocol  (WSP), or bring your own protocol (BYOP). To use WSP, specify a value that ends in  _WSP. To use PCoIP, specify a value that does not end in _WSP.  To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify  BYOL_REGULAR, BYOL_REGULAR_WSP, or BYOL_REGULAR_BYOP,  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core.
+        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, DCV, or  bring your own protocol (BYOP). To use WSP, specify a value that ends in  _DCV. To use PCoIP, specify a value that does not end in _DCV.  To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify  BYOL_REGULAR, BYOL_REGULAR_DCV, or BYOL_REGULAR_BYOP,  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see Amazon WorkSpaces Core.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
@@ -6046,7 +6049,7 @@ extension WorkSpaces {
         public let computeTypeName: Compute?
         /// The name of the operating system.
         public let operatingSystemName: OperatingSystemName?
-        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or WSP.   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
         public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?

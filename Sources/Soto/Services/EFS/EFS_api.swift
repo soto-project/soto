@@ -91,6 +91,7 @@ public struct EFS: AWSService {
             "ap-southeast-2": "elasticfilesystem-fips.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "elasticfilesystem-fips.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "elasticfilesystem-fips.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "elasticfilesystem-fips.ap-southeast-5.amazonaws.com",
             "ca-central-1": "elasticfilesystem-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "elasticfilesystem-fips.ca-west-1.amazonaws.com",
             "cn-north-1": "elasticfilesystem-fips.cn-north-1.amazonaws.com.cn",

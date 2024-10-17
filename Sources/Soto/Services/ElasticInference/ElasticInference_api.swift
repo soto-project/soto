@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS ElasticInference service.
 ///
-///  Elastic Inference public APIs.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+///  Amazon Elastic Inference is no longer available.   Elastic Inference public APIs.
 public struct ElasticInference: AWSService {
     // MARK: Member variables
 
@@ -90,7 +90,7 @@ public struct ElasticInference: AWSService {
 
     // MARK: API Calls
 
-    ///  Describes the locations in which a given accelerator type or set of types is present in a given region.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Describes the locations in which a given accelerator type or set of types is present in a given region.
     @Sendable
     @inlinable
     public func describeAcceleratorOfferings(_ input: DescribeAcceleratorOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcceleratorOfferingsResponse {
@@ -103,7 +103,7 @@ public struct ElasticInference: AWSService {
             logger: logger
         )
     }
-    ///  Describes the locations in which a given accelerator type or set of types is present in a given region.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Describes the locations in which a given accelerator type or set of types is present in a given region.
     ///
     /// Parameters:
     ///   - acceleratorTypes:  The list of accelerator types to describe.
@@ -122,7 +122,7 @@ public struct ElasticInference: AWSService {
         return try await self.describeAcceleratorOfferings(input, logger: logger)
     }
 
-    ///  Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput.
     @Sendable
     @inlinable
     public func describeAcceleratorTypes(_ input: DescribeAcceleratorTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcceleratorTypesResponse {
@@ -135,7 +135,7 @@ public struct ElasticInference: AWSService {
             logger: logger
         )
     }
-    ///  Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -148,7 +148,7 @@ public struct ElasticInference: AWSService {
         return try await self.describeAcceleratorTypes(input, logger: logger)
     }
 
-    ///  Describes information over a provided set of accelerators belonging to an account.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Describes information over a provided set of accelerators belonging to an account.
     @Sendable
     @inlinable
     public func describeAccelerators(_ input: DescribeAcceleratorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAcceleratorsResponse {
@@ -161,7 +161,7 @@ public struct ElasticInference: AWSService {
             logger: logger
         )
     }
-    ///  Describes information over a provided set of accelerators belonging to an account.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Describes information over a provided set of accelerators belonging to an account.
     ///
     /// Parameters:
     ///   - acceleratorIds:  The IDs of the accelerators to describe.
@@ -186,7 +186,7 @@ public struct ElasticInference: AWSService {
         return try await self.describeAccelerators(input, logger: logger)
     }
 
-    ///  Returns all tags of an Elastic Inference Accelerator.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Returns all tags of an Elastic Inference Accelerator.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResult {
@@ -199,7 +199,7 @@ public struct ElasticInference: AWSService {
             logger: logger
         )
     }
-    ///  Returns all tags of an Elastic Inference Accelerator.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Returns all tags of an Elastic Inference Accelerator.
     ///
     /// Parameters:
     ///   - resourceArn:  The ARN of the Elastic Inference Accelerator to list the tags for.
@@ -215,7 +215,7 @@ public struct ElasticInference: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  Adds the specified tags to an Elastic Inference Accelerator.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Adds the specified tags to an Elastic Inference Accelerator.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
@@ -228,7 +228,7 @@ public struct ElasticInference: AWSService {
             logger: logger
         )
     }
-    ///  Adds the specified tags to an Elastic Inference Accelerator.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Adds the specified tags to an Elastic Inference Accelerator.
     ///
     /// Parameters:
     ///   - resourceArn:  The ARN of the Elastic Inference Accelerator to tag.
@@ -247,7 +247,7 @@ public struct ElasticInference: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    ///  Removes the specified tags from an Elastic Inference Accelerator.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Removes the specified tags from an Elastic Inference Accelerator.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
@@ -260,7 +260,7 @@ public struct ElasticInference: AWSService {
             logger: logger
         )
     }
-    ///  Removes the specified tags from an Elastic Inference Accelerator.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+    ///  Amazon Elastic Inference is no longer available.   Removes the specified tags from an Elastic Inference Accelerator.
     ///
     /// Parameters:
     ///   - resourceArn:  The ARN of the Elastic Inference Accelerator to untag.

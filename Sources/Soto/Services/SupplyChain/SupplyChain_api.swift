@@ -95,7 +95,7 @@ public struct SupplyChain: AWSService {
     /// CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide. The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
     ///
     /// Parameters:
-    ///   - clientToken: An idempotency token.
+    ///   - clientToken: An idempotency token ensures the API request is only completed no more than once. This way, retrying the request will not trigger the operation multiple times. A client token is a unique, case-sensitive string of 33 to 128 ASCII characters. To make an idempotent API request, specify a client token in the request. You should not reuse the same client token for other requests. If you retry a successful request with the same client token, the request will succeed with no further actions being taken, and you will receive the same API response as the original successful request.
     ///   - instanceId: The AWS Supply Chain instance identifier.
     ///   - s3uri: The S3 URI of the CSV file to be imported. The bucket must grant permissions for AWS Supply Chain to read the file.
     ///   - logger: Logger use during operation
@@ -112,6 +112,231 @@ public struct SupplyChain: AWSService {
             s3uri: s3uri
         )
         return try await self.createBillOfMaterialsImportJob(input, logger: logger)
+    }
+
+    /// Create DataIntegrationFlow to map one or more different sources to one target using the SQL transformation query.
+    @Sendable
+    @inlinable
+    public func createDataIntegrationFlow(_ input: CreateDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataIntegrationFlowResponse {
+        try await self.client.execute(
+            operation: "CreateDataIntegrationFlow", 
+            path: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create DataIntegrationFlow to map one or more different sources to one target using the SQL transformation query.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: Name of the DataIntegrationFlow.
+    ///   - sources: The source configurations for DataIntegrationFlow.
+    ///   - tags: The tags of the DataIntegrationFlow to be created
+    ///   - target: The target configurations for DataIntegrationFlow.
+    ///   - transformation: The transformation configurations for DataIntegrationFlow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataIntegrationFlow(
+        instanceId: String,
+        name: String,
+        sources: [DataIntegrationFlowSource],
+        tags: [String: String]? = nil,
+        target: DataIntegrationFlowTarget,
+        transformation: DataIntegrationFlowTransformation,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataIntegrationFlowResponse {
+        let input = CreateDataIntegrationFlowRequest(
+            instanceId: instanceId, 
+            name: name, 
+            sources: sources, 
+            tags: tags, 
+            target: target, 
+            transformation: transformation
+        )
+        return try await self.createDataIntegrationFlow(input, logger: logger)
+    }
+
+    /// Create a data lake dataset.
+    @Sendable
+    @inlinable
+    public func createDataLakeDataset(_ input: CreateDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeDatasetResponse {
+        try await self.client.execute(
+            operation: "CreateDataLakeDataset", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a data lake dataset.
+    ///
+    /// Parameters:
+    ///   - description: The description of the dataset.
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The name space of the dataset.    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - schema: The custom schema of the data lake dataset and is only required when the name space is default.
+    ///   - tags: The tags of the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataLakeDataset(
+        description: String? = nil,
+        instanceId: String,
+        name: String,
+        namespace: String,
+        schema: DataLakeDatasetSchema? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataLakeDatasetResponse {
+        let input = CreateDataLakeDatasetRequest(
+            description: description, 
+            instanceId: instanceId, 
+            name: name, 
+            namespace: namespace, 
+            schema: schema, 
+            tags: tags
+        )
+        return try await self.createDataLakeDataset(input, logger: logger)
+    }
+
+    /// Create a new instance for AWS Supply Chain. This is an asynchronous operation. Upon receiving a CreateInstance request, AWS Supply Chain immediately returns the instance resource, with instance ID,  and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance.
+    @Sendable
+    @inlinable
+    public func createInstance(_ input: CreateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceResponse {
+        try await self.client.execute(
+            operation: "CreateInstance", 
+            path: "/api/instance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a new instance for AWS Supply Chain. This is an asynchronous operation. Upon receiving a CreateInstance request, AWS Supply Chain immediately returns the instance resource, with instance ID,  and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance.
+    ///
+    /// Parameters:
+    ///   - clientToken: The client token for idempotency.
+    ///   - instanceDescription: The AWS Supply Chain instance description.
+    ///   - instanceName: The AWS Supply Chain instance name.
+    ///   - kmsKeyArn: The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon Web Services owned KMS key. If you don't provide anything here, AWS Supply Chain uses the Amazon Web Services owned KMS key.
+    ///   - tags: The Amazon Web Services tags of an instance to be created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createInstance(
+        clientToken: String? = CreateInstanceRequest.idempotencyToken(),
+        instanceDescription: String? = nil,
+        instanceName: String? = nil,
+        kmsKeyArn: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateInstanceResponse {
+        let input = CreateInstanceRequest(
+            clientToken: clientToken, 
+            instanceDescription: instanceDescription, 
+            instanceName: instanceName, 
+            kmsKeyArn: kmsKeyArn, 
+            tags: tags
+        )
+        return try await self.createInstance(input, logger: logger)
+    }
+
+    /// Delete the DataIntegrationFlow.
+    @Sendable
+    @inlinable
+    public func deleteDataIntegrationFlow(_ input: DeleteDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataIntegrationFlowResponse {
+        try await self.client.execute(
+            operation: "DeleteDataIntegrationFlow", 
+            path: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete the DataIntegrationFlow.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the DataIntegrationFlow to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataIntegrationFlow(
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataIntegrationFlowResponse {
+        let input = DeleteDataIntegrationFlowRequest(
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.deleteDataIntegrationFlow(input, logger: logger)
+    }
+
+    /// Delete a data lake dataset.
+    @Sendable
+    @inlinable
+    public func deleteDataLakeDataset(_ input: DeleteDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeDatasetResponse {
+        try await self.client.execute(
+            operation: "DeleteDataLakeDataset", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete a data lake dataset.
+    ///
+    /// Parameters:
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - name: The name of the dataset. If the namespace is asc, the name must be one of the supported data entities .
+    ///   - namespace: The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataLakeDataset(
+        instanceId: String,
+        name: String,
+        namespace: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataLakeDatasetResponse {
+        let input = DeleteDataLakeDatasetRequest(
+            instanceId: instanceId, 
+            name: name, 
+            namespace: namespace
+        )
+        return try await self.deleteDataLakeDataset(input, logger: logger)
+    }
+
+    /// Delete the instance. This is an asynchronous operation. Upon receiving a DeleteInstance request, AWS Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
+    @Sendable
+    @inlinable
+    public func deleteInstance(_ input: DeleteInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstanceResponse {
+        try await self.client.execute(
+            operation: "DeleteInstance", 
+            path: "/api/instance/{instanceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete the instance. This is an asynchronous operation. Upon receiving a DeleteInstance request, AWS Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
+    ///
+    /// Parameters:
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteInstance(
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteInstanceResponse {
+        let input = DeleteInstanceRequest(
+            instanceId: instanceId
+        )
+        return try await self.deleteInstance(input, logger: logger)
     }
 
     /// Get status and details of a BillOfMaterialsImportJob.
@@ -144,6 +369,242 @@ public struct SupplyChain: AWSService {
             jobId: jobId
         )
         return try await self.getBillOfMaterialsImportJob(input, logger: logger)
+    }
+
+    /// View the DataIntegrationFlow details.
+    @Sendable
+    @inlinable
+    public func getDataIntegrationFlow(_ input: GetDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataIntegrationFlowResponse {
+        try await self.client.execute(
+            operation: "GetDataIntegrationFlow", 
+            path: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// View the DataIntegrationFlow details.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the DataIntegrationFlow created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataIntegrationFlow(
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataIntegrationFlowResponse {
+        let input = GetDataIntegrationFlowRequest(
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.getDataIntegrationFlow(input, logger: logger)
+    }
+
+    /// Get a data lake dataset.
+    @Sendable
+    @inlinable
+    public func getDataLakeDataset(_ input: GetDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeDatasetResponse {
+        try await self.client.execute(
+            operation: "GetDataLakeDataset", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get a data lake dataset.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataLakeDataset(
+        instanceId: String,
+        name: String,
+        namespace: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataLakeDatasetResponse {
+        let input = GetDataLakeDatasetRequest(
+            instanceId: instanceId, 
+            name: name, 
+            namespace: namespace
+        )
+        return try await self.getDataLakeDataset(input, logger: logger)
+    }
+
+    /// Get the AWS Supply Chain instance details.
+    @Sendable
+    @inlinable
+    public func getInstance(_ input: GetInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstanceResponse {
+        try await self.client.execute(
+            operation: "GetInstance", 
+            path: "/api/instance/{instanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the AWS Supply Chain instance details.
+    ///
+    /// Parameters:
+    ///   - instanceId: The AWS Supply Chain instance identifier
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInstance(
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInstanceResponse {
+        let input = GetInstanceRequest(
+            instanceId: instanceId
+        )
+        return try await self.getInstance(input, logger: logger)
+    }
+
+    /// Lists all the DataIntegrationFlows in a paginated way.
+    @Sendable
+    @inlinable
+    public func listDataIntegrationFlows(_ input: ListDataIntegrationFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataIntegrationFlowsResponse {
+        try await self.client.execute(
+            operation: "ListDataIntegrationFlows", 
+            path: "/api/data-integration/instance/{instanceId}/data-integration-flows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all the DataIntegrationFlows in a paginated way.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: Specify the maximum number of DataIntegrationFlows to fetch in one paginated request.
+    ///   - nextToken: The pagination token to fetch the next page of the DataIntegrationFlows.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataIntegrationFlows(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataIntegrationFlowsResponse {
+        let input = ListDataIntegrationFlowsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataIntegrationFlows(input, logger: logger)
+    }
+
+    /// List the data lake datasets for a specific instance and name space.
+    @Sendable
+    @inlinable
+    public func listDataLakeDatasets(_ input: ListDataLakeDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataLakeDatasetsResponse {
+        try await self.client.execute(
+            operation: "ListDataLakeDatasets", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the data lake datasets for a specific instance and name space.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: The max number of datasets to fetch in this paginated request.
+    ///   - namespace: The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+    ///   - nextToken: The pagination token to fetch next page of datasets.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataLakeDatasets(
+        instanceId: String,
+        maxResults: Int? = nil,
+        namespace: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataLakeDatasetsResponse {
+        let input = ListDataLakeDatasetsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            namespace: namespace, 
+            nextToken: nextToken
+        )
+        return try await self.listDataLakeDatasets(input, logger: logger)
+    }
+
+    /// List all the AWS Supply Chain instances in a paginated way.
+    @Sendable
+    @inlinable
+    public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstancesResponse {
+        try await self.client.execute(
+            operation: "ListInstances", 
+            path: "/api/instance", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all the AWS Supply Chain instances in a paginated way.
+    ///
+    /// Parameters:
+    ///   - instanceNameFilter: The filter to ListInstances based on their names.
+    ///   - instanceStateFilter: The filter to ListInstances based on their state.
+    ///   - maxResults: Specify the maximum number of instances to fetch in this paginated request.
+    ///   - nextToken: The pagination token to fetch the next page of instances.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInstances(
+        instanceNameFilter: [String]? = nil,
+        instanceStateFilter: [InstanceState]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInstancesResponse {
+        let input = ListInstancesRequest(
+            instanceNameFilter: instanceNameFilter, 
+            instanceStateFilter: instanceStateFilter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listInstances(input, logger: logger)
+    }
+
+    /// List all the tags for an Amazon Web ServicesSupply Chain resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/api/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all the tags for an Amazon Web ServicesSupply Chain resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs tags to be listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
     }
 
     /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.  New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
@@ -189,6 +650,184 @@ public struct SupplyChain: AWSService {
         )
         return try await self.sendDataIntegrationEvent(input, logger: logger)
     }
+
+    /// Create tags for an Amazon Web Services Supply chain resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/api/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create tags for an Amazon Web Services Supply chain resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs to be tagged.
+    ///   - tags: The tags of the Amazon Web Services Supply chain resource to be created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Delete tags for an Amazon Web Services Supply chain resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/api/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete tags for an Amazon Web Services Supply chain resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs to be untagged.
+    ///   - tagKeys: The list of tag keys to be deleted for an Amazon Web Services Supply Chain resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Update the DataIntegrationFlow.
+    @Sendable
+    @inlinable
+    public func updateDataIntegrationFlow(_ input: UpdateDataIntegrationFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataIntegrationFlowResponse {
+        try await self.client.execute(
+            operation: "UpdateDataIntegrationFlow", 
+            path: "/api/data-integration/instance/{instanceId}/data-integration-flows/{name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the DataIntegrationFlow.
+    ///
+    /// Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - name: The name of the DataIntegrationFlow to be updated.
+    ///   - sources: The new source configurations for the DataIntegrationFlow.
+    ///   - target: The new target configurations for the DataIntegrationFlow.
+    ///   - transformation: The new transformation configurations for the DataIntegrationFlow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataIntegrationFlow(
+        instanceId: String,
+        name: String,
+        sources: [DataIntegrationFlowSource]? = nil,
+        target: DataIntegrationFlowTarget? = nil,
+        transformation: DataIntegrationFlowTransformation? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDataIntegrationFlowResponse {
+        let input = UpdateDataIntegrationFlowRequest(
+            instanceId: instanceId, 
+            name: name, 
+            sources: sources, 
+            target: target, 
+            transformation: transformation
+        )
+        return try await self.updateDataIntegrationFlow(input, logger: logger)
+    }
+
+    /// Update a data lake dataset.
+    @Sendable
+    @inlinable
+    public func updateDataLakeDataset(_ input: UpdateDataLakeDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataLakeDatasetResponse {
+        try await self.client.execute(
+            operation: "UpdateDataLakeDataset", 
+            path: "/api/datalake/instance/{instanceId}/namespaces/{namespace}/datasets/{name}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update a data lake dataset.
+    ///
+    /// Parameters:
+    ///   - description: The updated description of the data lake dataset.
+    ///   - instanceId: The Amazon Web Services Chain instance identifier.
+    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataLakeDataset(
+        description: String? = nil,
+        instanceId: String,
+        name: String,
+        namespace: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDataLakeDatasetResponse {
+        let input = UpdateDataLakeDatasetRequest(
+            description: description, 
+            instanceId: instanceId, 
+            name: name, 
+            namespace: namespace
+        )
+        return try await self.updateDataLakeDataset(input, logger: logger)
+    }
+
+    /// Update the instance.
+    @Sendable
+    @inlinable
+    public func updateInstance(_ input: UpdateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInstanceResponse {
+        try await self.client.execute(
+            operation: "UpdateInstance", 
+            path: "/api/instance/{instanceId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Update the instance.
+    ///
+    /// Parameters:
+    ///   - instanceDescription: The AWS Supply Chain instance description.
+    ///   - instanceId: The AWS Supply Chain instance identifier.
+    ///   - instanceName: The AWS Supply Chain instance name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateInstance(
+        instanceDescription: String? = nil,
+        instanceId: String,
+        instanceName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateInstanceResponse {
+        let input = UpdateInstanceRequest(
+            instanceDescription: instanceDescription, 
+            instanceId: instanceId, 
+            instanceName: instanceName
+        )
+        return try await self.updateInstance(input, logger: logger)
+    }
 }
 
 extension SupplyChain {
@@ -197,5 +836,162 @@ extension SupplyChain {
     public init(from: SupplyChain, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension SupplyChain {
+    /// Return PaginatorSequence for operation ``listDataIntegrationFlows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataIntegrationFlowsPaginator(
+        _ input: ListDataIntegrationFlowsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationFlowsRequest, ListDataIntegrationFlowsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataIntegrationFlows,
+            inputKey: \ListDataIntegrationFlowsRequest.nextToken,
+            outputKey: \ListDataIntegrationFlowsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataIntegrationFlows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: Specify the maximum number of DataIntegrationFlows to fetch in one paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataIntegrationFlowsPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataIntegrationFlowsRequest, ListDataIntegrationFlowsResponse> {
+        let input = ListDataIntegrationFlowsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listDataIntegrationFlowsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataLakeDatasets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataLakeDatasetsPaginator(
+        _ input: ListDataLakeDatasetsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataLakeDatasetsRequest, ListDataLakeDatasetsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataLakeDatasets,
+            inputKey: \ListDataLakeDatasetsRequest.nextToken,
+            outputKey: \ListDataLakeDatasetsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataLakeDatasets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
+    ///   - maxResults: The max number of datasets to fetch in this paginated request.
+    ///   - namespace: The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataLakeDatasetsPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        namespace: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataLakeDatasetsRequest, ListDataLakeDatasetsResponse> {
+        let input = ListDataLakeDatasetsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            namespace: namespace
+        )
+        return self.listDataLakeDatasetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInstances(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInstancesPaginator(
+        _ input: ListInstancesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInstancesRequest, ListInstancesResponse> {
+        return .init(
+            input: input,
+            command: self.listInstances,
+            inputKey: \ListInstancesRequest.nextToken,
+            outputKey: \ListInstancesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInstances(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceNameFilter: The filter to ListInstances based on their names.
+    ///   - instanceStateFilter: The filter to ListInstances based on their state.
+    ///   - maxResults: Specify the maximum number of instances to fetch in this paginated request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInstancesPaginator(
+        instanceNameFilter: [String]? = nil,
+        instanceStateFilter: [InstanceState]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInstancesRequest, ListInstancesResponse> {
+        let input = ListInstancesRequest(
+            instanceNameFilter: instanceNameFilter, 
+            instanceStateFilter: instanceStateFilter, 
+            maxResults: maxResults
+        )
+        return self.listInstancesPaginator(input, logger: logger)
+    }
+}
+
+extension SupplyChain.ListDataIntegrationFlowsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SupplyChain.ListDataIntegrationFlowsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SupplyChain.ListDataLakeDatasetsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SupplyChain.ListDataLakeDatasetsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )
+    }
+}
+
+extension SupplyChain.ListInstancesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SupplyChain.ListInstancesRequest {
+        return .init(
+            instanceNameFilter: self.instanceNameFilter,
+            instanceStateFilter: self.instanceStateFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

@@ -318,6 +318,7 @@ public struct CodeBuild: AWSService {
     ///   - imageId: The Amazon Machine Image (AMI) of the compute fleet.
     ///   - name: The name of the compute fleet.
     ///   - overflowBehavior: The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
+    ///   - proxyConfiguration: The proxy configuration of the compute fleet.
     ///   - scalingConfiguration: The scaling configuration of the compute fleet.
     ///   - tags: A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
     ///   - vpcConfig: 
@@ -331,6 +332,7 @@ public struct CodeBuild: AWSService {
         imageId: String? = nil,
         name: String,
         overflowBehavior: FleetOverflowBehavior? = nil,
+        proxyConfiguration: ProxyConfiguration? = nil,
         scalingConfiguration: ScalingConfigurationInput? = nil,
         tags: [Tag]? = nil,
         vpcConfig: VpcConfig? = nil,
@@ -344,6 +346,7 @@ public struct CodeBuild: AWSService {
             imageId: imageId, 
             name: name, 
             overflowBehavior: overflowBehavior, 
+            proxyConfiguration: proxyConfiguration, 
             scalingConfiguration: scalingConfiguration, 
             tags: tags, 
             vpcConfig: vpcConfig
@@ -1861,6 +1864,7 @@ public struct CodeBuild: AWSService {
     ///   - fleetServiceRole: The service role associated with the compute fleet. For more information, see  Allow a user to add a permission policy for a fleet service role in the CodeBuild User Guide.
     ///   - imageId: The Amazon Machine Image (AMI) of the compute fleet.
     ///   - overflowBehavior: The compute fleet overflow behavior.   For overflow behavior QUEUE, your overflow builds need to wait on  the existing fleet instance to become available.   For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you choose to set your overflow behavior to on-demand while creating a VPC-connected  fleet, make sure that you add the required VPC permissions to your project service role. For more  information, see Example  policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface.
+    ///   - proxyConfiguration: The proxy configuration of the compute fleet.
     ///   - scalingConfiguration: The scaling configuration of the compute fleet.
     ///   - tags: A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
     ///   - vpcConfig: 
@@ -1874,6 +1878,7 @@ public struct CodeBuild: AWSService {
         fleetServiceRole: String? = nil,
         imageId: String? = nil,
         overflowBehavior: FleetOverflowBehavior? = nil,
+        proxyConfiguration: ProxyConfiguration? = nil,
         scalingConfiguration: ScalingConfigurationInput? = nil,
         tags: [Tag]? = nil,
         vpcConfig: VpcConfig? = nil,
@@ -1887,6 +1892,7 @@ public struct CodeBuild: AWSService {
             fleetServiceRole: fleetServiceRole, 
             imageId: imageId, 
             overflowBehavior: overflowBehavior, 
+            proxyConfiguration: proxyConfiguration, 
             scalingConfiguration: scalingConfiguration, 
             tags: tags, 
             vpcConfig: vpcConfig

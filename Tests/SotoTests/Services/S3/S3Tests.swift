@@ -274,7 +274,7 @@ class S3Tests: XCTestCase {
         try await self.testBucket(name) { name in
             // set lifecycle rules
             let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
-            let filter = S3.LifecycleRuleFilter.prefix("") // everything
+            let filter = S3.LifecycleRuleFilter(prefix: "") // everything
             let transitions = [S3.Transition(days: 14, storageClass: .glacier)] // transition objects to glacier after 14 days
             let lifecycleRules = S3.LifecycleRule(
                 abortIncompleteMultipartUpload: incompleteMultipartUploads,
@@ -378,7 +378,7 @@ class S3Tests: XCTestCase {
         try await self.testBucket(name) { name in
             let rule = S3.LifecycleRule(
                 abortIncompleteMultipartUpload: .init(daysAfterInitiation: 7),
-                filter: .prefix(""),
+                filter: .init(prefix: ""),
                 id: "multipart-upload",
                 status: .enabled
             )

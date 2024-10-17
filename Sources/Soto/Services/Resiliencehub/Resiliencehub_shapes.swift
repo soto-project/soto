@@ -72,7 +72,7 @@ extension Resiliencehub {
 
     public enum AssessmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
-        case inProgress = "InProgress"
+        case inprogress = "InProgress"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
@@ -87,8 +87,8 @@ extension Resiliencehub {
     }
 
     public enum ConfigRecommendationOptimizationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bestAZRecovery = "BestAZRecovery"
         case bestAttainable = "BestAttainable"
+        case bestAzRecovery = "BestAZRecovery"
         case bestRegionRecovery = "BestRegionRecovery"
         case leastChange = "LeastChange"
         case leastCost = "LeastCost"
@@ -191,7 +191,7 @@ extension Resiliencehub {
     }
 
     public enum PermissionModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case legacyIAMUser = "LegacyIAMUser"
+        case legacyIamUser = "LegacyIAMUser"
         case roleBased = "RoleBased"
         public var description: String { return self.rawValue }
     }
@@ -516,6 +516,9 @@ extension Resiliencehub {
         public let appArn: String
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
         public let assessmentSchedule: AppAssessmentScheduleType?
+        /// Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let awsApplicationArn: String?
         /// Current status of compliance for the resiliency policy.
         public let complianceStatus: AppComplianceStatusType?
         /// Date and time when the app was created.
@@ -553,9 +556,10 @@ extension Resiliencehub {
         public let tags: [String: String]?
 
         @inlinable
-        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, driftStatus: AppDriftStatusType? = nil, eventSubscriptions: [EventSubscription]? = nil, lastAppComplianceEvaluationTime: Date? = nil, lastDriftEvaluationTime: Date? = nil, lastResiliencyScoreEvaluationTime: Date? = nil, name: String, permissionModel: PermissionModel? = nil, policyArn: String? = nil, resiliencyScore: Double? = nil, rpoInSecs: Int? = nil, rtoInSecs: Int? = nil, status: AppStatusType? = nil, tags: [String: String]? = nil) {
+        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, awsApplicationArn: String? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, driftStatus: AppDriftStatusType? = nil, eventSubscriptions: [EventSubscription]? = nil, lastAppComplianceEvaluationTime: Date? = nil, lastDriftEvaluationTime: Date? = nil, lastResiliencyScoreEvaluationTime: Date? = nil, name: String, permissionModel: PermissionModel? = nil, policyArn: String? = nil, resiliencyScore: Double? = nil, rpoInSecs: Int? = nil, rtoInSecs: Int? = nil, status: AppStatusType? = nil, tags: [String: String]? = nil) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
+            self.awsApplicationArn = awsApplicationArn
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
@@ -577,6 +581,7 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case assessmentSchedule = "assessmentSchedule"
+            case awsApplicationArn = "awsApplicationArn"
             case complianceStatus = "complianceStatus"
             case creationTime = "creationTime"
             case description = "description"
@@ -633,7 +638,7 @@ extension Resiliencehub {
         public let resourceErrorsDetails: ResourceErrorsDetails?
         /// Starting time for the action.
         public let startTime: Date?
-        /// Indicates a concise summary that provides an overview of the Resilience Hub assessment.
+        /// Indicates the AI-generated summary for the Resilience Hub assessment, providing a concise overview that highlights the top risks and recommendations.  This property is available only in the US East (N. Virginia) Region.
         public let summary: AssessmentSummary?
         /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
         /// Each tag consists of a key/value pair.
@@ -859,6 +864,9 @@ extension Resiliencehub {
         public let appArn: String
         ///  Assessment execution schedule with 'Daily' or 'Disabled' values.
         public let assessmentSchedule: AppAssessmentScheduleType?
+        /// Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let awsApplicationArn: String?
         /// The current status of compliance for the resiliency policy.
         public let complianceStatus: AppComplianceStatusType?
         /// Date and time when the app was created.
@@ -881,9 +889,10 @@ extension Resiliencehub {
         public let status: AppStatusType?
 
         @inlinable
-        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, driftStatus: AppDriftStatusType? = nil, lastAppComplianceEvaluationTime: Date? = nil, name: String, resiliencyScore: Double? = nil, rpoInSecs: Int? = nil, rtoInSecs: Int? = nil, status: AppStatusType? = nil) {
+        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, awsApplicationArn: String? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, driftStatus: AppDriftStatusType? = nil, lastAppComplianceEvaluationTime: Date? = nil, name: String, resiliencyScore: Double? = nil, rpoInSecs: Int? = nil, rtoInSecs: Int? = nil, status: AppStatusType? = nil) {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
+            self.awsApplicationArn = awsApplicationArn
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
@@ -899,6 +908,7 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case assessmentSchedule = "assessmentSchedule"
+            case awsApplicationArn = "awsApplicationArn"
             case complianceStatus = "complianceStatus"
             case creationTime = "creationTime"
             case description = "description"
@@ -1057,12 +1067,12 @@ extension Resiliencehub {
         /// Indicates the reason for excluding an operational recommendation.
         public let excludeReason: ExcludeRecommendationReason?
         /// The operational recommendation item.
-        public let item: UpdateRecommendationStatusItem
+        public let item: UpdateRecommendationStatusItem?
         /// Reference identifier of the operational recommendation.
         public let referenceId: String
 
         @inlinable
-        public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem, referenceId: String) {
+        public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem? = nil, referenceId: String) {
             self.entryId = entryId
             self.excluded = excluded
             self.excludeReason = excludeReason
@@ -1226,6 +1236,9 @@ extension Resiliencehub {
     public struct CreateAppRequest: AWSEncodableShape {
         ///  Assessment execution schedule with 'Daily' or 'Disabled' values.
         public let assessmentSchedule: AppAssessmentScheduleType?
+        /// Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let awsApplicationArn: String?
         /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
         /// You should not reuse the same client token for other API requests.
         public let clientToken: String?
@@ -1246,8 +1259,9 @@ extension Resiliencehub {
         public let tags: [String: String]?
 
         @inlinable
-        public init(assessmentSchedule: AppAssessmentScheduleType? = nil, clientToken: String? = CreateAppRequest.idempotencyToken(), description: String? = nil, eventSubscriptions: [EventSubscription]? = nil, name: String, permissionModel: PermissionModel? = nil, policyArn: String? = nil, tags: [String: String]? = nil) {
+        public init(assessmentSchedule: AppAssessmentScheduleType? = nil, awsApplicationArn: String? = nil, clientToken: String? = CreateAppRequest.idempotencyToken(), description: String? = nil, eventSubscriptions: [EventSubscription]? = nil, name: String, permissionModel: PermissionModel? = nil, policyArn: String? = nil, tags: [String: String]? = nil) {
             self.assessmentSchedule = assessmentSchedule
+            self.awsApplicationArn = awsApplicationArn
             self.clientToken = clientToken
             self.description = description
             self.eventSubscriptions = eventSubscriptions
@@ -1258,6 +1272,7 @@ extension Resiliencehub {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.awsApplicationArn, name: "awsApplicationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-za-z0-9_.-]{0,63}$")
@@ -1282,6 +1297,7 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case assessmentSchedule = "assessmentSchedule"
+            case awsApplicationArn = "awsApplicationArn"
             case clientToken = "clientToken"
             case description = "description"
             case eventSubscriptions = "eventSubscriptions"
@@ -2415,7 +2431,9 @@ extension Resiliencehub {
         public let appArn: String
         /// The version of the application.
         public let appVersion: String
-        /// The returned error message for the request.
+        /// List of errors that were encountered while importing resources.
+        public let errorDetails: [ErrorDetail]?
+        /// The error message returned for the resource request.
         public let errorMessage: String?
         /// Status of the action.
         public let status: ResourceImportStatusType
@@ -2423,9 +2441,10 @@ extension Resiliencehub {
         public let statusChangeTime: Date
 
         @inlinable
-        public init(appArn: String, appVersion: String, errorMessage: String? = nil, status: ResourceImportStatusType, statusChangeTime: Date) {
+        public init(appArn: String, appVersion: String, errorDetails: [ErrorDetail]? = nil, errorMessage: String? = nil, status: ResourceImportStatusType, statusChangeTime: Date) {
             self.appArn = appArn
             self.appVersion = appVersion
+            self.errorDetails = errorDetails
             self.errorMessage = errorMessage
             self.status = status
             self.statusChangeTime = statusChangeTime
@@ -2434,6 +2453,7 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case appArn = "appArn"
             case appVersion = "appVersion"
+            case errorDetails = "errorDetails"
             case errorMessage = "errorMessage"
             case status = "status"
             case statusChangeTime = "statusChangeTime"
@@ -2625,6 +2645,20 @@ extension Resiliencehub {
         private enum CodingKeys: String, CodingKey {
             case eksClusterArn = "eksClusterArn"
             case namespace = "namespace"
+        }
+    }
+
+    public struct ErrorDetail: AWSDecodableShape {
+        /// Provides additional information about the error.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(errorMessage: String? = nil) {
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -3504,6 +3538,9 @@ extension Resiliencehub {
         /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
         public let appArn: String?
+        /// Amazon Resource Name (ARN) of  Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs,
+        /// see  Amazon Resource Names (ARNs) in the  Amazon Web Services General Reference guide.
+        public let awsApplicationArn: String?
         /// Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
         public let fromLastAssessmentTime: Date?
         /// Maximum number of results to include in the response. If more results exist than the specified
@@ -3519,8 +3556,9 @@ extension Resiliencehub {
         public let toLastAssessmentTime: Date?
 
         @inlinable
-        public init(appArn: String? = nil, fromLastAssessmentTime: Date? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil, toLastAssessmentTime: Date? = nil) {
+        public init(appArn: String? = nil, awsApplicationArn: String? = nil, fromLastAssessmentTime: Date? = nil, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, reverseOrder: Bool? = nil, toLastAssessmentTime: Date? = nil) {
             self.appArn = appArn
+            self.awsApplicationArn = awsApplicationArn
             self.fromLastAssessmentTime = fromLastAssessmentTime
             self.maxResults = maxResults
             self.name = name
@@ -3533,6 +3571,7 @@ extension Resiliencehub {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.appArn, key: "appArn")
+            request.encodeQuery(self.awsApplicationArn, key: "awsApplicationArn")
             request.encodeQuery(self.fromLastAssessmentTime, key: "fromLastAssessmentTime")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.name, key: "name")
@@ -3543,6 +3582,7 @@ extension Resiliencehub {
 
         public func validate(name: String) throws {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.validate(self.awsApplicationArn, name: "awsApplicationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
@@ -5520,12 +5560,12 @@ extension Resiliencehub {
         /// Indicates the reason for excluding an operational recommendation.
         public let excludeReason: ExcludeRecommendationReason?
         /// The operational recommendation item.
-        public let item: UpdateRecommendationStatusItem
+        public let item: UpdateRecommendationStatusItem?
         /// Reference identifier of the operational recommendation item.
         public let referenceId: String
 
         @inlinable
-        public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem, referenceId: String) {
+        public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem? = nil, referenceId: String) {
             self.entryId = entryId
             self.excluded = excluded
             self.excludeReason = excludeReason
@@ -5536,7 +5576,7 @@ extension Resiliencehub {
         public func validate(name: String) throws {
             try self.validate(self.entryId, name: "entryId", parent: name, max: 255)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
-            try self.item.validate(name: "\(name).item")
+            try self.item?.validate(name: "\(name).item")
             try self.validate(self.referenceId, name: "referenceId", parent: name, max: 500)
             try self.validate(self.referenceId, name: "referenceId", parent: name, min: 1)
         }

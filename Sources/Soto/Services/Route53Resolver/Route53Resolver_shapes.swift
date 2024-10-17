@@ -832,7 +832,7 @@ extension Route53Resolver {
         /// 			any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
         /// The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group,
-        /// 			or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:    S3 bucket:   arn:aws:s3:::examplebucket  You can optionally append a file prefix to the end of the ARN.  arn:aws:s3:::examplebucket/development/     CloudWatch Logs log group:   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name
+        /// 			or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:    S3 bucket:   arn:aws:s3:::amzn-s3-demo-bucket  You can optionally append a file prefix to the end of the ARN.  arn:aws:s3:::amzn-s3-demo-bucket/development/     CloudWatch Logs log group:   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name
         public let destinationArn: String
         /// The name that you want to give the query logging configuration.
         public let name: String
@@ -3972,13 +3972,18 @@ extension Route53Resolver {
         ///
         /// 		 For an inbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53  and DoH-FIPS in combination.   Do53 alone.   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint you can apply the protocols as follows:   Do53  and DoH in combination.   Do53 alone.   DoH alone.   None, which is treated as Do53.
         public let `protocol`: `Protocol`?
+        /// 			The Server Name Indication of the DoH server that you want to forward queries to.
+        /// 			This is only used if the Protocol of the TargetAddress is DoH.
+        ///
+        public let serverNameIndication: String?
 
         @inlinable
-        public init(ip: String? = nil, ipv6: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil) {
+        public init(ip: String? = nil, ipv6: String? = nil, port: Int? = nil, protocol: `Protocol`? = nil, serverNameIndication: String? = nil) {
             self.ip = ip
             self.ipv6 = ipv6
             self.port = port
             self.`protocol` = `protocol`
+            self.serverNameIndication = serverNameIndication
         }
 
         public func validate(name: String) throws {
@@ -3988,6 +3993,7 @@ extension Route53Resolver {
             try self.validate(self.ipv6, name: "ipv6", parent: name, min: 7)
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 0)
+            try self.validate(self.serverNameIndication, name: "serverNameIndication", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3995,6 +4001,7 @@ extension Route53Resolver {
             case ipv6 = "Ipv6"
             case port = "Port"
             case `protocol` = "Protocol"
+            case serverNameIndication = "ServerNameIndication"
         }
     }
 
@@ -4205,7 +4212,8 @@ extension Route53Resolver {
         /// 				defined as TYPENUMBER, where the
         /// 				NUMBER can be 1-65334, for
         /// 				example, TYPE28. For more information, see
-        /// 				List of DNS record types.
+        /// 				List of DNS record types.  If you set up a firewall BLOCK rule with action NXDOMAIN on query type equals AAAA,
+        /// 					this action will not be applied to synthetic IPv6 addresses generated when DNS64 is enabled.
         public let qtype: String?
 
         @inlinable

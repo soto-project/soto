@@ -335,7 +335,7 @@ extension CostExplorer {
         public let anomalyScore: AnomalyScore
         /// The first day the anomaly is detected.
         public let anomalyStartDate: String?
-        /// The dimension for the anomaly (for example, an Amazon Web Service in a service monitor).
+        /// The dimension for the anomaly (for example, an Amazon Web Servicesservice in a service monitor).
         public let dimensionValue: String?
         /// The feedback value.
         public let feedback: AnomalyFeedbackType?
@@ -1435,6 +1435,24 @@ extension CostExplorer {
         }
     }
 
+    public struct DynamoDBCapacityDetails: AWSDecodableShape {
+        /// The capacity unit of the recommended reservation.
+        public let capacityUnits: String?
+        /// The Amazon Web Services Region of the recommended reservation.
+        public let region: String?
+
+        @inlinable
+        public init(capacityUnits: String? = nil, region: String? = nil) {
+            self.capacityUnits = capacityUnits
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnits = "CapacityUnits"
+            case region = "Region"
+        }
+    }
+
     public struct EBSResourceUtilization: AWSDecodableShape {
         /// The maximum size of read operations per second
         public let ebsReadBytesPerSecond: String?
@@ -2264,7 +2282,7 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesRequest: AWSEncodableShape {
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Servicesservices. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Servicesservices in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
         public let dimension: Dimension
@@ -3922,13 +3940,15 @@ extension CostExplorer {
         public let accountId: String?
         /// The average number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageNormalizedUnitsUsedPerHour: String?
+        /// The average number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        public let averageNumberOfCapacityUnitsUsedPerHour: String?
         /// The average number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageNumberOfInstancesUsedPerHour: String?
-        /// The average utilization of your instances. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The average utilization of your recommendations. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageUtilization: String?
-        /// The currency code that Amazon Web Services used to calculate the costs for this instance.
+        /// The currency code that Amazon Web Services used to calculate the costs for this recommendation.
         public let currencyCode: String?
-        /// How long Amazon Web Services estimates that it takes for this instance to start saving you money, in months.
+        /// How long Amazon Web Services estimates that it takes for this recommendation to start saving you money, in months.
         public let estimatedBreakEvenInMonths: String?
         /// How much Amazon Web Services estimates that you spend on On-Demand Instances in a month.
         public let estimatedMonthlyOnDemandCost: String?
@@ -3942,25 +3962,34 @@ extension CostExplorer {
         public let instanceDetails: InstanceDetails?
         /// The maximum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let maximumNormalizedUnitsUsedPerHour: String?
+        /// The maximum number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        public let maximumNumberOfCapacityUnitsUsedPerHour: String?
         /// The maximum number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let maximumNumberOfInstancesUsedPerHour: String?
         /// The minimum number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let minimumNormalizedUnitsUsedPerHour: String?
+        /// The minimum number of provisioned capacity units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        public let minimumNumberOfCapacityUnitsUsedPerHour: String?
         /// The minimum number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let minimumNumberOfInstancesUsedPerHour: String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public let recommendedNormalizedUnitsToPurchase: String?
+        /// The number of reserved capacity units that Amazon Web Services recommends that you purchase.
+        public let recommendedNumberOfCapacityUnitsToPurchase: String?
         /// The number of instances that Amazon Web Services recommends that you purchase.
         public let recommendedNumberOfInstancesToPurchase: String?
-        /// How much purchasing this instance costs you on a monthly basis.
+        /// How much purchasing this recommendation costs you on a monthly basis.
         public let recurringStandardMonthlyCost: String?
-        /// How much purchasing this instance costs you upfront.
+        /// Details about the reservations that Amazon Web Services recommends that you purchase.
+        public let reservedCapacityDetails: ReservedCapacityDetails?
+        /// How much purchasing this recommendation costs you upfront.
         public let upfrontCost: String?
 
         @inlinable
-        public init(accountId: String? = nil, averageNormalizedUnitsUsedPerHour: String? = nil, averageNumberOfInstancesUsedPerHour: String? = nil, averageUtilization: String? = nil, currencyCode: String? = nil, estimatedBreakEvenInMonths: String? = nil, estimatedMonthlyOnDemandCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedMonthlySavingsPercentage: String? = nil, estimatedReservationCostForLookbackPeriod: String? = nil, instanceDetails: InstanceDetails? = nil, maximumNormalizedUnitsUsedPerHour: String? = nil, maximumNumberOfInstancesUsedPerHour: String? = nil, minimumNormalizedUnitsUsedPerHour: String? = nil, minimumNumberOfInstancesUsedPerHour: String? = nil, recommendedNormalizedUnitsToPurchase: String? = nil, recommendedNumberOfInstancesToPurchase: String? = nil, recurringStandardMonthlyCost: String? = nil, upfrontCost: String? = nil) {
+        public init(accountId: String? = nil, averageNormalizedUnitsUsedPerHour: String? = nil, averageNumberOfCapacityUnitsUsedPerHour: String? = nil, averageNumberOfInstancesUsedPerHour: String? = nil, averageUtilization: String? = nil, currencyCode: String? = nil, estimatedBreakEvenInMonths: String? = nil, estimatedMonthlyOnDemandCost: String? = nil, estimatedMonthlySavingsAmount: String? = nil, estimatedMonthlySavingsPercentage: String? = nil, estimatedReservationCostForLookbackPeriod: String? = nil, instanceDetails: InstanceDetails? = nil, maximumNormalizedUnitsUsedPerHour: String? = nil, maximumNumberOfCapacityUnitsUsedPerHour: String? = nil, maximumNumberOfInstancesUsedPerHour: String? = nil, minimumNormalizedUnitsUsedPerHour: String? = nil, minimumNumberOfCapacityUnitsUsedPerHour: String? = nil, minimumNumberOfInstancesUsedPerHour: String? = nil, recommendedNormalizedUnitsToPurchase: String? = nil, recommendedNumberOfCapacityUnitsToPurchase: String? = nil, recommendedNumberOfInstancesToPurchase: String? = nil, recurringStandardMonthlyCost: String? = nil, reservedCapacityDetails: ReservedCapacityDetails? = nil, upfrontCost: String? = nil) {
             self.accountId = accountId
             self.averageNormalizedUnitsUsedPerHour = averageNormalizedUnitsUsedPerHour
+            self.averageNumberOfCapacityUnitsUsedPerHour = averageNumberOfCapacityUnitsUsedPerHour
             self.averageNumberOfInstancesUsedPerHour = averageNumberOfInstancesUsedPerHour
             self.averageUtilization = averageUtilization
             self.currencyCode = currencyCode
@@ -3971,18 +4000,23 @@ extension CostExplorer {
             self.estimatedReservationCostForLookbackPeriod = estimatedReservationCostForLookbackPeriod
             self.instanceDetails = instanceDetails
             self.maximumNormalizedUnitsUsedPerHour = maximumNormalizedUnitsUsedPerHour
+            self.maximumNumberOfCapacityUnitsUsedPerHour = maximumNumberOfCapacityUnitsUsedPerHour
             self.maximumNumberOfInstancesUsedPerHour = maximumNumberOfInstancesUsedPerHour
             self.minimumNormalizedUnitsUsedPerHour = minimumNormalizedUnitsUsedPerHour
+            self.minimumNumberOfCapacityUnitsUsedPerHour = minimumNumberOfCapacityUnitsUsedPerHour
             self.minimumNumberOfInstancesUsedPerHour = minimumNumberOfInstancesUsedPerHour
             self.recommendedNormalizedUnitsToPurchase = recommendedNormalizedUnitsToPurchase
+            self.recommendedNumberOfCapacityUnitsToPurchase = recommendedNumberOfCapacityUnitsToPurchase
             self.recommendedNumberOfInstancesToPurchase = recommendedNumberOfInstancesToPurchase
             self.recurringStandardMonthlyCost = recurringStandardMonthlyCost
+            self.reservedCapacityDetails = reservedCapacityDetails
             self.upfrontCost = upfrontCost
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case averageNormalizedUnitsUsedPerHour = "AverageNormalizedUnitsUsedPerHour"
+            case averageNumberOfCapacityUnitsUsedPerHour = "AverageNumberOfCapacityUnitsUsedPerHour"
             case averageNumberOfInstancesUsedPerHour = "AverageNumberOfInstancesUsedPerHour"
             case averageUtilization = "AverageUtilization"
             case currencyCode = "CurrencyCode"
@@ -3993,12 +4027,16 @@ extension CostExplorer {
             case estimatedReservationCostForLookbackPeriod = "EstimatedReservationCostForLookbackPeriod"
             case instanceDetails = "InstanceDetails"
             case maximumNormalizedUnitsUsedPerHour = "MaximumNormalizedUnitsUsedPerHour"
+            case maximumNumberOfCapacityUnitsUsedPerHour = "MaximumNumberOfCapacityUnitsUsedPerHour"
             case maximumNumberOfInstancesUsedPerHour = "MaximumNumberOfInstancesUsedPerHour"
             case minimumNormalizedUnitsUsedPerHour = "MinimumNormalizedUnitsUsedPerHour"
+            case minimumNumberOfCapacityUnitsUsedPerHour = "MinimumNumberOfCapacityUnitsUsedPerHour"
             case minimumNumberOfInstancesUsedPerHour = "MinimumNumberOfInstancesUsedPerHour"
             case recommendedNormalizedUnitsToPurchase = "RecommendedNormalizedUnitsToPurchase"
+            case recommendedNumberOfCapacityUnitsToPurchase = "RecommendedNumberOfCapacityUnitsToPurchase"
             case recommendedNumberOfInstancesToPurchase = "RecommendedNumberOfInstancesToPurchase"
             case recurringStandardMonthlyCost = "RecurringStandardMonthlyCost"
+            case reservedCapacityDetails = "ReservedCapacityDetails"
             case upfrontCost = "UpfrontCost"
         }
     }
@@ -4070,6 +4108,20 @@ extension CostExplorer {
             case key = "Key"
             case utilization = "Utilization"
             case value = "Value"
+        }
+    }
+
+    public struct ReservedCapacityDetails: AWSDecodableShape {
+        /// The DynamoDB reservations that Amazon Web Services recommends that you purchase.
+        public let dynamoDBCapacityDetails: DynamoDBCapacityDetails?
+
+        @inlinable
+        public init(dynamoDBCapacityDetails: DynamoDBCapacityDetails? = nil) {
+            self.dynamoDBCapacityDetails = dynamoDBCapacityDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamoDBCapacityDetails = "DynamoDBCapacityDetails"
         }
     }
 
@@ -4264,7 +4316,7 @@ extension CostExplorer {
         public let linkedAccountName: String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public let region: String?
-        /// The Amazon Web Service name that's associated with the cost anomaly.
+        /// The Amazon Web Servicesservice name that's associated with the cost anomaly.
         public let service: String?
         /// The UsageType value that's associated with the cost anomaly.
         public let usageType: String?

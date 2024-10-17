@@ -889,6 +889,7 @@ public struct SageMaker: AWSService {
     ///   - domainSettings: A collection of Domain settings.
     ///   - kmsKeyId: SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     ///   - subnetIds: The VPC subnets that the domain uses for communication.
+    ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     ///   - tags: Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
     ///   - vpcId: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
     ///   - logger: Logger use during operation
@@ -903,6 +904,7 @@ public struct SageMaker: AWSService {
         domainSettings: DomainSettings? = nil,
         kmsKeyId: String? = nil,
         subnetIds: [String]? = nil,
+        tagPropagation: TagPropagation? = nil,
         tags: [Tag]? = nil,
         vpcId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -917,6 +919,7 @@ public struct SageMaker: AWSService {
             domainSettings: domainSettings, 
             kmsKeyId: kmsKeyId, 
             subnetIds: subnetIds, 
+            tagPropagation: tagPropagation, 
             tags: tags, 
             vpcId: vpcId
         )
@@ -12168,6 +12171,7 @@ public struct SageMaker: AWSService {
     ///   - domainId: The ID of the domain to be updated.
     ///   - domainSettingsForUpdate: A collection of DomainSettings configuration values to update.
     ///   - subnetIds: The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
+    ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomain(
@@ -12178,6 +12182,7 @@ public struct SageMaker: AWSService {
         domainId: String? = nil,
         domainSettingsForUpdate: DomainSettingsForUpdate? = nil,
         subnetIds: [String]? = nil,
+        tagPropagation: TagPropagation? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainResponse {
         let input = UpdateDomainRequest(
@@ -12187,7 +12192,8 @@ public struct SageMaker: AWSService {
             defaultUserSettings: defaultUserSettings, 
             domainId: domainId, 
             domainSettingsForUpdate: domainSettingsForUpdate, 
-            subnetIds: subnetIds
+            subnetIds: subnetIds, 
+            tagPropagation: tagPropagation
         )
         return try await self.updateDomain(input, logger: logger)
     }

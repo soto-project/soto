@@ -2176,18 +2176,21 @@ public struct SESv2: AWSService {
     ///
     /// Parameters:
     ///   - configurationSetName: The name of the configuration set to associate with a dedicated IP pool.
+    ///   - maxDeliverySeconds: The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes).
     ///   - sendingPoolName: The name of the dedicated IP pool to associate with the configuration set.
     ///   - tlsPolicy: Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
     ///   - logger: Logger use during operation
     @inlinable
     public func putConfigurationSetDeliveryOptions(
         configurationSetName: String,
+        maxDeliverySeconds: Int64? = nil,
         sendingPoolName: String? = nil,
         tlsPolicy: TlsPolicy? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutConfigurationSetDeliveryOptionsResponse {
         let input = PutConfigurationSetDeliveryOptionsRequest(
             configurationSetName: configurationSetName, 
+            maxDeliverySeconds: maxDeliverySeconds, 
             sendingPoolName: sendingPoolName, 
             tlsPolicy: tlsPolicy
         )
@@ -2308,16 +2311,19 @@ public struct SESv2: AWSService {
     /// Parameters:
     ///   - configurationSetName: The name of the configuration set.
     ///   - customRedirectDomain: The domain to use to track open and click events.
+    ///   - httpsPolicy: 
     ///   - logger: Logger use during operation
     @inlinable
     public func putConfigurationSetTrackingOptions(
         configurationSetName: String,
         customRedirectDomain: String? = nil,
+        httpsPolicy: HttpsPolicy? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutConfigurationSetTrackingOptionsResponse {
         let input = PutConfigurationSetTrackingOptionsRequest(
             configurationSetName: configurationSetName, 
-            customRedirectDomain: customRedirectDomain
+            customRedirectDomain: customRedirectDomain, 
+            httpsPolicy: httpsPolicy
         )
         return try await self.putConfigurationSetTrackingOptions(input, logger: logger)
     }

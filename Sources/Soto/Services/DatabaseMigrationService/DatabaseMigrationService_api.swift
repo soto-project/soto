@@ -221,6 +221,59 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.cancelReplicationTaskAssessmentRun(input, logger: logger)
     }
 
+    /// Creates a data migration using the provided settings.
+    @Sendable
+    @inlinable
+    public func createDataMigration(_ input: CreateDataMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataMigrationResponse {
+        try await self.client.execute(
+            operation: "CreateDataMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a data migration using the provided settings.
+    ///
+    /// Parameters:
+    ///   - dataMigrationName: A user-friendly name for the data migration. Data migration names have the following constraints:   Must begin with a letter, and can only contain ASCII letters, digits, and hyphens.    Can't end with a hyphen or contain two consecutive hyphens.   Length must be from 1 to 255 characters.
+    ///   - dataMigrationType: Specifies if the data migration is full-load only, change data capture (CDC) only, or full-load and CDC.
+    ///   - enableCloudwatchLogs: Specifies whether to enable CloudWatch logs for the data migration.
+    ///   - migrationProjectIdentifier: An identifier for the migration project.
+    ///   - numberOfJobs: The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+    ///   - selectionRules: An optional JSON string specifying what tables, views, and schemas to include or exclude from the migration.
+    ///   - serviceAccessRoleArn: The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.
+    ///   - sourceDataSettings: Specifies information about the source data provider.
+    ///   - tags: One or more tags to be assigned to the data migration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataMigration(
+        dataMigrationName: String? = nil,
+        dataMigrationType: MigrationTypeValue,
+        enableCloudwatchLogs: Bool? = nil,
+        migrationProjectIdentifier: String,
+        numberOfJobs: Int? = nil,
+        selectionRules: String? = nil,
+        serviceAccessRoleArn: String,
+        sourceDataSettings: [SourceDataSetting]? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataMigrationResponse {
+        let input = CreateDataMigrationMessage(
+            dataMigrationName: dataMigrationName, 
+            dataMigrationType: dataMigrationType, 
+            enableCloudwatchLogs: enableCloudwatchLogs, 
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            numberOfJobs: numberOfJobs, 
+            selectionRules: selectionRules, 
+            serviceAccessRoleArn: serviceAccessRoleArn, 
+            sourceDataSettings: sourceDataSettings, 
+            tags: tags
+        )
+        return try await self.createDataMigration(input, logger: logger)
+    }
+
     /// Creates a data provider using the provided settings. A data provider stores  a data store type and location information about your database.
     @Sendable
     @inlinable
@@ -286,7 +339,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - elasticsearchSettings: Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
     ///   - endpointIdentifier: The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
     ///   - endpointType: The type of endpoint.  Valid values are source and target.
-    ///   - engineName: The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", and "babelfish".
+    ///   - engineName: The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
     ///   - externalTableDefinition: The external table definition.
     ///   - extraConnectionAttributes: Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with DMS Endpoints in the Database Migration Service User Guide.
     ///   - gcpMySQLSettings: Settings in JSON format for the source GCP MySQL endpoint.
@@ -728,7 +781,7 @@ public struct DatabaseMigrationService: AWSService {
     ///
     /// Parameters:
     ///   - replicationSubnetGroupDescription: The description for the subnet group.
-    ///   - replicationSubnetGroupIdentifier: The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
+    ///   - replicationSubnetGroupIdentifier: The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
     ///   - subnetIds: Two or more subnet IDs to be assigned to the subnet group.
     ///   - tags: One or more tags to be assigned to the subnet group.
     ///   - logger: Logger use during operation
@@ -873,6 +926,35 @@ public struct DatabaseMigrationService: AWSService {
             replicationInstanceArn: replicationInstanceArn
         )
         return try await self.deleteConnection(input, logger: logger)
+    }
+
+    /// Deletes the specified data migration.
+    @Sendable
+    @inlinable
+    public func deleteDataMigration(_ input: DeleteDataMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataMigrationResponse {
+        try await self.client.execute(
+            operation: "DeleteDataMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified data migration.
+    ///
+    /// Parameters:
+    ///   - dataMigrationIdentifier: The identifier (name or ARN) of the data migration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataMigration(
+        dataMigrationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataMigrationResponse {
+        let input = DeleteDataMigrationMessage(
+            dataMigrationIdentifier: dataMigrationIdentifier
+        )
+        return try await self.deleteDataMigration(input, logger: logger)
     }
 
     /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified  before you can delete the data provider.
@@ -1393,6 +1475,47 @@ public struct DatabaseMigrationService: AWSService {
             migrationProjectIdentifier: migrationProjectIdentifier
         )
         return try await self.describeConversionConfiguration(input, logger: logger)
+    }
+
+    /// Returns information about data migrations.
+    @Sendable
+    @inlinable
+    public func describeDataMigrations(_ input: DescribeDataMigrationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataMigrationsResponse {
+        try await self.client.execute(
+            operation: "DescribeDataMigrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about data migrations.
+    ///
+    /// Parameters:
+    ///   - filters: Filters applied to the data migrations.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - withoutSettings: An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
+    ///   - withoutStatistics: An option to set to avoid returning information about statistics. Use this to reduce overhead when statistics information is too large. To use this option, choose true; otherwise, choose false (the default).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDataMigrations(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        withoutSettings: Bool? = nil,
+        withoutStatistics: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDataMigrationsResponse {
+        let input = DescribeDataMigrationsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            withoutSettings: withoutSettings, 
+            withoutStatistics: withoutStatistics
+        )
+        return try await self.describeDataMigrations(input, logger: logger)
     }
 
     /// Returns a paginated list of data providers for your account in the current region.
@@ -2898,6 +3021,56 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.modifyConversionConfiguration(input, logger: logger)
     }
 
+    /// Modifies an existing DMS data migration.
+    @Sendable
+    @inlinable
+    public func modifyDataMigration(_ input: ModifyDataMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDataMigrationResponse {
+        try await self.client.execute(
+            operation: "ModifyDataMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies an existing DMS data migration.
+    ///
+    /// Parameters:
+    ///   - dataMigrationIdentifier: The identifier (name or ARN) of the data migration to modify.
+    ///   - dataMigrationName: The new name for the data migration.
+    ///   - dataMigrationType: The new migration type for the data migration.
+    ///   - enableCloudwatchLogs: Whether to enable Cloudwatch logs for the data migration.
+    ///   - numberOfJobs: The number of parallel jobs that trigger parallel threads to unload the tables from the source, and then load them to the target.
+    ///   - selectionRules: A JSON-formatted string that defines what objects to include and exclude from the migration.
+    ///   - serviceAccessRoleArn: The new service access role ARN for the data migration.
+    ///   - sourceDataSettings: The new information about the source data provider for the data migration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyDataMigration(
+        dataMigrationIdentifier: String,
+        dataMigrationName: String? = nil,
+        dataMigrationType: MigrationTypeValue? = nil,
+        enableCloudwatchLogs: Bool? = nil,
+        numberOfJobs: Int? = nil,
+        selectionRules: String? = nil,
+        serviceAccessRoleArn: String? = nil,
+        sourceDataSettings: [SourceDataSetting]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyDataMigrationResponse {
+        let input = ModifyDataMigrationMessage(
+            dataMigrationIdentifier: dataMigrationIdentifier, 
+            dataMigrationName: dataMigrationName, 
+            dataMigrationType: dataMigrationType, 
+            enableCloudwatchLogs: enableCloudwatchLogs, 
+            numberOfJobs: numberOfJobs, 
+            selectionRules: selectionRules, 
+            serviceAccessRoleArn: serviceAccessRoleArn, 
+            sourceDataSettings: sourceDataSettings
+        )
+        return try await self.modifyDataMigration(input, logger: logger)
+    }
+
     /// Modifies the specified data provider using the provided settings.  You must remove the data provider from all migration projects before you can modify it.
     @Sendable
     @inlinable
@@ -3631,6 +3804,38 @@ public struct DatabaseMigrationService: AWSService {
         )
     }
 
+    /// Starts the specified data migration.
+    @Sendable
+    @inlinable
+    public func startDataMigration(_ input: StartDataMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataMigrationResponse {
+        try await self.client.execute(
+            operation: "StartDataMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts the specified data migration.
+    ///
+    /// Parameters:
+    ///   - dataMigrationIdentifier: The identifier (name or ARN) of the data migration to start.
+    ///   - startType: Specifies the start type for the data migration. Valid values include  start-replication, reload-target, and resume-processing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startDataMigration(
+        dataMigrationIdentifier: String,
+        startType: StartReplicationMigrationTypeValue,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartDataMigrationResponse {
+        let input = StartDataMigrationMessage(
+            dataMigrationIdentifier: dataMigrationIdentifier, 
+            startType: startType
+        )
+        return try await self.startDataMigration(input, logger: logger)
+    }
+
     /// Applies the extension pack to your target database. An extension pack is an add-on  module that emulates functions present in a source database that are required when  converting objects to the target database.
     @Sendable
     @inlinable
@@ -4031,6 +4236,35 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startReplicationTaskAssessmentRun(input, logger: logger)
     }
 
+    /// Stops the specified data migration.
+    @Sendable
+    @inlinable
+    public func stopDataMigration(_ input: StopDataMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDataMigrationResponse {
+        try await self.client.execute(
+            operation: "StopDataMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops the specified data migration.
+    ///
+    /// Parameters:
+    ///   - dataMigrationIdentifier: The identifier (name or ARN) of the data migration to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopDataMigration(
+        dataMigrationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopDataMigrationResponse {
+        let input = StopDataMigrationMessage(
+            dataMigrationIdentifier: dataMigrationIdentifier
+        )
+        return try await self.stopDataMigration(input, logger: logger)
+    }
+
     /// For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS Serverless replications. This command doesn't deprovision the stopped replications.
     @Sendable
     @inlinable
@@ -4285,6 +4519,49 @@ extension DatabaseMigrationService {
             maxRecords: maxRecords
         )
         return self.describeConnectionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeDataMigrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeDataMigrationsPaginator(
+        _ input: DescribeDataMigrationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeDataMigrationsMessage, DescribeDataMigrationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeDataMigrations,
+            inputKey: \DescribeDataMigrationsMessage.marker,
+            outputKey: \DescribeDataMigrationsResponse.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeDataMigrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters applied to the data migrations.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - withoutSettings: An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
+    ///   - withoutStatistics: An option to set to avoid returning information about statistics. Use this to reduce overhead when statistics information is too large. To use this option, choose true; otherwise, choose false (the default).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeDataMigrationsPaginator(
+        filters: [Filter]? = nil,
+        maxRecords: Int? = nil,
+        withoutSettings: Bool? = nil,
+        withoutStatistics: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeDataMigrationsMessage, DescribeDataMigrationsResponse> {
+        let input = DescribeDataMigrationsMessage(
+            filters: filters, 
+            maxRecords: maxRecords, 
+            withoutSettings: withoutSettings, 
+            withoutStatistics: withoutStatistics
+        )
+        return self.describeDataMigrationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeDataProviders(_:logger:)``.
@@ -5695,6 +5972,19 @@ extension DatabaseMigrationService.DescribeConnectionsMessage: AWSPaginateToken 
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeDataMigrationsMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeDataMigrationsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            withoutSettings: self.withoutSettings,
+            withoutStatistics: self.withoutStatistics
         )
     }
 }

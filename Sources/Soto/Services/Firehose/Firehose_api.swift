@@ -82,8 +82,43 @@ public struct Firehose: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.dualstack]: .init(endpoints: [
+            "af-south-1": "firehose.af-south-1.api.aws",
+            "ap-east-1": "firehose.ap-east-1.api.aws",
+            "ap-northeast-1": "firehose.ap-northeast-1.api.aws",
+            "ap-northeast-2": "firehose.ap-northeast-2.api.aws",
+            "ap-northeast-3": "firehose.ap-northeast-3.api.aws",
+            "ap-south-1": "firehose.ap-south-1.api.aws",
+            "ap-south-2": "firehose.ap-south-2.api.aws",
+            "ap-southeast-1": "firehose.ap-southeast-1.api.aws",
+            "ap-southeast-2": "firehose.ap-southeast-2.api.aws",
+            "ap-southeast-3": "firehose.ap-southeast-3.api.aws",
+            "ap-southeast-4": "firehose.ap-southeast-4.api.aws",
+            "ca-central-1": "firehose.ca-central-1.api.aws",
+            "ca-west-1": "firehose.ca-west-1.api.aws",
             "cn-north-1": "firehose.cn-north-1.api.amazonwebservices.com.cn",
-            "cn-northwest-1": "firehose.cn-northwest-1.api.amazonwebservices.com.cn"
+            "cn-northwest-1": "firehose.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "firehose.eu-central-1.api.aws",
+            "eu-central-2": "firehose.eu-central-2.api.aws",
+            "eu-north-1": "firehose.eu-north-1.api.aws",
+            "eu-south-1": "firehose.eu-south-1.api.aws",
+            "eu-south-2": "firehose.eu-south-2.api.aws",
+            "eu-west-1": "firehose.eu-west-1.api.aws",
+            "eu-west-2": "firehose.eu-west-2.api.aws",
+            "eu-west-3": "firehose.eu-west-3.api.aws",
+            "il-central-1": "firehose.il-central-1.api.aws",
+            "me-central-1": "firehose.me-central-1.api.aws",
+            "me-south-1": "firehose.me-south-1.api.aws",
+            "sa-east-1": "firehose.sa-east-1.api.aws",
+            "us-east-1": "firehose.us-east-1.api.aws",
+            "us-east-2": "firehose.us-east-2.api.aws",
+            "us-west-1": "firehose.us-west-1.api.aws",
+            "us-west-2": "firehose.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "firehose-fips.us-east-1.api.aws",
+            "us-east-2": "firehose-fips.us-east-2.api.aws",
+            "us-west-1": "firehose-fips.us-west-1.api.aws",
+            "us-west-2": "firehose-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "firehose-fips.us-east-1.amazonaws.com",

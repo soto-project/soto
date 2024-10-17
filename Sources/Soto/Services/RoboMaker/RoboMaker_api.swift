@@ -79,7 +79,7 @@ public struct RoboMaker: AWSService {
 
     // MARK: API Calls
 
-    /// Deletes one or more worlds in a batch operation.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes one or more worlds in a batch operation.
     @Sendable
     @inlinable
     public func batchDeleteWorlds(_ input: BatchDeleteWorldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteWorldsResponse {
@@ -92,7 +92,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes one or more worlds in a batch operation.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes one or more worlds in a batch operation.
     ///
     /// Parameters:
     ///   - worlds: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
@@ -108,7 +108,7 @@ public struct RoboMaker: AWSService {
         return try await self.batchDeleteWorlds(input, logger: logger)
     }
 
-    /// Describes one or more simulation jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes one or more simulation jobs.
     @Sendable
     @inlinable
     public func batchDescribeSimulationJob(_ input: BatchDescribeSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDescribeSimulationJobResponse {
@@ -121,7 +121,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes one or more simulation jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes one or more simulation jobs.
     ///
     /// Parameters:
     ///   - jobs: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
@@ -137,7 +137,7 @@ public struct RoboMaker: AWSService {
         return try await self.batchDescribeSimulationJob(input, logger: logger)
     }
 
-    /// Cancels the specified deployment job.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Cancels the specified deployment job.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -151,7 +151,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Cancels the specified deployment job.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Cancels the specified deployment job.
     ///
     /// Parameters:
     ///   - job: The deployment job ARN to cancel.
@@ -168,7 +168,7 @@ public struct RoboMaker: AWSService {
         return try await self.cancelDeploymentJob(input, logger: logger)
     }
 
-    /// Cancels the specified simulation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels the specified simulation job.
     @Sendable
     @inlinable
     public func cancelSimulationJob(_ input: CancelSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSimulationJobResponse {
@@ -181,7 +181,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Cancels the specified simulation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels the specified simulation job.
     ///
     /// Parameters:
     ///   - job: The simulation job ARN to cancel.
@@ -197,7 +197,7 @@ public struct RoboMaker: AWSService {
         return try await self.cancelSimulationJob(input, logger: logger)
     }
 
-    /// Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
     @Sendable
     @inlinable
     public func cancelSimulationJobBatch(_ input: CancelSimulationJobBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSimulationJobBatchResponse {
@@ -210,7 +210,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
     ///
     /// Parameters:
     ///   - batch: The id of the batch to cancel.
@@ -226,7 +226,7 @@ public struct RoboMaker: AWSService {
         return try await self.cancelSimulationJobBatch(input, logger: logger)
     }
 
-    /// Cancels the specified export job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels the specified export job.
     @Sendable
     @inlinable
     public func cancelWorldExportJob(_ input: CancelWorldExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelWorldExportJobResponse {
@@ -239,7 +239,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Cancels the specified export job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels the specified export job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (arn) of the world export job to cancel.
@@ -255,7 +255,7 @@ public struct RoboMaker: AWSService {
         return try await self.cancelWorldExportJob(input, logger: logger)
     }
 
-    /// Cancels the specified world generator job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels the specified world generator job.
     @Sendable
     @inlinable
     public func cancelWorldGenerationJob(_ input: CancelWorldGenerationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelWorldGenerationJobResponse {
@@ -268,7 +268,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Cancels the specified world generator job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Cancels the specified world generator job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (arn) of the world generator job to cancel.
@@ -284,7 +284,7 @@ public struct RoboMaker: AWSService {
         return try await self.cancelWorldGenerationJob(input, logger: logger)
     }
 
-    /// Deploys a specific version of a robot application to robots in a fleet.  This API is no longer supported and will throw an error if used.  The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see  Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -298,7 +298,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deploys a specific version of a robot application to robots in a fleet.  This API is no longer supported and will throw an error if used.  The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see  Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
     ///
     /// Parameters:
     ///   - clientRequestToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -327,7 +327,7 @@ public struct RoboMaker: AWSService {
         return try await self.createDeploymentJob(input, logger: logger)
     }
 
-    /// Creates a fleet, a logical group of robots running the same robot application.  This API is no longer supported and will throw an error if used.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.  Creates a fleet, a logical group of robots running the same robot application.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -341,7 +341,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a fleet, a logical group of robots running the same robot application.  This API is no longer supported and will throw an error if used.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.  Creates a fleet, a logical group of robots running the same robot application.
     ///
     /// Parameters:
     ///   - name: The name of the fleet.
@@ -361,7 +361,7 @@ public struct RoboMaker: AWSService {
         return try await self.createFleet(input, logger: logger)
     }
 
-    /// Creates a robot.  This API is no longer supported and will throw an error if used.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.  Creates a robot.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -375,7 +375,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a robot.  This API is no longer supported and will throw an error if used.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.  Creates a robot.
     ///
     /// Parameters:
     ///   - architecture: The target architecture of the robot.
@@ -401,7 +401,7 @@ public struct RoboMaker: AWSService {
         return try await self.createRobot(input, logger: logger)
     }
 
-    /// Creates a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a robot application.
     @Sendable
     @inlinable
     public func createRobotApplication(_ input: CreateRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRobotApplicationResponse {
@@ -414,12 +414,12 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a robot application.
     ///
     /// Parameters:
     ///   - environment: The object that contains that URI of the Docker image that you use for your robot application.
     ///   - name: The name of the robot application.
-    ///   - robotSoftwareSuite: The robot software suite (ROS distribuition) used by the robot application.
+    ///   - robotSoftwareSuite: The robot software suite used by the robot application.
     ///   - sources: The sources of the robot application.
     ///   - tags: A map that contains tag keys and tag values that are attached to the robot application.
     ///   - logger: Logger use during operation
@@ -442,7 +442,7 @@ public struct RoboMaker: AWSService {
         return try await self.createRobotApplication(input, logger: logger)
     }
 
-    /// Creates a version of a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a version of a robot application.
     @Sendable
     @inlinable
     public func createRobotApplicationVersion(_ input: CreateRobotApplicationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRobotApplicationVersionResponse {
@@ -455,7 +455,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a version of a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a version of a robot application.
     ///
     /// Parameters:
     ///   - application: The application information for the robot application.
@@ -480,7 +480,7 @@ public struct RoboMaker: AWSService {
         return try await self.createRobotApplicationVersion(input, logger: logger)
     }
 
-    /// Creates a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a simulation application.
     @Sendable
     @inlinable
     public func createSimulationApplication(_ input: CreateSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSimulationApplicationResponse {
@@ -493,13 +493,13 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a simulation application.
     ///
     /// Parameters:
     ///   - environment: The object that contains the Docker image URI used to create your simulation application.
     ///   - name: The name of the simulation application.
     ///   - renderingEngine: The rendering engine for the simulation application.
-    ///   - robotSoftwareSuite: The robot software suite (ROS distribution) used by the simulation application.
+    ///   - robotSoftwareSuite: The robot software suite used by the simulation application.
     ///   - simulationSoftwareSuite: The simulation software suite used by the simulation application.
     ///   - sources: The sources of the simulation application.
     ///   - tags: A map that contains tag keys and tag values that are attached to the simulation application.
@@ -527,7 +527,7 @@ public struct RoboMaker: AWSService {
         return try await self.createSimulationApplication(input, logger: logger)
     }
 
-    /// Creates a simulation application with a specific revision id.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a simulation application with a specific revision id.
     @Sendable
     @inlinable
     public func createSimulationApplicationVersion(_ input: CreateSimulationApplicationVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSimulationApplicationVersionResponse {
@@ -540,7 +540,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a simulation application with a specific revision id.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a simulation application with a specific revision id.
     ///
     /// Parameters:
     ///   - application: The application information for the simulation application.
@@ -565,7 +565,7 @@ public struct RoboMaker: AWSService {
         return try await self.createSimulationApplicationVersion(input, logger: logger)
     }
 
-    /// Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
     @Sendable
     @inlinable
     public func createSimulationJob(_ input: CreateSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSimulationJobResponse {
@@ -578,7 +578,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
     ///
     /// Parameters:
     ///   - clientRequestToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -627,7 +627,7 @@ public struct RoboMaker: AWSService {
         return try await self.createSimulationJob(input, logger: logger)
     }
 
-    /// Creates a world export job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a world export job.
     @Sendable
     @inlinable
     public func createWorldExportJob(_ input: CreateWorldExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorldExportJobResponse {
@@ -640,7 +640,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a world export job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a world export job.
     ///
     /// Parameters:
     ///   - clientRequestToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -668,7 +668,7 @@ public struct RoboMaker: AWSService {
         return try await self.createWorldExportJob(input, logger: logger)
     }
 
-    /// Creates worlds using the specified template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates worlds using the specified template.
     @Sendable
     @inlinable
     public func createWorldGenerationJob(_ input: CreateWorldGenerationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorldGenerationJobResponse {
@@ -681,7 +681,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates worlds using the specified template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates worlds using the specified template.
     ///
     /// Parameters:
     ///   - clientRequestToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -709,7 +709,7 @@ public struct RoboMaker: AWSService {
         return try await self.createWorldGenerationJob(input, logger: logger)
     }
 
-    /// Creates a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a world template.
     @Sendable
     @inlinable
     public func createWorldTemplate(_ input: CreateWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorldTemplateResponse {
@@ -722,7 +722,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Creates a world template.
     ///
     /// Parameters:
     ///   - clientRequestToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -750,7 +750,7 @@ public struct RoboMaker: AWSService {
         return try await self.createWorldTemplate(input, logger: logger)
     }
 
-    /// Deletes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Deletes a fleet.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -764,7 +764,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Deletes a fleet.
     ///
     /// Parameters:
     ///   - fleet: The Amazon Resource Name (ARN) of the fleet.
@@ -781,7 +781,7 @@ public struct RoboMaker: AWSService {
         return try await self.deleteFleet(input, logger: logger)
     }
 
-    /// Deletes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Deletes a robot.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -795,7 +795,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Deletes a robot.
     ///
     /// Parameters:
     ///   - robot: The Amazon Resource Name (ARN) of the robot.
@@ -812,7 +812,7 @@ public struct RoboMaker: AWSService {
         return try await self.deleteRobot(input, logger: logger)
     }
 
-    /// Deletes a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes a robot application.
     @Sendable
     @inlinable
     public func deleteRobotApplication(_ input: DeleteRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRobotApplicationResponse {
@@ -825,7 +825,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes a robot application.
     ///
     /// Parameters:
     ///   - application: The Amazon Resource Name (ARN) of the the robot application.
@@ -844,7 +844,7 @@ public struct RoboMaker: AWSService {
         return try await self.deleteRobotApplication(input, logger: logger)
     }
 
-    /// Deletes a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes a simulation application.
     @Sendable
     @inlinable
     public func deleteSimulationApplication(_ input: DeleteSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSimulationApplicationResponse {
@@ -857,7 +857,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes a simulation application.
     ///
     /// Parameters:
     ///   - application: The application information for the simulation application to delete.
@@ -876,7 +876,7 @@ public struct RoboMaker: AWSService {
         return try await self.deleteSimulationApplication(input, logger: logger)
     }
 
-    /// Deletes a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes a world template.
     @Sendable
     @inlinable
     public func deleteWorldTemplate(_ input: DeleteWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorldTemplateResponse {
@@ -889,7 +889,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Deletes a world template.
     ///
     /// Parameters:
     ///   - template: The Amazon Resource Name (arn) of the world template you want to delete.
@@ -905,7 +905,7 @@ public struct RoboMaker: AWSService {
         return try await self.deleteWorldTemplate(input, logger: logger)
     }
 
-    /// Deregisters a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Deregisters a robot.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -919,7 +919,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Deregisters a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Deregisters a robot.
     ///
     /// Parameters:
     ///   - fleet: The Amazon Resource Name (ARN) of the fleet.
@@ -939,7 +939,7 @@ public struct RoboMaker: AWSService {
         return try await self.deregisterRobot(input, logger: logger)
     }
 
-    /// Describes a deployment job.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Describes a deployment job.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -953,7 +953,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a deployment job.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Describes a deployment job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (ARN) of the deployment job.
@@ -970,7 +970,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeDeploymentJob(input, logger: logger)
     }
 
-    /// Describes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Describes a fleet.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -984,7 +984,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a fleet.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Describes a fleet.
     ///
     /// Parameters:
     ///   - fleet: The Amazon Resource Name (ARN) of the fleet.
@@ -1001,7 +1001,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeFleet(input, logger: logger)
     }
 
-    /// Describes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Describes a robot.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -1015,7 +1015,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a robot.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.  Describes a robot.
     ///
     /// Parameters:
     ///   - robot: The Amazon Resource Name (ARN) of the robot to be described.
@@ -1032,7 +1032,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeRobot(input, logger: logger)
     }
 
-    /// Describes a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a robot application.
     @Sendable
     @inlinable
     public func describeRobotApplication(_ input: DescribeRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRobotApplicationResponse {
@@ -1045,7 +1045,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a robot application.
     ///
     /// Parameters:
     ///   - application: The Amazon Resource Name (ARN) of the robot application.
@@ -1064,7 +1064,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeRobotApplication(input, logger: logger)
     }
 
-    /// Describes a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a simulation application.
     @Sendable
     @inlinable
     public func describeSimulationApplication(_ input: DescribeSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationApplicationResponse {
@@ -1077,7 +1077,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a simulation application.
     ///
     /// Parameters:
     ///   - application: The application information for the simulation application.
@@ -1096,7 +1096,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeSimulationApplication(input, logger: logger)
     }
 
-    /// Describes a simulation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a simulation job.
     @Sendable
     @inlinable
     public func describeSimulationJob(_ input: DescribeSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationJobResponse {
@@ -1109,7 +1109,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a simulation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a simulation job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (ARN) of the simulation job to be described.
@@ -1125,7 +1125,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeSimulationJob(input, logger: logger)
     }
 
-    /// Describes a simulation job batch.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a simulation job batch.
     @Sendable
     @inlinable
     public func describeSimulationJobBatch(_ input: DescribeSimulationJobBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSimulationJobBatchResponse {
@@ -1138,7 +1138,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a simulation job batch.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a simulation job batch.
     ///
     /// Parameters:
     ///   - batch: The id of the batch to describe.
@@ -1154,7 +1154,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeSimulationJobBatch(input, logger: logger)
     }
 
-    /// Describes a world.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world.
     @Sendable
     @inlinable
     public func describeWorld(_ input: DescribeWorldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldResponse {
@@ -1167,7 +1167,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a world.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world.
     ///
     /// Parameters:
     ///   - world: The Amazon Resource Name (arn) of the world you want to describe.
@@ -1183,7 +1183,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeWorld(input, logger: logger)
     }
 
-    /// Describes a world export job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world export job.
     @Sendable
     @inlinable
     public func describeWorldExportJob(_ input: DescribeWorldExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldExportJobResponse {
@@ -1196,7 +1196,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a world export job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world export job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (arn) of the world export job to describe.
@@ -1212,7 +1212,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeWorldExportJob(input, logger: logger)
     }
 
-    /// Describes a world generation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world generation job.
     @Sendable
     @inlinable
     public func describeWorldGenerationJob(_ input: DescribeWorldGenerationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldGenerationJobResponse {
@@ -1225,7 +1225,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a world generation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world generation job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (arn) of the world generation job to describe.
@@ -1241,7 +1241,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeWorldGenerationJob(input, logger: logger)
     }
 
-    /// Describes a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world template.
     @Sendable
     @inlinable
     public func describeWorldTemplate(_ input: DescribeWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorldTemplateResponse {
@@ -1254,7 +1254,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Describes a world template.
     ///
     /// Parameters:
     ///   - template: The Amazon Resource Name (arn) of the world template you want to describe.
@@ -1270,7 +1270,7 @@ public struct RoboMaker: AWSService {
         return try await self.describeWorldTemplate(input, logger: logger)
     }
 
-    /// Gets the world template body.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Gets the world template body.
     @Sendable
     @inlinable
     public func getWorldTemplateBody(_ input: GetWorldTemplateBodyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorldTemplateBodyResponse {
@@ -1283,7 +1283,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Gets the world template body.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Gets the world template body.
     ///
     /// Parameters:
     ///   - generationJob: The Amazon Resource Name (arn) of the world generator job.
@@ -1302,7 +1302,7 @@ public struct RoboMaker: AWSService {
         return try await self.getWorldTemplateBody(input, logger: logger)
     }
 
-    /// Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -1316,7 +1316,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
@@ -1339,7 +1339,7 @@ public struct RoboMaker: AWSService {
         return try await self.listDeploymentJobs(input, logger: logger)
     }
 
-    /// Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -1353,7 +1353,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
@@ -1376,7 +1376,7 @@ public struct RoboMaker: AWSService {
         return try await self.listFleets(input, logger: logger)
     }
 
-    /// Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     @Sendable
     @inlinable
     public func listRobotApplications(_ input: ListRobotApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRobotApplicationsResponse {
@@ -1389,7 +1389,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
@@ -1414,7 +1414,7 @@ public struct RoboMaker: AWSService {
         return try await self.listRobotApplications(input, logger: logger)
     }
 
-    /// Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Returns a list of robots. You can optionally provide filters to retrieve specific robots.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -1428,7 +1428,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Returns a list of robots. You can optionally provide filters to retrieve specific robots.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
@@ -1451,7 +1451,7 @@ public struct RoboMaker: AWSService {
         return try await self.listRobots(input, logger: logger)
     }
 
-    /// Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
     @Sendable
     @inlinable
     public func listSimulationApplications(_ input: ListSimulationApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationApplicationsResponse {
@@ -1464,7 +1464,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
     ///
     /// Parameters:
     ///   - filters: Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
@@ -1489,7 +1489,7 @@ public struct RoboMaker: AWSService {
         return try await self.listSimulationApplications(input, logger: logger)
     }
 
-    /// Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
     @Sendable
     @inlinable
     public func listSimulationJobBatches(_ input: ListSimulationJobBatchesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationJobBatchesResponse {
@@ -1502,7 +1502,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results.
@@ -1524,7 +1524,7 @@ public struct RoboMaker: AWSService {
         return try await self.listSimulationJobBatches(input, logger: logger)
     }
 
-    /// Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
     @Sendable
     @inlinable
     public func listSimulationJobs(_ input: ListSimulationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSimulationJobsResponse {
@@ -1537,7 +1537,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
@@ -1559,7 +1559,7 @@ public struct RoboMaker: AWSService {
         return try await self.listSimulationJobs(input, logger: logger)
     }
 
-    /// Lists all tags on a AWS RoboMaker resource.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists all tags on a AWS RoboMaker resource.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1572,7 +1572,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Lists all tags on a AWS RoboMaker resource.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists all tags on a AWS RoboMaker resource.
     ///
     /// Parameters:
     ///   - resourceArn: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
@@ -1588,7 +1588,7 @@ public struct RoboMaker: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Lists world export jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists world export jobs.
     @Sendable
     @inlinable
     public func listWorldExportJobs(_ input: ListWorldExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldExportJobsResponse {
@@ -1601,7 +1601,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Lists world export jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists world export jobs.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. You can use generationJobId and templateId.
@@ -1623,7 +1623,7 @@ public struct RoboMaker: AWSService {
         return try await self.listWorldExportJobs(input, logger: logger)
     }
 
-    /// Lists world generator jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists world generator jobs.
     @Sendable
     @inlinable
     public func listWorldGenerationJobs(_ input: ListWorldGenerationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldGenerationJobsResponse {
@@ -1636,7 +1636,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Lists world generator jobs.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists world generator jobs.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. You can use status and templateId.
@@ -1658,7 +1658,7 @@ public struct RoboMaker: AWSService {
         return try await self.listWorldGenerationJobs(input, logger: logger)
     }
 
-    /// Lists world templates.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists world templates.
     @Sendable
     @inlinable
     public func listWorldTemplates(_ input: ListWorldTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldTemplatesResponse {
@@ -1671,7 +1671,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Lists world templates.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists world templates.
     ///
     /// Parameters:
     ///   - maxResults: When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable.
@@ -1690,7 +1690,7 @@ public struct RoboMaker: AWSService {
         return try await self.listWorldTemplates(input, logger: logger)
     }
 
-    /// Lists worlds.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists worlds.
     @Sendable
     @inlinable
     public func listWorlds(_ input: ListWorldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorldsResponse {
@@ -1703,7 +1703,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Lists worlds.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Lists worlds.
     ///
     /// Parameters:
     ///   - filters: Optional filters to limit results. You can use status.
@@ -1725,7 +1725,7 @@ public struct RoboMaker: AWSService {
         return try await self.listWorlds(input, logger: logger)
     }
 
-    /// Registers a robot with a fleet.  This API is no longer supported and will throw an error if used.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Registers a robot with a fleet.  This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -1739,7 +1739,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Registers a robot with a fleet.  This API is no longer supported and will throw an error if used.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Registers a robot with a fleet.  This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the Support policy page.
     ///
     /// Parameters:
     ///   - fleet: The Amazon Resource Name (ARN) of the fleet.
@@ -1759,7 +1759,7 @@ public struct RoboMaker: AWSService {
         return try await self.registerRobot(input, logger: logger)
     }
 
-    /// Restarts a running simulation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Restarts a running simulation job.
     @Sendable
     @inlinable
     public func restartSimulationJob(_ input: RestartSimulationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestartSimulationJobResponse {
@@ -1772,7 +1772,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Restarts a running simulation job.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Restarts a running simulation job.
     ///
     /// Parameters:
     ///   - job: The Amazon Resource Name (ARN) of the simulation job.
@@ -1788,7 +1788,7 @@ public struct RoboMaker: AWSService {
         return try await self.restartSimulationJob(input, logger: logger)
     }
 
-    /// Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
     @Sendable
     @inlinable
     public func startSimulationJobBatch(_ input: StartSimulationJobBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSimulationJobBatchResponse {
@@ -1801,7 +1801,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
     ///
     /// Parameters:
     ///   - batchPolicy: The batch policy.
@@ -1826,7 +1826,7 @@ public struct RoboMaker: AWSService {
         return try await self.startSimulationJobBatch(input, logger: logger)
     }
 
-    /// Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     @Sendable
     @inlinable
@@ -1840,7 +1840,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.    This API is no longer supported. For more information, see the May 2, 2022 update in the Support policy page.   Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
     ///
     /// Parameters:
     ///   - clientRequestToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1860,7 +1860,7 @@ public struct RoboMaker: AWSService {
         return try await self.syncDeploymentJob(input, logger: logger)
     }
 
-    /// Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1873,7 +1873,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are tagging.
@@ -1892,7 +1892,7 @@ public struct RoboMaker: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource .
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource .
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1905,7 +1905,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource .
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource .
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are removing tags.
@@ -1924,7 +1924,7 @@ public struct RoboMaker: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Updates a robot application.
     @Sendable
     @inlinable
     public func updateRobotApplication(_ input: UpdateRobotApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRobotApplicationResponse {
@@ -1937,13 +1937,13 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates a robot application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Updates a robot application.
     ///
     /// Parameters:
     ///   - application: The application information for the robot application.
     ///   - currentRevisionId: The revision id for the robot application.
     ///   - environment: The object that contains the Docker image URI for your robot application.
-    ///   - robotSoftwareSuite: The robot software suite (ROS distribution) used by the robot application.
+    ///   - robotSoftwareSuite: The robot software suite used by the robot application.
     ///   - sources: The sources of the robot application.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1965,7 +1965,7 @@ public struct RoboMaker: AWSService {
         return try await self.updateRobotApplication(input, logger: logger)
     }
 
-    /// Updates a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Updates a simulation application.
     @Sendable
     @inlinable
     public func updateSimulationApplication(_ input: UpdateSimulationApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSimulationApplicationResponse {
@@ -1978,14 +1978,14 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates a simulation application.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Updates a simulation application.
     ///
     /// Parameters:
     ///   - application: The application information for the simulation application.
     ///   - currentRevisionId: The revision id for the robot application.
     ///   - environment: The object that contains the Docker image URI for your simulation application.
     ///   - renderingEngine: The rendering engine for the simulation application.
-    ///   - robotSoftwareSuite: Information about the robot software suite (ROS distribution).
+    ///   - robotSoftwareSuite: Information about the robot software suite.
     ///   - simulationSoftwareSuite: The simulation software suite used by the simulation application.
     ///   - sources: The sources of the simulation application.
     ///   - logger: Logger use during operation
@@ -2012,7 +2012,7 @@ public struct RoboMaker: AWSService {
         return try await self.updateSimulationApplication(input, logger: logger)
     }
 
-    /// Updates a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Updates a world template.
     @Sendable
     @inlinable
     public func updateWorldTemplate(_ input: UpdateWorldTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorldTemplateResponse {
@@ -2025,7 +2025,7 @@ public struct RoboMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates a world template.
+    ///  End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources.  For more information on transitioning to Batch to help run containerized simulations, visit https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/.   Updates a world template.
     ///
     /// Parameters:
     ///   - name: The name of the template.

@@ -148,7 +148,7 @@ public struct PCS: AWSService {
     ///   - clusterIdentifier: The name or ID of the cluster to create a compute node group in.
     ///   - computeNodeGroupName: A name to identify the cluster. Example: MyCluster
     ///   - customLaunchTemplate: 
-    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the  IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have pcs:RegisterComputeNodeGroupInstance permissions attached in order to provision instances correctly. The resource identifier of the ARN must start with  AWSPCS. For example, arn:aws:iam:123456789012:instance-profile/AWSPCSMyComputeNodeInstanceProfile.
+    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
     ///   - instanceConfigs: A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
     ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
@@ -676,7 +676,7 @@ public struct PCS: AWSService {
     ///   - clusterIdentifier: The name or ID of the cluster of the compute node group.
     ///   - computeNodeGroupIdentifier: The name or ID of the compute node group.
     ///   - customLaunchTemplate: 
-    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the  IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have pcs:RegisterComputeNodeGroupInstance permissions attached to provision instances correctly.
+    ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance  profile used to pass an IAM role when launching EC2 instances. The role contained  in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with  AWSPCS or it must have /aws-pcs/ in its path.  Examples     arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1     arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
     ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see Instance purchasing options in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.

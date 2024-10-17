@@ -44,6 +44,12 @@ extension CodeArtifact {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExternalConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         public var description: String { return self.rawValue }
@@ -1913,15 +1919,18 @@ extension CodeArtifact {
         public let domain: String
         ///  The 12-digit account number of the Amazon Web Services account that owns the domain that contains the repository. It does not include  dashes or spaces.
         public let domainOwner: String?
+        /// A string that specifies the type of endpoint.
+        public let endpointType: EndpointType?
         ///  Returns which endpoint of a repository to return. A repository has one endpoint for each  package format.
         public let format: PackageFormat
         ///  The name of the repository.
         public let repository: String
 
         @inlinable
-        public init(domain: String, domainOwner: String? = nil, format: PackageFormat, repository: String) {
+        public init(domain: String, domainOwner: String? = nil, endpointType: EndpointType? = nil, format: PackageFormat, repository: String) {
             self.domain = domain
             self.domainOwner = domainOwner
+            self.endpointType = endpointType
             self.format = format
             self.repository = repository
         }
@@ -1931,6 +1940,7 @@ extension CodeArtifact {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.domain, key: "domain")
             request.encodeQuery(self.domainOwner, key: "domain-owner")
+            request.encodeQuery(self.endpointType, key: "endpointType")
             request.encodeQuery(self.format, key: "format")
             request.encodeQuery(self.repository, key: "repository")
         }
@@ -3743,7 +3753,7 @@ extension CodeArtifact {
     public struct RepositoryExternalConnectionInfo: AWSDecodableShape {
         ///  The name of the external connection associated with a repository.
         public let externalConnectionName: String?
-        ///  The package format associated with a repository's external connection. The valid package formats are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.
+        ///  The package format associated with a repository's external connection. The valid package formats are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.     generic: A generic package.     ruby: A Ruby package.     swift: A Swift package.     cargo: A Cargo package.
         public let packageFormat: PackageFormat?
         ///  The status of the external connection of a repository. There is one valid value, Available.
         public let status: ExternalConnectionStatus?

@@ -2541,7 +2541,7 @@ extension VerifiedPermissions {
         public let policyId: String
         /// The identifier of the PolicyStore where the policy you want information about is stored.
         public let policyStoreId: String
-        /// The type of the policy. This is one of the following values:    static     templateLinked
+        /// The type of the policy. This is one of the following values:    STATIC     TEMPLATE_LINKED
         public let policyType: PolicyType
         /// The principal associated with the policy.
         public let principal: EntityIdentifier?
@@ -2885,7 +2885,7 @@ extension VerifiedPermissions {
         public let policyStoreId: String
         /// Specifies the data type of principals generated for identities authenticated by the identity source.
         public let principalEntityType: String?
-        /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.  At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a userPoolArn, and optionally, a ClientId.
+        /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
         public let updateConfiguration: UpdateConfiguration
 
         @inlinable
@@ -3347,7 +3347,7 @@ extension VerifiedPermissions {
     }
 
     public struct SchemaDefinition: AWSEncodableShape {
-        /// A JSON string representation of the schema supported by applications that use this policy store. For more information, see Policy store schema in the Amazon Verified Permissions User Guide.
+        /// A JSON string representation of the schema supported by applications that use this policy store. To delete the schema, run PutSchema with {} for this parameter.  For more information, see Policy store schema in the Amazon Verified Permissions User Guide.
         public let cedarJson: String?
 
         @inlinable

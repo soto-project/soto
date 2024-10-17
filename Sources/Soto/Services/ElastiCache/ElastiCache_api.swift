@@ -261,7 +261,7 @@ public struct ElastiCache: AWSService {
         return try await self.completeMigration(input, logger: logger)
     }
 
-    /// Creates a copy of an existing serverless cache’s snapshot. Available for Redis OSS and Serverless Memcached only.
+    /// Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     @Sendable
     @inlinable
     public func copyServerlessCacheSnapshot(_ input: CopyServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyServerlessCacheSnapshotResponse {
@@ -274,13 +274,13 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Creates a copy of an existing serverless cache’s snapshot. Available for Redis OSS and Serverless Memcached only.
+    /// Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
     /// Parameters:
-    ///   - kmsKeyId: The identifier of the KMS key used to encrypt the target snapshot. Available for Redis OSS and Serverless Memcached only.
-    ///   - sourceServerlessCacheSnapshotName: The identifier of the existing serverless cache’s snapshot to be copied. Available for Redis OSS and Serverless Memcached only.
-    ///   - tags: A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Redis OSS and Serverless Memcached only. Default: NULL
-    ///   - targetServerlessCacheSnapshotName: The identifier for the snapshot to be created. Available for Redis OSS and Serverless Memcached only.
+    ///   - kmsKeyId: The identifier of the KMS key used to encrypt the target snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - sourceServerlessCacheSnapshotName: The identifier of the existing serverless cache’s snapshot to be copied. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - tags: A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
+    ///   - targetServerlessCacheSnapshotName: The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - logger: Logger use during operation
     @inlinable
     public func copyServerlessCacheSnapshot(
@@ -299,7 +299,7 @@ public struct ElastiCache: AWSService {
         return try await self.copyServerlessCacheSnapshot(input, logger: logger)
     }
 
-    /// Makes a copy of an existing snapshot.  This operation is valid for Redis OSS only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication & Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
+    /// Makes a copy of an existing snapshot.  This operation is valid for Valkey or Redis OSS only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication & Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
     @Sendable
     @inlinable
     public func copySnapshot(_ input: CopySnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotResult {
@@ -312,7 +312,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Makes a copy of an existing snapshot.  This operation is valid for Redis OSS only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication & Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
+    /// Makes a copy of an existing snapshot.  This operation is valid for Valkey or Redis OSS only.   Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see Exporting Snapshots and Authentication & Access Control.  You could receive the following error messages.  Error Messages     Error Message: The S3 bucket %s is outside of the region.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s does not exist.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The S3 bucket %s is not owned by the authenticated user.  Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see Step 1: Create an Amazon S3 Bucket in the ElastiCache User Guide.    Error Message: The authenticated user does not have sufficient permissions to perform the desired activity.  Solution: Contact your system administrator to get the needed permissions.    Error Message: The S3 bucket %s already contains an object with key %s.  Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.    Error Message:  ElastiCache has not been granted READ permissions %s on the S3 Bucket.  Solution: Add List and Read permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted WRITE permissions %s on the S3 Bucket.  Solution: Add Upload/Delete permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.    Error Message:  ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket.  Solution: Add View Permissions on the bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
     ///
     /// Parameters:
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the target snapshot.
@@ -340,7 +340,7 @@ public struct ElastiCache: AWSService {
         return try await self.copySnapshot(input, logger: logger)
     }
 
-    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis OSS. This operation is not supported for Redis OSS (cluster mode enabled) clusters.
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
     @Sendable
     @inlinable
     public func createCacheCluster(_ input: CreateCacheClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCacheClusterResult {
@@ -353,11 +353,11 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis OSS. This operation is not supported for Redis OSS (cluster mode enabled) clusters.
+    /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
     ///
     /// Parameters:
     ///   - authToken:  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
-    ///   - autoMinorVersionUpgrade:  If you are running Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+    ///   - autoMinorVersionUpgrade:  If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes  to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
     ///   - azMode: Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
     ///   - cacheClusterId: The node group (shard) identifier. This parameter is stored as a lowercase string.  Constraints:    A name must contain from 1 to 50 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
     ///   - cacheNodeType: The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis OSS engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
@@ -366,11 +366,11 @@ public struct ElastiCache: AWSService {
     ///   - cacheSubnetGroupName: The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
     ///   - engine: The name of the cache engine to be used for this cluster. Valid values for this parameter are: memcached | redis
     ///   - engineVersion: The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
-    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
-    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
+    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
-    ///   - numCacheNodes: The initial number of cache nodes that the cluster has. For clusters running Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
+    ///   - numCacheNodes: The initial number of cache nodes that the cluster has. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
     ///   - outpostMode: Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts.
     ///   - port: The port number on which each of the cache nodes accepts connections.
     ///   - preferredAvailabilityZone: The EC2 Availability Zone in which the cluster is created. All nodes belonging to this cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones. Default: System chosen Availability Zone.
@@ -380,8 +380,8 @@ public struct ElastiCache: AWSService {
     ///   - preferredOutpostArns: The outpost ARNs in which the cache cluster is created.
     ///   - replicationGroupId: The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the specified replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group. If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones.  This parameter is only valid if the Engine parameter is redis.
     ///   - securityGroupIds: One or more VPC security groups associated with the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
-    ///   - snapshotArns: A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Redis OSS RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
-    ///   - snapshotName: The name of a Redis OSS snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis.
+    ///   - snapshotArns: A single-element string list containing an Amazon Resource Name (ARN) that uniquely identifies a Valkey or Redis OSS RDB snapshot file stored in Amazon S3. The snapshot file is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot contain any commas.  This parameter is only valid if the Engine parameter is redis.  Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
+    ///   - snapshotName: The name of a Valkey or Redis OSS snapshot from which to restore data into the new node group (shard). The snapshot status changes to restoring while the new node group (shard) is being created.  This parameter is only valid if the Engine parameter is redis.
     ///   - snapshotRetentionLimit: The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.  This parameter is only valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled for this cache cluster).
     ///   - snapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis.
     ///   - tags: A list of tags to be added to this resource.
@@ -567,7 +567,7 @@ public struct ElastiCache: AWSService {
         return try await self.createCacheSubnetGroup(input, logger: logger)
     }
 
-    /// Global Datastore for Redis OSS offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis OSS, you can create cross-region read replica clusters for ElastiCache (Redis OSS) to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
     @Sendable
     @inlinable
     public func createGlobalReplicationGroup(_ input: CreateGlobalReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGlobalReplicationGroupResult {
@@ -580,7 +580,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Global Datastore for Redis OSS offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore for Redis OSS, you can create cross-region read replica clusters for ElastiCache (Redis OSS) to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see Replication Across Regions Using Global Datastore.    The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
     ///
     /// Parameters:
     ///   - globalReplicationGroupDescription: Provides details of the Global datastore
@@ -602,7 +602,7 @@ public struct ElastiCache: AWSService {
         return try await self.createGlobalReplicationGroup(input, logger: logger)
     }
 
-    /// Creates a Redis OSS (cluster mode disabled) or a Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use ElastiCache (Redis OSS) scaling.  For more information, see Scaling ElastiCache (Redis OSS) Clusters in the ElastiCache User Guide.  This operation is valid for Redis OSS only.
+    /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling.  For more information, see Scaling self-designed clusters in the ElastiCache User Guide.  This operation is valid for Valkey and Redis OSS only.
     @Sendable
     @inlinable
     public func createReplicationGroup(_ input: CreateReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationGroupResult {
@@ -615,31 +615,31 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Creates a Redis OSS (cluster mode disabled) or a Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use ElastiCache (Redis OSS) scaling.  For more information, see Scaling ElastiCache (Redis OSS) Clusters in the ElastiCache User Guide.  This operation is valid for Redis OSS only.
+    /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling.  For more information, see Scaling self-designed clusters in the ElastiCache User Guide.  This operation is valid for Valkey and Redis OSS only.
     ///
     /// Parameters:
     ///   - atRestEncryptionEnabled: A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
     ///   - authToken:  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
-    ///   - automaticFailoverEnabled: Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Redis OSS (cluster mode enabled) replication groups. Default: false
-    ///   - autoMinorVersionUpgrade:  If you are running Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+    ///   - automaticFailoverEnabled: Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Valkey or Redis OSS (cluster mode enabled) replication groups. Default: false
+    ///   - autoMinorVersionUpgrade:  If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes  to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
     ///   - cacheNodeType: The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M7g node types: 					cache.m7g.large, 					cache.m7g.xlarge, 					cache.m7g.2xlarge, 					cache.m7g.4xlarge, 					cache.m7g.8xlarge, 					cache.m7g.12xlarge, 					cache.m7g.16xlarge   For region availability, see Supported Node Types    M6g node types (available only for Redis OSS engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
-    ///   - cacheParameterGroupName: The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. If you are running Redis OSS version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis OSS (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis OSS (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.
+    ///   - cacheParameterGroupName: The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. If you are running Valkey or Redis OSS version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Valkey or Redis OSS (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Valkey or Redis OSS (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.
     ///   - cacheSecurityGroupNames: A list of cache security group names to associate with this replication group.
     ///   - cacheSubnetGroupName: The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
-    ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis OSS  clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS  clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     ///   - dataTieringEnabled: Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
     ///   - engine: The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
     ///   - engineVersion: The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     ///   - globalReplicationGroupId: The name of the Global datastore
-    ///   - ipDiscovery: The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the disk in the cluster.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
     ///   - multiAZEnabled: A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
-    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
-    ///   - nodeGroupConfiguration: A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis OSS (cluster mode disabled) or a Redis OSS (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
+    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - nodeGroupConfiguration: A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Valkey or Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
     ///   - numCacheClusters: The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
-    ///   - numNodeGroups: An optional parameter that specifies the number of node groups (shards) for this Redis OSS (cluster mode enabled) replication group. For Redis OSS (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
+    ///   - numNodeGroups: An optional parameter that specifies the number of node groups (shards) for this Valkey or Redis OSS (cluster mode enabled) replication group. For Valkey or Redis OSS (cluster mode disabled) either omit this parameter or set it to 1. Default: 1
     ///   - port: The port number on which each member of the replication group accepts connections.
     ///   - preferredCacheClusterAZs: A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.  If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
     ///   - preferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
@@ -648,14 +648,14 @@ public struct ElastiCache: AWSService {
     ///   - replicationGroupDescription: A user-created description for the replication group.
     ///   - replicationGroupId: The replication group identifier. This parameter is stored as a lowercase string. Constraints:   A name must contain from 1 to 40 alphanumeric characters or hyphens.   The first character must be a letter.   A name cannot end with a hyphen or contain two consecutive hyphens.
     ///   - securityGroupIds: One or more Amazon VPC security groups associated with this replication group. Use this parameter only when you are creating a replication group in an Amazon Virtual Private Cloud (Amazon VPC).
-    ///   - serverlessCacheSnapshotName: The name of the snapshot used to create a replication group. Available for Redis OSS only.
-    ///   - snapshotArns: A list of Amazon Resource Names (ARN) that uniquely identify the Redis OSS RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
+    ///   - serverlessCacheSnapshotName: The name of the snapshot used to create a replication group. Available for Valkey, Redis OSS only.
+    ///   - snapshotArns: A list of Amazon Resource Names (ARN) that uniquely identify the Valkey or Redis OSS RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here. Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
     ///   - snapshotName: The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
     ///   - snapshotRetentionLimit: The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted. Default: 0 (i.e., automatic backups are disabled for this cluster).
     ///   - snapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
     ///   - tags: A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication groups will be replicated to all nodes.
     ///   - transitEncryptionEnabled: A flag that enables in-transit encryption when set to true. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
-    ///   - transitEncryptionMode: A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis OSS clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
+    ///   - transitEncryptionMode: A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Valkey or Redis OSS clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required. This process will not trigger the replacement of the replication group.
     ///   - userGroupIds: The user group to associate with the replication group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -762,18 +762,18 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - cacheUsageLimits: Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
-    ///   - dailySnapshotTime: The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Redis OSS and Serverless Memcached only.
+    ///   - dailySnapshotTime: The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - description: User-provided description for the serverless cache.   The default is NULL, i.e. if no description is provided then an empty string will be returned.  The maximum length is 255 characters.
     ///   - engine: The name of the cache engine to be used for creating the serverless cache.
     ///   - kmsKeyId: ARN of the customer managed key for encrypting the data at rest. If no KMS key is provided, a default service key is used.
     ///   - majorEngineVersion: The version of the cache engine that will be used to create the serverless cache.
     ///   - securityGroupIds: A list of the one or more VPC security groups to be associated with the serverless cache.  The security group will authorize traffic access for the VPC end-point (private-link).  If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC  end-point.
     ///   - serverlessCacheName: User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
-    ///   - snapshotArnsToRestore: The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Redis OSS and Serverless Memcached only.
-    ///   - snapshotRetentionLimit: The number of snapshots that will be retained for the serverless cache that is being created.  As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Redis OSS and Serverless Memcached only.
+    ///   - snapshotArnsToRestore: The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - snapshotRetentionLimit: The number of snapshots that will be retained for the serverless cache that is being created.  As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - subnetIds: A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed.  All the subnetIds must belong to the same VPC.
     ///   - tags: The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL.
-    ///   - userGroupId: The identifier of the UserGroup to be associated with the serverless cache.  Available for Redis OSS only. Default is NULL.
+    ///   - userGroupId: The identifier of the UserGroup to be associated with the serverless cache.  Available for Valkey and Redis OSS only. Default is NULL.
     ///   - logger: Logger use during operation
     @inlinable
     public func createServerlessCache(
@@ -810,7 +810,7 @@ public struct ElastiCache: AWSService {
         return try await self.createServerlessCache(input, logger: logger)
     }
 
-    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Redis OSS and Serverless Memcached only.
+    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
     @Sendable
     @inlinable
     public func createServerlessCacheSnapshot(_ input: CreateServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServerlessCacheSnapshotResponse {
@@ -823,13 +823,13 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Redis OSS and Serverless Memcached only.
+    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
     /// Parameters:
-    ///   - kmsKeyId: The ID of the KMS key used to encrypt the snapshot.  Available for Redis OSS and Serverless Memcached only. Default: NULL
-    ///   - serverlessCacheName: The name of an existing serverless cache. The snapshot is created from this cache. Available for Redis OSS and Serverless Memcached only.
-    ///   - serverlessCacheSnapshotName: The name for the snapshot being created. Must be unique for the customer account. Available for Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters.
-    ///   - tags: A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Redis OSS and Serverless Memcached only.
+    ///   - kmsKeyId: The ID of the KMS key used to encrypt the snapshot.  Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
+    ///   - serverlessCacheName: The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - serverlessCacheSnapshotName: The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters.
+    ///   - tags: A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - logger: Logger use during operation
     @inlinable
     public func createServerlessCacheSnapshot(
@@ -848,7 +848,7 @@ public struct ElastiCache: AWSService {
         return try await self.createServerlessCacheSnapshot(input, logger: logger)
     }
 
-    /// Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Redis OSS only.
+    /// Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Valkey or Redis OSS only.
     @Sendable
     @inlinable
     public func createSnapshot(_ input: CreateSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotResult {
@@ -861,7 +861,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Redis OSS only.
+    /// Creates a copy of an entire cluster or replication group at a specific moment in time.  This operation is valid for Valkey or Redis OSS only.
     ///
     /// Parameters:
     ///   - cacheClusterId: The identifier of an existing cluster. The snapshot is created from this cluster.
@@ -889,7 +889,7 @@ public struct ElastiCache: AWSService {
         return try await self.createSnapshot(input, logger: logger)
     }
 
-    /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     @inlinable
     public func createUser(_ input: CreateUserMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> User {
@@ -902,7 +902,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see Using Role Based Access Control (RBAC).
     ///
     /// Parameters:
     ///   - accessString: Access permissions string used for this user.
@@ -939,7 +939,7 @@ public struct ElastiCache: AWSService {
         return try await self.createUser(input, logger: logger)
     }
 
-    /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user group. For more information, see Using Role Based Access Control (RBAC)
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see Using Role Based Access Control (RBAC)
     @Sendable
     @inlinable
     public func createUserGroup(_ input: CreateUserGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UserGroup {
@@ -952,11 +952,11 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// For Redis OSS engine version 6.0 onwards: Creates a Redis OSS user group. For more information, see Using Role Based Access Control (RBAC)
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see Using Role Based Access Control (RBAC)
     ///
     /// Parameters:
     ///   - engine: The current supported value is Redis user.
-    ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Redis OSS only.
+    ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
     ///   - userGroupId: The ID of the user group.
     ///   - userIds: The list of user IDs that belong to the user group.
     ///   - logger: Logger use during operation
@@ -994,8 +994,8 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - applyImmediately: Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
-    ///   - globalNodeGroupsToRemove: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache (Redis OSS) will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster.
-    ///   - globalNodeGroupsToRetain: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster. ElastiCache (Redis OSS) will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from the cluster.
+    ///   - globalNodeGroupsToRemove: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster.
+    ///   - globalNodeGroupsToRetain: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster. ElastiCache will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from the cluster.
     ///   - globalReplicationGroupId: The name of the Global datastore
     ///   - nodeGroupCount: The number of node groups (shards) that results from the modification of the shard configuration
     ///   - logger: Logger use during operation
@@ -1018,7 +1018,7 @@ public struct ElastiCache: AWSService {
         return try await self.decreaseNodeGroupsInGlobalReplicationGroup(input, logger: logger)
     }
 
-    /// Dynamically decreases the number of replicas in a Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    /// Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     @Sendable
     @inlinable
     public func decreaseReplicaCount(_ input: DecreaseReplicaCountMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DecreaseReplicaCountResult {
@@ -1031,12 +1031,12 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Dynamically decreases the number of replicas in a Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    /// Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
     /// Parameters:
     ///   - applyImmediately: If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
-    ///   - newReplicaCount: The number of read replica nodes you want at the completion of this operation. For Redis OSS (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Redis OSS (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
-    ///   - replicaConfiguration: A list of ConfigureShard objects that can be used to configure each shard in a Redis OSS (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
+    ///   - newReplicaCount: The number of read replica nodes you want at the completion of this operation. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Valkey or Redis OSS (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
+    ///   - replicaConfiguration: A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
     ///   - replicasToRemove: A list of the node ids to remove from the replication group or node group (shard).
     ///   - replicationGroupId: The id of the replication group from which you want to remove replica nodes.
     ///   - logger: Logger use during operation
@@ -1059,7 +1059,7 @@ public struct ElastiCache: AWSService {
         return try await self.decreaseReplicaCount(input, logger: logger)
     }
 
-    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Redis OSS (cluster mode enabled) clusters   Redis OSS (cluster mode disabled) clusters   A cluster that is the last read replica of a replication group   A cluster that is the primary node of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Redis OSS (cluster mode enabled) replication group   A cluster that is not in the available state
+    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Valkey or Redis OSS (cluster mode enabled) clusters   Valkey or Redis OSS (cluster mode disabled) clusters   A cluster that is the last read replica of a replication group   A cluster that is the primary node of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Valkey or Redis OSS (cluster mode enabled) replication group   A cluster that is not in the available state
     @Sendable
     @inlinable
     public func deleteCacheCluster(_ input: DeleteCacheClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCacheClusterResult {
@@ -1072,7 +1072,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Redis OSS (cluster mode enabled) clusters   Redis OSS (cluster mode disabled) clusters   A cluster that is the last read replica of a replication group   A cluster that is the primary node of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Redis OSS (cluster mode enabled) replication group   A cluster that is not in the available state
+    /// Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation. This operation is not valid for:   Valkey or Redis OSS (cluster mode enabled) clusters   Valkey or Redis OSS (cluster mode disabled) clusters   A cluster that is the last read replica of a replication group   A cluster that is the primary node of a replication group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a Valkey or Redis OSS (cluster mode enabled) replication group   A cluster that is not in the available state
     ///
     /// Parameters:
     ///   - cacheClusterId: The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
@@ -1261,7 +1261,7 @@ public struct ElastiCache: AWSService {
     /// Deletes a specified existing serverless cache.   CreateServerlessCacheSnapshot permission is required to create a final snapshot.  Without this permission, the API call will fail with an Access Denied exception.
     ///
     /// Parameters:
-    ///   - finalSnapshotName: Name of the final snapshot to be taken before the serverless cache is deleted.  Available for Redis OSS and Serverless Memcached only. Default: NULL, i.e. a final snapshot is not taken.
+    ///   - finalSnapshotName: Name of the final snapshot to be taken before the serverless cache is deleted.  Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL, i.e. a final snapshot is not taken.
     ///   - serverlessCacheName: The identifier of the serverless cache to be deleted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1277,7 +1277,7 @@ public struct ElastiCache: AWSService {
         return try await self.deleteServerlessCache(input, logger: logger)
     }
 
-    /// Deletes an existing serverless cache snapshot. Available for Redis OSS and Serverless Memcached only.
+    /// Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     @Sendable
     @inlinable
     public func deleteServerlessCacheSnapshot(_ input: DeleteServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteServerlessCacheSnapshotResponse {
@@ -1290,10 +1290,10 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing serverless cache snapshot. Available for Redis OSS and Serverless Memcached only.
+    /// Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
     /// Parameters:
-    ///   - serverlessCacheSnapshotName: Idenfitier of the snapshot to be deleted. Available for Redis OSS and Serverless Memcached only.
+    ///   - serverlessCacheSnapshotName: Idenfitier of the snapshot to be deleted. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteServerlessCacheSnapshot(
@@ -1306,7 +1306,7 @@ public struct ElastiCache: AWSService {
         return try await self.deleteServerlessCacheSnapshot(input, logger: logger)
     }
 
-    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Redis OSS only.
+    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Valkey or Redis OSS only.
     @Sendable
     @inlinable
     public func deleteSnapshot(_ input: DeleteSnapshotMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSnapshotResult {
@@ -1319,7 +1319,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Redis OSS only.
+    /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Valkey or Redis OSS only.
     ///
     /// Parameters:
     ///   - snapshotName: The name of the snapshot to be deleted.
@@ -1335,7 +1335,7 @@ public struct ElastiCache: AWSService {
         return try await self.deleteSnapshot(input, logger: logger)
     }
 
-    /// For Redis OSS engine version 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     @inlinable
     public func deleteUser(_ input: DeleteUserMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> User {
@@ -1348,7 +1348,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// For Redis OSS engine version 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC).
     ///
     /// Parameters:
     ///   - userId: The ID of the user.
@@ -1364,7 +1364,7 @@ public struct ElastiCache: AWSService {
         return try await self.deleteUser(input, logger: logger)
     }
 
-    /// For Redis OSS engine version 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     @inlinable
     public func deleteUserGroup(_ input: DeleteUserGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UserGroup {
@@ -1377,7 +1377,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// For Redis OSS engine version 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see Using Role Based Access Control (RBAC).
     ///
     /// Parameters:
     ///   - userGroupId: The ID of the user group.
@@ -1412,7 +1412,7 @@ public struct ElastiCache: AWSService {
     ///   - cacheClusterId: The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
     ///   - marker: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis OSS clusters.
+    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this means Memcached and single node Valkey or Redis OSS clusters.
     ///   - showCacheNodeInfo: An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1450,7 +1450,7 @@ public struct ElastiCache: AWSService {
     /// Returns a list of the available cache engines and their versions.
     ///
     /// Parameters:
-    ///   - cacheParameterGroupFamily: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
+    ///   - cacheParameterGroupFamily: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7 | valkey7  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
     ///   - defaultOnly: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
     ///   - engine: The cache engine to return. Valid values: memcached | redis
     ///   - engineVersion: The cache engine version to return. Example: 1.4.14
@@ -1741,7 +1741,7 @@ public struct ElastiCache: AWSService {
         return try await self.describeGlobalReplicationGroups(input, logger: logger)
     }
 
-    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis OSS only.
+    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Valkey or Redis OSS only.
     @Sendable
     @inlinable
     public func describeReplicationGroups(_ input: DescribeReplicationGroupsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationGroupMessage {
@@ -1754,7 +1754,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Redis OSS only.
+    /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.  This operation is valid for Valkey or Redis OSS only.
     ///
     /// Parameters:
     ///   - marker: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -1873,7 +1873,7 @@ public struct ElastiCache: AWSService {
         return try await self.describeReservedCacheNodesOfferings(input, logger: logger)
     }
 
-    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Redis OSS and Serverless Memcached only.
+    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     @Sendable
     @inlinable
     public func describeServerlessCacheSnapshots(_ input: DescribeServerlessCacheSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServerlessCacheSnapshotsResponse {
@@ -1886,14 +1886,14 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Redis OSS and Serverless Memcached only.
+    /// Returns information about serverless cache snapshots.  By default, this API lists all of the customer’s serverless cache snapshots.  It can also describe a single serverless cache snapshot, or the snapshots associated with  a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of records to include in the response. If more records exist than  the specified max-results value, a market is included in the response so that remaining results  can be retrieved. Available for Redis OSS and Serverless Memcached only.The default is 50. The Validation Constraints are a maximum of 50.
-    ///   - nextToken: An optional marker returned from a prior request to support pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by max-results. Available for Redis OSS and Serverless Memcached only.
-    ///   - serverlessCacheName: The identifier of serverless cache. If this parameter is specified,  only snapshots associated with that specific serverless cache are described. Available for Redis OSS and Serverless Memcached only.
-    ///   - serverlessCacheSnapshotName: The identifier of the serverless cache’s snapshot. If this parameter is specified, only this snapshot is described. Available for Redis OSS and Serverless Memcached only.
-    ///   - snapshotType: The type of snapshot that is being described. Available for Redis OSS and Serverless Memcached only.
+    ///   - maxResults: The maximum number of records to include in the response. If more records exist than  the specified max-results value, a market is included in the response so that remaining results  can be retrieved. Available for Valkey, Redis OSS and Serverless Memcached only.The default is 50. The Validation Constraints are a maximum of 50.
+    ///   - nextToken: An optional marker returned from a prior request to support pagination of results from this operation.  If this parameter is specified, the response includes only records beyond the marker,  up to the value specified by max-results. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - serverlessCacheName: The identifier of serverless cache. If this parameter is specified,  only snapshots associated with that specific serverless cache are described. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - serverlessCacheSnapshotName: The identifier of the serverless cache’s snapshot. If this parameter is specified, only this snapshot is described. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - snapshotType: The type of snapshot that is being described. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeServerlessCacheSnapshots(
@@ -1987,7 +1987,7 @@ public struct ElastiCache: AWSService {
         return try await self.describeServiceUpdates(input, logger: logger)
     }
 
-    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis OSS only.
+    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Valkey or Redis OSS only.
     @Sendable
     @inlinable
     public func describeSnapshots(_ input: DescribeSnapshotsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSnapshotsListMessage {
@@ -2000,7 +2000,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Redis OSS only.
+    /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.  This operation is valid for Valkey or Redis OSS only.
     ///
     /// Parameters:
     ///   - cacheClusterId: A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
@@ -2051,7 +2051,7 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - cacheClusterIds: The cache cluster IDs
-    ///   - engine: The Elasticache engine to which the update applies. Either Redis OSS or Memcached.
+    ///   - engine: The Elasticache engine to which the update applies. Either Valkey, Redis OSS or Memcached.
     ///   - marker: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: The maximum number of records to include in the response
     ///   - replicationGroupIds: The replication group IDs
@@ -2141,7 +2141,7 @@ public struct ElastiCache: AWSService {
     /// Returns a list of users.
     ///
     /// Parameters:
-    ///   - engine: The Redis OSS engine.
+    ///   - engine: The engine.
     ///   - filters: Filter to determine the list of User IDs to return.
     ///   - marker: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. >
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
@@ -2201,7 +2201,7 @@ public struct ElastiCache: AWSService {
         return try await self.disassociateGlobalReplicationGroup(input, logger: logger)
     }
 
-    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Redis OSS only.
+    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
     @Sendable
     @inlinable
     public func exportServerlessCacheSnapshot(_ input: ExportServerlessCacheSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportServerlessCacheSnapshotResponse {
@@ -2214,11 +2214,11 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Redis OSS only.
+    /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
     ///
     /// Parameters:
-    ///   - s3BucketName: Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region  as the snapshot. Available for Redis OSS only.
-    ///   - serverlessCacheSnapshotName: The identifier of the serverless cache snapshot to be exported to S3. Available for Redis OSS only.
+    ///   - s3BucketName: Name of the Amazon S3 bucket to export the snapshot to. The Amazon S3 bucket must also be in same region  as the snapshot. Available for Valkey and Redis OSS only.
+    ///   - serverlessCacheSnapshotName: The identifier of the serverless cache snapshot to be exported to S3. Available for Valkey and Redis OSS only.
     ///   - logger: Logger use during operation
     @inlinable
     public func exportServerlessCacheSnapshot(
@@ -2306,7 +2306,7 @@ public struct ElastiCache: AWSService {
         return try await self.increaseNodeGroupsInGlobalReplicationGroup(input, logger: logger)
     }
 
-    /// Dynamically increases the number of replicas in a Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    /// Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     @Sendable
     @inlinable
     public func increaseReplicaCount(_ input: IncreaseReplicaCountMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> IncreaseReplicaCountResult {
@@ -2319,12 +2319,12 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Dynamically increases the number of replicas in a Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
+    /// Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
     /// Parameters:
     ///   - applyImmediately: If True, the number of replica nodes is increased immediately. ApplyImmediately=False is not currently supported.
-    ///   - newReplicaCount: The number of read replica nodes you want at the completion of this operation. For Redis OSS (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
-    ///   - replicaConfiguration: A list of ConfigureShard objects that can be used to configure each shard in a Redis OSS (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
+    ///   - newReplicaCount: The number of read replica nodes you want at the completion of this operation. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
+    ///   - replicaConfiguration: A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
     ///   - replicationGroupId: The id of the replication group to which you want to add replica nodes.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2344,7 +2344,7 @@ public struct ElastiCache: AWSService {
         return try await self.increaseReplicaCount(input, logger: logger)
     }
 
-    /// Lists all available node types that you can scale your Redis OSS cluster's or replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
+    /// Lists all available node types that you can scale with your cluster's replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
     @Sendable
     @inlinable
     public func listAllowedNodeTypeModifications(_ input: ListAllowedNodeTypeModificationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> AllowedNodeTypeModificationsMessage {
@@ -2357,7 +2357,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Lists all available node types that you can scale your Redis OSS cluster's or replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
+    /// Lists all available node types that you can scale with your cluster's replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
     ///
     /// Parameters:
     ///   - cacheClusterId: The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId.
@@ -2423,21 +2423,22 @@ public struct ElastiCache: AWSService {
     /// Parameters:
     ///   - applyImmediately: If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false
     ///   - authToken: Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
-    ///   - authTokenUpdateStrategy: Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with Redis OSS AUTH
-    ///   - autoMinorVersionUpgrade:  If you are running Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+    ///   - authTokenUpdateStrategy: Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with AUTH
+    ///   - autoMinorVersionUpgrade:  If you are running Valkey 7.2 or Redis OSS engine version 6.0 or later, set this parameter to yes  to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
     ///   - azMode: Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes are located in different Availability Zones.
     ///   - cacheClusterId: The cluster identifier. This value is stored as a lowercase string.
     ///   - cacheNodeIdsToRemove: A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
     ///   - cacheNodeType: A valid cache node type that you want to scale this cluster up to.
     ///   - cacheParameterGroupName: The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
     ///   - cacheSecurityGroupNames: A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
+    ///   - engine: Modifies the engine listed in a cluster message. The options are redis, memcached or valkey.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
-    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
     ///   - newAvailabilityZones:  This option is only supported on Memcached clusters.  The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner.
     ///   - notificationTopicStatus: The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive
-    ///   - numCacheNodes: The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
+    ///   - numCacheNodes: The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
     ///   - preferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
     ///   - securityGroupIds: Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
     ///   - snapshotRetentionLimit: The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
@@ -2455,6 +2456,7 @@ public struct ElastiCache: AWSService {
         cacheNodeType: String? = nil,
         cacheParameterGroupName: String? = nil,
         cacheSecurityGroupNames: [String]? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         ipDiscovery: IpDiscovery? = nil,
         logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil,
@@ -2479,6 +2481,7 @@ public struct ElastiCache: AWSService {
             cacheNodeType: cacheNodeType, 
             cacheParameterGroupName: cacheParameterGroupName, 
             cacheSecurityGroupNames: cacheSecurityGroupNames, 
+            engine: engine, 
             engineVersion: engineVersion, 
             ipDiscovery: ipDiscovery, 
             logDeliveryConfigurations: logDeliveryConfigurations, 
@@ -2581,6 +2584,7 @@ public struct ElastiCache: AWSService {
     ///   - automaticFailoverEnabled: Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
     ///   - cacheNodeType: A valid cache node type that you want to scale this Global datastore to.
     ///   - cacheParameterGroupName: The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
+    ///   - engine: Modifies the engine listed in a global replication group message. The options are redis, memcached or valkey.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the clusters in the Global datastore.
     ///   - globalReplicationGroupDescription: A description of the Global datastore
     ///   - globalReplicationGroupId: The name of the Global datastore
@@ -2591,6 +2595,7 @@ public struct ElastiCache: AWSService {
         automaticFailoverEnabled: Bool? = nil,
         cacheNodeType: String? = nil,
         cacheParameterGroupName: String? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         globalReplicationGroupDescription: String? = nil,
         globalReplicationGroupId: String? = nil,
@@ -2601,6 +2606,7 @@ public struct ElastiCache: AWSService {
             automaticFailoverEnabled: automaticFailoverEnabled, 
             cacheNodeType: cacheNodeType, 
             cacheParameterGroupName: cacheParameterGroupName, 
+            engine: engine, 
             engineVersion: engineVersion, 
             globalReplicationGroupDescription: globalReplicationGroupDescription, 
             globalReplicationGroupId: globalReplicationGroupId
@@ -2608,7 +2614,7 @@ public struct ElastiCache: AWSService {
         return try await self.modifyGlobalReplicationGroup(input, logger: logger)
     }
 
-    /// Modifies the settings for a replication group. This is limited to Redis OSS 7 and newer.    Scaling for Amazon ElastiCache (Redis OSS) (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis OSS only.
+    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above.    Scaling for Valkey or Redis OSS (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Valkey or Redis OSS only.
     @Sendable
     @inlinable
     public func modifyReplicationGroup(_ input: ModifyReplicationGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyReplicationGroupResult {
@@ -2621,20 +2627,21 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Modifies the settings for a replication group. This is limited to Redis OSS 7 and newer.    Scaling for Amazon ElastiCache (Redis OSS) (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Redis OSS only.
+    /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above.    Scaling for Valkey or Redis OSS (cluster mode enabled) in the ElastiCache User Guide    ModifyReplicationGroupShardConfiguration in the ElastiCache API Reference    This operation is valid for Valkey or Redis OSS only.
     ///
     /// Parameters:
     ///   - applyImmediately: If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false  Default: false
     ///   - authToken: Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
-    ///   - authTokenUpdateStrategy: Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with Redis OSS AUTH
+    ///   - authTokenUpdateStrategy: Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with AUTH
     ///   - automaticFailoverEnabled: Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false
-    ///   - autoMinorVersionUpgrade:  If you are running Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+    ///   - autoMinorVersionUpgrade:  If you are running Valkey or Redis OSS engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
     ///   - cacheNodeType: A valid cache node type that you want to scale this replication group to.
     ///   - cacheParameterGroupName: The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
     ///   - cacheSecurityGroupNames: A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
-    ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
+    ///   - engine: Modifies the engine listed in a replication group message. The options are redis, memcached or valkey.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
-    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Redis OSS engine version 6.2 onward or Memcached engine version 1.6.6 on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
     ///   - multiAZEnabled: A flag to indicate MultiAZ is enabled.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.
@@ -2646,10 +2653,10 @@ public struct ElastiCache: AWSService {
     ///   - replicationGroupId: The identifier of the replication group to modify.
     ///   - securityGroupIds: Specifies the VPC Security Groups associated with the clusters in the replication group. This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
     ///   - snapshotRetentionLimit: The number of days for which ElastiCache retains automatic node group (shard) snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
-    ///   - snapshottingClusterId: The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis OSS (cluster mode enabled) replication groups.
+    ///   - snapshottingClusterId: The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Valkey or Redis OSS (cluster mode enabled) replication groups.
     ///   - snapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
     ///   - transitEncryptionEnabled: A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred.
-    ///   - transitEncryptionMode: A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis OSS clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required.
+    ///   - transitEncryptionMode: A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Valkey or Redis OSS clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred, after that you can set TransitEncryptionMode to required.
     ///   - userGroupIdsToAdd: The ID of the user group you are associating with the replication group.
     ///   - userGroupIdsToRemove: The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group.
     ///   - logger: Logger use during operation
@@ -2664,6 +2671,7 @@ public struct ElastiCache: AWSService {
         cacheParameterGroupName: String? = nil,
         cacheSecurityGroupNames: [String]? = nil,
         clusterMode: ClusterMode? = nil,
+        engine: String? = nil,
         engineVersion: String? = nil,
         ipDiscovery: IpDiscovery? = nil,
         logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil,
@@ -2695,6 +2703,7 @@ public struct ElastiCache: AWSService {
             cacheParameterGroupName: cacheParameterGroupName, 
             cacheSecurityGroupNames: cacheSecurityGroupNames, 
             clusterMode: clusterMode, 
+            engine: engine, 
             engineVersion: engineVersion, 
             ipDiscovery: ipDiscovery, 
             logDeliveryConfigurations: logDeliveryConfigurations, 
@@ -2736,9 +2745,9 @@ public struct ElastiCache: AWSService {
     /// Parameters:
     ///   - applyImmediately: Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
     ///   - nodeGroupCount: The number of node groups (shards) that results from the modification of the shard configuration.
-    ///   - nodeGroupsToRemove: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache (Redis OSS) will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
-    ///   - nodeGroupsToRetain: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache (Redis OSS) will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
-    ///   - replicationGroupId: The name of the Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
+    ///   - nodeGroupsToRemove: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
+    ///   - nodeGroupsToRetain: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
+    ///   - replicationGroupId: The name of the Valkey or Redis OSS (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
     ///   - reshardingConfiguration: Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
     ///   - logger: Logger use during operation
     @inlinable
@@ -2779,19 +2788,23 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - cacheUsageLimits: Modify the cache usage limit for the serverless cache.
-    ///   - dailySnapshotTime: The daily time during which Elasticache begins taking a daily snapshot of the serverless cache.  Available for Redis OSS and Serverless Memcached only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
+    ///   - dailySnapshotTime: The daily time during which Elasticache begins taking a daily snapshot of the serverless cache.  Available for Valkey, Redis OSS and Serverless Memcached only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
     ///   - description: User provided description for the serverless cache.  Default = NULL, i.e. the existing description is not removed/modified.  The description has a maximum length of 255 characters.
-    ///   - removeUserGroup: The identifier of the UserGroup to be removed from association with the Redis OSS serverless cache.  Available for Redis OSS only. Default is NULL.
+    ///   - engine: Modifies the engine listed in a serverless cache request. The options are redis, memcached or valkey.
+    ///   - majorEngineVersion: Modifies the engine vesion listed in a serverless cache request.
+    ///   - removeUserGroup: The identifier of the UserGroup to be removed from association with the Valkey and Redis OSS serverless cache.  Available for Valkey and Redis OSS only. Default is NULL.
     ///   - securityGroupIds: The new list of VPC security groups to be associated with the serverless cache.  Populating this list means the current VPC security groups will be removed.  This security group is used to authorize traffic access for the VPC end-point (private-link).  Default = NULL -  the existing list of VPC security groups is not removed.
     ///   - serverlessCacheName: User-provided identifier for the serverless cache to be modified.
-    ///   - snapshotRetentionLimit: The number of days for which Elasticache retains automatic snapshots before deleting them.  Available for Redis OSS and Serverless Memcached only. Default = NULL, i.e. the existing snapshot-retention-limit will not be removed or modified.  The maximum value allowed is 35 days.
-    ///   - userGroupId: The identifier of the UserGroup to be associated with the serverless cache. Available for Redis OSS only.  Default is NULL -  the existing UserGroup is not removed.
+    ///   - snapshotRetentionLimit: The number of days for which Elasticache retains automatic snapshots before deleting them.  Available for Valkey, Redis OSS and Serverless Memcached only. Default = NULL, i.e. the existing snapshot-retention-limit will not be removed or modified.  The maximum value allowed is 35 days.
+    ///   - userGroupId: The identifier of the UserGroup to be associated with the serverless cache. Available for Valkey and Redis OSS only.  Default is NULL -  the existing UserGroup is not removed.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyServerlessCache(
         cacheUsageLimits: CacheUsageLimits? = nil,
         dailySnapshotTime: String? = nil,
         description: String? = nil,
+        engine: String? = nil,
+        majorEngineVersion: String? = nil,
         removeUserGroup: Bool? = nil,
         securityGroupIds: [String]? = nil,
         serverlessCacheName: String? = nil,
@@ -2803,6 +2816,8 @@ public struct ElastiCache: AWSService {
             cacheUsageLimits: cacheUsageLimits, 
             dailySnapshotTime: dailySnapshotTime, 
             description: description, 
+            engine: engine, 
+            majorEngineVersion: majorEngineVersion, 
             removeUserGroup: removeUserGroup, 
             securityGroupIds: securityGroupIds, 
             serverlessCacheName: serverlessCacheName, 
@@ -2891,7 +2906,7 @@ public struct ElastiCache: AWSService {
         return try await self.modifyUserGroup(input, logger: logger)
     }
 
-    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes for Redis OSS or Managing Costs with Reserved Nodes for Memcached.
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
     @Sendable
     @inlinable
     public func purchaseReservedCacheNodesOffering(_ input: PurchaseReservedCacheNodesOfferingMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseReservedCacheNodesOfferingResult {
@@ -2904,7 +2919,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes for Redis OSS or Managing Costs with Reserved Nodes for Memcached.
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
     ///
     /// Parameters:
     ///   - cacheNodeCount: The number of cache node instances to reserve. Default: 1
@@ -2961,7 +2976,7 @@ public struct ElastiCache: AWSService {
         return try await self.rebalanceSlotsInGlobalReplicationGroup(input, logger: logger)
     }
 
-    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
+    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
     @Sendable
     @inlinable
     public func rebootCacheCluster(_ input: RebootCacheClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootCacheClusterResult {
@@ -2974,7 +2989,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
+    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
     ///
     /// Parameters:
     ///   - cacheClusterId: The cluster identifier. This parameter is stored as a lowercase string.
@@ -3111,7 +3126,7 @@ public struct ElastiCache: AWSService {
     /// Start the migration of data.
     ///
     /// Parameters:
-    ///   - customerNodeEndpointList: List of endpoints from which data should be migrated. For Redis OSS (cluster mode disabled), list should have only one element.
+    ///   - customerNodeEndpointList: List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element.
     ///   - replicationGroupId: The ID of the replication group to which data should be migrated.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3127,7 +3142,7 @@ public struct ElastiCache: AWSService {
         return try await self.startMigration(input, logger: logger)
     }
 
-    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
+    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Valkey or Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
     @Sendable
     @inlinable
     public func testFailover(_ input: TestFailoverMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TestFailoverResult {
@@ -3140,7 +3155,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
+    /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Valkey or Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
     ///
     /// Parameters:
     ///   - nodeGroupId: The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 15 node groups in any rolling 24-hour period.
@@ -3228,7 +3243,7 @@ extension ElastiCache {
     /// - Parameters:
     ///   - cacheClusterId: The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis OSS clusters.
+    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this means Memcached and single node Valkey or Redis OSS clusters.
     ///   - showCacheNodeInfo: An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3269,7 +3284,7 @@ extension ElastiCache {
     /// Return PaginatorSequence for operation ``describeCacheEngineVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - cacheParameterGroupFamily: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
+    ///   - cacheParameterGroupFamily: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7 | valkey7  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
     ///   - defaultOnly: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
     ///   - engine: The cache engine to return. Valid values: memcached | redis
     ///   - engineVersion: The cache engine version to return. Example: 1.4.14
@@ -3730,10 +3745,10 @@ extension ElastiCache {
     /// Return PaginatorSequence for operation ``describeServerlessCacheSnapshots(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of records to include in the response. If more records exist than  the specified max-results value, a market is included in the response so that remaining results  can be retrieved. Available for Redis OSS and Serverless Memcached only.The default is 50. The Validation Constraints are a maximum of 50.
-    ///   - serverlessCacheName: The identifier of serverless cache. If this parameter is specified,  only snapshots associated with that specific serverless cache are described. Available for Redis OSS and Serverless Memcached only.
-    ///   - serverlessCacheSnapshotName: The identifier of the serverless cache’s snapshot. If this parameter is specified, only this snapshot is described. Available for Redis OSS and Serverless Memcached only.
-    ///   - snapshotType: The type of snapshot that is being described. Available for Redis OSS and Serverless Memcached only.
+    ///   - maxResults: The maximum number of records to include in the response. If more records exist than  the specified max-results value, a market is included in the response so that remaining results  can be retrieved. Available for Valkey, Redis OSS and Serverless Memcached only.The default is 50. The Validation Constraints are a maximum of 50.
+    ///   - serverlessCacheName: The identifier of serverless cache. If this parameter is specified,  only snapshots associated with that specific serverless cache are described. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - serverlessCacheSnapshotName: The identifier of the serverless cache’s snapshot. If this parameter is specified, only this snapshot is described. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - snapshotType: The type of snapshot that is being described. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeServerlessCacheSnapshotsPaginator(
@@ -3900,7 +3915,7 @@ extension ElastiCache {
     ///
     /// - Parameters:
     ///   - cacheClusterIds: The cache cluster IDs
-    ///   - engine: The Elasticache engine to which the update applies. Either Redis OSS or Memcached.
+    ///   - engine: The Elasticache engine to which the update applies. Either Valkey, Redis OSS or Memcached.
     ///   - maxRecords: The maximum number of records to include in the response
     ///   - replicationGroupIds: The replication group IDs
     ///   - serviceUpdateName: The unique ID of the service update
@@ -3994,7 +4009,7 @@ extension ElastiCache {
     /// Return PaginatorSequence for operation ``describeUsers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - engine: The Redis OSS engine.
+    ///   - engine: The engine.
     ///   - filters: Filter to determine the list of User IDs to return.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
     ///   - userId: The ID of the user.
@@ -4296,7 +4311,7 @@ extension ElastiCache {
     ///   - cacheClusterId: The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
     ///   - marker: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis OSS clusters.
+    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this means Memcached and single node Valkey or Redis OSS clusters.
     ///   - showCacheNodeInfo: An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4351,7 +4366,7 @@ extension ElastiCache {
     ///   - cacheClusterId: The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
     ///   - marker: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis OSS clusters.
+    ///   - showCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this means Memcached and single node Valkey or Redis OSS clusters.
     ///   - showCacheNodeInfo: An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
     ///   - logger: Logger used for logging
     @inlinable

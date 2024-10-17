@@ -54,6 +54,7 @@ extension EMRServerless {
         case cancelling = "CANCELLING"
         case failed = "FAILED"
         case pending = "PENDING"
+        case queued = "QUEUED"
         case running = "RUNNING"
         case scheduled = "SCHEDULED"
         case submitted = "SUBMITTED"
@@ -143,6 +144,8 @@ extension EMRServerless {
         public let releaseLabel: String
         /// The Configuration  specifications of an application. Each configuration consists of a classification and properties. You use this  parameter when creating or updating an application. To see the runtimeConfiguration object of an application, run the GetApplication API operation.
         public let runtimeConfiguration: [Configuration]?
+        /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+        public let schedulerConfiguration: SchedulerConfiguration?
         /// The state of the application.
         public let state: ApplicationState
         /// The state details of the application.
@@ -157,7 +160,7 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
@@ -173,6 +176,7 @@ extension EMRServerless {
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
             self.runtimeConfiguration = runtimeConfiguration
+            self.schedulerConfiguration = schedulerConfiguration
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -197,6 +201,7 @@ extension EMRServerless {
             case networkConfiguration = "networkConfiguration"
             case releaseLabel = "releaseLabel"
             case runtimeConfiguration = "runtimeConfiguration"
+            case schedulerConfiguration = "schedulerConfiguration"
             case state = "state"
             case stateDetails = "stateDetails"
             case tags = "tags"
@@ -361,7 +366,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:(\\d{12})?:key\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:([0-9]{12}):key\\/[a-zA-Z0-9-]+$")
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
             try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
@@ -481,6 +486,8 @@ extension EMRServerless {
         public let releaseLabel: String
         /// The Configuration  specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
         public let runtimeConfiguration: [Configuration]?
+        /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+        public let schedulerConfiguration: SchedulerConfiguration?
         /// The tags assigned to the application.
         public let tags: [String: String]?
         /// The type of application you want to start, such as Spark or Hive.
@@ -489,7 +496,7 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
@@ -503,6 +510,7 @@ extension EMRServerless {
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
             self.runtimeConfiguration = runtimeConfiguration
+            self.schedulerConfiguration = schedulerConfiguration
             self.tags = tags
             self.type = type
             self.workerTypeSpecifications = workerTypeSpecifications
@@ -565,6 +573,7 @@ extension EMRServerless {
             case networkConfiguration = "networkConfiguration"
             case releaseLabel = "releaseLabel"
             case runtimeConfiguration = "runtimeConfiguration"
+            case schedulerConfiguration = "schedulerConfiguration"
             case tags = "tags"
             case type = "type"
             case workerTypeSpecifications = "workerTypeSpecifications"
@@ -892,6 +901,8 @@ extension EMRServerless {
         public let createdAt: Date
         /// The user who created the job run.
         public let createdBy: String
+        /// The date and time when the job was terminated.
+        public let endedAt: Date?
         /// The execution role ARN of the job run.
         public let executionRole: String
         /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
@@ -905,10 +916,14 @@ extension EMRServerless {
         /// The optional job run name. This doesn't have to be unique.
         public let name: String?
         public let networkConfiguration: NetworkConfiguration?
+        /// The total time for a job in the QUEUED state in milliseconds.
+        public let queuedDurationMilliseconds: Int64?
         /// The Amazon EMR release associated with the application your job is running on.
         public let releaseLabel: String
         /// The retry policy of the job run.
         public let retryPolicy: RetryPolicy?
+        /// The date and time when the job moved to the RUNNING state.
+        public let startedAt: Date?
         /// The state of the job run.
         public let state: JobRunState
         /// The state details of the job run.
@@ -923,7 +938,7 @@ extension EMRServerless {
         public let updatedAt: Date
 
         @inlinable
-        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
+        public init(applicationId: String, arn: String, attempt: Int? = nil, attemptCreatedAt: Date? = nil, attemptUpdatedAt: Date? = nil, billedResourceUtilization: ResourceUtilization? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, executionRole: String, executionTimeoutMinutes: Int64? = nil, jobDriver: JobDriver, jobRunId: String, mode: JobRunMode? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, queuedDurationMilliseconds: Int64? = nil, releaseLabel: String, retryPolicy: RetryPolicy? = nil, startedAt: Date? = nil, state: JobRunState, stateDetails: String, tags: [String: String]? = nil, totalExecutionDurationSeconds: Int? = nil, totalResourceUtilization: TotalResourceUtilization? = nil, updatedAt: Date) {
             self.applicationId = applicationId
             self.arn = arn
             self.attempt = attempt
@@ -933,6 +948,7 @@ extension EMRServerless {
             self.configurationOverrides = configurationOverrides
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.endedAt = endedAt
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
@@ -940,8 +956,10 @@ extension EMRServerless {
             self.mode = mode
             self.name = name
             self.networkConfiguration = networkConfiguration
+            self.queuedDurationMilliseconds = queuedDurationMilliseconds
             self.releaseLabel = releaseLabel
             self.retryPolicy = retryPolicy
+            self.startedAt = startedAt
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -960,6 +978,7 @@ extension EMRServerless {
             case configurationOverrides = "configurationOverrides"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
+            case endedAt = "endedAt"
             case executionRole = "executionRole"
             case executionTimeoutMinutes = "executionTimeoutMinutes"
             case jobDriver = "jobDriver"
@@ -967,8 +986,10 @@ extension EMRServerless {
             case mode = "mode"
             case name = "name"
             case networkConfiguration = "networkConfiguration"
+            case queuedDurationMilliseconds = "queuedDurationMilliseconds"
             case releaseLabel = "releaseLabel"
             case retryPolicy = "retryPolicy"
+            case startedAt = "startedAt"
             case state = "state"
             case stateDetails = "stateDetails"
             case tags = "tags"
@@ -1357,7 +1378,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:(\\d{12})?:key\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:([0-9]{12}):key\\/[a-zA-Z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1545,7 +1566,7 @@ extension EMRServerless {
         public func validate(name: String) throws {
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
-            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:(\\d{12})?:key\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:([0-9]{12}):key\\/[a-zA-Z0-9-]+$")
             try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try self.validate(self.logUri, name: "logUri", parent: name, min: 1)
             try self.validate(self.logUri, name: "logUri", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\r\\n\\t]*")
@@ -1554,6 +1575,24 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case encryptionKeyArn = "encryptionKeyArn"
             case logUri = "logUri"
+        }
+    }
+
+    public struct SchedulerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum concurrent job runs on this application. If scheduler configuration is enabled on your application, the default value is 15. The valid range is 1 to 1000.
+        public let maxConcurrentRuns: Int?
+        /// The maximum duration in minutes for the job in QUEUED state. If scheduler configuration is enabled on your application, the default value is 360 minutes (6 hours). The valid range is from 15 to 720.
+        public let queueTimeoutMinutes: Int?
+
+        @inlinable
+        public init(maxConcurrentRuns: Int? = nil, queueTimeoutMinutes: Int? = nil) {
+            self.maxConcurrentRuns = maxConcurrentRuns
+            self.queueTimeoutMinutes = queueTimeoutMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrentRuns = "maxConcurrentRuns"
+            case queueTimeoutMinutes = "queueTimeoutMinutes"
         }
     }
 
@@ -1682,7 +1721,7 @@ extension EMRServerless {
             try self.configurationOverrides?.validate(name: "\(name).configurationOverrides")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::([0-9]{12}):(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
             try self.validate(self.executionTimeoutMinutes, name: "executionTimeoutMinutes", parent: name, max: 1000000)
             try self.validate(self.executionTimeoutMinutes, name: "executionTimeoutMinutes", parent: name, min: 0)
             try self.jobDriver?.validate(name: "\(name).jobDriver")
@@ -1892,11 +1931,13 @@ extension EMRServerless {
         public let releaseLabel: String?
         /// The Configuration  specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
         public let runtimeConfiguration: [Configuration]?
+        /// The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
+        public let schedulerConfiguration: SchedulerConfiguration?
         /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
@@ -1910,6 +1951,7 @@ extension EMRServerless {
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
             self.runtimeConfiguration = runtimeConfiguration
+            self.schedulerConfiguration = schedulerConfiguration
             self.workerTypeSpecifications = workerTypeSpecifications
         }
 
@@ -1929,6 +1971,7 @@ extension EMRServerless {
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
             try container.encodeIfPresent(self.releaseLabel, forKey: .releaseLabel)
             try container.encodeIfPresent(self.runtimeConfiguration, forKey: .runtimeConfiguration)
+            try container.encodeIfPresent(self.schedulerConfiguration, forKey: .schedulerConfiguration)
             try container.encodeIfPresent(self.workerTypeSpecifications, forKey: .workerTypeSpecifications)
         }
 
@@ -1978,6 +2021,7 @@ extension EMRServerless {
             case networkConfiguration = "networkConfiguration"
             case releaseLabel = "releaseLabel"
             case runtimeConfiguration = "runtimeConfiguration"
+            case schedulerConfiguration = "schedulerConfiguration"
             case workerTypeSpecifications = "workerTypeSpecifications"
         }
     }

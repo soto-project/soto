@@ -197,6 +197,12 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum Owner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case _self = "SELF"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PhoneNumberFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deletionProtectionEnabled = "deletion-protection-enabled"
         case isoCountryCode = "iso-country-code"
@@ -471,9 +477,9 @@ extension PinpointSMSVoiceV2 {
         public let clientToken: String?
         /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
         public let isoCountryCode: String
-        /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
+        /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
-        /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.
+        /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
 
         @inlinable
@@ -891,7 +897,7 @@ extension PinpointSMSVoiceV2 {
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
         public let messageType: MessageType
-        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.
+        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// An array of tags (key and value pairs) associated with the pool.
         public let tags: [Tag]?
@@ -1608,7 +1614,7 @@ extension PinpointSMSVoiceV2 {
     public struct DeleteKeywordRequest: AWSEncodableShape {
         /// The keyword to delete.
         public let keyword: String
-        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.
+        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
 
         @inlinable
@@ -1681,7 +1687,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct DeleteOptOutListRequest: AWSEncodableShape {
-        /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
+        /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String
 
         @inlinable
@@ -1725,7 +1731,7 @@ extension PinpointSMSVoiceV2 {
     public struct DeleteOptedOutNumberRequest: AWSEncodableShape {
         /// The phone number, in E.164 format, to remove from the OptOutList.
         public let optedOutNumber: String
-        /// The OptOutListName or OptOutListArn to remove the phone number from.
+        /// The OptOutListName or OptOutListArn to remove the phone number from.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String
 
         @inlinable
@@ -1780,7 +1786,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct DeletePoolRequest: AWSEncodableShape {
-        /// The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn .
+        /// The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn .  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
 
         @inlinable
@@ -2084,6 +2090,48 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource you're deleting the resource-based policy from.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyResult: AWSDecodableShape {
+        /// The time when the resource-based policy was created, in UNIX epoch time format.
+        public let createdTimestamp: Date?
+        /// The JSON formatted resource-based policy that was deleted.
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource that the resource-based policy was deleted from.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, policy: String? = nil, resourceArn: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct DeleteTextMessageSpendLimitOverrideRequest: AWSEncodableShape {
         public init() {}
     }
@@ -2325,7 +2373,7 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
+        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
 
         @inlinable
@@ -2398,14 +2446,17 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn.
+        /// The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListNames: [String]?
+        /// Use SELF to filter the list of Opt-Out List to ones your account owns or use SHARED to filter on Opt-Out List shared with your account. The Owner and OptOutListNames parameters can't be used at the same time.
+        public let owner: Owner?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, optOutListNames: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, optOutListNames: [String]? = nil, owner: Owner? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.optOutListNames = optOutListNames
+            self.owner = owner
         }
 
         public func validate(name: String) throws {
@@ -2426,6 +2477,7 @@ extension PinpointSMSVoiceV2 {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case optOutListNames = "OptOutListNames"
+            case owner = "Owner"
         }
     }
 
@@ -2456,7 +2508,7 @@ extension PinpointSMSVoiceV2 {
         public let nextToken: String?
         /// An array of phone numbers to search for in the OptOutList.
         public let optedOutNumbers: [String]?
-        /// The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.
+        /// The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String
 
         @inlinable
@@ -2531,14 +2583,17 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.
+        /// Use SELF to filter the list of phone numbers to ones your account owns or use SHARED to filter on phone numbers shared with your account. The Owner and PhoneNumberIds parameters can't be used at the same time.
+        public let owner: Owner?
+        /// The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let phoneNumberIds: [String]?
 
         @inlinable
-        public init(filters: [PhoneNumberFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, phoneNumberIds: [String]? = nil) {
+        public init(filters: [PhoneNumberFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Owner? = nil, phoneNumberIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owner = owner
             self.phoneNumberIds = phoneNumberIds
         }
 
@@ -2564,6 +2619,7 @@ extension PinpointSMSVoiceV2 {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case owner = "Owner"
             case phoneNumberIds = "PhoneNumberIds"
         }
     }
@@ -2593,14 +2649,17 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn.
+        /// Use SELF to filter the list of Pools to ones your account owns or use SHARED to filter on Pools shared with your account. The Owner and PoolIds parameters can't be used at the same time.
+        public let owner: Owner?
+        /// The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolIds: [String]?
 
         @inlinable
-        public init(filters: [PoolFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, poolIds: [String]? = nil) {
+        public init(filters: [PoolFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Owner? = nil, poolIds: [String]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owner = owner
             self.poolIds = poolIds
         }
 
@@ -2626,6 +2685,7 @@ extension PinpointSMSVoiceV2 {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case owner = "Owner"
             case poolIds = "PoolIds"
         }
     }
@@ -3202,14 +3262,17 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// An array of SenderIdAndCountry objects to search for.
+        /// Use SELF to filter the list of Sender Ids to ones your account owns or use SHARED to filter on Sender Ids shared with your account. The Owner and SenderIds parameters can't be used at the same time.
+        public let owner: Owner?
+        /// An array of SenderIdAndCountry objects to search for.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let senderIds: [SenderIdAndCountry]?
 
         @inlinable
-        public init(filters: [SenderIdFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, senderIds: [SenderIdAndCountry]? = nil) {
+        public init(filters: [SenderIdFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Owner? = nil, senderIds: [SenderIdAndCountry]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owner = owner
             self.senderIds = senderIds
         }
 
@@ -3233,6 +3296,7 @@ extension PinpointSMSVoiceV2 {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case owner = "Owner"
             case senderIds = "SenderIds"
         }
     }
@@ -3376,9 +3440,9 @@ extension PinpointSMSVoiceV2 {
         public let clientToken: String?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         public let isoCountryCode: String
-        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for SenderId and SenderIdArn.
+        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
-        /// The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.
+        /// The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
 
         @inlinable
@@ -3629,6 +3693,48 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetResourcePolicyResult: AWSDecodableShape {
+        /// The time when the resource-based policy was created, in UNIX epoch time format.
+        public let createdTimestamp: Date?
+        /// The JSON formatted string that contains the resource-based policy attached to the AWS End User Messaging SMS and Voice resource.
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, policy: String? = nil, resourceArn: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct KeywordFilter: AWSEncodableShape {
         /// The name of the attribute to filter on.
         public let name: KeywordFilterName
@@ -3713,7 +3819,7 @@ extension PinpointSMSVoiceV2 {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// The unique identifier for the pool. This value can be either the PoolId or PoolArn.
+        /// The unique identifier for the pool. This value can be either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
 
         @inlinable
@@ -4287,7 +4393,7 @@ extension PinpointSMSVoiceV2 {
         public let keywordAction: KeywordAction?
         /// The message associated with the keyword.
         public let keywordMessage: String
-        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.
+        /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
 
         @inlinable
@@ -4351,7 +4457,7 @@ extension PinpointSMSVoiceV2 {
     public struct PutOptedOutNumberRequest: AWSEncodableShape {
         /// The phone number to add to the OptOutList in E.164 format.
         public let optedOutNumber: String
-        /// The OptOutListName or OptOutListArn to add the phone number to.
+        /// The OptOutListName or OptOutListArn to add the phone number to.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String
 
         @inlinable
@@ -4489,6 +4595,54 @@ extension PinpointSMSVoiceV2 {
             case selectChoices = "SelectChoices"
             case textValue = "TextValue"
             case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The JSON formatted resource-based policy to attach.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource to attach the resource-based policy to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 10000)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PutResourcePolicyResult: AWSDecodableShape {
+        /// The time when the resource-based policy was created, in UNIX epoch time format.
+        public let createdTimestamp: Date?
+        /// The JSON formatted Resource Policy.
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(createdTimestamp: Date? = nil, policy: String? = nil, resourceArn: String? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -5047,7 +5201,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct ReleasePhoneNumberRequest: AWSEncodableShape {
-        /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.
+        /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let phoneNumberId: String
 
         @inlinable
@@ -5218,9 +5372,9 @@ extension PinpointSMSVoiceV2 {
         public let numberCapabilities: [NumberCapability]
         /// The type of phone number to request.
         public let numberType: RequestableNumberType
-        /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.
+        /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String?
-        /// The pool to associated with the phone number. You can use the PoolId or PoolArn.
+        /// The pool to associated with the phone number. You can use the PoolId or PoolArn.   If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String?
         /// Use this field to attach your phone number for an external registration process.
         public let registrationId: String?
@@ -5511,7 +5665,7 @@ extension PinpointSMSVoiceV2 {
         public let destinationCountryParameters: [DestinationCountryParameterKey: String]?
         /// Choose the language to use for the message.
         public let languageCode: LanguageCode?
-        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String?
         /// Choose to send the verification code as an SMS or voice message.
         public let verificationChannel: VerificationChannel
@@ -5596,7 +5750,7 @@ extension PinpointSMSVoiceV2 {
         public let mediaUrls: [String]?
         /// The text body of the message.
         public let messageBody: String?
-        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// The unique identifier of the protect configuration to use.
         public let protectConfigurationId: String?
@@ -5703,7 +5857,7 @@ extension PinpointSMSVoiceV2 {
         public let messageBody: String?
         /// The type of message. Valid values are            for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType?
-        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
+        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String?
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String?
@@ -5812,7 +5966,7 @@ extension PinpointSMSVoiceV2 {
         public let messageBody: String?
         /// Specifies if the MessageBody field contains text or speech synthesis markup language (SSML).   TEXT: This is the default value. When used the maximum character limit is 3000.   SSML: When used the maximum character limit is 6000 including SSML tagging.
         public let messageBodyTextType: VoiceMessageBodyTextType?
-        /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.
+        /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String?
@@ -6543,7 +6697,7 @@ extension PinpointSMSVoiceV2 {
         public let deletionProtectionEnabled: Bool?
         /// The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
         public let optOutListName: String?
-        /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.
+        /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let phoneNumberId: String
         /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?
@@ -6672,9 +6826,9 @@ extension PinpointSMSVoiceV2 {
     public struct UpdatePoolRequest: AWSEncodableShape {
         /// When set to true the pool can't be deleted.
         public let deletionProtectionEnabled: Bool?
-        /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn.
+        /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String?
-        /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn.
+        /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
         /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
         public let selfManagedOptOutsEnabled: Bool?

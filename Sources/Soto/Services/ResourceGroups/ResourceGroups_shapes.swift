@@ -35,6 +35,9 @@ extension ResourceGroups {
 
     public enum GroupFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configurationType = "configuration-type"
+        case criticality = "criticality"
+        case displayName = "display-name"
+        case owner = "owner"
         case resourceType = "resource-type"
         public var description: String { return self.rawValue }
     }
@@ -50,6 +53,26 @@ extension ResourceGroups {
         case error = "ERROR"
         case inProgress = "IN_PROGRESS"
         case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case skipped = "SKIPPED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case group = "GROUP"
+        case ungroup = "UNGROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListGroupingStatusesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resourceArn = "resource-arn"
+        case status = "status"
         public var description: String { return self.rawValue }
     }
 
@@ -77,6 +100,12 @@ extension ResourceGroups {
         public var description: String { return self.rawValue }
     }
 
+    public enum TagSyncTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
@@ -101,23 +130,52 @@ extension ResourceGroups {
         }
     }
 
+    public struct CancelTagSyncTaskInput: AWSEncodableShape {
+        /// The Amazon resource name (ARN) of the tag-sync task.
+        public let taskArn: String
+
+        @inlinable
+        public init(taskArn: String) {
+            self.taskArn = taskArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskArn, name: "taskArn", parent: name, max: 1600)
+            try self.validate(self.taskArn, name: "taskArn", parent: name, min: 12)
+            try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}/tag-sync-task/[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskArn = "TaskArn"
+        }
+    }
+
     public struct CreateGroupInput: AWSEncodableShape {
         /// A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfigurationItem elements. For details about the syntax of service configurations, see Service configurations for Resource Groups.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
         public let configuration: [GroupConfigurationItem]?
+        /// The critical rank of the application group on a scale of 1 to 10, with a  rank of 1 being the most critical, and a rank of 10 being least critical.
+        public let criticality: Int?
         /// The description of the resource group. Descriptions can consist of letters, numbers, hyphens, underscores, periods, and spaces.
         public let description: String?
+        /// The name of the application group, which you can change at any time.
+        public let displayName: String?
         /// The name of the group, which is the identifier of the group in other operations. You can't change the name of a resource group after you create it. A resource group name can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start with AWS, aws, or any other possible capitalization; these are reserved. A resource group name must be unique within each Amazon Web Services Region in your Amazon Web Services account.
         public let name: String
+        /// A name, email address or other identifier for the person or group  who is considered as the owner of this application group within your organization.
+        public let owner: String?
         /// The resource query that determines which Amazon Web Services resources are members of this group. For more information about resource queries, see Create a tag-based group in Resource Groups.   A resource group can contain either a ResourceQuery or a Configuration, but not both.
         public let resourceQuery: ResourceQuery?
         /// The tags to add to the group. A tag is key-value pair string.
         public let tags: [String: String]?
 
         @inlinable
-        public init(configuration: [GroupConfigurationItem]? = nil, description: String? = nil, name: String, resourceQuery: ResourceQuery? = nil, tags: [String: String]? = nil) {
+        public init(configuration: [GroupConfigurationItem]? = nil, criticality: Int? = nil, description: String? = nil, displayName: String? = nil, name: String, owner: String? = nil, resourceQuery: ResourceQuery? = nil, tags: [String: String]? = nil) {
             self.configuration = configuration
+            self.criticality = criticality
             self.description = description
+            self.displayName = displayName
             self.name = name
+            self.owner = owner
             self.resourceQuery = resourceQuery
             self.tags = tags
         }
@@ -127,11 +185,17 @@ extension ResourceGroups {
                 try $0.validate(name: "\(name).configuration[]")
             }
             try self.validate(self.configuration, name: "configuration", parent: name, max: 2)
+            try self.validate(self.criticality, name: "criticality", parent: name, max: 10)
+            try self.validate(self.criticality, name: "criticality", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\sa-zA-Z0-9_\\.-]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 300)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.owner, name: "owner", parent: name, max: 300)
+            try self.validate(self.owner, name: "owner", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.resourceQuery?.validate(name: "\(name).resourceQuery")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -144,8 +208,11 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
+            case criticality = "Criticality"
             case description = "Description"
+            case displayName = "DisplayName"
             case name = "Name"
+            case owner = "Owner"
             case resourceQuery = "ResourceQuery"
             case tags = "Tags"
         }
@@ -178,7 +245,7 @@ extension ResourceGroups {
     }
 
     public struct DeleteGroupInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group to delete.
+        /// The name or the Amazon resource name (ARN) of the resource group to delete.
         public let group: String?
         /// Deprecated - don't use this parameter. Use Group instead.
         public let groupName: String?
@@ -199,10 +266,10 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -230,7 +297,7 @@ extension ResourceGroups {
         public let errorCode: String?
         /// The error message text associated with the failure.
         public let errorMessage: String?
-        /// The ARN of the resource that failed to be added or removed.
+        /// The Amazon resource name (ARN) of the resource that failed to be added or removed.
         public let resourceArn: String?
 
         @inlinable
@@ -262,7 +329,7 @@ extension ResourceGroups {
     }
 
     public struct GetGroupConfigurationInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group for which you want to retrive the service configuration.
+        /// The name or the Amazon resource name (ARN) of the resource group for which you want to retrive the service configuration.
         public let group: String?
 
         @inlinable
@@ -273,7 +340,7 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -296,7 +363,7 @@ extension ResourceGroups {
     }
 
     public struct GetGroupInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group to retrieve.
+        /// The name or the Amazon resource name (ARN) of the resource group to retrieve.
         public let group: String?
         /// Deprecated - don't use this parameter. Use Group instead.
         public let groupName: String?
@@ -317,10 +384,10 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -344,7 +411,7 @@ extension ResourceGroups {
     }
 
     public struct GetGroupQueryInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group to query.
+        /// The name or the Amazon resource name (ARN) of the resource group to query.
         public let group: String?
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
@@ -365,10 +432,10 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -391,8 +458,74 @@ extension ResourceGroups {
         }
     }
 
+    public struct GetTagSyncTaskInput: AWSEncodableShape {
+        /// The Amazon resource name (ARN) of the tag-sync task.
+        public let taskArn: String
+
+        @inlinable
+        public init(taskArn: String) {
+            self.taskArn = taskArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskArn, name: "taskArn", parent: name, max: 1600)
+            try self.validate(self.taskArn, name: "taskArn", parent: name, min: 12)
+            try self.validate(self.taskArn, name: "taskArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}/tag-sync-task/[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskArn = "TaskArn"
+        }
+    }
+
+    public struct GetTagSyncTaskOutput: AWSDecodableShape {
+        /// The timestamp of when the tag-sync task was created.
+        public let createdAt: Date?
+        /// The specific error message in cases where the tag-sync task status is ERROR.
+        public let errorMessage: String?
+        /// The Amazon resource name (ARN) of the application group.
+        public let groupArn: String?
+        /// The name of the application group.
+        public let groupName: String?
+        /// The Amazon resource name (ARN) of the role assumed by Resource Groups to tag and untag resources on your behalf.  For more information about this role, review Tag-sync required permissions.
+        public let roleArn: String?
+        /// The status of the tag-sync task.  Valid values include:    ACTIVE - The tag-sync task is actively managing resources in  the application by adding or removing the awsApplication tag from resources  when they are tagged or untagged with the specified tag key-value pair.      ERROR - The tag-sync task is not actively managing resources  in the application. Review the ErrorMessage for more information about  resolving the error.
+        public let status: TagSyncTaskStatus?
+        /// The tag key.
+        public let tagKey: String?
+        /// The tag value.
+        public let tagValue: String?
+        /// The Amazon resource name (ARN) of the tag-sync task.
+        public let taskArn: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, errorMessage: String? = nil, groupArn: String? = nil, groupName: String? = nil, roleArn: String? = nil, status: TagSyncTaskStatus? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
+            self.createdAt = createdAt
+            self.errorMessage = errorMessage
+            self.groupArn = groupArn
+            self.groupName = groupName
+            self.roleArn = roleArn
+            self.status = status
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case errorMessage = "ErrorMessage"
+            case groupArn = "GroupArn"
+            case groupName = "GroupName"
+            case roleArn = "RoleArn"
+            case status = "Status"
+            case tagKey = "TagKey"
+            case tagValue = "TagValue"
+            case taskArn = "TaskArn"
+        }
+    }
+
     public struct GetTagsInput: AWSEncodableShape {
-        /// The ARN of the resource group whose tags you want to retrieve.
+        /// The Amazon resource name (ARN) of the resource group whose tags you want to retrieve.
         public let arn: String
 
         @inlinable
@@ -409,14 +542,14 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 12)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetTagsOutput: AWSDecodableShape {
-        /// The ARN of the tagged resource group.
+        /// TheAmazon resource name (ARN) of the tagged resource group.
         public let arn: String?
         /// The tags associated with the specified resource group.
         public let tags: [String: String]?
@@ -434,24 +567,40 @@ extension ResourceGroups {
     }
 
     public struct Group: AWSDecodableShape {
+        /// A tag that defines the application group membership. This tag is only supported  for application groups.
+        public let applicationTag: [String: String]?
+        /// The critical rank of the application group on a scale of 1 to 10, with a  rank of 1 being the most critical, and a rank of 10 being least critical.
+        public let criticality: Int?
         /// The description of the resource group.
         public let description: String?
-        /// The ARN of the resource group.
+        /// The name of the application group, which you can change at any time.
+        public let displayName: String?
+        /// The Amazon resource name (ARN) of the resource group.
         public let groupArn: String
         /// The name of the resource group.
         public let name: String
+        /// A name, email address or other identifier for the person or group  who is considered as the owner of this application group within your organization.
+        public let owner: String?
 
         @inlinable
-        public init(description: String? = nil, groupArn: String, name: String) {
+        public init(applicationTag: [String: String]? = nil, criticality: Int? = nil, description: String? = nil, displayName: String? = nil, groupArn: String, name: String, owner: String? = nil) {
+            self.applicationTag = applicationTag
+            self.criticality = criticality
             self.description = description
+            self.displayName = displayName
             self.groupArn = groupArn
             self.name = name
+            self.owner = owner
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationTag = "ApplicationTag"
+            case criticality = "Criticality"
             case description = "Description"
+            case displayName = "DisplayName"
             case groupArn = "GroupArn"
             case name = "Name"
+            case owner = "Owner"
         }
     }
 
@@ -550,9 +699,9 @@ extension ResourceGroups {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, max: 300)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^AWS::(AllSupported|[a-zA-Z0-9]+::[a-zA-Z0-9]+)$")
+                try validate($0, name: "values[]", parent: name, pattern: "^AWS::(AllSupported|[a-zA-Z0-9]+::[a-zA-Z0-9]+)|[\\s\\p{L}0-9_\\.-]*$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 5)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -565,20 +714,36 @@ extension ResourceGroups {
     }
 
     public struct GroupIdentifier: AWSDecodableShape {
-        /// The ARN of the resource group.
+        /// The critical rank of the application group on a scale of 1 to 10, with a  rank of 1 being the most critical, and a rank of 10 being least critical.
+        public let criticality: Int?
+        /// The description of the application group.
+        public let description: String?
+        /// The name of the application group, which you can change at any time.
+        public let displayName: String?
+        /// The Amazon resource name (ARN) of the resource group.
         public let groupArn: String?
         /// The name of the resource group.
         public let groupName: String?
+        /// A name, email address or other identifier for the person or group  who is considered as the owner of this group within your organization.
+        public let owner: String?
 
         @inlinable
-        public init(groupArn: String? = nil, groupName: String? = nil) {
+        public init(criticality: Int? = nil, description: String? = nil, displayName: String? = nil, groupArn: String? = nil, groupName: String? = nil, owner: String? = nil) {
+            self.criticality = criticality
+            self.description = description
+            self.displayName = displayName
             self.groupArn = groupArn
             self.groupName = groupName
+            self.owner = owner
         }
 
         private enum CodingKeys: String, CodingKey {
+            case criticality = "Criticality"
+            case description = "Description"
+            case displayName = "DisplayName"
             case groupArn = "GroupArn"
             case groupName = "GroupName"
+            case owner = "Owner"
         }
     }
 
@@ -601,9 +766,9 @@ extension ResourceGroups {
     }
 
     public struct GroupResourcesInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group to add resources to.
+        /// The name or the Amazon resource name (ARN) of the resource group to add resources to.
         public let group: String
-        /// The list of ARNs of the resources to be added to the group.
+        /// The list of Amazon resource names (ARNs) of the resources to be added to the group.
         public let resourceArns: [String]
 
         @inlinable
@@ -615,7 +780,7 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.resourceArns.forEach {
                 try validate($0, name: "resourceArns[]", parent: name, pattern: "^arn:aws(-[a-z]+)*:[a-z0-9\\-]*:([a-z]{2}(-[a-z]+)+-\\d{1})?:([0-9]{12})?:.+$")
             }
@@ -630,11 +795,11 @@ extension ResourceGroups {
     }
 
     public struct GroupResourcesOutput: AWSDecodableShape {
-        /// A list of ARNs of any resources that this operation failed to add to the group.
+        /// A list of Amazon resource names (ARNs) of any resources that this operation failed to add to the group.
         public let failed: [FailedResource]?
-        /// A list of ARNs of any resources that this operation is still in the process adding to the group. These pending additions continue asynchronously. You can check the status of pending additions by using the  ListGroupResources  operation, and checking the Resources array in the response and the Status field of each object in that array.
+        /// A list of Amazon resource names (ARNs) of any resources that this operation is still in the process adding to the group. These pending additions continue asynchronously. You can check the status of pending additions by using the  ListGroupResources  operation, and checking the Resources array in the response and the Status field of each object in that array.
         public let pending: [PendingResource]?
-        /// A list of ARNs of the resources that this operation successfully added to the group.
+        /// A list of Amazon resource names (ARNs) of the resources that this operation successfully added to the group.
         public let succeeded: [String]?
 
         @inlinable
@@ -651,10 +816,44 @@ extension ResourceGroups {
         }
     }
 
+    public struct GroupingStatusesItem: AWSDecodableShape {
+        /// Describes the resource grouping action with values of  GROUP or UNGROUP.
+        public let action: GroupingType?
+        /// Specifies the error code that was raised.
+        public let errorCode: String?
+        /// A message that explains the ErrorCode.
+        public let errorMessage: String?
+        /// The Amazon resource name (ARN) of a resource.
+        public let resourceArn: String?
+        /// Describes the resource grouping status with values of  SUCCESS, FAILED, IN_PROGRESS,  or SKIPPED.
+        public let status: GroupingStatus?
+        /// A timestamp of when the status was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(action: GroupingType? = nil, errorCode: String? = nil, errorMessage: String? = nil, resourceArn: String? = nil, status: GroupingStatus? = nil, updatedAt: Date? = nil) {
+            self.action = action
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.resourceArn = resourceArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case resourceArn = "ResourceArn"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct ListGroupResourcesInput: AWSEncodableShape {
         /// Filters, formatted as ResourceFilter objects, that you want to apply to a ListGroupResources operation. Filters the results to include only those of the specified resource types.    resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.    When you specify a resource-type filter for ListGroupResources, Resource Groups validates your filter resource types against the types that are defined in the query associated with the group. For example, if a group contains only S3 buckets because its query specifies only that resource type, but your resource-type filter includes EC2 instances, AWS Resource Groups does not filter for EC2 instances. In this case, a ListGroupResources request returns a BadRequestException error with a message similar to the following:  The resource types specified as filters in the request are not valid.  The error includes a list of resource types that failed the validation because they are not part of the query associated with the group. This validation doesn't occur when the group query specifies AWS::AllSupported, because a group based on such a query can contain any of the allowed resource types for the query type (tag-based or Amazon CloudFront stack-based queries).
         public let filters: [ResourceFilter]?
-        /// The name or the ARN of the resource group
+        /// The name or the Amazon resource name (ARN) of the resource group.
         public let group: String?
         ///    Deprecated - don't use this parameter. Use the Group request field instead.
         public let groupName: String?
@@ -698,10 +897,10 @@ extension ResourceGroups {
             }
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -772,8 +971,95 @@ extension ResourceGroups {
         }
     }
 
+    public struct ListGroupingStatusesFilter: AWSEncodableShape {
+        /// The name of the filter. Filter names are case-sensitive.
+        public let name: ListGroupingStatusesFilterName
+        /// One or more filter values. Allowed filter values vary by resource filter name, and are case-sensitive.
+        public let values: [String]
+
+        @inlinable
+        public init(name: ListGroupingStatusesFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, pattern: "^SUCCESS|FAILED|IN_PROGRESS|SKIPPED|arn:aws(-[a-z]+)*:[a-z0-9\\-]*:([a-z]{2}(-[a-z]+)+-\\d{1})?:([0-9]{12})?:.+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 10)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct ListGroupingStatusesInput: AWSEncodableShape {
+        /// The filter name and value pair that is used to return more  specific results from a list of resources.
+        public let filters: [ListGroupingStatusesFilter]?
+        /// The application group identifier, expressed as an Amazon resource name (ARN) or the application group name.
+        public let group: String
+        /// The maximum number of resources and their statuses returned in the  response.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the  value provided by a previous call's NextToken response to indicate  where the output should continue from.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [ListGroupingStatusesFilter]? = nil, group: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.group = group
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.group, name: "group", parent: name, max: 1600)
+            try self.validate(self.group, name: "group", parent: name, min: 1)
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/]*={0,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case group = "Group"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListGroupingStatusesOutput: AWSDecodableShape {
+        /// The application group identifier, expressed as an Amazon resource name (ARN) or the application group name.
+        public let group: String?
+        /// Returns details about the grouping or ungrouping status of the  resources in the specified application group.
+        public let groupingStatuses: [GroupingStatusesItem]?
+        /// If present, indicates that more output is available than is included in the current response.  Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output.  You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(group: String? = nil, groupingStatuses: [GroupingStatusesItem]? = nil, nextToken: String? = nil) {
+            self.group = group
+            self.groupingStatuses = groupingStatuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+            case groupingStatuses = "GroupingStatuses"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListGroupsInput: AWSEncodableShape {
-        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroups     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
+        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroups     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
         public let filters: [GroupFilter]?
         /// The total number of results that you want included on each page of the
         /// response. If you do not include this parameter, it defaults to a value that is specific to the
@@ -853,6 +1139,83 @@ extension ResourceGroups {
         }
     }
 
+    public struct ListTagSyncTasksFilter: AWSEncodableShape {
+        /// The Amazon resource name (ARN) of the application group.
+        public let groupArn: String?
+        /// The name of the application group.
+        public let groupName: String?
+
+        @inlinable
+        public init(groupArn: String? = nil, groupName: String? = nil) {
+            self.groupArn = groupArn
+            self.groupName = groupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.groupArn, name: "groupArn", parent: name, max: 1600)
+            try self.validate(self.groupArn, name: "groupArn", parent: name, min: 12)
+            try self.validate(self.groupArn, name: "groupArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
+            try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
+            try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupArn = "GroupArn"
+            case groupName = "GroupName"
+        }
+    }
+
+    public struct ListTagSyncTasksInput: AWSEncodableShape {
+        /// The Amazon resource name (ARN) or name of the application group for which you want to return a  list of tag-sync tasks.
+        public let filters: [ListTagSyncTasksFilter]?
+        /// The maximum number of results to be included in the response.
+        public let maxResults: Int?
+        /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken  response indicates that more output is available. Set this parameter to the  value provided by a previous call's NextToken response to indicate  where the output should continue from.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [ListTagSyncTasksFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/]*={0,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTagSyncTasksOutput: AWSDecodableShape {
+        /// If present, indicates that more output is available than is included in the current response.  Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output.  You should repeat this until the NextToken response element comes back as null.
+        public let nextToken: String?
+        /// A list of tag-sync tasks and information about each task.
+        public let tagSyncTasks: [TagSyncTaskItem]?
+
+        @inlinable
+        public init(nextToken: String? = nil, tagSyncTasks: [TagSyncTaskItem]? = nil) {
+            self.nextToken = nextToken
+            self.tagSyncTasks = tagSyncTasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tagSyncTasks = "TagSyncTasks"
+        }
+    }
+
     public struct PendingResource: AWSDecodableShape {
         /// The Amazon resource name (ARN) of the resource that's in a pending state.
         public let resourceArn: String?
@@ -870,7 +1233,7 @@ extension ResourceGroups {
     public struct PutGroupConfigurationInput: AWSEncodableShape {
         /// The new configuration to associate with the specified group. A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfigurationItem elements. For information about the syntax of a service configuration, see Service configurations for Resource Groups.  A resource group can contain either a Configuration or a ResourceQuery, but not both.
         public let configuration: [GroupConfigurationItem]?
-        /// The name or ARN of the resource group with the configuration that you want to update.
+        /// The name or Amazon resource name (ARN) of the resource group with the configuration that you want to update.
         public let group: String?
 
         @inlinable
@@ -886,7 +1249,7 @@ extension ResourceGroups {
             try self.validate(self.configuration, name: "configuration", parent: name, max: 2)
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -946,7 +1309,7 @@ extension ResourceGroups {
     }
 
     public struct ResourceIdentifier: AWSDecodableShape {
-        /// The ARN of a resource.
+        /// The Amazon resource name (ARN) of a resource.
         public let resourceArn: String?
         /// The resource type of a resource, such as AWS::EC2::Instance.
         public let resourceType: String?
@@ -966,7 +1329,7 @@ extension ResourceGroups {
     public struct ResourceQuery: AWSEncodableShape & AWSDecodableShape {
         /// The query that defines a group or a search. The contents depends on the value of the Type element.    ResourceTypeFilters – Applies to all ResourceQuery objects of either Type. This element contains one of the following two items:   The value AWS::AllSupported. This causes the ResourceQuery to match resources of any resource type that also match the query.   A list (a JSON array) of resource type identifiers that limit the query to only resources of the specified types. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see Resources you can use with Resource Groups and Tag Editor in the Resource Groups User Guide.   Example: "ResourceTypeFilters": ["AWS::AllSupported"] or "ResourceTypeFilters": ["AWS::EC2::Instance", "AWS::S3::Bucket"]     TagFilters – applicable only if Type = TAG_FILTERS_1_0. The Query contains a JSON string that represents a collection of simple tag filters. The JSON string uses a syntax similar to the  GetResources operation, but uses only the  ResourceTypeFilters and  TagFilters fields. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For example, consider the following sample query for resources that have two tags, Stage and Version, with two values each:  [{"Stage":["Test","Deploy"]},{"Version":["1","2"]}]  The results of this resource query could include the following.   An Amazon EC2 instance that has the following two tags: {"Stage":"Deploy"}, and {"Version":"2"}    An S3 bucket that has the following two tags: {"Stage":"Test"}, and {"Version":"1"}    The resource query results would not include the following items in the results, however.    An Amazon EC2 instance that has only the following tag: {"Stage":"Deploy"}. The instance does not have all of the tag keys specified in the filter, so it is excluded from the results.   An RDS database that has the following two tags: {"Stage":"Archived"} and {"Version":"4"}  The database has all of the tag keys, but none of those keys has an associated value that matches at least one of the specified values in the filter.   Example: "TagFilters": [ { "Key": "Stage", "Values": [ "Gamma", "Beta" ] }     StackIdentifier – applicable only if Type = CLOUDFORMATION_STACK_1_0. The value of this parameter is the Amazon Resource Name (ARN) of the CloudFormation stack whose resources you want included in the group.
         public let query: String
-        /// The type of the query to perform. This can have one of two values:     CLOUDFORMATION_STACK_1_0: Specifies that you want the group to contain the members of an CloudFormation stack. The Query contains a StackIdentifier element with an ARN for a CloudFormation stack.     TAG_FILTERS_1_0: Specifies that you want the group to include resource that have tags that match the query.
+        /// The type of the query to perform. This can have one of two values:     CLOUDFORMATION_STACK_1_0: Specifies that you want the group to contain the members of an CloudFormation stack. The Query contains a StackIdentifier element with an Amazon resource name (ARN) for a CloudFormation stack.     TAG_FILTERS_1_0: Specifies that you want the group to include resource that have tags that match the query.
         public let type: QueryType
 
         @inlinable
@@ -1065,8 +1428,82 @@ extension ResourceGroups {
         }
     }
 
+    public struct StartTagSyncTaskInput: AWSEncodableShape {
+        /// The Amazon resource name (ARN) or name of the application group for which you want to create a tag-sync task.
+        public let group: String
+        /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
+        public let roleArn: String
+        /// The tag key. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
+        public let tagKey: String
+        /// The tag value. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
+        public let tagValue: String
+
+        @inlinable
+        public init(group: String, roleArn: String, tagKey: String, tagValue: String) {
+            self.group = group
+            self.roleArn = roleArn
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.group, name: "group", parent: name, max: 1600)
+            try self.validate(self.group, name: "group", parent: name, min: 1)
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.tagValue, name: "tagValue", parent: name, max: 256)
+            try self.validate(self.tagValue, name: "tagValue", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "Group"
+            case roleArn = "RoleArn"
+            case tagKey = "TagKey"
+            case tagValue = "TagValue"
+        }
+    }
+
+    public struct StartTagSyncTaskOutput: AWSDecodableShape {
+        /// The Amazon resource name (ARN) of the application group for which you want to add or remove resources.
+        public let groupArn: String?
+        /// The name of the application group to onboard and sync resources.
+        public let groupName: String?
+        /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
+        public let roleArn: String?
+        /// The tag key of the tag-sync task.
+        public let tagKey: String?
+        /// The tag value of the tag-sync task.
+        public let tagValue: String?
+        /// The Amazon resource name (ARN) of the new tag-sync task.
+        public let taskArn: String?
+
+        @inlinable
+        public init(groupArn: String? = nil, groupName: String? = nil, roleArn: String? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
+            self.groupArn = groupArn
+            self.groupName = groupName
+            self.roleArn = roleArn
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupArn = "GroupArn"
+            case groupName = "GroupName"
+            case roleArn = "RoleArn"
+            case tagKey = "TagKey"
+            case tagValue = "TagValue"
+            case taskArn = "TaskArn"
+        }
+    }
+
     public struct TagInput: AWSEncodableShape {
-        /// The ARN of the resource group to which to add tags.
+        /// The Amazon resource name (ARN) of the resource group to which to add tags.
         public let arn: String
         /// The tags to add to the specified resource group. A tag is a string-to-string map of key-value pairs.
         public let tags: [String: String]
@@ -1087,7 +1524,7 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 12)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1103,7 +1540,7 @@ extension ResourceGroups {
     }
 
     public struct TagOutput: AWSDecodableShape {
-        /// The ARN of the tagged resource.
+        /// The Amazon resource name (ARN) of the tagged resource.
         public let arn: String?
         /// The tags that have been added to the specified resource group.
         public let tags: [String: String]?
@@ -1120,10 +1557,56 @@ extension ResourceGroups {
         }
     }
 
+    public struct TagSyncTaskItem: AWSDecodableShape {
+        /// The timestamp of when the tag-sync task was created.
+        public let createdAt: Date?
+        /// The specific error message in cases where the tag-sync task status is Error.
+        public let errorMessage: String?
+        /// The Amazon resource name (ARN) of the application group.
+        public let groupArn: String?
+        /// The name of the application group.
+        public let groupName: String?
+        /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
+        public let roleArn: String?
+        /// The status of the tag-sync task.  Valid values include:    ACTIVE - The tag-sync task is actively managing resources in  the application by adding or removing the awsApplication tag from resources  when they are tagged or untagged with the specified tag key-value pair.      ERROR - The tag-sync task is not actively managing resources  in the application. Review the ErrorMessage for more information about  resolving the error.
+        public let status: TagSyncTaskStatus?
+        /// The tag key.
+        public let tagKey: String?
+        /// The tag value.
+        public let tagValue: String?
+        /// The Amazon resource name (ARN) of the tag-sync task.
+        public let taskArn: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, errorMessage: String? = nil, groupArn: String? = nil, groupName: String? = nil, roleArn: String? = nil, status: TagSyncTaskStatus? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
+            self.createdAt = createdAt
+            self.errorMessage = errorMessage
+            self.groupArn = groupArn
+            self.groupName = groupName
+            self.roleArn = roleArn
+            self.status = status
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+            self.taskArn = taskArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case errorMessage = "ErrorMessage"
+            case groupArn = "GroupArn"
+            case groupName = "GroupName"
+            case roleArn = "RoleArn"
+            case status = "Status"
+            case tagKey = "TagKey"
+            case tagValue = "TagValue"
+            case taskArn = "TaskArn"
+        }
+    }
+
     public struct UngroupResourcesInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group from which to remove the resources.
+        /// The name or the Amazon resource name (ARN) of the resource group from which to remove the resources.
         public let group: String
-        /// The ARNs of the resources to be removed from the group.
+        /// The Amazon resource names (ARNs) of the resources to be removed from the group.
         public let resourceArns: [String]
 
         @inlinable
@@ -1135,7 +1618,7 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.resourceArns.forEach {
                 try validate($0, name: "resourceArns[]", parent: name, pattern: "^arn:aws(-[a-z]+)*:[a-z0-9\\-]*:([a-z]{2}(-[a-z]+)+-\\d{1})?:([0-9]{12})?:.+$")
             }
@@ -1172,7 +1655,7 @@ extension ResourceGroups {
     }
 
     public struct UntagInput: AWSEncodableShape {
-        /// The ARN of the resource group from which to remove tags. The command removed both the specified keys and any values associated with those keys.
+        /// The Amazon resource name (ARN) of the resource group from which to remove tags. The command removed both the specified keys and any values associated with those keys.
         public let arn: String
         /// The keys of the tags to be removed.
         public let keys: [String]
@@ -1193,7 +1676,7 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 1600)
             try self.validate(self.arn, name: "arn", parent: name, min: 12)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.keys.forEach {
                 try validate($0, name: "keys[]", parent: name, max: 128)
                 try validate($0, name: "keys[]", parent: name, min: 1)
@@ -1207,7 +1690,7 @@ extension ResourceGroups {
     }
 
     public struct UntagOutput: AWSDecodableShape {
-        /// The ARN of the resource group from which tags have been removed.
+        /// The Amazon resource name (ARN) of the resource group from which tags have been removed.
         public let arn: String?
         /// The keys of the tags that were removed.
         public let keys: [String]?
@@ -1225,7 +1708,7 @@ extension ResourceGroups {
     }
 
     public struct UpdateAccountSettingsInput: AWSEncodableShape {
-        /// Specifies whether you want to turn group lifecycle events on or off.
+        /// Specifies whether you want to turn group lifecycle events on or off. You can't turn on group lifecycle events if your resource groups quota is greater than 2,000.
         public let groupLifecycleEventsDesiredStatus: GroupLifecycleEventsDesiredStatus?
 
         @inlinable
@@ -1253,43 +1736,64 @@ extension ResourceGroups {
     }
 
     public struct UpdateGroupInput: AWSEncodableShape {
+        /// The critical rank of the application group on a scale of 1 to 10, with a  rank of 1 being the most critical, and a rank of 10 being least critical.
+        public let criticality: Int?
         /// The new description that you want to update the resource group with. Descriptions can contain letters, numbers, hyphens, underscores, periods, and spaces.
         public let description: String?
-        /// The name or the ARN of the resource group to modify.
+        /// The name of the application group, which you can change at any time.
+        public let displayName: String?
+        /// The name or the ARN of the resource group to update.
         public let group: String?
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
+        /// A name, email address or other identifier for the person or group  who is considered as the owner of this application group within your organization.
+        public let owner: String?
 
         @inlinable
-        public init(description: String? = nil, group: String? = nil) {
+        public init(criticality: Int? = nil, description: String? = nil, displayName: String? = nil, group: String? = nil, owner: String? = nil) {
+            self.criticality = criticality
             self.description = description
+            self.displayName = displayName
             self.group = group
             self.groupName = nil
+            self.owner = owner
         }
 
         @available(*, deprecated, message: "Members groupName have been deprecated")
         @inlinable
-        public init(description: String? = nil, group: String? = nil, groupName: String? = nil) {
+        public init(criticality: Int? = nil, description: String? = nil, displayName: String? = nil, group: String? = nil, groupName: String? = nil, owner: String? = nil) {
+            self.criticality = criticality
             self.description = description
+            self.displayName = displayName
             self.group = group
             self.groupName = groupName
+            self.owner = owner
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.criticality, name: "criticality", parent: name, max: 10)
+            try self.validate(self.criticality, name: "criticality", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\sa-zA-Z0-9_\\.-]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 300)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
+            try self.validate(self.owner, name: "owner", parent: name, max: 300)
+            try self.validate(self.owner, name: "owner", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case criticality = "Criticality"
             case description = "Description"
+            case displayName = "DisplayName"
             case group = "Group"
             case groupName = "GroupName"
+            case owner = "Owner"
         }
     }
 
@@ -1308,7 +1812,7 @@ extension ResourceGroups {
     }
 
     public struct UpdateGroupQueryInput: AWSEncodableShape {
-        /// The name or the ARN of the resource group to query.
+        /// The name or the Amazon resource name (ARN) of the resource group to query.
         public let group: String?
         /// Don't use this parameter. Use Group instead.
         public let groupName: String?
@@ -1333,10 +1837,10 @@ extension ResourceGroups {
         public func validate(name: String) throws {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
-            try self.validate(self.group, name: "group", parent: name, pattern: "^(arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/)?[a-zA-Z0-9_\\.-]{1,300}$")
+            try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 300)
             try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]+$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}$")
             try self.resourceQuery.validate(name: "\(name).resourceQuery")
         }
 

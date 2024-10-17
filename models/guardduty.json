@@ -4674,6 +4674,13 @@
                         "smithy.api#documentation": "<p>The name of the task group that's associated with the task.</p>",
                         "smithy.api#jsonName": "group"
                     }
+                },
+                "LaunchType": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A capacity on which the task is running. For example, <code>Fargate</code> and <code>EC2</code>.</p>",
+                        "smithy.api#jsonName": "launchType"
+                    }
                 }
             },
             "traits": {
@@ -8774,7 +8781,7 @@
                     "target": "com.amazonaws.guardduty#SourceIps",
                     "traits": {
                         "smithy.api#documentation": "<p>The IP of the Kubernetes API caller and the IPs of any proxies or load balancers between\n      the caller and the API endpoint.</p>",
-                        "smithy.api#jsonName": "sourceIps"
+                        "smithy.api#jsonName": "sourceIPs"
                     }
                 },
                 "UserAgent": {
@@ -11040,6 +11047,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The local IP information of the connection.</p>",
                         "smithy.api#jsonName": "localIpDetails"
+                    }
+                },
+                "LocalNetworkInterface": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The EC2 instance's local elastic network interface utilized for the connection.</p>",
+                        "smithy.api#jsonName": "localNetworkInterface"
                     }
                 },
                 "RemoteIpDetails": {

@@ -29,6 +29,7 @@ extension CodePipeline {
     public enum ActionCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approval = "Approval"
         case build = "Build"
+        case compute = "Compute"
         case deploy = "Deploy"
         case invoke = "Invoke"
         case source = "Source"
@@ -172,7 +173,15 @@ extension CodePipeline {
 
     public enum Result: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fail = "FAIL"
+        case retry = "RETRY"
         case rollback = "ROLLBACK"
+        case skip = "SKIP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetryTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatedStageRetry = "AutomatedStageRetry"
+        case manualStageRetry = "ManualStageRetry"
         public var description: String { return self.rawValue }
     }
 
@@ -213,6 +222,7 @@ extension CodePipeline {
         case cancelled = "Cancelled"
         case failed = "Failed"
         case inProgress = "InProgress"
+        case skipped = "Skipped"
         case stopped = "Stopped"
         case stopping = "Stopping"
         case succeeded = "Succeeded"
@@ -444,6 +454,8 @@ extension CodePipeline {
     public struct ActionDeclaration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the action type and the provider of the action.
         public let actionTypeId: ActionTypeId
+        /// The shell commands to run with your compute action in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild.  Using compute time for this action will incur separate charges in CodeBuild.
+        public let commands: [String]?
         /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see Action Structure Requirements in CodePipeline. For the list of configuration properties for the CloudFormation action type in CodePipeline, see Configuration Properties Reference in the CloudFormation User Guide. For template snippets with examples, see Using Parameter Override Functions with CodePipeline Pipelines in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows:   JSON:   "Configuration" : { Key : Value },
         public let configuration: [String: String]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
@@ -454,6 +466,8 @@ extension CodePipeline {
         public let namespace: String?
         /// The name or ID of the result of the action declaration, such as a test or build artifact.
         public let outputArtifacts: [OutputArtifact]?
+        /// The list of variables that are to be exported from the compute action. This is specifically CodeBuild environment variables as used for that action.
+        public let outputVariables: [String]?
         /// The action declaration's Amazon Web Services Region, such as us-east-1.
         public let region: String?
         /// The ARN of the IAM service role that performs the declared action. This is assumed through the roleArn for the pipeline.
@@ -464,13 +478,15 @@ extension CodePipeline {
         public let timeoutInMinutes: Int?
 
         @inlinable
-        public init(actionTypeId: ActionTypeId, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, namespace: String? = nil, outputArtifacts: [OutputArtifact]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil, timeoutInMinutes: Int? = nil) {
+        public init(actionTypeId: ActionTypeId, commands: [String]? = nil, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, namespace: String? = nil, outputArtifacts: [OutputArtifact]? = nil, outputVariables: [String]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil, timeoutInMinutes: Int? = nil) {
             self.actionTypeId = actionTypeId
+            self.commands = commands
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.name = name
             self.namespace = namespace
             self.outputArtifacts = outputArtifacts
+            self.outputVariables = outputVariables
             self.region = region
             self.roleArn = roleArn
             self.runOrder = runOrder
@@ -479,6 +495,12 @@ extension CodePipeline {
 
         public func validate(name: String) throws {
             try self.actionTypeId.validate(name: "\(name).actionTypeId")
+            try self.commands?.forEach {
+                try validate($0, name: "commands[]", parent: name, max: 1000)
+                try validate($0, name: "commands[]", parent: name, min: 1)
+            }
+            try self.validate(self.commands, name: "commands", parent: name, max: 50)
+            try self.validate(self.commands, name: "commands", parent: name, min: 1)
             try self.configuration?.forEach {
                 try validate($0.key, name: "configuration.key", parent: name, max: 50)
                 try validate($0.key, name: "configuration.key", parent: name, min: 1)
@@ -497,6 +519,12 @@ extension CodePipeline {
             try self.outputArtifacts?.forEach {
                 try $0.validate(name: "\(name).outputArtifacts[]")
             }
+            try self.outputVariables?.forEach {
+                try validate($0, name: "outputVariables[]", parent: name, max: 128)
+                try validate($0, name: "outputVariables[]", parent: name, min: 1)
+            }
+            try self.validate(self.outputVariables, name: "outputVariables", parent: name, max: 15)
+            try self.validate(self.outputVariables, name: "outputVariables", parent: name, min: 1)
             try self.validate(self.region, name: "region", parent: name, max: 30)
             try self.validate(self.region, name: "region", parent: name, min: 4)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
@@ -509,11 +537,13 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case actionTypeId = "actionTypeId"
+            case commands = "commands"
             case configuration = "configuration"
             case inputArtifacts = "inputArtifacts"
             case name = "name"
             case namespace = "namespace"
             case outputArtifacts = "outputArtifacts"
+            case outputVariables = "outputVariables"
             case region = "region"
             case roleArn = "roleArn"
             case runOrder = "runOrder"
@@ -1867,11 +1897,14 @@ extension CodePipeline {
         public let conditions: [Condition]?
         /// The specified result for when the failure conditions are met, such as rolling back the stage.
         public let result: Result?
+        /// The retry configuration specifies automatic retry for a failed stage, along with the configured retry mode.
+        public let retryConfiguration: RetryConfiguration?
 
         @inlinable
-        public init(conditions: [Condition]? = nil, result: Result? = nil) {
+        public init(conditions: [Condition]? = nil, result: Result? = nil, retryConfiguration: RetryConfiguration? = nil) {
             self.conditions = conditions
             self.result = result
+            self.retryConfiguration = retryConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1885,6 +1918,7 @@ extension CodePipeline {
         private enum CodingKeys: String, CodingKey {
             case conditions = "conditions"
             case result = "result"
+            case retryConfiguration = "retryConfiguration"
         }
     }
 
@@ -2974,21 +3008,31 @@ extension CodePipeline {
     }
 
     public struct OutputArtifact: AWSEncodableShape & AWSDecodableShape {
+        /// The files that you want to associate with the output artifact that will be exported from the compute action.
+        public let files: [String]?
         /// The name of the output of an artifact, such as "My App". The input artifact of an action must exactly match the output artifact declared in a preceding action, but the input artifact does not have to be the next action in strict sequence from the action that provided the output artifact. Actions in parallel can declare different output artifacts, which are in turn consumed by different following actions. Output artifact names must be unique within a pipeline.
         public let name: String
 
         @inlinable
-        public init(name: String) {
+        public init(files: [String]? = nil, name: String) {
+            self.files = files
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.files?.forEach {
+                try validate($0, name: "files[]", parent: name, max: 128)
+                try validate($0, name: "files[]", parent: name, min: 1)
+            }
+            try self.validate(self.files, name: "files", parent: name, max: 10)
+            try self.validate(self.files, name: "files", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case files = "files"
             case name = "name"
         }
     }
@@ -3833,6 +3877,20 @@ extension CodePipeline {
         }
     }
 
+    public struct RetryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The method that you want to configure for automatic stage retry on stage failure. You can specify to retry only failed action in the stage or all actions in the stage.
+        public let retryMode: StageRetryMode?
+
+        @inlinable
+        public init(retryMode: StageRetryMode? = nil) {
+            self.retryMode = retryMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retryMode = "retryMode"
+        }
+    }
+
     public struct RetryStageExecutionInput: AWSEncodableShape {
         /// The ID of the pipeline execution in the failed stage to be retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the failed stage
         public let pipelineExecutionId: String
@@ -3880,6 +3938,28 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineExecutionId = "pipelineExecutionId"
+        }
+    }
+
+    public struct RetryStageMetadata: AWSDecodableShape {
+        /// The number of attempts for a specific stage with automatic retry on stage failure. One attempt is allowed for automatic stage retry on failure.
+        public let autoStageRetryAttempt: Int?
+        /// The latest trigger for a specific stage where manual or automatic retries have been made upon stage failure.
+        public let latestRetryTrigger: RetryTrigger?
+        /// The number of attempts for a specific stage where manual retries have been made upon stage failure.
+        public let manualStageRetryAttempt: Int?
+
+        @inlinable
+        public init(autoStageRetryAttempt: Int? = nil, latestRetryTrigger: RetryTrigger? = nil, manualStageRetryAttempt: Int? = nil) {
+            self.autoStageRetryAttempt = autoStageRetryAttempt
+            self.latestRetryTrigger = latestRetryTrigger
+            self.manualStageRetryAttempt = manualStageRetryAttempt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoStageRetryAttempt = "autoStageRetryAttempt"
+            case latestRetryTrigger = "latestRetryTrigger"
+            case manualStageRetryAttempt = "manualStageRetryAttempt"
         }
     }
 
@@ -4152,7 +4232,7 @@ extension CodePipeline {
     public struct RuleExecutionInput: AWSDecodableShape {
         /// Configuration data for a rule execution, such as the resolved values for that run.
         public let configuration: [String: String]?
-        /// Details of input artifacts of the rule that correspond to the rule  execution.
+        /// Details of input artifacts of the rule that correspond to the rule execution.
         public let inputArtifacts: [ArtifactDetail]?
         /// The Amazon Web Services Region for the rule, such as us-east-1.
         public let region: String?
@@ -4589,11 +4669,13 @@ extension CodePipeline {
         public let onFailureConditionState: StageConditionState?
         /// The state of the success conditions for a stage.
         public let onSuccessConditionState: StageConditionState?
+        /// he details of a specific automatic retry on stage failure, including the attempt number and trigger.
+        public let retryStageMetadata: RetryStageMetadata?
         /// The name of the stage.
         public let stageName: String?
 
         @inlinable
-        public init(actionStates: [ActionState]? = nil, beforeEntryConditionState: StageConditionState? = nil, inboundExecution: StageExecution? = nil, inboundExecutions: [StageExecution]? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, onFailureConditionState: StageConditionState? = nil, onSuccessConditionState: StageConditionState? = nil, stageName: String? = nil) {
+        public init(actionStates: [ActionState]? = nil, beforeEntryConditionState: StageConditionState? = nil, inboundExecution: StageExecution? = nil, inboundExecutions: [StageExecution]? = nil, inboundTransitionState: TransitionState? = nil, latestExecution: StageExecution? = nil, onFailureConditionState: StageConditionState? = nil, onSuccessConditionState: StageConditionState? = nil, retryStageMetadata: RetryStageMetadata? = nil, stageName: String? = nil) {
             self.actionStates = actionStates
             self.beforeEntryConditionState = beforeEntryConditionState
             self.inboundExecution = inboundExecution
@@ -4602,6 +4684,7 @@ extension CodePipeline {
             self.latestExecution = latestExecution
             self.onFailureConditionState = onFailureConditionState
             self.onSuccessConditionState = onSuccessConditionState
+            self.retryStageMetadata = retryStageMetadata
             self.stageName = stageName
         }
 
@@ -4614,6 +4697,7 @@ extension CodePipeline {
             case latestExecution = "latestExecution"
             case onFailureConditionState = "onFailureConditionState"
             case onSuccessConditionState = "onSuccessConditionState"
+            case retryStageMetadata = "retryStageMetadata"
             case stageName = "stageName"
         }
     }

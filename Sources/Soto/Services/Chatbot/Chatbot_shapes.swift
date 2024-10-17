@@ -57,18 +57,25 @@ extension Chatbot {
         public let loggingLevel: String?
         /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration.
+        /// 	  For example, if Amazon Chime is disabled.
+        public let state: String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public let stateReason: String?
         /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public let tags: [Tag]?
         /// A description of the webhook. We recommend using the convention RoomName/WebhookName. For more information, see Tutorial: Get started with Amazon Chime in the  AWS Chatbot Administrator Guide.
         public let webhookDescription: String
 
         @inlinable
-        public init(chatConfigurationArn: String, configurationName: String? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, webhookDescription: String) {
+        public init(chatConfigurationArn: String, configurationName: String? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], state: String? = nil, stateReason: String? = nil, tags: [Tag]? = nil, webhookDescription: String) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.state = state
+            self.stateReason = stateReason
             self.tags = tags
             self.webhookDescription = webhookDescription
         }
@@ -79,12 +86,19 @@ extension Chatbot {
             case iamRoleArn = "IamRoleArn"
             case loggingLevel = "LoggingLevel"
             case snsTopicArns = "SnsTopicArns"
+            case state = "State"
+            case stateReason = "StateReason"
             case tags = "Tags"
             case webhookDescription = "WebhookDescription"
         }
     }
 
     public struct ConfiguredTeam: AWSDecodableShape {
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration.
+        /// 	  For example, if Amazon Chime is disabled.
+        public let state: String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public let stateReason: String?
         ///  The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the  AWS Chatbot Administrator Guide.
         public let teamId: String
         /// The name of the Microsoft Teams Team.
@@ -93,13 +107,17 @@ extension Chatbot {
         public let tenantId: String
 
         @inlinable
-        public init(teamId: String, teamName: String? = nil, tenantId: String) {
+        public init(state: String? = nil, stateReason: String? = nil, teamId: String, teamName: String? = nil, tenantId: String) {
+            self.state = state
+            self.stateReason = stateReason
             self.teamId = teamId
             self.teamName = teamName
             self.tenantId = tenantId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case stateReason = "StateReason"
             case teamId = "TeamId"
             case teamName = "TeamName"
             case tenantId = "TenantId"
@@ -1031,13 +1049,18 @@ extension Chatbot {
         public let slackTeamName: String
         /// The ARNs of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration.
+        /// 	  For example, if Amazon Chime is disabled.
+        public let state: String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public let stateReason: String?
         /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public let tags: [Tag]?
         /// Enables use of a user role requirement in your chat configuration.
         public let userAuthorizationRequired: Bool?
 
         @inlinable
-        public init(chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String, slackTeamId: String, slackTeamName: String, snsTopicArns: [String], tags: [Tag]? = nil, userAuthorizationRequired: Bool? = nil) {
+        public init(chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, slackChannelId: String, slackChannelName: String, slackTeamId: String, slackTeamName: String, snsTopicArns: [String], state: String? = nil, stateReason: String? = nil, tags: [Tag]? = nil, userAuthorizationRequired: Bool? = nil) {
             self.chatConfigurationArn = chatConfigurationArn
             self.configurationName = configurationName
             self.guardrailPolicyArns = guardrailPolicyArns
@@ -1048,6 +1071,8 @@ extension Chatbot {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
             self.snsTopicArns = snsTopicArns
+            self.state = state
+            self.stateReason = stateReason
             self.tags = tags
             self.userAuthorizationRequired = userAuthorizationRequired
         }
@@ -1063,6 +1088,8 @@ extension Chatbot {
             case slackTeamId = "SlackTeamId"
             case slackTeamName = "SlackTeamName"
             case snsTopicArns = "SnsTopicArns"
+            case state = "State"
+            case stateReason = "StateReason"
             case tags = "Tags"
             case userAuthorizationRequired = "UserAuthorizationRequired"
         }
@@ -1103,16 +1130,25 @@ extension Chatbot {
         public let slackTeamId: String
         /// The name of the Slack workspace.
         public let slackTeamName: String
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration.
+        /// 	  For example, if Amazon Chime is disabled.
+        public let state: String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public let stateReason: String?
 
         @inlinable
-        public init(slackTeamId: String, slackTeamName: String) {
+        public init(slackTeamId: String, slackTeamName: String, state: String? = nil, stateReason: String? = nil) {
             self.slackTeamId = slackTeamId
             self.slackTeamName = slackTeamName
+            self.state = state
+            self.stateReason = stateReason
         }
 
         private enum CodingKeys: String, CodingKey {
             case slackTeamId = "SlackTeamId"
             case slackTeamName = "SlackTeamName"
+            case state = "State"
+            case stateReason = "StateReason"
         }
     }
 
@@ -1189,6 +1225,11 @@ extension Chatbot {
         public let loggingLevel: String?
         /// The Amazon Resource Names (ARNs) of the SNS topics that deliver notifications to AWS Chatbot.
         public let snsTopicArns: [String]
+        /// Either ENABLED or DISABLED. The resource returns DISABLED if the organization's AWS Chatbot policy has explicitly denied that configuration.
+        /// 	  For example, if Amazon Chime is disabled.
+        public let state: String?
+        /// Provided if State is DISABLED. Provides context as to why the resource is disabled.
+        public let stateReason: String?
         /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
         public let tags: [Tag]?
         ///  The ID of the Microsoft Teams authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more information, see Step 1: Configure a Microsoft Teams client in the  AWS Chatbot Administrator Guide.
@@ -1201,7 +1242,7 @@ extension Chatbot {
         public let userAuthorizationRequired: Bool?
 
         @inlinable
-        public init(channelId: String, channelName: String? = nil, chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], tags: [Tag]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
+        public init(channelId: String, channelName: String? = nil, chatConfigurationArn: String, configurationName: String? = nil, guardrailPolicyArns: [String]? = nil, iamRoleArn: String, loggingLevel: String? = nil, snsTopicArns: [String], state: String? = nil, stateReason: String? = nil, tags: [Tag]? = nil, teamId: String, teamName: String? = nil, tenantId: String, userAuthorizationRequired: Bool? = nil) {
             self.channelId = channelId
             self.channelName = channelName
             self.chatConfigurationArn = chatConfigurationArn
@@ -1210,6 +1251,8 @@ extension Chatbot {
             self.iamRoleArn = iamRoleArn
             self.loggingLevel = loggingLevel
             self.snsTopicArns = snsTopicArns
+            self.state = state
+            self.stateReason = stateReason
             self.tags = tags
             self.teamId = teamId
             self.teamName = teamName
@@ -1226,6 +1269,8 @@ extension Chatbot {
             case iamRoleArn = "IamRoleArn"
             case loggingLevel = "LoggingLevel"
             case snsTopicArns = "SnsTopicArns"
+            case state = "State"
+            case stateReason = "StateReason"
             case tags = "Tags"
             case teamId = "TeamId"
             case teamName = "TeamName"

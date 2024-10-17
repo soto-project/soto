@@ -79,6 +79,12 @@ extension RDS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterScalabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case limitless = "limitless"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomEngineVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case inactive = "inactive"
@@ -376,7 +382,7 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
-        /// The pending maintenance action to apply to this resource. Valid Values:    ca-certificate-rotation     db-upgrade     hardware-maintenance     os-upgrade     system-update    For more information about these actions, see  Maintenance actions for Amazon Aurora or  Maintenance actions for Amazon RDS.
+        /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade,  hardware-maintenance, ca-certificate-rotation
         public let applyAction: String?
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in  request of type immediate can't be undone. Valid Values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String?
@@ -1317,6 +1323,8 @@ extension RDS {
         public let caCertificateIdentifier: String?
         /// The name of the character set (CharacterSet) to associate the DB cluster with. Valid for Cluster Type: Aurora DB clusters only
         public let characterSetName: String?
+        /// Specifies the scalability mode of the Aurora DB cluster. When set to limitless, the cluster operates as an Aurora Limitless Database. When set to standard (the default), the cluster uses normal DB instance creation. Valid for: Aurora DB clusters only  You can't modify this setting after you create the DB cluster.
+        public let clusterScalabilityType: ClusterScalabilityType?
         /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster.  The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let copyTagsToSnapshot: Bool?
         /// The name for your database of up to 64 alphanumeric characters.  A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -1415,7 +1423,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLimitlessDatabase: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, caCertificateIdentifier: String? = nil, characterSetName: String? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, databaseName: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableGlobalWriteForwarding: Bool? = nil, enableHttpEndpoint: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enableLimitlessDatabase: Bool? = nil, enableLocalWriteForwarding: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, networkType: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, replicationSourceIdentifier: String? = nil, scalingConfiguration: ScalingConfiguration? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZones = availabilityZones
@@ -1423,6 +1431,7 @@ extension RDS {
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
             self.characterSetName = characterSetName
+            self.clusterScalabilityType = clusterScalabilityType
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.databaseName = databaseName
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -1480,6 +1489,7 @@ extension RDS {
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case caCertificateIdentifier = "CACertificateIdentifier"
             case characterSetName = "CharacterSetName"
+            case clusterScalabilityType = "ClusterScalabilityType"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case databaseName = "DatabaseName"
             case dbClusterIdentifier = "DBClusterIdentifier"
@@ -1700,7 +1710,7 @@ extension RDS {
         public let iops: Int?
         /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a   default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty  while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom  doesn't use the default key when this parameter is empty. You must explicitly specify a key.
         public let kmsKeyId: String?
-        /// The license model information for this DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see RDS for Db2 licensing options in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
+        /// The license model information for this DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
         public let licenseModel: String?
         /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
         public let manageMasterUserPassword: Bool?
@@ -1917,7 +1927,7 @@ extension RDS {
         public let dbInstanceClass: String?
         /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
         public let dbInstanceIdentifier: String?
-        /// The name of the DB parameter group to associate with this DB instance. If you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
+        /// The name of the DB parameter group to associate with this read replica DB instance. For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dbParameterGroupName: String?
         /// A DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance isn't created in a VPC. Constraints:   If supplied, must match the name of an existing DB subnet group.   The specified DB subnet group must be in the same Amazon Web Services Region in which the operation is running.   All read replicas in one Amazon Web Services Region that are created from the same source DB instance must either:   Specify DB subnet groups from the same VPC. All these read replicas are created in the same VPC.   Not specify a DB subnet group. All these read replicas are created outside of any VPC.     Example: mydbsubnetgroup
         public let dbSubnetGroupName: String?
@@ -2332,7 +2342,9 @@ extension RDS {
     }
 
     public struct CreateDBShardGroupMessage: AWSEncodableShape {
-        /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:   0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.   1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.   2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:   0 - Creates a DB shard group without a standby DB shard group. This is the default value.   1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
         public let computeRedundancy: Int?
         /// The name of the primary DB cluster for the DB shard group.
         public let dbClusterIdentifier: String?
@@ -2344,15 +2356,18 @@ extension RDS {
         public let minACU: Double?
         /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from  within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC.  Access to the DB shard group is ultimately controlled by the security group it uses.  That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB shard group is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB shard group is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.
         public let publiclyAccessible: Bool?
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil) {
+        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil, tags: [Tag]? = nil) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.maxACU = maxACU
             self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2362,6 +2377,7 @@ extension RDS {
             case maxACU = "MaxACU"
             case minACU = "MinACU"
             case publiclyAccessible = "PubliclyAccessible"
+            case tags = "Tags"
         }
     }
 
@@ -2504,6 +2520,8 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// The name for your database of up to 64 alphanumeric characters. If you don't specify a name, Amazon Aurora doesn't create a database in the global database cluster. Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the database name from the source DB cluster.
         public let databaseName: String?
         /// Specifies whether to enable deletion protection for the new global database cluster. The global database can't be deleted when deletion protection is enabled.
@@ -2520,9 +2538,12 @@ extension RDS {
         public let sourceDBClusterIdentifier: String?
         /// Specifies whether to enable storage encryption for the new global database cluster. Constraints:   Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the setting from the source DB cluster.
         public let storageEncrypted: Bool?
+        /// Tags to assign to the global cluster.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil, tags: [Tag]? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
@@ -2531,6 +2552,7 @@ extension RDS {
             self.globalClusterIdentifier = globalClusterIdentifier
             self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
             self.storageEncrypted = storageEncrypted
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2542,6 +2564,7 @@ extension RDS {
             case globalClusterIdentifier = "GlobalClusterIdentifier"
             case sourceDBClusterIdentifier = "SourceDBClusterIdentifier"
             case storageEncrypted = "StorageEncrypted"
+            case tags = "Tags"
         }
     }
 
@@ -2784,6 +2807,8 @@ extension RDS {
         public let cloneGroupId: String?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: Date?
+        /// The scalability mode of the Aurora DB cluster. When set to limitless, the cluster operates as an Aurora Limitless Database. When set to standard (the default), the cluster uses normal DB instance creation.
+        public let clusterScalabilityType: ClusterScalabilityType?
         /// Indicates whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public let copyTagsToSnapshot: Bool?
         /// Indicates whether the DB cluster is a clone of a DB cluster owned by a different Amazon Web Services account.
@@ -2916,7 +2941,7 @@ extension RDS {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, limitlessDatabase: LimitlessDatabase? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, statusInfos: [DBClusterStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, automaticRestartTime: Date? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZones: [String]? = nil, awsBackupRecoveryPointArn: String? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, clusterScalabilityType: ClusterScalabilityType? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterInstanceClass: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, dbSystemId: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: Date? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, limitlessDatabase: LimitlessDatabase? = nil, localWriteForwardingStatus: LocalWriteForwardingStatus? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, pendingModifiedValues: ClusterPendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, rdsCustomClusterConfiguration: RdsCustomClusterConfiguration? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, statusInfos: [DBClusterStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -2935,6 +2960,7 @@ extension RDS {
             self.characterSetName = characterSetName
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
+            self.clusterScalabilityType = clusterScalabilityType
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.crossAccountClone = crossAccountClone
             self.customEndpoints = customEndpoints
@@ -3018,6 +3044,7 @@ extension RDS {
             case characterSetName = "CharacterSetName"
             case cloneGroupId = "CloneGroupId"
             case clusterCreateTime = "ClusterCreateTime"
+            case clusterScalabilityType = "ClusterScalabilityType"
             case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case crossAccountClone = "CrossAccountClone"
             case customEndpoints = "CustomEndpoints"
@@ -5071,10 +5098,14 @@ extension RDS {
     }
 
     public struct DBShardGroup: AWSDecodableShape {
-        /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:   0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.   1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.   2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:   0 - Creates a DB shard group without a standby DB shard group. This is the default value.   1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
         public let computeRedundancy: Int?
         /// The name of the primary DB cluster for the DB shard group.
         public let dbClusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) for the DB shard group.
+        public let dbShardGroupArn: String?
         /// The name of the DB shard group.
         public let dbShardGroupIdentifier: String?
         /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
@@ -5089,11 +5120,14 @@ extension RDS {
         public let publiclyAccessible: Bool?
         /// The status of the DB shard group.
         public let status: String?
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
 
         @inlinable
-        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, endpoint: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil, status: String? = nil) {
+        public init(computeRedundancy: Int? = nil, dbClusterIdentifier: String? = nil, dbShardGroupArn: String? = nil, dbShardGroupIdentifier: String? = nil, dbShardGroupResourceId: String? = nil, endpoint: String? = nil, maxACU: Double? = nil, minACU: Double? = nil, publiclyAccessible: Bool? = nil, status: String? = nil, tagList: [Tag]? = nil) {
             self.computeRedundancy = computeRedundancy
             self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbShardGroupArn = dbShardGroupArn
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.dbShardGroupResourceId = dbShardGroupResourceId
             self.endpoint = endpoint
@@ -5101,11 +5135,13 @@ extension RDS {
             self.minACU = minACU
             self.publiclyAccessible = publiclyAccessible
             self.status = status
+            self.tagList = tagList
         }
 
         private enum CodingKeys: String, CodingKey {
             case computeRedundancy = "ComputeRedundancy"
             case dbClusterIdentifier = "DBClusterIdentifier"
+            case dbShardGroupArn = "DBShardGroupArn"
             case dbShardGroupIdentifier = "DBShardGroupIdentifier"
             case dbShardGroupResourceId = "DBShardGroupResourceId"
             case endpoint = "Endpoint"
@@ -5113,6 +5149,7 @@ extension RDS {
             case minACU = "MinACU"
             case publiclyAccessible = "PubliclyAccessible"
             case status = "Status"
+            case tagList = "TagList"
         }
     }
 
@@ -8487,6 +8524,7 @@ extension RDS {
 
     public struct GlobalCluster: AWSDecodableShape {
         public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The default database name within the new global database cluster.
         public let databaseName: String?
@@ -8513,9 +8551,11 @@ extension RDS {
         public let status: String?
         /// The storage encryption setting for the global database cluster.
         public let storageEncrypted: Bool?
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
 
         @inlinable
-        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
@@ -8528,6 +8568,7 @@ extension RDS {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8543,6 +8584,7 @@ extension RDS {
             case globalClusterResourceId = "GlobalClusterResourceId"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case tagList = "TagList"
         }
     }
 
@@ -9770,6 +9812,8 @@ extension RDS {
     }
 
     public struct ModifyDBShardGroupMessage: AWSEncodableShape {
+        /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:   0 - Creates a DB shard group without a standby DB shard group. This is the default value.   1 - Creates a DB shard group with a standby DB shard group in a different Availability Zone (AZ).   2 - Creates a DB shard group with two standby DB shard groups in two different AZs.
+        public let computeRedundancy: Int?
         /// The name of the DB shard group to modify.
         public let dbShardGroupIdentifier: String?
         /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
@@ -9778,7 +9822,8 @@ extension RDS {
         public let minACU: Double?
 
         @inlinable
-        public init(dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil) {
+        public init(computeRedundancy: Int? = nil, dbShardGroupIdentifier: String? = nil, maxACU: Double? = nil, minACU: Double? = nil) {
+            self.computeRedundancy = computeRedundancy
             self.dbShardGroupIdentifier = dbShardGroupIdentifier
             self.maxACU = maxACU
             self.minACU = minACU
@@ -9791,6 +9836,7 @@ extension RDS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case computeRedundancy = "ComputeRedundancy"
             case dbShardGroupIdentifier = "DBShardGroupIdentifier"
             case maxACU = "MaxACU"
             case minACU = "MinACU"
@@ -10804,7 +10850,7 @@ extension RDS {
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
-        /// The type of pending maintenance action that is available for the resource.  For more information about maintenance actions, see Maintaining a DB instance. Valid Values:    ca-certificate-rotation     db-upgrade     hardware-maintenance     os-upgrade     system-update    For more information about these actions, see  Maintenance actions for Amazon Aurora or  Maintenance actions for Amazon RDS.
+        /// The type of pending maintenance action that is available for the resource.  For more information about maintenance actions, see Maintaining a DB instance. Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public let autoAppliedAfterDate: Date?
@@ -12334,7 +12380,7 @@ extension RDS {
         public let engineLifecycleSupport: String?
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second.  If this parameter isn't specified, the IOPS value is taken from the backup.  If this parameter is set to 0, the new instance is converted to a non-PIOPS instance.  The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see  Amazon RDS Provisioned IOPS storage  in the Amazon RDS User Guide.  Constraints: Must be an integer greater than 1000.
         public let iops: Int?
-        /// License model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
+        /// License model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
         /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
@@ -12764,7 +12810,7 @@ extension RDS {
         public let engineLifecycleSupport: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. This setting doesn't apply to SQL Server. Constraints:   Must be an integer greater than 1000.
         public let iops: Int?
-        /// The license model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
+        /// The license model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
         /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see   Managing capacity automatically with Amazon RDS storage autoscaling  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         public let maxAllocatedStorage: Int?
@@ -14128,7 +14174,6 @@ public struct RDSErrorType: AWSErrorType {
         case invalidExportTaskStateFault = "InvalidExportTaskStateFault"
         case invalidGlobalClusterStateFault = "InvalidGlobalClusterStateFault"
         case invalidIntegrationStateFault = "InvalidIntegrationStateFault"
-        case invalidMaxAcuFault = "InvalidMaxAcu"
         case invalidOptionGroupStateFault = "InvalidOptionGroupStateFault"
         case invalidResourceStateFault = "InvalidResourceStateFault"
         case invalidRestoreFault = "InvalidRestoreFault"
@@ -14398,8 +14443,6 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
     /// The integration is in an invalid state and can't perform the requested operation.
     public static var invalidIntegrationStateFault: Self { .init(.invalidIntegrationStateFault) }
-    /// The maximum capacity of the DB shard group must be 48-7168 Aurora capacity units (ACUs).
-    public static var invalidMaxAcuFault: Self { .init(.invalidMaxAcuFault) }
     /// The option group isn't in the available state.
     public static var invalidOptionGroupStateFault: Self { .init(.invalidOptionGroupStateFault) }
     /// The operation can't be performed because another operation is in progress.

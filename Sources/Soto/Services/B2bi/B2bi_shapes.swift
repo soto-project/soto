@@ -26,20 +26,60 @@ import Foundation
 extension B2bi {
     // MARK: Enums
 
+    public enum CapabilityDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inbound = "INBOUND"
+        case outbound = "OUTBOUND"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case edi = "edi"
         public var description: String { return self.rawValue }
     }
 
-    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public enum ConversionSourceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case xml = "XML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConversionTargetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case x12 = "X12"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "JSON"
+        case notUsed = "NOT_USED"
+        case xml = "XML"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FromFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case x12 = "X12"
         public var description: String { return self.rawValue }
     }
 
     public enum Logging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MappingTemplateLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jsonata = "JSONATA"
+        case xslt = "XSLT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jsonata = "JSONATA"
+        case xslt = "XSLT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case x12 = "X12"
         public var description: String { return self.rawValue }
     }
 
@@ -145,6 +185,24 @@ extension B2bi {
 
     // MARK: Shapes
 
+    public struct CapabilityOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains the outbound EDI options.
+        public let outboundEdi: OutboundEdiOptions?
+
+        @inlinable
+        public init(outboundEdi: OutboundEdiOptions? = nil) {
+            self.outboundEdi = outboundEdi
+        }
+
+        public func validate(name: String) throws {
+            try self.outboundEdi?.validate(name: "\(name).outboundEdi")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outboundEdi = "outboundEdi"
+        }
+    }
+
     public struct CapabilitySummary: AWSDecodableShape {
         /// Returns a system-assigned unique identifier for the capability.
         public let capabilityId: String
@@ -174,6 +232,51 @@ extension B2bi {
             case modifiedAt = "modifiedAt"
             case name = "name"
             case type = "type"
+        }
+    }
+
+    public struct ConversionSource: AWSEncodableShape {
+        /// The format for the input file: either JSON or XML.
+        public let fileFormat: ConversionSourceFormat
+        /// File to be converted
+        public let inputFile: InputFileSource
+
+        @inlinable
+        public init(fileFormat: ConversionSourceFormat, inputFile: InputFileSource) {
+            self.fileFormat = fileFormat
+            self.inputFile = inputFile
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormat = "fileFormat"
+            case inputFile = "inputFile"
+        }
+    }
+
+    public struct ConversionTarget: AWSEncodableShape {
+        /// Currently, only X12 format is supported.
+        public let fileFormat: ConversionTargetFormat
+        /// A structure that contains the formatting details for the conversion target.
+        public let formatDetails: ConversionTargetFormatDetails?
+        /// Customer uses this to provide a sample on what should file look like after conversion
+        /// X12 EDI use case around this would be discovering the file syntax
+        public let outputSampleFile: OutputSampleFileSource?
+
+        @inlinable
+        public init(fileFormat: ConversionTargetFormat, formatDetails: ConversionTargetFormatDetails? = nil, outputSampleFile: OutputSampleFileSource? = nil) {
+            self.fileFormat = fileFormat
+            self.formatDetails = formatDetails
+            self.outputSampleFile = outputSampleFile
+        }
+
+        public func validate(name: String) throws {
+            try self.outputSampleFile?.validate(name: "\(name).outputSampleFile")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormat = "fileFormat"
+            case formatDetails = "formatDetails"
+            case outputSampleFile = "outputSampleFile"
         }
     }
 
@@ -267,6 +370,8 @@ extension B2bi {
     public struct CreatePartnershipRequest: AWSEncodableShape {
         /// Specifies a list of the capabilities associated with this partnership.
         public let capabilities: [String]
+        /// Specify the structure that contains the details for the associated capabilities.
+        public let capabilityOptions: CapabilityOptions?
         /// Reserved for future use.
         public let clientToken: String?
         /// Specifies the email address associated with this trading partner.
@@ -281,8 +386,9 @@ extension B2bi {
         public let tags: [Tag]?
 
         @inlinable
-        public init(capabilities: [String], clientToken: String? = CreatePartnershipRequest.idempotencyToken(), email: String, name: String, phone: String? = nil, profileId: String, tags: [Tag]? = nil) {
+        public init(capabilities: [String], capabilityOptions: CapabilityOptions? = nil, clientToken: String? = CreatePartnershipRequest.idempotencyToken(), email: String, name: String, phone: String? = nil, profileId: String, tags: [Tag]? = nil) {
             self.capabilities = capabilities
+            self.capabilityOptions = capabilityOptions
             self.clientToken = clientToken
             self.email = email
             self.name = name
@@ -297,6 +403,7 @@ extension B2bi {
                 try validate($0, name: "capabilities[]", parent: name, min: 1)
                 try validate($0, name: "capabilities[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
+            try self.capabilityOptions?.validate(name: "\(name).capabilityOptions")
             try self.validate(self.email, name: "email", parent: name, max: 254)
             try self.validate(self.email, name: "email", parent: name, min: 5)
             try self.validate(self.email, name: "email", parent: name, pattern: "^[\\w\\.\\-]+@[\\w\\.\\-]+$")
@@ -316,6 +423,7 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case capabilityOptions = "capabilityOptions"
             case clientToken = "clientToken"
             case email = "email"
             case name = "name"
@@ -328,6 +436,8 @@ extension B2bi {
     public struct CreatePartnershipResponse: AWSDecodableShape {
         /// Returns one or more capabilities associated with this partnership.
         public let capabilities: [String]?
+        /// Returns the structure that contains the details for the associated capabilities.
+        public let capabilityOptions: CapabilityOptions?
         /// Returns a timestamp for creation date and time of the partnership.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -347,8 +457,9 @@ extension B2bi {
         public let tradingPartnerId: String?
 
         @inlinable
-        public init(capabilities: [String]? = nil, createdAt: Date, email: String? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
+        public init(capabilities: [String]? = nil, capabilityOptions: CapabilityOptions? = nil, createdAt: Date, email: String? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
+            self.capabilityOptions = capabilityOptions
             self.createdAt = createdAt
             self.email = email
             self.name = name
@@ -361,6 +472,7 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case capabilityOptions = "capabilityOptions"
             case createdAt = "createdAt"
             case email = "email"
             case name = "name"
@@ -474,38 +586,109 @@ extension B2bi {
         }
     }
 
+    public struct CreateStarterMappingTemplateRequest: AWSEncodableShape {
+        /// Specify the format for the mapping template: either JSONATA or XSLT.
+        public let mappingType: MappingType
+        /// Specify the location of the sample EDI file that is used to generate the mapping template.
+        public let outputSampleLocation: S3Location?
+        ///  Describes the details needed for generating the template. Specify the X12 transaction set and version for which the template is used: currently, we only support X12.
+        public let templateDetails: TemplateDetails
+
+        @inlinable
+        public init(mappingType: MappingType, outputSampleLocation: S3Location? = nil, templateDetails: TemplateDetails) {
+            self.mappingType = mappingType
+            self.outputSampleLocation = outputSampleLocation
+            self.templateDetails = templateDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.outputSampleLocation?.validate(name: "\(name).outputSampleLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mappingType = "mappingType"
+            case outputSampleLocation = "outputSampleLocation"
+            case templateDetails = "templateDetails"
+        }
+    }
+
+    public struct CreateStarterMappingTemplateResponse: AWSDecodableShape {
+        /// Returns a string that represents the mapping template.
+        public let mappingTemplate: String
+
+        @inlinable
+        public init(mappingTemplate: String) {
+            self.mappingTemplate = mappingTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mappingTemplate = "mappingTemplate"
+        }
+    }
+
     public struct CreateTransformerRequest: AWSEncodableShape {
         /// Reserved for future use.
         public let clientToken: String?
         /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-        public let ediType: EdiType
+        public let ediType: EdiType?
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
-        public let fileFormat: FileFormat
-        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
-        public let mappingTemplate: String
+        public let fileFormat: FileFormat?
+        /// Specify  the InputConversion object, which contains the format options for the inbound transformation.
+        public let inputConversion: InputConversion?
+        /// Specify the structure that contains the mapping template and its language (either XSLT or JSONATA).
+        public let mapping: Mapping?
+        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.  This parameter is available for backwards compatibility. Use the Mapping data type instead.
+        public let mappingTemplate: String?
         /// Specifies the name of the transformer, used to identify it.
         public let name: String
+        /// A structure that contains the OutputConversion object, which contains the format options for the outbound transformation.
+        public let outputConversion: OutputConversion?
         /// Specifies a sample EDI document that is used by a transformer as a guide for processing the EDI data.
         public let sampleDocument: String?
+        /// Specify a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
+        public let sampleDocuments: SampleDocuments?
         /// Specifies the key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to resources (capabilities, partnerships, and so on) for any purpose.
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateTransformerRequest.idempotencyToken(), ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, name: String, sampleDocument: String? = nil, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateTransformerRequest.idempotencyToken(), inputConversion: InputConversion? = nil, mapping: Mapping? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocuments: SampleDocuments? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.ediType = nil
+            self.fileFormat = nil
+            self.inputConversion = inputConversion
+            self.mapping = mapping
+            self.mappingTemplate = nil
+            self.name = name
+            self.outputConversion = outputConversion
+            self.sampleDocument = nil
+            self.sampleDocuments = sampleDocuments
+            self.tags = tags
+        }
+
+        @available(*, deprecated, message: "Members ediType, fileFormat, mappingTemplate, sampleDocument have been deprecated")
+        @inlinable
+        public init(clientToken: String? = CreateTransformerRequest.idempotencyToken(), ediType: EdiType? = nil, fileFormat: FileFormat? = nil, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, mappingTemplate: String? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocument: String? = nil, sampleDocuments: SampleDocuments? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.ediType = ediType
             self.fileFormat = fileFormat
+            self.inputConversion = inputConversion
+            self.mapping = mapping
             self.mappingTemplate = mappingTemplate
             self.name = name
+            self.outputConversion = outputConversion
             self.sampleDocument = sampleDocument
+            self.sampleDocuments = sampleDocuments
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.mapping?.validate(name: "\(name).mapping")
             try self.validate(self.mappingTemplate, name: "mappingTemplate", parent: name, max: 350000)
             try self.validate(self.name, name: "name", parent: name, max: 254)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]{1,512}$")
             try self.validate(self.sampleDocument, name: "sampleDocument", parent: name, max: 1024)
+            try self.sampleDocuments?.validate(name: "\(name).sampleDocuments")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -516,9 +699,13 @@ extension B2bi {
             case clientToken = "clientToken"
             case ediType = "ediType"
             case fileFormat = "fileFormat"
+            case inputConversion = "inputConversion"
+            case mapping = "mapping"
             case mappingTemplate = "mappingTemplate"
             case name = "name"
+            case outputConversion = "outputConversion"
             case sampleDocument = "sampleDocument"
+            case sampleDocuments = "sampleDocuments"
             case tags = "tags"
         }
     }
@@ -528,15 +715,23 @@ extension B2bi {
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-        public let ediType: EdiType
+        public let ediType: EdiType?
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
-        public let fileFormat: FileFormat
+        public let fileFormat: FileFormat?
+        /// Returns the InputConversion object, which contains the format options for the inbound transformation.
+        public let inputConversion: InputConversion?
+        /// Returns the structure that contains the mapping template and its language (either XSLT or JSONATA).
+        public let mapping: Mapping?
         /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
-        public let mappingTemplate: String
+        public let mappingTemplate: String?
         /// Returns the name of the transformer, used to identify it.
         public let name: String
+        /// Returns the OutputConversion object, which contains the format options for the outbound transformation.
+        public let outputConversion: OutputConversion?
         /// Returns a sample EDI document that is used by a transformer as a guide for processing the EDI data.
         public let sampleDocument: String?
+        /// Returns a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
+        public let sampleDocuments: SampleDocuments?
         /// Returns the state of the newly created transformer. The transformer can be either active or inactive. For the transformer to be used in a capability, its status must active.
         public let status: TransformerStatus
         /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
@@ -545,13 +740,35 @@ extension B2bi {
         public let transformerId: String
 
         @inlinable
-        public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
+        public init(createdAt: Date, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
+            self.createdAt = createdAt
+            self.ediType = nil
+            self.fileFormat = nil
+            self.inputConversion = inputConversion
+            self.mapping = mapping
+            self.mappingTemplate = nil
+            self.name = name
+            self.outputConversion = outputConversion
+            self.sampleDocument = nil
+            self.sampleDocuments = sampleDocuments
+            self.status = status
+            self.transformerArn = transformerArn
+            self.transformerId = transformerId
+        }
+
+        @available(*, deprecated, message: "Members ediType, fileFormat, mappingTemplate, sampleDocument have been deprecated")
+        @inlinable
+        public init(createdAt: Date, ediType: EdiType? = nil, fileFormat: FileFormat? = nil, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, mappingTemplate: String? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocument: String? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
             self.fileFormat = fileFormat
+            self.inputConversion = inputConversion
+            self.mapping = mapping
             self.mappingTemplate = mappingTemplate
             self.name = name
+            self.outputConversion = outputConversion
             self.sampleDocument = sampleDocument
+            self.sampleDocuments = sampleDocuments
             self.status = status
             self.transformerArn = transformerArn
             self.transformerId = transformerId
@@ -561,9 +778,13 @@ extension B2bi {
             case createdAt = "createdAt"
             case ediType = "ediType"
             case fileFormat = "fileFormat"
+            case inputConversion = "inputConversion"
+            case mapping = "mapping"
             case mappingTemplate = "mappingTemplate"
             case name = "name"
+            case outputConversion = "outputConversion"
             case sampleDocument = "sampleDocument"
+            case sampleDocuments = "sampleDocuments"
             case status = "status"
             case transformerArn = "transformerArn"
             case transformerId = "transformerId"
@@ -667,6 +888,8 @@ extension B2bi {
     }
 
     public struct EdiConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether this is capability is for inbound or outbound transformations.
+        public let capabilityDirection: CapabilityDirection?
         /// Contains the Amazon S3 bucket and prefix for the location of the input file, which is contained in an S3Location object.
         public let inputLocation: S3Location
         /// Contains the Amazon S3 bucket and prefix for the location of the output file, which is contained in an S3Location object.
@@ -677,7 +900,8 @@ extension B2bi {
         public let type: EdiType
 
         @inlinable
-        public init(inputLocation: S3Location, outputLocation: S3Location, transformerId: String, type: EdiType) {
+        public init(capabilityDirection: CapabilityDirection? = nil, inputLocation: S3Location, outputLocation: S3Location, transformerId: String, type: EdiType) {
+            self.capabilityDirection = capabilityDirection
             self.inputLocation = inputLocation
             self.outputLocation = outputLocation
             self.transformerId = transformerId
@@ -693,6 +917,7 @@ extension B2bi {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capabilityDirection = "capabilityDirection"
             case inputLocation = "inputLocation"
             case outputLocation = "outputLocation"
             case transformerId = "transformerId"
@@ -795,6 +1020,7 @@ extension B2bi {
     public struct GetPartnershipResponse: AWSDecodableShape {
         /// Returns one or more capabilities associated with this partnership.
         public let capabilities: [String]?
+        public let capabilityOptions: CapabilityOptions?
         /// Returns a timestamp for creation date and time of the partnership.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -817,8 +1043,9 @@ extension B2bi {
         public let tradingPartnerId: String?
 
         @inlinable
-        public init(capabilities: [String]? = nil, createdAt: Date, email: String? = nil, modifiedAt: Date? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
+        public init(capabilities: [String]? = nil, capabilityOptions: CapabilityOptions? = nil, createdAt: Date, email: String? = nil, modifiedAt: Date? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
+            self.capabilityOptions = capabilityOptions
             self.createdAt = createdAt
             self.email = email
             self.modifiedAt = modifiedAt
@@ -832,6 +1059,7 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case capabilityOptions = "capabilityOptions"
             case createdAt = "createdAt"
             case email = "email"
             case modifiedAt = "modifiedAt"
@@ -1002,18 +1230,26 @@ extension B2bi {
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-        public let ediType: EdiType
+        public let ediType: EdiType?
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
-        public let fileFormat: FileFormat
+        public let fileFormat: FileFormat?
+        /// Returns the InputConversion object, which contains the format options for the inbound transformation.
+        public let inputConversion: InputConversion?
+        /// Returns the structure that contains the mapping template and its language (either XSLT or JSONATA).
+        public let mapping: Mapping?
         /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
-        public let mappingTemplate: String
+        public let mappingTemplate: String?
         /// Returns a timestamp for last time the transformer was modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var modifiedAt: Date?
         /// Returns the name of the transformer, used to identify it.
         public let name: String
+        /// Returns the OutputConversion object, which contains the format options for the outbound transformation.
+        public let outputConversion: OutputConversion?
         /// Returns a sample EDI document that is used by a transformer as a guide for processing the EDI data.
         public let sampleDocument: String?
+        /// Returns a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
+        public let sampleDocuments: SampleDocuments?
         /// Returns the state of the newly created transformer. The transformer can be either active or inactive. For the transformer to be used in a capability, its status must active.
         public let status: TransformerStatus
         /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
@@ -1022,14 +1258,37 @@ extension B2bi {
         public let transformerId: String
 
         @inlinable
-        public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, modifiedAt: Date? = nil, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
+        public init(createdAt: Date, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, modifiedAt: Date? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
+            self.createdAt = createdAt
+            self.ediType = nil
+            self.fileFormat = nil
+            self.inputConversion = inputConversion
+            self.mapping = mapping
+            self.mappingTemplate = nil
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.outputConversion = outputConversion
+            self.sampleDocument = nil
+            self.sampleDocuments = sampleDocuments
+            self.status = status
+            self.transformerArn = transformerArn
+            self.transformerId = transformerId
+        }
+
+        @available(*, deprecated, message: "Members ediType, fileFormat, mappingTemplate, sampleDocument have been deprecated")
+        @inlinable
+        public init(createdAt: Date, ediType: EdiType? = nil, fileFormat: FileFormat? = nil, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, mappingTemplate: String? = nil, modifiedAt: Date? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocument: String? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
             self.fileFormat = fileFormat
+            self.inputConversion = inputConversion
+            self.mapping = mapping
             self.mappingTemplate = mappingTemplate
             self.modifiedAt = modifiedAt
             self.name = name
+            self.outputConversion = outputConversion
             self.sampleDocument = sampleDocument
+            self.sampleDocuments = sampleDocuments
             self.status = status
             self.transformerArn = transformerArn
             self.transformerId = transformerId
@@ -1039,13 +1298,35 @@ extension B2bi {
             case createdAt = "createdAt"
             case ediType = "ediType"
             case fileFormat = "fileFormat"
+            case inputConversion = "inputConversion"
+            case mapping = "mapping"
             case mappingTemplate = "mappingTemplate"
             case modifiedAt = "modifiedAt"
             case name = "name"
+            case outputConversion = "outputConversion"
             case sampleDocument = "sampleDocument"
+            case sampleDocuments = "sampleDocuments"
             case status = "status"
             case transformerArn = "transformerArn"
             case transformerId = "transformerId"
+        }
+    }
+
+    public struct InputConversion: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains the formatting options for an inbound transformer.
+        public let formatOptions: FormatOptions?
+        /// The format for the transformer input: currently on X12 is supported.
+        public let fromFormat: FromFormat
+
+        @inlinable
+        public init(formatOptions: FormatOptions? = nil, fromFormat: FromFormat) {
+            self.formatOptions = formatOptions
+            self.fromFormat = fromFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatOptions = "formatOptions"
+            case fromFormat = "fromFormat"
         }
     }
 
@@ -1281,9 +1562,50 @@ extension B2bi {
         }
     }
 
+    public struct Mapping: AWSEncodableShape & AWSDecodableShape {
+        /// A string that represents the mapping template, in the transformation language specified in templateLanguage.
+        public let template: String?
+        /// The transformation language for the template, either XSLT or JSONATA.
+        public let templateLanguage: MappingTemplateLanguage
+
+        @inlinable
+        public init(template: String? = nil, templateLanguage: MappingTemplateLanguage) {
+            self.template = template
+            self.templateLanguage = templateLanguage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.template, name: "template", parent: name, max: 350000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case template = "template"
+            case templateLanguage = "templateLanguage"
+        }
+    }
+
+    public struct OutputConversion: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains the X12 transaction set and version for the transformer output.
+        public let formatOptions: FormatOptions?
+        /// The format for the output from an outbound transformer: only X12 is currently supported.
+        public let toFormat: ToFormat
+
+        @inlinable
+        public init(formatOptions: FormatOptions? = nil, toFormat: ToFormat) {
+            self.formatOptions = formatOptions
+            self.toFormat = toFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formatOptions = "formatOptions"
+            case toFormat = "toFormat"
+        }
+    }
+
     public struct PartnershipSummary: AWSDecodableShape {
         /// Returns one or more capabilities associated with this partnership.
         public let capabilities: [String]?
+        public let capabilityOptions: CapabilityOptions?
         /// Returns a timestamp for creation date and time of the partnership.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -1300,8 +1622,9 @@ extension B2bi {
         public let tradingPartnerId: String?
 
         @inlinable
-        public init(capabilities: [String]? = nil, createdAt: Date, modifiedAt: Date? = nil, name: String? = nil, partnershipId: String, profileId: String, tradingPartnerId: String? = nil) {
+        public init(capabilities: [String]? = nil, capabilityOptions: CapabilityOptions? = nil, createdAt: Date, modifiedAt: Date? = nil, name: String? = nil, partnershipId: String, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
+            self.capabilityOptions = capabilityOptions
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.name = name
@@ -1312,6 +1635,7 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case capabilityOptions = "capabilityOptions"
             case createdAt = "createdAt"
             case modifiedAt = "modifiedAt"
             case name = "name"
@@ -1382,6 +1706,55 @@ extension B2bi {
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
             case key = "key"
+        }
+    }
+
+    public struct SampleDocumentKeys: AWSEncodableShape & AWSDecodableShape {
+        /// An array of keys for your input sample documents.
+        public let input: String?
+        /// An array of keys for your output sample documents.
+        public let output: String?
+
+        @inlinable
+        public init(input: String? = nil, output: String? = nil) {
+            self.input = input
+            self.output = output
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.input, name: "input", parent: name, max: 1024)
+            try self.validate(self.output, name: "output", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case output = "output"
+        }
+    }
+
+    public struct SampleDocuments: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the Amazon S3 bucket that is used to hold your sample documents.
+        public let bucketName: String
+        /// Contains an array of the Amazon S3 keys used to identify the location for your sample documents.
+        public let keys: [SampleDocumentKeys]
+
+        @inlinable
+        public init(bucketName: String, keys: [SampleDocumentKeys]) {
+            self.bucketName = bucketName
+            self.keys = keys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.keys.forEach {
+                try $0.validate(name: "\(name).keys[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "bucketName"
+            case keys = "keys"
         }
     }
 
@@ -1490,12 +1863,52 @@ extension B2bi {
         }
     }
 
+    public struct TestConversionRequest: AWSEncodableShape {
+        /// Specify the source file for an outbound EDI request.
+        public let source: ConversionSource
+        /// Specify the format (X12 is the only currently supported format), and other details for the conversion target.
+        public let target: ConversionTarget
+
+        @inlinable
+        public init(source: ConversionSource, target: ConversionTarget) {
+            self.source = source
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.target.validate(name: "\(name).target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+            case target = "target"
+        }
+    }
+
+    public struct TestConversionResponse: AWSDecodableShape {
+        /// Returns the converted file content.
+        public let convertedFileContent: String
+        /// Returns an array of strings, each containing a message that Amazon Web Services B2B Data Interchange generates during the conversion.
+        public let validationMessages: [String]?
+
+        @inlinable
+        public init(convertedFileContent: String, validationMessages: [String]? = nil) {
+            self.convertedFileContent = convertedFileContent
+            self.validationMessages = validationMessages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case convertedFileContent = "convertedFileContent"
+            case validationMessages = "validationMessages"
+        }
+    }
+
     public struct TestMappingRequest: AWSEncodableShape {
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat
         /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform.
         public let inputFileContent: String
-        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
+        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.  This parameter is available for backwards compatibility. Use the Mapping data type instead.
         public let mappingTemplate: String
 
         @inlinable
@@ -1576,32 +1989,62 @@ extension B2bi {
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-        public let ediType: EdiType
+        public let ediType: EdiType?
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
-        public let fileFormat: FileFormat
+        public let fileFormat: FileFormat?
+        /// Returns a structure that contains the format options for the transformation.
+        public let inputConversion: InputConversion?
+        /// Returns the structure that contains the mapping template and its language (either XSLT or JSONATA).
+        public let mapping: Mapping?
         /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
-        public let mappingTemplate: String
+        public let mappingTemplate: String?
         /// Returns a timestamp representing the date and time for the most recent change for the transformer object.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var modifiedAt: Date?
         /// Returns the descriptive name for the transformer.
         public let name: String
+        /// Returns the OutputConversion object, which contains the format options for the outbound transformation.
+        public let outputConversion: OutputConversion?
         /// Returns a sample EDI document that is used by a transformer as a guide for processing the EDI data.
         public let sampleDocument: String?
+        /// Returns a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
+        public let sampleDocuments: SampleDocuments?
         /// Returns the state of the newly created transformer. The transformer can be either active or inactive. For the transformer to be used in a capability, its status must active.
         public let status: TransformerStatus
         /// Returns the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
         @inlinable
-        public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, modifiedAt: Date? = nil, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerId: String) {
+        public init(createdAt: Date, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, modifiedAt: Date? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerId: String) {
+            self.createdAt = createdAt
+            self.ediType = nil
+            self.fileFormat = nil
+            self.inputConversion = inputConversion
+            self.mapping = mapping
+            self.mappingTemplate = nil
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.outputConversion = outputConversion
+            self.sampleDocument = nil
+            self.sampleDocuments = sampleDocuments
+            self.status = status
+            self.transformerId = transformerId
+        }
+
+        @available(*, deprecated, message: "Members ediType, fileFormat, mappingTemplate, sampleDocument have been deprecated")
+        @inlinable
+        public init(createdAt: Date, ediType: EdiType? = nil, fileFormat: FileFormat? = nil, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, mappingTemplate: String? = nil, modifiedAt: Date? = nil, name: String, outputConversion: OutputConversion? = nil, sampleDocument: String? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
             self.fileFormat = fileFormat
+            self.inputConversion = inputConversion
+            self.mapping = mapping
             self.mappingTemplate = mappingTemplate
             self.modifiedAt = modifiedAt
             self.name = name
+            self.outputConversion = outputConversion
             self.sampleDocument = sampleDocument
+            self.sampleDocuments = sampleDocuments
             self.status = status
             self.transformerId = transformerId
         }
@@ -1610,10 +2053,14 @@ extension B2bi {
             case createdAt = "createdAt"
             case ediType = "ediType"
             case fileFormat = "fileFormat"
+            case inputConversion = "inputConversion"
+            case mapping = "mapping"
             case mappingTemplate = "mappingTemplate"
             case modifiedAt = "modifiedAt"
             case name = "name"
+            case outputConversion = "outputConversion"
             case sampleDocument = "sampleDocument"
+            case sampleDocuments = "sampleDocuments"
             case status = "status"
             case transformerId = "transformerId"
         }
@@ -1745,14 +2192,17 @@ extension B2bi {
     public struct UpdatePartnershipRequest: AWSEncodableShape {
         /// List of the capabilities associated with this partnership.
         public let capabilities: [String]?
+        /// To update, specify the structure that contains the details for the associated capabilities.
+        public let capabilityOptions: CapabilityOptions?
         /// The name of the partnership, used to identify it.
         public let name: String?
         /// Specifies the unique, system-generated identifier for a partnership.
         public let partnershipId: String
 
         @inlinable
-        public init(capabilities: [String]? = nil, name: String? = nil, partnershipId: String) {
+        public init(capabilities: [String]? = nil, capabilityOptions: CapabilityOptions? = nil, name: String? = nil, partnershipId: String) {
             self.capabilities = capabilities
+            self.capabilityOptions = capabilityOptions
             self.name = name
             self.partnershipId = partnershipId
         }
@@ -1761,6 +2211,7 @@ extension B2bi {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
+            try container.encodeIfPresent(self.capabilityOptions, forKey: .capabilityOptions)
             try container.encodeIfPresent(self.name, forKey: .name)
             request.encodePath(self.partnershipId, key: "partnershipId")
         }
@@ -1771,6 +2222,7 @@ extension B2bi {
                 try validate($0, name: "capabilities[]", parent: name, min: 1)
                 try validate($0, name: "capabilities[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             }
+            try self.capabilityOptions?.validate(name: "\(name).capabilityOptions")
             try self.validate(self.name, name: "name", parent: name, max: 254)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.partnershipId, name: "partnershipId", parent: name, max: 64)
@@ -1780,6 +2232,7 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case capabilityOptions = "capabilityOptions"
             case name = "name"
         }
     }
@@ -1787,6 +2240,8 @@ extension B2bi {
     public struct UpdatePartnershipResponse: AWSDecodableShape {
         /// Returns one or more capabilities associated with this partnership.
         public let capabilities: [String]?
+        /// Returns the structure that contains the details for the associated capabilities.
+        public let capabilityOptions: CapabilityOptions?
         /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -1809,8 +2264,9 @@ extension B2bi {
         public let tradingPartnerId: String?
 
         @inlinable
-        public init(capabilities: [String]? = nil, createdAt: Date, email: String? = nil, modifiedAt: Date? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
+        public init(capabilities: [String]? = nil, capabilityOptions: CapabilityOptions? = nil, createdAt: Date, email: String? = nil, modifiedAt: Date? = nil, name: String? = nil, partnershipArn: String, partnershipId: String, phone: String? = nil, profileId: String, tradingPartnerId: String? = nil) {
             self.capabilities = capabilities
+            self.capabilityOptions = capabilityOptions
             self.createdAt = createdAt
             self.email = email
             self.modifiedAt = modifiedAt
@@ -1824,6 +2280,7 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case capabilityOptions = "capabilityOptions"
             case createdAt = "createdAt"
             case email = "email"
             case modifiedAt = "modifiedAt"
@@ -1948,24 +2405,52 @@ extension B2bi {
         public let ediType: EdiType?
         /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
         public let fileFormat: FileFormat?
-        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
+        /// To update, specify the InputConversion object, which contains the format options for the inbound transformation.
+        public let inputConversion: InputConversion?
+        /// Specify the structure that contains the mapping template and its language (either XSLT or JSONATA).
+        public let mapping: Mapping?
+        /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.  This parameter is available for backwards compatibility. Use the Mapping data type instead.
         public let mappingTemplate: String?
         /// Specify a new name for the transformer, if you want to update it.
         public let name: String?
+        /// To update, specify the OutputConversion object, which contains the format options for the outbound transformation.
+        public let outputConversion: OutputConversion?
         /// Specifies a sample EDI document that is used by a transformer as a guide for processing the EDI data.
         public let sampleDocument: String?
+        /// Specify a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
+        public let sampleDocuments: SampleDocuments?
         /// Specifies the transformer's status. You can update the state of the transformer, from active to inactive, or inactive to active.
         public let status: TransformerStatus?
         /// Specifies the system-assigned unique identifier for the transformer.
         public let transformerId: String
 
         @inlinable
-        public init(ediType: EdiType? = nil, fileFormat: FileFormat? = nil, mappingTemplate: String? = nil, name: String? = nil, sampleDocument: String? = nil, status: TransformerStatus? = nil, transformerId: String) {
+        public init(inputConversion: InputConversion? = nil, mapping: Mapping? = nil, name: String? = nil, outputConversion: OutputConversion? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus? = nil, transformerId: String) {
+            self.ediType = nil
+            self.fileFormat = nil
+            self.inputConversion = inputConversion
+            self.mapping = mapping
+            self.mappingTemplate = nil
+            self.name = name
+            self.outputConversion = outputConversion
+            self.sampleDocument = nil
+            self.sampleDocuments = sampleDocuments
+            self.status = status
+            self.transformerId = transformerId
+        }
+
+        @available(*, deprecated, message: "Members ediType, fileFormat, mappingTemplate, sampleDocument have been deprecated")
+        @inlinable
+        public init(ediType: EdiType? = nil, fileFormat: FileFormat? = nil, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, mappingTemplate: String? = nil, name: String? = nil, outputConversion: OutputConversion? = nil, sampleDocument: String? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus? = nil, transformerId: String) {
             self.ediType = ediType
             self.fileFormat = fileFormat
+            self.inputConversion = inputConversion
+            self.mapping = mapping
             self.mappingTemplate = mappingTemplate
             self.name = name
+            self.outputConversion = outputConversion
             self.sampleDocument = sampleDocument
+            self.sampleDocuments = sampleDocuments
             self.status = status
             self.transformerId = transformerId
         }
@@ -1975,18 +2460,25 @@ extension B2bi {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.ediType, forKey: .ediType)
             try container.encodeIfPresent(self.fileFormat, forKey: .fileFormat)
+            try container.encodeIfPresent(self.inputConversion, forKey: .inputConversion)
+            try container.encodeIfPresent(self.mapping, forKey: .mapping)
             try container.encodeIfPresent(self.mappingTemplate, forKey: .mappingTemplate)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.outputConversion, forKey: .outputConversion)
             try container.encodeIfPresent(self.sampleDocument, forKey: .sampleDocument)
+            try container.encodeIfPresent(self.sampleDocuments, forKey: .sampleDocuments)
             try container.encodeIfPresent(self.status, forKey: .status)
             request.encodePath(self.transformerId, key: "transformerId")
         }
 
         public func validate(name: String) throws {
+            try self.mapping?.validate(name: "\(name).mapping")
             try self.validate(self.mappingTemplate, name: "mappingTemplate", parent: name, max: 350000)
             try self.validate(self.name, name: "name", parent: name, max: 254)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]{1,512}$")
             try self.validate(self.sampleDocument, name: "sampleDocument", parent: name, max: 1024)
+            try self.sampleDocuments?.validate(name: "\(name).sampleDocuments")
             try self.validate(self.transformerId, name: "transformerId", parent: name, max: 64)
             try self.validate(self.transformerId, name: "transformerId", parent: name, min: 1)
             try self.validate(self.transformerId, name: "transformerId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -1995,9 +2487,13 @@ extension B2bi {
         private enum CodingKeys: String, CodingKey {
             case ediType = "ediType"
             case fileFormat = "fileFormat"
+            case inputConversion = "inputConversion"
+            case mapping = "mapping"
             case mappingTemplate = "mappingTemplate"
             case name = "name"
+            case outputConversion = "outputConversion"
             case sampleDocument = "sampleDocument"
+            case sampleDocuments = "sampleDocuments"
             case status = "status"
         }
     }
@@ -2007,18 +2503,26 @@ extension B2bi {
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
-        public let ediType: EdiType
+        public let ediType: EdiType?
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
-        public let fileFormat: FileFormat
+        public let fileFormat: FileFormat?
+        /// Returns the InputConversion object, which contains the format options for the inbound transformation.
+        public let inputConversion: InputConversion?
+        /// Returns the structure that contains the mapping template and its language (either XSLT or JSONATA).
+        public let mapping: Mapping?
         /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
-        public let mappingTemplate: String
+        public let mappingTemplate: String?
         /// Returns a timestamp for last time the transformer was modified.
         @CustomCoding<ISO8601DateCoder>
         public var modifiedAt: Date
         /// Returns the name of the transformer.
         public let name: String
+        /// Returns the OutputConversion object, which contains the format options for the outbound transformation.
+        public let outputConversion: OutputConversion?
         /// Returns a sample EDI document that is used by a transformer as a guide for processing the EDI data.
         public let sampleDocument: String?
+        /// Returns a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
+        public let sampleDocuments: SampleDocuments?
         /// Returns the state of the newly created transformer. The transformer can be either active or inactive. For the transformer to be used in a capability, its status must active.
         public let status: TransformerStatus
         /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
@@ -2027,14 +2531,37 @@ extension B2bi {
         public let transformerId: String
 
         @inlinable
-        public init(createdAt: Date, ediType: EdiType, fileFormat: FileFormat, mappingTemplate: String, modifiedAt: Date, name: String, sampleDocument: String? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
+        public init(createdAt: Date, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, modifiedAt: Date, name: String, outputConversion: OutputConversion? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
+            self.createdAt = createdAt
+            self.ediType = nil
+            self.fileFormat = nil
+            self.inputConversion = inputConversion
+            self.mapping = mapping
+            self.mappingTemplate = nil
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.outputConversion = outputConversion
+            self.sampleDocument = nil
+            self.sampleDocuments = sampleDocuments
+            self.status = status
+            self.transformerArn = transformerArn
+            self.transformerId = transformerId
+        }
+
+        @available(*, deprecated, message: "Members ediType, fileFormat, mappingTemplate, sampleDocument have been deprecated")
+        @inlinable
+        public init(createdAt: Date, ediType: EdiType? = nil, fileFormat: FileFormat? = nil, inputConversion: InputConversion? = nil, mapping: Mapping? = nil, mappingTemplate: String? = nil, modifiedAt: Date, name: String, outputConversion: OutputConversion? = nil, sampleDocument: String? = nil, sampleDocuments: SampleDocuments? = nil, status: TransformerStatus, transformerArn: String, transformerId: String) {
             self.createdAt = createdAt
             self.ediType = ediType
             self.fileFormat = fileFormat
+            self.inputConversion = inputConversion
+            self.mapping = mapping
             self.mappingTemplate = mappingTemplate
             self.modifiedAt = modifiedAt
             self.name = name
+            self.outputConversion = outputConversion
             self.sampleDocument = sampleDocument
+            self.sampleDocuments = sampleDocuments
             self.status = status
             self.transformerArn = transformerArn
             self.transformerId = transformerId
@@ -2044,13 +2571,51 @@ extension B2bi {
             case createdAt = "createdAt"
             case ediType = "ediType"
             case fileFormat = "fileFormat"
+            case inputConversion = "inputConversion"
+            case mapping = "mapping"
             case mappingTemplate = "mappingTemplate"
             case modifiedAt = "modifiedAt"
             case name = "name"
+            case outputConversion = "outputConversion"
             case sampleDocument = "sampleDocument"
+            case sampleDocuments = "sampleDocuments"
             case status = "status"
             case transformerArn = "transformerArn"
             case transformerId = "transformerId"
+        }
+    }
+
+    public struct X12Delimiters: AWSEncodableShape & AWSDecodableShape {
+        /// The component, or sub-element, separator. The default value is : (colon).
+        public let componentSeparator: String?
+        /// The data element separator. The default value is * (asterisk).
+        public let dataElementSeparator: String?
+        /// The segment terminator. The default value is ~ (tilde).
+        public let segmentTerminator: String?
+
+        @inlinable
+        public init(componentSeparator: String? = nil, dataElementSeparator: String? = nil, segmentTerminator: String? = nil) {
+            self.componentSeparator = componentSeparator
+            self.dataElementSeparator = dataElementSeparator
+            self.segmentTerminator = segmentTerminator
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentSeparator, name: "componentSeparator", parent: name, max: 1)
+            try self.validate(self.componentSeparator, name: "componentSeparator", parent: name, min: 1)
+            try self.validate(self.componentSeparator, name: "componentSeparator", parent: name, pattern: "^[!&'()*+,\\-./:;?=%@\\[\\]_{}|<>~^`\"]$")
+            try self.validate(self.dataElementSeparator, name: "dataElementSeparator", parent: name, max: 1)
+            try self.validate(self.dataElementSeparator, name: "dataElementSeparator", parent: name, min: 1)
+            try self.validate(self.dataElementSeparator, name: "dataElementSeparator", parent: name, pattern: "^[!&'()*+,\\-./:;?=%@\\[\\]_{}|<>~^`\"]$")
+            try self.validate(self.segmentTerminator, name: "segmentTerminator", parent: name, max: 1)
+            try self.validate(self.segmentTerminator, name: "segmentTerminator", parent: name, min: 1)
+            try self.validate(self.segmentTerminator, name: "segmentTerminator", parent: name, pattern: "^[!&'()*+,\\-./:;?=%@\\[\\]_{}|<>~^`\"]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentSeparator = "componentSeparator"
+            case dataElementSeparator = "dataElementSeparator"
+            case segmentTerminator = "segmentTerminator"
         }
     }
 
@@ -2072,6 +2637,151 @@ extension B2bi {
         }
     }
 
+    public struct X12Envelope: AWSEncodableShape & AWSDecodableShape {
+        /// A container for the X12 outbound EDI headers.
+        public let common: X12OutboundEdiHeaders?
+
+        @inlinable
+        public init(common: X12OutboundEdiHeaders? = nil) {
+            self.common = common
+        }
+
+        public func validate(name: String) throws {
+            try self.common?.validate(name: "\(name).common")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case common = "common"
+        }
+    }
+
+    public struct X12FunctionalGroupHeaders: AWSEncodableShape & AWSDecodableShape {
+        /// A value representing the code used to identify the party receiving a message, at position GS-03.
+        public let applicationReceiverCode: String?
+        /// A value representing the code used to identify the party transmitting a message, at position GS-02.
+        public let applicationSenderCode: String?
+        /// A code that identifies the issuer of the standard, at position GS-07.
+        public let responsibleAgencyCode: String?
+
+        @inlinable
+        public init(applicationReceiverCode: String? = nil, applicationSenderCode: String? = nil, responsibleAgencyCode: String? = nil) {
+            self.applicationReceiverCode = applicationReceiverCode
+            self.applicationSenderCode = applicationSenderCode
+            self.responsibleAgencyCode = responsibleAgencyCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationReceiverCode, name: "applicationReceiverCode", parent: name, max: 15)
+            try self.validate(self.applicationReceiverCode, name: "applicationReceiverCode", parent: name, min: 2)
+            try self.validate(self.applicationReceiverCode, name: "applicationReceiverCode", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.applicationSenderCode, name: "applicationSenderCode", parent: name, max: 15)
+            try self.validate(self.applicationSenderCode, name: "applicationSenderCode", parent: name, min: 2)
+            try self.validate(self.applicationSenderCode, name: "applicationSenderCode", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.responsibleAgencyCode, name: "responsibleAgencyCode", parent: name, max: 2)
+            try self.validate(self.responsibleAgencyCode, name: "responsibleAgencyCode", parent: name, min: 1)
+            try self.validate(self.responsibleAgencyCode, name: "responsibleAgencyCode", parent: name, pattern: "^[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationReceiverCode = "applicationReceiverCode"
+            case applicationSenderCode = "applicationSenderCode"
+            case responsibleAgencyCode = "responsibleAgencyCode"
+        }
+    }
+
+    public struct X12InterchangeControlHeaders: AWSEncodableShape & AWSDecodableShape {
+        /// Located at position ISA-14 in the header. The value "1" indicates that the sender is requesting an interchange acknowledgment at receipt of the interchange. The value "0" is used otherwise.
+        public let acknowledgmentRequestedCode: String?
+        /// Located at position ISA-08 in the header. This value (along with the receiverIdQualifier) identifies the intended recipient of the interchange.
+        public let receiverId: String?
+        /// Located at position ISA-07 in the header. Qualifier for the receiver ID. Together, the ID and qualifier uniquely identify the receiving trading partner.
+        public let receiverIdQualifier: String?
+        /// Located at position ISA-11 in the header. This string makes it easier when you need to group similar adjacent element values together without using extra segments.  This parameter is only honored for version greater than 401 (VERSION_4010 and higher). For versions less than 401, this field is called StandardsId, in which case our service sets the value to U.
+        public let repetitionSeparator: String?
+        /// Located at position ISA-06 in the header. This value (along with the senderIdQualifier) identifies the sender of the interchange.
+        public let senderId: String?
+        /// Located at position ISA-05 in the header. Qualifier for the sender ID. Together, the ID and qualifier uniquely identify the sending trading partner.
+        public let senderIdQualifier: String?
+        /// Located at position ISA-15 in the header. Specifies how this interchange is being used:    T indicates this interchange is for testing.    P indicates this interchange is for production.    I indicates this interchange is informational.
+        public let usageIndicatorCode: String?
+
+        @inlinable
+        public init(acknowledgmentRequestedCode: String? = nil, receiverId: String? = nil, receiverIdQualifier: String? = nil, repetitionSeparator: String? = nil, senderId: String? = nil, senderIdQualifier: String? = nil, usageIndicatorCode: String? = nil) {
+            self.acknowledgmentRequestedCode = acknowledgmentRequestedCode
+            self.receiverId = receiverId
+            self.receiverIdQualifier = receiverIdQualifier
+            self.repetitionSeparator = repetitionSeparator
+            self.senderId = senderId
+            self.senderIdQualifier = senderIdQualifier
+            self.usageIndicatorCode = usageIndicatorCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acknowledgmentRequestedCode, name: "acknowledgmentRequestedCode", parent: name, max: 1)
+            try self.validate(self.acknowledgmentRequestedCode, name: "acknowledgmentRequestedCode", parent: name, min: 1)
+            try self.validate(self.acknowledgmentRequestedCode, name: "acknowledgmentRequestedCode", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.receiverId, name: "receiverId", parent: name, max: 15)
+            try self.validate(self.receiverId, name: "receiverId", parent: name, min: 15)
+            try self.validate(self.receiverId, name: "receiverId", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.receiverIdQualifier, name: "receiverIdQualifier", parent: name, max: 2)
+            try self.validate(self.receiverIdQualifier, name: "receiverIdQualifier", parent: name, min: 2)
+            try self.validate(self.receiverIdQualifier, name: "receiverIdQualifier", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.repetitionSeparator, name: "repetitionSeparator", parent: name, max: 1)
+            try self.validate(self.repetitionSeparator, name: "repetitionSeparator", parent: name, min: 1)
+            try self.validate(self.senderId, name: "senderId", parent: name, max: 15)
+            try self.validate(self.senderId, name: "senderId", parent: name, min: 15)
+            try self.validate(self.senderId, name: "senderId", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.senderIdQualifier, name: "senderIdQualifier", parent: name, max: 2)
+            try self.validate(self.senderIdQualifier, name: "senderIdQualifier", parent: name, min: 2)
+            try self.validate(self.senderIdQualifier, name: "senderIdQualifier", parent: name, pattern: "^[a-zA-Z0-9]*$")
+            try self.validate(self.usageIndicatorCode, name: "usageIndicatorCode", parent: name, max: 1)
+            try self.validate(self.usageIndicatorCode, name: "usageIndicatorCode", parent: name, min: 1)
+            try self.validate(self.usageIndicatorCode, name: "usageIndicatorCode", parent: name, pattern: "^[a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgmentRequestedCode = "acknowledgmentRequestedCode"
+            case receiverId = "receiverId"
+            case receiverIdQualifier = "receiverIdQualifier"
+            case repetitionSeparator = "repetitionSeparator"
+            case senderId = "senderId"
+            case senderIdQualifier = "senderIdQualifier"
+            case usageIndicatorCode = "usageIndicatorCode"
+        }
+    }
+
+    public struct X12OutboundEdiHeaders: AWSEncodableShape & AWSDecodableShape {
+        /// The delimiters, for example semicolon (;), that separates sections of the headers for the X12 object.
+        public let delimiters: X12Delimiters?
+        /// The functional group headers for the X12 object.
+        public let functionalGroupHeaders: X12FunctionalGroupHeaders?
+        /// In X12 EDI messages, delimiters are used to mark the end of segments or elements, and are defined in the interchange control header.
+        public let interchangeControlHeaders: X12InterchangeControlHeaders?
+        /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE.
+        public let validateEdi: Bool?
+
+        @inlinable
+        public init(delimiters: X12Delimiters? = nil, functionalGroupHeaders: X12FunctionalGroupHeaders? = nil, interchangeControlHeaders: X12InterchangeControlHeaders? = nil, validateEdi: Bool? = nil) {
+            self.delimiters = delimiters
+            self.functionalGroupHeaders = functionalGroupHeaders
+            self.interchangeControlHeaders = interchangeControlHeaders
+            self.validateEdi = validateEdi
+        }
+
+        public func validate(name: String) throws {
+            try self.delimiters?.validate(name: "\(name).delimiters")
+            try self.functionalGroupHeaders?.validate(name: "\(name).functionalGroupHeaders")
+            try self.interchangeControlHeaders?.validate(name: "\(name).interchangeControlHeaders")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delimiters = "delimiters"
+            case functionalGroupHeaders = "functionalGroupHeaders"
+            case interchangeControlHeaders = "interchangeControlHeaders"
+            case validateEdi = "validateEdi"
+        }
+    }
+
     public struct CapabilityConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An EDI (electronic data interchange) configuration object.
         public let edi: EdiConfiguration?
@@ -2090,6 +2800,19 @@ extension B2bi {
         }
     }
 
+    public struct ConversionTargetFormatDetails: AWSEncodableShape {
+        public let x12: X12Details?
+
+        @inlinable
+        public init(x12: X12Details? = nil) {
+            self.x12 = x12
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x12 = "x12"
+        }
+    }
+
     public struct EdiType: AWSEncodableShape & AWSDecodableShape {
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
         public let x12Details: X12Details?
@@ -2101,6 +2824,81 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case x12Details = "x12Details"
+        }
+    }
+
+    public struct FormatOptions: AWSEncodableShape & AWSDecodableShape {
+        public let x12: X12Details?
+
+        @inlinable
+        public init(x12: X12Details? = nil) {
+            self.x12 = x12
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x12 = "x12"
+        }
+    }
+
+    public struct InputFileSource: AWSEncodableShape {
+        /// Specify the input contents, as a string, for the source of an outbound transformation.
+        public let fileContent: String?
+
+        @inlinable
+        public init(fileContent: String? = nil) {
+            self.fileContent = fileContent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileContent = "fileContent"
+        }
+    }
+
+    public struct OutboundEdiOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A structure that contains an X12 envelope structure.
+        public let x12: X12Envelope?
+
+        @inlinable
+        public init(x12: X12Envelope? = nil) {
+            self.x12 = x12
+        }
+
+        public func validate(name: String) throws {
+            try self.x12?.validate(name: "\(name).x12")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x12 = "x12"
+        }
+    }
+
+    public struct OutputSampleFileSource: AWSEncodableShape {
+        public let fileLocation: S3Location?
+
+        @inlinable
+        public init(fileLocation: S3Location? = nil) {
+            self.fileLocation = fileLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.fileLocation?.validate(name: "\(name).fileLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileLocation = "fileLocation"
+        }
+    }
+
+    public struct TemplateDetails: AWSEncodableShape {
+        public let x12: X12Details?
+
+        @inlinable
+        public init(x12: X12Details? = nil) {
+            self.x12 = x12
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case x12 = "x12"
         }
     }
 }

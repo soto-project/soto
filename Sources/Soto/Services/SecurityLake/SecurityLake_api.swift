@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS SecurityLake service.
 ///
-/// Amazon Security Lake is a fully managed security data lake service. You can use Security Lake to automatically centralize security data from cloud, on-premises, and custom sources into a data lake that's stored in your Amazon Web Services account. Amazon Web Services Organizations is an account management service that lets you consolidate multiple Amazon Web Services accounts into an organization that you create and centrally manage. With Organizations, you can create member accounts and invite existing accounts to join your organization. Security Lake helps you analyze security data for a more complete understanding of your security posture across the entire organization. It can also help you improve the protection of your workloads, applications, and data. The data lake is backed by Amazon Simple Storage Service (Amazon S3) buckets, and you retain ownership over your data. Amazon Security Lake integrates with CloudTrail, a service that provides a record of actions taken by a user, role, or an Amazon Web Services service. In Security Lake, CloudTrail captures API calls for Security Lake as events. The calls captured include calls from the Security Lake console and code calls to the Security Lake API operations. If you create a trail, you can enable continuous delivery of CloudTrail events to an Amazon S3 bucket, including events for Security Lake. If you don't configure a trail, you can still view the most recent events in the CloudTrail console in Event history. Using the information collected by CloudTrail you can determine the request that was made to Security Lake, the IP address from which the request was made, who made the request, when it was made, and additional details. To learn more about Security Lake information in CloudTrail, see the Amazon Security Lake User Guide. Security Lake automates the collection of security-related log and event data from integrated Amazon Web Services and third-party services. It also helps you manage the lifecycle of data with customizable retention and replication settings. Security Lake converts ingested data into Apache Parquet format and a standard open-source schema called the Open Cybersecurity Schema Framework (OCSF). Other Amazon Web Services and third-party services can subscribe to the data that's stored in Security Lake for  incident response and security data analytics.
+/// Amazon Security Lake is a fully managed security data lake service. You can use Security Lake to automatically centralize security data from cloud, on-premises, and custom sources into a data lake that's stored in your Amazon Web Services account. Amazon Web Services Organizations is an account management service that lets you consolidate multiple Amazon Web Services accounts into an organization that you create and centrally manage. With Organizations, you can create member accounts and invite existing accounts to join your organization. Security Lake helps you analyze security data for a more complete understanding of your security posture across the entire organization. It can also help you improve the protection of your workloads, applications, and data. The data lake is backed by Amazon Simple Storage Service (Amazon S3) buckets, and you retain ownership over your data. Amazon Security Lake integrates with CloudTrail, a service that provides a record of actions taken by a user, role, or an Amazon Web Services service. In Security Lake, CloudTrail captures API calls for Security Lake as events. The calls captured include calls from the Security Lake console and code calls to the Security Lake API operations. If you create a trail, you can enable continuous delivery of CloudTrail events to an Amazon S3 bucket, including events for Security Lake. If you don't configure a trail, you can still view the most recent events in the CloudTrail console in Event history. Using the information collected by CloudTrail you can determine the request that was made to Security Lake, the IP address from which the request was made, who made the request, when it was made, and additional details. To learn more about Security Lake information in CloudTrail, see the Amazon Security Lake User Guide. Security Lake automates the collection of security-related log and event data from integrated Amazon Web Services services and third-party services. It also helps you manage the lifecycle of data with customizable retention and replication settings. Security Lake converts ingested data into Apache Parquet format and a standard open-source schema called the Open Cybersecurity Schema Framework (OCSF). Other Amazon Web Services services and third-party services can subscribe to the data that's stored in Security Lake for  incident response and security data analytics.
 public struct SecurityLake: AWSService {
     // MARK: Member variables
 
@@ -91,7 +91,7 @@ public struct SecurityLake: AWSService {
 
     // MARK: API Calls
 
-    /// Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
+    /// Adds a natively supported Amazon Web Services service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
     @Sendable
     @inlinable
     public func createAwsLogSource(_ input: CreateAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAwsLogSourceResponse {
@@ -104,7 +104,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
+    /// Adds a natively supported Amazon Web Services service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
     ///
     /// Parameters:
     ///   - sources: Specify the natively-supported Amazon Web Services service to add as a source in Security Lake.
@@ -136,9 +136,9 @@ public struct SecurityLake: AWSService {
     /// Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services Region where you want to create a custom source. Security Lake can collect logs and events from third-party custom sources. After creating the appropriate IAM role to invoke Glue crawler, use this API to add a custom source name in Security Lake. This operation creates a partition in the Amazon S3 bucket for Security Lake as the target location for log files from the custom source. In addition, this operation also creates an associated Glue table and an Glue crawler.
     ///
     /// Parameters:
-    ///   - configuration: The configuration for the third-party custom source.
+    ///   - configuration: The configuration used for the third-party custom source.
     ///   - eventClasses: The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:    ACCESS_ACTIVITY     FILE_ACTIVITY     KERNEL_ACTIVITY     KERNEL_EXTENSION     MEMORY_ACTIVITY     MODULE_ACTIVITY     PROCESS_ACTIVITY     REGISTRY_KEY_ACTIVITY     REGISTRY_VALUE_ACTIVITY     RESOURCE_ACTIVITY     SCHEDULED_JOB_ACTIVITY     SECURITY_FINDING     ACCOUNT_CHANGE     AUTHENTICATION     AUTHORIZATION     ENTITY_MANAGEMENT_AUDIT     DHCP_ACTIVITY     NETWORK_ACTIVITY     DNS_ACTIVITY     FTP_ACTIVITY     HTTP_ACTIVITY     RDP_ACTIVITY     SMB_ACTIVITY     SSH_ACTIVITY     CONFIG_STATE     INVENTORY_INFO     EMAIL_ACTIVITY     API_ACTIVITY     CLOUD_API
-    ///   - sourceName: Specify the name for a third-party custom source. This must be a Regionally unique value.
+    ///   - sourceName: Specify the name for a third-party custom source. This must be a Regionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurityLake-Provider-{name of the custom source}-{region}. You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit.
     ///   - sourceVersion: Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source.
     ///   - logger: Logger use during operation
     @inlinable
@@ -158,7 +158,7 @@ public struct SecurityLake: AWSService {
         return try await self.createCustomLogSource(input, logger: logger)
     }
 
-    /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
+    /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call and after you create subscribers using the CreateSubscriber API. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
     @Sendable
     @inlinable
     public func createDataLake(_ input: CreateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeResponse {
@@ -171,7 +171,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
+    /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call and after you create subscribers using the CreateSubscriber API. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the Amazon Security Lake User Guide.
     ///
     /// Parameters:
     ///   - configurations: Specify the Region or Regions that will contribute data to the rollup region.
@@ -193,7 +193,7 @@ public struct SecurityLake: AWSService {
         return try await self.createDataLake(input, logger: logger)
     }
 
-    /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify.
+    /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
     @Sendable
     @inlinable
     public func createDataLakeExceptionSubscription(_ input: CreateDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeExceptionSubscriptionResponse {
@@ -206,10 +206,10 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify.
+    /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
     ///
     /// Parameters:
-    ///   - exceptionTimeToLive: The expiration period and time-to-live (TTL).
+    ///   - exceptionTimeToLive: The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains.
     ///   - notificationEndpoint: The Amazon Web Services account where you want to receive exception notifications.
     ///   - subscriptionProtocol: The subscription protocol to which exception notifications are posted.
     ///   - logger: Logger use during operation
@@ -257,7 +257,7 @@ public struct SecurityLake: AWSService {
         return try await self.createDataLakeOrganizationConfiguration(input, logger: logger)
     }
 
-    /// Creates a subscription permission for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
+    /// Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
     @Sendable
     @inlinable
     public func createSubscriber(_ input: CreateSubscriberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriberResponse {
@@ -270,11 +270,11 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Creates a subscription permission for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
+    /// Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
     ///
     /// Parameters:
     ///   - accessTypes: The Amazon S3 or Lake Formation access type.
-    ///   - sources: The supported Amazon Web Services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services.
+    ///   - sources: The supported Amazon Web Services services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services services.
     ///   - subscriberDescription: The description for your subscriber account in Security Lake.
     ///   - subscriberIdentity: The Amazon Web Services identity used to access your data.
     ///   - subscriberName: The name of your Security Lake subscriber account.
@@ -333,7 +333,7 @@ public struct SecurityLake: AWSService {
         return try await self.createSubscriberNotification(input, logger: logger)
     }
 
-    /// Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
+    /// Removes a natively supported Amazon Web Services service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
     @Sendable
     @inlinable
     public func deleteAwsLogSource(_ input: DeleteAwsLogSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAwsLogSourceResponse {
@@ -346,7 +346,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
+    /// Removes a natively supported Amazon Web Services service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
     ///
     /// Parameters:
     ///   - sources: Specify the natively-supported Amazon Web Services service to remove as a source in Security Lake.
@@ -507,7 +507,7 @@ public struct SecurityLake: AWSService {
         return try await self.deleteSubscriber(input, logger: logger)
     }
 
-    /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
+    /// Deletes the specified subscription notification in Amazon Security Lake for the organization you specify.
     @Sendable
     @inlinable
     public func deleteSubscriberNotification(_ input: DeleteSubscriberNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriberNotificationResponse {
@@ -520,7 +520,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
+    /// Deletes the specified subscription notification in Amazon Security Lake for the organization you specify.
     ///
     /// Parameters:
     ///   - subscriberId: The ID of the Security Lake subscriber account.
@@ -562,7 +562,7 @@ public struct SecurityLake: AWSService {
         return try await self.deregisterDataLakeDelegatedAdministrator(input, logger: logger)
     }
 
-    /// Retrieves the details of exception notifications for the account in Amazon Security Lake.
+    /// Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
     @Sendable
     @inlinable
     public func getDataLakeExceptionSubscription(_ input: GetDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeExceptionSubscriptionResponse {
@@ -575,7 +575,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the details of exception notifications for the account in Amazon Security Lake.
+    /// Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -694,8 +694,8 @@ public struct SecurityLake: AWSService {
     /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
     ///
     /// Parameters:
-    ///   - maxResults: List the maximum number of failures in Security Lake.
-    ///   - nextToken: List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - maxResults: Lists the maximum number of failures in Security Lake.
+    ///   - nextToken: Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     ///   - regions: The Amazon Web Services Regions from which exceptions are retrieved.
     ///   - logger: Logger use during operation
     @inlinable
@@ -742,7 +742,7 @@ public struct SecurityLake: AWSService {
         return try await self.listDataLakes(input, logger: logger)
     }
 
-    /// Retrieves the log sources in the current Amazon Web Services Region.
+    /// Retrieves the log sources.
     @Sendable
     @inlinable
     public func listLogSources(_ input: ListLogSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLogSourcesResponse {
@@ -755,7 +755,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the log sources in the current Amazon Web Services Region.
+    /// Retrieves the log sources.
     ///
     /// Parameters:
     ///   - accounts: The list of Amazon Web Services accounts for which log sources are displayed.
@@ -783,7 +783,7 @@ public struct SecurityLake: AWSService {
         return try await self.listLogSources(input, logger: logger)
     }
 
-    /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
+    /// Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
     @Sendable
     @inlinable
     public func listSubscribers(_ input: ListSubscribersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubscribersResponse {
@@ -796,7 +796,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// List all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
+    /// Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of accounts for which the configuration is displayed.
@@ -937,7 +937,7 @@ public struct SecurityLake: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Specifies where to store your security data and for how long. You can add a rollup Region to consolidate data from multiple Amazon Web Services Regions.
+    /// You can use UpdateDataLake to specify where to store your security data, how it should be encrypted at rest and for how long. You can add a Rollup Region to consolidate data from multiple Amazon Web Services Regions, replace default encryption (SSE-S3) with Customer Manged Key, or specify transition and expiration actions through storage Lifecycle management. The UpdateDataLake API works as an "upsert" operation that performs an insert if the specified item or record does not exist, or an update if it already exists. Security Lake securely stores your data at rest using Amazon Web Services encryption solutions. For more details, see Data protection in Amazon Security Lake. For example, omitting the key encryptionConfiguration from a Region that is included in an update call that currently uses KMS will leave that Region's KMS key in place, but specifying encryptionConfiguration: {kmsKeyId: 'S3_MANAGED_KEY'} for that same Region will reset the key to S3-managed. For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the Amazon Security Lake User Guide.
     @Sendable
     @inlinable
     public func updateDataLake(_ input: UpdateDataLakeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataLakeResponse {
@@ -950,10 +950,10 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Specifies where to store your security data and for how long. You can add a rollup Region to consolidate data from multiple Amazon Web Services Regions.
+    /// You can use UpdateDataLake to specify where to store your security data, how it should be encrypted at rest and for how long. You can add a Rollup Region to consolidate data from multiple Amazon Web Services Regions, replace default encryption (SSE-S3) with Customer Manged Key, or specify transition and expiration actions through storage Lifecycle management. The UpdateDataLake API works as an "upsert" operation that performs an insert if the specified item or record does not exist, or an update if it already exists. Security Lake securely stores your data at rest using Amazon Web Services encryption solutions. For more details, see Data protection in Amazon Security Lake. For example, omitting the key encryptionConfiguration from a Region that is included in an update call that currently uses KMS will leave that Region's KMS key in place, but specifying encryptionConfiguration: {kmsKeyId: 'S3_MANAGED_KEY'} for that same Region will reset the key to S3-managed. For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the Amazon Security Lake User Guide.
     ///
     /// Parameters:
-    ///   - configurations: Specify the Region or Regions that will contribute data to the rollup region.
+    ///   - configurations: Specifies the Region or Regions that will contribute data to the rollup region.
     ///   - metaStoreManagerRoleArn: The Amazon Resource Name (ARN) used to create and update the Glue table. This table contains partitions generated by the ingestion and normalization of Amazon Web Services log sources and custom sources.
     ///   - logger: Logger use during operation
     @inlinable
@@ -985,7 +985,7 @@ public struct SecurityLake: AWSService {
     /// Updates the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
     /// Parameters:
-    ///   - exceptionTimeToLive: The time-to-live (TTL) for the exception message to remain.
+    ///   - exceptionTimeToLive: The time-to-live (TTL) for the exception message to remain. It is the duration of time until which the exception message remains.
     ///   - notificationEndpoint: The account that is subscribed to receive exception notifications.
     ///   - subscriptionProtocol: The subscription protocol to which exception messages are posted.
     ///   - logger: Logger use during operation
@@ -1020,10 +1020,10 @@ public struct SecurityLake: AWSService {
     /// Updates an existing subscription for the given Amazon Security Lake account ID. You can update a subscriber by changing the sources that the subscriber consumes data from.
     ///
     /// Parameters:
-    ///   - sources: The supported Amazon Web Services from which logs and events are collected. For the list of supported Amazon Web Services, see the Amazon Security Lake User Guide.
+    ///   - sources: The supported Amazon Web Services services from which logs and events are collected. For the list of supported Amazon Web Services services, see the Amazon Security Lake User Guide.
     ///   - subscriberDescription: The description of the Security Lake account subscriber.
     ///   - subscriberId: A value created by Security Lake that uniquely identifies your subscription.
-    ///   - subscriberIdentity: The AWS identity used to access your data.
+    ///   - subscriberIdentity: The Amazon Web Services identity used to access your data.
     ///   - subscriberName: The name of the Security Lake account subscriber.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1149,7 +1149,7 @@ extension SecurityLake {
     /// Return PaginatorSequence for operation ``listDataLakeExceptions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: List the maximum number of failures in Security Lake.
+    ///   - maxResults: Lists the maximum number of failures in Security Lake.
     ///   - regions: The Amazon Web Services Regions from which exceptions are retrieved.
     ///   - logger: Logger used for logging
     @inlinable

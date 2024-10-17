@@ -51,6 +51,14 @@ extension TimestreamInfluxDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum DurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hours = "hours"
+        case milliseconds = "milliseconds"
+        case minutes = "minutes"
+        case seconds = "seconds"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case debug = "debug"
         case error = "error"
@@ -100,6 +108,8 @@ extension TimestreamInfluxDB {
         public let organization: String?
         /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in AWS SecretManager in your account.
         public let password: String
+        /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+        public let port: Int?
         /// Configures the DB instance with a public IP to facilitate access.
         public let publiclyAccessible: Bool?
         /// A list of key-value pairs to associate with the DB instance.
@@ -112,7 +122,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, organization: String? = nil, password: String, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
             self.dbInstanceType = dbInstanceType
@@ -123,6 +133,7 @@ extension TimestreamInfluxDB {
             self.name = name
             self.organization = organization
             self.password = password
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.tags = tags
             self.username = username
@@ -141,12 +152,14 @@ extension TimestreamInfluxDB {
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
             try self.validate(self.organization, name: "organization", parent: name, max: 64)
             try self.validate(self.organization, name: "organization", parent: name, min: 1)
             try self.validate(self.password, name: "password", parent: name, max: 64)
             try self.validate(self.password, name: "password", parent: name, min: 8)
             try self.validate(self.password, name: "password", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1024)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -181,6 +194,7 @@ extension TimestreamInfluxDB {
             case name = "name"
             case organization = "organization"
             case password = "password"
+            case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case tags = "tags"
             case username = "username"
@@ -214,6 +228,8 @@ extension TimestreamInfluxDB {
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
+        /// The port number on which InfluxDB accepts connections. The default value is 8086.
+        public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
         public let publiclyAccessible: Bool?
         /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -226,7 +242,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -239,6 +255,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.status = status
@@ -259,6 +276,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
             case status = "status"
@@ -288,7 +306,7 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -353,11 +371,13 @@ extension TimestreamInfluxDB {
         public let id: String
         /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
         public let name: String
+        /// The port number on which InfluxDB accepts connections.
+        public let port: Int?
         /// The status of the DB instance.
         public let status: Status?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, name: String, status: Status? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, name: String, port: Int? = nil, status: Status? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.dbInstanceType = dbInstanceType
@@ -366,6 +386,7 @@ extension TimestreamInfluxDB {
             self.endpoint = endpoint
             self.id = id
             self.name = name
+            self.port = port
             self.status = status
         }
 
@@ -378,6 +399,7 @@ extension TimestreamInfluxDB {
             case endpoint = "endpoint"
             case id = "id"
             case name = "name"
+            case port = "port"
             case status = "status"
         }
     }
@@ -453,6 +475,8 @@ extension TimestreamInfluxDB {
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
+        /// The port number on which InfluxDB accepts connections.
+        public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
         public let publiclyAccessible: Bool?
         /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -465,7 +489,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -478,6 +502,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.status = status
@@ -498,11 +523,30 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
             case status = "status"
             case vpcSecurityGroupIds = "vpcSecurityGroupIds"
             case vpcSubnetIds = "vpcSubnetIds"
+        }
+    }
+
+    public struct Duration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of duration for InfluxDB parameters.
+        public let durationType: DurationType
+        /// The value of duration for InfluxDB parameters.
+        public let value: Int64
+
+        @inlinable
+        public init(durationType: DurationType, value: Int64) {
+            self.durationType = durationType
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationType = "durationType"
+            case value = "value"
         }
     }
 
@@ -551,6 +595,8 @@ extension TimestreamInfluxDB {
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
+        /// The port number on which InfluxDB accepts connections.
+        public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
         public let publiclyAccessible: Bool?
         /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -563,7 +609,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -576,6 +622,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.status = status
@@ -596,6 +643,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
             case status = "status"
@@ -657,38 +705,146 @@ extension TimestreamInfluxDB {
     public struct InfluxDBv2Parameters: AWSEncodableShape & AWSDecodableShape {
         /// Include option to show detailed logs for Flux queries. Default: false
         public let fluxLogEnabled: Bool?
+        /// Maximum duration the server should keep established connections alive while waiting for new requests. Set to 0 for no timeout. Default: 3 minutes
+        public let httpIdleTimeout: Duration?
+        /// Maximum duration the server should try to read HTTP headers for new requests. Set to 0 for no timeout. Default: 10 seconds
+        public let httpReadHeaderTimeout: Duration?
+        /// Maximum duration the server should try to read the entirety of new requests. Set to 0 for no timeout. Default: 0
+        public let httpReadTimeout: Duration?
+        /// Maximum duration the server should spend processing and responding to write requests. Set to 0 for no timeout. Default: 0
+        public let httpWriteTimeout: Duration?
+        /// Maximum number of group by time buckets a SELECT statement can create. 0 allows an unlimited number of buckets. Default: 0
+        public let influxqlMaxSelectBuckets: Int64?
+        /// Maximum number of points a SELECT statement can process. 0 allows an unlimited number of points. InfluxDB checks the point count every second (so queries exceeding the maximum aren’t immediately aborted). Default: 0
+        public let influxqlMaxSelectPoint: Int64?
+        /// Maximum number of series a SELECT statement can return. 0 allows an unlimited number of series. Default: 0
+        public let influxqlMaxSelectSeries: Int64?
         /// Log output level. InfluxDB outputs log entries with severity levels greater than or equal to the level specified. Default: info
         public let logLevel: LogLevel?
         /// Disable the HTTP /metrics endpoint which exposes internal InfluxDB metrics. Default: false
         public let metricsDisabled: Bool?
         /// Disable the task scheduler. If problematic tasks prevent InfluxDB from starting, use this option to start InfluxDB without scheduling or executing tasks. Default: false
         public let noTasks: Bool?
+        /// Disable the /debug/pprof HTTP endpoint. This endpoint provides runtime profiling data and can be helpful when debugging. Default: false
+        public let pprofDisabled: Bool?
         /// Number of queries allowed to execute concurrently. Setting to 0 allows an unlimited number of concurrent queries. Default: 0
         public let queryConcurrency: Int?
+        /// Initial bytes of memory allocated for a query. Default: 0
+        public let queryInitialMemoryBytes: Int64?
+        /// Maximum number of queries allowed in execution queue. When queue limit is reached, new queries are rejected. Setting to 0 allows an unlimited number of queries in the queue. Default: 0
+        public let queryMaxMemoryBytes: Int64?
+        /// Maximum bytes of memory allowed for a single query. Must be greater or equal to queryInitialMemoryBytes. Default: 0
+        public let queryMemoryBytes: Int64?
         /// Maximum number of queries allowed in execution queue. When queue limit is reached, new queries are rejected. Setting to 0 allows an unlimited number of queries in the queue. Default: 0
         public let queryQueueSize: Int?
+        /// Specifies the Time to Live (TTL) in minutes for newly created user sessions. Default: 60
+        public let sessionLength: Int?
+        /// Disables automatically extending a user’s session TTL on each request. By default, every request sets the session’s expiration time to five minutes from now. When disabled, sessions expire after the specified session length and the user is redirected to the login page, even if recently active. Default: false
+        public let sessionRenewDisabled: Bool?
+        /// Maximum size (in bytes) a shard’s cache can reach before it starts rejecting writes. Must be greater than storageCacheSnapShotMemorySize and lower than instance’s total memory capacity. We recommend setting it to below 15% of the total memory capacity. Default: 1073741824
+        public let storageCacheMaxMemorySize: Int64?
+        /// Size (in bytes) at which the storage engine will snapshot the cache and write it to a TSM file to make more memory available. Must not be greater than storageCacheMaxMemorySize. Default: 26214400
+        public let storageCacheSnapshotMemorySize: Int64?
+        /// Duration at which the storage engine will snapshot the cache and write it to a new TSM file if the shard hasn’t received writes or deletes. Default: 10 minutes
+        public let storageCacheSnapshotWriteColdDuration: Duration?
+        /// Duration at which the storage engine will compact all TSM files in a shard if it hasn't received writes or deletes. Default: 4 hours
+        public let storageCompactFullWriteColdDuration: Duration?
+        /// Rate limit (in bytes per second) that TSM compactions can write to disk. Default: 50331648
+        public let storageCompactThroughputBurst: Int64?
+        /// Maximum number of full and level compactions that can run concurrently. A value of 0 results in 50% of runtime.GOMAXPROCS(0) used at runtime. Any number greater than zero limits compactions to that value. This setting does not apply to cache snapshotting. Default: 0
+        public let storageMaxConcurrentCompactions: Int?
+        /// Size (in bytes) at which an index write-ahead log (WAL) file will compact into an index file. Lower sizes will cause log files to be compacted more quickly and result in lower heap usage at the expense of write throughput. Default: 1048576
+        public let storageMaxIndexLogFileSize: Int64?
+        /// Skip field size validation on incoming write requests. Default: false
+        public let storageNoValidateFieldSize: Bool?
+        /// Interval of retention policy enforcement checks. Must be greater than 0. Default: 30 minutes
+        public let storageRetentionCheckInterval: Duration?
+        /// Maximum number of snapshot compactions that can run concurrently across all series partitions in a database. Default: 0
+        public let storageSeriesFileMaxConcurrentSnapshotCompactions: Int?
+        /// Size of the internal cache used in the TSI index to store previously calculated series results. Cached results are returned quickly rather than needing to be recalculated when a subsequent query with the same tag key/value predicate is executed. Setting this value to 0 will disable the cache and may decrease query performance. Default: 100
+        public let storageSeriesIdSetCacheSize: Int64?
+        /// Maximum number writes to the WAL directory to attempt at the same time. Setting this value to 0 results in number of processing units available x2. Default: 0
+        public let storageWalMaxConcurrentWrites: Int?
+        /// Maximum amount of time a write request to the WAL directory will wait when the maximum number of concurrent active writes to the WAL directory has been met. Set to 0 to disable the timeout. Default: 10 minutes
+        public let storageWalMaxWriteDelay: Duration?
         /// Enable tracing in InfluxDB and specifies the tracing type. Tracing is disabled by default.
         public let tracingType: TracingType?
+        /// Disable the InfluxDB user interface (UI). The UI is enabled by default. Default: false
+        public let uiDisabled: Bool?
 
         @inlinable
-        public init(fluxLogEnabled: Bool? = nil, logLevel: LogLevel? = nil, metricsDisabled: Bool? = nil, noTasks: Bool? = nil, queryConcurrency: Int? = nil, queryQueueSize: Int? = nil, tracingType: TracingType? = nil) {
+        public init(fluxLogEnabled: Bool? = nil, httpIdleTimeout: Duration? = nil, httpReadHeaderTimeout: Duration? = nil, httpReadTimeout: Duration? = nil, httpWriteTimeout: Duration? = nil, influxqlMaxSelectBuckets: Int64? = nil, influxqlMaxSelectPoint: Int64? = nil, influxqlMaxSelectSeries: Int64? = nil, logLevel: LogLevel? = nil, metricsDisabled: Bool? = nil, noTasks: Bool? = nil, pprofDisabled: Bool? = nil, queryConcurrency: Int? = nil, queryInitialMemoryBytes: Int64? = nil, queryMaxMemoryBytes: Int64? = nil, queryMemoryBytes: Int64? = nil, queryQueueSize: Int? = nil, sessionLength: Int? = nil, sessionRenewDisabled: Bool? = nil, storageCacheMaxMemorySize: Int64? = nil, storageCacheSnapshotMemorySize: Int64? = nil, storageCacheSnapshotWriteColdDuration: Duration? = nil, storageCompactFullWriteColdDuration: Duration? = nil, storageCompactThroughputBurst: Int64? = nil, storageMaxConcurrentCompactions: Int? = nil, storageMaxIndexLogFileSize: Int64? = nil, storageNoValidateFieldSize: Bool? = nil, storageRetentionCheckInterval: Duration? = nil, storageSeriesFileMaxConcurrentSnapshotCompactions: Int? = nil, storageSeriesIdSetCacheSize: Int64? = nil, storageWalMaxConcurrentWrites: Int? = nil, storageWalMaxWriteDelay: Duration? = nil, tracingType: TracingType? = nil, uiDisabled: Bool? = nil) {
             self.fluxLogEnabled = fluxLogEnabled
+            self.httpIdleTimeout = httpIdleTimeout
+            self.httpReadHeaderTimeout = httpReadHeaderTimeout
+            self.httpReadTimeout = httpReadTimeout
+            self.httpWriteTimeout = httpWriteTimeout
+            self.influxqlMaxSelectBuckets = influxqlMaxSelectBuckets
+            self.influxqlMaxSelectPoint = influxqlMaxSelectPoint
+            self.influxqlMaxSelectSeries = influxqlMaxSelectSeries
             self.logLevel = logLevel
             self.metricsDisabled = metricsDisabled
             self.noTasks = noTasks
+            self.pprofDisabled = pprofDisabled
             self.queryConcurrency = queryConcurrency
+            self.queryInitialMemoryBytes = queryInitialMemoryBytes
+            self.queryMaxMemoryBytes = queryMaxMemoryBytes
+            self.queryMemoryBytes = queryMemoryBytes
             self.queryQueueSize = queryQueueSize
+            self.sessionLength = sessionLength
+            self.sessionRenewDisabled = sessionRenewDisabled
+            self.storageCacheMaxMemorySize = storageCacheMaxMemorySize
+            self.storageCacheSnapshotMemorySize = storageCacheSnapshotMemorySize
+            self.storageCacheSnapshotWriteColdDuration = storageCacheSnapshotWriteColdDuration
+            self.storageCompactFullWriteColdDuration = storageCompactFullWriteColdDuration
+            self.storageCompactThroughputBurst = storageCompactThroughputBurst
+            self.storageMaxConcurrentCompactions = storageMaxConcurrentCompactions
+            self.storageMaxIndexLogFileSize = storageMaxIndexLogFileSize
+            self.storageNoValidateFieldSize = storageNoValidateFieldSize
+            self.storageRetentionCheckInterval = storageRetentionCheckInterval
+            self.storageSeriesFileMaxConcurrentSnapshotCompactions = storageSeriesFileMaxConcurrentSnapshotCompactions
+            self.storageSeriesIdSetCacheSize = storageSeriesIdSetCacheSize
+            self.storageWalMaxConcurrentWrites = storageWalMaxConcurrentWrites
+            self.storageWalMaxWriteDelay = storageWalMaxWriteDelay
             self.tracingType = tracingType
+            self.uiDisabled = uiDisabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case fluxLogEnabled = "fluxLogEnabled"
+            case httpIdleTimeout = "httpIdleTimeout"
+            case httpReadHeaderTimeout = "httpReadHeaderTimeout"
+            case httpReadTimeout = "httpReadTimeout"
+            case httpWriteTimeout = "httpWriteTimeout"
+            case influxqlMaxSelectBuckets = "influxqlMaxSelectBuckets"
+            case influxqlMaxSelectPoint = "influxqlMaxSelectPoint"
+            case influxqlMaxSelectSeries = "influxqlMaxSelectSeries"
             case logLevel = "logLevel"
             case metricsDisabled = "metricsDisabled"
             case noTasks = "noTasks"
+            case pprofDisabled = "pprofDisabled"
             case queryConcurrency = "queryConcurrency"
+            case queryInitialMemoryBytes = "queryInitialMemoryBytes"
+            case queryMaxMemoryBytes = "queryMaxMemoryBytes"
+            case queryMemoryBytes = "queryMemoryBytes"
             case queryQueueSize = "queryQueueSize"
+            case sessionLength = "sessionLength"
+            case sessionRenewDisabled = "sessionRenewDisabled"
+            case storageCacheMaxMemorySize = "storageCacheMaxMemorySize"
+            case storageCacheSnapshotMemorySize = "storageCacheSnapshotMemorySize"
+            case storageCacheSnapshotWriteColdDuration = "storageCacheSnapshotWriteColdDuration"
+            case storageCompactFullWriteColdDuration = "storageCompactFullWriteColdDuration"
+            case storageCompactThroughputBurst = "storageCompactThroughputBurst"
+            case storageMaxConcurrentCompactions = "storageMaxConcurrentCompactions"
+            case storageMaxIndexLogFileSize = "storageMaxIndexLogFileSize"
+            case storageNoValidateFieldSize = "storageNoValidateFieldSize"
+            case storageRetentionCheckInterval = "storageRetentionCheckInterval"
+            case storageSeriesFileMaxConcurrentSnapshotCompactions = "storageSeriesFileMaxConcurrentSnapshotCompactions"
+            case storageSeriesIdSetCacheSize = "storageSeriesIdSetCacheSize"
+            case storageWalMaxConcurrentWrites = "storageWalMaxConcurrentWrites"
+            case storageWalMaxWriteDelay = "storageWalMaxWriteDelay"
             case tracingType = "tracingType"
+            case uiDisabled = "uiDisabled"
         }
     }
 
@@ -920,14 +1076,17 @@ extension TimestreamInfluxDB {
         public let identifier: String
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+        public let port: Int?
 
         @inlinable
-        public init(dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil) {
+        public init(dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, port: Int? = nil) {
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.deploymentType = deploymentType
             self.identifier = identifier
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.port = port
         }
 
         public func validate(name: String) throws {
@@ -937,6 +1096,8 @@ extension TimestreamInfluxDB {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 3)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -945,6 +1106,7 @@ extension TimestreamInfluxDB {
             case deploymentType = "deploymentType"
             case identifier = "identifier"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case port = "port"
         }
     }
 
@@ -973,6 +1135,8 @@ extension TimestreamInfluxDB {
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and AWS CLI commands.
         public let name: String
+        /// The port number on which InfluxDB accepts connections.
+        public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
         public let publiclyAccessible: Bool?
         /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
@@ -985,7 +1149,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -998,6 +1162,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.name = name
+            self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.status = status
@@ -1018,6 +1183,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case name = "name"
+            case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
             case status = "status"

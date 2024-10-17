@@ -54,6 +54,15 @@ extension DirectoryService {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataAccessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "Disabled"
+        case disabling = "Disabling"
+        case enabled = "Enabled"
+        case enabling = "Enabling"
+        case failed = "Failed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DirectoryConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "Default"
         case failed = "Failed"
@@ -87,6 +96,7 @@ extension DirectoryService {
         case requested = "Requested"
         case restorefailed = "RestoreFailed"
         case restoring = "Restoring"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -106,6 +116,7 @@ extension DirectoryService {
         case failed = "Failed"
         case impaired = "Impaired"
         case restoring = "Restoring"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -307,7 +318,7 @@ extension DirectoryService {
         public let directoryId: String
         /// IP address blocks, using CIDR format, of the traffic to route. This is often the IP address block of the DNS server used for your self-managed domain.
         public let ipRoutes: [IpRoute]
-        /// If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
+        /// If set to true, updates the inbound and outbound rules of the security group that has the description: "Amazon Web Services created security group for directory ID directory controllers." Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD VPC IPv4 CIDR   Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Microsoft AD VPC IPv4 CIDR    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
         public let updateSecurityGroupForDirectoryControllers: Bool?
 
         @inlinable
@@ -1010,7 +1021,7 @@ extension DirectoryService {
         public let selectiveAuth: SelectiveAuth?
         /// The direction of the trust relationship.
         public let trustDirection: TrustDirection
-        /// The trust password. The must be the same password that was used when creating the trust relationship on the external domain.
+        /// The trust password. The trust password must be the same password that was used when creating the trust relationship on the external domain.
         public let trustPassword: String
         /// The trust relationship type. Forest is the default.
         public let trustType: TrustType?
@@ -1443,6 +1454,38 @@ extension DirectoryService {
         }
     }
 
+    public struct DescribeDirectoryDataAccessRequest: AWSEncodableShape {
+        /// The directory identifier.
+        public let directoryId: String
+
+        @inlinable
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DescribeDirectoryDataAccessResult: AWSDecodableShape {
+        /// The current status of data access through the Directory Service Data API.
+        public let dataAccessStatus: DataAccessStatus?
+
+        @inlinable
+        public init(dataAccessStatus: DataAccessStatus? = nil) {
+            self.dataAccessStatus = dataAccessStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessStatus = "DataAccessStatus"
+        }
+    }
+
     public struct DescribeDomainControllersRequest: AWSEncodableShape {
         /// Identifier of the directory for which to retrieve the domain controller information.
         public let directoryId: String
@@ -1661,7 +1704,7 @@ extension DirectoryService {
     public struct DescribeSettingsResult: AWSDecodableShape {
         /// The identifier of the directory.
         public let directoryId: String?
-        /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSettings to retrieve the next set of items.
+        /// If not null, token that indicates that more results are available.  Pass this value for the NextToken parameter in a subsequent  call to DescribeSettings to retrieve the next set of items.
         public let nextToken: String?
         /// The list of SettingEntry objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let settingEntries: [SettingEntry]?
@@ -2007,7 +2050,7 @@ extension DirectoryService {
         public let stageLastUpdatedDateTime: Date?
         /// Additional information about the directory stage.
         public let stageReason: String?
-        /// The directory size.
+        /// The directory type.
         public let type: DirectoryType?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
@@ -2172,7 +2215,7 @@ extension DirectoryService {
     public struct DisableClientAuthenticationRequest: AWSEncodableShape {
         /// The identifier of the directory
         public let directoryId: String
-        /// The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
+        /// The type of client authentication to disable. Currently the only parameter "SmartCard" is supported.
         public let type: ClientAuthenticationType
 
         @inlinable
@@ -2192,6 +2235,28 @@ extension DirectoryService {
     }
 
     public struct DisableClientAuthenticationResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisableDirectoryDataAccessRequest: AWSEncodableShape {
+        /// The directory identifier.
+        public let directoryId: String
+
+        @inlinable
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct DisableDirectoryDataAccessResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -2350,6 +2415,28 @@ extension DirectoryService {
     }
 
     public struct EnableClientAuthenticationResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct EnableDirectoryDataAccessRequest: AWSEncodableShape {
+        /// The directory identifier.
+        public let directoryId: String
+
+        @inlinable
+        public init(directoryId: String) {
+            self.directoryId = directoryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+        }
+    }
+
+    public struct EnableDirectoryDataAccessResult: AWSDecodableShape {
         public init() {}
     }
 
@@ -2903,7 +2990,7 @@ extension DirectoryService {
         public let displayLabel: String?
         /// The port that your RADIUS server is using for communications. Your self-managed network must allow inbound traffic over this port from the Directory Service servers.
         public let radiusPort: Int?
-        /// The maximum number of times that communication with the RADIUS server is attempted.
+        /// The maximum number of times that communication with the RADIUS server is retried after the initial attempt.
         public let radiusRetries: Int?
         /// An array of strings that contains the fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
         public let radiusServers: [String]?
@@ -2937,7 +3024,7 @@ extension DirectoryService {
                 try validate($0, name: "radiusServers[]", parent: name, max: 256)
                 try validate($0, name: "radiusServers[]", parent: name, min: 1)
             }
-            try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, max: 20)
+            try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, max: 50)
             try self.validate(self.radiusTimeout, name: "radiusTimeout", parent: name, min: 1)
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, max: 512)
             try self.validate(self.sharedSecret, name: "sharedSecret", parent: name, min: 8)
@@ -3605,9 +3692,9 @@ extension DirectoryService {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let key: String
-        /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public let value: String
 
         @inlinable
@@ -4096,7 +4183,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Client authentication is not available in this region at this time.
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// An authentication error occurred.
     public static var authenticationFailedException: Self { .init(.authenticationFailedException) }
@@ -4122,7 +4209,7 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var directoryLimitExceededException: Self { .init(.directoryLimitExceededException) }
     /// The specified directory has not been shared with this Amazon Web Services account.
     public static var directoryNotSharedException: Self { .init(.directoryNotSharedException) }
-    /// The specified directory is unavailable or could not be found.
+    /// The specified directory is unavailable.
     public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
     /// The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
     public static var domainControllerLimitExceededException: Self { .init(.domainControllerLimitExceededException) }

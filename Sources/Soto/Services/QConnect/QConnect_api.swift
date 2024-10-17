@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS QConnect service.
 ///
-///   Powered by Amazon Bedrock: Amazon Web Services implements automated abuse detection. Because Amazon Q in Connect is built on Amazon Bedrock, users can take full advantage of the controls implemented in Amazon Bedrock to enforce safety, security, and the responsible use of artificial intelligence (AI).  Amazon Q in Connect is a generative AI customer service assistant. It is an LLM-enhanced evolution of Amazon Connect Wisdom that delivers real-time recommendations to help contact center agents resolve customer issues quickly and accurately. Amazon Q in Connect automatically detects customer intent during calls and chats using conversational analytics and natural language understanding (NLU). It then provides agents with immediate, real-time generative responses and suggested actions, and links to relevant documents and articles. Agents can also query Amazon Q in Connect directly using natural language or keywords to answer customer requests. Use the Amazon Q in Connect APIs to create an assistant and a knowledge base, for example, or manage content by uploading custom files. For more information, see Use Amazon Q in Connect for generative AI powered agent assistance in real-time in the Amazon Connect Administrator Guide.
+///    Amazon Q actions     Amazon Q data types      Powered by Amazon Bedrock: Amazon Web Services implements automated abuse detection. Because Amazon Q in Connect is built on Amazon Bedrock, users can take full advantage of the controls implemented in Amazon Bedrock to enforce safety, security, and the responsible use of artificial intelligence (AI).  Amazon Q in Connect is a generative AI customer service assistant. It is an LLM-enhanced evolution of Amazon Connect Wisdom that delivers real-time recommendations to help contact center agents resolve customer issues quickly and accurately. Amazon Q in Connect automatically detects customer intent during calls and chats using conversational analytics and natural language understanding (NLU). It then provides agents with immediate, real-time generative responses and suggested actions, and links to relevant documents and articles. Agents can also query Amazon Q in Connect directly using natural language or keywords to answer customer requests. Use the Amazon Q in Connect APIs to create an assistant and a knowledge base, for example, or manage content by uploading custom files. For more information, see Use Amazon Q in Connect for generative AI powered agent assistance in real-time in the Amazon Connect Administrator Guide.
 public struct QConnect: AWSService {
     // MARK: Member variables
 
@@ -80,12 +80,198 @@ public struct QConnect: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "wisdom-fips.ca-central-1.amazonaws.com",
             "us-east-1": "wisdom-fips.us-east-1.amazonaws.com",
             "us-west-2": "wisdom-fips.us-west-2.amazonaws.com"
         ])
     ]}
 
     // MARK: API Calls
+
+    /// Creates an Amazon Q in Connect AI Agent.
+    @Sendable
+    @inlinable
+    public func createAIAgent(_ input: CreateAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIAgentResponse {
+        try await self.client.execute(
+            operation: "CreateAIAgent", 
+            path: "/assistants/{assistantId}/aiagents", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Q in Connect AI Agent.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - configuration: The configuration of the AI Agent.
+    ///   - description: The description of the AI Agent.
+    ///   - name: The name of the AI Agent.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - type: The type of the AI Agent.
+    ///   - visibilityStatus: The visibility status of the AI Agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIAgent(
+        assistantId: String,
+        clientToken: String? = CreateAIAgentRequest.idempotencyToken(),
+        configuration: AIAgentConfiguration,
+        description: String? = nil,
+        name: String,
+        tags: [String: String]? = nil,
+        type: AIAgentType,
+        visibilityStatus: VisibilityStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIAgentResponse {
+        let input = CreateAIAgentRequest(
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            configuration: configuration, 
+            description: description, 
+            name: name, 
+            tags: tags, 
+            type: type, 
+            visibilityStatus: visibilityStatus
+        )
+        return try await self.createAIAgent(input, logger: logger)
+    }
+
+    /// Creates and Amazon Q in Connect AI Agent version.
+    @Sendable
+    @inlinable
+    public func createAIAgentVersion(_ input: CreateAIAgentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIAgentVersionResponse {
+        try await self.client.execute(
+            operation: "CreateAIAgentVersion", 
+            path: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates and Amazon Q in Connect AI Agent version.
+    ///
+    /// Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - modifiedTime: The modification time of the AI Agent should be tracked for version creation. This field should be specified to avoid version creation when simultaneous update to the underlying AI Agent are possible. The value should be the modifiedTime returned from the request to create or update an AI Agent so that version creation can fail if an update to the AI Agent post the specified modification time has been made.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIAgentVersion(
+        aiAgentId: String,
+        assistantId: String,
+        clientToken: String? = CreateAIAgentVersionRequest.idempotencyToken(),
+        modifiedTime: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIAgentVersionResponse {
+        let input = CreateAIAgentVersionRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            modifiedTime: modifiedTime
+        )
+        return try await self.createAIAgentVersion(input, logger: logger)
+    }
+
+    /// Creates an Amazon Q in Connect AI Prompt.
+    @Sendable
+    @inlinable
+    public func createAIPrompt(_ input: CreateAIPromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIPromptResponse {
+        try await self.client.execute(
+            operation: "CreateAIPrompt", 
+            path: "/assistants/{assistantId}/aiprompts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Q in Connect AI Prompt.
+    ///
+    /// Parameters:
+    ///   - apiFormat: The API Format of the AI Prompt.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - description: The description of the AI Prompt.
+    ///   - modelId: The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+    ///   - name: The name of the AI Prompt.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
+    ///   - templateType: The type of the prompt template for this AI Prompt.
+    ///   - type: The type of this AI Prompt.
+    ///   - visibilityStatus: The visibility status of the AI Prompt.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIPrompt(
+        apiFormat: AIPromptAPIFormat,
+        assistantId: String,
+        clientToken: String? = CreateAIPromptRequest.idempotencyToken(),
+        description: String? = nil,
+        modelId: String,
+        name: String,
+        tags: [String: String]? = nil,
+        templateConfiguration: AIPromptTemplateConfiguration,
+        templateType: AIPromptTemplateType,
+        type: AIPromptType,
+        visibilityStatus: VisibilityStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIPromptResponse {
+        let input = CreateAIPromptRequest(
+            apiFormat: apiFormat, 
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            description: description, 
+            modelId: modelId, 
+            name: name, 
+            tags: tags, 
+            templateConfiguration: templateConfiguration, 
+            templateType: templateType, 
+            type: type, 
+            visibilityStatus: visibilityStatus
+        )
+        return try await self.createAIPrompt(input, logger: logger)
+    }
+
+    /// Creates an Amazon Q in Connect AI Prompt version.
+    @Sendable
+    @inlinable
+    public func createAIPromptVersion(_ input: CreateAIPromptVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAIPromptVersionResponse {
+        try await self.client.execute(
+            operation: "CreateAIPromptVersion", 
+            path: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Q in Connect AI Prompt version.
+    ///
+    /// Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - modifiedTime: The time the AI Prompt was last modified.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAIPromptVersion(
+        aiPromptId: String,
+        assistantId: String,
+        clientToken: String? = CreateAIPromptVersionRequest.idempotencyToken(),
+        modifiedTime: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAIPromptVersionResponse {
+        let input = CreateAIPromptVersionRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            modifiedTime: modifiedTime
+        )
+        return try await self.createAIPromptVersion(input, logger: logger)
+    }
 
     /// Creates an Amazon Q in Connect assistant.
     @Sendable
@@ -290,6 +476,7 @@ public struct QConnect: AWSService {
     ///   - serverSideEncryptionConfiguration: The configuration information for the customer managed key used for encryption.  This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. For more information about setting up a customer managed key for Amazon Q in Connect, see Enable Amazon Q in Connect for your instance.
     ///   - sourceConfiguration: The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
     ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - vectorIngestionConfiguration: Contains details about how to ingest the documents in a data source.
     ///   - logger: Logger use during operation
     @inlinable
     public func createKnowledgeBase(
@@ -301,6 +488,7 @@ public struct QConnect: AWSService {
         serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil,
         sourceConfiguration: SourceConfiguration? = nil,
         tags: [String: String]? = nil,
+        vectorIngestionConfiguration: VectorIngestionConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateKnowledgeBaseResponse {
         let input = CreateKnowledgeBaseRequest(
@@ -311,7 +499,8 @@ public struct QConnect: AWSService {
             renderingConfiguration: renderingConfiguration, 
             serverSideEncryptionConfiguration: serverSideEncryptionConfiguration, 
             sourceConfiguration: sourceConfiguration, 
-            tags: tags
+            tags: tags, 
+            vectorIngestionConfiguration: vectorIngestionConfiguration
         )
         return try await self.createKnowledgeBase(input, logger: logger)
     }
@@ -394,6 +583,7 @@ public struct QConnect: AWSService {
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// Parameters:
+    ///   - aiAgentConfiguration: The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description.
@@ -403,6 +593,7 @@ public struct QConnect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createSession(
+        aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil,
         assistantId: String,
         clientToken: String? = CreateSessionRequest.idempotencyToken(),
         description: String? = nil,
@@ -412,6 +603,7 @@ public struct QConnect: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSessionResponse {
         let input = CreateSessionRequest(
+            aiAgentConfiguration: aiAgentConfiguration, 
             assistantId: assistantId, 
             clientToken: clientToken, 
             description: description, 
@@ -420,6 +612,140 @@ public struct QConnect: AWSService {
             tags: tags
         )
         return try await self.createSession(input, logger: logger)
+    }
+
+    /// Deletes an Amazon Q in Connect AI Agent.
+    @Sendable
+    @inlinable
+    public func deleteAIAgent(_ input: DeleteAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIAgentResponse {
+        try await self.client.execute(
+            operation: "DeleteAIAgent", 
+            path: "/assistants/{assistantId}/aiagents/{aiAgentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon Q in Connect AI Agent.
+    ///
+    /// Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIAgent(
+        aiAgentId: String,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIAgentResponse {
+        let input = DeleteAIAgentRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId
+        )
+        return try await self.deleteAIAgent(input, logger: logger)
+    }
+
+    /// Deletes an Amazon Q in Connect AI Agent Version.
+    @Sendable
+    @inlinable
+    public func deleteAIAgentVersion(_ input: DeleteAIAgentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIAgentVersionResponse {
+        try await self.client.execute(
+            operation: "DeleteAIAgentVersion", 
+            path: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions/{versionNumber}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon Q in Connect AI Agent Version.
+    ///
+    /// Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - versionNumber: The version number of the AI Agent version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIAgentVersion(
+        aiAgentId: String,
+        assistantId: String,
+        versionNumber: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIAgentVersionResponse {
+        let input = DeleteAIAgentVersionRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId, 
+            versionNumber: versionNumber
+        )
+        return try await self.deleteAIAgentVersion(input, logger: logger)
+    }
+
+    /// Deletes an Amazon Q in Connect AI Prompt.
+    @Sendable
+    @inlinable
+    public func deleteAIPrompt(_ input: DeleteAIPromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIPromptResponse {
+        try await self.client.execute(
+            operation: "DeleteAIPrompt", 
+            path: "/assistants/{assistantId}/aiprompts/{aiPromptId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon Q in Connect AI Prompt.
+    ///
+    /// Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIPrompt(
+        aiPromptId: String,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIPromptResponse {
+        let input = DeleteAIPromptRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId
+        )
+        return try await self.deleteAIPrompt(input, logger: logger)
+    }
+
+    /// Delete and Amazon Q in Connect AI Prompt version.
+    @Sendable
+    @inlinable
+    public func deleteAIPromptVersion(_ input: DeleteAIPromptVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAIPromptVersionResponse {
+        try await self.client.execute(
+            operation: "DeleteAIPromptVersion", 
+            path: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions/{versionNumber}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete and Amazon Q in Connect AI Prompt version.
+    ///
+    /// Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - versionNumber: The version number of the AI Prompt version to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAIPromptVersion(
+        aiPromptId: String,
+        assistantId: String,
+        versionNumber: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAIPromptVersionResponse {
+        let input = DeleteAIPromptVersionRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId, 
+            versionNumber: versionNumber
+        )
+        return try await self.deleteAIPromptVersion(input, logger: logger)
     }
 
     /// Deletes an assistant.
@@ -641,6 +967,70 @@ public struct QConnect: AWSService {
             quickResponseId: quickResponseId
         )
         return try await self.deleteQuickResponse(input, logger: logger)
+    }
+
+    /// Gets an Amazon Q in Connect AI Agent.
+    @Sendable
+    @inlinable
+    public func getAIAgent(_ input: GetAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAIAgentResponse {
+        try await self.client.execute(
+            operation: "GetAIAgent", 
+            path: "/assistants/{assistantId}/aiagents/{aiAgentId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets an Amazon Q in Connect AI Agent.
+    ///
+    /// Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent (with or without a version qualifier). Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAIAgent(
+        aiAgentId: String,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAIAgentResponse {
+        let input = GetAIAgentRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId
+        )
+        return try await self.getAIAgent(input, logger: logger)
+    }
+
+    /// Gets and Amazon Q in Connect AI Prompt.
+    @Sendable
+    @inlinable
+    public func getAIPrompt(_ input: GetAIPromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAIPromptResponse {
+        try await self.client.execute(
+            operation: "GetAIPrompt", 
+            path: "/assistants/{assistantId}/aiprompts/{aiPromptId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets and Amazon Q in Connect AI Prompt.
+    ///
+    /// Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAIPrompt(
+        aiPromptId: String,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAIPromptResponse {
+        let input = GetAIPromptRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId
+        )
+        return try await self.getAIPrompt(input, logger: logger)
     }
 
     /// Retrieves information about an assistant.
@@ -966,6 +1356,164 @@ public struct QConnect: AWSService {
             sessionId: sessionId
         )
         return try await self.getSession(input, logger: logger)
+    }
+
+    /// List AI Agent versions.
+    @Sendable
+    @inlinable
+    public func listAIAgentVersions(_ input: ListAIAgentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIAgentVersionsResponse {
+        try await self.client.execute(
+            operation: "ListAIAgentVersions", 
+            path: "/assistants/{assistantId}/aiagents/{aiAgentId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List AI Agent versions.
+    ///
+    /// Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent for which versions are to be listed.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - origin: The origin of the AI Agent versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIAgentVersions(
+        aiAgentId: String,
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIAgentVersionsResponse {
+        let input = ListAIAgentVersionsRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            origin: origin
+        )
+        return try await self.listAIAgentVersions(input, logger: logger)
+    }
+
+    /// Lists AI Agents.
+    @Sendable
+    @inlinable
+    public func listAIAgents(_ input: ListAIAgentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIAgentsResponse {
+        try await self.client.execute(
+            operation: "ListAIAgents", 
+            path: "/assistants/{assistantId}/aiagents", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists AI Agents.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - origin: The origin of the AI Agents to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIAgents(
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIAgentsResponse {
+        let input = ListAIAgentsRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            origin: origin
+        )
+        return try await self.listAIAgents(input, logger: logger)
+    }
+
+    /// Lists AI Prompt versions.
+    @Sendable
+    @inlinable
+    public func listAIPromptVersions(_ input: ListAIPromptVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIPromptVersionsResponse {
+        try await self.client.execute(
+            operation: "ListAIPromptVersions", 
+            path: "/assistants/{assistantId}/aiprompts/{aiPromptId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists AI Prompt versions.
+    ///
+    /// Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt for which versions are to be listed.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - origin: The origin of the AI Prompt versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIPromptVersions(
+        aiPromptId: String,
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIPromptVersionsResponse {
+        let input = ListAIPromptVersionsRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            origin: origin
+        )
+        return try await self.listAIPromptVersions(input, logger: logger)
+    }
+
+    /// Lists the AI Prompts available on the Amazon Q in Connect assistant.
+    @Sendable
+    @inlinable
+    public func listAIPrompts(_ input: ListAIPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAIPromptsResponse {
+        try await self.client.execute(
+            operation: "ListAIPrompts", 
+            path: "/assistants/{assistantId}/aiprompts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the AI Prompts available on the Amazon Q in Connect assistant.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - origin: The origin of the AI Prompts to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAIPrompts(
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAIPromptsResponse {
+        let input = ListAIPromptsRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            origin: origin
+        )
+        return try await self.listAIPrompts(input, logger: logger)
     }
 
     /// Lists information about assistant associations.
@@ -1332,7 +1880,9 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - overrideKnowledgeBaseSearchType: The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text.
     ///   - queryCondition: Information about how to query content.
+    ///   - queryInputData: Information about the query.
     ///   - queryText: The text to search for.
     ///   - sessionId: The identifier of the Amazon Q in Connect session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - logger: Logger use during operation
@@ -1342,8 +1892,10 @@ public struct QConnect: AWSService {
         assistantId: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType? = nil,
         queryCondition: [QueryCondition]? = nil,
-        queryText: String,
+        queryInputData: QueryInputData? = nil,
+        queryText: String? = nil,
         sessionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> QueryAssistantResponse {
@@ -1351,11 +1903,45 @@ public struct QConnect: AWSService {
             assistantId: assistantId, 
             maxResults: maxResults, 
             nextToken: nextToken, 
+            overrideKnowledgeBaseSearchType: overrideKnowledgeBaseSearchType, 
             queryCondition: queryCondition, 
+            queryInputData: queryInputData, 
             queryText: queryText, 
             sessionId: sessionId
         )
         return try await self.queryAssistant(input, logger: logger)
+    }
+
+    /// Removes the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    @Sendable
+    @inlinable
+    public func removeAssistantAIAgent(_ input: RemoveAssistantAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveAssistantAIAgentResponse {
+        try await self.client.execute(
+            operation: "RemoveAssistantAIAgent", 
+            path: "/assistants/{assistantId}/aiagentConfiguration", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    ///
+    /// Parameters:
+    ///   - aiAgentType: The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func removeAssistantAIAgent(
+        aiAgentType: AIAgentType,
+        assistantId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RemoveAssistantAIAgentResponse {
+        let input = RemoveAssistantAIAgentRequest(
+            aiAgentType: aiAgentType, 
+            assistantId: assistantId
+        )
+        return try await self.removeAssistantAIAgent(input, logger: logger)
     }
 
     /// Removes a URI template from a knowledge base.
@@ -1647,6 +2233,129 @@ public struct QConnect: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates an AI Agent.
+    @Sendable
+    @inlinable
+    public func updateAIAgent(_ input: UpdateAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAIAgentResponse {
+        try await self.client.execute(
+            operation: "UpdateAIAgent", 
+            path: "/assistants/{assistantId}/aiagents/{aiAgentId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an AI Agent.
+    ///
+    /// Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - configuration: The configuration of the Amazon Q in Connect AI Agent.
+    ///   - description: The description of the Amazon Q in Connect AI Agent.
+    ///   - visibilityStatus: The visbility status of the Amazon Q in Connect AI Agent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAIAgent(
+        aiAgentId: String,
+        assistantId: String,
+        clientToken: String? = UpdateAIAgentRequest.idempotencyToken(),
+        configuration: AIAgentConfiguration? = nil,
+        description: String? = nil,
+        visibilityStatus: VisibilityStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAIAgentResponse {
+        let input = UpdateAIAgentRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            configuration: configuration, 
+            description: description, 
+            visibilityStatus: visibilityStatus
+        )
+        return try await self.updateAIAgent(input, logger: logger)
+    }
+
+    /// Updates an AI Prompt.
+    @Sendable
+    @inlinable
+    public func updateAIPrompt(_ input: UpdateAIPromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAIPromptResponse {
+        try await self.client.execute(
+            operation: "UpdateAIPrompt", 
+            path: "/assistants/{assistantId}/aiprompts/{aiPromptId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an AI Prompt.
+    ///
+    /// Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI Prompt.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - description: The description of the Amazon Q in Connect AI Prompt.
+    ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
+    ///   - visibilityStatus: The visibility status of the Amazon Q in Connect AI prompt.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAIPrompt(
+        aiPromptId: String,
+        assistantId: String,
+        clientToken: String? = UpdateAIPromptRequest.idempotencyToken(),
+        description: String? = nil,
+        templateConfiguration: AIPromptTemplateConfiguration? = nil,
+        visibilityStatus: VisibilityStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAIPromptResponse {
+        let input = UpdateAIPromptRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId, 
+            clientToken: clientToken, 
+            description: description, 
+            templateConfiguration: templateConfiguration, 
+            visibilityStatus: visibilityStatus
+        )
+        return try await self.updateAIPrompt(input, logger: logger)
+    }
+
+    /// Updates the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    @Sendable
+    @inlinable
+    public func updateAssistantAIAgent(_ input: UpdateAssistantAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssistantAIAgentResponse {
+        try await self.client.execute(
+            operation: "UpdateAssistantAIAgent", 
+            path: "/assistants/{assistantId}/aiagentConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    ///
+    /// Parameters:
+    ///   - aiAgentType: The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - configuration: The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAssistantAIAgent(
+        aiAgentType: AIAgentType,
+        assistantId: String,
+        configuration: AIAgentConfigurationData,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAssistantAIAgentResponse {
+        let input = UpdateAssistantAIAgentRequest(
+            aiAgentType: aiAgentType, 
+            assistantId: assistantId, 
+            configuration: configuration
+        )
+        return try await self.updateAssistantAIAgent(input, logger: logger)
+    }
+
     /// Updates information about the content.
     @Sendable
     @inlinable
@@ -1813,6 +2522,7 @@ public struct QConnect: AWSService {
     /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// Parameters:
+    ///   - aiAgentConfiguration: The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - description: The description.
     ///   - sessionId: The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1820,6 +2530,7 @@ public struct QConnect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSession(
+        aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil,
         assistantId: String,
         description: String? = nil,
         sessionId: String,
@@ -1827,12 +2538,51 @@ public struct QConnect: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateSessionResponse {
         let input = UpdateSessionRequest(
+            aiAgentConfiguration: aiAgentConfiguration, 
             assistantId: assistantId, 
             description: description, 
             sessionId: sessionId, 
             tagFilter: tagFilter
         )
         return try await self.updateSession(input, logger: logger)
+    }
+
+    /// Updates the data stored on an Amazon Q in Connect Session.
+    @Sendable
+    @inlinable
+    public func updateSessionData(_ input: UpdateSessionDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSessionDataResponse {
+        try await self.client.execute(
+            operation: "UpdateSessionData", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/data", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the data stored on an Amazon Q in Connect Session.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - data: The data stored on the Amazon Q in Connect Session.
+    ///   - namespace: The namespace into which the session data is stored. Supported namespaces are: Custom
+    ///   - sessionId: The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSessionData(
+        assistantId: String,
+        data: [RuntimeSessionData],
+        namespace: SessionDataNamespace? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSessionDataResponse {
+        let input = UpdateSessionDataRequest(
+            assistantId: assistantId, 
+            data: data, 
+            namespace: namespace, 
+            sessionId: sessionId
+        )
+        return try await self.updateSessionData(input, logger: logger)
     }
 }
 
@@ -1849,6 +2599,172 @@ extension QConnect {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension QConnect {
+    /// Return PaginatorSequence for operation ``listAIAgentVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIAgentVersionsPaginator(
+        _ input: ListAIAgentVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIAgentVersionsRequest, ListAIAgentVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIAgentVersions,
+            inputKey: \ListAIAgentVersionsRequest.nextToken,
+            outputKey: \ListAIAgentVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIAgentVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - aiAgentId: The identifier of the Amazon Q in Connect AI Agent for which versions are to be listed.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - origin: The origin of the AI Agent versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIAgentVersionsPaginator(
+        aiAgentId: String,
+        assistantId: String,
+        maxResults: Int? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIAgentVersionsRequest, ListAIAgentVersionsResponse> {
+        let input = ListAIAgentVersionsRequest(
+            aiAgentId: aiAgentId, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            origin: origin
+        )
+        return self.listAIAgentVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIAgents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIAgentsPaginator(
+        _ input: ListAIAgentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIAgentsRequest, ListAIAgentsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIAgents,
+            inputKey: \ListAIAgentsRequest.nextToken,
+            outputKey: \ListAIAgentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIAgents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - origin: The origin of the AI Agents to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIAgentsPaginator(
+        assistantId: String,
+        maxResults: Int? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIAgentsRequest, ListAIAgentsResponse> {
+        let input = ListAIAgentsRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            origin: origin
+        )
+        return self.listAIAgentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIPromptVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIPromptVersionsPaginator(
+        _ input: ListAIPromptVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIPromptVersionsRequest, ListAIPromptVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIPromptVersions,
+            inputKey: \ListAIPromptVersionsRequest.nextToken,
+            outputKey: \ListAIPromptVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIPromptVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - aiPromptId: The identifier of the Amazon Q in Connect AI prompt for which versions are to be listed.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - origin: The origin of the AI Prompt versions to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIPromptVersionsPaginator(
+        aiPromptId: String,
+        assistantId: String,
+        maxResults: Int? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIPromptVersionsRequest, ListAIPromptVersionsResponse> {
+        let input = ListAIPromptVersionsRequest(
+            aiPromptId: aiPromptId, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            origin: origin
+        )
+        return self.listAIPromptVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAIPrompts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIPromptsPaginator(
+        _ input: ListAIPromptsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAIPromptsRequest, ListAIPromptsResponse> {
+        return .init(
+            input: input,
+            command: self.listAIPrompts,
+            inputKey: \ListAIPromptsRequest.nextToken,
+            outputKey: \ListAIPromptsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAIPrompts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - origin: The origin of the AI Prompts to be listed. SYSTEM for a default AI Agent created by Q in Connect or CUSTOMER for an AI Agent created by calling AI Agent creation APIs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAIPromptsPaginator(
+        assistantId: String,
+        maxResults: Int? = nil,
+        origin: Origin? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAIPromptsRequest, ListAIPromptsResponse> {
+        let input = ListAIPromptsRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            origin: origin
+        )
+        return self.listAIPromptsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAssistantAssociations(_:logger:)``.
     ///
     /// - Parameters:
@@ -2129,7 +3045,9 @@ extension QConnect {
     /// - Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
+    ///   - overrideKnowledgeBaseSearchType: The search type to be used against the Knowledge Base for this request. The values can be SEMANTIC which uses vector embeddings or HYBRID which use vector embeddings and raw text.
     ///   - queryCondition: Information about how to query content.
+    ///   - queryInputData: Information about the query.
     ///   - queryText: The text to search for.
     ///   - sessionId: The identifier of the Amazon Q in Connect session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - logger: Logger used for logging
@@ -2138,15 +3056,19 @@ extension QConnect {
     public func queryAssistantPaginator(
         assistantId: String,
         maxResults: Int? = nil,
+        overrideKnowledgeBaseSearchType: KnowledgeBaseSearchType? = nil,
         queryCondition: [QueryCondition]? = nil,
-        queryText: String,
+        queryInputData: QueryInputData? = nil,
+        queryText: String? = nil,
         sessionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<QueryAssistantRequest, QueryAssistantResponse> {
         let input = QueryAssistantRequest(
             assistantId: assistantId, 
             maxResults: maxResults, 
+            overrideKnowledgeBaseSearchType: overrideKnowledgeBaseSearchType, 
             queryCondition: queryCondition, 
+            queryInputData: queryInputData, 
             queryText: queryText, 
             sessionId: sessionId
         )
@@ -2277,6 +3199,56 @@ extension QConnect {
     }
 }
 
+extension QConnect.ListAIAgentVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListAIAgentVersionsRequest {
+        return .init(
+            aiAgentId: self.aiAgentId,
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            origin: self.origin
+        )
+    }
+}
+
+extension QConnect.ListAIAgentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListAIAgentsRequest {
+        return .init(
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            origin: self.origin
+        )
+    }
+}
+
+extension QConnect.ListAIPromptVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListAIPromptVersionsRequest {
+        return .init(
+            aiPromptId: self.aiPromptId,
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            origin: self.origin
+        )
+    }
+}
+
+extension QConnect.ListAIPromptsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListAIPromptsRequest {
+        return .init(
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            origin: self.origin
+        )
+    }
+}
+
 extension QConnect.ListAssistantAssociationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QConnect.ListAssistantAssociationsRequest {
@@ -2360,7 +3332,9 @@ extension QConnect.QueryAssistantRequest: AWSPaginateToken {
             assistantId: self.assistantId,
             maxResults: self.maxResults,
             nextToken: token,
+            overrideKnowledgeBaseSearchType: self.overrideKnowledgeBaseSearchType,
             queryCondition: self.queryCondition,
+            queryInputData: self.queryInputData,
             queryText: self.queryText,
             sessionId: self.sessionId
         )

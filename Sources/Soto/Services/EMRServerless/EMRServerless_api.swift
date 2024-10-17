@@ -153,6 +153,7 @@ public struct EMRServerless: AWSService {
     ///   - networkConfiguration: The network configuration for customer VPC connectivity.
     ///   - releaseLabel: The Amazon EMR release associated with the application.
     ///   - runtimeConfiguration: The Configuration  specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
+    ///   - schedulerConfiguration: The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
     ///   - tags: The tags assigned to the application.
     ///   - type: The type of application you want to start, such as Spark or Hive.
     ///   - workerTypeSpecifications: The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
@@ -172,6 +173,7 @@ public struct EMRServerless: AWSService {
         networkConfiguration: NetworkConfiguration? = nil,
         releaseLabel: String,
         runtimeConfiguration: [Configuration]? = nil,
+        schedulerConfiguration: SchedulerConfiguration? = nil,
         tags: [String: String]? = nil,
         type: String,
         workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil,
@@ -191,6 +193,7 @@ public struct EMRServerless: AWSService {
             networkConfiguration: networkConfiguration, 
             releaseLabel: releaseLabel, 
             runtimeConfiguration: runtimeConfiguration, 
+            schedulerConfiguration: schedulerConfiguration, 
             tags: tags, 
             type: type, 
             workerTypeSpecifications: workerTypeSpecifications
@@ -682,6 +685,7 @@ public struct EMRServerless: AWSService {
     ///   - networkConfiguration: 
     ///   - releaseLabel: The Amazon EMR release label for the application. You can change the release label to use a different release of Amazon EMR.
     ///   - runtimeConfiguration: The Configuration  specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
+    ///   - schedulerConfiguration: The scheduler configuration for batch and streaming jobs running on this application. Supported with release labels emr-7.0.0 and above.
     ///   - workerTypeSpecifications: The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
     ///   - logger: Logger use during operation
     @inlinable
@@ -699,6 +703,7 @@ public struct EMRServerless: AWSService {
         networkConfiguration: NetworkConfiguration? = nil,
         releaseLabel: String? = nil,
         runtimeConfiguration: [Configuration]? = nil,
+        schedulerConfiguration: SchedulerConfiguration? = nil,
         workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateApplicationResponse {
@@ -716,6 +721,7 @@ public struct EMRServerless: AWSService {
             networkConfiguration: networkConfiguration, 
             releaseLabel: releaseLabel, 
             runtimeConfiguration: runtimeConfiguration, 
+            schedulerConfiguration: schedulerConfiguration, 
             workerTypeSpecifications: workerTypeSpecifications
         )
         return try await self.updateApplication(input, logger: logger)

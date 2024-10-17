@@ -78,6 +78,7 @@ public struct Bedrock: AWSService {
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
         "bedrock-ap-northeast-1": "bedrock.ap-northeast-1.amazonaws.com",
+        "bedrock-ap-northeast-2": "bedrock.ap-northeast-2.amazonaws.com",
         "bedrock-ap-south-1": "bedrock.ap-south-1.amazonaws.com",
         "bedrock-ap-southeast-1": "bedrock.ap-southeast-1.amazonaws.com",
         "bedrock-ap-southeast-2": "bedrock.ap-southeast-2.amazonaws.com",
@@ -88,9 +89,11 @@ public struct Bedrock: AWSService {
         "bedrock-eu-west-3": "bedrock.eu-west-3.amazonaws.com",
         "bedrock-fips-ca-central-1": "bedrock-fips.ca-central-1.amazonaws.com",
         "bedrock-fips-us-east-1": "bedrock-fips.us-east-1.amazonaws.com",
+        "bedrock-fips-us-east-2": "bedrock-fips.us-east-2.amazonaws.com",
         "bedrock-fips-us-gov-west-1": "bedrock-fips.us-gov-west-1.amazonaws.com",
         "bedrock-fips-us-west-2": "bedrock-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-ap-northeast-1": "bedrock-runtime.ap-northeast-1.amazonaws.com",
+        "bedrock-runtime-ap-northeast-2": "bedrock-runtime.ap-northeast-2.amazonaws.com",
         "bedrock-runtime-ap-south-1": "bedrock-runtime.ap-south-1.amazonaws.com",
         "bedrock-runtime-ap-southeast-1": "bedrock-runtime.ap-southeast-1.amazonaws.com",
         "bedrock-runtime-ap-southeast-2": "bedrock-runtime.ap-southeast-2.amazonaws.com",
@@ -101,14 +104,17 @@ public struct Bedrock: AWSService {
         "bedrock-runtime-eu-west-3": "bedrock-runtime.eu-west-3.amazonaws.com",
         "bedrock-runtime-fips-ca-central-1": "bedrock-runtime-fips.ca-central-1.amazonaws.com",
         "bedrock-runtime-fips-us-east-1": "bedrock-runtime-fips.us-east-1.amazonaws.com",
+        "bedrock-runtime-fips-us-east-2": "bedrock-runtime-fips.us-east-2.amazonaws.com",
         "bedrock-runtime-fips-us-gov-west-1": "bedrock-runtime-fips.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-fips-us-west-2": "bedrock-runtime-fips.us-west-2.amazonaws.com",
         "bedrock-runtime-sa-east-1": "bedrock-runtime.sa-east-1.amazonaws.com",
         "bedrock-runtime-us-east-1": "bedrock-runtime.us-east-1.amazonaws.com",
+        "bedrock-runtime-us-east-2": "bedrock-runtime.us-east-2.amazonaws.com",
         "bedrock-runtime-us-gov-west-1": "bedrock-runtime.us-gov-west-1.amazonaws.com",
         "bedrock-runtime-us-west-2": "bedrock-runtime.us-west-2.amazonaws.com",
         "bedrock-sa-east-1": "bedrock.sa-east-1.amazonaws.com",
         "bedrock-us-east-1": "bedrock.us-east-1.amazonaws.com",
+        "bedrock-us-east-2": "bedrock.us-east-2.amazonaws.com",
         "bedrock-us-gov-west-1": "bedrock.us-gov-west-1.amazonaws.com",
         "bedrock-us-west-2": "bedrock.us-west-2.amazonaws.com"
     ]}
@@ -165,7 +171,7 @@ public struct Bedrock: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - customerEncryptionKeyId: Specify your customer managed key ARN that will be used to encrypt your model evaluation job.
     ///   - evaluationConfig: Specifies whether the model evaluation job is automatic or uses human worker.
-    ///   - inferenceConfig: Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model, and model evaluation job that use human workers support two models.
+    ///   - inferenceConfig: Specify the models you want to use in your model evaluation job. Automatic model evaluation jobs support a single model or inference profile, and model evaluation job that use human workers support two models or inference profiles.
     ///   - jobDescription: A description of the model evaluation job.
     ///   - jobName: The name of the model evaluation job. Model evaluation job names must unique with your AWS account, and your account's AWS region.
     ///   - jobTags: Tags to attach to the model evaluation job.
@@ -366,7 +372,7 @@ public struct Bedrock: AWSService {
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock can assume to perform tasks on your behalf. For example, during model training, Amazon Bedrock needs your permission to read input data from an S3 bucket, write model artifacts to an S3 bucket. To pass this role to Amazon Bedrock, the caller of this API must have the iam:PassRole permission.
     ///   - trainingDataConfig: Information about the training dataset.
     ///   - validationDataConfig: Information about the validation dataset.
-    ///   - vpcConfig: VPC configuration (optional). Configuration parameters for the private Virtual Private Cloud (VPC) that contains the resources you are using for this job.
+    ///   - vpcConfig: The configuration of the Virtual Private Cloud (VPC) that contains the resources that you're using for this job. For more information, see Protect your model customization jobs using a VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func createModelCustomizationJob(
@@ -482,6 +488,7 @@ public struct Bedrock: AWSService {
     ///   - roleArn: The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
     ///   - tags: Any tags to associate with the batch inference job. For more information, see Tagging Amazon Bedrock resources.
     ///   - timeoutDurationInHours: The number of hours after which to force the batch inference job to time out.
+    ///   - vpcConfig: The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func createModelInvocationJob(
@@ -493,6 +500,7 @@ public struct Bedrock: AWSService {
         roleArn: String,
         tags: [Tag]? = nil,
         timeoutDurationInHours: Int? = nil,
+        vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateModelInvocationJobResponse {
         let input = CreateModelInvocationJobRequest(
@@ -503,7 +511,8 @@ public struct Bedrock: AWSService {
             outputDataConfig: outputDataConfig, 
             roleArn: roleArn, 
             tags: tags, 
-            timeoutDurationInHours: timeoutDurationInHours
+            timeoutDurationInHours: timeoutDurationInHours, 
+            vpcConfig: vpcConfig
         )
         return try await self.createModelInvocationJob(input, logger: logger)
     }

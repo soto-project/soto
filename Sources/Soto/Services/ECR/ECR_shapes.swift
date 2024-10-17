@@ -1440,7 +1440,7 @@ extension ECR {
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created.  If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide.
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. If you use the KMS_DSSE encryption type, the contents of the repository will be encrypted with two layers of encryption using server-side encryption with the KMS Management Service key stored in KMS. Similar to the KMS encryption type, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you've already created.  If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES256 encryption algorithm. For more information, see Amazon ECR encryption at rest in the Amazon Elastic Container Registry User Guide.
         public let encryptionType: EncryptionType
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
         public let kmsKey: String?
@@ -1490,10 +1490,14 @@ extension ECR {
         public let awsAccountId: String?
         /// The description of the finding.
         public let description: String?
+        /// If a finding discovered in your environment has an exploit available.
+        public let exploitAvailable: String?
         /// The Amazon Resource Number (ARN) of the finding.
         public let findingArn: String?
         /// The date and time that the finding was first observed.
         public let firstObservedAt: Date?
+        /// Details on whether a fix is available through a version update. This value can be YES, NO, or PARTIAL. A PARTIAL fix means that some, but not all, of the packages identified in the finding have fixes available through updated versions.
+        public let fixAvailable: String?
         /// The date and time that the finding was last observed.
         public let lastObservedAt: Date?
         /// An object that contains the details of a package vulnerability finding.
@@ -1518,11 +1522,13 @@ extension ECR {
         public let updatedAt: Date?
 
         @inlinable
-        public init(awsAccountId: String? = nil, description: String? = nil, findingArn: String? = nil, firstObservedAt: Date? = nil, lastObservedAt: Date? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, score: Double? = nil, scoreDetails: ScoreDetails? = nil, severity: String? = nil, status: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
+        public init(awsAccountId: String? = nil, description: String? = nil, exploitAvailable: String? = nil, findingArn: String? = nil, firstObservedAt: Date? = nil, fixAvailable: String? = nil, lastObservedAt: Date? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, score: Double? = nil, scoreDetails: ScoreDetails? = nil, severity: String? = nil, status: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.description = description
+            self.exploitAvailable = exploitAvailable
             self.findingArn = findingArn
             self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
             self.lastObservedAt = lastObservedAt
             self.packageVulnerabilityDetails = packageVulnerabilityDetails
             self.remediation = remediation
@@ -1539,8 +1545,10 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
             case description = "description"
+            case exploitAvailable = "exploitAvailable"
             case findingArn = "findingArn"
             case firstObservedAt = "firstObservedAt"
+            case fixAvailable = "fixAvailable"
             case lastObservedAt = "lastObservedAt"
             case packageVulnerabilityDetails = "packageVulnerabilityDetails"
             case remediation = "remediation"
@@ -3789,6 +3797,8 @@ extension ECR {
         public let epoch: Int?
         /// The file path of the vulnerable package.
         public let filePath: String?
+        /// The version of the package that contains the vulnerability fix.
+        public let fixedInVersion: String?
         /// The name of the vulnerable package.
         public let name: String?
         /// The package manager of the vulnerable package.
@@ -3801,10 +3811,11 @@ extension ECR {
         public let version: String?
 
         @inlinable
-        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
+        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, fixedInVersion: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
             self.arch = arch
             self.epoch = epoch
             self.filePath = filePath
+            self.fixedInVersion = fixedInVersion
             self.name = name
             self.packageManager = packageManager
             self.release = release
@@ -3816,6 +3827,7 @@ extension ECR {
             case arch = "arch"
             case epoch = "epoch"
             case filePath = "filePath"
+            case fixedInVersion = "fixedInVersion"
             case name = "name"
             case packageManager = "packageManager"
             case release = "release"
